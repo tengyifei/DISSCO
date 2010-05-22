@@ -1,0 +1,305 @@
+.TH "List" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+List \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <linkList.h>\fP
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBList\fP ()"
+.br
+.ti -1c
+.RI "\fBList\fP (Etype aLow, Etype aHigh)"
+.br
+.ti -1c
+.RI "\fBList\fP (const  \fBList\fP< Etype > &origList)"
+.br
+.ti -1c
+.RI "\fB~List\fP ()"
+.br
+.ti -1c
+.RI "void \fBClear\fP ()"
+.br
+.ti -1c
+.RI "\fBList\fP< Etype > & \fBoperator=\fP (const  \fBList\fP< Etype > &origlist)"
+.br
+.ti -1c
+.RI "void \fBInsertAfter\fP (Etype newElem)"
+.br
+.ti -1c
+.RI "void \fBInsertBefore\fP (Etype newElem)"
+.br
+.ti -1c
+.RI "void \fBInsertInOrder\fP (Etype newElem)"
+.br
+.ti -1c
+.RI "void \fBRemove\fP ()"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (Etype updateElem)"
+.br
+.ti -1c
+.RI "void \fBHead\fP ()"
+.br
+.ti -1c
+.RI "void \fBTail\fP ()"
+.br
+.ti -1c
+.RI "\fBList\fP< Etype > & \fBoperator++\fP (int)"
+.br
+.ti -1c
+.RI "\fBList\fP< Etype > & \fBoperator--\fP (int)"
+.br
+.ti -1c
+.RI "Etype \fBRetrieve\fP () const "
+.br
+.ti -1c
+.RI "int \fBIncludes\fP (Etype queryElem)"
+.br
+.ti -1c
+.RI "int \fBLength\fP () const "
+.br
+.ti -1c
+.RI "void \fBPrint\fP ()"
+.br
+.ti -1c
+.RI "void \fBSieve\fP (\fBList\fP< Etype > &aSieve)"
+.br
+.ti -1c
+.RI "void \fBPickFromList\fP (Etype aLow, Etype aHigh)"
+.br
+.ti -1c
+.RI "Etype \fBSum\fP ()"
+.br
+.ti -1c
+.RI "Etype \fBMin\fP ()"
+.br
+.ti -1c
+.RI "Etype \fBMax\fP ()"
+.br
+.ti -1c
+.RI "void \fBTranspose\fP (Etype aStart)"
+.br
+.ti -1c
+.RI "void \fBNormalize\fP ()"
+.br
+.ti -1c
+.RI "void \fBScale\fP ()"
+.br
+.ti -1c
+.RI "void \fBInsertionSort\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBNode\fP * \fBhead\fP"
+.br
+.ti -1c
+.RI "\fBNode\fP * \fBcurrent\fP"
+.br
+.ti -1c
+.RI "int \fBsize\fP"
+.br
+.in -1c
+
+.SS "template<class Etype> class List< Etype >"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class Etype> \fBList\fP< Etype >::\fBList\fP ()"
+.PP
+Definition at line 185 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::head, and List< Etype >::size.
+.SS "template<class Etype> \fBList\fP< Etype >::\fBList\fP (Etype aLow, Etype aHigh)"
+.PP
+Definition at line 198 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::head, List< Etype >::InsertAfter(), and List< Etype >::size.
+.SS "template<class Etype> \fBList\fP< Etype >::\fBList\fP (const \fBList\fP< Etype > & origList)"
+.PP
+Definition at line 213 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.SS "template<class Etype> \fBList\fP< Etype >::~\fBList\fP ()"
+.PP
+Definition at line 254 of file linkList.h.
+.PP
+References List< Etype >::Clear().
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class Etype> void \fBList\fP< Etype >::Clear ()"
+.PP
+Definition at line 264 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.PP
+Referenced by List< Etype >::InsertionSort(), List< Etype >::operator=(), and List< Etype >::~List().
+.SS "template<class Etype> void \fBList\fP< Etype >::Head ()"
+.PP
+Definition at line 475 of file linkList.h.
+.PP
+References List< Etype >::current, and List< Etype >::head.
+.PP
+Referenced by Random::AssignProb(), ChooseL(), CumulWeights(), GSection(), List< Etype >::Max(), List< Etype >::Min(), List< Etype >::Normalize(), List< Etype >::PickFromList(), List< Etype >::Print(), List< Etype >::Scale(), Event::Stimes(), List< Etype >::Sum(), and List< Etype >::Transpose().
+.SS "template<class Etype> int \fBList\fP< Etype >::Includes (Etype queryElem)"
+.PP
+Definition at line 547 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, and List< Etype >::Node::next.
+.PP
+Referenced by List< Etype >::Sieve().
+.SS "template<class Etype> void \fBList\fP< Etype >::InsertAfter (Etype newElem)"
+.PP
+Definition at line 337 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.PP
+Referenced by List< Etype >::InsertInOrder(), and List< Etype >::List().
+.SS "template<class Etype> void \fBList\fP< Etype >::InsertBefore (Etype newElem)"
+.PP
+Definition at line 362 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.PP
+Referenced by List< Etype >::InsertInOrder().
+.SS "template<class Etype> void \fBList\fP< Etype >::InsertInOrder (Etype newElem)"
+.PP
+Definition at line 389 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::InsertAfter(), List< Etype >::InsertBefore(), List< Etype >::Node::next, and List< Etype >::size.
+.PP
+Referenced by Event::DurationMethods(), GSection(), List< Etype >::InsertionSort(), and Event::Stimes().
+.SS "template<class Etype> void \fBList\fP< Etype >::InsertionSort ()"
+.PP
+Definition at line 859 of file linkList.h.
+.PP
+References List< Etype >::Clear(), List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::InsertInOrder(), List< Etype >::Node::next, and List< Etype >::size.
+.SS "template<class Etype> int \fBList\fP< Etype >::Length () const"
+.PP
+Definition at line 568 of file linkList.h.
+.PP
+References List< Etype >::size.
+.PP
+Referenced by Random::AssignProb(), ChooseL(), CumulWeights(), List< Etype >::PickFromList(), and Event::Stimes().
+.SS "template<class Etype> Etype \fBList\fP< Etype >::Max ()"
+.PP
+Definition at line 729 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), and List< Etype >::size.
+.SS "template<class Etype> Etype \fBList\fP< Etype >::Min ()"
+.PP
+Definition at line 694 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), and List< Etype >::size.
+.PP
+Referenced by List< Etype >::Transpose().
+.SS "template<class Etype> void \fBList\fP< Etype >::Normalize ()"
+.PP
+Definition at line 792 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), List< Etype >::size, and List< Etype >::Sum().
+.PP
+Referenced by CumulWeights().
+.SS "template<class Etype> \fBList\fP< Etype > & \fBList\fP< Etype >::operator++ (int)"
+.PP
+Definition at line 500 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::next, and List< Etype >::size.
+.SS "template<class Etype> \fBList\fP< Etype > & \fBList\fP< Etype >::operator-- (int)"
+.PP
+Definition at line 515 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::head, and List< Etype >::Node::next.
+.SS "template<class Etype> \fBList\fP< Etype > & \fBList\fP< Etype >::operator= (const \fBList\fP< Etype > & origlist)"
+.PP
+Definition at line 288 of file linkList.h.
+.PP
+References List< Etype >::Clear(), List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::PickFromList (Etype aLow, Etype aHigh)"
+.PP
+Definition at line 629 of file linkList.h.
+.PP
+References List< Etype >::Head(), List< Etype >::Length(), List< Etype >::Remove(), List< Etype >::Retrieve(), and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::Print ()"
+.PP
+Definition at line 580 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::Remove ()"
+.PP
+Definition at line 417 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Node::next, and List< Etype >::size.
+.PP
+Referenced by List< Etype >::PickFromList(), and List< Etype >::Sieve().
+.SS "template<class Etype> Etype \fBList\fP< Etype >::Retrieve () const"
+.PP
+Definition at line 533 of file linkList.h.
+.PP
+References List< Etype >::current, and List< Etype >::Node::element.
+.PP
+Referenced by ChooseL(), CumulWeights(), GSection(), List< Etype >::PickFromList(), Event::Stimes(), and List< Etype >::Sum().
+.SS "template<class Etype> void \fBList\fP< Etype >::Scale ()"
+.PP
+Definition at line 823 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::\fBSieve\fP (\fBList\fP< Etype > & aSieve)"
+.PP
+Definition at line 604 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::head, List< Etype >::Includes(), List< Etype >::Remove(), and List< Etype >::size.
+.SS "template<class Etype> Etype \fBList\fP< Etype >::Sum ()"
+.PP
+Definition at line 659 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Head(), List< Etype >::Retrieve(), and List< Etype >::size.
+.PP
+Referenced by List< Etype >::Normalize().
+.SS "template<class Etype> void \fBList\fP< Etype >::Tail ()"
+.PP
+Definition at line 486 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::next, and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::Transpose (Etype aStart)"
+.PP
+Definition at line 764 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, List< Etype >::Head(), List< Etype >::Min(), and List< Etype >::size.
+.SS "template<class Etype> void \fBList\fP< Etype >::Update (Etype updateElem)"
+.PP
+Definition at line 459 of file linkList.h.
+.PP
+References List< Etype >::current, List< Etype >::Node::element, and List< Etype >::size.
+.PP
+Referenced by Random::AssignProb(), and CumulWeights().
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class Etype> \fBNode\fP * \fBList\fP< Etype >::\fBcurrent\fP\fC [protected]\fP"
+.PP
+Definition at line 175 of file linkList.h.
+.PP
+Referenced by List< Etype >::Clear(), List< Etype >::Head(), List< Etype >::Includes(), List< Etype >::InsertAfter(), List< Etype >::InsertBefore(), List< Etype >::InsertInOrder(), List< Etype >::InsertionSort(), List< Etype >::List(), List< Etype >::Max(), List< Etype >::Min(), List< Etype >::Normalize(), List< Etype >::operator++(), List< Etype >::operator--(), List< Etype >::operator=(), List< Etype >::Print(), List< Etype >::Remove(), List< Etype >::Retrieve(), List< Etype >::Scale(), List< Etype >::Sieve(), List< Etype >::Sum(), List< Etype >::Tail(), List< Etype >::Transpose(), and List< Etype >::Update().
+.SS "template<class Etype> \fBNode\fP* \fBList\fP< Etype >::\fBhead\fP\fC [protected]\fP"
+.PP
+Definition at line 175 of file linkList.h.
+.PP
+Referenced by List< Etype >::Clear(), List< Etype >::Head(), List< Etype >::Includes(), List< Etype >::InsertAfter(), List< Etype >::InsertBefore(), List< Etype >::InsertInOrder(), List< Etype >::InsertionSort(), List< Etype >::List(), List< Etype >::operator--(), List< Etype >::operator=(), List< Etype >::Remove(), and List< Etype >::Sieve().
+.SS "template<class Etype> int \fBList\fP< Etype >::\fBsize\fP\fC [protected]\fP"
+.PP
+Definition at line 178 of file linkList.h.
+.PP
+Referenced by List< Etype >::Clear(), List< Etype >::InsertAfter(), List< Etype >::InsertBefore(), List< Etype >::InsertInOrder(), List< Etype >::InsertionSort(), List< Etype >::Length(), List< Etype >::List(), List< Etype >::Max(), List< Etype >::Min(), List< Etype >::Normalize(), List< Etype >::operator++(), List< Etype >::operator=(), List< Etype >::PickFromList(), List< Etype >::Print(), List< Etype >::Remove(), List< Etype >::Scale(), List< Etype >::Sieve(), List< Etype >::Sum(), List< Etype >::Tail(), List< Etype >::Transpose(), and List< Etype >::Update().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

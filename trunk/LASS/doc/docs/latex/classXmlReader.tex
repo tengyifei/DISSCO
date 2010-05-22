@@ -1,0 +1,213 @@
+\hypertarget{classXmlReader}{
+\section{Xml\-Reader Class Reference}
+\label{classXmlReader}\index{XmlReader@{XmlReader}}
+}
+{\tt \#include $<$Xml\-Reader.h$>$}
+
+Collaboration diagram for Xml\-Reader:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=128pt]{classXmlReader__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classXmlReader_a0}{Xml\-Reader} ()
+\item 
+\hyperlink{classXmlReader_a1}{$\sim$Xml\-Reader} ()
+\item 
+bool \hyperlink{classXmlReader_a2}{open\-File} (char $\ast$file)
+\item 
+bool \hyperlink{classXmlReader_a3}{close\-File} ()
+\item 
+bool \hyperlink{classXmlReader_a4}{read\-Tag} (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$tag)
+\item 
+\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} $\ast$ \hyperlink{classXmlReader_a5}{read\-XMLDocument} ()
+\item 
+void \hyperlink{classXmlReader_a6}{read\-XMLDocument} (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$)
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{classXmlReader_b0}{fill\-Tag\-Buffer} ()
+\item 
+void \hyperlink{classXmlReader_b1}{dewhitespace} (char $\ast$c)
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+FILE $\ast$ \hyperlink{classXmlReader_p0}{fp}
+\item 
+char $\ast$ \hyperlink{classXmlReader_p1}{inputbuffer}
+\item 
+char $\ast$ \hyperlink{classXmlReader_p2}{tagbuffer}
+\item 
+int \hyperlink{classXmlReader_p3}{nibuf}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classXmlReader_a0}{
+\index{XmlReader@{Xml\-Reader}!XmlReader@{XmlReader}}
+\index{XmlReader@{XmlReader}!XmlReader@{Xml\-Reader}}
+\subsubsection[XmlReader]{\setlength{\rightskip}{0pt plus 5cm}Xml\-Reader::Xml\-Reader ()}}
+\label{classXmlReader_a0}
+
+
+
+
+Definition at line 237 of file Xml\-Reader.cpp.
+
+References fp, inputbuffer, nibuf, tagbuffer, and XML\_\-BUFFER\_\-SIZE.\hypertarget{classXmlReader_a1}{
+\index{XmlReader@{Xml\-Reader}!~XmlReader@{$\sim$XmlReader}}
+\index{~XmlReader@{$\sim$XmlReader}!XmlReader@{Xml\-Reader}}
+\subsubsection[$\sim$XmlReader]{\setlength{\rightskip}{0pt plus 5cm}Xml\-Reader::$\sim$\hyperlink{classXmlReader}{Xml\-Reader} ()}}
+\label{classXmlReader_a1}
+
+
+
+
+Definition at line 248 of file Xml\-Reader.cpp.
+
+References close\-File(), inputbuffer, and tagbuffer.
+
+\subsection{Member Function Documentation}
+\hypertarget{classXmlReader_a3}{
+\index{XmlReader@{Xml\-Reader}!closeFile@{closeFile}}
+\index{closeFile@{closeFile}!XmlReader@{Xml\-Reader}}
+\subsubsection[closeFile]{\setlength{\rightskip}{0pt plus 5cm}bool Xml\-Reader::close\-File ()}}
+\label{classXmlReader_a3}
+
+
+Closes the XML file 
+
+Definition at line 270 of file Xml\-Reader.cpp.
+
+References fp.
+
+Referenced by $\sim$Xml\-Reader().\hypertarget{classXmlReader_b1}{
+\index{XmlReader@{Xml\-Reader}!dewhitespace@{dewhitespace}}
+\index{dewhitespace@{dewhitespace}!XmlReader@{Xml\-Reader}}
+\subsubsection[dewhitespace]{\setlength{\rightskip}{0pt plus 5cm}void Xml\-Reader::dewhitespace (char $\ast$ {\em c})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_b1}
+
+
+Internal function to remove excess whitespace 
+
+Definition at line 283 of file Xml\-Reader.cpp.
+
+Referenced by fill\-Tag\-Buffer().\hypertarget{classXmlReader_b0}{
+\index{XmlReader@{Xml\-Reader}!fillTagBuffer@{fillTagBuffer}}
+\index{fillTagBuffer@{fillTagBuffer}!XmlReader@{Xml\-Reader}}
+\subsubsection[fillTagBuffer]{\setlength{\rightskip}{0pt plus 5cm}bool Xml\-Reader::fill\-Tag\-Buffer ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_b0}
+
+
+Called by read\-Tag, this fill acutally get the tag out of the file 
+
+Definition at line 313 of file Xml\-Reader.cpp.
+
+References dewhitespace(), fp, inputbuffer, nibuf, tagbuffer, and XML\_\-BUFFER\_\-SIZE.
+
+Referenced by read\-Tag().\hypertarget{classXmlReader_a2}{
+\index{XmlReader@{Xml\-Reader}!openFile@{openFile}}
+\index{openFile@{openFile}!XmlReader@{Xml\-Reader}}
+\subsubsection[openFile]{\setlength{\rightskip}{0pt plus 5cm}bool Xml\-Reader::open\-File (char $\ast$ {\em file})}}
+\label{classXmlReader_a2}
+
+
+Opens an XML file for reading 
+
+Definition at line 257 of file Xml\-Reader.cpp.
+
+References fp.\hypertarget{classXmlReader_a4}{
+\index{XmlReader@{Xml\-Reader}!readTag@{readTag}}
+\index{readTag@{readTag}!XmlReader@{Xml\-Reader}}
+\subsubsection[readTag]{\setlength{\rightskip}{0pt plus 5cm}bool Xml\-Reader::read\-Tag (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$ {\em tag})}}
+\label{classXmlReader_a4}
+
+
+The guts of the object, this gets the next tag from the file. 
+
+Definition at line 392 of file Xml\-Reader.cpp.
+
+References Xml\-Reader::xmltag::destroy\-Tag(), fill\-Tag\-Buffer(), Xml\-Reader::xmltag::is\-Closing, Xml\-Reader::tagparam::next, Xml\-Reader::xmltag::params, Xml\-Reader::xmltag::set\-Name(), and tagbuffer.
+
+Referenced by read\-XMLDocument(), and Dynamic\-Variable\-Sequence::xml\_\-read().\hypertarget{classXmlReader_a6}{
+\index{XmlReader@{Xml\-Reader}!readXMLDocument@{readXMLDocument}}
+\index{readXMLDocument@{readXMLDocument}!XmlReader@{Xml\-Reader}}
+\subsubsection[readXMLDocument]{\setlength{\rightskip}{0pt plus 5cm}void Xml\-Reader::read\-XMLDocument (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$)}}
+\label{classXmlReader_a6}
+
+
+
+
+Definition at line 484 of file Xml\-Reader.cpp.
+
+References Xml\-Reader::xmltagset::add(), Xml\-Reader::xmltag::children, Xml\-Reader::xmltag::is\-Closing, Xml\-Reader::xmltag::name, read\-Tag(), and read\-XMLDocument().\hypertarget{classXmlReader_a5}{
+\index{XmlReader@{Xml\-Reader}!readXMLDocument@{readXMLDocument}}
+\index{readXMLDocument@{readXMLDocument}!XmlReader@{Xml\-Reader}}
+\subsubsection[readXMLDocument]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltagset}{Xml\-Reader::xmltagset} $\ast$ Xml\-Reader::read\-XMLDocument ()}}
+\label{classXmlReader_a5}
+
+
+
+
+Definition at line 473 of file Xml\-Reader.cpp.
+
+References Xml\-Reader::xmltag::children, and Xml\-Reader::xmltag::name.
+
+Referenced by read\-XMLDocument().
+
+\subsection{Member Data Documentation}
+\hypertarget{classXmlReader_p0}{
+\index{XmlReader@{Xml\-Reader}!fp@{fp}}
+\index{fp@{fp}!XmlReader@{Xml\-Reader}}
+\subsubsection[fp]{\setlength{\rightskip}{0pt plus 5cm}FILE$\ast$ \hyperlink{classXmlReader_p0}{Xml\-Reader::fp}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_p0}
+
+
+
+
+Definition at line 178 of file Xml\-Reader.h.
+
+Referenced by close\-File(), fill\-Tag\-Buffer(), open\-File(), and Xml\-Reader().\hypertarget{classXmlReader_p1}{
+\index{XmlReader@{Xml\-Reader}!inputbuffer@{inputbuffer}}
+\index{inputbuffer@{inputbuffer}!XmlReader@{Xml\-Reader}}
+\subsubsection[inputbuffer]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ \hyperlink{classXmlReader_p1}{Xml\-Reader::inputbuffer}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_p1}
+
+
+
+
+Definition at line 179 of file Xml\-Reader.h.
+
+Referenced by fill\-Tag\-Buffer(), Xml\-Reader(), and $\sim$Xml\-Reader().\hypertarget{classXmlReader_p3}{
+\index{XmlReader@{Xml\-Reader}!nibuf@{nibuf}}
+\index{nibuf@{nibuf}!XmlReader@{Xml\-Reader}}
+\subsubsection[nibuf]{\setlength{\rightskip}{0pt plus 5cm}int \hyperlink{classXmlReader_p3}{Xml\-Reader::nibuf}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_p3}
+
+
+
+
+Definition at line 181 of file Xml\-Reader.h.
+
+Referenced by fill\-Tag\-Buffer(), and Xml\-Reader().\hypertarget{classXmlReader_p2}{
+\index{XmlReader@{Xml\-Reader}!tagbuffer@{tagbuffer}}
+\index{tagbuffer@{tagbuffer}!XmlReader@{Xml\-Reader}}
+\subsubsection[tagbuffer]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ \hyperlink{classXmlReader_p2}{Xml\-Reader::tagbuffer}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_p2}
+
+
+
+
+Definition at line 180 of file Xml\-Reader.h.
+
+Referenced by fill\-Tag\-Buffer(), read\-Tag(), Xml\-Reader(), and $\sim$Xml\-Reader().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{XmlReader_8h}{Xml\-Reader.h}\item 
+\hyperlink{XmlReader_8cpp}{Xml\-Reader.cpp}\end{CompactItemize}

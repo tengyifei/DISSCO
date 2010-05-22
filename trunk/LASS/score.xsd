@@ -1,0 +1,82 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element     name="score" type="scoreType"/>
+
+<xsd:complexType name="scoreType">
+  <xsd:element   name="cmm_"    	type="xsd:integer"/>
+  <xsd:element   name="reverb_ptr"	type="xsd:integer"/>
+  <xsd:sequence>
+  	<xsd:element   name="sound"     type="soundType"/>
+  </xsd:sequence>
+    <xsd:sequence>
+  	<xsd:element   name="reverb"	type="reverbType"/>
+  </xsd:sequence>
+  <xsd:sequence>
+  	<xsd:element   name="dv"	type="dvType"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="soundType">
+  <xsd:element   name="reverb_ptr"      type="xsd:integer"/>
+  <xsd:element   name="duration"    type="xsd:float"/>
+  <xsd:element   name="start_time"   type="xsd:float"/>
+  <xsd:element   name="loudness"   type="xsd:integer"/>
+  <xsd:element   name="loudness_rate"   type="xsd:integer"/>
+  <xsd:element   name="detune_spread"   type="xsd:float"/>
+  <xsd:element   name="detune_direction"   type="xsd:"/>
+  <xsd:element   name="detune_velocity"   type="xsd:integer"/>
+  <xsd:element   name="detune_fundamental"   type="xsd:integer"/>
+  <xsd:sequence>
+  	<xsd:element name="partial" type="partialType"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="partialType">
+  <xsd:element   name="reverb_ptr"      type="xsd:integer"/>
+</xsd:complexType>
+
+<xsd:complexType name="dvType">
+  <xsd:element   name="dv_type"      type="xsd:string"/>
+  <xsd:element   name="interp_type"      type="xsd:string"/>
+  <xsd:element   name="duration"      type="xsd:string"/>
+  <xsd:element   name="rate"      type="xsd:string"/>
+  <xsd:sequence>
+  	<xsd:element name="entry"
+	<xs:attribute name="isbn" type="xs:string"/>
+
+</xsd:complexType>
+
+
+<xsd:complexType name="cdItem">
+  <xsd:element   name="title"     type="xsd:string"/>
+  <xsd:element   name="quantity"  type="xsd:positiveInteger"/>
+  <xsd:element   name="price"     type="xsd:decimal"/>
+</xsd:complexType>
+
+</xsd:schema>
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="book">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="title" type="xs:string"/>
+        <xs:element name="author" type="xs:string"/>
+        <xs:element name="character" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string"/>
+              <xs:element name="friend-of" type="xs:string" minOccurs="0"
+			       maxOccurs="unbounded"/>
+              <xs:element name="since" type="xs:date"/>
+              <xs:element name="qualification" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="isbn" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

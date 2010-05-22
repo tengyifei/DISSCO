@@ -1,0 +1,173 @@
+\hypertarget{classLowPassFilter}{
+\section{Low\-Pass\-Filter Class Reference}
+\label{classLowPassFilter}\index{LowPassFilter@{LowPassFilter}}
+}
+{\tt \#include $<$Low\-Pass\-Filter.h$>$}
+
+Inheritance diagram for Low\-Pass\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=88pt]{classLowPassFilter__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Low\-Pass\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{classLowPassFilter__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classLowPassFilter_a0}{Low\-Pass\-Filter} (float gain)
+\item 
+\hyperlink{classLowPassFilter_a1}{$\sim$Low\-Pass\-Filter} ()
+\item 
+\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} \hyperlink{classLowPassFilter_a2}{do\_\-filter} (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} x\_\-t)
+\item 
+void \hyperlink{classLowPassFilter_a3}{reset} (void)
+\item 
+void \hyperlink{classLowPassFilter_a4}{xml\_\-print} ()
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+float \hyperlink{classLowPassFilter_r0}{g}
+\item 
+\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} $>$ $\ast$ \hyperlink{classLowPassFilter_r1}{y\_\-hist}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This is a simple 1st order IIR low-pass filter:
+
+y(t) = x(t) + g$\ast$y(t-1) \small\begin{alltt}
+                       \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+                      |                      |
+  x(t) ---$>$(+)-------$>$|        IIR LPF       |--------------------$>$ y(t)
+            ^         |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|           |
+            |                                            |
+            |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(*g)\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|
+ \end{alltt}\normalsize 
+
+
+\begin{Desc}
+\item[Note:]This filter (and all other filters) are stateful machines with internal feedback mechanisms. Thus this filter should be allocated anew each time you begin a new channel and should not be mixed between channels.\end{Desc}
+\begin{Desc}
+\item[Author:]Jim LIndstrom \end{Desc}
+
+
+
+
+Definition at line 60 of file Low\-Pass\-Filter.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLowPassFilter_a0}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!LowPassFilter@{LowPassFilter}}
+\index{LowPassFilter@{LowPassFilter}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[LowPassFilter]{\setlength{\rightskip}{0pt plus 5cm}Low\-Pass\-Filter::Low\-Pass\-Filter (float {\em gain})}}
+\label{classLowPassFilter_a0}
+
+
+This is a constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gain}]The low-pass feedback gain \end{description}
+\end{Desc}
+
+
+Definition at line 41 of file Low\-Pass\-Filter.cpp.
+
+References Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, and y\_\-hist.\hypertarget{classLowPassFilter_a1}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!~LowPassFilter@{$\sim$LowPassFilter}}
+\index{~LowPassFilter@{$\sim$LowPassFilter}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[$\sim$LowPassFilter]{\setlength{\rightskip}{0pt plus 5cm}Low\-Pass\-Filter::$\sim$\hyperlink{classLowPassFilter}{Low\-Pass\-Filter} ()}}
+\label{classLowPassFilter_a1}
+
+
+This is a destructor. 
+
+Definition at line 52 of file Low\-Pass\-Filter.cpp.
+
+References y\_\-hist.
+
+\subsection{Member Function Documentation}
+\hypertarget{classLowPassFilter_a2}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!do_filter@{do\_\-filter}}
+\index{do_filter@{do\_\-filter}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[do\_\-filter]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} Low\-Pass\-Filter::do\_\-filter (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} {\em x\_\-t})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLowPassFilter_a2}
+
+
+This method applies a low-pass filter to a single sample \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em x\_\-t}]The input sample \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The filtered sample \end{Desc}
+
+
+Implements \hyperlink{classFilter_a3}{Filter}.
+
+Definition at line 58 of file Low\-Pass\-Filter.cpp.
+
+References Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, m\_\-sample\_\-type, and y\_\-hist.
+
+Referenced by LPComb\-Filter::do\_\-filter().\hypertarget{classLowPassFilter_a3}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!reset@{reset}}
+\index{reset@{reset}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[reset]{\setlength{\rightskip}{0pt plus 5cm}void Low\-Pass\-Filter::reset (void)\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLowPassFilter_a3}
+
+
+This method should be redefined by each class derived from \hyperlink{classFilter}{Filter} to reset the filter to an initial state. It should have the same effect as deleting the filter and creating a new one. 
+
+Implements \hyperlink{classFilter_a4}{Filter}.
+
+Definition at line 70 of file Low\-Pass\-Filter.cpp.
+
+References Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), and y\_\-hist.\hypertarget{classLowPassFilter_a4}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Low\-Pass\-Filter::xml\_\-print ()}}
+\label{classLowPassFilter_a4}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000019}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Definition at line 79 of file Low\-Pass\-Filter.cpp.
+
+References g.
+
+\subsection{Member Data Documentation}
+\hypertarget{classLowPassFilter_r0}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!g@{g}}
+\index{g@{g}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[g]{\setlength{\rightskip}{0pt plus 5cm}float \hyperlink{classLowPassFilter_r0}{Low\-Pass\-Filter::g}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLowPassFilter_r0}
+
+
+The gain for the filter 
+
+Definition at line 100 of file Low\-Pass\-Filter.h.
+
+Referenced by do\_\-filter(), Low\-Pass\-Filter(), and xml\_\-print().\hypertarget{classLowPassFilter_r1}{
+\index{LowPassFilter@{Low\-Pass\-Filter}!y_hist@{y\_\-hist}}
+\index{y_hist@{y\_\-hist}!LowPassFilter@{Low\-Pass\-Filter}}
+\subsubsection[y\_\-hist]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$\hyperlink{Types_8h_a0}{m\_\-sample\_\-type}$>$$\ast$ \hyperlink{classLowPassFilter_r1}{Low\-Pass\-Filter::y\_\-hist}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLowPassFilter_r1}
+
+
+This queue holds past samples to implement the delay 
+
+Definition at line 105 of file Low\-Pass\-Filter.h.
+
+Referenced by do\_\-filter(), Low\-Pass\-Filter(), reset(), and $\sim$Low\-Pass\-Filter().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{LowPassFilter_8h}{Low\-Pass\-Filter.h}\item 
+\hyperlink{LowPassFilter_8cpp}{Low\-Pass\-Filter.cpp}\end{CompactItemize}

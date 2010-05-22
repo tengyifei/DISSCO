@@ -1,0 +1,141 @@
+.TH "Top" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Top \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <top.h>\fP
+.PP
+Inherits \fBEvent\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTop\fP (char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBTop\fP (float aStartTime, float aDuration, int aType, char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBTop\fP (const  \fBTop\fP &origTop)"
+.br
+.ti -1c
+.RI "\fB~Top\fP ()"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBsetStartTime\fP (float aStartTime)"
+.br
+.ti -1c
+.RI "virtual void \fBSetDuration\fP (float aDuration)"
+.br
+.ti -1c
+.RI "float \fBSetDens\fP (double aDensity)"
+.br
+.ti -1c
+.RI "void \fBPrint\fP ()"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBStimes\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBfileName\fP"
+.br
+.ti -1c
+.RI "int \fBlevels\fP"
+.br
+.ti -1c
+.RI "int \fBlength\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Top::Top (char * aName)"
+.PP
+CONSTRUCTOR: Top. Empty, generic event; has only a name. Definition at line 48 of file top.cpp.
+.PP
+References Event::aName, Event::keepName, Event::objID, and Event::setName().
+.SS "Top::Top (float aStartTime, float aDuration, int aType, char * aName)"
+.PP
+CONSTRUCTOR: Top (All fundamental information) Definition at line 61 of file top.cpp.
+.PP
+References Event::aName, Event::keepName, Event::setDuration(), Event::setName(), and setStartTime().
+.SS "Top::Top (const \fBTop\fP & origTop)"
+.PP
+CONSTRUCTOR: Top (copy constructor) Definition at line 75 of file top.cpp.
+.SS "Top::~\fBTop\fP ()"
+.PP
+DESTRUCTOR: ~Top Definition at line 85 of file top.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Top::clear ()\fC [virtual]\fP"
+.PP
+Clears several internal structures in the \fBEvent\fP: nameType, maxTypes, layerDens, objsInLayer, remainObjs, typesInLayer, starTarray, probSieveArray, durArray, probDurArray Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 93 of file top.cpp.
+.SS "void Top::Print ()\fC [virtual]\fP"
+.PP
+Print Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 136 of file top.cpp.
+.PP
+References outputFile, Event::theDuration, Event::theName, Event::theStartTime, and Event::uPerSec.
+.SS "float Top::SetDens (double aDensity)"
+.PP
+Set the density of the top level Definition at line 107 of file top.cpp.
+.PP
+References Event::theDensity.
+.SS "void Top::SetDuration (float aDuration)\fC [virtual]\fP"
+.PP
+SetDuration Definition at line 126 of file top.cpp.
+.PP
+References Event::theDuration.
+.SS "void Top::setStartTime (float aStartTime)\fC [virtual]\fP"
+.PP
+SetStartTime Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 117 of file top.cpp.
+.PP
+References Event::theStartTime.
+.PP
+Referenced by Top().
+.SS "int Top::Stimes ()\fC [private]\fP"
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE (Used to be private... not sure why it isn't anymore) 
+.RE
+.PP
+Reimplemented from \fBEvent\fP.
+.SH "Member Data Documentation"
+.PP 
+.SS "char* \fBTop::fileName\fP\fC [private]\fP"
+.PP
+Definition at line 65 of file top.h.
+.SS "int \fBTop::length\fP\fC [private]\fP"
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 66 of file top.h.
+.SS "int \fBTop::levels\fP\fC [private]\fP"
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 66 of file top.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

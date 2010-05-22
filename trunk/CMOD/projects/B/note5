@@ -1,0 +1,55 @@
+				/* B/sound5 */
+
+maxChildDur = 5;
+unitsPerSecond = 1;
+unitsPerBar = 5;
+
+childNames = 	< <"N/note1"> >;
+
+numChildren = <"FIXED">;
+
+childEventDef = < "CONTINUUM",				/* Method - CONTINUUM, SWEEP, DISCRETE */
+								0.00,								/* Stime */
+								"PERCENTAGE",				/* Stime type - UNITS or SECONDS or PERCENTAGE */
+								0,									/* Type */
+								0.90,								/* Duration */
+								"PERCENTAGE" >;			/* Duration type - UNITS or SECONDS or PERCENTAGE */
+
+frequency = <"WELL_TEMPERED", 61, GetPattern( "IN_ORDER", ReadPATFile("PAT/pat1") )>;
+
+loudness = 2;
+
+spatialization = ReadSPAFile("SPA/spa1");
+
+reverberation = ReadREVFile("REV/rev1");
+
+modifiers = < < "Tremolo (mild)",        /* string rep of the modifier */
+                EnvLib(1, 1.00),         /* prob env */
+                <"MUT_EX", "GROUP1"> >,  /* grouping */
+              < "Vibrato",
+                EnvLib(1, 0.70),
+                <"MUT_EX", "GROUP2"> >, 
+              < "Glissando",
+                EnvLib(1, 0.50),
+                <"MUT_EX", "GROUP1"> >,
+              < "Bend down note",
+                EnvLib(1, 1.00) >
+            >;
+
+
+
+
+
+
+ers = < < "Tremolo (mild)",        /* string rep of the modifier */
+                EnvLib(1, 1.00),         /* prob env */
+                <"MUT_EX", "GROUP1"> >,  /* grouping */
+              < "Vibrato",
+                EnvLib(1, 0.70),
+                <"MUT_EX", "GROUP2"> >,
+              < "Glissando",
+                EnvLib(1, 0.50),
+                <"MUT_EX", "GROUP1"> >,
+              < "Bend down note",
+                EnvLib(1, 1.00) >
+            >;

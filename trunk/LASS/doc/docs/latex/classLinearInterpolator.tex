@@ -1,0 +1,110 @@
+\hypertarget{classLinearInterpolator}{
+\section{Linear\-Interpolator Class Reference}
+\label{classLinearInterpolator}\index{LinearInterpolator@{LinearInterpolator}}
+}
+{\tt \#include $<$Interpolator\-Types.h$>$}
+
+Inheritance diagram for Linear\-Interpolator:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=189pt]{classLinearInterpolator__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Linear\-Interpolator:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{classLinearInterpolator__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classLinearInterpolator_a0}{Linear\-Interpolator} ()
+\item 
+\hyperlink{classLinearInterpolator}{Linear\-Interpolator} $\ast$ \hyperlink{classLinearInterpolator_a1}{clone} ()
+\item 
+\hyperlink{classIterator}{Iterator}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ \hyperlink{classLinearInterpolator_a2}{value\-Iterator} ()
+\item 
+virtual \hyperlink{Types_8h_a13}{interpolation\_\-type} \hyperlink{classLinearInterpolator_a3}{get\-Type} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This is a \hyperlink{classDynamicVariable}{Dynamic\-Variable} that changes over time. This linearly interpolates between a set of points ordered in time. (Linear\-Interpolator\-Entry)
+
+\begin{Desc}
+\item[Author:]Braden Kowitz 
+
+Philipp Fraund \end{Desc}
+
+
+
+
+Definition at line 45 of file Interpolator\-Types.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLinearInterpolator_a0}{
+\index{LinearInterpolator@{Linear\-Interpolator}!LinearInterpolator@{LinearInterpolator}}
+\index{LinearInterpolator@{LinearInterpolator}!LinearInterpolator@{Linear\-Interpolator}}
+\subsubsection[LinearInterpolator]{\setlength{\rightskip}{0pt plus 5cm}Linear\-Interpolator::Linear\-Interpolator ()}}
+\label{classLinearInterpolator_a0}
+
+
+This is the default constructor. 
+
+Definition at line 39 of file Interpolator\-Types.cpp.
+
+Referenced by clone().
+
+\subsection{Member Function Documentation}
+\hypertarget{classLinearInterpolator_a1}{
+\index{LinearInterpolator@{Linear\-Interpolator}!clone@{clone}}
+\index{clone@{clone}!LinearInterpolator@{Linear\-Interpolator}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classLinearInterpolator}{Linear\-Interpolator} $\ast$ Linear\-Interpolator::clone ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLinearInterpolator_a1}
+
+
+This makes a clone of a Linear\-Interpolator. \begin{Desc}
+\item[Returns:]A new Linear\-Interpolator \end{Desc}
+
+
+Implements \hyperlink{classInterpolator_a1}{Interpolator}.
+
+Definition at line 44 of file Interpolator\-Types.cpp.
+
+References Linear\-Interpolator().\hypertarget{classLinearInterpolator_a3}{
+\index{LinearInterpolator@{Linear\-Interpolator}!getType@{getType}}
+\index{getType@{getType}!LinearInterpolator@{Linear\-Interpolator}}
+\subsubsection[getType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a13}{interpolation\_\-type} Linear\-Interpolator::get\-Type ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLinearInterpolator_a3}
+
+
+This provides an implementation to get the type of interpolator. \begin{Desc}
+\item[Returns:]The interpolation type \end{Desc}
+
+
+Implements \hyperlink{classInterpolator_a6}{Interpolator}.
+
+Definition at line 111 of file Interpolator\-Types.cpp.
+
+References interpolation\_\-type, and LINEAR.\hypertarget{classLinearInterpolator_a2}{
+\index{LinearInterpolator@{Linear\-Interpolator}!valueIterator@{valueIterator}}
+\index{valueIterator@{valueIterator}!LinearInterpolator@{Linear\-Interpolator}}
+\subsubsection[valueIterator]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classIterator}{Iterator}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ Linear\-Interpolator::value\-Iterator ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLinearInterpolator_a2}
+
+
+This creates an iterator over Linear\-Interpolators. \begin{Desc}
+\item[Returns:]An iterator \end{Desc}
+
+
+Implements \hyperlink{classInterpolator_a3}{Interpolator}.
+
+Definition at line 53 of file Interpolator\-Types.cpp.
+
+References Interpolator\-Iterator::append(), Collection$<$ Interpolator\-Entry $>$::get(), Dynamic\-Variable::get\-Duration(), Dynamic\-Variable::get\-Sampling\-Rate(), Iterator$<$ T $>$::has\-Next(), Collection$<$ Interpolator\-Entry $>$::iterator(), m\_\-sample\_\-count\_\-type, m\_\-time\_\-type, m\_\-value\_\-type, Iterator$<$ T $>$::next(), Collection$<$ Interpolator\-Entry $>$::size(), Collection$<$ Interpolator\-Entry $>$::sort\-Collection(), Interpolator\-Entry::time\_\-, and Interpolator\-Entry::value\_\-.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{InterpolatorTypes_8h}{Interpolator\-Types.h}\item 
+\hyperlink{InterpolatorTypes_8cpp}{Interpolator\-Types.cpp}\end{CompactItemize}

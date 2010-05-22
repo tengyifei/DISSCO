@@ -1,0 +1,715 @@
+\section{utility.cpp File Reference}
+\label{utility_8cpp}\index{utility.cpp@{utility.cpp}}
+{\tt \#include \char`\"{}../../LASS/src/lib.h\char`\"{}}\par
+{\tt \#include \char`\"{}data\-In.h\char`\"{}}\par
+{\tt \#include \char`\"{}define.h\char`\"{}}\par
+{\tt \#include \char`\"{}link\-List.h\char`\"{}}\par
+{\tt \#include \char`\"{}patter.h\char`\"{}}\par
+{\tt \#include \char`\"{}sieve.h\char`\"{}}\par
+{\tt \#include \char`\"{}utility.h\char`\"{}}\par
+{\tt \#include $<$list$>$}\par
+{\tt \#include \char`\"{}random.h\char`\"{}}\par
+{\tt \#include $<$math.h$>$}\par
+{\tt \#include $<$sstream$>$}\par
+{\tt \#include $<$iostream$>$}\par
+{\tt \#include $<$cstdlib$>$}\par
+
+
+Include dependency graph for utility.cpp:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=359pt]{utility_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf Value\-Pick} (double check\-Point, float abs\-Range)
+\item 
+int {\bf value\-Pick} (double checkpoint, float abs\-Range, Envelope $\ast$env\-Low, Envelope $\ast$env\-High, Envelope $\ast$env\-Dist, const  char $\ast$e\-Method, vector$<$ int $>$ e\-Arg\-Vect, const  char $\ast$w\-Method, vector$<$ int $>$ w\-Arg\-Vect, const  char $\ast$modify\-Method)
+\item 
+float {\bf Value\-Float} (double check\-Point, int env\-Num[$\,$], float coef[$\,$])
+\item 
+float {\bf Value\-Float} (double check\-Point, vector$<$ int $>$ env\-Num, vector$<$ float $>$ coef)
+\item 
+double {\bf Choose} (double from, double to)
+\item 
+void {\bf Cumul\-Array} (double array[$\,$], int size)
+\item 
+void {\bf Cumul\-Weights} ({\bf List}$<$ double $>$ \&w\-List)
+\item 
+int {\bf Choose\-L} ({\bf List}$<$ double $>$ \&a\-List, {\bf List}$<$ int $>$ \&b\-List)
+\item 
+float {\bf Stochos} (double check\-Point, int offset, const  char $\ast$method, vector$<$ Envelope $\ast$ $>$ env\-Nums)
+\item 
+int {\bf Read\-Compute\-Int} (double check\-Point, int offset)
+\item 
+float {\bf Read\-Compute\-Float} (double check\-Point, int offset)
+\item 
+void {\bf Non\-Read\-Compute} ()
+\item 
+string {\bf Read\-Compute\-Chars} (double check\-Point, int offset)
+\item 
+Envelope $\ast$ {\bf Envelope\-Builder} (char $\ast$method, Collection$<$ xy\_\-point $>$ $\ast$xy\_\-pts, Collection$<$ envelope\_\-segment $>$ $\ast$segs, double check\-Point, int offset, double check, int env\-Num)
+\item 
+Envelope $\ast$ {\bf Envelope\-Builder} (const  char $\ast$method, Collection$<$ xy\_\-point $>$ $\ast$xy\_\-pts, Collection$<$ envelope\_\-segment $>$ $\ast$segs, double check\-Point, int offset, double check, int env\-Num, int num\-Segs)
+\item 
+float {\bf env\-Value} (double check\-Point, int env\-Num, float coef)
+\item 
+int {\bf Choose\-Offset} (int first, int second)
+\item 
+float {\bf Sequence} (int offset)
+\item 
+string {\bf Char\-Sequence} (int offset)
+\item 
+float {\bf Sounds\-Per\-Sec} (float dens)
+\item 
+float {\bf Sounds\-Per\-Sec} (float dens, int areas, int under\-One)
+\item 
+void {\bf GSection} ({\bf List}$<$ int $>$ \&a\-List, int levels)
+\item 
+float {\bf Prefered\-Value\-Distribution} (float value, double check\-Point)
+\item 
+bool {\bf Chance} (int go\-Flag, double check\-Point, int offset)
+\item 
+bool {\bf Chance} (double check\-Point, Envelope $\ast$chance\-Env)
+\item 
+int {\bf Choose\-A} (double probs[$\,$], int size)
+\item 
+float {\bf Choose\-From\-List} (float array[$\,$], int size)
+\item 
+void {\bf Clear} (double {\bf prob\-Array}[$\,$], int array\-Size)
+\item 
+double {\bf Exponential} (int step, double extra)
+\item 
+float {\bf Sum} (double array[$\,$], int size)
+\item 
+void {\bf Normalize} (double array[$\,$], int size)
+\item 
+void {\bf Test\-Library} ()
+\item 
+void $\ast$ {\bf Evaluate} ({\bf File\-Value} $\ast$value)
+\item 
+{\bf File\-Value} {\bf Select} (std::list$<$ {\bf File\-Value} $>$ l, int n)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+int $\ast$ {\bf table}
+\item 
+int {\bf table\-Size}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{utility.cpp@{utility.cpp}!Chance@{Chance}}
+\index{Chance@{Chance}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool Chance (double {\em check\-Point}, Envelope $\ast$ {\em chance\-Env})}\label{utility_8cpp_a26}
+
+
+
+
+Definition at line 1558 of file utility.cpp.
+
+References Random::Rand().
+
+Referenced by Bottom::Modifiers(), Bottom::Reverberation(), and Bottom::Spatialization().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=109pt]{utility_8cpp_a26_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!Chance@{Chance}}
+\index{Chance@{Chance}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool Chance (int {\em go\-Flag}, double {\em check\-Point}, int {\em offset})}\label{utility_8cpp_a25}
+
+
+Returns a value of TRUE or FALSE for the comparison: random\-Number $<$= probability and it is used to force one of these values. The go\-Flag is initialized to 0 for the first time Chance is called. If the probability (which is read in) has the value of -1 ($<$ 0), it is assigned the value of the go\-Flag (either 0 or 1) thus influencing the outcome of the next call. The value of 1 is assigned (in the calling function, not in here) if the comparison was successful (TRUE). If 0 $<$ probability $<$ 1 the outcome depends of the comparison with random\-Number. If the probability $>$ 1 it becomes 0 if go\-Flag = 1, i.e. if a similar param has already been assigned.
+
+In the case of parameters which are dependent of one another, the first (influencing) parameter should have a probability assigned while the subsequent (dependent) parameters should be assigned a value $<$ 0.
+
+In the case of competing aspects of the same parameter (e.g. glissando and detuning) the second one is selected ONLY if the first one was not. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em go\-Flag}]\item[{\em check\-Point}]\item[{\em offset}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The result of the comparison \end{Desc}
+
+
+Definition at line 1517 of file utility.cpp.\index{utility.cpp@{utility.cpp}!CharSequence@{CharSequence}}
+\index{CharSequence@{CharSequence}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}string Char\-Sequence (int {\em offset})}\label{utility_8cpp_a20}
+
+
+This function returns the value of the (n)th element in a sequence of chars \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em The}]offset to use \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The value of the (n)th element \end{Desc}
+
+
+Definition at line 1350 of file utility.cpp.
+
+References Data\-In::Gen\-Chars(), Data\-In::int\-Vect, Data\-In::name\-Of, and Data\-In::Read\-Ints().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=132pt]{utility_8cpp_a20_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!Choose@{Choose}}
+\index{Choose@{Choose}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double Choose (double {\em from}, double {\em to})}\label{utility_8cpp_a6}
+
+
+This function chooses a random number in the given range (from-to) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em from}]{\bf Bottom}{\rm (p.\,\pageref{classBottom})} of the range \item[{\em to}]{\bf Top}{\rm (p.\,\pageref{classTop})} of the range \end{description}
+\end{Desc}
+
+
+Definition at line 209 of file utility.cpp.
+
+References Random::Rand().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=109pt]{utility_8cpp_a6_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ChooseA@{ChooseA}}
+\index{ChooseA@{ChooseA}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Choose\-A (double {\em probs}[$\,$], int {\em size})}\label{utility_8cpp_a27}
+
+
+This function chooses a value out of an array of probabilites \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em probs}]The array of probabilites \item[{\em size}]The size of the array \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The chosen value \end{Desc}
+
+
+Definition at line 1607 of file utility.cpp.
+
+References Random::Rand().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=113pt]{utility_8cpp_a27_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ChooseFromList@{ChooseFromList}}
+\index{ChooseFromList@{ChooseFromList}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Choose\-From\-List (float {\em array}[$\,$], int {\em size})}\label{utility_8cpp_a28}
+
+
+This function chooses a value from a list of floats. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em array}]The array of floats \item[{\em size}]The size of the array \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The chosen value \end{Desc}
+
+
+Definition at line 1629 of file utility.cpp.
+
+References Random::Rand().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=131pt]{utility_8cpp_a28_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ChooseL@{ChooseL}}
+\index{ChooseL@{ChooseL}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Choose\-L ({\bf List}$<$ double $>$ \& {\em a\-List}, {\bf List}$<$ int $>$ \& {\em b\-List})}\label{utility_8cpp_a9}
+
+
+This function chooses an element from a list of integers by matching its probability of occurence stored in a corresponding list of doubles with a random number. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em b\-List}]The list of integers \item[{\em a\-List}]The list of doubles \end{description}
+\end{Desc}
+
+
+Definition at line 272 of file utility.cpp.
+
+References List$<$ Etype $>$::Head(), List$<$ Etype $>$::Length(), Random::Rand(), and List$<$ Etype $>$::Retrieve().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=113pt]{utility_8cpp_a9_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ChooseOffset@{ChooseOffset}}
+\index{ChooseOffset@{ChooseOffset}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Choose\-Offset (int {\em first}, int {\em second})}\label{utility_8cpp_a18}
+
+
+This function chooses an appropriate offset based on what is read in. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]This argument is new\-Obj in most cases \item[{\em second}]This argument is type in most cases \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The offset \end{Desc}
+
+
+Definition at line 1295 of file utility.cpp.
+
+Referenced by Event::Continuum3(), Event::Num\-Objs(), Bottom::One\-Step(), and Event::Sweep3().\index{utility.cpp@{utility.cpp}!Clear@{Clear}}
+\index{Clear@{Clear}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Clear (double {\em prob\-Array}[$\,$], int {\em array\-Size})}\label{utility_8cpp_a29}
+
+
+This function clears the probability array. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em prob\-Array}]The array of probabilites \item[{\em array\-Size}]The size of the array \end{description}
+\end{Desc}
+
+
+Definition at line 1734 of file utility.cpp.
+
+References prob\-Array.\index{utility.cpp@{utility.cpp}!CumulArray@{CumulArray}}
+\index{CumulArray@{CumulArray}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cumul\-Array (double {\em array}[$\,$], int {\em size})}\label{utility_8cpp_a7}
+
+
+This function takes an array of doubles, divides each element by the sum of all elements, and adds the value to the preceding value (sum of values) so that the values range from 0 to 1. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em array}]An array of doubles \item[{\em size}]\end{description}
+\end{Desc}
+
+
+Definition at line 226 of file utility.cpp.
+
+References Normalize().
+
+Referenced by Patter::Equivalence().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{utility_8cpp_a7_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!CumulWeights@{CumulWeights}}
+\index{CumulWeights@{CumulWeights}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cumul\-Weights ({\bf List}$<$ double $>$ \& {\em a\-List})}\label{utility_8cpp_a8}
+
+
+This function takes each weight on the list, divides it by the sum and then adds it to a cumulative weight or probability. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em a\-List}]A list of weights \end{description}
+\end{Desc}
+
+
+Definition at line 247 of file utility.cpp.
+
+References List$<$ Etype $>$::Head(), List$<$ Etype $>$::Length(), List$<$ Etype $>$::Normalize(), List$<$ Etype $>$::Retrieve(), and List$<$ Etype $>$::Update().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{utility_8cpp_a8_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!EnvelopeBuilder@{EnvelopeBuilder}}
+\index{EnvelopeBuilder@{EnvelopeBuilder}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Envelope$\ast$ Envelope\-Builder (const char $\ast$ {\em method}, Collection$<$ xy\_\-point $>$ $\ast$ {\em xy\_\-pts}, Collection$<$ envelope\_\-segment $>$ $\ast$ {\em segs}, double {\em check\-Point}, int {\em offset}, double {\em check}, int {\em env\-Num}, int {\em num\-Segs})}\label{utility_8cpp_a16}
+
+
+METHOD: SEGMENT BUILDER /////////////////////////////
+
+METHOD: SEGMENTS AND POINTS /////////////////////////////////
+
+METHOD: LOAD FROM LIBRARY /////////////////////////////////// 
+
+Definition at line 860 of file utility.cpp.
+
+References envlib, Read\-Compute\-Chars(), Read\-Compute\-Float(), and Read\-Compute\-Int().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{utility_8cpp_a16_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!EnvelopeBuilder@{EnvelopeBuilder}}
+\index{EnvelopeBuilder@{EnvelopeBuilder}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Envelope$\ast$ Envelope\-Builder (char $\ast$ {\em method}, Collection$<$ xy\_\-point $>$ $\ast$ {\em xy\_\-pts}, Collection$<$ envelope\_\-segment $>$ $\ast$ {\em segs}, double {\em check\-Point}, int {\em offset}, double {\em check}, int {\em env\-Num})}\label{utility_8cpp_a15}
+
+
+METHOD: SEGMENT BUILDER /////////////////////////////
+
+METHOD: SEGMENTS AND POINTS /////////////////////////////////
+
+METHOD: LOAD FROM LIBRARY /////////////////////////////////// 
+
+Definition at line 672 of file utility.cpp.\index{utility.cpp@{utility.cpp}!envValue@{envValue}}
+\index{envValue@{envValue}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float env\-Value (double {\em check\-Point}, int {\em env\-Num}, float {\em coef})}\label{utility_8cpp_a17}
+
+
+This function finds the value of an envelope at a given point. The envelope is loaded first (from an Envelope library) and then scaled according to a given coefficient. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]The point at which to check the envelope \item[{\em env\-Num}]The number of the envelope to load from the library \item[{\em coef}]The coefficient by which to scale the envelope \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The value of the envelope at the specified point \end{Desc}
+\begin{Desc}
+\item[Note:]THIS METHOD WILL SOON BE DEPRECATED. USE Envelope::Get\-Scaled\-Value INSTEAD. \end{Desc}
+
+
+Definition at line 1024 of file utility.cpp.
+
+References envlib.\index{utility.cpp@{utility.cpp}!Evaluate@{Evaluate}}
+\index{Evaluate@{Evaluate}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ Evaluate ({\bf File\-Value} $\ast$ {\em value})}\label{utility_8cpp_a34}
+
+
+
+
+Definition at line 1828 of file utility.cpp.
+
+References File\-Value::get\-Number(), File\-Value::get\-String(), File\-Value::is\-List(), File\-Value::is\-Number(), and File\-Value::is\-String().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{utility_8cpp_a34_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!Exponential@{Exponential}}
+\index{Exponential@{Exponential}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double Exponential (int {\em step}, double {\em extra})}\label{utility_8cpp_a30}
+
+
+This function is the inverse exponential function to allow for an extra term (random) deviation. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em step}]\item[{\em extra}]\end{description}
+\end{Desc}
+
+
+Definition at line 1746 of file utility.cpp.
+
+Referenced by Bottom::Rules().\index{utility.cpp@{utility.cpp}!GSection@{GSection}}
+\index{GSection@{GSection}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void GSection ({\bf List}$<$ int $>$ \& {\em a\-List}, int {\em levels})}\label{utility_8cpp_a23}
+
+
+This function partitions a segment into golden mean ratios at multiple levels. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em a\-List}]\item[{\em levels}]\end{description}
+\end{Desc}
+
+
+Definition at line 1420 of file utility.cpp.
+
+References List$<$ Etype $>$::Head(), List$<$ Etype $>$::Insert\-In\-Order(), and List$<$ Etype $>$::Retrieve().
+
+Referenced by Event::Stimes().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{utility_8cpp_a23_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!NonReadCompute@{NonReadCompute}}
+\index{NonReadCompute@{NonReadCompute}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Non\-Read\-Compute ()}\label{utility_8cpp_a13}
+
+
+This function finds out by which method something is determined: by following a sequence, by choosing it from a list, by computing it or by picking a random value. 
+
+Definition at line 534 of file utility.cpp.\index{utility.cpp@{utility.cpp}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Normalize (double {\em array}[$\,$], int {\em size})}\label{utility_8cpp_a32}
+
+
+This function normalizes each element of the array by dividing it by the sum of the array. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em array}]The array \item[{\em size}]The size of the array \end{description}
+\end{Desc}
+
+
+Definition at line 1782 of file utility.cpp.
+
+References Sum().
+
+Referenced by Sieve::Cumul\-Array(), and Cumul\-Array().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=91pt]{utility_8cpp_a32_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!PreferedValueDistribution@{PreferedValueDistribution}}
+\index{PreferedValueDistribution@{PreferedValueDistribution}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Prefered\-Value\-Distribution (float {\em value}, double {\em check\-Point})}\label{utility_8cpp_a24}
+
+
+This function generates a probability \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em value}]\item[{\em check\-Point}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A probability \end{Desc}
+
+
+Definition at line 1496 of file utility.cpp.
+
+Referenced by Sieve::Add\-Envelope().\index{utility.cpp@{utility.cpp}!ReadComputeChars@{ReadComputeChars}}
+\index{ReadComputeChars@{ReadComputeChars}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}string Read\-Compute\-Chars (double {\em check\-Point}, int {\em offset})}\label{utility_8cpp_a14}
+
+
+This function finds out by which method a character value is determined: by reading it, by following a equence, by computing it using Value\-Pick, or by picking a random value within a given range. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]\item[{\em offset}]\end{description}
+\end{Desc}
+
+
+Definition at line 563 of file utility.cpp.
+
+Referenced by Envelope\-Builder().\index{utility.cpp@{utility.cpp}!ReadComputeFloat@{ReadComputeFloat}}
+\index{ReadComputeFloat@{ReadComputeFloat}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Read\-Compute\-Float (double {\em check\-Point}, int {\em offset})}\label{utility_8cpp_a12}
+
+
+This function finds out by which method a float value is determined: by following a sequence, by computing it using Stochos, or by picking a random value within a given range. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]\item[{\em offset}]\end{description}
+\end{Desc}
+
+
+Definition at line 496 of file utility.cpp.
+
+Referenced by Patter::Chooser(), Event::Continuum3(), Envelope\-Builder(), Event::Num\-Objs(), and Event::Sweep3().\index{utility.cpp@{utility.cpp}!ReadComputeInt@{ReadComputeInt}}
+\index{ReadComputeInt@{ReadComputeInt}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Read\-Compute\-Int (double {\em check\-Point}, int {\em offset})}\label{utility_8cpp_a11}
+
+
+This function finds out by which method an integer value is determined: by reading it, by following a sequence, by computing it using Value\-Pick, or by picking a random value within a given range. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]\item[{\em offset}]\end{description}
+\end{Desc}
+
+
+Definition at line 458 of file utility.cpp.
+
+Referenced by Event::Continuum3(), Envelope\-Builder(), Bottom::Modifiers(), Event::Num\-Objs(), and Event::Sweep3().\index{utility.cpp@{utility.cpp}!Select@{Select}}
+\index{Select@{Select}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf File\-Value} Select (std::list$<$ {\bf File\-Value} $>$ {\em l}, int {\em n})}\label{utility_8cpp_a35}
+
+
+
+
+Definition at line 1856 of file utility.cpp.
+
+Referenced by Note::Assign\-Loudness(), Note::Assign\-Pitch(), and File\-Value::Evaluate().\index{utility.cpp@{utility.cpp}!Sequence@{Sequence}}
+\index{Sequence@{Sequence}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Sequence (int {\em offset})}\label{utility_8cpp_a19}
+
+
+This function returns the value of the (n)th element in a sequence of floats \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em The}]offset to use \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The value of the (n)th element \end{Desc}
+
+
+Definition at line 1330 of file utility.cpp.
+
+References Data\-In::Gen\-Floats(), Data\-In::g\-Float\-Vect, Data\-In::int\-Vect, and Data\-In::Read\-Ints().
+
+Referenced by Bottom::Three\-Step().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=120pt]{utility_8cpp_a19_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!SoundsPerSec@{SoundsPerSec}}
+\index{SoundsPerSec@{SoundsPerSec}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Sounds\-Per\-Sec (float {\em dens}, int {\em areas}, int {\em under\-One})}\label{utility_8cpp_a22}
+
+
+
+
+Definition at line 1401 of file utility.cpp.
+
+Referenced by Event::New\-Num\-Objs(), and Event::Num\-Objs().\index{utility.cpp@{utility.cpp}!SoundsPerSec@{SoundsPerSec}}
+\index{SoundsPerSec@{SoundsPerSec}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Sounds\-Per\-Sec (float {\em dens})}\label{utility_8cpp_a21}
+
+
+This function maps an \char`\"{}abstract\char`\"{} density of 0 - 1 onto a number of sounds per second by defining a total number of regions (areas) and the number of such areas with less than 1 sound/sec. (under\-One). A common example:
+
+areas 0 1 2 3 4 5 6 7 dens. 0.00 0.125 0.250 0.375 0.500 0.625 0.750 0.875 1.00 s/sec 1/16 1/8 1/4 1/2 1 2 4 8 16
+
+Here, there are 8 areas (0-7) and 4 of them (0-3) include values of less than 1 sound/sec. By subtracting under\-One, a dens = 0 is mapped onto a value of 1 sound every 16 sec. and not onto 0.
+
+In most cases areas = 8 and under\-One = 4 like in the above example. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dens}]The density \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Number of sounds per second \end{Desc}
+
+
+Definition at line 1372 of file utility.cpp.\index{utility.cpp@{utility.cpp}!Stochos@{Stochos}}
+\index{Stochos@{Stochos}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Stochos (double {\em check\-Point}, int {\em offset}, const char $\ast$ {\em method}, vector$<$ Envelope $\ast$ $>$ {\em env\-Nums})}\label{utility_8cpp_a10}
+
+
+
+
+Definition at line 385 of file utility.cpp.
+
+References Random::Rand().
+
+Referenced by File\-Value::Evaluate().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=109pt]{utility_8cpp_a10_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!Sum@{Sum}}
+\index{Sum@{Sum}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Sum (double {\em array}[$\,$], int {\em size})}\label{utility_8cpp_a31}
+
+
+This function calculates the sum of the elements of the array. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em array}]The array \item[{\em size}]The size of the array \end{description}
+\end{Desc}
+
+
+Definition at line 1763 of file utility.cpp.
+
+Referenced by Normalize().\index{utility.cpp@{utility.cpp}!TestLibrary@{TestLibrary}}
+\index{TestLibrary@{TestLibrary}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Library ()}\label{utility_8cpp_a33}
+
+
+This function is used for testing purposes. 
+
+Definition at line 1798 of file utility.cpp.
+
+References envlib, and sever.\index{utility.cpp@{utility.cpp}!ValueFloat@{ValueFloat}}
+\index{ValueFloat@{ValueFloat}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Value\-Float (double {\em check\-Point}, vector$<$ int $>$ {\em env\-Num}, vector$<$ float $>$ {\em coef})}\label{utility_8cpp_a5}
+
+
+
+
+Definition at line 169 of file utility.cpp.
+
+References Envelope\-Builder(), and Random::Rand().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=122pt]{utility_8cpp_a5_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ValueFloat@{ValueFloat}}
+\index{ValueFloat@{ValueFloat}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float Value\-Float (double {\em check\-Point}, int {\em env\-Num}[$\,$], float {\em coef}[$\,$])}\label{utility_8cpp_a4}
+
+
+This function assigns a float value to a parameter. It uses three envelopes and three scale factors: two to find the min and max values at a given time (check\-Point) and the third ones to define a distribution over this range. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]The given time \item[{\em env\-Num}]An array of envelope numbers \item[{\em coef}]An array of coefficients by which to scale the envelope \end{description}
+\end{Desc}
+
+
+Definition at line 133 of file utility.cpp.\index{utility.cpp@{utility.cpp}!valuePick@{valuePick}}
+\index{valuePick@{valuePick}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int value\-Pick (double {\em checkpoint}, float {\em abs\-Range}, Envelope $\ast$ {\em env\-Low}, Envelope $\ast$ {\em env\-High}, Envelope $\ast$ {\em env\-Dist}, const char $\ast$ {\em e\-Method}, vector$<$ int $>$ {\em e\-Arg\-Vect}, const char $\ast$ {\em w\-Method}, vector$<$ int $>$ {\em w\-Arg\-Vect}, const char $\ast$ {\em modify\-Method})}\label{utility_8cpp_a3}
+
+
+
+
+Definition at line 103 of file utility.cpp.
+
+References Sieve::Build(), and Sieve::Modify().
+
+Referenced by File\-Value::Evaluate().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=111pt]{utility_8cpp_a3_cgraph}
+\end{center}
+\end{figure}
+\index{utility.cpp@{utility.cpp}!ValuePick@{ValuePick}}
+\index{ValuePick@{ValuePick}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Value\-Pick (double {\em check\-Point}, float {\em abs\-Range})}\label{utility_8cpp_a2}
+
+
+This function finds the lower and upper limits for a set of values at a given time (check\-Point). This is done by finding the values of envelopes for the min and max limits at the check\-Point. Builds a list of possible values within this range and assigns probabilities to them according to both a sieve and another envelope. Picks a value off a list of possible values (elements) by matching its weight or probability to a random number. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em check\-Point}]The given time \item[{\em abs\-Range}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A value from the list of possible values \end{Desc}
+
+
+Definition at line 58 of file utility.cpp.
+
+Referenced by Event::Sweep3(), and Bottom::Three\-Step().
+
+\subsection{Variable Documentation}
+\index{utility.cpp@{utility.cpp}!table@{table}}
+\index{table@{table}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ {\bf table}}\label{utility_8cpp_a0}
+
+
+
+
+Definition at line 47 of file utility.cpp.\index{utility.cpp@{utility.cpp}!tableSize@{tableSize}}
+\index{tableSize@{tableSize}!utility.cpp@{utility.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf table\-Size}}\label{utility_8cpp_a1}
+
+
+
+
+Definition at line 48 of file utility.cpp.

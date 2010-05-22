@@ -1,0 +1,434 @@
+Terminals unused in grammar
+
+   LISTTOK
+   TYPETOK
+   SCOLON
+   RBRACE
+   LBRACE
+
+
+Grammar
+
+    0 $accept: config $end
+
+    1 config: one_or_more_eventconfigs
+    2       | one_or_more_globalconfigs
+    3       | /* empty */
+
+    4 one_or_more_eventconfigs: one_or_more_eventconfigs eventconfig
+    5                         | eventconfig
+
+    6 eventconfig: function SEMITOK
+    7            | statement SEMITOK
+
+    8 one_or_more_globalconfigs: one_or_more_globalconfigs globalconfig
+    9                          | globalconfig
+
+   10 globalconfig: gstatement SEMITOK
+
+   11 gstatement: GLOBALKEYWORDTOK EQUALTOK arg
+
+   12 statement: EVENTKEYWORDTOK EQUALTOK arg
+
+   13 arg: NUMBERTOK
+   14    | list
+   15    | STRTOK
+   16    | function
+   17    | SFUNCTOK
+
+   18 list: LBRAC list_element RBRAC
+
+   19 funclist: LPAREN list_element RPAREN
+
+   20 list_element: arg
+   21             | arg COMMA list_element
+
+   22 function: FUNCTOK funclist
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+SFUNCTOK (258) 17
+EQUALTOK (259) 11 12
+NUMBERTOK (260) 13
+LISTTOK (261)
+STRTOK (262) 15
+TYPETOK (263)
+SEMITOK (264) 6 7 10
+RBRAC (265) 18
+LBRAC (266) 18
+COMMA (267) 21
+SCOLON (268)
+RPAREN (269) 19
+LPAREN (270) 19
+RBRACE (271)
+LBRACE (272)
+FUNCTOK (273) 22
+GLOBALKEYWORDTOK (274) 11
+EVENTKEYWORDTOK (275) 12
+
+
+Nonterminals, with rules where they appear
+
+$accept (21)
+    on left: 0
+config (22)
+    on left: 1 2 3, on right: 0
+one_or_more_eventconfigs (23)
+    on left: 4 5, on right: 1 4
+eventconfig (24)
+    on left: 6 7, on right: 4 5
+one_or_more_globalconfigs (25)
+    on left: 8 9, on right: 2 8
+globalconfig (26)
+    on left: 10, on right: 8 9
+gstatement (27)
+    on left: 11, on right: 10
+statement (28)
+    on left: 12, on right: 7
+arg (29)
+    on left: 13 14 15 16 17, on right: 11 12 20 21
+list (30)
+    on left: 18, on right: 14
+funclist (31)
+    on left: 19, on right: 22
+list_element (32)
+    on left: 20 21, on right: 18 19 21
+function (33)
+    on left: 22, on right: 6 16
+
+
+state 0
+
+    0 $accept: . config $end
+
+    FUNCTOK           shift, and go to state 1
+    GLOBALKEYWORDTOK  shift, and go to state 2
+    EVENTKEYWORDTOK   shift, and go to state 3
+
+    $default  reduce using rule 3 (config)
+
+    config                     go to state 4
+    one_or_more_eventconfigs   go to state 5
+    eventconfig                go to state 6
+    one_or_more_globalconfigs  go to state 7
+    globalconfig               go to state 8
+    gstatement                 go to state 9
+    statement                  go to state 10
+    function                   go to state 11
+
+
+state 1
+
+   22 function: FUNCTOK . funclist
+
+    LPAREN  shift, and go to state 12
+
+    funclist  go to state 13
+
+
+state 2
+
+   11 gstatement: GLOBALKEYWORDTOK . EQUALTOK arg
+
+    EQUALTOK  shift, and go to state 14
+
+
+state 3
+
+   12 statement: EVENTKEYWORDTOK . EQUALTOK arg
+
+    EQUALTOK  shift, and go to state 15
+
+
+state 4
+
+    0 $accept: config . $end
+
+    $end  shift, and go to state 16
+
+
+state 5
+
+    1 config: one_or_more_eventconfigs .
+    4 one_or_more_eventconfigs: one_or_more_eventconfigs . eventconfig
+
+    FUNCTOK          shift, and go to state 1
+    EVENTKEYWORDTOK  shift, and go to state 3
+
+    $default  reduce using rule 1 (config)
+
+    eventconfig  go to state 17
+    statement    go to state 10
+    function     go to state 11
+
+
+state 6
+
+    5 one_or_more_eventconfigs: eventconfig .
+
+    $default  reduce using rule 5 (one_or_more_eventconfigs)
+
+
+state 7
+
+    2 config: one_or_more_globalconfigs .
+    8 one_or_more_globalconfigs: one_or_more_globalconfigs . globalconfig
+
+    GLOBALKEYWORDTOK  shift, and go to state 2
+
+    $default  reduce using rule 2 (config)
+
+    globalconfig  go to state 18
+    gstatement    go to state 9
+
+
+state 8
+
+    9 one_or_more_globalconfigs: globalconfig .
+
+    $default  reduce using rule 9 (one_or_more_globalconfigs)
+
+
+state 9
+
+   10 globalconfig: gstatement . SEMITOK
+
+    SEMITOK  shift, and go to state 19
+
+
+state 10
+
+    7 eventconfig: statement . SEMITOK
+
+    SEMITOK  shift, and go to state 20
+
+
+state 11
+
+    6 eventconfig: function . SEMITOK
+
+    SEMITOK  shift, and go to state 21
+
+
+state 12
+
+   19 funclist: LPAREN . list_element RPAREN
+
+    SFUNCTOK   shift, and go to state 22
+    NUMBERTOK  shift, and go to state 23
+    STRTOK     shift, and go to state 24
+    LBRAC      shift, and go to state 25
+    FUNCTOK    shift, and go to state 1
+
+    arg           go to state 26
+    list          go to state 27
+    list_element  go to state 28
+    function      go to state 29
+
+
+state 13
+
+   22 function: FUNCTOK funclist .
+
+    $default  reduce using rule 22 (function)
+
+
+state 14
+
+   11 gstatement: GLOBALKEYWORDTOK EQUALTOK . arg
+
+    SFUNCTOK   shift, and go to state 22
+    NUMBERTOK  shift, and go to state 23
+    STRTOK     shift, and go to state 24
+    LBRAC      shift, and go to state 25
+    FUNCTOK    shift, and go to state 1
+
+    arg       go to state 30
+    list      go to state 27
+    function  go to state 29
+
+
+state 15
+
+   12 statement: EVENTKEYWORDTOK EQUALTOK . arg
+
+    SFUNCTOK   shift, and go to state 22
+    NUMBERTOK  shift, and go to state 23
+    STRTOK     shift, and go to state 24
+    LBRAC      shift, and go to state 25
+    FUNCTOK    shift, and go to state 1
+
+    arg       go to state 31
+    list      go to state 27
+    function  go to state 29
+
+
+state 16
+
+    0 $accept: config $end .
+
+    $default  accept
+
+
+state 17
+
+    4 one_or_more_eventconfigs: one_or_more_eventconfigs eventconfig .
+
+    $default  reduce using rule 4 (one_or_more_eventconfigs)
+
+
+state 18
+
+    8 one_or_more_globalconfigs: one_or_more_globalconfigs globalconfig .
+
+    $default  reduce using rule 8 (one_or_more_globalconfigs)
+
+
+state 19
+
+   10 globalconfig: gstatement SEMITOK .
+
+    $default  reduce using rule 10 (globalconfig)
+
+
+state 20
+
+    7 eventconfig: statement SEMITOK .
+
+    $default  reduce using rule 7 (eventconfig)
+
+
+state 21
+
+    6 eventconfig: function SEMITOK .
+
+    $default  reduce using rule 6 (eventconfig)
+
+
+state 22
+
+   17 arg: SFUNCTOK .
+
+    $default  reduce using rule 17 (arg)
+
+
+state 23
+
+   13 arg: NUMBERTOK .
+
+    $default  reduce using rule 13 (arg)
+
+
+state 24
+
+   15 arg: STRTOK .
+
+    $default  reduce using rule 15 (arg)
+
+
+state 25
+
+   18 list: LBRAC . list_element RBRAC
+
+    SFUNCTOK   shift, and go to state 22
+    NUMBERTOK  shift, and go to state 23
+    STRTOK     shift, and go to state 24
+    LBRAC      shift, and go to state 25
+    FUNCTOK    shift, and go to state 1
+
+    arg           go to state 26
+    list          go to state 27
+    list_element  go to state 32
+    function      go to state 29
+
+
+state 26
+
+   20 list_element: arg .
+   21             | arg . COMMA list_element
+
+    COMMA  shift, and go to state 33
+
+    $default  reduce using rule 20 (list_element)
+
+
+state 27
+
+   14 arg: list .
+
+    $default  reduce using rule 14 (arg)
+
+
+state 28
+
+   19 funclist: LPAREN list_element . RPAREN
+
+    RPAREN  shift, and go to state 34
+
+
+state 29
+
+   16 arg: function .
+
+    $default  reduce using rule 16 (arg)
+
+
+state 30
+
+   11 gstatement: GLOBALKEYWORDTOK EQUALTOK arg .
+
+    $default  reduce using rule 11 (gstatement)
+
+
+state 31
+
+   12 statement: EVENTKEYWORDTOK EQUALTOK arg .
+
+    $default  reduce using rule 12 (statement)
+
+
+state 32
+
+   18 list: LBRAC list_element . RBRAC
+
+    RBRAC  shift, and go to state 35
+
+
+state 33
+
+   21 list_element: arg COMMA . list_element
+
+    SFUNCTOK   shift, and go to state 22
+    NUMBERTOK  shift, and go to state 23
+    STRTOK     shift, and go to state 24
+    LBRAC      shift, and go to state 25
+    FUNCTOK    shift, and go to state 1
+
+    arg           go to state 26
+    list          go to state 27
+    list_element  go to state 36
+    function      go to state 29
+
+
+state 34
+
+   19 funclist: LPAREN list_element RPAREN .
+
+    $default  reduce using rule 19 (funclist)
+
+
+state 35
+
+   18 list: LBRAC list_element RBRAC .
+
+    $default  reduce using rule 18 (list)
+
+
+state 36
+
+   21 list_element: arg COMMA list_element .
+
+    $default  reduce using rule 21 (list_element)

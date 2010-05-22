@@ -1,0 +1,179 @@
+\hypertarget{classXmlReader_1_1xmltagset}{
+\section{Xml\-Reader::xmltagset Class Reference}
+\label{classXmlReader_1_1xmltagset}\index{XmlReader::xmltagset@{XmlReader::xmltagset}}
+}
+{\tt \#include $<$Xml\-Reader.h$>$}
+
+Collaboration diagram for Xml\-Reader::xmltagset:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{classXmlReader_1_1xmltagset__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classXmlReader_1_1xmltagset_a0}{xmltagset} ()
+\item 
+\hyperlink{classXmlReader_1_1xmltagset_a1}{$\sim$xmltagset} ()
+\item 
+void \hyperlink{classXmlReader_1_1xmltagset_a2}{add} (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$itag)
+\item 
+\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$ \hyperlink{classXmlReader_1_1xmltagset_a3}{find} (char $\ast$name)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$ \hyperlink{classXmlReader_1_1xmltagset_o0}{tag}
+\item 
+\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} $\ast$ \hyperlink{classXmlReader_1_1xmltagset_o1}{next}
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$ \hyperlink{classXmlReader_1_1xmltagset_b0}{auxfind} (\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} $\ast$set, char $\ast$name)
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} $\ast$ \hyperlink{classXmlReader_1_1xmltagset_p0}{cur\-Search}
+\item 
+char $\ast$ \hyperlink{classXmlReader_1_1xmltagset_p1}{search\-Name}
+\end{CompactItemize}
+\subsection*{Friends}
+\begin{CompactItemize}
+\item 
+class \hyperlink{classXmlReader_1_1xmltagset_n0}{Xml\-Reader}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classXmlReader_1_1xmltagset_a0}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!xmltagset@{xmltagset}}
+\index{xmltagset@{xmltagset}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[xmltagset]{\setlength{\rightskip}{0pt plus 5cm}Xml\-Reader::xmltagset::xmltagset ()}}
+\label{classXmlReader_1_1xmltagset_a0}
+
+
+
+
+Definition at line 153 of file Xml\-Reader.cpp.
+
+References cur\-Search, next, search\-Name, and tag.\hypertarget{classXmlReader_1_1xmltagset_a1}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!~xmltagset@{$\sim$xmltagset}}
+\index{~xmltagset@{$\sim$xmltagset}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[$\sim$xmltagset]{\setlength{\rightskip}{0pt plus 5cm}Xml\-Reader::xmltagset::$\sim$\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} ()}}
+\label{classXmlReader_1_1xmltagset_a1}
+
+
+
+
+Definition at line 162 of file Xml\-Reader.cpp.
+
+References next, and tag.
+
+\subsection{Member Function Documentation}
+\hypertarget{classXmlReader_1_1xmltagset_a2}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!add@{add}}
+\index{add@{add}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[add]{\setlength{\rightskip}{0pt plus 5cm}void Xml\-Reader::xmltagset::add (\hyperlink{classXmlReader_1_1xmltag}{xmltag} $\ast$ {\em itag})}}
+\label{classXmlReader_1_1xmltagset_a2}
+
+
+
+
+Definition at line 174 of file Xml\-Reader.cpp.
+
+References next, and tag.
+
+Referenced by Xml\-Reader::read\-XMLDocument().\hypertarget{classXmlReader_1_1xmltagset_b0}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!auxfind@{auxfind}}
+\index{auxfind@{auxfind}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[auxfind]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ Xml\-Reader::xmltagset::auxfind (\hyperlink{classXmlReader_1_1xmltagset}{xmltagset} $\ast$ {\em set}, char $\ast$ {\em name})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_1_1xmltagset_b0}
+
+
+
+
+Definition at line 220 of file Xml\-Reader.cpp.
+
+References cur\-Search, Xml\-Reader::xmltag::name, next, and tag.
+
+Referenced by find().\hypertarget{classXmlReader_1_1xmltagset_a3}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!find@{find}}
+\index{find@{find}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[find]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ Xml\-Reader::xmltagset::find (char $\ast$ {\em name})}}
+\label{classXmlReader_1_1xmltagset_a3}
+
+
+
+
+Definition at line 190 of file Xml\-Reader.cpp.
+
+References auxfind(), cur\-Search, search\-Name, and tag.
+
+Referenced by Xml\-Reader::xmltag::find\-Child\-Param\-Value().
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classXmlReader_1_1xmltagset_n0}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!XmlReader@{XmlReader}}
+\index{XmlReader@{XmlReader}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[XmlReader]{\setlength{\rightskip}{0pt plus 5cm}friend class \hyperlink{classXmlReader}{Xml\-Reader}\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classXmlReader_1_1xmltagset_n0}
+
+
+
+
+Definition at line 127 of file Xml\-Reader.h.
+
+\subsection{Member Data Documentation}
+\hypertarget{classXmlReader_1_1xmltagset_p0}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!curSearch@{curSearch}}
+\index{curSearch@{curSearch}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[curSearch]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltagset}{xmltagset}$\ast$ \hyperlink{classXmlReader_1_1xmltagset_p0}{Xml\-Reader::xmltagset::cur\-Search}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_1_1xmltagset_p0}
+
+
+
+
+Definition at line 137 of file Xml\-Reader.h.
+
+Referenced by auxfind(), find(), and xmltagset().\hypertarget{classXmlReader_1_1xmltagset_o1}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!next@{next}}
+\index{next@{next}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[next]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltagset}{xmltagset}$\ast$ \hyperlink{classXmlReader_1_1xmltagset_o1}{Xml\-Reader::xmltagset::next}}}
+\label{classXmlReader_1_1xmltagset_o1}
+
+
+
+
+Definition at line 132 of file Xml\-Reader.h.
+
+Referenced by add(), auxfind(), Partial::xml\_\-read(), xmltagset(), and $\sim$xmltagset().\hypertarget{classXmlReader_1_1xmltagset_p1}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!searchName@{searchName}}
+\index{searchName@{searchName}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[searchName]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ \hyperlink{classXmlReader_1_1xmltagset_p1}{Xml\-Reader::xmltagset::search\-Name}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{classXmlReader_1_1xmltagset_p1}
+
+
+
+
+Definition at line 138 of file Xml\-Reader.h.
+
+Referenced by find(), and xmltagset().\hypertarget{classXmlReader_1_1xmltagset_o0}{
+\index{XmlReader::xmltagset@{Xml\-Reader::xmltagset}!tag@{tag}}
+\index{tag@{tag}!XmlReader::xmltagset@{Xml\-Reader::xmltagset}}
+\subsubsection[tag]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classXmlReader_1_1xmltag}{xmltag}$\ast$ \hyperlink{classXmlReader_1_1xmltagset_o0}{Xml\-Reader::xmltagset::tag}}}
+\label{classXmlReader_1_1xmltagset_o0}
+
+
+
+
+Definition at line 131 of file Xml\-Reader.h.
+
+Referenced by add(), auxfind(), find(), Partial::xml\_\-read(), xmltagset(), and $\sim$xmltagset().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{XmlReader_8h}{Xml\-Reader.h}\item 
+\hyperlink{XmlReader_8cpp}{Xml\-Reader.cpp}\end{CompactItemize}

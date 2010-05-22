@@ -1,0 +1,123 @@
+			The Matrix as used in the DISCRETE option
+
+In event.cpp:
+	buildDiscrete(iter) 
+	  selects a start time, duration, and type using two matrices 
+	  ** ONLY the first time through the loop three functions are called:
+                - AttackMethods(attackList) 
+		   creates an array of possible start times
+	  	   and their probabilities (?)
+		   \output: startArray, probSieveArray.
+                - DurationMethods(durList)
+ 		   creates an array of possible durations 
+	 	   and their probabilities (?):
+		   \returns: durArray, probDurArray.
+                - CreateMatrices(matList) 
+		   gets the probability of types -> typeVector
+		   gets list of ettack nvelopes -> vector<Envelope*>
+		   creates s0 matrix: types * startArray(size)
+			s0->GetVector(typeProbVector);
+			 DOES NOT include type probabilities in matrix
+			s0->Envelopes(attackEnvVect);
+			 getValue of each envelope (refering to type) at each
+			  location of startArray
+		   gets durEnvVect
+		   creates d0 matrix: types * durEnvelope(size)
+		   	d0->Envelopes(durEnvVect
+			 same as for s0
+			d0->IncludeSieve(probDurArray, 0, typeVect.size()
+			 includes probDur`Array
+	  ** EVERY TIME through the loop:
+		- ObjCoordinates()
+		   	s1 = clone of s0
+		   	s1->IncludeVector
+			 includes current type probabilities
+			s1->IncludeSieve(probSieveArray, 0, typeVect.size()
+			 includes probSieveArray
+			s1->Normalize
+			 normalizes probabilities (0-1)
+			 adds them so first matrix location=0, last=1	 
+			s1->ChooseM
+			 choose one location: type(row) and 
+					      startArray lcation(column)
+		- Adjustments(slope)
+		   determines the layer to which the current type belongs
+		   selects the duration of current event: finds endLocM
+			endLocM = FindDur(layerRemainingChildren[whichLayer],
+				layerDensity[whichLayer]
+			   FindDur(remainO, density)
+			    finds the available space (durLoc) in the matrix 
+		   	    for the next duration (max lenght for the next dur 
+			    starting at this stimeMatrix)
+			    	FindLen()
+				\return durLoc
+				 finds the matrix location where the event
+				  ends (endLocM):
+				 checks is a dur can be fit until it
+				  reaches either the limit of s0 or another
+				  already assigned sound
+			    d1 = clone of d0
+			    d1->TrimMatrix(type, durArray, stime, srartArray)
+			     Blocs all locations of durArray except those
+			      between stime and durLoc (Max possible dur)
+			    d1->Mult(....)
+			     finds the most desirable duration given the
+			      density and the number of unassigned yet objects.
+			     creates an array centered around this "peak"
+			      using	
+				Interpol
+			     multiplies the line of the existing duration
+			      matrix corresponding to the type already chosen 
+			   d1->Normalize
+			    same as for s1
+			   d1->ChooseM
+			    same as for s1		
+			   finds startArray location where duration ends
+		          \returns: tryLoc
+		    s0->AdjustMatrix
+		     blocks the locations covered by the duration
+		     edges are smoothed following a user define slope
+		    s0->AdjustVector
+		     adjusts probabiliies of types according to the last
+    			choice
+		- TimeConvert()
+		   reverts everything to seconds
+
+
+
+what does initDiscreteInfo and when ? who call it ?
+
+			 
+
+		   ncreates a generic matrix of size attacks *
+                  object
+                   types using Matrix::Vectors and Matrix::Envelopes.  It also
+                   creates a matrix of duration * object types using the same
+                   functions of the Matrix class.
+		?? initDiscreteInfo() ???
+          For each pass through the loop, Discrete3 itself calls:
+                - ObjCoordinates creates a clone of the original matrix and
+                   includes weights (probabilities) of its elements then
+chooses
+                   a start time and an object type. Uses Matrix::BuildMatrix
+                   and Matrix::ChooseM.
+                - Adjustments determines the layer the object belongs to and
+                   the number of remainng objects ( which were not created
+yet).
+                   It calls:
+                        - FindDur calls:
+                                - FindLen finds the matrix location
+                                  corresponding
+                                   to the end of the event.
+                           then creates a clone of the duration matrix and
+                           calls Matrix::TrimMatrix and Matrrix::ChooseM
+                        - Matrix::AdjustMatrix (see matrix)
+                        - Matrix::AdjustVector (see matrix)
+                - TimeConvert converts the start time and duration defined in
+                   matrix location into time units (for notation) and to
+seconds.
+                   It also determines the checkPoint or where this object is
+in
+                   the larger event.
+
+

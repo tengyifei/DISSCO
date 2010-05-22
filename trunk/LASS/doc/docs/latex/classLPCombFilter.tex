@@ -1,0 +1,312 @@
+\hypertarget{classLPCombFilter}{
+\section{LPComb\-Filter Class Reference}
+\label{classLPCombFilter}\index{LPCombFilter@{LPCombFilter}}
+}
+{\tt \#include $<$LPComb\-Filter.h$>$}
+
+Inheritance diagram for LPComb\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=88pt]{classLPCombFilter__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for LPComb\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{classLPCombFilter__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classLPCombFilter_a0}{LPComb\-Filter} (float gain, long delay, float lpf\_\-gain)
+\item 
+\hyperlink{classLPCombFilter_a1}{$\sim$LPComb\-Filter} ()
+\item 
+\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} \hyperlink{classLPCombFilter_a2}{do\_\-filter} (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} x\_\-t)
+\item 
+void \hyperlink{classLPCombFilter_a3}{reset} (void)
+\item 
+void \hyperlink{classLPCombFilter_a4}{xml\_\-print} (ofstream \&xml\-Output)
+\item 
+\hyperlink{classLPCombFilter_a5}{LPComb\-Filter} ()
+\item 
+void \hyperlink{classLPCombFilter_a6}{set\_\-g} (float new\_\-g)
+\item 
+void \hyperlink{classLPCombFilter_a7}{set\_\-D} (long \hyperlink{classLPCombFilter_r1}{D})
+\item 
+void \hyperlink{classLPCombFilter_a8}{set\_\-lpf\_\-g} (float new\_\-lpf\_\-g)
+\item 
+void \hyperlink{classLPCombFilter_a9}{xml\_\-read} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$lptag)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+float \hyperlink{classLPCombFilter_r0}{g}
+\item 
+long \hyperlink{classLPCombFilter_r1}{D}
+\item 
+float \hyperlink{classLPCombFilter_r2}{lpf\_\-g}
+\item 
+\hyperlink{classLowPassFilter}{Low\-Pass\-Filter} $\ast$ \hyperlink{classLPCombFilter_r3}{lpf}
+\item 
+\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} $>$ $\ast$ \hyperlink{classLPCombFilter_r4}{x\_\-hist}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This is a comb filter with a lowpass feedback element. The comb filter class implements a comb filter with a lowpass feedback loop as described on page 385 of 'Elements of Computer Music':
+
+y(t) = x\mbox{[}t-D\mbox{]} + g $\ast$ lowpass(x(t-D))\par
+ where lowpass(s\mbox{[}t\mbox{]}) = s\mbox{[}t\mbox{]} + coef$\ast$lowpass(s\mbox{[}t-1\mbox{]})
+
+Note that for stability, we must make sure that: -1 $<$ g/(1 - coef) $<$ +1 \small\begin{alltt}
+                       \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+                      |                      |
+  x(t) ---$>$(+)-------$>$|    D-sample Delay    |--------------------$>$ y(t)
+            ^         |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|           |
+            |                                            |
+            |          \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_            |
+            |         |                      |           |
+            |-(*g)----| IIR Lowpass Feedback |$<$--(+)-----|
+                   |  |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|    ^
+                   |                              |
+                   |\_\_\_\_\_\_\_\_(*coef)\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|
+ \end{alltt}\normalsize 
+
+
+\begin{Desc}
+\item[Note:]: This filter (and all other 'class Filter's) are stateful machines with internal feedback mechanisms. Thus this filter should be \hyperlink{classLPCombFilter_a3}{reset()} each time you begin a new channel and should not be mixed between channels.\end{Desc}
+\begin{Desc}
+\item[Author:]Jim Lindstrom \end{Desc}
+
+
+
+
+Definition at line 74 of file LPComb\-Filter.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLPCombFilter_a0}{
+\index{LPCombFilter@{LPComb\-Filter}!LPCombFilter@{LPCombFilter}}
+\index{LPCombFilter@{LPCombFilter}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[LPCombFilter]{\setlength{\rightskip}{0pt plus 5cm}LPComb\-Filter::LPComb\-Filter (float {\em gain}, long {\em delay}, float {\em lpf\_\-gain})}}
+\label{classLPCombFilter_a0}
+
+
+This is a constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gain}]The feedback gain (0.0 to 1.0) applied to the IIR lowpass feedback unit \item[{\em delay}]The comb delay, in units of samples. \item[{\em lpf\_\-gain}]The internal gain of the lowpass feedback unit \end{description}
+\end{Desc}
+
+
+Definition at line 43 of file LPComb\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, lpf, lpf\_\-g, and x\_\-hist.\hypertarget{classLPCombFilter_a1}{
+\index{LPCombFilter@{LPComb\-Filter}!~LPCombFilter@{$\sim$LPCombFilter}}
+\index{~LPCombFilter@{$\sim$LPCombFilter}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[$\sim$LPCombFilter]{\setlength{\rightskip}{0pt plus 5cm}LPComb\-Filter::$\sim$\hyperlink{classLPCombFilter}{LPComb\-Filter} ()}}
+\label{classLPCombFilter_a1}
+
+
+This is the destructor. 
+
+Definition at line 59 of file LPComb\-Filter.cpp.
+
+References lpf, and x\_\-hist.\hypertarget{classLPCombFilter_a5}{
+\index{LPCombFilter@{LPComb\-Filter}!LPCombFilter@{LPCombFilter}}
+\index{LPCombFilter@{LPCombFilter}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[LPCombFilter]{\setlength{\rightskip}{0pt plus 5cm}LPComb\-Filter::LPComb\-Filter ()}}
+\label{classLPCombFilter_a5}
+
+
+This constructor is used when recreating the object from an XML file when you don't know all the parameters until you've read them in. Don't use this constructor unless you intend to use the proper calls to set the gain, delay, and lpf. 
+
+Definition at line 108 of file LPComb\-Filter.cpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{classLPCombFilter_a2}{
+\index{LPCombFilter@{LPComb\-Filter}!do_filter@{do\_\-filter}}
+\index{do_filter@{do\_\-filter}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[do\_\-filter]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} LPComb\-Filter::do\_\-filter (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} {\em x\_\-t})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLPCombFilter_a2}
+
+
+This method applies a lpcomb filter to a single sample \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em x\_\-t}]The input sample \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The filtered sample \end{Desc}
+
+
+Implements \hyperlink{classFilter_a3}{Filter}.
+
+Definition at line 66 of file LPComb\-Filter.cpp.
+
+References Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Low\-Pass\-Filter::do\_\-filter(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, lpf, m\_\-sample\_\-type, and x\_\-hist.
+
+Referenced by Reverb::do\_\-reverb().\hypertarget{classLPCombFilter_a3}{
+\index{LPCombFilter@{LPComb\-Filter}!reset@{reset}}
+\index{reset@{reset}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[reset]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::reset (void)\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classLPCombFilter_a3}
+
+
+This method should be redefined by each class derived from \hyperlink{classFilter}{Filter} to reset the filter to an initial state. It should have the same effect as deleting the filter and creating a new one. 
+
+Implements \hyperlink{classFilter_a4}{Filter}.
+
+Definition at line 77 of file LPComb\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), lpf, lpf\_\-g, and x\_\-hist.
+
+Referenced by Reverb::reset().\hypertarget{classLPCombFilter_a7}{
+\index{LPCombFilter@{LPComb\-Filter}!set_D@{set\_\-D}}
+\index{set_D@{set\_\-D}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[set\_\-D]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::set\_\-D (long {\em D})}}
+\label{classLPCombFilter_a7}
+
+
+This sets the delay. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em D}]The delay \end{description}
+\end{Desc}
+
+
+Definition at line 115 of file LPComb\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), and x\_\-hist.
+
+Referenced by xml\_\-read().\hypertarget{classLPCombFilter_a6}{
+\index{LPCombFilter@{LPComb\-Filter}!set_g@{set\_\-g}}
+\index{set_g@{set\_\-g}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[set\_\-g]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::set\_\-g (float {\em new\_\-g})}}
+\label{classLPCombFilter_a6}
+
+
+This sets the gain. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em new\_\-g}]The gain \end{description}
+\end{Desc}
+
+
+Definition at line 111 of file LPComb\-Filter.cpp.
+
+References g.
+
+Referenced by xml\_\-read().\hypertarget{classLPCombFilter_a8}{
+\index{LPCombFilter@{LPComb\-Filter}!set_lpf_g@{set\_\-lpf\_\-g}}
+\index{set_lpf_g@{set\_\-lpf\_\-g}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[set\_\-lpf\_\-g]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::set\_\-lpf\_\-g (float {\em new\_\-lpf\_\-g})}}
+\label{classLPCombFilter_a8}
+
+
+This sets the low-pass feedback. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em new\_\-lpf\_\-g}]\end{description}
+\end{Desc}
+
+
+Definition at line 124 of file LPComb\-Filter.cpp.
+
+References lpf, and lpf\_\-g.
+
+Referenced by xml\_\-read().\hypertarget{classLPCombFilter_a4}{
+\index{LPCombFilter@{LPComb\-Filter}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::xml\_\-print (ofstream \& {\em xml\-Output})}}
+\label{classLPCombFilter_a4}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000020}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Definition at line 93 of file LPComb\-Filter.cpp.
+
+References D, g, and lpf\_\-g.
+
+Referenced by Reverb::xml\_\-print().\hypertarget{classLPCombFilter_a9}{
+\index{LPCombFilter@{LPComb\-Filter}!xml_read@{xml\_\-read}}
+\index{xml_read@{xml\_\-read}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[xml\_\-read]{\setlength{\rightskip}{0pt plus 5cm}void LPComb\-Filter::xml\_\-read (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em lptag})}}
+\label{classLPCombFilter_a9}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000021}{Deprecated}]\end{Desc}
+
+
+Definition at line 132 of file LPComb\-Filter.cpp.
+
+References Xml\-Reader::xmltag::find\-Child\-Param\-Value(), set\_\-D(), set\_\-g(), and set\_\-lpf\_\-g().
+
+Referenced by Reverb::xml\_\-read().
+
+\subsection{Member Data Documentation}
+\hypertarget{classLPCombFilter_r1}{
+\index{LPCombFilter@{LPComb\-Filter}!D@{D}}
+\index{D@{D}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[D]{\setlength{\rightskip}{0pt plus 5cm}long \hyperlink{classLPCombFilter_r1}{LPComb\-Filter::D}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLPCombFilter_r1}
+
+
+The delay for the comb component of the filter 
+
+Definition at line 152 of file LPComb\-Filter.h.
+
+Referenced by LPComb\-Filter(), reset(), set\_\-D(), and xml\_\-print().\hypertarget{classLPCombFilter_r0}{
+\index{LPCombFilter@{LPComb\-Filter}!g@{g}}
+\index{g@{g}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[g]{\setlength{\rightskip}{0pt plus 5cm}float \hyperlink{classLPCombFilter_r0}{LPComb\-Filter::g}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLPCombFilter_r0}
+
+
+The gain for the comb component of the filter 
+
+Definition at line 147 of file LPComb\-Filter.h.
+
+Referenced by do\_\-filter(), LPComb\-Filter(), set\_\-g(), and xml\_\-print().\hypertarget{classLPCombFilter_r3}{
+\index{LPCombFilter@{LPComb\-Filter}!lpf@{lpf}}
+\index{lpf@{lpf}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[lpf]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classLowPassFilter}{Low\-Pass\-Filter}$\ast$ \hyperlink{classLPCombFilter_r3}{LPComb\-Filter::lpf}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLPCombFilter_r3}
+
+
+This implements the lowpass-feedback portion of the filter 
+
+Definition at line 162 of file LPComb\-Filter.h.
+
+Referenced by do\_\-filter(), LPComb\-Filter(), reset(), set\_\-lpf\_\-g(), and $\sim$LPComb\-Filter().\hypertarget{classLPCombFilter_r2}{
+\index{LPCombFilter@{LPComb\-Filter}!lpf_g@{lpf\_\-g}}
+\index{lpf_g@{lpf\_\-g}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[lpf\_\-g]{\setlength{\rightskip}{0pt plus 5cm}float \hyperlink{classLPCombFilter_r2}{LPComb\-Filter::lpf\_\-g}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLPCombFilter_r2}
+
+
+The gain for the lowpass-feedback component of the filter 
+
+Definition at line 157 of file LPComb\-Filter.h.
+
+Referenced by LPComb\-Filter(), reset(), set\_\-lpf\_\-g(), and xml\_\-print().\hypertarget{classLPCombFilter_r4}{
+\index{LPCombFilter@{LPComb\-Filter}!x_hist@{x\_\-hist}}
+\index{x_hist@{x\_\-hist}!LPCombFilter@{LPComb\-Filter}}
+\subsubsection[x\_\-hist]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$\hyperlink{Types_8h_a0}{m\_\-sample\_\-type}$>$$\ast$ \hyperlink{classLPCombFilter_r4}{LPComb\-Filter::x\_\-hist}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classLPCombFilter_r4}
+
+
+This queue holds past samples to implement the delay 
+
+Definition at line 167 of file LPComb\-Filter.h.
+
+Referenced by do\_\-filter(), LPComb\-Filter(), reset(), set\_\-D(), and $\sim$LPComb\-Filter().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{LPCombFilter_8h}{LPComb\-Filter.h}\item 
+\hyperlink{LPCombFilter_8cpp}{LPComb\-Filter.cpp}\end{CompactItemize}

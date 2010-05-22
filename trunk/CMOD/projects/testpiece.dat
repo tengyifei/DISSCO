@@ -1,0 +1,13 @@
+/*		Piece:	Main_Test		*/
+
+title = "Main_Test";				/* string - the name of the piece */
+fileFlags = "THMLBsnv";			/* string - directory structure (deprecated) */
+fileList = "T/topevent";		/* string - top event filename (a relative location) */
+pieceStartTime = 0;					/* float - start time in seconds */
+pieceDuration = 15;  				/* float - duration in seconds */
+
+soundSynthesis = TRUE;			/* TRUE/FALSE - generate audio output or not */
+numChannels = 2;						/* int - spatialization settings (2 = stereo) */
+sampleRate = 44100;					/* int - sample rate in Hz */
+sampleSize = 16;						/* int - sample size */
+numThreads = 1;							/* int - number of threads to run (use 1) */

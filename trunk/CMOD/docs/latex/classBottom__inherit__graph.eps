@@ -1,0 +1,604 @@
+%!PS-Adobe-2.0
+%%Creator: dot version 1.7.14 (Mon Feb  3 01:57:13 CST 2003)
+%%For: (king1) 
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: 35 35 187 2913
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+
+EncodingVector
+  dup 306 /AE
+  dup 301 /Aacute
+  dup 302 /Acircumflex
+  dup 304 /Adieresis
+  dup 300 /Agrave
+  dup 305 /Aring
+  dup 303 /Atilde
+  dup 307 /Ccedilla
+  dup 311 /Eacute
+  dup 312 /Ecircumflex
+  dup 313 /Edieresis
+  dup 310 /Egrave
+  dup 315 /Iacute
+  dup 316 /Icircumflex
+  dup 317 /Idieresis
+  dup 314 /Igrave
+  dup 334 /Udieresis
+  dup 335 /Yacute
+  dup 376 /thorn
+  dup 337 /germandbls
+  dup 341 /aacute
+  dup 342 /acircumflex
+  dup 344 /adieresis
+  dup 346 /ae
+  dup 340 /agrave
+  dup 345 /aring
+  dup 347 /ccedilla
+  dup 351 /eacute
+  dup 352 /ecircumflex
+  dup 353 /edieresis
+  dup 350 /egrave
+  dup 355 /iacute
+  dup 356 /icircumflex
+  dup 357 /idieresis
+  dup 354 /igrave
+  dup 360 /dcroat
+  dup 361 /ntilde
+  dup 363 /oacute
+  dup 364 /ocircumflex
+  dup 366 /odieresis
+  dup 362 /ograve
+  dup 365 /otilde
+  dup 370 /oslash
+  dup 372 /uacute
+  dup 373 /ucircumflex
+  dup 374 /udieresis
+  dup 371 /ugrave
+  dup 375 /yacute
+  dup 377 /ydieresis  
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+	dup 1 exch div /InvScaleFactor exch def
+	dup scale
+} bind def
+
+% styles
+/solid { } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw aligned label in bounding box aligned to current point
+/alignedtext {			% width adj text
+	/text exch def
+	/adj exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			text stringwidth pop adj mul 0 rmoveto
+		} if
+		[] 0 setdash
+		text show
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+%%Page: 1 1
+%%PageBoundingBox: 36 36 187 2913
+%%PageOrientation: Portrait
+gsave
+35 35 152 2878 boxprim clip newpath
+36 36 translate
+0 0 1 beginpage
+0 0 translate 0 rotate
+[ /CropBox [36 36 187 2913] /PAGES pdfmark
+0.000 0.000 0.000 graphcolor
+10.00 /Helvetica set_font
+
+%	Node0
+gsave 10 dict begin
+filled
+0.000 0.000 1.000 nodecolor
+newpath 0 474 moveto
+151 474 lineto
+151 1135 lineto
+0 1135 lineto
+closepath
+fill
+gsave 10 dict begin
+75 1123 moveto 37 -0.5 (Bottom) alignedtext
+end grestore
+newpath 0 1120 moveto
+151 1120 lineto
+stroke
+gsave 10 dict begin
+0 1108 moveto 141 0.0 (+ bottom_newObjectMethod) alignedtext
+0 1097 moveto 73 0.0 (+ bottom_slope) alignedtext
+0 1086 moveto 109 0.0 (+ bottom_freqMethod) alignedtext
+0 1075 moveto 114 0.0 (+ bottom_freqMethod2) alignedtext
+0 1064 moveto 97 0.0 (+ bottom_absRange) alignedtext
+0 1053 moveto 82 0.0 (+ bottom_patFile) alignedtext
+0 1042 moveto 113 0.0 (+ bottom_fundamental) alignedtext
+0 1031 moveto 117 0.0 (+ bottom_soundMethod) alignedtext
+0 1020 moveto 106 0.0 (+ bottom_envMethod) alignedtext
+0 1009 moveto 110 0.0 (+ bottom_ampMethod) alignedtext
+0 998 moveto 68 0.0 (+ bottom_rule) alignedtext
+0 987 moveto 93 0.0 (+ bottom_randFlag) alignedtext
+0 976 moveto 95 0.0 (+ bottom_ampScale) alignedtext
+0 965 moveto 79 0.0 (+ bottom_factor) alignedtext
+0 954 moveto 104 0.0 (+ bottom_attenuation) alignedtext
+0 943 moveto 92 0.0 (+ bottom_modifier) alignedtext
+0 932 moveto 75 0.0 (+ bottom_select) alignedtext
+0 921 moveto 107 0.0 (+ bottom_spatMethod) alignedtext
+0 910 moveto 119 0.0 (+ bottom_reverbMethod) alignedtext
+0 899 moveto 72 0.0 (# bottomName) alignedtext
+0 888 moveto 90 0.0 (# bottomStartTime) alignedtext
+0 877 moveto 86 0.0 (# bottomDuration) alignedtext
+0 866 moveto 66 0.0 (# bottomType) alignedtext
+0 855 moveto 104 0.0 (# bottomNumPartials) alignedtext
+0 844 moveto 76 0.0 (- bottomDensity) alignedtext
+end grestore
+newpath 0 841 moveto
+151 841 lineto
+stroke
+gsave 10 dict begin
+3 829 moveto 51 0.0 (+ Bottom\(\)) alignedtext
+3 818 moveto 51 0.0 (+ Bottom\(\)) alignedtext
+3 807 moveto 51 0.0 (+ Bottom\(\)) alignedtext
+3 796 moveto 58 0.0 (+ ~Bottom\(\)) alignedtext
+3 785 moveto 62 0.0 (+ operator=\(\)) alignedtext
+3 774 moveto 37 0.0 (+ clear\(\)) alignedtext
+3 763 moveto 57 0.0 (+ setName\(\)) alignedtext
+3 752 moveto 75 0.0 (+ setStartTime\(\)) alignedtext
+3 741 moveto 71 0.0 (+ setDuration\(\)) alignedtext
+3 730 moveto 64 0.0 (+ setDensity\(\)) alignedtext
+3 719 moveto 89 0.0 (+ setNumPartials\(\)) alignedtext
+3 708 moveto 106 0.0 (+ CreateNewObjects\(\)) alignedtext
+3 697 moveto 68 0.0 (+ Implement\(\)) alignedtext
+3 686 moveto 70 0.0 (+ buildSound\(\)) alignedtext
+3 675 moveto 69 0.0 (+ AssignFreq\(\)) alignedtext
+3 664 moveto 61 0.0 (+ NumPart\(\)) alignedtext
+3 653 moveto 61 0.0 (+ Spectrum\(\)) alignedtext
+3 642 moveto 81 0.0 (+ CreatePartials\(\)) alignedtext
+3 631 moveto 81 0.0 (+ SetFrequency\(\)) alignedtext
+3 620 moveto 55 0.0 (+ OneStep\(\)) alignedtext
+3 609 moveto 63 0.0 (+ ThreeStep\(\)) alignedtext
+3 598 moveto 41 0.0 (+ Rules\(\)) alignedtext
+3 587 moveto 40 0.0 (+ Loud\(\)) alignedtext
+3 576 moveto 62 0.0 (+ Modifiers\(\)) alignedtext
+3 565 moveto 135 0.0 (+ ChooseSoundDynParam\(\)) alignedtext
+3 554 moveto 135 0.0 (+ ChoosePartialDynParam\(\)) alignedtext
+3 543 moveto 79 0.0 (+ Spatialization\(\)) alignedtext
+3 532 moveto 79 0.0 (+ Spatialization\(\)) alignedtext
+3 521 moveto 84 0.0 (+ Reverberation\(\)) alignedtext
+3 510 moveto 84 0.0 (+ Reverberation\(\)) alignedtext
+3 499 moveto 38 0.0 (+ Print\(\)) alignedtext
+3 488 moveto 69 0.0 (+ PrintSound\(\)) alignedtext
+3 477 moveto 63 0.0 (+ buildNote\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node2
+[ /Rect [ 25 8 125 438 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classNote.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 25 8 moveto
+125 8 lineto
+125 438 lineto
+25 438 lineto
+closepath
+stroke
+gsave 10 dict begin
+75 426 moveto 24 -0.5 (Note) alignedtext
+end grestore
+newpath 25 423 moveto
+125 423 lineto
+stroke
+gsave 10 dict begin
+37 411 moveto 45 0.0 (- stimeSec) alignedtext
+37 400 moveto 56 0.0 (- stimeUnits) alignedtext
+37 389 moveto 47 0.0 (- stimeBar) alignedtext
+37 378 moveto 41 0.0 (- stUbeat) alignedtext
+37 367 moveto 53 0.0 (- stUsubdiv) alignedtext
+37 356 moveto 42 0.0 (- uPerSec) alignedtext
+37 345 moveto 39 0.0 (- barLen) alignedtext
+37 334 moveto 36 0.0 (- durSec) alignedtext
+37 323 moveto 47 0.0 (- durUnits) alignedtext
+37 312 moveto 66 0.0 (- durUsubBeg) alignedtext
+37 301 moveto 50 0.0 (- durUbeat) alignedtext
+37 290 moveto 67 0.0 (- durUsubEnd) alignedtext
+37 279 moveto 27 0.0 (- pitch) alignedtext
+37 268 moveto 34 0.0 (- octave) alignedtext
+37 257 moveto 52 0.0 (- pitchClass) alignedtext
+37 246 moveto 25 0.0 (- loud) alignedtext
+37 235 moveto 50 0.0 (- dynMark) alignedtext
+end grestore
+newpath 25 232 moveto
+125 232 lineto
+stroke
+gsave 10 dict begin
+25 220 moveto 38 0.0 (+ Note\(\)) alignedtext
+25 209 moveto 38 0.0 (+ Note\(\)) alignedtext
+25 198 moveto 38 0.0 (+ Note\(\)) alignedtext
+25 187 moveto 38 0.0 (+ Note\(\)) alignedtext
+25 176 moveto 38 0.0 (+ Note\(\)) alignedtext
+25 165 moveto 45 0.0 (+ ~Note\(\)) alignedtext
+25 154 moveto 54 0.0 (+ setStime\(\)) alignedtext
+25 143 moveto 56 0.0 (+ getStime\(\)) alignedtext
+25 132 moveto 46 0.0 (+ setDur\(\)) alignedtext
+25 121 moveto 48 0.0 (+ getDur\(\)) alignedtext
+25 110 moveto 51 0.0 (+ setPitch\(\)) alignedtext
+25 99 moveto 53 0.0 (+ getPitch\(\)) alignedtext
+25 88 moveto 73 0.0 (+ setLoudness\(\)) alignedtext
+25 77 moveto 75 0.0 (+ getLoudness\(\)) alignedtext
+25 66 moveto 37 0.0 (+ clear\(\)) alignedtext
+25 55 moveto 38 0.0 (+ Print\(\)) alignedtext
+25 44 moveto 55 0.0 (+ Activate\(\)) alignedtext
+25 33 moveto 68 0.0 (- AssignPitch\(\)) alignedtext
+25 22 moveto 90 0.0 (- AssignLoudness\(\)) alignedtext
+25 11 moveto 58 0.0 (- Modifiers\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node0 -> Node2
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 75 464 moveto
+75 455 75 447 75 438 curveto
+stroke
+newpath 78 464 moveto
+75 474 lineto
+73 464 lineto
+closepath
+fill
+end grestore
+
+%	Node1
+[ /Rect [ 5 1173 145 2867 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classEvent.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 5 1172 moveto
+145 1172 lineto
+145 2867 lineto
+5 2867 lineto
+closepath
+stroke
+gsave 10 dict begin
+75 2855 moveto 29 -0.5 (Event) alignedtext
+end grestore
+newpath 5 2852 moveto
+145 2852 lineto
+stroke
+gsave 10 dict begin
+16 2840 moveto 61 0.0 (+ checkPoint) alignedtext
+16 2829 moveto 16 0.0 (+ s0) alignedtext
+16 2818 moveto 18 0.0 (+ d0) alignedtext
+16 2807 moveto 14 0.0 (+ s1) alignedtext
+16 2796 moveto 16 0.0 (+ d1) alignedtext
+16 2785 moveto 70 0.0 (+ theStartTime) alignedtext
+16 2774 moveto 66 0.0 (+ theDuration) alignedtext
+16 2763 moveto 47 0.0 (+ theType) alignedtext
+16 2752 moveto 52 0.0 (+ theName) alignedtext
+16 2741 moveto 43 0.0 (+ aName) alignedtext
+16 2730 moveto 59 0.0 (+ nameType) alignedtext
+16 2719 moveto 60 0.0 (+ theDensity) alignedtext
+16 2708 moveto 55 0.0 (+ subevents) alignedtext
+16 2697 moveto 63 0.0 (+ numLayers) alignedtext
+16 2686 moveto 66 0.0 (+ objMaxDur) alignedtext
+16 2675 moveto 45 0.0 (+ uPerSec) alignedtext
+16 2664 moveto 42 0.0 (+ barLen) alignedtext
+16 2653 moveto 58 0.0 (+ maxTypes) alignedtext
+16 2642 moveto 59 0.0 (+ numChars) alignedtext
+16 2631 moveto 33 0.0 (+ levels) alignedtext
+16 2620 moveto 37 0.0 (+ length) alignedtext
+16 2609 moveto 53 0.0 (+ numObjs) alignedtext
+16 2598 moveto 35 0.0 (+ objID) alignedtext
+16 2587 moveto 72 0.0 (+ typesInLayer) alignedtext
+16 2576 moveto 60 0.0 (+ noWeights) alignedtext
+16 2565 moveto 52 0.0 (+ arraySize) alignedtext
+16 2554 moveto 40 0.0 (+ listLen) alignedtext
+16 2543 moveto 43 0.0 (+ durLen) alignedtext
+16 2532 moveto 58 0.0 (+ starTarray) alignedtext
+16 2521 moveto 54 0.0 (+ durArray) alignedtext
+16 2510 moveto 85 0.0 (+ probSieveArray) alignedtext
+16 2499 moveto 80 0.0 (+ probDurArray) alignedtext
+16 2488 moveto 56 0.0 (+ layerDens) alignedtext
+16 2477 moveto 66 0.0 (+ objsInLayer) alignedtext
+16 2466 moveto 64 0.0 (+ remainObjs) alignedtext
+16 2455 moveto 58 0.0 (+ durMatrix) alignedtext
+16 2444 moveto 51 0.0 (+ durUnits) alignedtext
+16 2433 moveto 67 0.0 (+ stimeMatrix) alignedtext
+16 2422 moveto 59 0.0 (+ stimeUnits) alignedtext
+16 2411 moveto 40 0.0 (+ durSec) alignedtext
+16 2400 moveto 48 0.0 (+ stimeSec) alignedtext
+16 2389 moveto 46 0.0 (+ duRatio) alignedtext
+16 2378 moveto 26 0.0 (+ loc0) alignedtext
+16 2367 moveto 24 0.0 (+ loc1) alignedtext
+16 2356 moveto 46 0.0 (+ newObj) alignedtext
+16 2345 moveto 28 0.0 (+ type) alignedtext
+16 2334 moveto 60 0.0 (+ keepName) alignedtext
+16 2323 moveto 31 0.0 (+ layer) alignedtext
+16 2312 moveto 39 0.0 (+ fname) alignedtext
+16 2301 moveto 63 0.0 (+ numParam) alignedtext
+16 2290 moveto 62 0.0 (+ probParam) alignedtext
+16 2279 moveto 60 0.0 (+ dataParam) alignedtext
+16 2268 moveto 60 0.0 (+ coefParam) alignedtext
+16 2257 moveto 63 0.0 (+ sieveParam) alignedtext
+16 2246 moveto 61 0.0 (+ tempSieves) alignedtext
+16 2235 moveto 48 0.0 (+ maxLen) alignedtext
+16 2224 moveto 57 0.0 (+ envParam) alignedtext
+16 2213 moveto 62 0.0 (+ scaleParam) alignedtext
+16 2202 moveto 99 0.0 (# bottom_frequency) alignedtext
+16 2191 moveto 90 0.0 (# bottom_loudness) alignedtext
+16 2180 moveto 102 0.0 (# sound_numPartials) alignedtext
+16 2169 moveto 88 0.0 (# sound_deviation) alignedtext
+16 2158 moveto 87 0.0 (# sound_partEnvs) alignedtext
+16 2147 moveto 90 0.0 (# sound_modifiers) alignedtext
+16 2136 moveto 108 0.0 (# sound_reverberation) alignedtext
+16 2125 moveto 106 0.0 (# sound_spatialization) alignedtext
+16 2114 moveto 83 0.0 (# note_pitchClass) alignedtext
+16 2103 moveto 105 0.0 (# note_dynamicMark) alignedtext
+16 2092 moveto 81 0.0 (# note_modifiers) alignedtext
+16 2081 moveto 40 0.0 (# lastime) alignedtext
+end grestore
+newpath 5 2078 moveto
+145 2078 lineto
+stroke
+gsave 10 dict begin
+5 2066 moveto 43 0.0 (+ Event\(\)) alignedtext
+5 2055 moveto 43 0.0 (+ Event\(\)) alignedtext
+5 2044 moveto 43 0.0 (+ Event\(\)) alignedtext
+5 2033 moveto 43 0.0 (+ Event\(\)) alignedtext
+5 2022 moveto 43 0.0 (+ Event\(\)) alignedtext
+5 2011 moveto 50 0.0 (+ ~Event\(\)) alignedtext
+5 2000 moveto 62 0.0 (+ operator=\(\)) alignedtext
+5 1989 moveto 75 0.0 (+ setStartTime\(\)) alignedtext
+5 1978 moveto 71 0.0 (+ setDuration\(\)) alignedtext
+5 1967 moveto 52 0.0 (+ setType\(\)) alignedtext
+5 1956 moveto 57 0.0 (+ setName\(\)) alignedtext
+5 1945 moveto 64 0.0 (+ setDensity\(\)) alignedtext
+5 1934 moveto 37 0.0 (+ clear\(\)) alignedtext
+5 1923 moveto 77 0.0 (+ getStartTime\(\)) alignedtext
+5 1912 moveto 73 0.0 (+ getDuration\(\)) alignedtext
+5 1901 moveto 59 0.0 (+ getName\(\)) alignedtext
+5 1890 moveto 66 0.0 (+ getDensity\(\)) alignedtext
+5 1879 moveto 54 0.0 (+ getType\(\)) alignedtext
+5 1868 moveto 71 0.0 (+ getNewObj\(\)) alignedtext
+5 1857 moveto 43 0.0 (+ Basics\(\)) alignedtext
+5 1846 moveto 41 0.0 (+ Build\(\)) alignedtext
+5 1835 moveto 41 0.0 (+ Build\(\)) alignedtext
+5 1824 moveto 106 0.0 (+ CreateNewObjects\(\)) alignedtext
+5 1813 moveto 93 0.0 (+ BuildSubEvents\(\)) alignedtext
+5 1802 moveto 62 0.0 (+ LayerDef\(\)) alignedtext
+5 1791 moveto 86 0.0 (+ NewLayerDef\(\)) alignedtext
+5 1780 moveto 63 0.0 (+ NumObjs\(\)) alignedtext
+5 1769 moveto 88 0.0 (+ NewNumObjs\(\)) alignedtext
+5 1758 moveto 71 0.0 (+ CopyName\(\)) alignedtext
+5 1747 moveto 95 0.0 (+ NewCopyName\(\)) alignedtext
+5 1736 moveto 76 0.0 (+ Continuum3\(\)) alignedtext
+5 1725 moveto 58 0.0 (+ Discrete3\(\)) alignedtext
+5 1714 moveto 50 0.0 (+ Sweep3\(\)) alignedtext
+5 1703 moveto 90 0.0 (+ AttackMethods\(\)) alignedtext
+5 1692 moveto 114 0.0 (+ NewAttackMethods\(\)) alignedtext
+5 1681 moveto 101 0.0 (+ DurationMethods\(\)) alignedtext
+5 1670 moveto 125 0.0 (+ NewDurationMethods\(\)) alignedtext
+5 1659 moveto 51 0.0 (+ Attacks\(\)) alignedtext
+5 1648 moveto 51 0.0 (+ Attacks\(\)) alignedtext
+5 1637 moveto 71 0.0 (+ PointsProbs\(\)) alignedtext
+5 1626 moveto 71 0.0 (+ PointsProbs\(\)) alignedtext
+5 1615 moveto 78 0.0 (+ GoldenMean\(\)) alignedtext
+5 1604 moveto 45 0.0 (+ Stimes\(\)) alignedtext
+5 1593 moveto 62 0.0 (+ Durations\(\)) alignedtext
+5 1582 moveto 79 0.0 (+ TimeConvert\(\)) alignedtext
+5 1571 moveto 95 0.0 (+ SelectNextEvent\(\)) alignedtext
+5 1560 moveto 68 0.0 (+ Parameters\(\)) alignedtext
+5 1549 moveto 119 0.0 (+ setStartDurationType\(\)) alignedtext
+5 1538 moveto 71 0.0 (+ Continuum\(\)) alignedtext
+5 1527 moveto 90 0.0 (+ TestNameType\(\)) alignedtext
+5 1516 moveto 87 0.0 (+ CreateMatrices\(\)) alignedtext
+5 1505 moveto 112 0.0 (+ NewCreateMatrices\(\)) alignedtext
+5 1494 moveto 91 0.0 (+ ObjCoordinates\(\)) alignedtext
+5 1483 moveto 65 0.0 (+ buildScore\(\)) alignedtext
+5 1472 moveto 77 0.0 (+ Adjustments\(\)) alignedtext
+5 1461 moveto 56 0.0 (+ FindDur\(\)) alignedtext
+5 1450 moveto 55 0.0 (+ FindLen\(\)) alignedtext
+5 1439 moveto 38 0.0 (+ Print\(\)) alignedtext
+5 1428 moveto 63 0.0 (+ buildNote\(\)) alignedtext
+5 1417 moveto 85 0.0 (+ getCheckPoint\(\)) alignedtext
+5 1406 moveto 88 0.0 (+ getBottomFreq\(\)) alignedtext
+5 1395 moveto 86 0.0 (+ setBottomFreq\(\)) alignedtext
+5 1384 moveto 92 0.0 (+ getBottomLoud\(\)) alignedtext
+5 1373 moveto 90 0.0 (+ setBottomLoud\(\)) alignedtext
+5 1362 moveto 122 0.0 (+ getSoundNumPartials\(\)) alignedtext
+5 1351 moveto 120 0.0 (+ setSoundNumPartials\(\)) alignedtext
+5 1340 moveto 107 0.0 (+ getSoundDeviation\(\)) alignedtext
+5 1329 moveto 106 0.0 (+ setSoundDeviation\(\)) alignedtext
+5 1318 moveto 105 0.0 (+ getSoundPartEnvs\(\)) alignedtext
+5 1307 moveto 103 0.0 (+ setSoundPartEnvs\(\)) alignedtext
+5 1296 moveto 108 0.0 (+ getSoundModifiers\(\)) alignedtext
+5 1285 moveto 106 0.0 (+ setSoundModifiers\(\)) alignedtext
+5 1274 moveto 130 0.0 (+ getSoundReverberation\(\)) alignedtext
+5 1263 moveto 128 0.0 (+ setSoundReverberation\(\)) alignedtext
+5 1252 moveto 125 0.0 (+ getSoundSpatialization\(\)) alignedtext
+5 1241 moveto 123 0.0 (+ setSoundSpatialization\(\)) alignedtext
+5 1230 moveto 102 0.0 (+ getNotePitchClass\(\)) alignedtext
+5 1219 moveto 100 0.0 (+ setNotePitchClass\(\)) alignedtext
+5 1208 moveto 126 0.0 (+ getNoteDynamicMark\(\)) alignedtext
+5 1197 moveto 125 0.0 (+ setNoteDynamicMark\(\)) alignedtext
+5 1186 moveto 101 0.0 (+ getNoteModifiers\(\)) alignedtext
+5 1175 moveto 99 0.0 (+ setNoteModifiers\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node1 -> Node0
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 75 1162 moveto
+75 1153 75 1145 75 1136 curveto
+stroke
+newpath 78 1162 moveto
+75 1172 lineto
+73 1162 lineto
+closepath
+fill
+end grestore
+endpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+end
+restore
+%%EOF

@@ -1,0 +1,102 @@
+\hypertarget{classLoudness_1_1CriticalBand}{
+\section{Loudness::Critical\-Band Class Reference}
+\label{classLoudness_1_1CriticalBand}\index{Loudness::CriticalBand@{Loudness::CriticalBand}}
+}
+Collaboration diagram for Loudness::Critical\-Band:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{classLoudness_1_1CriticalBand__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classLoudness_1_1CriticalBand_a0}{Critical\-Band} (int ID)
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classLoudness_1_1CriticalBand_a1}{get\-Band\-Gamma} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} max\-Amp)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+int \hyperlink{classLoudness_1_1CriticalBand_o0}{ID\_\-}
+\item 
+vector$<$ \hyperlink{classLoudness_1_1PartialSnapshot}{Partial\-Snapshot} $>$ \hyperlink{classLoudness_1_1CriticalBand_o1}{partials\_\-}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This is a class to hold a critical band. \begin{Desc}
+\item[Author:]Braden Kowitz \end{Desc}
+
+
+
+
+Definition at line 130 of file Loudness.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLoudness_1_1CriticalBand_a0}{
+\index{Loudness::CriticalBand@{Loudness::Critical\-Band}!CriticalBand@{CriticalBand}}
+\index{CriticalBand@{CriticalBand}!Loudness::CriticalBand@{Loudness::Critical\-Band}}
+\subsubsection[CriticalBand]{\setlength{\rightskip}{0pt plus 5cm}Loudness::Critical\-Band::Critical\-Band (int {\em ID})}}
+\label{classLoudness_1_1CriticalBand_a0}
+
+
+This is a constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ID}]Which critical band \end{description}
+\end{Desc}
+
+
+Definition at line 194 of file Loudness.cpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{classLoudness_1_1CriticalBand_a1}{
+\index{Loudness::CriticalBand@{Loudness::Critical\-Band}!getBandGamma@{getBandGamma}}
+\index{getBandGamma@{getBandGamma}!Loudness::CriticalBand@{Loudness::Critical\-Band}}
+\subsubsection[getBandGamma]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} Loudness::Critical\-Band::get\-Band\-Gamma (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em max\-Amp})}}
+\label{classLoudness_1_1CriticalBand_a1}
+
+
+This function gets the gamma for the band \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em max\-Amp}]A cap on the amplitude \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The band gamma \end{Desc}
+
+
+Definition at line 199 of file Loudness.cpp.
+
+References ID\_\-, m\_\-value\_\-type, and partials\_\-.
+
+\subsection{Member Data Documentation}
+\hypertarget{classLoudness_1_1CriticalBand_o0}{
+\index{Loudness::CriticalBand@{Loudness::Critical\-Band}!ID_@{ID\_\-}}
+\index{ID_@{ID\_\-}!Loudness::CriticalBand@{Loudness::Critical\-Band}}
+\subsubsection[ID\_\-]{\setlength{\rightskip}{0pt plus 5cm}int \hyperlink{classLoudness_1_1CriticalBand_o0}{Loudness::Critical\-Band::ID\_\-}}}
+\label{classLoudness_1_1CriticalBand_o0}
+
+
+An identifier for the critical band $\ast$ 
+
+Definition at line 134 of file Loudness.h.
+
+Referenced by get\-Band\-Gamma().\hypertarget{classLoudness_1_1CriticalBand_o1}{
+\index{Loudness::CriticalBand@{Loudness::Critical\-Band}!partials_@{partials\_\-}}
+\index{partials_@{partials\_\-}!Loudness::CriticalBand@{Loudness::Critical\-Band}}
+\subsubsection[partials\_\-]{\setlength{\rightskip}{0pt plus 5cm}vector$<$\hyperlink{classLoudness_1_1PartialSnapshot}{Partial\-Snapshot}$>$ \hyperlink{classLoudness_1_1CriticalBand_o1}{Loudness::Critical\-Band::partials\_\-}}}
+\label{classLoudness_1_1CriticalBand_o1}
+
+
+A vector to hold partial snapshots $\ast$ 
+
+Definition at line 136 of file Loudness.h.
+
+Referenced by get\-Band\-Gamma().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Loudness_8h}{Loudness.h}\item 
+\hyperlink{Loudness_8cpp}{Loudness.cpp}\end{CompactItemize}

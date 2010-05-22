@@ -1,0 +1,16 @@
+
+/* NOTE:::: only "SOUND" is allowed right now (not "PARTIAL", which requires a change to LASS) */
+
+
+/*   STEREO  ----- 1 list, NumberofPartials long    */
+spatialization = <"STEREO", "SOUND", <EnvLib(1,0.90)>>;
+
+
+/*  MULTI_PAN --- number of items in outer list = NumberofChannels, items in inner lists = NumberofPartials */
+/*spatialization = <"MULTI_PAN", "SOUND", < <EnvLib(7,0.90)>, <EnvLib(12,0.40)> > >;*/
+
+
+/*  POLAR  --- 2 lists, number of partials long (THETA & RADIUS),             */
+/*             AND an int indicating the number of times to sample those envs */
+/*spatialization = <"POLAR", "SOUND", <EnvLib(7, 0.5)>, <EnvLib(4,1.0)> >;*/
+

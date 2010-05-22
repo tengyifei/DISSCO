@@ -1,0 +1,13 @@
+CMOD, a module for composition, written in C++, is a "floating hierarchy"
+that creates certain objects which could be themselves collections of
+objects.  It consists of classes dealing with various aspects of a 
+composition and a number of utilities.  CMOD takes also advantage of 
+LASS features such as the Envelope class.  When used in conjunction with 
+LASS, the output consists of computer-generated sounds.  Other options
+are contemplated but not developed yet: scores for acoustic instruments
+or voices, visual objects, or a combination of all three options.
+
+CMOD reads data describing each type of object from text files that are
+created by the user according to the needs of each particular project.
+
+CMOD is still being tested in its present form. 

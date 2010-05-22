@@ -1,0 +1,33 @@
+				Inverse Function
+
+How to design a function correlating probabilities (segments on the x axis)
+with values on a continuum (e.g. attacks in time) given another probability
+function defining the chance of such values (e.g. discrete time values) to 
+be selected.  Useful when more than one x of the original function can have
+the same y value.
+
+	1. take original function
+	2. find the average values between probability values (Y axis)
+	3. normalize - divide each probability by the sum
+	4. plot the new weights on the x axis of a new function adding each
+	   of them to the preceding ones.
+	5. plot the original function's x values on the new function's y
+	6. map each new function x to the corresponding new y
+
+Example:
+			Original function		Inverse function
+		  x	  y	       average	  %   	   x  	    y
+		0.00 	0.00				  0.00	  0.00
+					0.50	0.25
+		0.20	1.00				  0.25	  0.20
+					0.50	0.25
+		0.35	0.00				  0.50	  0.35
+					0.02	0.01
+		0.60	0.02				  0.51	  0.60
+					0.48	0.24
+		0.70	1.00				  0.75	  0.70
+					0.50	0.25
+		0.85	0.00				  1.00	  0.85
+					0.00	0.00
+		1.00	0.00 		____
+					2.00

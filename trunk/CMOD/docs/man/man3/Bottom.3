@@ -1,0 +1,724 @@
+.TH "Bottom" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Bottom \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <bottom.h>\fP
+.PP
+Inherits \fBEvent\fP.
+.PP
+Inherited by \fBNote\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBottom\fP ()"
+.br
+.ti -1c
+.RI "\fBBottom\fP (float astartTime, float aDuration, int aType, char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBBottom\fP (const  \fBBottom\fP &origBottom)"
+.br
+.ti -1c
+.RI "\fB~Bottom\fP ()"
+.br
+.ti -1c
+.RI "\fBBottom\fP & \fBoperator=\fP (const  \fBBottom\fP &origBottom)"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetName\fP (char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBsetStartTime\fP (float aStartTime)"
+.br
+.ti -1c
+.RI "virtual void \fBsetDuration\fP (float aDuration)"
+.br
+.ti -1c
+.RI "void \fBsetDensity\fP (double aDensity)"
+.br
+.ti -1c
+.RI "void \fBsetNumPartials\fP (int aNumPartials)"
+.br
+.ti -1c
+.RI "void \fBCreateNewObjects\fP ()"
+.br
+.ti -1c
+.RI "void \fBImplement\fP ()"
+.br
+.ti -1c
+.RI "void \fBbuildSound\fP (Score *\fBscore\fP)"
+.br
+.ti -1c
+.RI "float \fBAssignFreq\fP (double \fBcheckPoint\fP)"
+.br
+.ti -1c
+.RI "int \fBNumPart\fP (float freq)"
+.br
+.ti -1c
+.RI "int \fBSpectrum\fP (Sound *s, float freq)"
+.br
+.ti -1c
+.RI "void \fBCreatePartials\fP (Sound *s, int numPartials)"
+.br
+.ti -1c
+.RI "void \fBSetFrequency\fP (Sound *s, float deviation, float baseFreq, int numPartials)"
+.br
+.ti -1c
+.RI "void \fBOneStep\fP (Sound *s, double \fBcheckPoint\fP, int numPartials)"
+.br
+.ti -1c
+.RI "void \fBThreeStep\fP (Sound *s, double \fBcheckPoint\fP, int numPartials)"
+.br
+.ti -1c
+.RI "void \fBRules\fP (int numPartials, float ampScale[])"
+.br
+.ti -1c
+.RI "float \fBLoud\fP (Sound *s, double \fBcheckPoint\fP)"
+.br
+.ti -1c
+.RI "void \fBModifiers\fP (Sound *s, int numPartials, double \fBcheckPoint\fP)"
+.br
+.ti -1c
+.RI "void \fBChooseSoundDynParam\fP (Sound *s, const  char *modifier, Envelope *env)"
+.br
+.ti -1c
+.RI "void \fBChoosePartialDynParam\fP (Sound *s, const  char *modifier, Envelope *env, int i)"
+.br
+.ti -1c
+.RI "void \fBSpatialization\fP (Sound *s, double \fBcheckPoint\fP)"
+.br
+.ti -1c
+.RI "void \fBSpatialization\fP (Sound *s, double \fBcheckPoint\fP, string method, Envelope *chance, Envelope *pan)"
+.br
+.ti -1c
+.RI "void \fBReverberation\fP (Sound *s, double \fBcheckPoint\fP)"
+.br
+.ti -1c
+.RI "void \fBReverberation\fP (Sound *s, double \fBcheckPoint\fP, string method, Envelope *chance, float roomSize)"
+.br
+.ti -1c
+.RI "void \fBPrint\fP ()"
+.br
+.ti -1c
+.RI "void \fBPrintSound\fP (int numPartials, float freq, float sones)"
+.br
+.ti -1c
+.RI "virtual void \fBbuildNote\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_newObjectMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_slope\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_freqMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_freqMethod2\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_absRange\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_patFile\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_fundamental\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_soundMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_envMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_ampMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_rule\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_randFlag\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_ampScale\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_factor\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_attenuation\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_modifier\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_select\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_spatMethod\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_reverbMethod\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBbottomName\fP"
+.br
+.ti -1c
+.RI "float \fBbottomStartTime\fP"
+.br
+.ti -1c
+.RI "float \fBbottomDuration\fP"
+.br
+.ti -1c
+.RI "int \fBbottomType\fP"
+.br
+.ti -1c
+.RI "int \fBbottomNumPartials\fP"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBbottomDensity\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+This class is used to store and manage the details of a bottom event. Definition at line 50 of file bottom.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Bottom::Bottom ()\fC [inline]\fP"
+.PP
+Definition at line 63 of file bottom.h.
+.SS "Bottom::Bottom (float astartTime, float aDuration, int aType, char * aName)"
+.PP
+This is a constructor. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIastartTime\fP The start time of the event 
+.br
+\fIaDuration\fP The duration of the event 
+.br
+\fIaType\fP The type of the event 
+.br
+\fIaName\fP A name for the event 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+A Bottom object 
+.RE
+.PP
+Definition at line 39 of file bottom.cpp.
+.PP
+References Event::aName, bottomID, bottomType, setDensity(), setDuration(), setName(), and setStartTime().
+.SS "Bottom::Bottom (const \fBBottom\fP & origBottom)"
+.PP
+This is the copy constructor. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIorigBottom\fP The Bottom to copy 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+A copy of origBottom 
+.RE
+.PP
+Definition at line 56 of file bottom.cpp.
+.PP
+References bottomID.
+.SS "Bottom::~\fBBottom\fP ()"
+.PP
+This is the destructor. Definition at line 65 of file bottom.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "float Bottom::AssignFreq (double checkPoint)"
+.PP
+This function contains three methods to determine the frequency: FUNDAMENTAL: assumes that each frequency is an 'overtone' of a common fundamental, the total duration of the piece WELL_TEMPERED: produces frequencies corresponding to the well-temperate tuning with C0=16.35Hz, the lowest possible frequency CONTINUUM: uses a distribution within a give range
+.PP
+FUNDAMENTAL and WELL_TEMPERED also use a second method selected from: SIEVE: uses a given sieve SEQUENCE: reproduces an ordered sequence of values. The location in the array (offset) can be determined by either the type or the number of the object. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcheckPoint\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the frequency determined 
+.RE
+.PP
+
+.SS "void Bottom::buildNote ()\fC [virtual]\fP"
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 1046 of file bottom.cpp.
+.PP
+References Note::Activate(), Event::barLen, bottomStartTime, Event::buildNote(), Event::checkPoint, Event::durSec, Event::newObj, Event::note_dynamicMark, Event::note_modifiers, Event::note_pitchClass, Note::Print(), Event::stimeSec, Event::type, and Event::uPerSec.
+.SS "void Bottom::buildSound (Score * score)"
+.PP
+buildSound. Creates Sound(s) for the event and its children and adds the Sound(s) to the Score. Definition at line 889 of file bottom.cpp.
+.PP
+References CEILING, Event::checkPoint, ChoosePartialDynParam(), ChooseSoundDynParam(), Event::durSec, FileValue::Evaluate(), FileValue::getList(), FileValue::getListPtr(), MINFREQ, Random::Rand(), Reverberation(), score, Event::sound_reverberation, Event::sound_spatialization, Spatialization(), and Event::stimeSec.
+.PP
+Referenced by Event::BuildSubEvents().
+.SS "void Bottom::ChoosePartialDynParam (Sound * s, const char * modifier, Envelope * env, int i)"
+.PP
+FUNCTION: choosepartialdynparam INPUTS: Pointer to a sound Pointer to a const char containing the modifier information Pointer to an envelope Integer i representing the ith partial of a sound s
+.PP
+DESCRIPTION: This function sets the partial parameter specified in the modifier variable to what is contained in the envelope for a given partial of a sound s. Definition at line 672 of file bottom.cpp.
+.PP
+Referenced by buildSound(), and Modifiers().
+.SS "void Bottom::ChooseSoundDynParam (Sound * s, const char * modifier, Envelope * env)"
+.PP
+FUNCTION: choosesounddynparam INPUTS: Pointer to a sound Pointer to a const char containing the modifier information Pointer to an envelope
+.PP
+DESCRIPTION: This function sets the partial parameter specified in the modifier variable to what is contained in the envelope for a given sound s. Definition at line 622 of file bottom.cpp.
+.PP
+References Event::checkPoint.
+.PP
+Referenced by buildSound(), and Modifiers().
+.SS "void Bottom::clear ()\fC [virtual]\fP"
+.PP
+This function clears values of the Bottom object and to clear dynamic memory. Reimplemented from \fBEvent\fP.
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 78 of file bottom.cpp.
+.PP
+References bottom_absRange, bottom_ampMethod, bottom_ampScale, bottom_attenuation, bottom_envMethod, bottom_factor, bottom_freqMethod, bottom_freqMethod2, bottom_fundamental, bottom_modifier, bottom_newObjectMethod, bottom_patFile, bottom_randFlag, bottom_reverbMethod, bottom_rule, bottom_select, bottom_slope, bottom_soundMethod, bottom_spatMethod, Event::durArray, Event::layerDens, Event::maxTypes, Event::nameType, Event::objsInLayer, Event::probDurArray, Event::probSieveArray, Event::remainObjs, Event::starTarray, Event::TestNameType(), Event::theName, and Event::typesInLayer.
+.SS "void Bottom::CreateNewObjects ()"
+.PP
+This function uses a variety of methods to create new objects for the Bottom event. Reimplemented from \fBEvent\fP.
+.SS "void Bottom::CreatePartials (Sound * s, int numPartials)"
+.PP
+This function employs the LASS Partial class constructor and setParam function. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fInumPartials\fP The number of partials 
+.RE
+.PP
+Definition at line 265 of file bottom.cpp.
+.PP
+Referenced by Spectrum().
+.SS "void Bottom::Implement ()"
+.PP
+This function chooses to implement a sound, a note, or a visual according to the type of output and the file used. 
+.SS "float Bottom::Loud (Sound * s, double checkPoint)"
+.PP
+This function calculates the loudness of the given sound. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fIcheckPoint\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The loudness of the sound 
+.RE
+.PP
+Definition at line 493 of file bottom.cpp.
+.PP
+References Event::bottom_loudness, FileValue::Evaluate(), and FileValue::getNumber().
+.SS "void Bottom::Modifiers (Sound * s, int numPartials, double checkPoint)"
+.PP
+THIS FUNCTION NEEDS TO BE CONVERTED TO THE NEW CODE FUNCTION: modifiers INPUT: a pointer to a sound an integer containing the number of partials a double checkpoint
+.PP
+DESCRIPTION: Definition at line 524 of file bottom.cpp.
+.PP
+References bottom_modifier, bottom_select, Chance(), ChoosePartialDynParam(), ChooseSoundDynParam(), EnvelopeBuilder(), envlib, FileValue::getListPtr(), FileValue::getString(), and ReadComputeInt().
+.SS "int Bottom::NumPart (float freq)"
+.PP
+This function determines how many partials a sound has by receiving the number of partials and then checking if any partial has a frequency higher than CEILING and discards those who have. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfreq\fP 
+.br
+\fInumPartials\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of partials a sound has 
+.RE
+.PP
+Definition at line 201 of file bottom.cpp.
+.PP
+References CEILING, FileValue::getNumber(), sever, and Event::sound_numPartials.
+.PP
+Referenced by Spectrum().
+.SS "void Bottom::OneStep (Sound * s, double checkPoint, int numPartials)"
+.PP
+This function chooses an envelope for each partial and assigns it. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fIcheckPoint\fP 
+.br
+\fInumPartials\fP The number of partials 
+.br
+\fIsoundFile\fP 
+.RE
+.PP
+Definition at line 330 of file bottom.cpp.
+.PP
+References ChooseOffset(), EnvelopeBuilder(), Event::newObj, and Event::type.
+.PP
+Referenced by Spectrum().
+.SS "\fBBottom\fP& Bottom::operator= (const \fBBottom\fP & origBottom)"
+.PP
+This is an operator overload to define '=' as a call to the copy constructor. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIorigBottom\fP The Bottom to copy 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+A copy of origBottom 
+.RE
+.PP
+
+.SS "void Bottom::Print ()\fC [virtual]\fP"
+.PP
+FUNCTION: public: print
+.PP
+DESCRIPTION: Prints bottom id, name, start time and duration to outputfile Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 848 of file bottom.cpp.
+.PP
+References bottomID, outputFile, Event::theDuration, Event::theName, Event::theStartTime, and Event::uPerSec.
+.PP
+Referenced by Note::Activate().
+.SS "void Bottom::PrintSound (int numPartials, float freq, float sones)"
+.PP
+FUNCTION: printsound INPUT: Integer containing the number of partials Float containing the freq value Float containing the sones value
+.PP
+DESCRIPTION: Prints the sound id, start time, duration, type, freq, and sones of a sound Definition at line 871 of file bottom.cpp.
+.PP
+References Event::durSec, Event::objID, outputFile, Event::stimeSec, and Event::type.
+.SS "void Bottom::Reverberation (Sound * s, double checkPoint, string method, Envelope * chance, float roomSize)"
+.PP
+THIS FUNCTION IS OLD AND NEEDS TO BE UPDATED TO THE NEW CODE FUNCTION: reverberation INPUT: Pointer to a sound Double checkpoint String contain 'room_size', 'custom', or 'single_partial' Pointer to an envelope Float roomsize
+.PP
+DESCRIPTION: Uses chance function and method to randomly create the reverberation for a sound Definition at line 779 of file bottom.cpp.
+.PP
+References bottom_reverbMethod, Chance(), and FileValue::getString().
+.SS "void Bottom::Reverberation (Sound * s, double checkPoint)"
+.PP
+Referenced by buildSound().
+.SS "void Bottom::Rules (int numPartials, float ampScale[])"
+.PP
+NOT DEFINED YET 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInumPartials\fP The number of partials 
+.br
+\fIampScale\fP 
+.RE
+.PP
+Definition at line 439 of file bottom.cpp.
+.PP
+References bottom_ampScale, bottom_attenuation, bottom_factor, bottom_randFlag, bottom_rule, Exponential(), FileValue::getNumber(), FileValue::getString(), Random::Rand(), Random::RAND_SIGN, and sever.
+.PP
+Referenced by ThreeStep().
+.SS "void Bottom::setDensity (double aDensity)\fC [virtual]\fP"
+.PP
+This function sets the density of the Bottom event. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaDensity\fP The amount to set the density to 
+.RE
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 175 of file bottom.cpp.
+.PP
+References bottomDensity.
+.PP
+Referenced by Bottom().
+.SS "void Bottom::setDuration (float aDuration)\fC [virtual]\fP"
+.PP
+This function sets the duration of the Bottom event. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaDuration\fP The amount to set the duration to 
+.RE
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 166 of file bottom.cpp.
+.PP
+References bottomDuration.
+.PP
+Referenced by Bottom().
+.SS "void Bottom::SetFrequency (Sound * s, float deviation, float baseFreq, int numPartials)"
+.PP
+This function assigns a frequency to each partial according to baseFreq and the deviation (which is randomly selected as positive or negative). Individual frequencies are checked against the MINFREQ and CEILING (see \fBdefine.h\fP) and set (applied to the sound object) with setParam (LASS). 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fIdeviation\fP The deviation 
+.br
+\fIbaseFreq\fP The base frequency 
+.br
+\fInumPartials\fP The number of partials 
+.RE
+.PP
+Definition at line 291 of file bottom.cpp.
+.PP
+References CEILING, MINFREQ, and Random::Rand().
+.PP
+Referenced by Spectrum().
+.SS "void Bottom::setName (char * aName)\fC [virtual]\fP"
+.PP
+This function sets the name of the Bottom event. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaName\fP The name to set the bottom event to 
+.RE
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 142 of file bottom.cpp.
+.PP
+References bottomName.
+.PP
+Referenced by Bottom().
+.SS "void Bottom::setNumPartials (int aNumPartials)"
+.PP
+This function sets the number of partials of the Bottom \fBEvent\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaNumPartials\fP The numbers of partials 
+.RE
+.PP
+
+.SS "void Bottom::setStartTime (float aStartTime)\fC [virtual]\fP"
+.PP
+This function sets the start time of the Bottom event. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaStartTime\fP The time to set the start time to 
+.RE
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 157 of file bottom.cpp.
+.PP
+References bottomStartTime.
+.PP
+Referenced by Bottom().
+.SS "void Bottom::Spatialization (Sound * s, double checkPoint, string method, Envelope * chance, Envelope * pan)"
+.PP
+NOTE: multi_pan is unfinished. Think function is in process of being updated? FUNCTION: spatialization INPUT: Pointer to a sound Double checkpoint String containing the method Pointer to an envelope for chance Pointer to an envelope for pan
+.PP
+DESCRIPTION: Sets the spatialization of a sound according to method and random chance Definition at line 727 of file bottom.cpp.
+.PP
+References Chance(), Event::numObjs, and sever.
+.SS "void Bottom::Spatialization (Sound * s, double checkPoint)"
+.PP
+Referenced by buildSound().
+.SS "int Bottom::Spectrum (Sound * s, float freq)"
+.PP
+NOT YET DEFINED 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fIfreq\fP 
+.RE
+.PP
+Definition at line 230 of file bottom.cpp.
+.PP
+References bottom_soundMethod, Event::checkPoint, CreatePartials(), FileValue::getNumber(), FileValue::getString(), NumPart(), OneStep(), SetFrequency(), sever, Event::sound_deviation, and ThreeStep().
+.SS "void Bottom::ThreeStep (Sound * s, double checkPoint, int numPartials)"
+.PP
+NOT DEFINED YET 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A sound 
+.br
+\fIcheckPoint\fP 
+.br
+\fInumPartials\fP The number of partials 
+.RE
+.PP
+Definition at line 362 of file bottom.cpp.
+.PP
+References bottom_absRange, bottom_ampMethod, bottom_ampScale, bottom_envMethod, envlib, FileValue::getList(), FileValue::getNumber(), FileValue::getString(), Rules(), Sequence(), sever, and ValuePick().
+.PP
+Referenced by Spectrum().
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBFileValue\fP* \fBBottom::bottom_absRange\fP"
+.PP
+Definition at line 302 of file bottom.h.
+.PP
+Referenced by clear(), and ThreeStep().
+.SS "\fBFileValue\fP* \fBBottom::bottom_ampMethod\fP"
+.PP
+Definition at line 307 of file bottom.h.
+.PP
+Referenced by clear(), and ThreeStep().
+.SS "\fBFileValue\fP* \fBBottom::bottom_ampScale\fP"
+.PP
+Definition at line 310 of file bottom.h.
+.PP
+Referenced by clear(), Rules(), and ThreeStep().
+.SS "\fBFileValue\fP* \fBBottom::bottom_attenuation\fP"
+.PP
+Definition at line 312 of file bottom.h.
+.PP
+Referenced by clear(), and Rules().
+.SS "\fBFileValue\fP* \fBBottom::bottom_envMethod\fP"
+.PP
+Definition at line 306 of file bottom.h.
+.PP
+Referenced by clear(), and ThreeStep().
+.SS "\fBFileValue\fP* \fBBottom::bottom_factor\fP"
+.PP
+Definition at line 311 of file bottom.h.
+.PP
+Referenced by clear(), and Rules().
+.SS "\fBFileValue\fP* \fBBottom::bottom_freqMethod\fP"
+.PP
+Definition at line 300 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_freqMethod2\fP"
+.PP
+Definition at line 301 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_fundamental\fP"
+.PP
+Definition at line 304 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_modifier\fP"
+.PP
+Definition at line 313 of file bottom.h.
+.PP
+Referenced by clear(), and Modifiers().
+.SS "\fBFileValue\fP* \fBBottom::bottom_newObjectMethod\fP"
+.PP
+Definition at line 298 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_patFile\fP"
+.PP
+Definition at line 303 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_randFlag\fP"
+.PP
+Definition at line 309 of file bottom.h.
+.PP
+Referenced by clear(), and Rules().
+.SS "\fBFileValue\fP* \fBBottom::bottom_reverbMethod\fP"
+.PP
+Definition at line 316 of file bottom.h.
+.PP
+Referenced by clear(), and Reverberation().
+.SS "\fBFileValue\fP* \fBBottom::bottom_rule\fP"
+.PP
+Definition at line 308 of file bottom.h.
+.PP
+Referenced by clear(), and Rules().
+.SS "\fBFileValue\fP* \fBBottom::bottom_select\fP"
+.PP
+Definition at line 314 of file bottom.h.
+.PP
+Referenced by clear(), and Modifiers().
+.SS "\fBFileValue\fP* \fBBottom::bottom_slope\fP"
+.PP
+Definition at line 299 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "\fBFileValue\fP* \fBBottom::bottom_soundMethod\fP"
+.PP
+Definition at line 305 of file bottom.h.
+.PP
+Referenced by clear(), and Spectrum().
+.SS "\fBFileValue\fP* \fBBottom::bottom_spatMethod\fP"
+.PP
+Definition at line 315 of file bottom.h.
+.PP
+Referenced by clear().
+.SS "double \fBBottom::bottomDensity\fP\fC [private]\fP"
+.PP
+This is a double to hold the density Definition at line 56 of file bottom.h.
+.PP
+Referenced by setDensity().
+.SS "float \fBBottom::bottomDuration\fP\fC [protected]\fP"
+.PP
+Definition at line 336 of file bottom.h.
+.PP
+Referenced by setDuration().
+.SS "char* \fBBottom::bottomName\fP\fC [protected]\fP"
+.PP
+Definition at line 326 of file bottom.h.
+.PP
+Referenced by setName().
+.SS "int \fBBottom::bottomNumPartials\fP\fC [protected]\fP"
+.PP
+Definition at line 346 of file bottom.h.
+.SS "float \fBBottom::bottomStartTime\fP\fC [protected]\fP"
+.PP
+Definition at line 331 of file bottom.h.
+.PP
+Referenced by buildNote(), and setStartTime().
+.SS "int \fBBottom::bottomType\fP\fC [protected]\fP"
+.PP
+Definition at line 341 of file bottom.h.
+.PP
+Referenced by Bottom().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

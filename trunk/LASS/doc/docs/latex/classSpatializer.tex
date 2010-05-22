@@ -1,0 +1,89 @@
+\hypertarget{classSpatializer}{
+\section{Spatializer Class Reference}
+\label{classSpatializer}\index{Spatializer@{Spatializer}}
+}
+{\tt \#include $<$Spatializer.h$>$}
+
+Inheritance diagram for Spatializer:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=120pt]{classSpatializer__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+virtual \hyperlink{classMultiTrack}{Multi\-Track} $\ast$ \hyperlink{classSpatializer_a0}{spatialize} (\hyperlink{classTrack}{Track} \&t, int num\-Tracks)
+\item 
+virtual \hyperlink{classSpatializer}{Spatializer} $\ast$ \hyperlink{classSpatializer_a1}{clone} ()
+\item 
+virtual void \hyperlink{classSpatializer_a2}{xml\_\-print} (ofstream \&xml\-Output)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+A Spatializer is a definition of an object that will spatalize (move around in space; this is a generalization of panning) a single sound over multiple channels. The default action of this spatializer will evenly distribute the sound over the requested number of channels. Each Spatializer must be dynamic enough to allow spatialization to a number of different channels specified at run-time. \begin{Desc}
+\item[Author:]Braden Kowitz \end{Desc}
+
+
+
+
+Definition at line 48 of file Spatializer.h.
+
+\subsection{Member Function Documentation}
+\hypertarget{classSpatializer_a1}{
+\index{Spatializer@{Spatializer}!clone@{clone}}
+\index{clone@{clone}!Spatializer@{Spatializer}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classSpatializer}{Spatializer} $\ast$ Spatializer::clone ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classSpatializer_a1}
+
+
+This function creates an exact duplicate of this Spatializer. 
+
+Reimplemented in \hyperlink{classMultiPan_a3}{Multi\-Pan}, and \hyperlink{classPan_a1}{Pan}.
+
+Definition at line 61 of file Spatializer.cpp.
+
+Referenced by Sound::set\-Spatializer().\hypertarget{classSpatializer_a0}{
+\index{Spatializer@{Spatializer}!spatialize@{spatialize}}
+\index{spatialize@{spatialize}!Spatializer@{Spatializer}}
+\subsubsection[spatialize]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ Spatializer::spatialize (\hyperlink{classTrack}{Track} \& {\em t}, int {\em num\-Tracks})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classSpatializer_a0}
+
+
+This will take a single \hyperlink{classTrack}{Track} object, and spatialize it to a \hyperlink{classMultiTrack}{Multi\-Track} object with num\-Tracks tracks. The default behevior is to average the sound evenly accross all tracks. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t}]The \hyperlink{classTrack}{Track} to spatialize \item[{\em num\-Tracks}]The number of Tracks to create \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a \hyperlink{classMultiTrack}{Multi\-Track} \end{Desc}
+
+
+Reimplemented in \hyperlink{classMultiPan_a6}{Multi\-Pan}, and \hyperlink{classPan_a3}{Pan}.
+
+Definition at line 37 of file Spatializer.cpp.
+
+References Collection$<$ Track $\ast$ $>$::add(), and Track::scale().
+
+Referenced by Sound::render().\hypertarget{classSpatializer_a2}{
+\index{Spatializer@{Spatializer}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Spatializer@{Spatializer}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Spatializer::xml\_\-print (ofstream \& {\em xml\-Output})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classSpatializer_a2}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000035}{Deprecated}]\end{Desc}
+
+
+Reimplemented in \hyperlink{classMultiPan_a7}{Multi\-Pan}, and \hyperlink{classPan_a4}{Pan}.
+
+Definition at line 66 of file Spatializer.cpp.
+
+Referenced by Sound::xml\_\-print().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Spatializer_8h}{Spatializer.h}\item 
+\hyperlink{Spatializer_8cpp}{Spatializer.cpp}\end{CompactItemize}

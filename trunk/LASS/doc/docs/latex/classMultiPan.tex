@@ -1,0 +1,293 @@
+\hypertarget{classMultiPan}{
+\section{Multi\-Pan Class Reference}
+\label{classMultiPan}\index{MultiPan@{MultiPan}}
+}
+{\tt \#include $<$Multi\-Pan.h$>$}
+
+Inheritance diagram for Multi\-Pan:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=74pt]{classMultiPan__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Multi\-Pan:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classMultiPan__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classMultiPan_a0}{Multi\-Pan} (int n\-Chans)
+\item 
+\hyperlink{classMultiPan_a1}{Multi\-Pan} (int n\-Chans, vector$<$ \hyperlink{classEnvelope}{Envelope} $\ast$ $>$ \&List)
+\item 
+\hyperlink{classMultiPan_a2}{$\sim$Multi\-Pan} ()
+\item 
+\hyperlink{classMultiPan}{Multi\-Pan} $\ast$ \hyperlink{classMultiPan_a3}{clone} ()
+\item 
+void \hyperlink{classMultiPan_a4}{add\-Entry} (float t,...)
+\item 
+void \hyperlink{classMultiPan_a5}{add\-Entry\-Location} (float t, float theta, float radius)
+\item 
+\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ \hyperlink{classMultiPan_a6}{spatialize} (\hyperlink{classTrack}{Track} \&t, int num\-Tracks)
+\item 
+void \hyperlink{classMultiPan_a7}{xml\_\-print} (ofstream \&xml\-Output)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{classMultiPan_d0}{add\-Entry\-Helper\-Fn} (int env\-Idx, float t, float amp)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{classMultiPan_r0}{use\-Env\-Directly}
+\item 
+vector$<$ \hyperlink{classEnvelope}{Envelope} $\ast$ $>$ \hyperlink{classMultiPan_r1}{Env\-List}
+\item 
+vector$<$ \hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ $\ast$ $>$ \hyperlink{classMultiPan_r2}{xy\-Collections\-List}
+\item 
+vector$<$ \hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ $\ast$ $>$ \hyperlink{classMultiPan_r3}{seg\-Collections\-List}
+\item 
+vector$<$ int $>$ \hyperlink{classMultiPan_r4}{n\-Points}
+\item 
+int \hyperlink{classMultiPan_r5}{n\_\-channels}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Multi\-Pan is a \hyperlink{classSpatializer}{Spatializer}. It is to be used instead of \hyperlink{classPan}{Pan} when you need to spatialize a sound over more than 2 speakers. To spatialize the sound over time you call add\-Entry or add\-Entry\-Location one or more times and give a timestamp for each call. \begin{Desc}
+\item[Author:]Jim Lindstrom \end{Desc}
+
+
+
+
+Definition at line 48 of file Multi\-Pan.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classMultiPan_a0}{
+\index{MultiPan@{Multi\-Pan}!MultiPan@{MultiPan}}
+\index{MultiPan@{MultiPan}!MultiPan@{Multi\-Pan}}
+\subsubsection[MultiPan]{\setlength{\rightskip}{0pt plus 5cm}Multi\-Pan::Multi\-Pan (int {\em n\-Chans})}}
+\label{classMultiPan_a0}
+
+
+This is a constructor. To use this constructor, you must call add\-Entry or add\-Entry\-Location one or more times to set the spatialization data. Use the other constructor if you want to instead pass in a list of Interpolators (one per channel).
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em n\-Chans}]The number of channels (speakers) to pan across \end{description}
+\end{Desc}
+
+
+Definition at line 49 of file Multi\-Pan.cpp.
+
+References Env\-List, n\_\-channels, seg\-Collections\-List, use\-Env\-Directly, and xy\-Collections\-List.
+
+Referenced by clone().\hypertarget{classMultiPan_a1}{
+\index{MultiPan@{Multi\-Pan}!MultiPan@{MultiPan}}
+\index{MultiPan@{MultiPan}!MultiPan@{Multi\-Pan}}
+\subsubsection[MultiPan]{\setlength{\rightskip}{0pt plus 5cm}Multi\-Pan::Multi\-Pan (int {\em n\-Chans}, vector$<$ \hyperlink{classEnvelope}{Envelope} $\ast$ $>$ \& {\em List})}}
+\label{classMultiPan_a1}
+
+
+This is a constructor. To use this constructor, pass in a list of envs (one per channel). If you want to call add\-Entry or add\-Entry\-Location to set the spatialization data, use the other constructor.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em n\-Chans}]The number of channels (speakers) to pan across \item[{\em List}]A vector of envs (n\-Chan number of envs, to be precise). Each env will control the percent that the corresponding speaker will respond to input sound. \end{description}
+\end{Desc}
+
+
+Definition at line 77 of file Multi\-Pan.cpp.
+
+References clone(), Env\-List, n\_\-channels, and use\-Env\-Directly.\hypertarget{classMultiPan_a2}{
+\index{MultiPan@{Multi\-Pan}!~MultiPan@{$\sim$MultiPan}}
+\index{~MultiPan@{$\sim$MultiPan}!MultiPan@{Multi\-Pan}}
+\subsubsection[$\sim$MultiPan]{\setlength{\rightskip}{0pt plus 5cm}Multi\-Pan::$\sim$\hyperlink{classMultiPan}{Multi\-Pan} ()}}
+\label{classMultiPan_a2}
+
+
+This is the destructor. 
+
+Definition at line 90 of file Multi\-Pan.cpp.
+
+References Env\-List, seg\-Collections\-List, and xy\-Collections\-List.
+
+\subsection{Member Function Documentation}
+\hypertarget{classMultiPan_a4}{
+\index{MultiPan@{Multi\-Pan}!addEntry@{addEntry}}
+\index{addEntry@{addEntry}!MultiPan@{Multi\-Pan}}
+\subsubsection[addEntry]{\setlength{\rightskip}{0pt plus 5cm}void Multi\-Pan::add\-Entry (float {\em t}, ...)}}
+\label{classMultiPan_a4}
+
+
+Add another spatialization point to the dynamic variables (using the parameters as ratios of speaker volumes). Pass in the time value, t, and a list of numbers (0.0 to 1.0 for each) that gives each speaker's response (as a percentage) to a given sound.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t}]The time stamp (as a percent of total sound length, from 0.0 to 1.0) \end{description}
+\end{Desc}
+
+
+Definition at line 145 of file Multi\-Pan.cpp.
+
+References add\-Entry\-Helper\-Fn(), n\_\-channels, and use\-Env\-Directly.\hypertarget{classMultiPan_d0}{
+\index{MultiPan@{Multi\-Pan}!addEntryHelperFn@{addEntryHelperFn}}
+\index{addEntryHelperFn@{addEntryHelperFn}!MultiPan@{Multi\-Pan}}
+\subsubsection[addEntryHelperFn]{\setlength{\rightskip}{0pt plus 5cm}void Multi\-Pan::add\-Entry\-Helper\-Fn (int {\em env\-Idx}, float {\em t}, float {\em amp})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_d0}
+
+
+This is a helper function used by add\-Entry and add\-Entry\-Location to add a point to an env. 
+
+Definition at line 321 of file Multi\-Pan.cpp.
+
+References Env\-List, FIXED, envelope\_\-segment::inter\-Type, envelope\_\-segment::length\-Type, LINEAR, seg\-Collections\-List, envelope\_\-segment::time\-Value, xy\_\-point::x, xy\-Collections\-List, and xy\_\-point::y.
+
+Referenced by add\-Entry(), and add\-Entry\-Location().\hypertarget{classMultiPan_a5}{
+\index{MultiPan@{Multi\-Pan}!addEntryLocation@{addEntryLocation}}
+\index{addEntryLocation@{addEntryLocation}!MultiPan@{Multi\-Pan}}
+\subsubsection[addEntryLocation]{\setlength{\rightskip}{0pt plus 5cm}void Multi\-Pan::add\-Entry\-Location (float {\em t}, float {\em theta}, float {\em radius})}}
+\label{classMultiPan_a5}
+
+
+Add another spatialization point to the dynamic variables using the parameters as a location within a circular array of speakers. The value theta=0 means straight ahead, positive thetas to the left, negatives to the right. The radius ranges from 0 to 1.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t}]The time stamp (as a percent of total sound length, from 0.0 to 1.0) \item[{\em theta}]The rotation angle (in radians) where the sound will appear to originate from. An angle of zero is directly in front of you. Positive angles rotate to your left, with positive pi (3.14...) being directly behind you. Negative angles rotate to your left and negative pi (-3.14) is another name for the angle directly behind you. For reference, pi/2 is straight left and -pi/2 is straight right. To use pi, math.h defines the constant for you as 'M\_\-PI'. For instance, you could use 'M\_\-PI/2' to refer to the angle at your left. \item[{\em radius}]The distance from which the sound will appear to originate from. These should range from 0.0 to 1.0. \end{description}
+\end{Desc}
+
+
+Definition at line 190 of file Multi\-Pan.cpp.
+
+References add\-Entry\-Helper\-Fn(), n\_\-channels, and use\-Env\-Directly.\hypertarget{classMultiPan_a3}{
+\index{MultiPan@{Multi\-Pan}!clone@{clone}}
+\index{clone@{clone}!MultiPan@{Multi\-Pan}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiPan}{Multi\-Pan} $\ast$ Multi\-Pan::clone ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classMultiPan_a3}
+
+
+This returns an exact duplicate of this Multi\-Pan object. \begin{Desc}
+\item[Returns:]An exact copy of this Multi\-Pan object, with its own env \end{Desc}
+
+
+Reimplemented from \hyperlink{classSpatializer_a1}{Spatializer}.
+
+Definition at line 127 of file Multi\-Pan.cpp.
+
+References Env\-List, Multi\-Pan(), and n\_\-channels.
+
+Referenced by Multi\-Pan().\hypertarget{classMultiPan_a6}{
+\index{MultiPan@{Multi\-Pan}!spatialize@{spatialize}}
+\index{spatialize@{spatialize}!MultiPan@{Multi\-Pan}}
+\subsubsection[spatialize]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ Multi\-Pan::spatialize (\hyperlink{classTrack}{Track} \& {\em t}, int {\em num\-Tracks})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classMultiPan_a6}
+
+
+This spatializes a track and returns a new \hyperlink{classMultiTrack}{Multi\-Track} object with num\-Tracks. The track will be panned accross the channels by the passed in \hyperlink{classDynamicVariable}{Dynamic\-Variable}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t}]A track to spatialize \item[{\em num\-Tracks}]The number of tracks to spatialize to. (This is redundant, but is kept for similarity of interface with the regular pan object. Multi\-Pan already knows because you have to pass in n\-Chans in the constructor) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the track, spatialized to 'num\-Tracks' number of tracks \end{Desc}
+
+
+Reimplemented from \hyperlink{classSpatializer_a0}{Spatializer}.
+
+Definition at line 273 of file Multi\-Pan.cpp.
+
+References Env\-List, Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Sound\-Sample::get\-Sample\-Count(), Sound\-Sample::get\-Sampling\-Rate(), Track::get\-Wave(), m\_\-rate\_\-type, m\_\-sample\_\-count\_\-type, m\_\-value\_\-type, n\_\-channels, and Iterator$<$ T $>$::next().\hypertarget{classMultiPan_a7}{
+\index{MultiPan@{Multi\-Pan}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!MultiPan@{Multi\-Pan}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Multi\-Pan::xml\_\-print (ofstream \& {\em xml\-Output})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classMultiPan_a7}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000022}{Deprecated}]\end{Desc}
+
+
+Reimplemented from \hyperlink{classSpatializer_a2}{Spatializer}.
+
+Definition at line 344 of file Multi\-Pan.cpp.
+
+\subsection{Member Data Documentation}
+\hypertarget{classMultiPan_r1}{
+\index{MultiPan@{Multi\-Pan}!EnvList@{EnvList}}
+\index{EnvList@{EnvList}!MultiPan@{Multi\-Pan}}
+\subsubsection[EnvList]{\setlength{\rightskip}{0pt plus 5cm}vector$<$\hyperlink{classEnvelope}{Envelope}$\ast$$>$ \hyperlink{classMultiPan_r1}{Multi\-Pan::Env\-List}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r1}
+
+
+
+
+Definition at line 152 of file Multi\-Pan.h.
+
+Referenced by add\-Entry\-Helper\-Fn(), clone(), Multi\-Pan(), spatialize(), and $\sim$Multi\-Pan().\hypertarget{classMultiPan_r5}{
+\index{MultiPan@{Multi\-Pan}!n_channels@{n\_\-channels}}
+\index{n_channels@{n\_\-channels}!MultiPan@{Multi\-Pan}}
+\subsubsection[n\_\-channels]{\setlength{\rightskip}{0pt plus 5cm}int \hyperlink{classMultiPan_r5}{Multi\-Pan::n\_\-channels}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r5}
+
+
+
+
+Definition at line 156 of file Multi\-Pan.h.
+
+Referenced by add\-Entry(), add\-Entry\-Location(), clone(), Multi\-Pan(), and spatialize().\hypertarget{classMultiPan_r4}{
+\index{MultiPan@{Multi\-Pan}!nPoints@{nPoints}}
+\index{nPoints@{nPoints}!MultiPan@{Multi\-Pan}}
+\subsubsection[nPoints]{\setlength{\rightskip}{0pt plus 5cm}vector$<$int$>$ \hyperlink{classMultiPan_r4}{Multi\-Pan::n\-Points}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r4}
+
+
+
+
+Definition at line 155 of file Multi\-Pan.h.\hypertarget{classMultiPan_r3}{
+\index{MultiPan@{Multi\-Pan}!segCollectionsList@{segCollectionsList}}
+\index{segCollectionsList@{segCollectionsList}!MultiPan@{Multi\-Pan}}
+\subsubsection[segCollectionsList]{\setlength{\rightskip}{0pt plus 5cm}vector$<$\hyperlink{classCollection}{Collection}$<$\hyperlink{structenvelope__segment}{envelope\_\-segment}$>$$\ast$$>$ \hyperlink{classMultiPan_r3}{Multi\-Pan::seg\-Collections\-List}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r3}
+
+
+
+
+Definition at line 154 of file Multi\-Pan.h.
+
+Referenced by add\-Entry\-Helper\-Fn(), Multi\-Pan(), and $\sim$Multi\-Pan().\hypertarget{classMultiPan_r0}{
+\index{MultiPan@{Multi\-Pan}!useEnvDirectly@{useEnvDirectly}}
+\index{useEnvDirectly@{useEnvDirectly}!MultiPan@{Multi\-Pan}}
+\subsubsection[useEnvDirectly]{\setlength{\rightskip}{0pt plus 5cm}bool \hyperlink{classMultiPan_r0}{Multi\-Pan::use\-Env\-Directly}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r0}
+
+
+
+
+Definition at line 151 of file Multi\-Pan.h.
+
+Referenced by add\-Entry(), add\-Entry\-Location(), and Multi\-Pan().\hypertarget{classMultiPan_r2}{
+\index{MultiPan@{Multi\-Pan}!xyCollectionsList@{xyCollectionsList}}
+\index{xyCollectionsList@{xyCollectionsList}!MultiPan@{Multi\-Pan}}
+\subsubsection[xyCollectionsList]{\setlength{\rightskip}{0pt plus 5cm}vector$<$\hyperlink{classCollection}{Collection}$<$\hyperlink{structxy__point}{xy\_\-point}$>$$\ast$$>$ \hyperlink{classMultiPan_r2}{Multi\-Pan::xy\-Collections\-List}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classMultiPan_r2}
+
+
+
+
+Definition at line 153 of file Multi\-Pan.h.
+
+Referenced by add\-Entry\-Helper\-Fn(), Multi\-Pan(), and $\sim$Multi\-Pan().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{MultiPan_8h}{Multi\-Pan.h}\item 
+\hyperlink{MultiPan_8cpp}{Multi\-Pan.cpp}\end{CompactItemize}

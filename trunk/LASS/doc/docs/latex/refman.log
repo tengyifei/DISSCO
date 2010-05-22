@@ -1,0 +1,7840 @@
+This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdflatex 2003.8.8)  25 APR 2005 13:19
+**refman.tex
+(./refman.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/book.cls
+Document Class: book 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/bk10.clo
+File: bk10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf/tex/latex/fancyhdr/fancyhdr.sty
+\headwidth=\dimen103
+)
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2001/08/31 v1.1 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/pdftex.def
+File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf/tex/latex/tools/multicol.sty
+Package: multicol 2000/07/10 v1.5z multicolumn formatting (FMi)
+\c@tracingmulticols=\count89
+\mult@box=\box26
+\multicol@leftmargin=\dimen106
+\c@unbalance=\count90
+\c@collectmore=\count91
+\doublecol@number=\count92
+\multicoltolerance=\count93
+\multicolpretolerance=\count94
+\full@width=\dimen107
+\page@free=\dimen108
+\premulticols=\dimen109
+\postmulticols=\dimen110
+\multicolsep=\skip43
+\multicolbaselineskip=\skip44
+\partial@page=\box27
+\last@line=\box28
+\mult@rightbox=\box29
+\mult@grightbox=\box30
+\mult@gfirstbox=\box31
+\mult@firstbox=\box32
+\@tempa=\box33
+\@tempa=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\c@columnbadness=\count95
+\c@finalcolumnbadness=\count96
+\last@try=\dimen111
+\multicolovershoot=\dimen112
+\multicolundershoot=\dimen113
+\mult@nat@firstbox=\box50
+\colbreak@box=\box51
+)
+(/usr/share/texmf/tex/latex/misc/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count97
+\float@exts=\toks15
+\float@box=\box52
+\@float@everytoks=\toks16
+\@floatcapt=\box53
+)
+(/usr/share/texmf/tex/latex/base/textcomp.sty
+Package: textcomp 2001/06/05 v1.94 Standard LaTeX package
+
+(/usr/share/texmf/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+))
+(/usr/share/texmf/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+(/usr/share/texmf/tex/latex/psnfss/times.sty
+Package: times 2002/09/08 PSNFSS-v9.0a (SPQR) 
+)
+(/usr/share/texmf/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2003/01/22 v6.73n Hypertext links for LaTeX
+\@linkdim=\dimen114
+\Hy@linkcounter=\count98
+\Hy@pagecounter=\count99
+
+(/usr/share/texmf/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2003/01/22 v6.73n Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive and teTeX
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 1744.
+Package hyperref Info: Hyper figures OFF on input line 1792.
+Package hyperref Info: Link nesting OFF on input line 1797.
+Package hyperref Info: Hyper index ON on input line 1800.
+Package hyperref Info: Plain pages ON on input line 1805.
+Package hyperref Info: Backreferencing ON on input line 1810.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 1916.
+(/usr/share/texmf/tex/latex/hyperref/backref.sty
+Package: backref 2002/06/09 v1.20 Bibliographical back referencing
+)
+(/usr/share/texmf/tex/latex/html/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
+)
+LaTeX Info: Redefining \url on input line 2055.
+\Fld@menulength=\count100
+\Field@Width=\dimen115
+\Fld@charsize=\dimen116
+\Choice@toks=\toks17
+\Field@toks=\toks18
+Package hyperref Info: Hyper figures OFF on input line 2513.
+Package hyperref Info: Link nesting OFF on input line 2518.
+Package hyperref Info: Hyper index ON on input line 2521.
+Package hyperref Info: backreferencing ON on input line 2526.
+Package hyperref Info: Link coloring ON on input line 2531.
+\c@Item=\count101
+\c@Hfootnote=\count102
+)
+*hyperref using driver hpdftex*
+(/usr/share/texmf/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2003/01/22 v6.73n Hyperref driver for pdfTeX
+
+(/usr/share/texmf/tex/latex/psnfss/pifont.sty
+Package: pifont 2002/09/08 PSNFSS-v9.0a Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 62.
+
+(/usr/share/texmf/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 63.
+
+(/usr/share/texmf/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+\Fld@listcount=\count103
+\@outlinefile=\write3
+) (./doxygen.sty
+Package: doxygen 
+
+(/usr/share/texmf/tex/latex/tools/calc.sty
+Package: calc 1998/07/07 v4.1b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count104
+\calc@Bcount=\count105
+\calc@Adimen=\dimen117
+\calc@Bdimen=\dimen118
+\calc@Askip=\skip45
+\calc@Bskip=\skip46
+LaTeX Info: Redefining \setlength on input line 59.
+LaTeX Info: Redefining \addtolength on input line 60.
+\calc@denominator=\count106
+)
+(/usr/share/texmf/tex/latex/tools/array.sty
+Package: array 1998/05/13 v2.3m Tabular extension package (FMi)
+\col@sep=\dimen119
+\extrarowheight=\dimen120
+\NC@list=\toks19
+\extratabsurround=\skip47
+\backup@length=\skip48
+)
+\tmplength=\skip49
+)
+(/usr/share/texmf/tex/latex/base/fontenc.sty
+Package: fontenc 2001/06/05 v1.94 Standard LaTeX package
+
+(/usr/share/texmf/tex/latex/base/t1enc.def
+File: t1enc.def 2001/06/05 v1.94 Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 38.
+))
+\@indexfile=\write4
+\openout4 = `refman.idx'.
+
+
+Writing index file refman.idx
+(./refman.aux (./classAllPassFilter.aux) (./classAuWriter.aux)
+(./classCollection.aux) (./classCollection_1_1CollectionIterator.aux)
+(./classConstant.aux) (./classConstant_1_1ConstantIterator.aux)
+(./classCubicSplineInterpolator.aux)
+(./classCubicSplineInterpolatorIterator.aux) (./classDynamicVariable.aux)
+(./classDynamicVariableSequence.aux)
+(./classDynamicVariableSequenceIterator.aux) (./structenv__seg.aux)
+(./classEnvelope.aux) (./structenvelope__segment.aux)
+(./classEnvelopeIterator.aux) (./classEnvelopeLibrary.aux)
+(./classExponentialInterpolator.aux)
+(./classExponentialInterpolatorIterator.aux) (./classFilter.aux)
+(./classFilter_1_1hist__queue.aux) (./classInterpolator.aux)
+(./classInterpolatorEntry.aux) (./classInterpolatorIterator.aux)
+(./classInterpolatorIterator_1_1Entry.aux) (./classIterator.aux)
+(./classLinearInterpolator.aux) (./classLinearInterpolatorIterator.aux)
+(./classLoudness.aux) (./classLoudness_1_1CriticalBand.aux)
+(./classLoudness_1_1PartialSnapshot.aux) (./classLowPassFilter.aux)
+(./classLPCombFilter.aux) (./classMultiPan.aux) (./classMultiTrack.aux)
+(./classPan.aux) (./classParameterLib.aux) (./classPartial.aux)
+(./classReverb.aux) (./classScore.aux) (./classSound.aux)
+(./classSoundSample.aux) (./classSpatializer.aux)
+(./structthreadlist__entry.aux) (./classTrack.aux) (./classXmlReader.aux)
+(./classXmlReader_1_1tagparam.aux) (./classXmlReader_1_1xmltag.aux)
+(./classXmlReader_1_1xmltagset.aux) (./structxy__point.aux)
+(./AllPassFilter_8cpp.aux) (./AllPassFilter_8h.aux) (./AuWriter_8cpp.aux)
+(./AuWriter_8h.aux) (./Collection_8cpp.aux) (./Collection_8h.aux)
+(./Constant_8cpp.aux) (./Constant_8h.aux) (./DynamicVariable_8cpp.aux)
+(./DynamicVariable_8h.aux) (./DynamicVariableSequence_8cpp.aux)
+(./DynamicVariableSequence_8h.aux) (./DynamicVariableSequenceIterator_8cpp.aux)
+(./DynamicVariableSequenceIterator_8h.aux) (./Envelope_8cpp.aux)
+(./Envelope_8h.aux) (./EnvelopeIterator_8cpp.aux) (./EnvelopeIterator_8h.aux)
+(./EnvelopeLibrary_8cpp.aux) (./EnvelopeLibrary_8h.aux) (./extra-docs_8txt.aux)
+(./Filter_8cpp.aux) (./Filter_8h.aux) (./Interpolator_8cpp.aux)
+(./Interpolator_8h.aux) (./InterpolatorIterator_8cpp.aux)
+(./InterpolatorIterator_8h.aux) (./InterpolatorTypes_8cpp.aux)
+(./InterpolatorTypes_8h.aux) (./Iterator_8h.aux) (./lib_8h.aux)
+(./Loudness_8cpp.aux) (./Loudness_8h.aux) (./LowPassFilter_8cpp.aux)
+(./LowPassFilter_8h.aux) (./LPCombFilter_8cpp.aux) (./LPCombFilter_8h.aux)
+(./MultiPan_8cpp.aux) (./MultiPan_8h.aux) (./MultiTrack_8cpp.aux)
+(./MultiTrack_8h.aux) (./Pan_8cpp.aux) (./Pan_8h.aux) (./ParameterLib_8cpp.aux)
+(./ParameterLib_8h.aux) (./Partial_8cpp.aux) (./Partial_8h.aux)
+(./Reverb_8cpp.aux) (./Reverb_8h.aux) (./Score_8cpp.aux) (./Score_8h.aux)
+(./Sound_8cpp.aux) (./Sound_8h.aux) (./SoundSample_8cpp.aux)
+(./SoundSample_8h.aux) (./Spatializer_8cpp.aux) (./Spatializer_8h.aux)
+(./Track_8cpp.aux) (./Track_8h.aux) (./Types_8h.aux) (./XmlReader_8cpp.aux)
+(./XmlReader_8h.aux) (./todo.aux))
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 28.
+ (/usr/share/texmf/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 28.
+
+(/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+(/usr/share/texmf/tex/context/base/supp-pdf.tex
+(/usr/share/texmf/tex/context/base/supp-mis.tex
+loading : Context Support Macros / Missing
+\protectiondepth=\count107
+\scratchcounter=\count108
+\scratchtoks=\toks20
+\scratchdimen=\dimen121
+\scratchskip=\skip50
+\scratchmuskip=\muskip10
+\scratchbox=\box54
+\scratchread=\read1
+\scratchwrite=\write5
+\zeropoint=\dimen122
+\minusone=\count109
+\thousandpoint=\dimen123
+\emptytoks=\toks21
+\nextbox=\box55
+\nextdepth=\dimen124
+\everyline=\toks22
+\!!counta=\count110
+\!!countb=\count111
+\recursecounter=\count112
+)
+loading : Context Support Macros / PDF
+\nofMPsegments=\count113
+\nofMParguments=\count114
+\everyMPtoPDFconversion=\toks23
+) (/usr/share/texmf/tex/latex/graphics/color.sty
+Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
+LaTeX Info: Redefining \color on input line 71.
+
+(/usr/share/texmf/tex/latex/config/color.cfg
+File: color.cfg 2001/08/31 v1.1 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 125.
+)
+Package hyperref Info: Link coloring ON on input line 28.
+
+(/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2001/01/27 v2.19 Cross-referencing by name of section
+\c@section@level=\count115
+)
+LaTeX Info: Redefining \ref on input line 28.
+LaTeX Info: Redefining \pageref on input line 28.
+ (./refman.out) (./refman.out)
+\openout3 = `refman.out'.
+
+[1
+
+
+{/usr/share/texmf/dvips/config/pdftex.map}] [2
+
+]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 41.
+ (./refman.toc
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+
+! pdfTeX warning (ext4): destination with the same identifier (name{page.1}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.53 ...Class Template Reference}{29}{section.8.4}
+                                                   [1
+
+]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.2}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.510 ...Track Class Reference}{189}{section.8.35}
+                                                  
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 510.
+ [2]
+Underfull \vbox (badness 1694) has occurred while \output is active []
+
+ [3]
+[4])
+\tf@toc=\write6
+\openout6 = `refman.toc'.
+
+ [5] [6
+
+]
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 44.
+(./index.tex
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 1.
+)
+! pdfTeX warning (ext4): destination with the same identifier (name{page.1}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.46 \chapter
+             {LASS Namespace Index} [1
+
+]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.2}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.46 \chapter
+             {LASS Namespace Index} [2
+
+]
+Chapter 2.
+(./namespaces.tex
+Underfull \hbox (badness 10000) detected at line 3
+[][]
+ []
+
+)
+! pdfTeX warning (ext4): destination with the same identifier (name{page.3}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.48 \chapter
+             {LASS Hierarchical Index} [3]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.4}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.48 \chapter
+             {LASS Hierarchical Index} [4
+
+]
+Chapter 3.
+(./hierarchy.tex
+Underfull \hbox (badness 10000) detected at line 3
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 5
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 7
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 9
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 10
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 11
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 12
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 14
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 15
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 16
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 20
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 36
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 38
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 40
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 42
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 44
+[][]
+ []
+
+! pdfTeX warning (ext4): destination with the same identifier (name{page.5}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.45 \item \contentsline
+                        {section}{Dynamic\-Variable\-Sequence}{\pageref{clas...
+[5]
+Underfull \hbox (badness 10000) detected at line 45
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 46
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 47
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 49
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 50
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 51
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 52
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 54
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 55
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 56
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 58
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 59
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 60
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 61
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 62
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 63
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 64
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 65
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 66
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 68
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 70
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 72
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 74
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 75
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 76
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 78
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 79
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 81
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 82
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 83
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 84
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 85
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 86
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 87
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 88
+[][]
+ []
+
+
+LaTeX Warning: Reference `classhash__map_3_01int_00_01DynamicVariable_01_5_01_4
+' on page 6 undefined on input line 88.
+
+
+Underfull \hbox (badness 10000) detected at line 89
+[][]
+ []
+
+
+LaTeX Warning: Reference `classhash__map_3_01int_00_01m__value__type_01_4' on p
+age 6 undefined on input line 89.
+
+
+Underfull \hbox (badness 10000) detected at line 90
+[][]
+ []
+
+
+LaTeX Warning: Reference `classvector_3_01InterpolatorEntry_01_4' on page 6 und
+efined on input line 90.
+
+
+Underfull \hbox (badness 10000) detected at line 91
+[][]
+ []
+
+
+LaTeX Warning: Reference `classvector_3_01Partial_01_4' on page 6 undefined on 
+input line 91.
+
+
+Underfull \hbox (badness 10000) detected at line 92
+[][]
+ []
+
+
+LaTeX Warning: Reference `classvector_3_01Sound_01_4' on page 6 undefined on in
+put line 92.
+
+
+Underfull \hbox (badness 10000) detected at line 93
+[][]
+ []
+
+
+LaTeX Warning: Reference `classvector_3_01Track_01_5_01_4' on page 6 undefined 
+on input line 93.
+
+)
+! pdfTeX warning (ext4): destination with the same identifier (name{page.6}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.50 \chapter
+             {LASS Class Index} [6]
+Chapter 4.
+(./annotated.tex
+Underfull \hbox (badness 10000) detected at line 3
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 4
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 5
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 6
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 7
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 8
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 9
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 10
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 11
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 12
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 13
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 14
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 15
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 16
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 18
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 20
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 22
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 24
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+[7
+
+]
+Underfull \hbox (badness 10000) detected at line 29
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 31
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 33
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 35
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 36
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 37
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 38
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 39
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 40
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 41
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 42
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 43
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 44
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 45
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 46
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 47
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 48
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 49
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 50
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 51
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 52
+[][]
+ []
+
+) [8]
+Chapter 5.
+(./files.tex
+Underfull \hbox (badness 10000) detected at line 3
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 4
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 5
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 6
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 7
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 8
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 9
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 10
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 11
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 12
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 13
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 14
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 15
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 16
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 18
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 20
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 22
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 24
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+[9
+
+]
+Underfull \hbox (badness 10000) detected at line 29
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 31
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 33
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 35
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 36
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 37
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 38
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 39
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 40
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 41
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 42
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 43
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 44
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 45
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 46
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 47
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 48
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 49
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 50
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 51
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 52
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 53
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 54
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 55
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 56
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 57
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 58
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 59
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 60
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 61
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 62
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 63
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 64
+[][]
+ []
+
+) [10]
+Chapter 6.
+(./pages.tex
+Underfull \hbox (badness 10000) detected at line 3
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 5
+[][]
+ []
+
+) [11
+
+] [12
+
+]
+Chapter 7.
+(./namespacestd.tex) [13] [14
+
+]
+Chapter 8.
+(./classAbstractIterator.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 5.
+(/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+<classAbstractIterator__inherit__graph.pdf, id=1170, 624.3325pt x 421.575pt>
+File: classAbstractIterator__inherit__graph.pdf Graphic file (type pdf)
+
+<use classAbstractIterator__inherit__graph.pdf>
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 13.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 16.
+
+(/usr/share/texmf/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15 <./classAbstractIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
+
+ []
+
+
+Underfull \hbox (badness 1852) in paragraph at lines 61--64
+[]/ptmr8t/Implemented in [][]Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t
+/::Collection-Iterator[][], [][]Constant::Constant-Iterator[][],
+ []
+
+
+Underfull \hbox (badness 4193) in paragraph at lines 61--64
+[][]/ptmr8t/Dynamic-Variable-Sequence-Iterator[][], [][]Envelope-Iterator[][], 
+[][]Interpolator-Iterator[][], [][]Linear-
+ []
+
+
+Underfull \hbox (badness 3078) in paragraph at lines 61--64
+/ptmr8t/Interpolator-Iterator[][], [][]Exponential-Interpolator-Iterator[][], a
+nd [][]Cubic-Spline-Interpolator-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+
+ []
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 71.
+[16]
+Underfull \hbox (badness 1852) in paragraph at lines 75--78
+[]/ptmr8t/Implemented in [][]Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t
+/::Collection-Iterator[][], [][]Constant::Constant-Iterator[][],
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--83
+
+ []
+
+
+Underfull \hbox (badness 1852) in paragraph at lines 86--87
+[]/ptmr8t/Implemented in [][]Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t
+/::Collection-Iterator[][], [][]Constant::Constant-Iterator[][],
+ []
+
+
+Underfull \hbox (badness 4193) in paragraph at lines 86--87
+[][]/ptmr8t/Dynamic-Variable-Sequence-Iterator[][], [][]Envelope-Iterator[][], 
+[][]Interpolator-Iterator[][], [][]Linear-
+ []
+
+
+Underfull \hbox (badness 3078) in paragraph at lines 86--87
+/ptmr8t/Interpolator-Iterator[][], [][]Exponential-Interpolator-Iterator[][], a
+nd [][]Cubic-Spline-Interpolator-
+ []
+
+) [17]
+\openout2 = `classAllPassFilter.aux'.
+
+ (./classAllPassFilter.tex
+<classAllPassFilter__inherit__graph.pdf, id=1269, 142.5325pt x 323.2075pt>
+File: classAllPassFilter__inherit__graph.pdf Graphic file (type pdf)
+
+<use classAllPassFilter__inherit__graph.pdf>
+<classAllPassFilter__coll__graph.pdf, id=1270, 642.4pt x 700.6175pt>
+File: classAllPassFilter__coll__graph.pdf Graphic file (type pdf)
+
+<use classAllPassFilter__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18
+
+ <./classAllPassFilter__inherit__graph.pdf>] [19 <./classAllPassFilter__coll__g
+raph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 61--61
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 120--120
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--125
+
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 132--133
+[]/ptmr8t/References Filter::hist_-queue$/cmmi10/<$ /ptmr8t/m_-sample_-type $/c
+mmi10/>$/ptmr8t/::dequeue(), Filter::hist_-queue$/cmmi10/<$
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--195
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--213
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--215
+
+ []
+
+[22] [23]) [24]
+\openout2 = `classAuWriter.aux'.
+
+ (./classAuWriter.tex
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+
+ []
+
+[25
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 66--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 73--73
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--94
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--110
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
+
+ []
+
+) [27] [28]
+\openout2 = `classCollection.aux'.
+
+ (./classCollection.tex
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+<classCollection__inherit__graph.pdf, id=1462, 1496.59125pt x 447.6725pt>
+File: classCollection__inherit__graph.pdf Graphic file (type pdf)
+
+<use classCollection__inherit__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 9--11
+ [] 
+ []
+
+<classCollection__coll__graph.pdf, id=1463, 94.3525pt x 305.14pt>
+File: classCollection__coll__graph.pdf Graphic file (type pdf)
+
+<use classCollection__coll__graph.pdf> [29
+
+
+ <./classCollection__inherit__graph.pdf> <./classCollection__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 61--61
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--86
+
+ []
+
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--116
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--121
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--137
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--139
+
+ []
+
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 170--170
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--180
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--195
+
+ []
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--235
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 240--240
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 245--245
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--258
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--263
+
+ []
+
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 283--283
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 290--293
+[]/ptmr8t/Referenced by Envelope::Define-Shape(), Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 1043) in paragraph at lines 290--293
+/ptmr8t/Iterator::Dynamic-Variable-Sequence-Iterator(), En-ve-lope::Envelope(),
+ and Envelope-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 298--298
+
+ []
+
+
+Underfull \hbox (badness 1902) in paragraph at lines 317--318
+/ptmr8t/Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::set(), Collection$
+/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::size(), and Collection$/cmmi10/<$ /pt
+mr8t/T $/cmmi10/>$/ptmr8t/::sort-
+ []
+
+[34]) [35]
+\openout2 = `classCollection_1_1CollectionIterator.aux'.
+
+ (./classCollection_1_1CollectionIterator.tex
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+<classCollection_1_1CollectionIterator__inherit__graph.pdf, id=1589, 170.6375pt
+ x 222.8325pt>
+File: classCollection_1_1CollectionIterator__inherit__graph.pdf Graphic file (t
+ype pdf)
+ <use classCollection_1_1CollectionIterator__inherit__graph.pdf>
+<classCollection_1_1CollectionIterator__coll__graph.pdf, id=1590, 187.70125pt x
+ 248.93pt>
+File: classCollection_1_1CollectionIterator__coll__graph.pdf Graphic file (type
+ pdf)
+ <use classCollection_1_1CollectionIterator__coll__graph.pdf>
+[36
+
+
+ <./classCollection_1_1CollectionIterator__inherit__graph.pdf> <./classCollecti
+on_1_1CollectionIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--84
+
+ []
+
+[37]
+Underfull \hbox (badness 10000) in paragraph at lines 93--96
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::Colle
+ction-Iterator::end_-, and Collection$/cmmi10/<$ /ptmr8t/T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 101--101
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 124--127
+[]/ptmr8t/Referenced by Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::Co
+llection-Iterator::clone(), and Collection$/cmmi10/<$ /ptmr8t/T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+[]/ptmr8t/Referenced by Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::Co
+llection-Iterator::clone(), Collection$/cmmi10/<$ /ptmr8t/T
+ []
+
+[38]) [39]
+\openout2 = `classConstant.aux'.
+
+ (./classConstant.tex
+<classConstant__inherit__graph.pdf, id=1662, 134.5025pt x 399.4925pt>
+File: classConstant__inherit__graph.pdf Graphic file (type pdf)
+
+<use classConstant__inherit__graph.pdf>
+<classConstant__coll__graph.pdf, id=1663, 253.94875pt x 513.92pt>
+File: classConstant__coll__graph.pdf Graphic file (type pdf)
+
+<use classConstant__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [40
+
+
+ <./classConstant__inherit__graph.pdf>] [41 <./classConstant__coll__graph.pdf>]
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--83
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 98--98
+
+ []
+
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 177--177
+
+ []
+
+[43]
+Underfull \hbox (badness 2245) in paragraph at lines 184--187
+[]/ptmr8t/References Dynamic-Variable::get-Duration(), Dynamic-Variable::get-Sa
+mpling-Rate(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--192
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 205--205
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+[]/ptmr8t/References Xml-Reader::xmltag::find-Child-Param-Value(), Dynamic-Vari
+able::set-
+ []
+
+[44]) [45]
+\openout2 = `classConstant_1_1ConstantIterator.aux'.
+
+ (./classConstant_1_1ConstantIterator.tex
+<classConstant_1_1ConstantIterator__inherit__graph.pdf, id=1787, 185.69376pt x 
+355.3275pt>
+File: classConstant_1_1ConstantIterator__inherit__graph.pdf Graphic file (type 
+pdf)
+ <use classConstant_1_1ConstantIterator__inherit__graph.pdf>
+<classConstant_1_1ConstantIterator__coll__graph.pdf, id=1788, 419.5675pt x 369.
+38pt>
+File: classConstant_1_1ConstantIterator__coll__graph.pdf Graphic file (type pdf
+)
+ <use classConstant_1_1ConstantIterator__coll__graph.pdf>
+Underfull \vbox (badness 3449) has occurred while \output is active []
+
+ [46
+
+
+ <./classConstant_1_1ConstantIterator__inherit__graph.pdf> <./classConstant_1_1
+ConstantIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--72
+
+ []
+
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 85--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
+
+ []
+
+) [48]
+\openout2 = `classCubicSplineInterpolator.aux'.
+
+ (./classCubicSplineInterpolator.tex
+<classCubicSplineInterpolator__inherit__graph.pdf, id=1859, 344.28625pt x 758.8
+35pt>
+File: classCubicSplineInterpolator__inherit__graph.pdf Graphic file (type pdf)
+ <use classCubicSplineInterpolator__inherit__graph.pdf>
+<classCubicSplineInterpolator__coll__graph.pdf, id=1860, 512.91624pt x 758.835p
+t>
+File: classCubicSplineInterpolator__coll__graph.pdf Graphic file (type pdf)
+ <use classCubicSplineInterpolator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [49
+
+
+ <./classCubicSplineInterpolator__inherit__graph.pdf>]
+Underfull \vbox (badness 2253) has occurred while \output is active []
+
+ [50 <./classCubicSplineInterpolator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+
+ []
+
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 96--96
+
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 103--104
+[]/ptmr8t/References Interpolator-Iterator::append(), Collection$/cmmi10/<$ /pt
+mr8t/Interpolator-Entry $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 103--104
+/cmmi10/>$/ptmr8t/::has-Next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entr
+y $/cmmi10/>$/ptmr8t/::iterator(), m_-sample_-count_-type,
+ []
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 103--104
+/ptmr8t/m_-time_-type, m_-value_-type, Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>
+$/ptmr8t/::next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 103--104
+/ptmr8t/Entry $/cmmi10/>$/ptmr8t/::size(), Collection$/cmmi10/<$ /ptmr8t/Interp
+olator-Entry $/cmmi10/>$/ptmr8t/::sort-Collection(), Interpolator-
+ []
+
+) [52]
+\openout2 = `classCubicSplineInterpolatorIterator.aux'.
+
+ (./classCubicSplineInterpolatorIterator.tex
+<classCubicSplineInterpolatorIterator__inherit__graph.pdf, id=1925, 186.6975pt 
+x 525.965pt>
+File: classCubicSplineInterpolatorIterator__inherit__graph.pdf Graphic file (ty
+pe pdf)
+ <use classCubicSplineInterpolatorIterator__inherit__graph.pdf>
+<classCubicSplineInterpolatorIterator__coll__graph.pdf, id=1926, 520.94624pt x 
+574.145pt>
+File: classCubicSplineInterpolatorIterator__coll__graph.pdf Graphic file (type 
+pdf)
+ <use classCubicSplineInterpolatorIterator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [53
+
+
+ <./classCubicSplineInterpolatorIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+[54 <./classCubicSplineInterpolatorIterator__coll__graph.pdf>]
+Underfull \vbox (badness 1442) has occurred while \output is active []
+
+ [55])
+[56]
+\openout2 = `classDynamicVariable.aux'.
+
+ (./classDynamicVariable.tex
+<classDynamicVariable__inherit__graph.pdf, id=2007, 574.145pt x 720.6925pt>
+File: classDynamicVariable__inherit__graph.pdf Graphic file (type pdf)
+
+<use classDynamicVariable__inherit__graph.pdf>
+<classDynamicVariable__coll__graph.pdf, id=2008, 190.7125pt x 317.185pt>
+File: classDynamicVariable__coll__graph.pdf Graphic file (type pdf)
+
+<use classDynamicVariable__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [57
+
+
+ <./classDynamicVariable__inherit__graph.pdf>] [58 <./classDynamicVariable__col
+l__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 64--64
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--112
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
+
+ []
+
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 119--119
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
+[]/ptmr8t/References CUBIC_-SPLINE, EX-PO-NEN-TIAL, Xml-Reader::xmltag::find-Ch
+ild-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
+/ptmr8t/Param-Value(), LIN-EAR, Interpolator::xml_-read(), Envelope::xml_-read(
+), and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+[]/ptmr8t/Referenced by Cubic-Spline-Interpolator::value-Iterator(), Exponentia
+l-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+/ptmr8t/Interpolator::value-Iterator(), Linear-Interpolator::value-Iterator(), 
+Envelope::value-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+/ptmr8t/Iterator(), Dynamic-Variable-Sequence::value-Iterator(), Interpolator::
+xml_-print(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--149
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+
+ []
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 177--177
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--187
+[]/ptmr8t/Referenced by Cubic-Spline-Interpolator::value-Iterator(), Exponentia
+l-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--187
+/ptmr8t/Interpolator::value-Iterator(), Linear-Interpolator::value-Iterator(), 
+Envelope::value-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--187
+/ptmr8t/Iterator(), Dynamic-Variable-Sequence::value-Iterator(), Interpolator::
+xml_-print(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--192
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 206--206
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
+[]/ptmr8t/Referenced by Envelope::add-Interpolators(), Dynamic-Variable-Sequenc
+e::add-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
+/ptmr8t/Interpolators(), Loud-ness::calculate(), Envelope::get-Value(), Dynamic
+-Variable-
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 216--219
+/ptmr8t/Sequence::get-Value(), Par-tial::render(), Pan::spatialize(), Interpola
+tor::xml_-read(),
+ []
+
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 224--224
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 234--237
+[]/ptmr8t/Referenced by Envelope::add-Interpolators(), Dynamic-Variable-Sequenc
+e::add-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 234--237
+/ptmr8t/Interpolators(), Loud-ness::calculate(), Envelope::get-Value(), Dynamic
+-Variable-
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 234--237
+/ptmr8t/Sequence::get-Value(), Par-tial::render(), Pan::spatialize(), Interpola
+tor::xml_-read(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 255--255
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 266--266
+
+ []
+
+[62]) [63]
+\openout2 = `classDynamicVariableSequence.aux'.
+
+ (./classDynamicVariableSequence.tex
+<classDynamicVariableSequence__inherit__graph.pdf, id=2195, 170.6375pt x 720.69
+25pt>
+File: classDynamicVariableSequence__inherit__graph.pdf Graphic file (type pdf)
+ <use classDynamicVariableSequence__inherit__graph.pdf>
+<classDynamicVariableSequence__coll__graph.pdf, id=2196, 1056.94875pt x 835.12p
+t>
+File: classDynamicVariableSequence__coll__graph.pdf Graphic file (type pdf)
+ <use classDynamicVariableSequence__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+[64
+
+
+ <./classDynamicVariableSequence__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+[65 <./classDynamicVariableSequence__coll__graph.pdf>] [66]
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+
+ []
+
+[67]
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
+[]/ptmr8t/References current-Interpolator-Rate_-, generated-Segment-Times_-, in
+terpolators_-,
+ []
+
+
+Underfull \hbox (badness 2707) in paragraph at lines 174--177
+[]/ptmr8t/References current-Interpolator-Rate_-, generated-Segment-Times_-, ge
+t-Points(), get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 182--182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--193
+[]/ptmr8t/References current-Interpolator-Rate_-, Define-Shape(), generated-Seg
+ment-Times_-,
+ []
+
+
+Underfull \hbox (badness 2027) in paragraph at lines 201--202
+[]/ptmr8t/References generated-Segment-Times_-, interpolators_-, Collection$/cm
+mi10/<$ /ptmr8t/In-ter-po-la-tor $/cmsy10/^^C$
+ []
+
+[68]
+Underfull \hbox (badness 10000) in paragraph at lines 212--212
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 230--230
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 246--246
+
+ []
+
+[69]
+Underfull \hbox (badness 10000) in paragraph at lines 262--262
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--276
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 292--292
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--297
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 313--313
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 318--318
+
+ []
+
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 334--334
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 349--349
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--365
+
+ []
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 373--374
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/m_-time_-type $/cmmi10/>$/pt
+mr8t/::add(), FIXED, FLEX-I-BLE, generated-
+ []
+
+
+Underfull \hbox (badness 7273) in paragraph at lines 373--374
+/ptmr8t/Segment-Times_-, Collection$/cmmi10/<$ /ptmr8t/m_-time_-type $/cmmi10/>
+$/ptmr8t/::get(), get-Segment-Time(), get-
+ []
+
+[71]
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
+
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 390--393
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/xy_-point $/cmmi10/>$/ptmr8t
+/::get(), m_-value_-type, Collection$/cmmi10/<$ /ptmr8t/xy_-point
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--398
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 403--403
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 418--418
+
+ []
+
+[72]
+Underfull \hbox (badness 10000) in paragraph at lines 431--431
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--436
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 449--449
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 454--454
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--467
+
+ []
+
+[73]
+Underfull \hbox (badness 10000) in paragraph at lines 480--480
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--485
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 500--500
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--505
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 523--523
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 528--528
+
+ []
+
+[74]
+Underfull \hbox (badness 1210) in paragraph at lines 533--536
+/ptmr8t/xy_-point $/cmmi10/>$/ptmr8t/::get(), get-Point(), get-Segment-Interpol
+ation-Type(), m_-time_-type, m_-
+ []
+
+
+Underfull \hbox (badness 5161) in paragraph at lines 533--536
+/ptmr8t/value_-type, Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::next(),
+ Dynamic-Variable::set-Duration(), Dynamic-
+ []
+
+
+Underfull \hbox (badness 2096) in paragraph at lines 533--536
+/ptmr8t/Variable::set-Sampling-Rate(), Collection$/cmmi10/<$ /ptmr8t/xy_-point 
+$/cmmi10/>$/ptmr8t/::size(), Interpolator::value-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 541--541
+
+ []
+
+
+Underfull \hbox (badness 1184) in paragraph at lines 546--549
+/ptmr8t/LIN-EAR, segments_-, Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/
+cmmi10/>$/ptmr8t/::size(), xy_-point::x, xy-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 554--554
+
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 564--567
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/xy_-point $/cmmi10/>$/ptmr8t
+/::get(), m_-value_-type, Collection$/cmmi10/<$ /ptmr8t/xy_-point
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 572--572
+
+ []
+
+[75]
+Underfull \hbox (badness 10000) in paragraph at lines 588--588
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 604--604
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 620--620
+
+ []
+
+
+Underfull \hbox (badness 4569) in paragraph at lines 628--631
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>
+$/ptmr8t/::get(), m_-time_-type, segments_-
+ []
+
+[76]
+Underfull \hbox (badness 10000) in paragraph at lines 636--636
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--647
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>
+$/ptmr8t/::get(), segments_-, Collection$/cmmi10/<$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 652--652
+
+ []
+
+
+Underfull \hbox (badness 2134) in paragraph at lines 659--662
+/ptmr8t/Variable::get-Duration(), Dynamic-Variable::get-Sampling-Rate(), interp
+olators_-, and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 667--667
+
+ []
+
+
+Underfull \hbox (badness 4927) in paragraph at lines 674--677
+[]/ptmr8t/References current-Interpolator-Rate_-, Dynamic-Variable::get-Duratio
+n(), Dynamic-
+ []
+
+
+Underfull \hbox (badness 2050) in paragraph at lines 674--677
+/ptmr8t/Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>$/ptmr8t/::it
+erator(), Collection$/cmmi10/<$ /ptmr8t/xy_-point $/cmmi10/>$/ptmr8t/::iterator
+(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 674--677
+/ptmr8t/Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::next(), segments_-, 
+envelope_-segment::time-Type, envelope_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 682--682
+
+ []
+
+[77]
+Underfull \hbox (badness 10000) in paragraph at lines 695--695
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 700--701
+[]/ptmr8t/References Xml-Reader::xmltag::get-Param-Value(), Xml-Reader::xmltag:
+:is-Closing,
+ []
+
+[78]
+Underfull \hbox (badness 2134) in paragraph at lines 747--750
+/ptmr8t/Segment-Time-Type(), Print(), set-Segment(), set-Segment-Time(), set-Se
+gment-Time-
+ []
+
+
+Underfull \hbox (badness 3954) in paragraph at lines 769--770
+[]/ptmr8t/Referenced by add-Interpolators(), add-Point(), check-Valid-Point-Ind
+ex(), clone(),
+ []
+
+) [79]
+\openout2 = `classDynamicVariableSequenceIterator.aux'.
+
+ (./classDynamicVariableSequenceIterator.tex
+Underfull \hbox (badness 2671) in paragraph at lines 4--4
+[]/ptmb8t@14.4pt/Dynamic-Variable-Sequence-Iterator Class Ref-er-
+ []
+
+
+<classDynamicVariableSequenceIterator__inherit__graph.pdf, id=2545, 202.7575pt 
+x 409.53pt>
+File: classDynamicVariableSequenceIterator__inherit__graph.pdf Graphic file (ty
+pe pdf)
+ <use classDynamicVariableSequenceIterator__inherit__graph.pdf>
+<classDynamicVariableSequenceIterator__coll__graph.pdf, id=2546, 915.42pt x 403
+.5075pt>
+File: classDynamicVariableSequenceIterator__coll__graph.pdf Graphic file (type 
+pdf)
+ <use classDynamicVariableSequenceIterator__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [80
+
+
+ <./classDynamicVariableSequenceIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+
+ []
+
+[81 <./classDynamicVariableSequenceIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+
+ []
+
+
+Underfull \hbox (badness 1603) in paragraph at lines 77--78
+/ptmr8t/, Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entry $/cmmi10/>$/ptmr8t/:
+:size(), Collection$/cmmi10/<$ /ptmr8t/In-ter-po-la-tor $/cmsy10/^^C$ $/cmmi10/
+>$/ptmr8t/::size(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 101--101
+
+ []
+
+[82]
+Underfull \hbox (badness 10000) in paragraph at lines 116--116
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 1755) in paragraph at lines 143--144
+[]/ptmr8t/References current-Iterator_-, current-Value_-, Collection$/cmmi10/<$
+ /ptmr8t/In-ter-po-la-tor $/cmsy10/^^C$ $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+[83]) [84]
+\openout2 = `structenv__seg.aux'.
+
+ (./structenv__seg.tex
+<structenv__seg__coll__graph.pdf, id=2655, 299.1175pt x 228.855pt>
+File: structenv__seg__coll__graph.pdf Graphic file (type pdf)
+
+<use structenv__seg__coll__graph.pdf>
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+[85
+
+
+ <./structenv__seg__coll__graph.pdf>]) [86]
+\openout2 = `classEnvelope.aux'.
+
+ (./classEnvelope.tex
+<classEnvelope__inherit__graph.pdf, id=2704, 170.6375pt x 720.6925pt>
+File: classEnvelope__inherit__graph.pdf Graphic file (type pdf)
+
+<use classEnvelope__inherit__graph.pdf>
+<classEnvelope__coll__graph.pdf, id=2705, 928.46875pt x 835.12pt>
+File: classEnvelope__coll__graph.pdf Graphic file (type pdf)
+
+<use classEnvelope__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+[87
+
+
+ <./classEnvelope__inherit__graph.pdf>] [88 <./classEnvelope__coll__graph.pdf>]
+ [89]
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--116
+
+ []
+
+
+Underfull \hbox (badness 5036) in paragraph at lines 137--138
+[]/ptmr8t/References current-Interpolator-Rate_-, generated-Segment-Lengths_-, 
+interpolators_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 147--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
+
+ []
+
+[90]
+Underfull \hbox (badness 4132) in paragraph at lines 157--160
+[]/ptmr8t/References current-Interpolator-Rate_-, generated-Segment-Lengths_-, 
+get-Segments(),
+ []
+
+
+Underfull \hbox (badness 6978) in paragraph at lines 168--171
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::add()
+, current-Interpolator-Rate_-, Define-Shape(),
+ []
+
+
+Underfull \hbox (badness 2529) in paragraph at lines 168--171
+/ptmr8t/generated-Segment-Lengths_-, Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>
+$/ptmr8t/::get(), interpolators_-, segments_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--176
+
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 184--187
+[]/ptmr8t/References current-Interpolator-Rate_-, Define-Shape(), generated-Seg
+ment-Lengths_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 206--206
+
+ []
+
+[91]
+Underfull \hbox (badness 3713) in paragraph at lines 214--215
+/ptmr8t/SPLINE, EX-PO-NEN-TIAL, generated-Segment-Lengths_-, Collection$/cmmi10
+/<$ /ptmr8t/m_-value_-
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 214--215
+/cmmi10/>$/ptmr8t/::get(), get-Segment-Interpolation-Type(), interpolators_-, m
+_-rate_-type, m_-value_-
+ []
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 214--215
+/ptmr8t/type, segments_-, Dynamic-Variable::set-Duration(), Dynamic-Variable::s
+et-Sampling-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 224--224
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 232--235
+[]/ptmr8t/References add-Segment(), FIXED, envelope_-segment::inter-Type, envel
+ope_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 240--240
+
+ []
+
+
+Underfull \hbox (badness 4713) in paragraph at lines 248--249
+/cmmi10/>$/ptmr8t/::get(), envelope_-segment::length, segments_-, Collection$/c
+mmi10/<$ /ptmr8t/envelope_-segment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--258
+
+ []
+
+[92]
+Underfull \hbox (badness 10000) in paragraph at lines 272--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 293--293
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 311--311
+
+ []
+
+[93]
+Underfull \hbox (badness 10000) in paragraph at lines 328--328
+
+ []
+
+
+Underfull \hbox (badness 5893) in paragraph at lines 336--337
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::get()
+, envelope_-segment::length, m_-value_-type,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 346--346
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 348--348
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--366
+
+ []
+
+
+Underfull \hbox (badness 3078) in paragraph at lines 373--376
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>
+$/ptmr8t/::get(), m_-value_-type, segments_-
+ []
+
+[94]
+Underfull \hbox (badness 10000) in paragraph at lines 381--381
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 386--386
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 401--401
+
+ []
+
+
+Underfull \hbox (badness 5288) in paragraph at lines 406--409
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::add()
+, Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 406--409
+/ptmr8t/segments_-, Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>$
+/ptmr8t/::size(), envelope_-segment::x, xy_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--414
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 419--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--432
+
+ []
+
+[95]
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 439--439
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 455--455
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--460
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 475--475
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 480--480
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--482
+
+ []
+
+[96]
+Underfull \hbox (badness 10000) in paragraph at lines 500--500
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 523--524
+/ptmr8t/Segment-Lengths_-, generate-Lengths(), Collection$/cmmi10/<$ /ptmr8t/m_
+-value_-type $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 523--524
+/ptmr8t/Dynamic-Variable::set-Sampling-Rate(), Collection$/cmmi10/<$ /ptmr8t/en
+velope_-segment $/cmmi10/>$/ptmr8t/::size(),
+ []
+
+[97]
+Underfull \hbox (badness 10000) in paragraph at lines 533--533
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 538--538
+
+ []
+
+
+Underfull \hbox (badness 1635) in paragraph at lines 543--546
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::add()
+, CUBIC_-SPLINE, En-ve-lope(), EX-PO-NEN-
+ []
+
+
+Underfull \hbox (badness 4954) in paragraph at lines 554--557
+/ptmr8t/Length-Type(), LIN-EAR, segments_-, Collection$/cmmi10/<$ /ptmr8t/envel
+ope_-segment $/cmmi10/>$/ptmr8t/::size(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 562--562
+
+ []
+
+
+Underfull \hbox (badness 3078) in paragraph at lines 572--575
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>
+$/ptmr8t/::get(), m_-value_-type, segments_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 580--580
+
+ []
+
+[98]
+Underfull \hbox (badness 10000) in paragraph at lines 588--591
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/envelope_-segment $/cmmi10/>
+$/ptmr8t/::get(), segments_-, Collection$/cmmi10/<$
+ []
+
+
+Underfull \hbox (badness 2799) in paragraph at lines 588--591
+/ptmr8t/envelope_-segment $/cmmi10/>$/ptmr8t/::set(), xy_-point::x, envelope_-s
+egment::x, xy_-point::y, and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 596--596
+
+ []
+
+
+Underfull \hbox (badness 3895) in paragraph at lines 604--607
+[]/ptmr8t/References check-Valid-Segment-Index(), Collection$/cmmi10/<$ /ptmr8t
+/envelope_-segment $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 612--612
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 628--628
+
+ []
+
+[99]
+Underfull \hbox (badness 10000) in paragraph at lines 646--646
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 662--662
+
+ []
+
+
+Underfull \hbox (badness 2134) in paragraph at lines 669--672
+/ptmr8t/Variable::get-Duration(), Dynamic-Variable::get-Sampling-Rate(), interp
+olators_-, and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 677--677
+
+ []
+
+
+Underfull \hbox (badness 1616) in paragraph at lines 684--687
+/ptmr8t/Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::has-Next(), envelope
+_-segment::inter-Type, Collection$/cmmi10/<$ /ptmr8t/envelope_-
+ []
+
+
+Underfull \hbox (badness 5203) in paragraph at lines 684--687
+/ptmr8t/segment $/cmmi10/>$/ptmr8t/::iterator(), envelope_-segment::length, env
+elope_-segment::length-Type,
+ []
+
+[100]
+Underfull \hbox (badness 10000) in paragraph at lines 692--692
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 705--705
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 710--711
+/ptmr8t/Define-Shape(), EX-PO-NEN-TIAL, Xml-Reader::xmltag::find-Child-Param-Va
+lue(),
+ []
+
+
+Underfull \hbox (badness 4156) in paragraph at lines 710--711
+/ptmr8t/Type, envelope_-segment::length-Type, LIN-EAR, Dynamic-Variable::set-Du
+ration(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 710--711
+/ptmr8t/Dynamic-Variable::set-Sampling-Rate(), envelope_-segment::x, and envelo
+pe_-
+ []
+
+[101]
+Underfull \hbox (badness 1189) in paragraph at lines 759--762
+/ptmr8t/get-Segment(), get-Segment-Length(), get-Segment-Length-Type(), get-Val
+ue(), Print(),
+ []
+
+
+Underfull \hbox (badness 2762) in paragraph at lines 759--762
+/ptmr8t/scale(), set-Point(), set-Segment(), set-Segment-Length(), set-Segment-
+Length-Type(),
+ []
+
+) [102]
+\openout2 = `structenvelope__segment.aux'.
+
+ (./structenvelope__segment.tex
+<structenvelope__segment__coll__graph.pdf, id=3040, 302.12875pt x 260.975pt>
+File: structenvelope__segment__coll__graph.pdf Graphic file (type pdf)
+
+<use structenvelope__segment__coll__graph.pdf>
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 29
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 29
+[][]
+ []
+
+[103
+
+
+ <./structenvelope__segment__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 5189) in paragraph at lines 57--60
+[]/ptmr8t/Referenced by Multi-Pan::add-Entry-Helper-Fn(), Envelope::add-Point()
+, Envelope-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--60
+/ptmr8t/Library::load-Library(), En-ve-lope::multiply(), Envelope::set-Segment-
+Interpolation-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 70--73
+/ptmr8t/Shape(), Envelope::get-Segment-Length(), Envelope-Library::load-Library
+(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+/ptmr8t/Segment-Length-Type(), Envelope-Library::load-Library(), En-ve-lope::mu
+ltiply(),
+ []
+
+
+Underfull \hbox (badness 4752) in paragraph at lines 83--86
+/ptmr8t/Envelope::set-Segment-Length-Type(), Envelope::xml_-print(), and Envelo
+pe::xml_-
+ []
+
+[104]
+Underfull \hbox (badness 10000) in paragraph at lines 96--99
+[]/ptmr8t/Referenced by Dynamic-Variable-Sequence::get-Segment-Time-Type(), Dyn
+amic-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--99
+/ptmr8t/Variable-Sequence::set-Segment-Time-Type(), and Dynamic-Variable-Sequen
+ce::xml_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+[]/ptmr8t/Referenced by Multi-Pan::add-Entry-Helper-Fn(), Dynamic-Variable-Sequ
+ence::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+/ptmr8t/Segment-Time(), Dynamic-Variable-Sequence::set-Segment-Time(), and Dyna
+mic-
+ []
+
+
+Underfull \hbox (badness 6691) in paragraph at lines 122--125
+[]/ptmr8t/Referenced by Envelope::add-Point(), Envelope::add-Segment(), Envelop
+e::Add-
+ []
+
+
+Underfull \hbox (badness 2343) in paragraph at lines 122--125
+/ptmr8t/To-Shape(), Envelope::Define-Shape(), En-ve-lope::Envelope(), Envelope:
+:get-Point(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+[]/ptmr8t/Referenced by Envelope::add-Interpolators(), Envelope::add-Point(), E
+n-ve-
+ []
+
+
+Underfull \hbox (badness 4144) in paragraph at lines 135--136
+/ptmr8t/lope::Envelope(), Envelope::get-Max-Value(), Envelope::get-Point(), Env
+elope::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+/ptmr8t/Points(), Envelope::get-Value(), En-ve-lope::multiply(), En-ve-lope::Pr
+int(), En-ve-
+ []
+
+) [105]
+\openout2 = `classEnvelopeIterator.aux'.
+
+ (./classEnvelopeIterator.tex
+<classEnvelopeIterator__inherit__graph.pdf, id=3109, 185.69376pt x 409.53pt>
+File: classEnvelopeIterator__inherit__graph.pdf Graphic file (type pdf)
+
+<use classEnvelopeIterator__inherit__graph.pdf>
+<classEnvelopeIterator__coll__graph.pdf, id=3110, 915.42pt x 403.5075pt>
+File: classEnvelopeIterator__coll__graph.pdf Graphic file (type pdf)
+
+<use classEnvelopeIterator__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [106
+
+
+ <./classEnvelopeIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+
+ []
+
+[107 <./classEnvelopeIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 67--67
+
+ []
+
+
+Underfull \hbox (badness 1603) in paragraph at lines 75--76
+/ptmr8t/, Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entry $/cmmi10/>$/ptmr8t/:
+:size(), Collection$/cmmi10/<$ /ptmr8t/In-ter-po-la-tor $/cmsy10/^^C$ $/cmmi10/
+>$/ptmr8t/::size(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--99
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
+
+ []
+
+[108]
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
+
+ []
+
+
+Underfull \hbox (badness 1755) in paragraph at lines 141--142
+[]/ptmr8t/References current-Iterator_-, current-Value_-, Collection$/cmmi10/<$
+ /ptmr8t/In-ter-po-la-tor $/cmsy10/^^C$ $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+[109]) [110]
+\openout2 = `classEnvelopeLibrary.aux'.
+
+ (./classEnvelopeLibrary.tex
+<classEnvelopeLibrary__coll__graph.pdf, id=3215, 227.85126pt x 764.8575pt>
+File: classEnvelopeLibrary__coll__graph.pdf Graphic file (type pdf)
+
+<use classEnvelopeLibrary__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [111
+
+
+ <./classEnvelopeLibrary__coll__graph.pdf>]
+Underfull \hbox (badness 1057) in paragraph at lines 32--34
+[]/ptmr8t/int [][]add-Envelope[][] ([][]Col-lec-tion[][]$/cmmi10/<$ [][]/ptmr8t
+/xy_-point[][] $/cmmi10/>$ /ptmr8t/points, [][]Col-lec-tion[][]$/cmmi10/<$ [][]
+/ptmr8t/envelope_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+
+ []
+
+[112]
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--94
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
+
+ []
+
+[113]
+Underfull \hbox (badness 10000) in paragraph at lines 133--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 150--150
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--168
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 173--173
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--181
+/ptmr8t/type, envelope_-segment::inter-Type, envelope_-segment::length, envelop
+e_-
+ []
+
+
+Underfull \hbox (badness 2443) in paragraph at lines 178--181
+/ptmr8t/segment::length-Type, li-brary, LIN-EAR, m_-time_-type, Collection$/cmm
+i10/<$ /ptmr8t/En-ve-lope $/cmsy10/^^C$
+ []
+
+[114]
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 202--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 218--218
+
+ []
+
+[115]
+Underfull \hbox (badness 10000) in paragraph at lines 234--234
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 254--254
+
+ []
+
+) [116]
+\openout2 = `classExponentialInterpolator.aux'.
+
+ (./classExponentialInterpolator.tex
+<classExponentialInterpolator__inherit__graph.pdf, id=3342, 344.28625pt x 758.8
+35pt>
+File: classExponentialInterpolator__inherit__graph.pdf Graphic file (type pdf)
+ <use classExponentialInterpolator__inherit__graph.pdf>
+<classExponentialInterpolator__coll__graph.pdf, id=3343, 512.91624pt x 758.835p
+t>
+File: classExponentialInterpolator__coll__graph.pdf Graphic file (type pdf)
+ <use classExponentialInterpolator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [117
+
+
+ <./classExponentialInterpolator__inherit__graph.pdf>]
+Underfull \vbox (badness 2253) has occurred while \output is active []
+
+ [118 <./classExponentialInterpolator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+
+ []
+
+[119]
+Underfull \hbox (badness 10000) in paragraph at lines 96--96
+
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 103--104
+[]/ptmr8t/References Interpolator-Iterator::append(), Collection$/cmmi10/<$ /pt
+mr8t/Interpolator-Entry $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 103--104
+/cmmi10/>$/ptmr8t/::has-Next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entr
+y $/cmmi10/>$/ptmr8t/::iterator(), m_-sample_-count_-type,
+ []
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 103--104
+/ptmr8t/m_-time_-type, m_-value_-type, Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>
+$/ptmr8t/::next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 103--104
+/ptmr8t/Entry $/cmmi10/>$/ptmr8t/::size(), Collection$/cmmi10/<$ /ptmr8t/Interp
+olator-Entry $/cmmi10/>$/ptmr8t/::sort-Collection(), Interpolator-
+ []
+
+) [120]
+\openout2 = `classExponentialInterpolatorIterator.aux'.
+
+ (./classExponentialInterpolatorIterator.tex
+<classExponentialInterpolatorIterator__inherit__graph.pdf, id=3403, 187.70125pt
+ x 493.845pt>
+File: classExponentialInterpolatorIterator__inherit__graph.pdf Graphic file (ty
+pe pdf)
+ <use classExponentialInterpolatorIterator__inherit__graph.pdf>
+<classExponentialInterpolatorIterator__coll__graph.pdf, id=3404, 503.8825pt x 5
+17.935pt>
+File: classExponentialInterpolatorIterator__coll__graph.pdf Graphic file (type 
+pdf)
+ <use classExponentialInterpolatorIterator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [121
+
+
+ <./classExponentialInterpolatorIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+[122 <./classExponentialInterpolatorIterator__coll__graph.pdf>]) [123]
+\openout2 = `classFilter.aux'.
+
+
+(./classFilter.tex
+<classFilter__inherit__graph.pdf, id=3451, 331.2375pt x 333.245pt>
+File: classFilter__inherit__graph.pdf Graphic file (type pdf)
+
+<use classFilter__inherit__graph.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+
+ []
+
+[124
+
+
+ <./classFilter__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--59
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
+
+ []
+
+[125]
+Underfull \hbox (badness 10000) in paragraph at lines 94--94
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--99
+
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 104--105
+[]/ptmr8t/References do_-filter(), Sound-Sample::get-Sample-Count(), and Sound-
+Sample::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--116
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--121
+
+ []
+
+[126]) [127]
+\openout2 = `classFilter_1_1hist__queue.aux'.
+
+ (./classFilter_1_1hist__queue.tex
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+<classFilter_1_1hist__queue__inherit__graph.pdf, id=3539, 199.74625pt x 339.267
+5pt>
+File: classFilter_1_1hist__queue__inherit__graph.pdf Graphic file (type pdf)
+ <use classFilter_1_1hist__queue__inherit__graph.pdf>
+<classFilter_1_1hist__queue__coll__graph.pdf, id=3540, 175.65625pt x 273.02pt>
+File: classFilter_1_1hist__queue__coll__graph.pdf Graphic file (type pdf)
+
+<use classFilter_1_1hist__queue__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [128
+
+
+ <./classFilter_1_1hist__queue__inherit__graph.pdf> <./classFilter_1_1hist__que
+ue__coll__graph.pdf>]
+Underfull \hbox (badness 4316) in paragraph at lines 58--59
+[]/ptmr8t/y_-d = x_-hist.dequeue() + (g $/cmsy10/^^C$ /ptmr8t/y_-hist.dequeue()
+); y_-hist.enqueue(y_-d); x_-
+ []
+
+[129]
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--107
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 120--120
+
+ []
+
+[130]
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
+
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 172--175
+/ptmr8t/Filter::hist_-queue$/cmmi10/<$ /ptmr8t/m_-sample_-type $/cmmi10/>$/ptmr
+8t/::index_-from_-newest(), Filter::hist_-queue$/cmmi10/<$
+ []
+
+
+Underfull \hbox (badness 2126) in paragraph at lines 172--175
+/ptmr8t/m_-sample_-type $/cmmi10/>$/ptmr8t/::index_-from_-oldest(), and Filter:
+:hist_-queue$/cmmi10/<$ /ptmr8t/m_-sample_-type
+ []
+
+[131]) [132]
+\openout2 = `classInterpolator.aux'.
+
+ (./classInterpolator.tex
+<classInterpolator__inherit__graph.pdf, id=3631, 456.70625pt x 758.835pt>
+File: classInterpolator__inherit__graph.pdf Graphic file (type pdf)
+
+<use classInterpolator__inherit__graph.pdf>
+<classInterpolator__coll__graph.pdf, id=3632, 497.86pt x 740.7675pt>
+File: classInterpolator__coll__graph.pdf Graphic file (type pdf)
+
+<use classInterpolator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [133
+
+
+ <./classInterpolator__inherit__graph.pdf>] [134 <./classInterpolator__coll__gr
+aph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--82
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--95
+[]/ptmr8t/Referenced by Envelope::add-Interpolators(), Dynamic-Variable-Sequenc
+e::add-
+ []
+
+
+Underfull \hbox (badness 3199) in paragraph at lines 92--95
+/ptmr8t/Interpolators(), Envelope::get-Value(), Dynamic-Variable-Sequence::get-
+Value(), and
+ []
+
+[135]
+Underfull \hbox (badness 10000) in paragraph at lines 100--100
+
+ []
+
+
+Underfull \hbox (badness 5231) in paragraph at lines 105--108
+[]/ptmr8t/Implemented in [][]Linear-Interpolator[][], [][]Exponential-Interpola
+tor[][], and [][]Cubic-Spline-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
+
+ []
+
+
+Underfull \hbox (badness 5231) in paragraph at lines 131--132
+[]/ptmr8t/Implemented in [][]Linear-Interpolator[][], [][]Exponential-Interpola
+tor[][], and [][]Cubic-Spline-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+
+ []
+
+[136]
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
+
+ []
+
+
+Underfull \hbox (badness 5231) in paragraph at lines 164--165
+[]/ptmr8t/Implemented in [][]Linear-Interpolator[][], [][]Exponential-Interpola
+tor[][], and [][]Cubic-Spline-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--169
+[]/ptmr8t/Referenced by Envelope::get-Value(), Dynamic-Variable-Sequence::get-V
+alue(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--174
+
+ []
+
+
+Underfull \hbox (badness 2245) in paragraph at lines 181--184
+[]/ptmr8t/References Dynamic-Variable::get-Duration(), Dynamic-Variable::get-Sa
+mpling-Rate(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 202--202
+
+ []
+
+[137]
+Underfull \hbox (badness 1173) in paragraph at lines 207--208
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entry $/cmmi10/
+>$/ptmr8t/::add(), Xml-Reader::xmltag::children,
+ []
+
+
+Underfull \hbox (badness 7273) in paragraph at lines 207--208
+/ptmr8t/Xml-Reader::xmltag::find-Child-Param-Value(), Xml-Reader::xmltag::get-P
+aram-Value(),
+ []
+
+) [138]
+\openout2 = `classInterpolatorEntry.aux'.
+
+ (./classInterpolatorEntry.tex
+<classInterpolatorEntry__coll__graph.pdf, id=3751, 178.6675pt x 216.81pt>
+File: classInterpolatorEntry__coll__graph.pdf Graphic file (type pdf)
+
+<use classInterpolatorEntry__coll__graph.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+
+ []
+
+[139
+
+
+ <./classInterpolatorEntry__coll__graph.pdf>] [140]
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+[]/ptmr8t/Referenced by Dynamic-Variable-Sequence-Iterator::Dynamic-Variable-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Sequence-Iterator(), Envelope-Iterator::Envelope-Iterator(), Interpolat
+or-Entry(),
+ []
+
+
+Underfull \hbox (badness 5203) in paragraph at lines 121--124
+/ptmr8t/operator$/cmmi10/<$/ptmr8t/(), op-er-a-tor==(), operator$/cmmi10/>$/ptm
+r8t/(), Cubic-Spline-Interpolator::value-Iterator(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Exponential-Interpolator::value-Iterator(), Linear-Interpolator::value-
+Iterator(), and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
+[]/ptmr8t/Referenced by Dynamic-Variable-Sequence-Iterator::Dynamic-Variable-Se
+quence-
+ []
+
+
+Underfull \hbox (badness 4168) in paragraph at lines 132--133
+/ptmr8t/Iterator(), Envelope-Iterator::Envelope-Iterator(), Interpolator-Entry(
+), Cubic-Spline-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
+/ptmr8t/Interpolator::value-Iterator(), Exponential-Interpolator::value-Iterato
+r(), Linear-
+ []
+
+) [141]
+\openout2 = `classInterpolatorIterator.aux'.
+
+ (./classInterpolatorIterator.tex
+<classInterpolatorIterator__inherit__graph.pdf, id=3815, 544.0325pt x 525.965pt
+>
+File: classInterpolatorIterator__inherit__graph.pdf Graphic file (type pdf)
+ <use classInterpolatorIterator__inherit__graph.pdf>
+<classInterpolatorIterator__coll__graph.pdf, id=3816, 503.8825pt x 411.5375pt>
+File: classInterpolatorIterator__coll__graph.pdf Graphic file (type pdf)
+
+<use classInterpolatorIterator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [142
+
+
+ <./classInterpolatorIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+
+ []
+
+[143 <./classInterpolatorIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 75--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--77
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--92
+[]/ptmr8t/Referenced by Cubic-Spline-Interpolator::value-Iterator(), Exponentia
+l-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--97
+
+ []
+
+[144]
+Underfull \hbox (badness 10000) in paragraph at lines 110--110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
+
+ []
+
+[145]
+Underfull \hbox (badness 10000) in paragraph at lines 158--161
+[]/ptmr8t/Referenced by ap-pend(), has-Next(), Cubic-Spline-Interpolator-Iterat
+or::next(),
+ []
+
+
+Underfull \hbox (badness 7238) in paragraph at lines 169--172
+[]/ptmr8t/Referenced by has-Next(), Cubic-Spline-Interpolator-Iterator::next(),
+ Exponential-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+[]/ptmr8t/Referenced by Cubic-Spline-Interpolator-Iterator::next(), Exponential
+-Interpolator-
+ []
+
+) [146]
+\openout2 = `classInterpolatorIterator_1_1Entry.aux'.
+
+ (./classInterpolatorIterator_1_1Entry.tex
+<classInterpolatorIterator_1_1Entry__coll__graph.pdf, id=3924, 321.2pt x 216.81
+pt>
+File: classInterpolatorIterator_1_1Entry__coll__graph.pdf Graphic file (type pd
+f)
+ <use classInterpolatorIterator_1_1Entry__coll__graph.pdf>
+Underfull \hbox (badness 10000) detected at line 22
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 22
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 24
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 24
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+[147
+
+
+ <./classInterpolatorIterator_1_1Entry__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+
+ []
+
+[148]) [149]
+\openout2 = `classIterator.aux'.
+
+ (./classIterator.tex
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+<classIterator__inherit__graph.pdf, id=3995, 164.615pt x 271.0125pt>
+File: classIterator__inherit__graph.pdf Graphic file (type pdf)
+
+<use classIterator__inherit__graph.pdf>
+<classIterator__coll__graph.pdf, id=3996, 116.435pt x 216.81pt>
+File: classIterator__coll__graph.pdf Graphic file (type pdf)
+
+<use classIterator__coll__graph.pdf> [150
+
+
+ <./classIterator__inherit__graph.pdf> <./classIterator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--61
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 75--75
+
+ []
+
+[151]
+Underfull \hbox (badness 10000) in paragraph at lines 101--101
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+/ptmr8t/reverb_-Multi-Track(), Interpolator::get-Max-Value(), Sound::get-Total-
+Duration(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+/ptmr8t/In-ter-po-la-tor::scale(), Sound::set-Partial-Param(), Cubic-Spline-Int
+erpolator::value-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+/ptmr8t/Iterator(), Exponential-Interpolator::value-Iterator(), Linear-Interpol
+ator::value-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
+/ptmr8t/Score::xml_-print(), Interpolator::xml_-print(), Envelope::xml_-print()
+, Dynamic-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 117--117
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--125
+/ptmr8t/reverb_-Multi-Track(), Interpolator::get-Max-Value(), Sound::get-Total-
+Duration(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--125
+/ptmr8t/Envelope::get-Value(), Dynamic-Variable-Sequence::get-Value(), Multi-Tr
+ack::Multi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--125
+/ptmr8t/Track(), Multi-Track::operator=(), Sound::render(), Score::render(), In
+-ter-po-la-
+ []
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 122--125
+/ptmr8t/Spline-Interpolator::value-Iterator(), Exponential-Interpolator::value-
+Iterator(), Linear-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--125
+/ptmr8t/Interpolator::value-Iterator(), Au-Writer::write(), Au-Writer::write_-o
+ne_-per_-track(),
+ []
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 122--125
+/ptmr8t/Sound::xml_-print(), Score::xml_-print(), Interpolator::xml_-print(), E
+nvelope::xml_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--130
+
+ []
+
+[152]
+Underfull \hbox (badness 10000) in paragraph at lines 150--151
+[]/ptmr8t/Referenced by Iterator$/cmmi10/<$ /ptmr8t/m_-value_-type $/cmmi10/>$/
+ptmr8t/::has-Next(), Iterator$/cmmi10/<$ /ptmr8t/m_-value_-
+ []
+
+
+Underfull \hbox (badness 4254) in paragraph at lines 150--151
+/ptmr8t/type $/cmmi10/>$/ptmr8t/::Iterator(), Iterator$/cmmi10/<$ /ptmr8t/m_-va
+lue_-type $/cmmi10/>$/ptmr8t/::next(), Iterator$/cmmi10/<$ /ptmr8t/m_-value_-ty
+pe
+ []
+
+) [153]
+\openout2 = `classLinearInterpolator.aux'.
+
+ (./classLinearInterpolator.tex
+<classLinearInterpolator__inherit__graph.pdf, id=4079, 344.28625pt x 758.835pt>
+File: classLinearInterpolator__inherit__graph.pdf Graphic file (type pdf)
+<use classLinearInterpolator__inherit__graph.pdf>
+<classLinearInterpolator__coll__graph.pdf, id=4080, 512.91624pt x 758.835pt>
+File: classLinearInterpolator__coll__graph.pdf Graphic file (type pdf)
+
+<use classLinearInterpolator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [154
+
+
+ <./classLinearInterpolator__inherit__graph.pdf>]
+Underfull \vbox (badness 2253) has occurred while \output is active []
+
+ [155 <./classLinearInterpolator__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--83
+
+ []
+
+[156]
+Underfull \hbox (badness 10000) in paragraph at lines 98--98
+
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 105--106
+[]/ptmr8t/References Interpolator-Iterator::append(), Collection$/cmmi10/<$ /pt
+mr8t/Interpolator-Entry $/cmmi10/>$/ptmr8t/::get(),
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 105--106
+/cmmi10/>$/ptmr8t/::has-Next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-Entr
+y $/cmmi10/>$/ptmr8t/::iterator(), m_-sample_-count_-type,
+ []
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 105--106
+/ptmr8t/m_-time_-type, m_-value_-type, Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>
+$/ptmr8t/::next(), Collection$/cmmi10/<$ /ptmr8t/Interpolator-
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 105--106
+/ptmr8t/Entry $/cmmi10/>$/ptmr8t/::size(), Collection$/cmmi10/<$ /ptmr8t/Interp
+olator-Entry $/cmmi10/>$/ptmr8t/::sort-Collection(), Interpolator-
+ []
+
+) [157]
+\openout2 = `classLinearInterpolatorIterator.aux'.
+
+ (./classLinearInterpolatorIterator.tex
+<classLinearInterpolatorIterator__inherit__graph.pdf, id=4139, 185.69376pt x 49
+3.845pt>
+File: classLinearInterpolatorIterator__inherit__graph.pdf Graphic file (type pd
+f)
+ <use classLinearInterpolatorIterator__inherit__graph.pdf>
+<classLinearInterpolatorIterator__coll__graph.pdf, id=4140, 503.8825pt x 517.93
+5pt>
+File: classLinearInterpolatorIterator__coll__graph.pdf Graphic file (type pdf)
+ <use classLinearInterpolatorIterator__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [158
+
+
+ <./classLinearInterpolatorIterator__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+[][]
+ []
+
+[159 <./classLinearInterpolatorIterator__coll__graph.pdf>]) [160]
+\openout2 = `classLoudness.aux'.
+
+
+(./classLoudness.tex
+<classLoudness__coll__graph.pdf, id=4187, 221.82875pt x 337.26pt>
+File: classLoudness__coll__graph.pdf Graphic file (type pdf)
+
+<use classLoudness__coll__graph.pdf>
+Underfull \hbox (badness 2119) in paragraph at lines 16--17
+[]/ptmr8t/void [][]cal-cu-late[][] ([][]Sound[][] &snd, [][]m_-rate_-type[][] r
+ate=[][]DEFAULT_-LOUDNESS_-
+ []
+
+[161
+
+
+ <./classLoudness__coll__graph.pdf>]
+Underfull \hbox (badness 1028) in paragraph at lines 58--58
+[]/ptmr8t/band-Gamma += pow( (this-Wave-Shape / max-Wave-Shape), (1.0 /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--66
+
+ []
+
+[162]
+Underfull \hbox (badness 4954) in paragraph at lines 87--88
+/ptmr8t/Collection$/cmmi10/<$ /ptmr8t/Par-tial $/cmmi10/>$/ptmr8t/::get(), Dyna
+mic-Variable::get-Max-Value(), Parameter-Lib$/cmmi10/<$
+ []
+
+
+Underfull \hbox (badness 2326) in paragraph at lines 87--88
+/ptmr8t/Partial-Static-Param, Partial-Dynamic-Param $/cmmi10/>$/ptmr8t/::get-Pa
+ram(), Parameter-Lib$/cmmi10/<$ /ptmr8t/Sound-
+ []
+
+
+Underfull \hbox (badness 3138) in paragraph at lines 87--88
+/ptmr8t/Static-Param, Sound-Dynamic-Param $/cmmi10/>$/ptmr8t/::get-Param(), LOU
+D-NESS, LOUDNESS_-
+ []
+
+
+Underfull \hbox (badness 2042) in paragraph at lines 87--88
+/ptmr8t/BANDS, RELATIVE_-AMPLITUDE, Dynamic-Variable::set-Duration(), Parameter
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--97
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--102
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--108
+[]/ptmr8t/References BANDS, LOWER_-BOUND, m_-value_-type, NUM_-BANDS, and
+ []
+
+[163]
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{2.000000E+01,1.000000E+02,5.000000E+01,8.000000E+01,7.5000
+99E-02,3.434098E+01,7.426288E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.000000E+02,2.000000E+02,1.500000E+02,1.000000E+02,3.0000
+00E-01,1.102623E+01,8.863131E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{2.000000E+02,3.000000E+02,2.500000E+02,1.000000E+02,1.8000
+00E-01,3.658798E+00,9.307306E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{3.000000E+02,4.000000E+02,3.500000E+02,1.000000E+02,1.3000
+00E-01,6.079359E-01,9.552449E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{4.000000E+02,5.100000E+02,4.500000E+02,1.100000E+02,1.1131
+88E-01,-1.050592E+00,9.798435E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{5.100000E+02,6.300000E+02,5.700000E+02,1.200000E+02,9.8252
+61E-02,-1.768491E+00,9.962857E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{6.300000E+02,7.700000E+02,7.000000E+02,1.400000E+02,9.3888
+91E-02,-1.488782E+00,9.993805E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{7.700000E+02,9.200000E+02,8.400000E+02,1.500000E+02,8.4636
+56E-02,-7.874900E-01,1.001088E+00},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{9.200000E+02,1.080000E+03,1.000000E+03,1.600000E+02,7.7495
+30E-02,-2.397041E-02,9.996908E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.080000E+03,1.270000E+03,1.170000E+03,1.900000E+02,7.8186
+75E-02,3.330517E-01,9.926001E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.270000E+03,1.480000E+03,1.370000E+03,2.100000E+02,7.4547
+11E-02,2.924882E-01,9.866766E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.480000E+03,1.720000E+03,1.600000E+03,2.400000E+02,7.3444
+15E-02,-9.319628E-02,9.820759E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.720000E+03,2.000000E+03,1.850000E+03,2.800000E+02,7.3661
+46E-02,-7.555149E-01,9.725524E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{2.000000E+03,2.320000E+03,2.150000E+03,3.200000E+02,7.2696
+03E-02,-1.368559E+00,9.559184E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{2.320000E+03,2.700000E+03,2.500000E+03,3.800000E+02,7.4007
+90E-02,-2.310496E+00,9.405730E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{2.700000E+03,3.150000E+03,2.900000E+03,4.500000E+02,7.5000
+03E-02,-4.106658E+00,9.374723E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{3.150000E+03,3.700000E+03,3.400000E+03,5.500000E+02,7.7732
+45E-02,-5.443059E+00,9.383848E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{3.700000E+03,4.400000E+03,4.000000E+03,7.000000E+02,8.2724
+64E-02,-5.612481E+00,9.440814E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{4.400000E+03,5.300000E+03,4.800000E+03,9.000000E+02,8.7939
+07E-02,-4.374397E+00,9.618959E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{5.300000E+03,6.400000E+03,5.800000E+03,1.100000E+03,8.8953
+39E-02,1.201688E-01,9.705871E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]     /pcrr8t@8.0pt/{6.400000E+03,7.700000E+03,7.000000E+03,1.300000E+03,8.745
+852E-02,6.446360E+00,9.652756E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{7.700000E+03,9.500000E+03,8.500000E+03,1.800000E+03,9.7744
+16E-02,1.050712E+01,9.499248E-01},[] 
+ []
+
+
+Overfull \hbox (120.6003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{9.500000E+03,1.200000E+04,1.050000E+04,2.500000E+03,1.0745
+15E-01,8.187814E+00,9.339424E-01},[] 
+ []
+
+
+Overfull \hbox (125.4003pt too wide) in paragraph at lines 148--148
+[]    /pcrr8t@8.0pt/{1.200000E+04,1.550000E+04,1.350000E+04,3.500000E+03,1.1671
+88E-01,-1.822547E+00,9.533570E-01},[] 
+ []
+
+[164]) [165]
+\openout2 = `classLoudness_1_1CriticalBand.aux'.
+
+ (./classLoudness_1_1CriticalBand.tex
+<classLoudness_1_1CriticalBand__coll__graph.pdf, id=4285, 193.72375pt x 184.69p
+t>
+File: classLoudness_1_1CriticalBand__coll__graph.pdf Graphic file (type pdf)
+ <use classLoudness_1_1CriticalBand__coll__graph.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+
+ []
+
+[166
+
+
+ <./classLoudness_1_1CriticalBand__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 62--62
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--67
+
+ []
+
+) [167]
+\openout2 = `classLoudness_1_1PartialSnapshot.aux'.
+
+ (./classLoudness_1_1PartialSnapshot.tex
+<classLoudness_1_1PartialSnapshot__coll__graph.pdf, id=4330, 147.55125pt x 204.
+765pt>
+File: classLoudness_1_1PartialSnapshot__coll__graph.pdf Graphic file (type pdf)
+
+ <use classLoudness_1_1PartialSnapshot__coll__graph.pdf>
+Underfull \hbox (badness 1354) in paragraph at lines 16--17
+[][][]/ptmr8t/m_-value_-type[][] [][]get-Scaling-Factor[][] (int band-ID, [][]m
+_-value_-type[][] max-Amp, [][]m_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+
+ []
+
+
+Underfull \vbox (badness 1168) has occurred while \output is active []
+
+ [168
+
+
+ <./classLoudness_1_1PartialSnapshot__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
+
+ []
+
+[169]) [170]
+\openout2 = `classLowPassFilter.aux'.
+
+ (./classLowPassFilter.tex
+<classLowPassFilter__inherit__graph.pdf, id=4392, 142.5325pt x 244.915pt>
+File: classLowPassFilter__inherit__graph.pdf Graphic file (type pdf)
+
+<use classLowPassFilter__inherit__graph.pdf>
+<classLowPassFilter__coll__graph.pdf, id=4393, 539.01375pt x 612.2875pt>
+File: classLowPassFilter__coll__graph.pdf Graphic file (type pdf)
+
+<use classLowPassFilter__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [171
+
+
+ <./classLowPassFilter__inherit__graph.pdf>] [172 <./classLowPassFilter__coll__
+graph.pdf>]
+Overfull \hbox (76.19952pt too wide) in paragraph at lines 47--47
+[]  /pcrr8t@9.0pt/x(t) ---$>$(+)-------$>$|        IIR LPF       |-------------
+-------$>$ y(t)[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--57
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 73--73
+
+ []
+
+[173]
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--108
+
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 115--116
+[]/ptmr8t/References Filter::hist_-queue$/cmmi10/<$ /ptmr8t/m_-sample_-type $/c
+mmi10/>$/ptmr8t/::dequeue(), Filter::hist_-queue$/cmmi10/<$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+
+ []
+
+[174]) [175]
+\openout2 = `classLPCombFilter.aux'.
+
+ (./classLPCombFilter.tex
+<classLPCombFilter__inherit__graph.pdf, id=4472, 142.5325pt x 333.245pt>
+File: classLPCombFilter__inherit__graph.pdf Graphic file (type pdf)
+
+<use classLPCombFilter__inherit__graph.pdf>
+<classLPCombFilter__coll__graph.pdf, id=4473, 466.74374pt x 666.49pt>
+File: classLPCombFilter__coll__graph.pdf Graphic file (type pdf)
+
+<use classLPCombFilter__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [176
+
+
+ <./classLPCombFilter__inherit__graph.pdf>] [177 <./classLPCombFilter__coll__gr
+aph.pdf>]
+Overfull \hbox (76.19952pt too wide) in paragraph at lines 66--66
+[]  /pcrr8t@9.0pt/x(t) ---$>$(+)-------$>$|    D-sample Delay    |-------------
+-------$>$ y(t)[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--97
+
+ []
+
+[178]
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+
+ []
+
+[179]
+Underfull \hbox (badness 10000) in paragraph at lines 173--173
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--191
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--209
+
+ []
+
+[180]
+Underfull \hbox (badness 10000) in paragraph at lines 227--227
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+
+ []
+
+[181]) [182]
+\openout2 = `classMultiPan.aux'.
+
+ (./classMultiPan.tex
+<classMultiPan__inherit__graph.pdf, id=4595, 114.4275pt x 311.1625pt>
+File: classMultiPan__inherit__graph.pdf Graphic file (type pdf)
+
+<use classMultiPan__inherit__graph.pdf>
+<classMultiPan__coll__graph.pdf, id=4596, 917.4275pt x 327.2225pt>
+File: classMultiPan__coll__graph.pdf Graphic file (type pdf)
+
+<use classMultiPan__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+[183
+
+
+ <./classMultiPan__inherit__graph.pdf> <./classMultiPan__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 62--62
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
+
+ []
+
+
+Underfull \hbox (badness 4048) in paragraph at lines 88--89
+[]/ptmr8t/References Env-List, n_-channels, seg-Collections-List, use-Env-Direc
+tly, and xy-
+ []
+
+[184]
+Underfull \hbox (badness 10000) in paragraph at lines 100--100
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+
+ []
+
+[185]
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+[]/ptmr8t/References Env-List, FIXED, envelope_-segment::inter-Type, envelope_-
+
+ []
+
+
+Underfull \hbox (badness 1590) in paragraph at lines 151--152
+/ptmr8t/segment::length-Type, LIN-EAR, seg-Collections-List, envelope_-segment:
+:time-Value,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 179--179
+
+ []
+
+[186]
+Underfull \hbox (badness 10000) in paragraph at lines 196--196
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--201
+
+ []
+
+
+Underfull \hbox (badness 3590) in paragraph at lines 208--211
+[]/ptmr8t/References Env-List, Collection$/cmmi10/<$ /ptmr8t/Track $/cmsy10/^^C
+$ $/cmmi10/>$/ptmr8t/::get(), Track::get-Amp(), Sound-
+ []
+
+
+Underfull \hbox (badness 3118) in paragraph at lines 208--211
+/ptmr8t/rate_-type, m_-sample_-count_-type, m_-value_-type, n_-channels, and It
+erator$/cmmi10/<$ /ptmr8t/T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--216
+
+ []
+
+[187]) [188]
+\openout2 = `classMultiTrack.aux'.
+
+ (./classMultiTrack.tex
+<classMultiTrack__inherit__graph.pdf, id=4727, 112.42pt x 586.19pt>
+File: classMultiTrack__inherit__graph.pdf Graphic file (type pdf)
+
+<use classMultiTrack__inherit__graph.pdf>
+<classMultiTrack__coll__graph.pdf, id=4728, 200.75pt x 684.5575pt>
+File: classMultiTrack__coll__graph.pdf Graphic file (type pdf)
+
+<use classMultiTrack__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [189
+
+
+ <./classMultiTrack__inherit__graph.pdf>] [190 <./classMultiTrack__coll__graph.
+pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--87
+
+ []
+
+[191]
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+
+ []
+
+[192]) [193]
+\openout2 = `classPan.aux'.
+
+ (./classPan.tex
+<classPan__inherit__graph.pdf, id=4807, 76.285pt x 212.795pt>
+File: classPan__inherit__graph.pdf Graphic file (type pdf)
+
+<use classPan__inherit__graph.pdf>
+<classPan__coll__graph.pdf, id=4808, 264.99pt x 459.7175pt>
+File: classPan__coll__graph.pdf Graphic file (type pdf)
+
+<use classPan__coll__graph.pdf> [194
+
+
+ <./classPan__inherit__graph.pdf> <./classPan__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--61
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
+
+ []
+
+[195]
+Underfull \hbox (badness 10000) in paragraph at lines 95--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--116
+
+ []
+
+
+Underfull \hbox (badness 2088) in paragraph at lines 123--126
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/Track $/cmsy10/^^C$ $/cmmi10
+/>$/ptmr8t/::get(), Track::get-Amp(), Sound-Sample::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
+/ptmr8t/Sample-Count(), Sound-Sample::get-Sampling-Rate(), Track::get-Wave(), m
+_-rate_-
+ []
+
+
+Underfull \hbox (badness 5359) in paragraph at lines 123--126
+/ptmr8t/type, m_-sample_-count_-type, m_-value_-type, Iterator$/cmmi10/<$ /ptmr
+8t/T $/cmmi10/>$/ptmr8t/::next(), pan-Var_-,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+
+ []
+
+[196]) [197]
+\openout2 = `classParameterLib.aux'.
+
+ (./classParameterLib.tex
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 4.
+
+<classParameterLib__inherit__graph.pdf, id=4893, 674.52pt x 586.19pt>
+File: classParameterLib__inherit__graph.pdf Graphic file (type pdf)
+
+<use classParameterLib__inherit__graph.pdf>
+Overfull \hbox (8.0pt too wide) in paragraph at lines 9--11
+ [] 
+ []
+
+<classParameterLib__coll__graph.pdf, id=4894, 371.3875pt x 260.975pt>
+File: classParameterLib__coll__graph.pdf Graphic file (type pdf)
+
+<use classParameterLib__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [198
+
+
+ <./classParameterLib__inherit__graph.pdf>]
+Underfull \hbox (badness 7685) in paragraph at lines 50--50
+[]/ptmb8t/template$/cmmi10/<$/ptmb8t/class Static-T, class Dynamic-T$/cmmi10/>$
+ /ptmb8t/class Parameter-Lib$/cmmi10/<$ /ptmb8t/Static-T,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+
+ []
+
+[199 <./classParameterLib__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--108
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+
+ []
+
+[200]
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 129--129
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 172--172
+
+ []
+
+[201]
+Underfull \hbox (badness 10000) in paragraph at lines 188--188
+
+ []
+
+[202]) [203]
+\openout2 = `classPartial.aux'.
+
+ (./classPartial.tex
+<classPartial__inherit__graph.pdf, id=5021, 376.40625pt x 519.9425pt>
+File: classPartial__inherit__graph.pdf Graphic file (type pdf)
+
+<use classPartial__inherit__graph.pdf>
+<classPartial__coll__graph.pdf, id=5022, 463.7325pt x 513.92pt>
+File: classPartial__coll__graph.pdf Graphic file (type pdf)
+
+<use classPartial__coll__graph.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [204
+
+
+ <./classPartial__inherit__graph.pdf>] [205 <./classPartial__coll__graph.pdf>]
+Underfull \hbox (badness 1546) in paragraph at lines 69--70
+[]/ptmr8t/References AMPTRANS_-AMP_-ENV, AMPTRANS_-RATE_-ENV, AMPTRANS_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+/ptmr8t/WIDTH, FREQ_-ENV, FREQTRANS_-AMP_-ENV, FREQTRANS_-RATE_-ENV,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+/ptmr8t/FREQTRANS_-WIDTH, FRE-QUENCY, LOUDNESS_-SCALAR, PARTIAL_-
+ []
+
+
+Underfull \hbox (badness 1248) in paragraph at lines 69--70
+/ptmr8t/NUM, RELATIVE_-AMPLITUDE, reverb-Obj, Parameter-Lib$/cmmi10/<$ /ptmr8t/
+Partial-Static-Param,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
+
+ []
+
+[206]
+Underfull \hbox (badness 10000) in paragraph at lines 95--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--100
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+
+ []
+
+[207]
+Underfull \hbox (badness 1546) in paragraph at lines 136--139
+[]/ptmr8t/References AMPTRANS_-AMP_-ENV, AMPTRANS_-RATE_-ENV, AMPTRANS_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--139
+/ptmr8t/WIDTH, Dynamic-Variable::clone(), Reverb::do_-reverb_-Track(), FREQ_-EN
+V,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--139
+/ptmr8t/FREQTRANS_-AMP_-ENV, FREQTRANS_-RATE_-ENV, FREQTRANS_-WIDTH,
+ []
+
+
+Underfull \hbox (badness 5036) in paragraph at lines 136--139
+/ptmr8t/FRE-QUENCY, Reverb::get-Decay(), Parameter-Lib$/cmmi10/<$ /ptmr8t/Parti
+al-Static-Param, Partial-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--139
+/ptmr8t/count_-type, m_-time_-type, m_-value_-type, Iterator$/cmmi10/<$ /ptmr8t
+/m_-value_-type $/cmmi10/>$/ptmr8t/::next(),
+ []
+
+
+Underfull \hbox (badness 4132) in paragraph at lines 136--139
+/ptmr8t/PARTIAL_-NUM, PHASE, pmod(), reverb-Obj, Dynamic-Variable::set-Duration
+(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--139
+/ptmr8t/Dynamic-Variable::set-Sampling-Rate(), TREMOLO_-AMP, TREMOLO_-RATE,
+ []
+
+
+Underfull \hbox (badness 6220) in paragraph at lines 136--139
+/ptmr8t/Dynamic-Variable::value-Iterator(), VIBRATO_-AMP, VIBRATO_-RATE, WAVE_-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 167--170
+/ptmr8t/RELATIVE_-AMPLITUDE, reverb-Obj, TREMOLO_-AMP, TREMOLO_-RATE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--175
+
+ []
+
+
+Underfull \vbox (badness 1565) has occurred while \output is active []
+
+ [208]
+Underfull \hbox (badness 3954) in paragraph at lines 180--181
+/ptmr8t/Child-Param-Value(), FREQ_-ENV, FRE-QUENCY, LOUDNESS_-SCALAR, Xml-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+/ptmr8t/Reader::xmltag::name, Xml-Reader::xmltagset::next, PARTIAL_-NUM, PHASE,
+
+ []
+
+
+Underfull \hbox (badness 6708) in paragraph at lines 180--181
+/ptmr8t/RELATIVE_-AMPLITUDE, Parameter-Lib$/cmmi10/<$ /ptmr8t/Partial-Static-Pa
+ram, Partial-Dynamic-
+ []
+
+) [209]
+\openout2 = `classReverb.aux'.
+
+ (./classReverb.tex
+<classReverb__coll__graph.pdf, id=5150, 336.25626pt x 688.5725pt>
+File: classReverb__coll__graph.pdf Graphic file (type pdf)
+
+<use classReverb__coll__graph.pdf> [210
+
+
+ <./classReverb__coll__graph.pdf>]
+[211]
+Underfull \hbox (badness 10000) in paragraph at lines 84--84
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--86
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 104--104
+
+ []
+
+
+Underfull \hbox (badness 2401) in paragraph at lines 112--115
+[]/ptmr8t/References Constructor-Common(), m_-rate_-type, and REVERB_-NUM_-COMB
+_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 120--120
+
+ []
+
+[212]
+Underfull \hbox (badness 2401) in paragraph at lines 128--131
+[]/ptmr8t/References Constructor-Common(), m_-rate_-type, and REVERB_-NUM_-COMB
+_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
+
+ []
+
+
+Underfull \hbox (badness 2401) in paragraph at lines 144--147
+[]/ptmr8t/References Constructor-Common(), m_-rate_-type, and REVERB_-NUM_-COMB
+_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
+
+ []
+
+[213]
+Underfull \hbox (badness 10000) in paragraph at lines 184--184
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+
+ []
+
+[214]
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 227--227
+
+ []
+
+[215]
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 247--247
+
+ []
+
+
+Underfull \hbox (badness 3323) in paragraph at lines 252--253
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/Track $/cmsy10/^^C$ $/cmmi10
+/>$/ptmr8t/::add(), construct-Amp(), do_-reverb_-Sound-
+ []
+
+
+Underfull \hbox (badness 4193) in paragraph at lines 252--253
+/ptmr8t/Sample(), Track::get-Wave(), Iterator$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/
+ptmr8t/::has-Next(), Collection$/cmmi10/<$ /ptmr8t/Track $/cmsy10/^^C$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--262
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--282
+
+ []
+
+[216]
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--304
+
+ []
+
+
+Underfull \hbox (badness 4886) in paragraph at lines 322--323
+[]/ptmr8t/References ap-fil-ter, lpc-fil-ter, All-Pass-Filter::reset(), LPComb-
+Filter::reset(), and
+ []
+
+[217] [218]
+Underfull \hbox (badness 10000) in paragraph at lines 410--410
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 423--423
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--429
+[]/ptmr8t/References Xml-Reader::xmltag::children, Xml-Reader::xmltag::find-Chi
+ld-Param-
+ []
+
+[219]
+Underfull \hbox (badness 1067) in paragraph at lines 488--491
+[]/ptmr8t/Referenced by Constructor-Common(), do_-reverb(), set_-gain-Reverb(),
+ and xml_-
+ []
+
+) [220]
+\openout2 = `classScore.aux'.
+
+ (./classScore.tex
+<classScore__inherit__graph.pdf, id=5374, 176.66pt x 730.73pt>
+File: classScore__inherit__graph.pdf Graphic file (type pdf)
+
+<use classScore__inherit__graph.pdf>
+<classScore__coll__graph.pdf, id=5375, 815.045pt x 636.3775pt>
+File: classScore__coll__graph.pdf Graphic file (type pdf)
+
+<use classScore__coll__graph.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+[221
+
+
+ <./classScore__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 41--43
+[][][]/ptmr8t/Multi-Track[][] $/cmsy10/^^C$ [][]/ptmr8t/ren-der[][] (int num-Ch
+annels, [][]m_-rate_-type[][] sampling-
+ []
+
+[222 <./classScore__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 95--95
+
+ []
+
+[223]
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
+
+ []
+
+[224]
+Underfull \hbox (badness 10000) in paragraph at lines 199--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 217--217
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--235
+
+ []
+
+[225]
+Underfull \hbox (badness 10000) in paragraph at lines 253--253
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+
+ []
+
+
+Underfull \hbox (badness 2181) in paragraph at lines 276--277
+[]/ptmr8t/References an-ti-clip(), AN-TI-CLIP, CHANNEL_-ANTICLIP, CHANNEL_-SCAL
+E,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 290--290
+
+ []
+
+[226]
+Underfull \hbox (badness 10000) in paragraph at lines 292--292
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--297
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--305
+/ptmr8t/reverb_-Multi-Track(), threadlist_-entry::done, threadlist_-entry::fini
+sh-Condition,
+ []
+
+
+Underfull \hbox (badness 2158) in paragraph at lines 302--305
+/ptmr8t/Collection$/cmmi10/<$ /ptmr8t/T $/cmmi10/>$/ptmr8t/::get(), Reverb::get
+-Decay(), Parameter-Lib$/cmmi10/<$ /ptmr8t/Sound-Static-Param,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--305
+/ptmr8t/Sound-Dynamic-Param $/cmmi10/>$/ptmr8t/::get-Param(), Sound::get-Total-
+Duration(), Iterator$/cmmi10/<$ /ptmr8t/T
+ []
+
+
+Underfull \hbox (badness 2689) in paragraph at lines 302--305
+/cmmi10/>$/ptmr8t/::has-Next(), Collection$/cmmi10/<$ /ptmr8t/Sound $/cmmi10/>$
+/ptmr8t/::iterator(), threadlist_-entry::list-Mutex, m_-
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 302--305
+/ptmr8t/entry::result-Track, reverb-Obj, threadlist_-entry::sampling-Rate, Coll
+ection$/cmmi10/<$ /ptmr8t/Sound
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 314--314
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--316
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 321--321
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 326--329
+[]/ptmr8t/References cmm_-, Multi-Track::composite(), Reverb::do_-reverb_-Multi
+-Track(),
+ []
+
+[227]
+Underfull \hbox (badness 10000) in paragraph at lines 334--334
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 352--352
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 370--370
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
+
+ []
+
+[228]
+Underfull \hbox (badness 10000) in paragraph at lines 401--401
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--414
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 427--427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+/ptmr8t/Management-Mode, Dynamic-Variable::create_-dv_-from_-xml(), dv-Hash, Xm
+l-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+/ptmr8t/Reader::xmltag::find-Child-Param-Value(), Xml-Reader::xmltag::get-Param
+-Value(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+/ptmr8t/Xml-Reader::xmltag::name, reverb-Hash, set-Clipping-Management-Mode(), 
+use_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 446--449
+[]/ptmr8t/Referenced by get-Clipping-Management-Mode(), ren-der(), and set-Clip
+ping-
+ []
+
+[229]) [230]
+\openout2 = `classSound.aux'.
+
+ (./classSound.tex
+<classSound__inherit__graph.pdf, id=5591, 496.85625pt x 674.52pt>
+File: classSound__inherit__graph.pdf Graphic file (type pdf)
+
+<use classSound__inherit__graph.pdf>
+<classSound__coll__graph.pdf, id=5592, 676.5275pt x 580.1675pt>
+File: classSound__coll__graph.pdf Graphic file (type pdf)
+
+<use classSound__coll__graph.pdf>
+Overfull \hbox (9.0pt too wide) in paragraph at lines 15--17
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [231
+
+
+ <./classSound__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 34--36
+[][][]/ptmr8t/Multi-Track[][] $/cmsy10/^^C$ [][]/ptmr8t/ren-der[][] (int num-Ch
+annels, [][]m_-rate_-type[][] sampling-
+ []
+
+[232 <./classSound__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 62--62
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+[]/ptmr8t/References DETUNE_-DIRECTION, DETUNE_-FUNDAMENTAL, DETUNE_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 91--91
+
+ []
+
+[233]
+Underfull \hbox (badness 3612) in paragraph at lines 99--100
+[]/ptmr8t/References Collection$/cmmi10/<$ /ptmr8t/Par-tial $/cmmi10/>$/ptmr8t/
+::add(), DETUNE_-DIRECTION, DETUNE_-
+ []
+
+
+Underfull \hbox (badness 4303) in paragraph at lines 99--100
+/ptmr8t/QUENCY, LOUD-NESS, LOUDNESS_-RATE, m_-value_-type, PARTIAL_-NUM,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+
+ []
+
+
+Underfull \hbox (badness 2142) in paragraph at lines 127--128
+[]/ptmr8t/References DU-RA-TION, Reverb::get-Decay(), Parameter-Lib$/cmmi10/<$ 
+/ptmr8t/Sound-Static-Param,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--137
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
+
+ []
+
+[234]
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--180
+
+ []
+
+[235]
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--209
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--225
+
+ []
+
+[236]
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 261--261
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 266--267
+[]/ptmr8t/References DETUNE_-DIRECTION, DETUNE_-FUNDAMENTAL, DETUNE_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--276
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+/ptmr8t/DIRECTION, DETUNE_-FUNDAMENTAL, DETUNE_-SPREAD, DETUNE_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+/ptmr8t/VELOCITY, DU-RA-TION, Xml-Reader::xmltag::find-Child-Param-Value(), LOU
+D-
+ []
+
+
+Underfull \hbox (badness 4832) in paragraph at lines 281--282
+/ptmr8t/NESS, LOUDNESS_-RATE, Xml-Reader::xmltag::name, Parameter-Lib$/cmmi10/<
+$ /ptmr8t/Sound-
+ []
+
+[237]) [238]
+\openout2 = `classSoundSample.aux'.
+
+ (./classSoundSample.tex
+<classSoundSample__coll__graph.pdf, id=5754, 277.035pt x 273.02pt>
+File: classSoundSample__coll__graph.pdf Graphic file (type pdf)
+
+<use classSoundSample__coll__graph.pdf>
+Underfull \hbox (badness 1377) in paragraph at lines 16--18
+[][][]/ptmr8t/Sound-Sample[][] ([][]m_-sample_-count_-type[][] sample-Count, []
+[]m_-rate_-type[][] sampling-
+ []
+
+[239
+
+
+ <./classSoundSample__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
+
+ []
+
+[240]
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 123--123
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--133
+[]/ptmr8t/Referenced by Score::channel-Anticlip(), Score::channel-Scale(), Scor
+e::clip(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
+[]/ptmr8t/Referenced by Reverb::construct-Amp(), Filter::do_-filter_-Sound-Samp
+le(),
+ []
+
+[241]
+Underfull \hbox (badness 10000) in paragraph at lines 153--153
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--174
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--187
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 205--205
+
+ []
+
+[242]) [243]
+\openout2 = `classSpatializer.aux'.
+
+ (./classSpatializer.tex
+<classSpatializer__inherit__graph.pdf, id=5862, 206.7725pt x 311.1625pt>
+File: classSpatializer__inherit__graph.pdf Graphic file (type pdf)
+
+<use classSpatializer__inherit__graph.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+
+ []
+
+[244
+
+
+ <./classSpatializer__inherit__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--60
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--77
+
+ []
+
+) [245]
+\openout2 = `structthreadlist__entry.aux'.
+
+ (./structthreadlist__entry.tex
+<structthreadlist__entry__coll__graph.pdf, id=5908, 780.9175pt x 391.4625pt>
+File: structthreadlist__entry__coll__graph.pdf Graphic file (type pdf)
+
+<use structthreadlist__entry__coll__graph.pdf>
+Overfull \hbox (61.0pt too wide) in paragraph at lines 9--11
+ [] 
+ []
+
+[246
+
+
+ <./structthreadlist__entry__coll__graph.pdf>]) [247]
+\openout2 = `classTrack.aux'.
+
+ (./classTrack.tex
+<classTrack__coll__graph.pdf, id=5965, 277.035pt x 491.8375pt>
+File: classTrack__coll__graph.pdf Graphic file (type pdf)
+
+<use classTrack__coll__graph.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 18--20
+[][][]/ptmr8t/Track[][] ([][]m_-sample_-count_-type[][] sample-Count, [][]m_-ra
+te_-type[][] sampling-
+ []
+
+[248
+
+
+ <./classTrack__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--77
+
+ []
+
+[249]
+Underfull \hbox (badness 10000) in paragraph at lines 93--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 123--123
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+
+ []
+
+[250]
+Underfull \hbox (badness 10000) in paragraph at lines 145--145
+
+ []
+
+
+Underfull \hbox (badness 2744) in paragraph at lines 152--155
+[]/ptmr8t/Referenced by Score::anticlip(), Score::channel-Anticlip(), Score::ch
+annel-Scale(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--160
+
+ []
+
+
+Underfull \hbox (badness 2744) in paragraph at lines 167--170
+[]/ptmr8t/Referenced by Score::anticlip(), Score::channel-Anticlip(), Score::ch
+annel-Scale(),
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 167--170
+/ptmr8t/reverb_-Track(), Score::scale(), Pan::spatialize(), Multi-Pan::spatiali
+ze(), and Au-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
+
+ []
+
+[251]
+Underfull \hbox (badness 10000) in paragraph at lines 209--209
+
+ []
+
+) [252]
+\openout2 = `classXmlReader.aux'.
+
+ (./classXmlReader.tex
+<classXmlReader__coll__graph.pdf, id=6085, 221.82875pt x 293.095pt>
+File: classXmlReader__coll__graph.pdf Graphic file (type pdf)
+
+<use classXmlReader__coll__graph.pdf> [253
+
+
+ <./classXmlReader__coll__graph.pdf>] [254]
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+/ptmr8t/Closing, Xml-Reader::tagparam::next, Xml-Reader::xmltag::params, Xml-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--151
+[]/ptmr8t/References Xml-Reader::xmltagset::add(), Xml-Reader::xmltag::children
+, Xml-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--151
+/ptmr8t/Reader::xmltag::is-Closing, Xml-Reader::xmltag::name, read-Tag(), and r
+ead-
+ []
+
+[255]) [256]
+\openout2 = `classXmlReader_1_1tagparam.aux'.
+
+ (./classXmlReader_1_1tagparam.tex
+<classXmlReader_1_1tagparam__coll__graph.pdf, id=6167, 167.62625pt x 204.765pt>
+File: classXmlReader_1_1tagparam__coll__graph.pdf Graphic file (type pdf)
+<use classXmlReader_1_1tagparam__coll__graph.pdf> [257
+
+
+ <./classXmlReader_1_1tagparam__coll__graph.pdf>] [258]) [259]
+\openout2 = `classXmlReader_1_1xmltag.aux'.
+
+ (./classXmlReader_1_1xmltag.tex
+<classXmlReader_1_1xmltag__coll__graph.pdf, id=6223, 423.5825pt x 588.1975pt>
+File: classXmlReader_1_1xmltag__coll__graph.pdf Graphic file (type pdf)
+
+<use classXmlReader_1_1xmltag__coll__graph.pdf> [260
+
+
+ <./classXmlReader_1_1xmltag__coll__graph.pdf>] [261]
+Underfull \hbox (badness 10000) in paragraph at lines 112--115
+[]/ptmr8t/Referenced by Partial::aux-Load-Param(), Dynamic-Variable::create_-dv
+_-from_-
+ []
+
+
+Underfull \hbox (badness 2065) in paragraph at lines 112--115
+/ptmr8t/xml(), Sound::xml_-read(), Score::xml_-read(), Reverb::xml_-read(), Par
+tial::xml_-
+ []
+
+[262]
+Underfull \hbox (badness 10000) in paragraph at lines 188--191
+[]/ptmr8t/Referenced by destroy-Tag(), find-Child-Param-Value(), Xml-Reader::re
+ad-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--191
+/ptmr8t/XMLDocument(), Sound::xml_-read(), Score::xml_-read(), Reverb::xml_-rea
+d(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 199--202
+[]/ptmr8t/Referenced by destroy-Tag(), Xml-Reader::read-Tag(), Xml-Reader::read
+-
+ []
+
+
+Underfull \hbox (badness 2142) in paragraph at lines 210--213
+[]/ptmr8t/Referenced by Xml-Reader::xmltagset::auxfind(), destroy-Tag(), Xml-Re
+ader::read-
+ []
+
+[263]) [264]
+\openout2 = `classXmlReader_1_1xmltagset.aux'.
+
+ (./classXmlReader_1_1xmltagset.tex
+<classXmlReader_1_1xmltagset__coll__graph.pdf, id=6314, 540.0175pt x 457.71pt>
+File: classXmlReader_1_1xmltagset__coll__graph.pdf Graphic file (type pdf)
+
+<use classXmlReader_1_1xmltagset__coll__graph.pdf> [265
+
+
+ <./classXmlReader_1_1xmltagset__coll__graph.pdf>] [266]
+Underfull \hbox (badness 4353) in paragraph at lines 174--175
+[]/ptmr8t/Referenced by add(), auxfind(), find(), Partial::xml_-read(), xml-t-a
+gset(), and
+ []
+
+) [267]
+\openout2 = `structxy__point.aux'.
+
+ (./structxy__point.tex
+<structxy__point__coll__graph.pdf, id=6395, 84.315pt x 182.6825pt>
+File: structxy__point__coll__graph.pdf Graphic file (type pdf)
+
+<use structxy__point__coll__graph.pdf>
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 17
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 19
+[][]
+ []
+
+
+Underfull \hbox (badness 5548) in paragraph at lines 43--46
+[]/ptmr8t/Referenced by Multi-Pan::add-Entry-Helper-Fn(), Envelope::add-Point()
+, Dynamic-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--46
+/ptmr8t/Variable-Sequence::Add-To-Shape(), En-ve-lope::Envelope(), Envelope::ge
+t-Point(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--46
+/ptmr8t/Envelope::get-Points(), Envelope-Library::load-Library(), Dynamic-Varia
+ble-
+ []
+
+
+Underfull \hbox (badness 7186) in paragraph at lines 43--46
+/ptmr8t/Sequence::Print(), Dynamic-Variable-Sequence::scale(), Envelope::set-Po
+int(), and
+ []
+
+[268
+
+
+ <./structxy__point__coll__graph.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+[]/ptmr8t/Referenced by Multi-Pan::add-Entry-Helper-Fn(), Dynamic-Variable-Sequ
+ence::add-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+/ptmr8t/Interpolators(), Envelope::add-Point(), En-ve-lope::Envelope(), Dynamic
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+/ptmr8t/Variable-Sequence::get-Max-Value(), Envelope::get-Point(), Envelope::ge
+t-Points(),
+ []
+
+
+Underfull \hbox (badness 6876) in paragraph at lines 56--57
+/ptmr8t/Library(), Dynamic-Variable-Sequence::Print(), Dynamic-Variable-Sequenc
+e::scale(),
+ []
+
+) [269] [270
+
+
+]
+Chapter 9.
+(./AbstractIterator_8h.tex
+<AbstractIterator_8h__dep__incl.pdf, id=6433, 507.8975pt x 190.7125pt>
+File: AbstractIterator_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use AbstractIterator_8h__dep__incl.pdf>) [271 <./AbstractIterator_8h__dep__inc
+l.pdf>]
+\openout2 = `AllPassFilter_8cpp.aux'.
+
+ (./AllPassFilter_8cpp.tex
+<AllPassFilter_8cpp__incl.pdf, id=6447, 681.54625pt x 349.305pt>
+File: AllPassFilter_8cpp__incl.pdf Graphic file (type pdf)
+
+<use AllPassFilter_8cpp__incl.pdf>
+Overfull \hbox (12.0pt too wide) in paragraph at lines 17--19
+ [] 
+ []
+
+) [272
+
+ <./AllPassFilter_8cpp__incl.pdf>]
+\openout2 = `AllPassFilter_8h.aux'.
+
+ (./AllPassFilter_8h.tex
+<AllPassFilter_8h__incl.pdf, id=6459, 612.2875pt x 347.2975pt>
+File: AllPassFilter_8h__incl.pdf Graphic file (type pdf)
+
+<use AllPassFilter_8h__incl.pdf>
+<AllPassFilter_8h__dep__incl.pdf, id=6460, 483.8075pt x 347.2975pt>
+File: AllPassFilter_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use AllPassFilter_8h__dep__incl.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [273
+
+
+ <./AllPassFilter_8h__incl.pdf>]) [274 <./AllPassFilter_8h__dep__incl.pdf>]
+\openout2 = `AuWriter_8cpp.aux'.
+
+
+(./AuWriter_8cpp.tex <AuWriter_8cpp__incl.pdf, id=6485, 457.71pt x 295.1025pt>
+File: AuWriter_8cpp__incl.pdf Graphic file (type pdf)
+
+<use AuWriter_8cpp__incl.pdf>) [275
+
+
+ <./AuWriter_8cpp__incl.pdf>]
+\openout2 = `AuWriter_8h.aux'.
+
+
+(./AuWriter_8h.tex <AuWriter_8h__incl.pdf, id=6498, 457.71pt x 242.9075pt>
+File: AuWriter_8h__incl.pdf Graphic file (type pdf)
+
+<use AuWriter_8h__incl.pdf>
+<AuWriter_8h__dep__incl.pdf, id=6499, 150.5625pt x 138.5175pt>
+File: AuWriter_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use AuWriter_8h__dep__incl.pdf>) [276
+
+
+ <./AuWriter_8h__incl.pdf> <./AuWriter_8h__dep__incl.pdf>]
+\openout2 = `Collection_8cpp.aux'.
+
+ (./Collection_8cpp.tex
+<Collection_8cpp__incl.pdf, id=6520, 236.885pt x 138.5175pt>
+File: Collection_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Collection_8cpp__incl.pdf>
+<Collection_8cpp__dep__incl.pdf, id=6521, 80.3pt x 86.3225pt>
+File: Collection_8cpp__dep__incl.pdf Graphic file (type pdf)
+
+<use Collection_8cpp__dep__incl.pdf>) [277
+
+
+ <./Collection_8cpp__incl.pdf> <./Collection_8cpp__dep__incl.pdf>]
+\openout2 = `Collection_8h.aux'.
+
+ (./Collection_8h.tex
+<Collection_8h__incl.pdf, id=6540, 193.72375pt x 190.7125pt>
+File: Collection_8h__incl.pdf Graphic file (type pdf)
+
+<use Collection_8h__incl.pdf>
+<Collection_8h__dep__incl.pdf, id=6541, 1541.76pt x 610.28pt>
+File: Collection_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Collection_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 21--23
+ [] 
+ []
+
+) [278
+
+
+ <./Collection_8h__incl.pdf> <./Collection_8h__dep__incl.pdf>]
+\openout2 = `Constant_8cpp.aux'.
+
+
+(./Constant_8cpp.tex <Constant_8cpp__incl.pdf, id=6563, 618.31pt x 295.1025pt>
+File: Constant_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Constant_8cpp__incl.pdf>) [279
+
+
+ <./Constant_8cpp__incl.pdf>]
+\openout2 = `Constant_8h.aux'.
+
+
+(./Constant_8h.tex <Constant_8h__incl.pdf, id=6575, 618.31pt x 242.9075pt>
+File: Constant_8h__incl.pdf Graphic file (type pdf)
+
+<use Constant_8h__incl.pdf>
+<Constant_8h__dep__incl.pdf, id=6576, 660.4675pt x 399.4925pt>
+File: Constant_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Constant_8h__dep__incl.pdf>
+Overfull \hbox (1.0pt too wide) in paragraph at lines 24--26
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [280
+
+
+ <./Constant_8h__incl.pdf>]) [281 <./Constant_8h__dep__incl.pdf>]
+\openout2 = `DynamicVariable_8cpp.aux'.
+
+
+(./DynamicVariable_8cpp.tex
+<DynamicVariable_8cpp__incl.pdf, id=6603, 548.0475pt x 242.9075pt>
+File: DynamicVariable_8cpp__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariable_8cpp__incl.pdf>) [282
+
+
+ <./DynamicVariable_8cpp__incl.pdf>]
+\openout2 = `DynamicVariable_8h.aux'.
+
+
+(./DynamicVariable_8h.tex
+<DynamicVariable_8h__incl.pdf, id=6615, 580.1675pt x 190.7125pt>
+File: DynamicVariable_8h__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariable_8h__incl.pdf>
+<DynamicVariable_8h__dep__incl.pdf, id=6616, 625.33624pt x 190.7125pt>
+File: DynamicVariable_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariable_8h__dep__incl.pdf>) [283
+
+
+ <./DynamicVariable_8h__incl.pdf> <./DynamicVariable_8h__dep__incl.pdf>]
+\openout2 = `DynamicVariableSequence_8cpp.aux'.
+
+ (./DynamicVariableSequence_8cpp.tex
+<DynamicVariableSequence_8cpp__incl.pdf, id=6637, 754.82pt x 399.4925pt>
+File: DynamicVariableSequence_8cpp__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariableSequence_8cpp__incl.pdf>
+Overfull \hbox (48.0pt too wide) in paragraph at lines 14--16
+ [] 
+ []
+
+) [284
+
+
+ <./DynamicVariableSequence_8cpp__incl.pdf>]
+\openout2 = `DynamicVariableSequence_8h.aux'.
+
+
+(./DynamicVariableSequence_8h.tex
+<DynamicVariableSequence_8h__incl.pdf, id=6649, 657.45625pt x 299.1175pt>
+File: DynamicVariableSequence_8h__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariableSequence_8h__incl.pdf>
+<DynamicVariableSequence_8h__dep__incl.pdf, id=6650, 473.77pt x 190.7125pt>
+File: DynamicVariableSequence_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use DynamicVariableSequence_8h__dep__incl.pdf>) [285
+
+
+ <./DynamicVariableSequence_8h__incl.pdf> <./DynamicVariableSequence_8h__dep__i
+ncl.pdf>]
+\openout2 = `DynamicVariableSequenceIterator_8cpp.aux'.
+
+
+(./DynamicVariableSequenceIterator_8cpp.tex
+Underfull \hbox (badness 1320) in paragraph at lines 4--4
+[]/ptmb8t@14.4pt/Dynamic-Variable-Sequence-Iterator.cpp File Ref-
+ []
+
+
+<DynamicVariableSequenceIterator_8cpp__incl.pdf, id=6671, 711.65875pt x 399.492
+5pt>
+File: DynamicVariableSequenceIterator_8cpp__incl.pdf Graphic file (type pdf)
+ <use DynamicVariableSequenceIterator_8cpp__incl.pdf>
+Overfull \hbox (27.0pt too wide) in paragraph at lines 11--13
+ [] 
+ []
+
+) [286
+
+
+ <./DynamicVariableSequenceIterator_8cpp__incl.pdf>]
+\openout2 = `DynamicVariableSequenceIterator_8h.aux'.
+
+
+(./DynamicVariableSequenceIterator_8h.tex
+Underfull \hbox (badness 2334) in paragraph at lines 4--4
+[]/ptmb8t@14.4pt/Dynamic-Variable-Sequence-Iterator.h File Ref-er-
+ []
+
+
+<DynamicVariableSequenceIterator_8h__incl.pdf, id=6683, 745.78625pt x 347.2975p
+t>
+File: DynamicVariableSequenceIterator_8h__incl.pdf Graphic file (type pdf)
+ <use DynamicVariableSequenceIterator_8h__incl.pdf>
+Overfull \hbox (44.0pt too wide) in paragraph at lines 13--15
+ [] 
+ []
+
+
+<DynamicVariableSequenceIterator_8h__dep__incl.pdf, id=6684, 451.6875pt x 138.5
+175pt>
+File: DynamicVariableSequenceIterator_8h__dep__incl.pdf Graphic file (type pdf)
+
+ <use DynamicVariableSequenceIterator_8h__dep__incl.pdf>) [287
+
+
+ <./DynamicVariableSequenceIterator_8h__incl.pdf> <./DynamicVariableSequenceIte
+rator_8h__dep__incl.pdf>]
+\openout2 = `Envelope_8cpp.aux'.
+
+ (./Envelope_8cpp.tex
+<Envelope_8cpp__incl.pdf, id=6706, 341.275pt x 190.7125pt>
+File: Envelope_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Envelope_8cpp__incl.pdf>) [288
+
+
+ <./Envelope_8cpp__incl.pdf>]
+\openout2 = `Envelope_8h.aux'.
+
+
+(./Envelope_8h.tex <Envelope_8h__incl.pdf, id=6718, 764.8575pt x 295.1025pt>
+File: Envelope_8h__incl.pdf Graphic file (type pdf)
+
+<use Envelope_8h__incl.pdf>
+Overfull \hbox (53.0pt too wide) in paragraph at lines 17--19
+ [] 
+ []
+
+<Envelope_8h__dep__incl.pdf, id=6719, 641.39626pt x 193.72375pt>
+File: Envelope_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Envelope_8h__dep__incl.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [289
+
+
+ <./Envelope_8h__incl.pdf> <./Envelope_8h__dep__incl.pdf>]) [290]
+\openout2 = `EnvelopeIterator_8cpp.aux'.
+
+
+(./EnvelopeIterator_8cpp.tex
+<EnvelopeIterator_8cpp__incl.pdf, id=6744, 742.775pt x 399.4925pt>
+File: EnvelopeIterator_8cpp__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeIterator_8cpp__incl.pdf>
+Overfull \hbox (42.0pt too wide) in paragraph at lines 11--13
+ [] 
+ []
+
+) [291
+
+
+ <./EnvelopeIterator_8cpp__incl.pdf>]
+\openout2 = `EnvelopeIterator_8h.aux'.
+
+ (./EnvelopeIterator_8h.tex
+<EnvelopeIterator_8h__incl.pdf, id=6756, 658.46pt x 347.2975pt>
+File: EnvelopeIterator_8h__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeIterator_8h__incl.pdf>
+<EnvelopeIterator_8h__dep__incl.pdf, id=6757, 204.765pt x 138.5175pt>
+File: EnvelopeIterator_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeIterator_8h__dep__incl.pdf>) [292
+
+
+ <./EnvelopeIterator_8h__incl.pdf> <./EnvelopeIterator_8h__dep__incl.pdf>]
+\openout2 = `EnvelopeLibrary_8cpp.aux'.
+
+ (./EnvelopeLibrary_8cpp.tex
+<EnvelopeLibrary_8cpp__incl.pdf, id=6778, 449.68pt x 295.1025pt>
+File: EnvelopeLibrary_8cpp__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeLibrary_8cpp__incl.pdf>) [293
+
+
+ <./EnvelopeLibrary_8cpp__incl.pdf>]
+\openout2 = `EnvelopeLibrary_8h.aux'.
+
+
+(./EnvelopeLibrary_8h.tex
+<EnvelopeLibrary_8h__incl.pdf, id=6791, 716.6775pt x 347.2975pt>
+File: EnvelopeLibrary_8h__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeLibrary_8h__incl.pdf>
+Overfull \hbox (29.0pt too wide) in paragraph at lines 12--14
+ [] 
+ []
+
+<EnvelopeLibrary_8h__dep__incl.pdf, id=6792, 184.69pt x 138.5175pt>
+File: EnvelopeLibrary_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use EnvelopeLibrary_8h__dep__incl.pdf>) [294
+
+
+ <./EnvelopeLibrary_8h__incl.pdf> <./EnvelopeLibrary_8h__dep__incl.pdf>]
+\openout2 = `extra-docs_8txt.aux'.
+
+ (./extra-docs_8txt.tex) [295
+
+
+]
+\openout2 = `Filter_8cpp.aux'.
+
+
+(./Filter_8cpp.tex <Filter_8cpp__incl.pdf, id=6821, 365.365pt x 295.1025pt>
+File: Filter_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Filter_8cpp__incl.pdf>) [296
+
+
+ <./Filter_8cpp__incl.pdf>]
+\openout2 = `Filter_8h.aux'.
+
+ (./Filter_8h.tex
+<Filter_8h__incl.pdf, id=6833, 321.2pt x 242.9075pt>
+File: Filter_8h__incl.pdf Graphic file (type pdf)
+ <use Filter_8h__incl.pdf>
+<Filter_8h__dep__incl.pdf, id=6834, 742.775pt x 451.6875pt>
+File: Filter_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Filter_8h__dep__incl.pdf>
+Overfull \hbox (42.0pt too wide) in paragraph at lines 20--22
+ [] 
+ []
+
+[297
+
+
+ <./Filter_8h__incl.pdf> <./Filter_8h__dep__incl.pdf>]) [298]
+\openout2 = `Interpolator_8cpp.aux'.
+
+
+(./Interpolator_8cpp.tex
+<Interpolator_8cpp__incl.pdf, id=6860, 656.4525pt x 295.1025pt>
+File: Interpolator_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Interpolator_8cpp__incl.pdf>) [299
+
+
+ <./Interpolator_8cpp__incl.pdf>]
+\openout2 = `Interpolator_8h.aux'.
+
+
+(./Interpolator_8h.tex
+<Interpolator_8h__incl.pdf, id=6873, 618.31pt x 242.9075pt>
+File: Interpolator_8h__incl.pdf Graphic file (type pdf)
+
+<use Interpolator_8h__incl.pdf>
+<Interpolator_8h__dep__incl.pdf, id=6874, 538.01pt x 138.5175pt>
+File: Interpolator_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Interpolator_8h__dep__incl.pdf>) [300
+
+
+ <./Interpolator_8h__incl.pdf> <./Interpolator_8h__dep__incl.pdf>]
+\openout2 = `InterpolatorIterator_8cpp.aux'.
+
+ (./InterpolatorIterator_8cpp.tex
+<InterpolatorIterator_8cpp__incl.pdf, id=6896, 214.8025pt x 138.5175pt>
+File: InterpolatorIterator_8cpp__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorIterator_8cpp__incl.pdf>) [301
+
+
+ <./InterpolatorIterator_8cpp__incl.pdf>]
+\openout2 = `InterpolatorIterator_8h.aux'.
+
+ (./InterpolatorIterator_8h.tex
+<InterpolatorIterator_8h__incl.pdf, id=6908, 210.7875pt x 86.3225pt>
+File: InterpolatorIterator_8h__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorIterator_8h__incl.pdf>
+<InterpolatorIterator_8h__dep__incl.pdf, id=6909, 471.7625pt x 138.5175pt>
+File: InterpolatorIterator_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorIterator_8h__dep__incl.pdf>) [302
+
+
+ <./InterpolatorIterator_8h__incl.pdf> <./InterpolatorIterator_8h__dep__incl.pd
+f>]
+\openout2 = `InterpolatorTypes_8cpp.aux'.
+
+
+(./InterpolatorTypes_8cpp.tex
+<InterpolatorTypes_8cpp__incl.pdf, id=6934, 690.58pt x 347.2975pt>
+File: InterpolatorTypes_8cpp__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorTypes_8cpp__incl.pdf>
+Overfull \hbox (16.0pt too wide) in paragraph at lines 11--13
+ [] 
+ []
+
+) [303
+
+
+ <./InterpolatorTypes_8cpp__incl.pdf>]
+\openout2 = `InterpolatorTypes_8h.aux'.
+
+ (./InterpolatorTypes_8h.tex
+<InterpolatorTypes_8h__incl.pdf, id=6946, 669.50125pt x 295.1025pt>
+File: InterpolatorTypes_8h__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorTypes_8h__incl.pdf>
+Overfull \hbox (6.0pt too wide) in paragraph at lines 13--15
+ [] 
+ []
+
+<InterpolatorTypes_8h__dep__incl.pdf, id=6947, 768.8725pt x 242.9075pt>
+File: InterpolatorTypes_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use InterpolatorTypes_8h__dep__incl.pdf>
+Overfull \hbox (55.0pt too wide) in paragraph at lines 21--23
+ [] 
+ []
+
+) [304
+
+
+ <./InterpolatorTypes_8h__incl.pdf> <./InterpolatorTypes_8h__dep__incl.pdf>] [3
+05]
+\openout2 = `Iterator_8h.aux'.
+
+ (./Iterator_8h.tex
+<Iterator_8h__incl.pdf, id=6975, 98.3675pt x 86.3225pt>
+File: Iterator_8h__incl.pdf Graphic file (type pdf)
+
+<use Iterator_8h__incl.pdf>
+<Iterator_8h__dep__incl.pdf, id=6976, 740.7675pt x 307.1475pt>
+File: Iterator_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Iterator_8h__dep__incl.pdf>
+Overfull \hbox (41.0pt too wide) in paragraph at lines 18--20
+ [] 
+ []
+
+) [306
+
+
+ <./Iterator_8h__incl.pdf> <./Iterator_8h__dep__incl.pdf>]
+\openout2 = `lib_8h.aux'.
+
+ (./lib_8h.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [307
+
+
+]
+<lib_8h__incl.pdf, id=7001, 3241.10875pt x 642.4pt>
+File: lib_8h__incl.pdf Graphic file (type pdf)
+ <use lib_8h__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 41--43
+ [] 
+ []
+
+<lib_8h__dep__incl.pdf, id=7002, 76.285pt x 86.3225pt>
+File: lib_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use lib_8h__dep__incl.pdf>) [308 <./lib_8h__incl.pdf> <./lib_8h__dep__incl.pdf
+>]
+\openout2 = `Loudness_8cpp.aux'.
+
+ (./Loudness_8cpp.tex
+<Loudness_8cpp__incl.pdf, id=7021, 329.23pt x 242.9075pt>
+File: Loudness_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Loudness_8cpp__incl.pdf>) [309
+
+
+ <./Loudness_8cpp__incl.pdf>]
+\openout2 = `Loudness_8h.aux'.
+
+
+(./Loudness_8h.tex <Loudness_8h__incl.pdf, id=7033, 192.72pt x 190.7125pt>
+File: Loudness_8h__incl.pdf Graphic file (type pdf)
+
+<use Loudness_8h__incl.pdf>
+<Loudness_8h__dep__incl.pdf, id=7034, 224.84pt x 138.5175pt>
+File: Loudness_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Loudness_8h__dep__incl.pdf>) [310
+
+
+ <./Loudness_8h__incl.pdf> <./Loudness_8h__dep__incl.pdf>]
+\openout2 = `LowPassFilter_8cpp.aux'.
+
+ (./LowPassFilter_8cpp.tex
+<LowPassFilter_8cpp__incl.pdf, id=7057, 515.9275pt x 347.2975pt>
+File: LowPassFilter_8cpp__incl.pdf Graphic file (type pdf)
+
+<use LowPassFilter_8cpp__incl.pdf>) [311
+
+
+ <./LowPassFilter_8cpp__incl.pdf>]
+\openout2 = `LowPassFilter_8h.aux'.
+
+
+(./LowPassFilter_8h.tex
+<LowPassFilter_8h__incl.pdf, id=7070, 365.365pt x 295.1025pt>
+File: LowPassFilter_8h__incl.pdf Graphic file (type pdf)
+
+<use LowPassFilter_8h__incl.pdf>
+<LowPassFilter_8h__dep__incl.pdf, id=7071, 697.60625pt x 399.4925pt>
+File: LowPassFilter_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use LowPassFilter_8h__dep__incl.pdf>
+Overfull \hbox (20.0pt too wide) in paragraph at lines 22--24
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [312
+
+
+ <./LowPassFilter_8h__incl.pdf>]) [313 <./LowPassFilter_8h__dep__incl.pdf>]
+\openout2 = `LPCombFilter_8cpp.aux'.
+
+
+(./LPCombFilter_8cpp.tex
+<LPCombFilter_8cpp__incl.pdf, id=7096, 546.04pt x 362.35374pt>
+File: LPCombFilter_8cpp__incl.pdf Graphic file (type pdf)
+
+<use LPCombFilter_8cpp__incl.pdf>) [314
+
+
+ <./LPCombFilter_8cpp__incl.pdf>]
+\openout2 = `LPCombFilter_8h.aux'.
+
+
+(./LPCombFilter_8h.tex
+<LPCombFilter_8h__incl.pdf, id=7108, 612.2875pt x 347.2975pt>
+File: LPCombFilter_8h__incl.pdf Graphic file (type pdf)
+
+<use LPCombFilter_8h__incl.pdf>
+<LPCombFilter_8h__dep__incl.pdf, id=7109, 483.8075pt x 347.2975pt>
+File: LPCombFilter_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use LPCombFilter_8h__dep__incl.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [315
+
+
+ <./LPCombFilter_8h__incl.pdf>]) [316 <./LPCombFilter_8h__dep__incl.pdf>]
+\openout2 = `MultiPan_8cpp.aux'.
+
+
+(./MultiPan_8cpp.tex
+<MultiPan_8cpp__incl.pdf, id=7134, 503.8825pt x 242.9075pt>
+File: MultiPan_8cpp__incl.pdf Graphic file (type pdf)
+
+<use MultiPan_8cpp__incl.pdf>) [317
+
+
+ <./MultiPan_8cpp__incl.pdf>]
+\openout2 = `MultiPan_8h.aux'.
+
+
+(./MultiPan_8h.tex <MultiPan_8h__incl.pdf, id=7152, 338.26375pt x 190.7125pt>
+File: MultiPan_8h__incl.pdf Graphic file (type pdf)
+
+<use MultiPan_8h__incl.pdf>
+<MultiPan_8h__dep__incl.pdf, id=7153, 146.5475pt x 138.5175pt>
+File: MultiPan_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use MultiPan_8h__dep__incl.pdf>) [318
+
+
+ <./MultiPan_8h__incl.pdf> <./MultiPan_8h__dep__incl.pdf>]
+\openout2 = `MultiTrack_8cpp.aux'.
+
+ (./MultiTrack_8cpp.tex
+<MultiTrack_8cpp__incl.pdf, id=7174, 265.99374pt x 242.9075pt>
+File: MultiTrack_8cpp__incl.pdf Graphic file (type pdf)
+
+<use MultiTrack_8cpp__incl.pdf>) [319
+
+
+ <./MultiTrack_8cpp__incl.pdf>]
+\openout2 = `MultiTrack_8h.aux'.
+
+
+(./MultiTrack_8h.tex
+<MultiTrack_8h__incl.pdf, id=7186, 266.9975pt x 190.7125pt>
+File: MultiTrack_8h__incl.pdf Graphic file (type pdf)
+
+<use MultiTrack_8h__incl.pdf>
+<MultiTrack_8h__dep__incl.pdf, id=7187, 1256.695pt x 404.51125pt>
+File: MultiTrack_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use MultiTrack_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 19--21
+ [] 
+ []
+
+) [320
+
+
+ <./MultiTrack_8h__incl.pdf> <./MultiTrack_8h__dep__incl.pdf>]
+\openout2 = `Pan_8cpp.aux'.
+
+
+(./Pan_8cpp.tex <Pan_8cpp__incl.pdf, id=7208, 702.625pt x 347.2975pt>
+File: Pan_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Pan_8cpp__incl.pdf>
+Overfull \hbox (22.0pt too wide) in paragraph at lines 12--14
+ [] 
+ []
+
+) [321
+
+
+ <./Pan_8cpp__incl.pdf>]
+\openout2 = `Pan_8h.aux'.
+
+ (./Pan_8h.tex
+<Pan_8h__incl.pdf, id=7220, 687.56876pt x 295.1025pt>
+File: Pan_8h__incl.pdf Graphic file (type pdf)
+ <use Pan_8h__incl.pdf>
+Overfull \hbox (15.0pt too wide) in paragraph at lines 14--16
+ [] 
+ []
+
+<Pan_8h__dep__incl.pdf, id=7221, 120.45pt x 138.5175pt>
+File: Pan_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Pan_8h__dep__incl.pdf>) [322
+
+
+ <./Pan_8h__incl.pdf> <./Pan_8h__dep__incl.pdf>]
+\openout2 = `ParameterLib_8cpp.aux'.
+
+ (./ParameterLib_8cpp.tex
+<ParameterLib_8cpp__incl.pdf, id=7242, 618.31pt x 347.2975pt>
+File: ParameterLib_8cpp__incl.pdf Graphic file (type pdf)
+
+<use ParameterLib_8cpp__incl.pdf>
+<ParameterLib_8cpp__dep__incl.pdf, id=7243, 455.7025pt x 295.1025pt>
+File: ParameterLib_8cpp__dep__incl.pdf Graphic file (type pdf)
+
+<use ParameterLib_8cpp__dep__incl.pdf>) [323
+
+
+ <./ParameterLib_8cpp__incl.pdf> <./ParameterLib_8cpp__dep__incl.pdf>]
+\openout2 = `ParameterLib_8h.aux'.
+
+ (./ParameterLib_8h.tex
+<ParameterLib_8h__incl.pdf, id=7263, 618.31pt x 295.1025pt>
+File: ParameterLib_8h__incl.pdf Graphic file (type pdf)
+
+<use ParameterLib_8h__incl.pdf>
+<ParameterLib_8h__dep__incl.pdf, id=7264, 341.275pt x 347.2975pt>
+File: ParameterLib_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use ParameterLib_8h__dep__incl.pdf>
+Underfull \vbox (badness 1189) has occurred while \output is active []
+
+ [324
+
+
+ <./ParameterLib_8h__incl.pdf> <./ParameterLib_8h__dep__incl.pdf>]) [325]
+\openout2 = `Partial_8cpp.aux'.
+
+
+(./Partial_8cpp.tex
+<Partial_8cpp__incl.pdf, id=7289, 692.5875pt x 298.11375pt>
+File: Partial_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Partial_8cpp__incl.pdf>
+Overfull \hbox (17.0pt too wide) in paragraph at lines 16--18
+ [] 
+ []
+
+) [326
+
+
+ <./Partial_8cpp__incl.pdf>]
+\openout2 = `Partial_8h.aux'.
+
+ (./Partial_8h.tex
+<Partial_8h__incl.pdf, id=7303, 415.5525pt x 138.5175pt>
+File: Partial_8h__incl.pdf Graphic file (type pdf)
+
+<use Partial_8h__incl.pdf>
+<Partial_8h__dep__incl.pdf, id=7304, 359.3425pt x 242.9075pt>
+File: Partial_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Partial_8h__dep__incl.pdf> [327
+
+
+ <./Partial_8h__incl.pdf> <./Partial_8h__dep__incl.pdf>] [328] [329]
+Underfull \hbox (badness 10000) in paragraph at lines 129--129
+
+ []
+
+[330]
+Underfull \hbox (badness 10000) in paragraph at lines 216--216
+
+ []
+
+) [331]
+\openout2 = `Reverb_8cpp.aux'.
+
+ (./Reverb_8cpp.tex
+<Reverb_8cpp__incl.pdf, id=7397, 632.3625pt x 347.2975pt>
+File: Reverb_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Reverb_8cpp__incl.pdf>) [332
+
+
+ <./Reverb_8cpp__incl.pdf>]
+\openout2 = `Reverb_8h.aux'.
+
+ (./Reverb_8h.tex
+<Reverb_8h__incl.pdf, id=7414, 646.415pt x 242.9075pt>
+File: Reverb_8h__incl.pdf Graphic file (type pdf)
+
+<use Reverb_8h__incl.pdf>
+<Reverb_8h__dep__incl.pdf, id=7415, 405.515pt x 295.1025pt>
+File: Reverb_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Reverb_8h__dep__incl.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [333
+
+
+ <./Reverb_8h__incl.pdf>]) [334 <./Reverb_8h__dep__incl.pdf>]
+\openout2 = `Score_8cpp.aux'.
+
+ (./Score_8cpp.tex
+<Score_8cpp__incl.pdf, id=7445, 577.15625pt x 295.1025pt>
+File: Score_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Score_8cpp__incl.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]/ptmr8t/References threadlist_-entry::done, threadlist_-entry::finish-Conditi
+on, threadlist_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+/ptmr8t/entry::list-Mutex, threadlist_-entry::num-Channels, Sound::render(), th
+readlist_-
+ []
+
+) [335
+
+
+ <./Score_8cpp__incl.pdf>]
+\openout2 = `Score_8h.aux'.
+
+ (./Score_8h.tex
+<Score_8h__incl.pdf, id=7463, 523.9575pt x 242.9075pt>
+File: Score_8h__incl.pdf Graphic file (type pdf)
+
+<use Score_8h__incl.pdf>
+<Score_8h__dep__incl.pdf, id=7464, 204.765pt x 138.5175pt>
+File: Score_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Score_8h__dep__incl.pdf>) [336
+
+
+ <./Score_8h__incl.pdf> <./Score_8h__dep__incl.pdf>]
+\openout2 = `Sound_8cpp.aux'.
+
+ (./Sound_8cpp.tex
+<Sound_8cpp__incl.pdf, id=7486, 226.8475pt x 138.5175pt>
+File: Sound_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Sound_8cpp__incl.pdf>) [337
+
+
+ <./Sound_8cpp__incl.pdf>]
+\openout2 = `Sound_8h.aux'.
+
+ (./Sound_8h.tex
+<Sound_8h__incl.pdf, id=7498, 827.09pt x 242.9075pt>
+File: Sound_8h__incl.pdf Graphic file (type pdf)
+ <use Sound_8h__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 21--23
+ [] 
+ []
+
+<Sound_8h__dep__incl.pdf, id=7499, 275.0275pt x 190.7125pt>
+File: Sound_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Sound_8h__dep__incl.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [338
+
+
+ <./Sound_8h__incl.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 86--86
+
+ []
+
+[339 <./Sound_8h__dep__incl.pdf>]) [340]
+\openout2 = `SoundSample_8cpp.aux'.
+
+ (./SoundSample_8cpp.tex
+<SoundSample_8cpp__incl.pdf, id=7561, 106.3975pt x 138.5175pt>
+File: SoundSample_8cpp__incl.pdf Graphic file (type pdf)
+
+<use SoundSample_8cpp__incl.pdf>) [341
+
+
+ <./SoundSample_8cpp__incl.pdf>]
+\openout2 = `SoundSample_8h.aux'.
+
+
+(./SoundSample_8h.tex
+<SoundSample_8h__incl.pdf, id=7579, 106.3975pt x 86.3225pt>
+File: SoundSample_8h__incl.pdf Graphic file (type pdf)
+
+<use SoundSample_8h__incl.pdf>
+<SoundSample_8h__dep__incl.pdf, id=7580, 1069.9975pt x 295.1025pt>
+File: SoundSample_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use SoundSample_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 19--21
+ [] 
+ []
+
+) [342
+
+
+ <./SoundSample_8h__incl.pdf> <./SoundSample_8h__dep__incl.pdf>]
+\openout2 = `Spatializer_8cpp.aux'.
+
+
+(./Spatializer_8cpp.tex
+<Spatializer_8cpp__incl.pdf, id=7601, 447.6725pt x 295.1025pt>
+File: Spatializer_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Spatializer_8cpp__incl.pdf>) [343
+
+
+ <./Spatializer_8cpp__incl.pdf>]
+\openout2 = `Spatializer_8h.aux'.
+
+
+(./Spatializer_8h.tex
+<Spatializer_8h__incl.pdf, id=7613, 447.6725pt x 242.9075pt>
+File: Spatializer_8h__incl.pdf Graphic file (type pdf)
+
+<use Spatializer_8h__incl.pdf>
+<Spatializer_8h__dep__incl.pdf, id=7614, 538.01pt x 242.9075pt>
+File: Spatializer_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Spatializer_8h__dep__incl.pdf>) [344
+
+
+ <./Spatializer_8h__incl.pdf> <./Spatializer_8h__dep__incl.pdf>]
+\openout2 = `Track_8cpp.aux'.
+
+ (./Track_8cpp.tex
+<Track_8cpp__incl.pdf, id=7635, 106.3975pt x 190.7125pt>
+File: Track_8cpp__incl.pdf Graphic file (type pdf)
+
+<use Track_8cpp__incl.pdf>) [345
+
+
+ <./Track_8cpp__incl.pdf>]
+\openout2 = `Track_8h.aux'.
+
+ (./Track_8h.tex
+<Track_8h__incl.pdf, id=7647, 106.3975pt x 138.5175pt>
+File: Track_8h__incl.pdf Graphic file (type pdf)
+
+<use Track_8h__incl.pdf>
+<Track_8h__dep__incl.pdf, id=7648, 1558.82375pt x 417.56pt>
+File: Track_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Track_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 18--20
+ [] 
+ []
+
+) [346
+
+
+ <./Track_8h__incl.pdf> <./Track_8h__dep__incl.pdf>]
+\openout2 = `Types_8h.aux'.
+
+ (./Types_8h.tex
+<Types_8h__dep__incl.pdf, id=7669, 1644.1425pt x 359.3425pt>
+File: Types_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use Types_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 9--11
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 30
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
+ []
+
+[347
+
+
+ <./Types_8h__dep__incl.pdf>]
+Underfull \hbox (badness 10000) detected at line 56
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 56
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 58
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 58
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--85
+[]/ptmr8t/Referenced by Envelope::add-Interpolators(), Dynamic-Variable-Sequenc
+e::add-
+ []
+
+
+Underfull \hbox (badness 1997) in paragraph at lines 82--85
+/ptmr8t/Multi-Track::Multi-Track(), Sound::render(), Score::render(), Par-tial:
+:render(), Re-
+ []
+
+
+Underfull \hbox (badness 3977) in paragraph at lines 82--85
+/ptmr8t/verb::Reverb(), Sound-Sample::set-Sampling-Rate(), Dynamic-Variable::se
+t-Sampling-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--85
+/ptmr8t/Rate(), Sound-Sample::Sound-Sample(), Pan::spatialize(), Multi-Pan::spa
+tialize(),
+ []
+
+[348]
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+[]/ptmr8t/Referenced by Score::anticlip(), Interpolator-Iterator::append(), Lou
+d-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/ness::calculate(), Score::channel-Anticlip(), Score::channel-Scale(), S
+core::clip(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Sound-Sample::composite(), Constant::Constant-Iterator::Constant-Iterat
+or(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Reverb::construct-Amp(), Interpolator-Iterator::Entry::Entry(), Sound-S
+ample::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Sample-Count(), Dynamic-Variable::get-Sample-Count(), Multi-Track::Mult
+i-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Track(), Sound-Sample::operator[]$ $[](), Sound::render(), Score::rende
+r(), Par-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/tial::render(), Score::scale(), Sound-Sample::Sound-Sample(), Pan::spat
+ialize(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Multi-Pan::spatialize(), Track::Track(), Cubic-Spline-Interpolator::val
+ue-Iterator(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
+/ptmr8t/Exponential-Interpolator::value-Iterator(), Linear-Interpolator::value-
+Iterator(), and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--111
+[]/ptmr8t/Referenced by Score::anticlip(), Score::channel-Scale(), Reverb::cons
+truct-
+ []
+
+
+Underfull \hbox (badness 4479) in paragraph at lines 108--111
+/ptmr8t/Amp(), LPComb-Filter::do_-filter(), Low-Pass-Filter::do_-filter(), All-
+Pass-Filter::do_-
+ []
+
+
+Underfull \hbox (badness 1400) in paragraph at lines 108--111
+/ptmr8t/filter(), Reverb::do_-reverb(), Sound-Sample::operator[]$ $[](), Score:
+:scale(), and Au-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+[]/ptmr8t/Referenced by Interpolator::add-Entry(), Dynamic-Variable-Sequence::a
+dd-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Interpolators(), Dynamic-Variable-Sequence::Add-To-Shape(), Interpolato
+r-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Iterator::append(), Loud-ness::calculate(), Track::composite(), Sound-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Sample::composite(), Multi-Track::composite(), Reverb::Constructor-Comm
+on(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Sequence::generate-Times(), Dynamic-Variable::get-Duration(), Dynamic-V
+ariable-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Dynamic-Variable-Sequence::get-Value(), Interpolator-Entry::Interpolato
+r-Entry(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Interpolator-Iterator::next(), Sound::render(), Score::render(), Par-ti
+al::render(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Dynamic-Variable::set-Duration(), Dynamic-Variable-Sequence::set-Segmen
+t-Time(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+/ptmr8t/Cubic-Spline-Interpolator::value-Iterator(), Exponential-Interpolator::
+value-Iterator(),
+ []
+
+[349]
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Constant::Constant-Iterator::Constant-Iterator(), Loudness::critical-Ba
+nd-Index(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Envelope::Define-Shape(), Interpolator-Iterator::Entry::Entry(), Loudne
+ss::Critical-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Band::get-Band-Gamma(), Interpolator::get-Max-Value(), Envelope::get-Ma
+x-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Value(), Dynamic-Variable-Sequence::get-Max-Value(), Constant::get-Max-
+Value(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Loudness::Partial-Snapshot::get-Scaling-Factor(), Envelope::get-Segment
+-Length(),
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 134--135
+/ptmr8t/Envelope::get-Value(), Dynamic-Variable-Sequence::get-Value(), Constant
+::get-Value(),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Interpolator-Entry::Interpolator-Entry(), Cubic-Spline-Interpolator-Ite
+rator::next(),
+ []
+
+
+Underfull \hbox (badness 1028) in paragraph at lines 134--135
+/ptmr8t/Exponential-Interpolator-Iterator::next(), Linear-Interpolator-Iterator
+::next(), Envelope-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Iterator::next(), Dynamic-Variable-Sequence-Iterator::next(), Loudness:
+:Partial-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+/ptmr8t/Snapshot::Partial-Snapshot(), Par-tial::pmod(), Par-tial::render(), Tra
+ck::scale(),
+ []
+
+
+Underfull \hbox (badness 4531) in paragraph at lines 134--135
+/ptmr8t/Sound-Sample::scale(), In-ter-po-la-tor::scale(), En-ve-lope::scale(), 
+Dynamic-Variable-
+ []
+
+
+Underfull \hbox (badness 3108) in paragraph at lines 134--135
+/ptmr8t/Sequence::scale(), Con-stant::scale(), Parameter-Lib$/cmmi10/<$ /ptmr8t
+/Static-T, Dynamic-T $/cmmi10/>$/ptmr8t/::set-
+ []
+
+
+Underfull \hbox (badness 3492) in paragraph at lines 134--135
+/ptmr8t/Param(), Sound::set-Partial-Param(), Envelope::set-Segment-Length(), Co
+nstant::set-
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 134--135
+/ptmr8t/Value(), Sound::Sound(), Pan::spatialize(), Multi-Pan::spatialize(), Cu
+bic-Spline-
+ []
+
+
+Underfull \hbox (badness 5331) in paragraph at lines 134--135
+/ptmr8t/Interpolator::value-Iterator(), Exponential-Interpolator::value-Iterato
+r(), and Linear-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--145
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--169
+[]/ptmr8t/Referenced by Cubic-Spline-Interpolator::get-Type(), Exponential-Inte
+rpolator::get-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--169
+/ptmr8t/Segment-Interpolation-Type(), and Dynamic-Variable-Sequence::set-Segmen
+t-
+ []
+
+
+Underfull \vbox (badness 1314) has occurred while \output is active []
+
+ [350]
+Underfull \hbox (badness 10000) in paragraph at lines 174--174
+
+ []
+
+) [351]
+\openout2 = `XmlReader_8cpp.aux'.
+
+ (./XmlReader_8cpp.tex
+<XmlReader_8cpp__incl.pdf, id=7754, 238.8925pt x 138.5175pt>
+File: XmlReader_8cpp__incl.pdf Graphic file (type pdf)
+
+<use XmlReader_8cpp__incl.pdf>) [352
+
+
+ <./XmlReader_8cpp__incl.pdf>]
+\openout2 = `XmlReader_8h.aux'.
+
+
+(./XmlReader_8h.tex <XmlReader_8h__incl.pdf, id=7766, 76.285pt x 86.3225pt>
+File: XmlReader_8h__incl.pdf Graphic file (type pdf)
+
+<use XmlReader_8h__incl.pdf>
+<XmlReader_8h__dep__incl.pdf, id=7767, 965.6075pt x 347.2975pt>
+File: XmlReader_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use XmlReader_8h__dep__incl.pdf>
+Overfull \hbox (75.0pt too wide) in paragraph at lines 18--20
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+
+ []
+
+[353
+
+
+ <./XmlReader_8h__incl.pdf> <./XmlReader_8h__dep__incl.pdf>]) [354]
+Chapter 10.
+(./deprecated.tex
+Overfull \hbox (60.25186pt too wide) in paragraph at lines 23--23
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--35
+[]
+ []
+
+
+Overfull \hbox (106.69148pt too wide) in paragraph at lines 47--47
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]/ptmr8t/This
+ []
+
+[355
+
+
+]
+Overfull \hbox (135.99106pt too wide) in paragraph at lines 59--59
+[]
+ []
+
+
+Overfull \hbox (11.6071pt too wide) in paragraph at lines 65--65
+[]
+ []
+
+
+Overfull \hbox (60.31187pt too wide) in paragraph at lines 77--77
+[]
+ []
+
+
+Overfull \hbox (74.03162pt too wide) in paragraph at lines 95--95
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+[]/ptmr8t/This out-puts an
+ []
+
+
+Overfull \hbox (291.12106pt too wide) in paragraph at lines 137--137
+[]
+ []
+
+[356]
+Overfull \hbox (172.32666pt too wide) in paragraph at lines 143--143
+[]
+ []
+
+
+Overfull \hbox (323.90642pt too wide) in paragraph at lines 149--149
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--149
+
+ []
+
+
+Overfull \hbox (170.22673pt too wide) in paragraph at lines 191--191
+[]
+ []
+
+
+Overfull \hbox (318.48657pt too wide) in paragraph at lines 197--197
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
+
+ []
+
+) [357]
+\openout2 = `todo.aux'.
+
+ (./todo.tex
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+[]/ptmr8t/We
+ []
+
+
+Overfull \hbox (307.26488pt too wide) in paragraph at lines 35--35
+[]
+ []
+
+
+Underfull \hbox (badness 6396) in paragraph at lines 41--41
+[]/ptmr8t/The ar-gu-ment should be
+ []
+
+
+Overfull \hbox (11.95708pt too wide) in paragraph at lines 59--59
+[]
+ []
+
+) [358
+
+] (./refman.ind
+Underfull \hbox (badness 10000) in paragraph at lines 16--18
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+[359
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 92--94
+[]| /ptmr8t/Dynamic-Variable-Sequence, [][]69[][],
+ []
+
+[360]
+Underfull \hbox (badness 10000) in paragraph at lines 202--204
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--209
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--215
+[]| /ptmr8t/Exponential-Interpolator-Iterator,
+ []
+
+[361]
+Underfull \hbox (badness 10000) in paragraph at lines 309--311
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 313--314
+[]| /ptmr8t/Cu-bic-SplineIn-ter-po-la-torIt-er-a-tor,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--326
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 328--330
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+[362]
+Underfull \hbox (badness 10000) in paragraph at lines 470--472
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Overfull \hbox (13.00621pt too wide) in paragraph at lines 473--474
+[]| $/cmsy10/^^X$/ptmr8t/DynamicVariableSequenceIterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 477--478
+[]| /ptmr8t/Dy-nam-ic-Vari-able-Se-quen-ceIt-er-a-
+ []
+
+
+Overfull \hbox (1.61842pt too wide) in paragraph at lines 484--485
+[]/ptmr8t/DynamicVariableSequenceIterator.cpp,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--486
+[]/ptmr8t/DynamicVariableSequenceIterator.h,
+ []
+
+[363] [364]
+Underfull \hbox (badness 10000) in paragraph at lines 598--600
+[]| /ptmr8t/Exponential-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 602--603
+[]| /ptmr8t/Ex-po-nen-tial-In-ter-po-la-torIt-er-a-tor,
+ []
+
+[365]
+Underfull \hbox (badness 10000) in paragraph at lines 790--792
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+[366]
+Underfull \hbox (badness 10000) in paragraph at lines 868--870
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 880--882
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+[367] [368]
+Underfull \hbox (badness 10000) in paragraph at lines 1033--1035
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1085--1087
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1087--1089
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1092
+[]| /ptmr8t/Exponential-Interpolator-Iterator,
+ []
+
+[369] [370]
+Underfull \hbox (badness 10000) in paragraph at lines 1282--1284
+[]| /ptmr8t/REVERB_-NUM_-COMB_-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1325--1326
+[]| /ptmr8t/get-Clip-ping-Man-age-ment-Mode,
+ []
+
+[371]
+Underfull \hbox (badness 10000) in paragraph at lines 1334--1335
+[]| /ptmr8t/set-Clip-ping-Man-age-ment-Mode,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1339--1341
+[]| /ptmr8t/multithreaded_-render_-worker,
+ []
+
+[372]
+Underfull \hbox (badness 10000) in paragraph at lines 1445--1446
+[]| /ptmr8t/DETUNE_-FUNDAMENTAL,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1520--1522
+[]| /ptmr8t/Dynamic-Variable-Sequence-
+ []
+
+[373]
+Underfull \hbox (badness 10000) in paragraph at lines 1564--1566
+[]| /ptmr8t/DEFAULT_-LOUDNESS_-RATE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1566--1568
+[]| /ptmr8t/DEFAULT_-SAMPLING_-RATE,
+ []
+
+[374]
+Underfull \hbox (badness 10000) in paragraph at lines 1659--1661
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1662--1664
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+[375]
+Underfull \hbox (badness 10000) in paragraph at lines 1786--1788
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1789--1791
+[]| /ptmr8t/Cubic-Spline-Interpolator-Iterator,
+ []
+
+[376
+
+]) (./refman.aux (./classAllPassFilter.aux) (./classAuWriter.aux)
+(./classCollection.aux) (./classCollection_1_1CollectionIterator.aux)
+(./classConstant.aux) (./classConstant_1_1ConstantIterator.aux)
+(./classCubicSplineInterpolator.aux)
+(./classCubicSplineInterpolatorIterator.aux) (./classDynamicVariable.aux)
+(./classDynamicVariableSequence.aux)
+(./classDynamicVariableSequenceIterator.aux) (./structenv__seg.aux)
+(./classEnvelope.aux) (./structenvelope__segment.aux)
+(./classEnvelopeIterator.aux) (./classEnvelopeLibrary.aux)
+(./classExponentialInterpolator.aux)
+(./classExponentialInterpolatorIterator.aux) (./classFilter.aux)
+(./classFilter_1_1hist__queue.aux) (./classInterpolator.aux)
+(./classInterpolatorEntry.aux) (./classInterpolatorIterator.aux)
+(./classInterpolatorIterator_1_1Entry.aux) (./classIterator.aux)
+(./classLinearInterpolator.aux) (./classLinearInterpolatorIterator.aux)
+(./classLoudness.aux) (./classLoudness_1_1CriticalBand.aux)
+(./classLoudness_1_1PartialSnapshot.aux) (./classLowPassFilter.aux)
+(./classLPCombFilter.aux) (./classMultiPan.aux) (./classMultiTrack.aux)
+(./classPan.aux) (./classParameterLib.aux) (./classPartial.aux)
+(./classReverb.aux) (./classScore.aux) (./classSound.aux)
+(./classSoundSample.aux) (./classSpatializer.aux)
+(./structthreadlist__entry.aux) (./classTrack.aux) (./classXmlReader.aux)
+(./classXmlReader_1_1tagparam.aux) (./classXmlReader_1_1xmltag.aux)
+(./classXmlReader_1_1xmltagset.aux) (./structxy__point.aux)
+(./AllPassFilter_8cpp.aux) (./AllPassFilter_8h.aux) (./AuWriter_8cpp.aux)
+(./AuWriter_8h.aux) (./Collection_8cpp.aux) (./Collection_8h.aux)
+(./Constant_8cpp.aux) (./Constant_8h.aux) (./DynamicVariable_8cpp.aux)
+(./DynamicVariable_8h.aux) (./DynamicVariableSequence_8cpp.aux)
+(./DynamicVariableSequence_8h.aux) (./DynamicVariableSequenceIterator_8cpp.aux)
+(./DynamicVariableSequenceIterator_8h.aux) (./Envelope_8cpp.aux)
+(./Envelope_8h.aux) (./EnvelopeIterator_8cpp.aux) (./EnvelopeIterator_8h.aux)
+(./EnvelopeLibrary_8cpp.aux) (./EnvelopeLibrary_8h.aux) (./extra-docs_8txt.aux)
+(./Filter_8cpp.aux) (./Filter_8h.aux) (./Interpolator_8cpp.aux)
+(./Interpolator_8h.aux) (./InterpolatorIterator_8cpp.aux)
+(./InterpolatorIterator_8h.aux) (./InterpolatorTypes_8cpp.aux)
+(./InterpolatorTypes_8h.aux) (./Iterator_8h.aux) (./lib_8h.aux)
+(./Loudness_8cpp.aux) (./Loudness_8h.aux) (./LowPassFilter_8cpp.aux)
+(./LowPassFilter_8h.aux) (./LPCombFilter_8cpp.aux) (./LPCombFilter_8h.aux)
+(./MultiPan_8cpp.aux) (./MultiPan_8h.aux) (./MultiTrack_8cpp.aux)
+(./MultiTrack_8h.aux) (./Pan_8cpp.aux) (./Pan_8h.aux) (./ParameterLib_8cpp.aux)
+(./ParameterLib_8h.aux) (./Partial_8cpp.aux) (./Partial_8h.aux)
+(./Reverb_8cpp.aux) (./Reverb_8h.aux) (./Score_8cpp.aux) (./Score_8h.aux)
+(./Sound_8cpp.aux) (./Sound_8h.aux) (./SoundSample_8cpp.aux)
+(./SoundSample_8h.aux) (./Spatializer_8cpp.aux) (./Spatializer_8h.aux)
+(./Track_8cpp.aux) (./Track_8h.aux) (./Types_8h.aux) (./XmlReader_8cpp.aux)
+(./XmlReader_8h.aux) (./todo.aux))
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 8436 strings out of 95437
+ 154048 string characters out of 1188126
+ 184651 words of memory out of 1000001
+ 8251 multiletter control sequences out of 10000+50000
+ 49284 words of font info for 56 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 38i,13n,43p,1552b,533s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 9159 PDF objects out of 300000
+ 2141 named destinations out of 131072
+ 1812 words of extra memory for PDF output out of 65536
+
+! pdfTeX warning (dest): name{XmlReader_8h-source} has been referenced but does
+ not exist, replaced by a fixed one
+
+! pdfTeX warning (dest): name{Types_8h-source} has been referenced but does not
+ exist, replaced by a fixed one
+
+! pdfTeX warning (dest): name{Sound_8h-source} has been referenced but does not
+ exist, replaced by a fixed one
+
+! pdfTeX warning (dest): name{Partial_8h-source} has been referenced but does n
+ot exist, replaced by a fixed one
+
+! pdfTeX warning (dest): name{extra-docs_8txt-source} has been referenced but d
+oes not exist, replaced by a fixed one
+
+{/usr/share/texmf/dvips/psnfss/8r.enc}{/usr/share/texmf/dvips/tetex/bbad153f.en
+c}</usr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb>{/usr/share/texmf/dvips/te
+tex/aae443f0.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmmi12.pfb></usr/shar
+e/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky
+/cm/cmmi10.pfb>
+Output written on refman.pdf (384 pages, 2670592 bytes).

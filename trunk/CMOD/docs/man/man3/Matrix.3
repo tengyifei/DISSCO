@@ -1,0 +1,398 @@
+.TH "Matrix" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Matrix \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <matrix.h>\fP
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMatrix\fP (int \fBx\fP=5, int \fBy\fP=5, double init=0.0)"
+.br
+.ti -1c
+.RI "\fBMatrix\fP (const  \fBMatrix\fP &origMatrix)"
+.br
+.ti -1c
+.RI "\fB~Matrix\fP ()"
+.br
+.ti -1c
+.RI "\fBMatrix\fP & \fBoperator=\fP (\fBMatrix\fP &m)"
+.br
+.ti -1c
+.RI "double \fBoperator()\fP (int a, int b)"
+.br
+.ti -1c
+.RI "void \fBIncludeArray\fP (double array[], int from, int to)"
+.br
+.ti -1c
+.RI "void \fBGetVector\fP (char *\fBfileName\fP)"
+.br
+.ti -1c
+.RI "void \fBGetVector\fP (vector< float > newVector)"
+.br
+.ti -1c
+.RI "void \fBIncludeVector\fP ()"
+.br
+.ti -1c
+.RI "void \fBAdjustVector\fP (int, int, int, int)"
+.br
+.ti -1c
+.RI "void \fBAdjustMatrix\fP (int, int, int, int, int, int)"
+.br
+.ti -1c
+.RI "void \fBBuildMatrix\fP (double[])"
+.br
+.ti -1c
+.RI "void \fBBuildMatrix2\fP (\fBList\fP< int > &, int)"
+.br
+.ti -1c
+.RI "void \fBTrimMatrix\fP (int type, float density, int remain0, int durLoc)"
+.br
+.ti -1c
+.RI "void \fBChooseM\fP ()"
+.br
+.ti -1c
+.RI "void \fBChooseM\fP (int &r, int &c)"
+.br
+.ti -1c
+.RI "void \fBEnvelopes\fP (char *\fBfileName\fP)"
+.br
+.ti -1c
+.RI "void \fBEnvelopes\fP (vector< float > probs, vector< Envelope * > envList)"
+.br
+.ti -1c
+.RI "void \fBEnvelopes\fP (vector< float > probs, vector< int > envNums, vector< float > coeffs)"
+.br
+.ti -1c
+.RI "void \fBEnvelopes\fP (char *\fBfileName\fP, vector< Collection< xy_point > > xyCollection, vector< vector< string > > segmentTypes, vector< vector< string > > segmentFixed)"
+.br
+.ti -1c
+.RI "void \fBEnvelopes\fP (vector< Collection< xy_point > > xyCollection, vector< vector< string > > segmentTypes, vector< vector< string > > segmentFixed)"
+.br
+.ti -1c
+.RI "void \fBInterpol\fP (int, double[])"
+.br
+.ti -1c
+.RI "void \fBMult\fP (int remain0, float density, int type, int durLoc, int durArray[], int stimeMatrix, int starTarray[])"
+.br
+.ti -1c
+.RI "void \fBNormalize\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetDim\fP (int \fBx\fP, int \fBy\fP)"
+.br
+.ti -1c
+.RI "double \fBGetValueAt\fP (int \fBx\fP, int \fBy\fP)"
+.br
+.ti -1c
+.RI "void \fBInit\fP (double init)"
+.br
+.ti -1c
+.RI "void \fBPrint\fP ()"
+.br
+.ti -1c
+.RI "void \fBPrintVector\fP ()"
+.br
+.ti -1c
+.RI "void \fBClear\fP ()"
+.br
+.ti -1c
+.RI "int \fBGetX\fP ()"
+.br
+.ti -1c
+.RI "int \fBGetY\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBcol\fP"
+.br
+.ti -1c
+.RI "int \fBrow\fP"
+.br
+.ti -1c
+.RI "double ** \fBmatrix\fP"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSmooth\fP (int, int, int, int, int)"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "double * \fBstProb\fP"
+.br
+.ti -1c
+.RI "int \fBsever\fP"
+.br
+.ti -1c
+.RI "int \fBx\fP"
+.br
+.ti -1c
+.RI "int \fBy\fP"
+.br
+.ti -1c
+.RI "double * \fB_vector\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBEvent\fP"
+.br
+.ti -1c
+.RI "ostream & \fBoperator<<\fP (ostream &s, \fBMatrix\fP &m)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Matrix::Matrix (int x = 5, int y = 5, double init = 0.0)"
+.PP
+Matrix constructor Definition at line 51 of file matrix.cpp.
+.PP
+References Init(), matrix, and SetDim().
+.SS "Matrix::Matrix (const \fBMatrix\fP & m)"
+.PP
+Matrix Copy Constructor Definition at line 74 of file matrix.cpp.
+.PP
+References _vector, matrix, SetDim(), x, and y.
+.SS "Matrix::~\fBMatrix\fP ()"
+.PP
+Destructor: Matrix Definition at line 95 of file matrix.cpp.
+.PP
+References Clear().
+.SH "Member Function Documentation"
+.PP 
+.SS "void Matrix::AdjustMatrix (int type, int stimeMatrix, int endLocM, int slope, int from, int to)"
+.PP
+PUBLIC: ADJUSTMATRIX. Blocks the locations covered by the duration (durMatrix). The edges are smoothed following a user define slope. Definition at line 297 of file matrix.cpp.
+.PP
+References matrix, Smooth(), and y.
+.PP
+Referenced by Event::Adjustments().
+.SS "void Matrix::AdjustVector (int type, int remainO, int from, int to)"
+.PP
+PUBLIC: ADJUSTVECTOR.
+.PP
+If remainO is -1, sets each element of the vector in the range specified by from and to to 0. If remainO is 0, sets the vector element specified by type to 0. Otherwise, decreases the vector element specified by type by 1/(remain0 + 1) for each element in the matrix line specified by type that is greater than 0. Finally, normalizes the vector element range specified by from and to. Definition at line 246 of file matrix.cpp.
+.PP
+References _vector, matrix, sever, and y.
+.PP
+Referenced by Event::Adjustments().
+.SS "void Matrix::BuildMatrix (double array[])"
+.PP
+BuildMatrix Definition at line 413 of file matrix.cpp.
+.SS "void Matrix::BuildMatrix2 (\fBList\fP< int > &, int)"
+.PP
+.SS "void Matrix::ChooseM (int & r, int & c)"
+.PP
+ChooseM
+.PP
+Same as ChooseM but returns the values directly to the caller through the reference params r and c. Definition at line 462 of file matrix.cpp.
+.PP
+References ChooseM(), col, and row.
+.SS "void Matrix::ChooseM ()"
+.PP
+STATIC PUBLIC: CHOOSEM
+.PP
+Chooses an element out of the probability matrix, based on each element's associated probability and a randomly generated number Definition at line 432 of file matrix.cpp.
+.PP
+References col, matrix, Print(), Random::Rand(), row, x, and y.
+.PP
+Referenced by ChooseM(), Event::FindDur(), and Event::ObjCoordinates().
+.SS "void Matrix::Clear ()"
+.PP
+PUBLIC: CLEAR. Deletes the matrix and sets its dimensions to 0. Definition at line 177 of file matrix.cpp.
+.PP
+References _vector, matrix, x, and y.
+.PP
+Referenced by operator=(), SetDim(), and ~Matrix().
+.SS "void Matrix::Envelopes (vector< Collection< xy_point > > xyCollection, vector< vector< string > > segmentTypes, vector< vector< string > > segmentFixed)"
+.PP
+Definition at line 576 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.SS "void Matrix::Envelopes (char * fileName, vector< Collection< xy_point > > xyCollection, vector< vector< string > > segmentTypes, vector< vector< string > > segmentFixed)"
+.PP
+.SS "void Matrix::Envelopes (vector< float > probs, vector< int > envNums, vector< float > coeffs)"
+.PP
+.SS "void Matrix::Envelopes (vector< float > probs, vector< Envelope * > envList)"
+.PP
+PUBLIC: Envelopes. Creates an envelope and loads envelopes from the library and finds their values corresponding to each sieve location (attack point). NB. we deal here with sieve locations and not with actual time values. Definition at line 557 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.SS "void Matrix::Envelopes (char * fileName)"
+.PP
+Referenced by Event::NewCreateMatrices().
+.SS "double Matrix::GetValueAt (int x, int y)"
+.PP
+.SS "void Matrix::GetVector (vector< float > newVector)"
+.PP
+PUBLIC: GetVector. Read or Compute a vector from a file. Definition at line 647 of file matrix.cpp.
+.PP
+References _vector, and x.
+.SS "void Matrix::GetVector (char * fileName)"
+.PP
+PUBLIC: GetVector. Read or Compute a vector from a file. Referenced by Event::NewCreateMatrices().
+.SS "int Matrix::GetX ()"
+.PP
+PUBLIC: GetX. Gets the value of the first subscript of the matrix. Definition at line 136 of file matrix.cpp.
+.PP
+References x.
+.SS "int Matrix::GetY ()"
+.PP
+PUBLIC: GetY. Gets the value of the second subscript of the matrix. Definition at line 148 of file matrix.cpp.
+.PP
+References y.
+.SS "void Matrix::IncludeArray (double array[], int from, int to)"
+.PP
+IncludeArray. Multiplies the elements of an existing matrix with those of an array of doubles. Each matrix line between a lower limit (from) and an upper limit (to) is multiplied by the same array, each element of the array with an element of the matrix line. Definition at line 379 of file matrix.cpp.
+.PP
+References matrix, and y.
+.PP
+Referenced by Mult(), Event::NewCreateMatrices(), and Event::ObjCoordinates().
+.SS "void Matrix::IncludeVector ()"
+.PP
+IncludeVector. Multiplies the elements of an existing matrix with those of avector of doubles. Each matrix line is multiplied by the same vector elemet, one vector element per line. Definition at line 397 of file matrix.cpp.
+.PP
+References _vector, matrix, x, and y.
+.SS "void Matrix::Init (double init)"
+.PP
+PUBLIC: Init. Initialize the matrix with the same value (usually 0) Definition at line 160 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.PP
+Referenced by Matrix().
+.SS "void Matrix::Interpol (int arraySize, double array[])"
+.PP
+PUBLIC: INTERPOL. Given the values for a few points interpolates the values for the rest of the array Definition at line 757 of file matrix.cpp.
+.PP
+References y.
+.PP
+Referenced by Mult().
+.SS "void Matrix::Mult (int remainO, float density, int type, int durLoc, int durArray[], int stimeMatrix, int starTarray[])"
+.PP
+MULT. Finds the most desirable duration given the density and the number of unassigned yet objects. Creates an array centered around this 'peak' then multiplies the line of the existing duration matrix which corresponds to the type already chosen with the array. Definition at line 699 of file matrix.cpp.
+.PP
+References IncludeArray(), Interpol(), and y.
+.PP
+Referenced by Event::FindDur().
+.SS "void Matrix::Normalize ()"
+.PP
+Normalize. Takes a two-dimenssional array of doubles, divides each element by the sum of all elements, and adds the value to the preceding value (sum of values) so that the last element is always 1. Definition at line 792 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.PP
+Referenced by Event::FindDur().
+.SS "double Matrix::operator() (int a, int b)"
+.PP
+Definition at line 100 of file matrix.cpp.
+.PP
+References matrix.
+.SS "\fBMatrix\fP & Matrix::operator= (\fBMatrix\fP & m)"
+.PP
+PUBLIC: OPERATOR=. Definition at line 199 of file matrix.cpp.
+.PP
+References _vector, Clear(), matrix, SetDim(), x, and y.
+.SS "void Matrix::Print ()"
+.PP
+Print. Prints all the elements of the matrix. Useful in testing. Definition at line 825 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.PP
+Referenced by ChooseM(), and Event::ObjCoordinates().
+.SS "void Matrix::PrintVector ()"
+.PP
+PrintVectors. Prints a vector/array on a 8 column format. Definition at line 845 of file matrix.cpp.
+.PP
+References _vector, and x.
+.PP
+Referenced by Event::ObjCoordinates().
+.SS "void Matrix::SetDim (int x, int y)"
+.PP
+PUBLIC: SetDim Sets the dimensions of the matrix, vector, and the probability array. Definition at line 112 of file matrix.cpp.
+.PP
+References _vector, Clear(), and matrix.
+.PP
+Referenced by Matrix(), and operator=().
+.SS "void Matrix::Smooth (int line, int slope, int start, int finish, int flag)\fC [private]\fP"
+.PP
+PRIVATE: SMOOTH
+.PP
+If flag is 1, smooths the the matrix locations leading up to or trailing away from a sound. Definition at line 330 of file matrix.cpp.
+.PP
+References matrix, and y.
+.PP
+Referenced by AdjustMatrix().
+.SS "void Matrix::TrimMatrix (int type, float density, int remainO, int durLoc)"
+.PP
+TRIMMATRIX. Reads in individual arrays, builds another array(s) and multiplies it/them with the first set in order to obtain a weighted mean. Resulting matrix is normalized/scaled. **This function is used only for the duration matrix and performs similar tasks as the BuildMatrix function used only for the type/attacks matrix.** Definition at line 664 of file matrix.cpp.
+.PP
+References matrix, x, and y.
+.PP
+Referenced by Event::FindDur().
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBEvent\fP\fC [friend]\fP"
+.PP
+Definition at line 127 of file matrix.h.
+.SS "ostream& operator<< (ostream & s, \fBMatrix\fP & m)\fC [friend]\fP"
+.PP
+PUBLIC: OPERATOR<<. Definition at line 220 of file matrix.cpp.
+.SH "Member Data Documentation"
+.PP 
+.SS "double* \fBMatrix::_vector\fP\fC [private]\fP"
+.PP
+Definition at line 138 of file matrix.h.
+.PP
+Referenced by AdjustVector(), Clear(), GetVector(), IncludeVector(), Matrix(), operator=(), PrintVector(), and SetDim().
+.SS "int \fBMatrix::col\fP"
+.PP
+Definition at line 129 of file matrix.h.
+.PP
+Referenced by ChooseM(), and Event::ObjCoordinates().
+.SS "double** \fBMatrix::matrix\fP"
+.PP
+Definition at line 130 of file matrix.h.
+.PP
+Referenced by AdjustMatrix(), AdjustVector(), ChooseM(), Clear(), Envelopes(), Event::FindLen(), IncludeArray(), IncludeVector(), Init(), Matrix(), Normalize(), operator()(), operator<<(), operator=(), Print(), SetDim(), Smooth(), and TrimMatrix().
+.SS "int \fBMatrix::row\fP"
+.PP
+Definition at line 129 of file matrix.h.
+.PP
+Referenced by ChooseM(), Event::FindDur(), and Event::ObjCoordinates().
+.SS "int \fBMatrix::sever\fP\fC [private]\fP"
+.PP
+Definition at line 136 of file matrix.h.
+.PP
+Referenced by AdjustVector().
+.SS "double* \fBMatrix::stProb\fP\fC [private]\fP"
+.PP
+Definition at line 134 of file matrix.h.
+.SS "int \fBMatrix::x\fP\fC [private]\fP"
+.PP
+Definition at line 137 of file matrix.h.
+.PP
+Referenced by ChooseM(), Clear(), Envelopes(), GetVector(), GetX(), IncludeVector(), Init(), Matrix(), Normalize(), operator<<(), operator=(), Print(), PrintVector(), and TrimMatrix().
+.SS "int \fBMatrix::y\fP\fC [private]\fP"
+.PP
+Definition at line 137 of file matrix.h.
+.PP
+Referenced by AdjustMatrix(), AdjustVector(), ChooseM(), Clear(), Envelopes(), GetY(), IncludeArray(), IncludeVector(), Init(), Interpol(), Matrix(), Mult(), Normalize(), operator<<(), operator=(), Print(), Smooth(), and TrimMatrix().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

@@ -1,0 +1,139 @@
+\hypertarget{structenvelope__segment}{
+\section{envelope\_\-segment Struct Reference}
+\label{structenvelope__segment}\index{envelope_segment@{envelope\_\-segment}}
+}
+{\tt \#include $<$Types.h$>$}
+
+Collaboration diagram for envelope\_\-segment:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{structenvelope__segment__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{Types_8h_a13}{interpolation\_\-type} \hyperlink{structenvelope__segment_o0}{inter\-Type}
+\begin{CompactList}\small\item\em interpolation type to use for the segment \item\end{CompactList}\item 
+\hyperlink{Types_8h_a12}{stretch\_\-type} \hyperlink{structenvelope__segment_o1}{time\-Type}
+\begin{CompactList}\small\item\em time stretch type to use for the segment \item\end{CompactList}\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o2}{time\-Value}
+\begin{CompactList}\small\item\em number of seconds or percentage of flex time that segment should play \item\end{CompactList}\item 
+\hyperlink{Types_8h_a12}{stretch\_\-type} \hyperlink{structenvelope__segment_o3}{length\-Type}
+\begin{CompactList}\small\item\em length stretch type to use for the segment \item\end{CompactList}\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o4}{length}
+\begin{CompactList}\small\item\em length if applicable \item\end{CompactList}\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o5}{x}
+\begin{CompactList}\small\item\em x position of the right endpoint \item\end{CompactList}\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o6}{y}
+\begin{CompactList}\small\item\em y value at the right endpoint \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This is used as a container for everything that a \hyperlink{classEnvelope}{Envelope} needs to know to create a particular segment in a shape.
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000002}{Todo}]Once DVS is completely gone and done for, time\-Type and time\-Value should be deleted! \end{Desc}
+
+
+
+
+Definition at line 87 of file Types.h.
+
+\subsection{Member Data Documentation}
+\hypertarget{structenvelope__segment_o0}{
+\index{envelope_segment@{envelope\_\-segment}!interType@{interType}}
+\index{interType@{interType}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[interType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a13}{interpolation\_\-type} \hyperlink{structenvelope__segment_o0}{envelope\_\-segment::inter\-Type}}}
+\label{structenvelope__segment_o0}
+
+
+interpolation type to use for the segment 
+
+
+
+Definition at line 90 of file Types.h.
+
+Referenced by Multi\-Pan::add\-Entry\-Helper\-Fn(), Envelope::add\-Point(), Envelope\-Library::load\-Library(), Envelope::multiply(), Envelope::set\-Segment\-Interpolation\-Type(), Dynamic\-Variable\-Sequence::set\-Segment\-Interpolation\-Type(), Envelope::xml\_\-print(), Dynamic\-Variable\-Sequence::xml\_\-print(), and Envelope::xml\_\-read().\hypertarget{structenvelope__segment_o4}{
+\index{envelope_segment@{envelope\_\-segment}!length@{length}}
+\index{length@{length}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[length]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o4}{envelope\_\-segment::length}}}
+\label{structenvelope__segment_o4}
+
+
+length if applicable 
+
+
+
+Definition at line 98 of file Types.h.
+
+Referenced by Envelope::add\-Segment(), Envelope::Add\-To\-Shape(), Envelope::Define\-Shape(), Envelope::get\-Segment\-Length(), Envelope\-Library::load\-Library(), Envelope::set\-Segment(), Envelope::set\-Segment\-Length(), and Envelope::xml\_\-print().\hypertarget{structenvelope__segment_o3}{
+\index{envelope_segment@{envelope\_\-segment}!lengthType@{lengthType}}
+\index{lengthType@{lengthType}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[lengthType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a12}{stretch\_\-type} \hyperlink{structenvelope__segment_o3}{envelope\_\-segment::length\-Type}}}
+\label{structenvelope__segment_o3}
+
+
+length stretch type to use for the segment 
+
+
+
+Definition at line 96 of file Types.h.
+
+Referenced by Multi\-Pan::add\-Entry\-Helper\-Fn(), Envelope::add\-Point(), Envelope::get\-Segment\-Length\-Type(), Envelope\-Library::load\-Library(), Envelope::multiply(), Envelope::set\-Segment\-Length\-Type(), Envelope::xml\_\-print(), and Envelope::xml\_\-read().\hypertarget{structenvelope__segment_o1}{
+\index{envelope_segment@{envelope\_\-segment}!timeType@{timeType}}
+\index{timeType@{timeType}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[timeType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a12}{stretch\_\-type} \hyperlink{structenvelope__segment_o1}{envelope\_\-segment::time\-Type}}}
+\label{structenvelope__segment_o1}
+
+
+time stretch type to use for the segment 
+
+
+
+Definition at line 92 of file Types.h.
+
+Referenced by Dynamic\-Variable\-Sequence::get\-Segment\-Time\-Type(), Dynamic\-Variable\-Sequence::set\-Segment\-Time\-Type(), and Dynamic\-Variable\-Sequence::xml\_\-print().\hypertarget{structenvelope__segment_o2}{
+\index{envelope_segment@{envelope\_\-segment}!timeValue@{timeValue}}
+\index{timeValue@{timeValue}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[timeValue]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o2}{envelope\_\-segment::time\-Value}}}
+\label{structenvelope__segment_o2}
+
+
+number of seconds or percentage of flex time that segment should play 
+
+
+
+Definition at line 94 of file Types.h.
+
+Referenced by Multi\-Pan::add\-Entry\-Helper\-Fn(), Dynamic\-Variable\-Sequence::get\-Segment\-Time(), Dynamic\-Variable\-Sequence::set\-Segment\-Time(), and Dynamic\-Variable\-Sequence::xml\_\-print().\hypertarget{structenvelope__segment_o5}{
+\index{envelope_segment@{envelope\_\-segment}!x@{x}}
+\index{x@{x}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[x]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o5}{envelope\_\-segment::x}}}
+\label{structenvelope__segment_o5}
+
+
+x position of the right endpoint 
+
+
+
+Definition at line 100 of file Types.h.
+
+Referenced by Envelope::add\-Point(), Envelope::add\-Segment(), Envelope::Add\-To\-Shape(), Envelope::Define\-Shape(), Envelope::Envelope(), Envelope::get\-Point(), Envelope::get\-Points(), Envelope::multiply(), Envelope::Print(), Envelope::set\-Point(), Envelope::set\-Segment(), Envelope::xml\_\-print(), and Envelope::xml\_\-read().\hypertarget{structenvelope__segment_o6}{
+\index{envelope_segment@{envelope\_\-segment}!y@{y}}
+\index{y@{y}!envelope_segment@{envelope\_\-segment}}
+\subsubsection[y]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{structenvelope__segment_o6}{envelope\_\-segment::y}}}
+\label{structenvelope__segment_o6}
+
+
+y value at the right endpoint 
+
+
+
+Definition at line 102 of file Types.h.
+
+Referenced by Envelope::add\-Interpolators(), Envelope::add\-Point(), Envelope::Envelope(), Envelope::get\-Max\-Value(), Envelope::get\-Point(), Envelope::get\-Points(), Envelope::get\-Value(), Envelope::multiply(), Envelope::Print(), Envelope::scale(), Envelope::set\-Point(), Envelope::xml\_\-print(), and Envelope::xml\_\-read().
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+\hyperlink{Types_8h}{Types.h}\end{CompactItemize}

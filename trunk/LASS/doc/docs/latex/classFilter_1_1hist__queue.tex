@@ -1,0 +1,209 @@
+\hypertarget{classFilter_1_1hist__queue}{
+\section{Filter::hist\_\-queue$<$ Elem\-Type $>$ Class Template Reference}
+\label{classFilter_1_1hist__queue}\index{Filter::hist_queue@{Filter::hist\_\-queue}}
+}
+{\tt \#include $<$Filter.h$>$}
+
+Inheritance diagram for Filter::hist\_\-queue$<$ Elem\-Type $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=117pt]{classFilter_1_1hist__queue__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Filter::hist\_\-queue$<$ Elem\-Type $>$:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=105pt]{classFilter_1_1hist__queue__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classFilter_1_1hist__queue_a0}{hist\_\-queue} (long len)
+\item 
+\hyperlink{classFilter_1_1hist__queue_a1}{$\sim$hist\_\-queue} ()
+\item 
+Elem\-Type \hyperlink{classFilter_1_1hist__queue_a2}{dequeue} (void)
+\item 
+void \hyperlink{classFilter_1_1hist__queue_a3}{enqueue} (Elem\-Type new\_\-val)
+\item 
+Elem\-Type \hyperlink{classFilter_1_1hist__queue_a4}{index\_\-from\_\-oldest} (long i)
+\item 
+Elem\-Type \hyperlink{classFilter_1_1hist__queue_a5}{index\_\-from\_\-newest} (long i)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+long \hyperlink{classFilter_1_1hist__queue_r0}{length}
+\item 
+long \hyperlink{classFilter_1_1hist__queue_r1}{front\_\-idx}
+\item 
+long \hyperlink{classFilter_1_1hist__queue_r2}{back\_\-idx}
+\item 
+Elem\-Type $\ast$ \hyperlink{classFilter_1_1hist__queue_r3}{array}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Elem\-Type$>$ class Filter::hist\_\-queue$<$ Elem\-Type $>$}
+
+Every filter requires some sort of history of previous values. Even the simplest 1st order IIR filter requires the previous output. For filters, we only need one of the previous values. In that case, a queue structure is useful to enqueue the current output for later use, and to dequeue a value from previous runs.
+
+Note 1: The C++ STL includes a queue, but (1) it uses nonstandard 'push' and 'pop' instead of 'enqueue' and 'dequeue' (respectively), which decreases readability; (2) in filters with a fixed delay factor, we can optimize for speed by using a fixed-length ring buffer of the appropriate size (let queue length = D). Note 2: Some filters, such as FIR filters require a different type of history that needs access to all the previous values (or some subset of them that includes more than just the oldest value). For these filters, this queue allows indexed access from either end of the queue.
+
+Three examples: 1. Consider the 1st order IIR filter. It uses the equation y(t) = x(t) + g$\ast$y(t-1). In this case, the history queue will always have one old value. Thus, we must inititalize it by enqueing a 0 at the start. Then we can perform one time step with as follows: y\_\-t = x\_\-t + (g $\ast$ \hyperlink{classFilter_1_1hist__queue_a2}{hist\_\-queue.dequeue()}); hist\_\-queue.enqueue(y\_\-t); return y\_\-t;
+
+2. Now compare this to the comb filter. It uses the equation y(t) = x(t-D) + g$\ast$y(t-D). Now we need two queues. This is the reason that the queue class is provided, but not instantiated. Child-class filters can use the history queue however they like as needed. init: for(i=0;i$<$D;i++) \{ x\_\-hist.enqueue(0); y\_\-hist.enqueue(0); \}
+
+y\_\-d = x\_\-hist.dequeue() + (g $\ast$ y\_\-hist.dequeue()); y\_\-hist.enqueue(y\_\-d); x\_\-hist.enqueue(x\_\-d);
+
+Note 3: If you're using a D-length queue for a delay of D cycles, be sure that you dequeue before enqueuing so you don't overflow the queue.
+
+\begin{Desc}
+\item[Author:]Jim Lindstrom \end{Desc}
+
+
+
+
+Definition at line 159 of file Filter.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classFilter_1_1hist__queue_a0}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!hist_queue@{hist\_\-queue}}
+\index{hist_queue@{hist\_\-queue}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[hist\_\-queue]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::\hyperlink{classFilter_1_1hist__queue}{hist\_\-queue} (long {\em len})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a0}
+
+
+This constructor initializes the queue to a given length.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em len}]The length of the queue \end{description}
+\end{Desc}
+
+
+Definition at line 168 of file Filter.h.\hypertarget{classFilter_1_1hist__queue_a1}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!~hist_queue@{$\sim$hist\_\-queue}}
+\index{~hist_queue@{$\sim$hist\_\-queue}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[$\sim$hist\_\-queue]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::$\sim$\hyperlink{classFilter_1_1hist__queue}{hist\_\-queue} ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a1}
+
+
+This is the destructor. 
+
+Definition at line 182 of file Filter.h.
+
+\subsection{Member Function Documentation}
+\hypertarget{classFilter_1_1hist__queue_a2}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!dequeue@{dequeue}}
+\index{dequeue@{dequeue}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[dequeue]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ Elem\-Type \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::dequeue (void)\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a2}
+
+
+This function removes and returns the oldest element in the queue (FIFO). \begin{Desc}
+\item[Returns:]The oldest element \end{Desc}
+
+
+Definition at line 192 of file Filter.h.\hypertarget{classFilter_1_1hist__queue_a3}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!enqueue@{enqueue}}
+\index{enqueue@{enqueue}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[enqueue]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ void \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::enqueue (Elem\-Type {\em new\_\-val})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a3}
+
+
+This function adds an element to the queue (FIFO).
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em new\_\-val}]The element to add to the queue \end{description}
+\end{Desc}
+
+
+Definition at line 206 of file Filter.h.\hypertarget{classFilter_1_1hist__queue_a5}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!index_from_newest@{index\_\-from\_\-newest}}
+\index{index_from_newest@{index\_\-from\_\-newest}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[index\_\-from\_\-newest]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ Elem\-Type \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::index\_\-from\_\-newest (long {\em i})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a5}
+
+
+Return, without removing, a value from the queue indexed from the newest element.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em i}]The index from the end of the queue to return \end{description}
+\end{Desc}
+
+
+Definition at line 237 of file Filter.h.\hypertarget{classFilter_1_1hist__queue_a4}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!index_from_oldest@{index\_\-from\_\-oldest}}
+\index{index_from_oldest@{index\_\-from\_\-oldest}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[index\_\-from\_\-oldest]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ Elem\-Type \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::index\_\-from\_\-oldest (long {\em i})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classFilter_1_1hist__queue_a4}
+
+
+This function returns, without removing, a value from the queue indexed from the oldest element
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em i}]The index from the end of the queue to return \end{description}
+\end{Desc}
+
+
+Definition at line 218 of file Filter.h.
+
+\subsection{Member Data Documentation}
+\hypertarget{classFilter_1_1hist__queue_r3}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!array@{array}}
+\index{array@{array}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[array]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ Elem\-Type$\ast$ \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::\hyperlink{classFilter_1_1hist__queue_r3}{array}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classFilter_1_1hist__queue_r3}
+
+
+This holds the values of the queue. 
+
+Definition at line 270 of file Filter.h.
+
+Referenced by Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::hist\_\-queue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-newest(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-oldest(), and Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::$\sim$hist\_\-queue().\hypertarget{classFilter_1_1hist__queue_r2}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!back_idx@{back\_\-idx}}
+\index{back_idx@{back\_\-idx}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[back\_\-idx]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ long \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::\hyperlink{classFilter_1_1hist__queue_r2}{back\_\-idx}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classFilter_1_1hist__queue_r2}
+
+
+This is the index TO the oldest item. 
+
+Definition at line 265 of file Filter.h.
+
+Referenced by Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::hist\_\-queue(), and Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-oldest().\hypertarget{classFilter_1_1hist__queue_r1}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!front_idx@{front\_\-idx}}
+\index{front_idx@{front\_\-idx}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[front\_\-idx]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ long \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::\hyperlink{classFilter_1_1hist__queue_r1}{front\_\-idx}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classFilter_1_1hist__queue_r1}
+
+
+This is the index PAST the newest item. 
+
+Definition at line 260 of file Filter.h.
+
+Referenced by Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::hist\_\-queue(), and Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-newest().\hypertarget{classFilter_1_1hist__queue_r0}{
+\index{Filter::hist_queue@{Filter::hist\_\-queue}!length@{length}}
+\index{length@{length}!Filter::hist_queue@{Filter::hist\_\-queue}}
+\subsubsection[length]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Elem\-Type$>$ long \hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ Elem\-Type $>$::\hyperlink{classFilter_1_1hist__queue_r0}{length}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classFilter_1_1hist__queue_r0}
+
+
+This is the number of valid positions within the queue. 
+
+Definition at line 255 of file Filter.h.
+
+Referenced by Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::hist\_\-queue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-newest(), and Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::index\_\-from\_\-oldest().
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\hyperlink{Filter_8h}{Filter.h}\end{CompactItemize}
