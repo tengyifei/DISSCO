@@ -1,0 +1,136 @@
+\hypertarget{classConstant_1_1ConstantIterator}{
+\section{Constant::Constant\-Iterator Class Reference}
+\label{classConstant_1_1ConstantIterator}\index{Constant::ConstantIterator@{Constant::ConstantIterator}}
+}
+Inheritance diagram for Constant::Constant\-Iterator:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=110pt]{classConstant_1_1ConstantIterator__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Constant::Constant\-Iterator:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classConstant_1_1ConstantIterator__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classConstant_1_1ConstantIterator_a0}{Constant\-Iterator} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} value, \hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} count)
+\item 
+\hyperlink{classConstant_1_1ConstantIterator}{Constant\-Iterator} $\ast$ \hyperlink{classConstant_1_1ConstantIterator_a1}{clone} ()
+\item 
+bool \hyperlink{classConstant_1_1ConstantIterator_a2}{has\-Next} ()
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \& \hyperlink{classConstant_1_1ConstantIterator_a3}{next} ()
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classConstant_1_1ConstantIterator_r0}{value\_\-}
+\item 
+\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} \hyperlink{classConstant_1_1ConstantIterator_r1}{count\_\-}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This iterator iterates over a constant value. for a given amount of steps. 
+
+
+
+Definition at line 116 of file Constant.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classConstant_1_1ConstantIterator_a0}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!ConstantIterator@{ConstantIterator}}
+\index{ConstantIterator@{ConstantIterator}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[ConstantIterator]{\setlength{\rightskip}{0pt plus 5cm}Constant::Constant\-Iterator::Constant\-Iterator (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em value}, \hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} {\em count})}}
+\label{classConstant_1_1ConstantIterator_a0}
+
+
+This iterator will iterate over 'value' count times. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em value}]An m\_\-value\_\-type that holds the value \item[{\em count}]An m\_\-sample\_\-count\_\-type that holds the number of times to iterate \end{description}
+\end{Desc}
+
+
+Definition at line 87 of file Constant.cpp.
+
+References m\_\-sample\_\-count\_\-type, and m\_\-value\_\-type.
+
+\subsection{Member Function Documentation}
+\hypertarget{classConstant_1_1ConstantIterator_a1}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!clone@{clone}}
+\index{clone@{clone}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classConstant_1_1ConstantIterator}{Constant::Constant\-Iterator} $\ast$ Constant::Constant\-Iterator::clone ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classConstant_1_1ConstantIterator_a1}
+
+
+Creates an exact copy of this iterator. \begin{Desc}
+\item[Returns:]Copy of this iterator \end{Desc}
+
+
+Implements \hyperlink{classAbstractIterator_a0}{Abstract\-Iterator$<$ m\_\-value\_\-type $>$}.
+
+Definition at line 95 of file Constant.cpp.\hypertarget{classConstant_1_1ConstantIterator_a2}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!hasNext@{hasNext}}
+\index{hasNext@{hasNext}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[hasNext]{\setlength{\rightskip}{0pt plus 5cm}bool Constant::Constant\-Iterator::has\-Next ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classConstant_1_1ConstantIterator_a2}
+
+
+Indicates whether is another value to iterate over. \begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em true}]If there is another value to iterate over \item[{\em false}]If there is not another value to iterate over \end{description}
+\end{Desc}
+
+
+Implements \hyperlink{classAbstractIterator_a1}{Abstract\-Iterator$<$ m\_\-value\_\-type $>$}.
+
+Definition at line 104 of file Constant.cpp.\hypertarget{classConstant_1_1ConstantIterator_a3}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!next@{next}}
+\index{next@{next}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[next]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \& Constant::Constant\-Iterator::next ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classConstant_1_1ConstantIterator_a3}
+
+
+Gets the next value in the iteration. 
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000005}{Todo}]What to do on an out of bounds error?\end{Desc}
+\begin{Desc}
+\item[Returns:]the next value in the iteration \end{Desc}
+
+
+Implements \hyperlink{classAbstractIterator_a2}{Abstract\-Iterator$<$ m\_\-value\_\-type $>$}.
+
+Definition at line 112 of file Constant.cpp.
+
+\subsection{Member Data Documentation}
+\hypertarget{classConstant_1_1ConstantIterator_r1}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!count_@{count\_\-}}
+\index{count_@{count\_\-}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[count\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} \hyperlink{classConstant_1_1ConstantIterator_r1}{Constant::Constant\-Iterator::count\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classConstant_1_1ConstantIterator_r1}
+
+
+
+
+Definition at line 149 of file Constant.h.\hypertarget{classConstant_1_1ConstantIterator_r0}{
+\index{Constant::ConstantIterator@{Constant::Constant\-Iterator}!value_@{value\_\-}}
+\index{value_@{value\_\-}!Constant::ConstantIterator@{Constant::Constant\-Iterator}}
+\subsubsection[value\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classConstant_1_1ConstantIterator_r0}{Constant::Constant\-Iterator::value\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classConstant_1_1ConstantIterator_r0}
+
+
+
+
+Definition at line 148 of file Constant.h.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Constant_8h}{Constant.h}\item 
+\hyperlink{Constant_8cpp}{Constant.cpp}\end{CompactItemize}

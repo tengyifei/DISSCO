@@ -1,0 +1,1808 @@
+.TH "Event" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Event \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <event.h>\fP
+.PP
+Inherited by \fBBottom\fP, \fBHigh\fP, \fBLow\fP, and \fBTop\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBEvent\fP ()"
+.br
+.ti -1c
+.RI "\fBEvent\fP (char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBEvent\fP (float aStartTime, float aDuration, int aType, char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBEvent\fP (float aStartTime, float aDuration, double aDensity, int aType, char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBEvent\fP (const  \fBEvent\fP &origEvent)"
+.br
+.ti -1c
+.RI "\fB~Event\fP ()"
+.br
+.ti -1c
+.RI "\fBEvent\fP & \fBoperator=\fP (const  \fBEvent\fP &origEvent)"
+.br
+.ti -1c
+.RI "virtual void \fBsetStartTime\fP (float aStartTime)"
+.br
+.ti -1c
+.RI "virtual void \fBsetDuration\fP (float aDuration)"
+.br
+.ti -1c
+.RI "virtual void \fBsetType\fP (int aType)"
+.br
+.ti -1c
+.RI "virtual void \fBsetName\fP (char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBsetDensity\fP (double aDensity)"
+.br
+.ti -1c
+.RI "virtual void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "float \fBgetStartTime\fP ()"
+.br
+.ti -1c
+.RI "float \fBgetDuration\fP ()"
+.br
+.ti -1c
+.RI "char * \fBgetName\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetDensity\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetType\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNewObj\fP ()"
+.br
+.ti -1c
+.RI "void \fBBasics\fP ()"
+.br
+.ti -1c
+.RI "void \fBBuild\fP ()"
+.br
+.ti -1c
+.RI "void \fBBuild\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBCreateNewObjects\fP ()"
+.br
+.ti -1c
+.RI "void \fBBuildSubEvents\fP (map< string, \fBEventFactory\fP * > library, \fBFileValue\fP *Calculations)"
+.br
+.ti -1c
+.RI "void \fBLayerDef\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewLayerDef\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBNumObjs\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewNumObjs\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBCopyName\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewCopyName\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBContinuum3\fP ()"
+.br
+.ti -1c
+.RI "void \fBDiscrete3\fP (int slope)"
+.br
+.ti -1c
+.RI "void \fBSweep3\fP ()"
+.br
+.ti -1c
+.RI "void \fBAttackMethods\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewAttackMethods\fP (\fBFileValue\fP args)"
+.br
+.ti -1c
+.RI "void \fBDurationMethods\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewDurationMethods\fP (\fBFileValue\fP args)"
+.br
+.ti -1c
+.RI "void \fBAttacks\fP ()"
+.br
+.ti -1c
+.RI "void \fBAttacks\fP (const  char *eMethod, vector< int > eArgVector, const  char *wMethod, vector< int > wArgVector)"
+.br
+.ti -1c
+.RI "void \fBPointsProbs\fP ()"
+.br
+.ti -1c
+.RI "void \fBPointsProbs\fP (const  char *eMethod, vector< int > eArgVector, const  char *wMethod, vector< int > wArgVector)"
+.br
+.ti -1c
+.RI "void \fBGoldenMean\fP ()"
+.br
+.ti -1c
+.RI "int \fBStimes\fP ()"
+.br
+.ti -1c
+.RI "void \fBDurations\fP ()"
+.br
+.ti -1c
+.RI "void \fBTimeConvert\fP ()"
+.br
+.ti -1c
+.RI "void \fBSelectNextEvent\fP ()"
+.br
+.ti -1c
+.RI "void \fBParameters\fP (int otherParams)"
+.br
+.ti -1c
+.RI "void \fBsetStartDurationType\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBContinuum\fP (list< \fBFileValue\fP > data)"
+.br
+.ti -1c
+.RI "void \fBTestNameType\fP ()"
+.br
+.ti -1c
+.RI "void \fBCreateMatrices\fP ()"
+.br
+.ti -1c
+.RI "void \fBNewCreateMatrices\fP (\fBFileValue\fP args)"
+.br
+.ti -1c
+.RI "void \fBObjCoordinates\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBbuildScore\fP (Score *s)"
+.br
+.ti -1c
+.RI "void \fBAdjustments\fP (int slope)"
+.br
+.ti -1c
+.RI "int \fBFindDur\fP (int remainO, float density)"
+.br
+.ti -1c
+.RI "int \fBFindLen\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBPrint\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBbuildNote\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetCheckPoint\fP ()"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetBottomFreq\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetBottomFreq\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetBottomLoud\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetBottomLoud\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundNumPartials\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundNumPartials\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundDeviation\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundDeviation\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundPartEnvs\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundPartEnvs\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundModifiers\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundModifiers\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundReverberation\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundReverberation\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetSoundSpatialization\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSoundSpatialization\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetNotePitchClass\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNotePitchClass\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetNoteDynamicMark\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNoteDynamicMark\fP (\fBFileValue\fP *s)"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBgetNoteModifiers\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNoteModifiers\fP (\fBFileValue\fP *s)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBcheckPoint\fP"
+.br
+.ti -1c
+.RI "\fBMatrix\fP * \fBs0\fP"
+.br
+.ti -1c
+.RI "\fBMatrix\fP * \fBd0\fP"
+.br
+.ti -1c
+.RI "\fBMatrix\fP * \fBs1\fP"
+.br
+.ti -1c
+.RI "\fBMatrix\fP * \fBd1\fP"
+.br
+.ti -1c
+.RI "float \fBtheStartTime\fP"
+.br
+.ti -1c
+.RI "float \fBtheDuration\fP"
+.br
+.ti -1c
+.RI "int \fBtheType\fP"
+.br
+.ti -1c
+.RI "char * \fBtheName\fP"
+.br
+.ti -1c
+.RI "char * \fBaName\fP"
+.br
+.ti -1c
+.RI "char ** \fBnameType\fP"
+.br
+.ti -1c
+.RI "double \fBtheDensity\fP"
+.br
+.ti -1c
+.RI "list< \fBEvent\fP * > \fBsubevents\fP"
+.br
+.ti -1c
+.RI "int \fBnumLayers\fP"
+.br
+.ti -1c
+.RI "int \fBobjMaxDur\fP"
+.br
+.ti -1c
+.RI "int \fBuPerSec\fP"
+.br
+.ti -1c
+.RI "int \fBbarLen\fP"
+.br
+.ti -1c
+.RI "int \fBmaxTypes\fP"
+.br
+.ti -1c
+.RI "int \fBnumChars\fP"
+.br
+.ti -1c
+.RI "int \fBlevels\fP"
+.br
+.ti -1c
+.RI "int \fBlength\fP"
+.br
+.ti -1c
+.RI "int \fBnumObjs\fP"
+.br
+.ti -1c
+.RI "int \fBobjID\fP"
+.br
+.ti -1c
+.RI "int * \fBtypesInLayer\fP"
+.br
+.ti -1c
+.RI "int \fBnoWeights\fP"
+.br
+.ti -1c
+.RI "int \fBarraySize\fP"
+.br
+.ti -1c
+.RI "int \fBlistLen\fP"
+.br
+.ti -1c
+.RI "int \fBdurLen\fP"
+.br
+.ti -1c
+.RI "int * \fBstarTarray\fP"
+.br
+.ti -1c
+.RI "int * \fBdurArray\fP"
+.br
+.ti -1c
+.RI "double * \fBprobSieveArray\fP"
+.br
+.ti -1c
+.RI "double * \fBprobDurArray\fP"
+.br
+.ti -1c
+.RI "float * \fBlayerDens\fP"
+.br
+.ti -1c
+.RI "int * \fBobjsInLayer\fP"
+.br
+.ti -1c
+.RI "int * \fBremainObjs\fP"
+.br
+.ti -1c
+.RI "int \fBdurMatrix\fP"
+.br
+.ti -1c
+.RI "int \fBdurUnits\fP"
+.br
+.ti -1c
+.RI "int \fBstimeMatrix\fP"
+.br
+.ti -1c
+.RI "int \fBstimeUnits\fP"
+.br
+.ti -1c
+.RI "float \fBdurSec\fP"
+.br
+.ti -1c
+.RI "float \fBstimeSec\fP"
+.br
+.ti -1c
+.RI "double \fBduRatio\fP"
+.br
+.ti -1c
+.RI "long \fBloc0\fP"
+.br
+.ti -1c
+.RI "long \fBloc1\fP"
+.br
+.ti -1c
+.RI "int \fBnewObj\fP"
+.br
+.ti -1c
+.RI "int \fBtype\fP"
+.br
+.ti -1c
+.RI "char * \fBkeepName\fP"
+.br
+.ti -1c
+.RI "int \fBlayer\fP"
+.br
+.ti -1c
+.RI "char * \fBfname\fP"
+.br
+.ti -1c
+.RI "int \fBnumParam\fP"
+.br
+.ti -1c
+.RI "float * \fBprobParam\fP"
+.br
+.ti -1c
+.RI "int ** \fBdataParam\fP"
+.br
+.ti -1c
+.RI "float ** \fBcoefParam\fP"
+.br
+.ti -1c
+.RI "int ** \fBsieveParam\fP"
+.br
+.ti -1c
+.RI "int ** \fBtempSieves\fP"
+.br
+.ti -1c
+.RI "int ** \fBmaxLen\fP"
+.br
+.ti -1c
+.RI "int * \fBenvParam\fP"
+.br
+.ti -1c
+.RI "float * \fBscaleParam\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_frequency\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBbottom_loudness\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_numPartials\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_deviation\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_partEnvs\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_modifiers\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_reverberation\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBsound_spatialization\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBnote_pitchClass\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBnote_dynamicMark\fP"
+.br
+.ti -1c
+.RI "\fBFileValue\fP * \fBnote_modifiers\fP"
+.br
+.ti -1c
+.RI "float \fBlastime\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBMatrix\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Event::Event ()\fC [inline]\fP"
+.PP
+Default constructor for an Event. It creates an Event object with no data. Definition at line 55 of file event.h.
+.PP
+Referenced by Event().
+.SS "Event::Event (char * aName)"
+.PP
+Constructor for an Event. Empty event, generic; has only a name. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaName\fP Name of the event 
+.RE
+.PP
+Definition at line 55 of file event.cpp.
+.PP
+References durArray, layerDens, nameType, objID, objsInLayer, probDurArray, probSieveArray, remainObjs, setName(), starTarray, and typesInLayer.
+.SS "Event::Event (float aStartTime, float aDuration, int aType, char * aName)"
+.PP
+Constructor for an Event. Includes basic information. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaStartTime\fP Start Time of the event 
+.br
+\fIaDuration\fP Duration of the event 
+.br
+\fIaType\fP Type of the event 
+.br
+\fIName\fP of the event 
+.RE
+.PP
+Definition at line 78 of file event.cpp.
+.PP
+References durArray, layerDens, nameType, objID, objsInLayer, probDurArray, probSieveArray, remainObjs, setDuration(), setName(), setStartTime(), setType(), starTarray, theDensity, and typesInLayer.
+.SS "Event::Event (float aStartTime, float aDuration, double aDensity, int aType, char * aName)"
+.PP
+Constructor for an Event. Includes basic information. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaStartTime\fP Start Time of the event 
+.br
+\fIaDuration\fP Duration of the event 
+.br
+\fIaDensity\fP Density of the event 
+.br
+\fIaType\fP Type of the event 
+.br
+\fIName\fP of the event 
+.RE
+.PP
+Definition at line 102 of file event.cpp.
+.PP
+References Event(), and theDensity.
+.SS "Event::Event (const \fBEvent\fP & origEvent)"
+.PP
+This is the copy constructor. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIorigEvent\fP Event object to make a copy of 
+.RE
+.PP
+Definition at line 113 of file event.cpp.
+.PP
+References theDensity, theDuration, theName, and theStartTime.
+.SS "Event::~\fBEvent\fP ()"
+.PP
+This is the destructor. Definition at line 137 of file event.cpp.
+.PP
+References clear().
+.SH "Member Function Documentation"
+.PP 
+.SS "void Event::Adjustments (int slope)"
+.PP
+Works only on the s0 (attacks/types matrix). Find the layer this objType belongs to. Determine the duration of this obj. Adjust the vector and matrix; get them ready for next choice. The sizes of stimeMatrix and durMatrix are measured in number of entries in the matrix while endUnitsM is measured in basic units (pulses, not seconds). 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIslope\fP Slope value to pass to AdjustMatrix() 
+.RE
+.PP
+Definition at line 1151 of file event.cpp.
+.PP
+References Matrix::AdjustMatrix(), Matrix::AdjustVector(), FindDur(), layer, layerDens, newObj, numLayers, numObjs, remainObjs, s0, stimeMatrix, type, and typesInLayer.
+.PP
+Referenced by Discrete3().
+.SS "void Event::AttackMethods ()"
+.PP
+Choosing a method to determine attack times 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use \fBNewAttackMethods()\fP with the new interface 
+.RE
+.PP
+
+.SS "void Event::Attacks (const char * eMethod, vector< int > eArgVector, const char * wMethod, vector< int > wArgVector)"
+.PP
+Creates an array (sieve) with all possible attacks and another array with their probabilities. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIeMethod\fP e-Method for \fBSieve\fP 
+.br
+\fIeArgVector\fP e-Vector for \fBSieve\fP 
+.br
+\fIwMethod\fP w-Method for \fBSieve\fP 
+.br
+\fIwArgVector\fP w-Vector for \fBSieve\fP 
+.RE
+.PP
+Definition at line 889 of file event.cpp.
+.PP
+References arraySize, Sieve::Build(), Sieve::FillInArrays(), Sieve::GetListLen(), listLen, probSieveArray, starTarray, theDuration, and uPerSec.
+.SS "void Event::Attacks ()"
+.PP
+Creates an array (sieve) with all possible attacks and another array with their probabilities. 
+.PP
+\fBDeprecated\fP
+.RS 4
+Not in use (use Attacks(char*, vector<int>, char*, vector<int>) instead) 
+.RE
+.PP
+Referenced by NewAttackMethods().
+.SS "void Event::Basics ()"
+.PP
+Chooses the values needed for start time, type, and duration. 
+.PP
+\fBDeprecated\fP
+.RS 4
+.RE
+.PP
+
+.SS "void Event::Build (list< \fBFileValue\fP > data)"
+.PP
+Builds the event by calling a series of functions and determining: the number of streams/layers in this event; the number of objects in each layer; the names of the files describing the objects contained in this event. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP A list of file values to build the event. 
+.RE
+.PP
+Definition at line 380 of file event.cpp.
+.PP
+References NewCopyName(), NewLayerDef(), and NewNumObjs().
+.SS "void Event::Build ()"
+.PP
+Builds the event by calling a series of functions and determining: the number of streams/layers in this event; the number of objects in each layer; the names of the files describing the objects contained in this event. 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use \fBBuild(list<FileValue> data)\fP instead 
+.RE
+.PP
+
+.SS "void Event::buildNote ()\fC [virtual]\fP"
+.PP
+Reimplemented in \fBBottom\fP.
+.PP
+Definition at line 2038 of file event.cpp.
+.PP
+References Print(), and subevents.
+.PP
+Referenced by Bottom::buildNote(), and BuildSubEvents().
+.SS "void Event::buildScore (Score * s)\fC [virtual]\fP"
+.PP
+Definition at line 2028 of file event.cpp.
+.PP
+References subevents.
+.SS "void Event::BuildSubEvents (map< string, \fBEventFactory\fP * > library, \fBFileValue\fP * Calculations)"
+.PP
+BuildSubEvents. Taken from CreateNewObjects. Build sub-events from parsed information and information already set for this event. --- To be used with new interface.--- 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlibrary\fP XXXXXXXXXXXXXXXXXXX 
+.br
+\fICalculations\fP YYYYYYYYYYYYY 
+.RE
+.PP
+Definition at line 1459 of file event.cpp.
+.PP
+References EventFactory::Build(), buildNote(), Bottom::buildSound(), checkPoint, Discrete3(), durSec, FileValue::Evaluate(), FileValue::getListPtr(), FileValue::getNumber(), FileValue::getString(), EventFactory::Inherit(), lastime, loc0, nameType, NewAttackMethods(), NewCreateMatrices(), NewDurationMethods(), newObj, numObjs, objID, score, sever, stimeSec, subevents, theDuration, theName, type, and uPerSec.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::clear ()\fC [virtual]\fP"
+.PP
+Clears several internal structures in the Event: nameType, maxTypes, layerDens, objsInLayer, remainObjs, typesInLayer, starTarray, probSieveArray, durArray, probDurArray Reimplemented in \fBBottom\fP, \fBHigh\fP, \fBLow\fP, \fBNote\fP, and \fBTop\fP.
+.PP
+Definition at line 147 of file event.cpp.
+.PP
+References durArray, layerDens, maxTypes, nameType, objsInLayer, probDurArray, probSieveArray, remainObjs, starTarray, and typesInLayer.
+.PP
+Referenced by ~Event().
+.SS "void Event::Continuum (list< \fBFileValue\fP > data)"
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE 
+.RE
+.PP
+Definition at line 1723 of file event.cpp.
+.PP
+References checkPoint, durSec, objMaxDur, stimeSec, theDuration, type, and uPerSec.
+.SS "void Event::Continuum3 ()"
+.PP
+DEPRECATED
+.PP
+Continuum3. Method for assigning values for stimeSec, and duration using continuous (stochastic) distributions and for type - actually, a discrete value.. Definition at line 1691 of file event.cpp.
+.PP
+References checkPoint, ChooseOffset(), durSec, newObj, objMaxDur, Random::Rand(), ReadComputeFloat(), ReadComputeInt(), stimeSec, theDuration, type, and uPerSec.
+.SS "void Event::CopyName ()"
+.PP
+Reads the names of the files defining the elements of the next level and stores them in the two dimenssional character array NameType. 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use NewCopyName instead 
+.RE
+.PP
+Definition at line 605 of file event.cpp.
+.PP
+References DataIn::intVect, maxTypes, DataIn::nameOf, nameType, numChars, DataIn::ReadChars(), DataIn::ReadDummies(), and DataIn::ReadInts().
+.SS "void Event::CreateMatrices ()"
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE: Use \fBNewCreateMatrices()\fP instead 
+.RE
+.PP
+
+.SS "void Event::CreateNewObjects ()"
+.PP
+Contains a loop whthin which objects arec created one at a time. Each object has at least three parameters: start time, duration, and type. They are selected using one of the following methods: CONTINUUM for continuous probability, non-sequential order DISCRETE for discrete values, using a \fBMatrix\fP object, non-sequential SWEEP for reading values from a file provided by the user, sequential order 
+.PP
+\fBDeprecated\fP
+.RS 4
+Not currently in use (no replacement) 
+.RE
+.PP
+Reimplemented in \fBBottom\fP.
+.SS "void Event::Discrete3 (int slope)"
+.PP
+Sweep. Method for assigning stimeSec and durSec values in sequential order - 'sweepeing' from left to right or beginning to end of the event. For stime and duration two different methods are used, one for integer values the other for float values. Type being a discrete value, the integer values method is used for it. ** For use with new interface ** Definition at line 1872 of file event.cpp.
+.PP
+References Adjustments(), ObjCoordinates(), and TimeConvert().
+.PP
+Referenced by BuildSubEvents().
+.SS "void Event::DurationMethods ()"
+.PP
+Choosing a method to determine durations. 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use \fBNewDurationMethods()\fP with the new interface 
+.RE
+.PP
+Definition at line 749 of file event.cpp.
+.PP
+References List< Etype >::InsertInOrder(), DataIn::nameOf, PointsProbs(), DataIn::ReadChars(), DataIn::ReadDummies(), and sever.
+.SS "void Event::Durations ()"
+.PP
+\fBDeprecated\fP
+.RS 4
+NOT IMPLEMENTED - DO NOT USE 
+.RE
+.PP
+
+.SS "int Event::FindDur (int remainO, float density)"
+.PP
+Finds the available space (durLoc) in the matrix for the next duration (max lenght for the next dur starting at this stimeMatrix). Copies the original duration matrix and adjusts it; selects a duration for this obj type, at this stimeMatrix. stimeMatrix, durMatrix, and endLocM are expressed in matrix locations; endUnitsM is expressed in basic units (pulses). Units: theDuration - seconds endUnitsM, starTarray[stimeMatrix], durArray[location] - units (pulses) durLoc, listLen, durLen, stimeMatrix, durMatrix, starTarray, tryloc, durArray - array locations 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIremain0\fP ... 
+.br
+\fIdensity\fP ... 
+.RE
+.PP
+Definition at line 1213 of file event.cpp.
+.PP
+References Matrix::ChooseM(), d0, d1, durArray, durMatrix, FindLen(), listLen, Matrix, Matrix::Mult(), Matrix::Normalize(), Matrix::row, starTarray, stimeMatrix, Matrix::TrimMatrix(), and type.
+.PP
+Referenced by Adjustments().
+.SS "int Event::FindLen ()"
+.PP
+FindLen. Finds the matrix location where the event ends (endLocM). starTarray: array of possible start times (in units) stimeMatrix: a location in starTarray (locations) durArray: array of possible durations (in units) durLen: cardinal of durrArray (locations) durLoc: a location in durrArray (locations) theDuration: total duration of parent event (in seconds) uPerSec: number of units in a second endUnitsM: the end of the event (in units) testEnd: the end of the event (locations) Definition at line 1266 of file event.cpp.
+.PP
+References durArray, durLen, listLen, Matrix::matrix, s0, starTarray, stimeMatrix, theDuration, type, and uPerSec.
+.PP
+Referenced by FindDur().
+.SS "\fBFileValue\fP* Event::getBottomFreq ()\fC [inline]\fP"
+.PP
+Get bottom frequency 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to the bottom frequency of the event 
+.RE
+.PP
+Definition at line 541 of file event.h.
+.PP
+References bottom_frequency.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getBottomLoud ()\fC [inline]\fP"
+.PP
+Get bottom loudness 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to the bottom loudness of the event 
+.RE
+.PP
+Definition at line 552 of file event.h.
+.PP
+References bottom_loudness.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "double Event::getCheckPoint ()\fC [inline]\fP"
+.PP
+Returns check point of the event 
+.PP
+\fBReturns:\fP
+.RS 4
+check point of the event as a double 
+.RE
+.PP
+Definition at line 514 of file event.h.
+.PP
+References checkPoint.
+.PP
+Referenced by FileValue::Evaluate().
+.SS "double Event::getDensity ()"
+.PP
+Returns the density of the Event 
+.PP
+\fBReturns:\fP
+.RS 4
+Density of the Event 
+.RE
+.PP
+Definition at line 313 of file event.cpp.
+.PP
+References theDensity.
+.SS "float Event::getDuration ()"
+.PP
+Returns the duration of the Event 
+.PP
+\fBReturns:\fP
+.RS 4
+Duration of the Event 
+.RE
+.PP
+Definition at line 280 of file event.cpp.
+.PP
+References theDuration.
+.SS "char * Event::getName ()"
+.PP
+Returns the name of the Event 
+.PP
+\fBReturns:\fP
+.RS 4
+Name of the Event 
+.RE
+.PP
+Definition at line 302 of file event.cpp.
+.PP
+References theName.
+.SS "int Event::getNewObj ()"
+.PP
+Returns the number of a new object 
+.PP
+\fBReturns:\fP
+.RS 4
+number of a new object 
+.RE
+.PP
+Definition at line 319 of file event.cpp.
+.PP
+References newObj.
+.PP
+Referenced by FileValue::Evaluate().
+.SS "\fBFileValue\fP* Event::getNoteDynamicMark ()\fC [inline]\fP"
+.PP
+Get note_dynamicMark for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to note_dynamicMark for the event 
+.RE
+.PP
+Definition at line 640 of file event.h.
+.PP
+References note_dynamicMark.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getNoteModifiers ()\fC [inline]\fP"
+.PP
+Get note_modifiers for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to note_modifiers for the event 
+.RE
+.PP
+Definition at line 651 of file event.h.
+.PP
+References note_modifiers.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getNotePitchClass ()\fC [inline]\fP"
+.PP
+Get note_pitchClass for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to note_pitchClass for the event 
+.RE
+.PP
+Definition at line 629 of file event.h.
+.PP
+References note_pitchClass.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getSoundDeviation ()\fC [inline]\fP"
+.PP
+Get sound_deviation for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to sound_deviation for the event 
+.RE
+.PP
+Definition at line 574 of file event.h.
+.PP
+References sound_deviation.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getSoundModifiers ()\fC [inline]\fP"
+.PP
+Get sound_modifiers for event /return A \fBFileValue\fP * to sound_modifiers for the event Definition at line 596 of file event.h.
+.PP
+References sound_modifiers.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getSoundNumPartials ()\fC [inline]\fP"
+.PP
+Get sound_numPartials for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to sound_numPartials for the event 
+.RE
+.PP
+Definition at line 563 of file event.h.
+.PP
+References sound_numPartials.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getSoundPartEnvs ()\fC [inline]\fP"
+.PP
+Get sound_partEnvs for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to sound_partEnvs for the event 
+.RE
+.PP
+Definition at line 585 of file event.h.
+.PP
+References sound_partEnvs.
+.PP
+Referenced by EventFactory::Inherit().
+.SS "\fBFileValue\fP* Event::getSoundReverberation ()\fC [inline]\fP"
+.PP
+Get sound_reverberation for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to sound_reverberation for the event 
+.RE
+.PP
+Definition at line 607 of file event.h.
+.PP
+References sound_reverberation.
+.SS "\fBFileValue\fP* Event::getSoundSpatialization ()\fC [inline]\fP"
+.PP
+Get sound_spatialization for event 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBFileValue\fP * to sound_spatialization for the event 
+.RE
+.PP
+Definition at line 618 of file event.h.
+.PP
+References sound_spatialization.
+.SS "float Event::getStartTime ()"
+.PP
+Returns the start time of the Event 
+.PP
+\fBReturns:\fP
+.RS 4
+Start time of the Event 
+.RE
+.PP
+Definition at line 291 of file event.cpp.
+.PP
+References theStartTime.
+.SS "int Event::getType ()"
+.PP
+Returns the type of the Event 
+.PP
+\fBReturns:\fP
+.RS 4
+Type of the Event 
+.RE
+.PP
+Definition at line 233 of file event.cpp.
+.PP
+References theType.
+.PP
+Referenced by FileValue::Evaluate().
+.SS "void Event::GoldenMean ()"
+.PP
+\fBDeprecated\fP
+.RS 4
+NOT IMPLEMENTED - DO NOT USE 
+.RE
+.PP
+
+.SS "void Event::LayerDef ()"
+.PP
+Determines how many layers or streams are active in this event (similar to 'voices') and how many types of objects are in each layer. 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use \fBNewLayerDef()\fP instead 
+.RE
+.PP
+Definition at line 401 of file event.cpp.
+.PP
+References barLen, durSec, DataIn::intVect, maxTypes, numLayers, objMaxDur, DataIn::ReadDummies(), DataIn::ReadInts(), typesInLayer, and uPerSec.
+.SS "void Event::NewAttackMethods (\fBFileValue\fP args)"
+.PP
+Choosing a method to determine attack times 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargs\fP \fBFileValue\fP of attack methods to use 
+.RE
+.PP
+Definition at line 683 of file event.cpp.
+.PP
+References Attacks(), FileValue::getListPtr(), and sever.
+.PP
+Referenced by BuildSubEvents().
+.SS "void Event::NewCopyName (list< \fBFileValue\fP > data)"
+.PP
+Reads the names of the files defining the elements of the next level and stores them in the two dimenssional character array NameType. Definition at line 634 of file event.cpp.
+.PP
+References maxTypes, and nameType.
+.PP
+Referenced by Build().
+.SS "void Event::NewCreateMatrices (\fBFileValue\fP args)"
+.PP
+First creates a 'generic matrix' of attacks (or units or max sieve elements) * obj types. It will be modified as choices are made. Then, a second matrix of durations (in matrix units) * obj_types is created . 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargs\fP \fBFileValue\fP with a matrix vector and two lists of envelopes 
+.RE
+.PP
+Definition at line 1039 of file event.cpp.
+.PP
+References arraySize, d0, durLen, Matrix::Envelopes(), FileValue::Evaluate(), FileValue::getList(), FileValue::getListPtr(), Matrix::GetVector(), Matrix::IncludeArray(), listLen, Matrix, maxTypes, probSieveArray, and s0.
+.PP
+Referenced by BuildSubEvents().
+.SS "void Event::NewDurationMethods (\fBFileValue\fP args)"
+.PP
+Choosing a method to determine durations. /param args A \fBFileValue\fP of the duration methods to use Definition at line 786 of file event.cpp.
+.PP
+References FileValue::getList(), PointsProbs(), and sever.
+.PP
+Referenced by BuildSubEvents().
+.SS "void Event::NewLayerDef (list< \fBFileValue\fP > data)"
+.PP
+Determines how many layers or streams are active in this event (similar to 'voices') and how many types of objects are in each layer. Definition at line 444 of file event.cpp.
+.PP
+References barLen, maxTypes, numLayers, objMaxDur, typesInLayer, and uPerSec.
+.PP
+Referenced by Build().
+.SS "void Event::NewNumObjs (list< \fBFileValue\fP > data)"
+.PP
+Determines how many objects are in each layer according to a `given density per layer 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP FileValues to pass in for new objects 
+.RE
+.PP
+Definition at line 541 of file event.cpp.
+.PP
+References layerDens, numLayers, numObjs, objsInLayer, remainObjs, sever, SoundsPerSec(), and theDuration.
+.PP
+Referenced by EventFactory::Build(), and Build().
+.SS "void Event::NumObjs ()"
+.PP
+Determines how many objects are in each layer according to a `given density per layer 
+.PP
+\fBDeprecated\fP
+.RS 4
+Use \fBNewNumObjs()\fP instead 
+.RE
+.PP
+Definition at line 485 of file event.cpp.
+.PP
+References checkPoint, ChooseOffset(), DataIn::fileLoc(), layerDens, DataIn::nameOf, numLayers, numObjs, objsInLayer, DataIn::ReadChars(), ReadComputeFloat(), ReadComputeInt(), DataIn::ReadDummies(), remainObjs, DataIn::rewindFile(), sever, SoundsPerSec(), and theDuration.
+.SS "void Event::ObjCoordinates ()"
+.PP
+Copy the original matrix, include the sieve weights and choose an attack (expressed as location in the sieve) and a obj type. Definition at line 1114 of file event.cpp.
+.PP
+References Matrix::ChooseM(), Matrix::col, Matrix::IncludeArray(), Matrix, maxTypes, Matrix::Print(), Matrix::PrintVector(), Matrix::row, s0, s1, stimeMatrix, and type.
+.PP
+Referenced by Discrete3().
+.SS "\fBEvent\fP & Event::operator= (const \fBEvent\fP & origEvent)"
+.PP
+This assigns one Event to another. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIorigEvent\fP The Event to assign 
+.RE
+.PP
+Definition at line 178 of file event.cpp.
+.PP
+References theDuration, theName, and theStartTime.
+.SS "void Event::Parameters (int otherParams)"
+.PP
+Handles all parameters besides stime, type, and duration. could control ranges (duration, freq. register, modifiers [scales ?] -
+.IP "\(bu" 2
+like filters or masks or sieves? -, densities, and contrast between objects. 
+.PP
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE 
+.RE
+.PP
+Definition at line 1890 of file event.cpp.
+.SS "void Event::PointsProbs (const char * eMethod, vector< int > eArgVector, const char * wMethod, vector< int > wArgVector)"
+.PP
+Reads in two arrays at a time according to the method desired: for POINTS, one with all possible attacks (starTarray/stimesMatrix) and one with their probabilities; for INTERVALS, one with all possible durations and a second with their probabilities. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIeMethod\fP e-Method for \fBSieve\fP 
+.br
+\fIeArgVector\fP e-Vector for \fBSieve\fP 
+.br
+\fIwMethod\fP w-Method for \fBSieve\fP 
+.br
+\fIwArgVector\fP w-Vector for \fBSieve\fP 
+.RE
+.PP
+Definition at line 983 of file event.cpp.
+.PP
+References arraySize, Sieve::Build(), durArray, durLen, Sieve::FillInArrays(), Sieve::GetListLen(), listLen, probDurArray, theDuration, and uPerSec.
+.SS "void Event::PointsProbs ()"
+.PP
+Reads in two arrays at a time according to the method desired: for POINTS, one with all possible attacks (starTarray/stimesMatrix) and one with their probabilities; for INTERVALS, one with all possible durations and a second with their probabilities. 
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE (use PointsProbs(char*, vector<int>, char*, vector<int>) instead) 
+.RE
+.PP
+Definition at line 923 of file event.cpp.
+.PP
+References durArray, durLen, DataIn::floatVect, DataIn::intVect, listLen, DataIn::nameOf, probDurArray, probSieveArray, DataIn::ReadChars(), DataIn::ReadDummies(), DataIn::ReadFloats(), DataIn::ReadInts(), sever, and starTarray.
+.PP
+Referenced by DurationMethods(), and NewDurationMethods().
+.SS "void Event::Print ()\fC [virtual]\fP"
+.PP
+Reimplemented in \fBBottom\fP, \fBHigh\fP, \fBLow\fP, and \fBTop\fP.
+.PP
+Definition at line 2046 of file event.cpp.
+.PP
+References nameType, numObjs, subevents, theDuration, theName, theStartTime, and theType.
+.PP
+Referenced by EventFactory::Build(), and buildNote().
+.SS "void Event::SelectNextEvent ()"
+.PP
+Identifies the type of the next object, calls its constructor and opens the file associated with it. Then, it calls Build and CreateNewObjects in a recursive process. 
+.PP
+\fBDeprecated\fP
+.RS 4
+NOT IMPLEMENTED - DO NOT USE 
+.RE
+.PP
+
+.SS "void Event::setBottomFreq (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set bottom frequency 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to the new bottom frequency of the event 
+.RE
+.PP
+Definition at line 546 of file event.h.
+.PP
+References bottom_frequency.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setBottomLoud (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set bottom loudness 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to the new bottom loudness of the event 
+.RE
+.PP
+Definition at line 557 of file event.h.
+.PP
+References bottom_loudness.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setDensity (double aDensity)\fC [virtual]\fP"
+.PP
+Sets the density of the event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaDensity\fP Density of the event 
+.RE
+.PP
+Reimplemented in \fBBottom\fP.
+.PP
+Definition at line 269 of file event.cpp.
+.PP
+References theDensity.
+.PP
+Referenced by High::High(), and Low::Low().
+.SS "void Event::setDuration (float aDuration)\fC [virtual]\fP"
+.PP
+Sets the duration of the event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaDuration\fP Duration of the event 
+.RE
+.PP
+Reimplemented in \fBBottom\fP.
+.PP
+Definition at line 242 of file event.cpp.
+.PP
+References theDuration.
+.PP
+Referenced by Event(), High::High(), Low::Low(), and Top::Top().
+.SS "void Event::setName (char * aName)\fC [virtual]\fP"
+.PP
+Sets the name of the event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaName\fP Name of the event 
+.RE
+.PP
+Reimplemented in \fBBottom\fP.
+.PP
+Definition at line 252 of file event.cpp.
+.PP
+References theName.
+.PP
+Referenced by Event(), High::High(), Low::Low(), and Top::Top().
+.SS "void Event::setNoteDynamicMark (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set note_dynamicMark for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new note_dynamicMark for the event 
+.RE
+.PP
+Definition at line 645 of file event.h.
+.PP
+References note_dynamicMark.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setNoteModifiers (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set note_modifiers for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new note_modifiers for the event 
+.RE
+.PP
+Definition at line 656 of file event.h.
+.PP
+References note_modifiers.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setNotePitchClass (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set note_pitchClass for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new note_pitchClass for the event 
+.RE
+.PP
+Definition at line 634 of file event.h.
+.PP
+References note_pitchClass.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setSoundDeviation (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_deviation for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new sound_deviation for the event 
+.RE
+.PP
+Definition at line 579 of file event.h.
+.PP
+References sound_deviation.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setSoundModifiers (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_modifiers for event /param s A \fBFileValue\fP * to new sound_modifiers for the event Definition at line 601 of file event.h.
+.PP
+References sound_modifiers.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setSoundNumPartials (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_numPartials for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new sound_numPartials for the event 
+.RE
+.PP
+Definition at line 568 of file event.h.
+.PP
+References sound_numPartials.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setSoundPartEnvs (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_partEnvs for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new sound_partEnvs for the event 
+.RE
+.PP
+Definition at line 590 of file event.h.
+.PP
+References sound_partEnvs.
+.PP
+Referenced by EventFactory::Build().
+.SS "void Event::setSoundReverberation (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_reverberation for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new sound_reverberation for the event 
+.RE
+.PP
+Definition at line 612 of file event.h.
+.PP
+References sound_reverberation.
+.SS "void Event::setSoundSpatialization (\fBFileValue\fP * s)\fC [inline]\fP"
+.PP
+Set sound_spatialization for event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP A \fBFileValue\fP * to new sound_spatialization for the event 
+.RE
+.PP
+Definition at line 623 of file event.h.
+.PP
+References sound_spatialization.
+.SS "void Event::setStartDurationType (list< \fBFileValue\fP > data)"
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE 
+.RE
+.PP
+
+.SS "void Event::setStartTime (float aStartTime)\fC [virtual]\fP"
+.PP
+Sets the start time of the event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaStartTime\fP Start time for the event 
+.RE
+.PP
+Reimplemented in \fBBottom\fP, and \fBTop\fP.
+.PP
+Definition at line 209 of file event.cpp.
+.PP
+References theStartTime.
+.PP
+Referenced by Event(), High::High(), and Low::Low().
+.SS "void Event::setType (int aType)\fC [virtual]\fP"
+.PP
+Sets the type of the event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaType\fP Type of the event 
+.RE
+.PP
+Definition at line 224 of file event.cpp.
+.PP
+References theType.
+.PP
+Referenced by Event(), High::High(), and Low::Low().
+.SS "int Event::Stimes ()"
+.PP
+\fBDeprecated\fP
+.RS 4
+DO NOT USE (Used to be private... not sure why it isn't anymore) 
+.RE
+.PP
+Reimplemented in \fBTop\fP.
+.PP
+Definition at line 1350 of file event.cpp.
+.PP
+References arraySize, GSection(), List< Etype >::Head(), List< Etype >::InsertInOrder(), DataIn::intVect, List< Etype >::Length(), levels, DataIn::ReadInts(), List< Etype >::Retrieve(), starTarray, theDuration, and uPerSec.
+.SS "void Event::Sweep3 ()"
+.PP
+DEPRECATED
+.PP
+Sweep3. Method for assigning stimeSec and durSec values in sequential order - 'sweepeing' from left to right or beginning to end of the event. For stime and duration two different methods are used, one for integer values the other for float values. Type being a discrete value, the integer values method is used for it. Definition at line 1766 of file event.cpp.
+.PP
+References checkPoint, ChooseOffset(), durSec, lastime, DataIn::nameOf, newObj, objMaxDur, DataIn::ReadChars(), ReadComputeFloat(), ReadComputeInt(), sever, stimeSec, theDuration, type, uPerSec, and ValuePick().
+.SS "void Event::TestNameType ()"
+.PP
+Prints the test name type to standard output (cout). Definition at line 2006 of file event.cpp.
+.PP
+References maxTypes, nameType, numChars, and sever.
+.PP
+Referenced by Bottom::clear().
+.SS "void Event::TimeConvert ()"
+.PP
+Converts stimeMatrix and durMatrix as defined in the (sieve) array into time units (for notation) and into seconds (for synthesis). It also determines the checkPoint (a ) or where this object is in the larger event for use in further calculations. Definition at line 1323 of file event.cpp.
+.PP
+References checkPoint, durArray, duRatio, durMatrix, durSec, durUnits, listLen, objMaxDur, starTarray, stimeMatrix, stimeSec, stimeUnits, theDuration, theStartTime, and uPerSec.
+.PP
+Referenced by Discrete3().
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBMatrix\fP\fC [friend]\fP"
+.PP
+Definition at line 45 of file event.h.
+.PP
+Referenced by FindDur(), NewCreateMatrices(), and ObjCoordinates().
+.SH "Member Data Documentation"
+.PP 
+.SS "char* \fBEvent::aName\fP"
+.PP
+Definition at line 231 of file event.h.
+.PP
+Referenced by Bottom::Bottom(), High::High(), Low::Low(), and Top::Top().
+.SS "int \fBEvent::arraySize\fP"
+.PP
+Definition at line 405 of file event.h.
+.PP
+Referenced by Attacks(), NewCreateMatrices(), PointsProbs(), and Stimes().
+.SS "int \fBEvent::barLen\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Bottom::buildNote(), LayerDef(), and NewLayerDef().
+.SS "\fBFileValue\fP* \fBEvent::bottom_frequency\fP\fC [protected]\fP"
+.PP
+Definition at line 519 of file event.h.
+.PP
+Referenced by Note::AssignPitch(), getBottomFreq(), and setBottomFreq().
+.SS "\fBFileValue\fP* \fBEvent::bottom_loudness\fP\fC [protected]\fP"
+.PP
+Definition at line 520 of file event.h.
+.PP
+Referenced by Note::AssignLoudness(), getBottomLoud(), Bottom::Loud(), and setBottomLoud().
+.SS "double \fBEvent::checkPoint\fP"
+.PP
+Definition at line 222 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Bottom::buildNote(), Bottom::buildSound(), BuildSubEvents(), Bottom::ChooseSoundDynParam(), Continuum(), Continuum3(), getCheckPoint(), NumObjs(), Bottom::Spectrum(), Sweep3(), and TimeConvert().
+.SS "float** \fBEvent::coefParam\fP"
+.PP
+Definition at line 502 of file event.h.
+.SS "\fBMatrix\fP * \fBEvent::d0\fP"
+.PP
+Definition at line 223 of file event.h.
+.PP
+Referenced by FindDur(), and NewCreateMatrices().
+.SS "\fBMatrix\fP * \fBEvent::d1\fP"
+.PP
+Definition at line 223 of file event.h.
+.PP
+Referenced by FindDur().
+.SS "int** \fBEvent::dataParam\fP"
+.PP
+Definition at line 501 of file event.h.
+.SS "int* \fBEvent::durArray\fP"
+.PP
+Definition at line 407 of file event.h.
+.PP
+Referenced by clear(), Bottom::clear(), Event(), FindDur(), FindLen(), PointsProbs(), and TimeConvert().
+.SS "double \fBEvent::duRatio\fP"
+.PP
+Definition at line 489 of file event.h.
+.PP
+Referenced by TimeConvert().
+.SS "int \fBEvent::durLen\fP"
+.PP
+Definition at line 405 of file event.h.
+.PP
+Referenced by FindLen(), NewCreateMatrices(), and PointsProbs().
+.SS "int \fBEvent::durMatrix\fP"
+.PP
+Definition at line 487 of file event.h.
+.PP
+Referenced by FindDur(), and TimeConvert().
+.SS "float \fBEvent::durSec\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 488 of file event.h.
+.PP
+Referenced by Bottom::buildNote(), Bottom::buildSound(), BuildSubEvents(), Continuum(), Continuum3(), LayerDef(), Bottom::PrintSound(), Sweep3(), and TimeConvert().
+.SS "int \fBEvent::durUnits\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 487 of file event.h.
+.PP
+Referenced by TimeConvert().
+.SS "int* \fBEvent::envParam\fP"
+.PP
+Definition at line 507 of file event.h.
+.SS "char* \fBEvent::fname\fP"
+.PP
+Definition at line 495 of file event.h.
+.SS "char* \fBEvent::keepName\fP"
+.PP
+Definition at line 492 of file event.h.
+.PP
+Referenced by Top::Top().
+.SS "float \fBEvent::lastime\fP\fC [protected]\fP"
+.PP
+Definition at line 533 of file event.h.
+.PP
+Referenced by BuildSubEvents(), and Sweep3().
+.SS "int \fBEvent::layer\fP"
+.PP
+Definition at line 493 of file event.h.
+.PP
+Referenced by Adjustments().
+.SS "float* \fBEvent::layerDens\fP"
+.PP
+Definition at line 411 of file event.h.
+.PP
+Referenced by Adjustments(), clear(), Bottom::clear(), Event(), NewNumObjs(), and NumObjs().
+.SS "int \fBEvent::length\fP"
+.PP
+Reimplemented in \fBTop\fP.
+.PP
+Definition at line 401 of file event.h.
+.SS "int \fBEvent::levels\fP"
+.PP
+Reimplemented in \fBTop\fP.
+.PP
+Definition at line 401 of file event.h.
+.PP
+Referenced by Stimes().
+.SS "int \fBEvent::listLen\fP"
+.PP
+Definition at line 405 of file event.h.
+.PP
+Referenced by Attacks(), FindDur(), FindLen(), NewCreateMatrices(), PointsProbs(), and TimeConvert().
+.SS "long \fBEvent::loc0\fP"
+.PP
+Definition at line 490 of file event.h.
+.PP
+Referenced by BuildSubEvents().
+.SS "long \fBEvent::loc1\fP"
+.PP
+Definition at line 490 of file event.h.
+.SS "int** \fBEvent::maxLen\fP"
+.PP
+Definition at line 506 of file event.h.
+.SS "int \fBEvent::maxTypes\fP"
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by EventFactory::Build(), clear(), Bottom::clear(), CopyName(), LayerDef(), NewCopyName(), NewCreateMatrices(), NewLayerDef(), ObjCoordinates(), and TestNameType().
+.SS "char** \fBEvent::nameType\fP"
+.PP
+Definition at line 232 of file event.h.
+.PP
+Referenced by EventFactory::Build(), BuildSubEvents(), clear(), Bottom::clear(), CopyName(), Event(), NewCopyName(), Print(), and TestNameType().
+.SS "int \fBEvent::newObj\fP"
+.PP
+Definition at line 491 of file event.h.
+.PP
+Referenced by Adjustments(), Bottom::buildNote(), BuildSubEvents(), Continuum3(), getNewObj(), Bottom::OneStep(), and Sweep3().
+.SS "\fBFileValue\fP* \fBEvent::note_dynamicMark\fP\fC [protected]\fP"
+.PP
+Definition at line 530 of file event.h.
+.PP
+Referenced by Note::AssignLoudness(), Bottom::buildNote(), getNoteDynamicMark(), and setNoteDynamicMark().
+.SS "\fBFileValue\fP* \fBEvent::note_modifiers\fP\fC [protected]\fP"
+.PP
+Definition at line 531 of file event.h.
+.PP
+Referenced by Bottom::buildNote(), getNoteModifiers(), Note::Modifiers(), and setNoteModifiers().
+.SS "\fBFileValue\fP* \fBEvent::note_pitchClass\fP\fC [protected]\fP"
+.PP
+Definition at line 529 of file event.h.
+.PP
+Referenced by Note::AssignPitch(), Bottom::buildNote(), getNotePitchClass(), and setNotePitchClass().
+.SS "int \fBEvent::noWeights\fP"
+.PP
+Definition at line 405 of file event.h.
+.SS "int \fBEvent::numChars\fP"
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by CopyName(), and TestNameType().
+.SS "int \fBEvent::numLayers\fP"
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by Adjustments(), EventFactory::Build(), LayerDef(), NewLayerDef(), NewNumObjs(), and NumObjs().
+.SS "int \fBEvent::numObjs\fP"
+.PP
+Definition at line 402 of file event.h.
+.PP
+Referenced by Adjustments(), BuildSubEvents(), NewNumObjs(), NumObjs(), Print(), and Bottom::Spatialization().
+.SS "int \fBEvent::numParam\fP"
+.PP
+Definition at line 498 of file event.h.
+.SS "int \fBEvent::objID\fP"
+.PP
+Definition at line 402 of file event.h.
+.PP
+Referenced by BuildSubEvents(), Event(), Bottom::PrintSound(), and Top::Top().
+.SS "int \fBEvent::objMaxDur\fP"
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Continuum(), Continuum3(), LayerDef(), NewLayerDef(), Sweep3(), and TimeConvert().
+.SS "int* \fBEvent::objsInLayer\fP"
+.PP
+Definition at line 412 of file event.h.
+.PP
+Referenced by clear(), Bottom::clear(), Event(), NewNumObjs(), and NumObjs().
+.SS "double* \fBEvent::probDurArray\fP"
+.PP
+Definition at line 409 of file event.h.
+.PP
+Referenced by clear(), Bottom::clear(), Event(), and PointsProbs().
+.SS "float* \fBEvent::probParam\fP"
+.PP
+Definition at line 499 of file event.h.
+.SS "double* \fBEvent::probSieveArray\fP"
+.PP
+Definition at line 408 of file event.h.
+.PP
+Referenced by Attacks(), clear(), Bottom::clear(), Event(), NewCreateMatrices(), and PointsProbs().
+.SS "int* \fBEvent::remainObjs\fP"
+.PP
+Definition at line 413 of file event.h.
+.PP
+Referenced by Adjustments(), clear(), Bottom::clear(), Event(), NewNumObjs(), and NumObjs().
+.SS "\fBMatrix\fP* \fBEvent::s0\fP"
+.PP
+Definition at line 223 of file event.h.
+.PP
+Referenced by Adjustments(), FindLen(), NewCreateMatrices(), and ObjCoordinates().
+.SS "\fBMatrix\fP * \fBEvent::s1\fP"
+.PP
+Definition at line 223 of file event.h.
+.PP
+Referenced by ObjCoordinates().
+.SS "float* \fBEvent::scaleParam\fP"
+.PP
+Definition at line 508 of file event.h.
+.SS "int** \fBEvent::sieveParam\fP"
+.PP
+Definition at line 503 of file event.h.
+.SS "\fBFileValue\fP* \fBEvent::sound_deviation\fP\fC [protected]\fP"
+.PP
+Definition at line 523 of file event.h.
+.PP
+Referenced by getSoundDeviation(), setSoundDeviation(), and Bottom::Spectrum().
+.SS "\fBFileValue\fP* \fBEvent::sound_modifiers\fP\fC [protected]\fP"
+.PP
+Definition at line 525 of file event.h.
+.PP
+Referenced by getSoundModifiers(), and setSoundModifiers().
+.SS "\fBFileValue\fP* \fBEvent::sound_numPartials\fP\fC [protected]\fP"
+.PP
+Definition at line 522 of file event.h.
+.PP
+Referenced by getSoundNumPartials(), Bottom::NumPart(), and setSoundNumPartials().
+.SS "\fBFileValue\fP* \fBEvent::sound_partEnvs\fP\fC [protected]\fP"
+.PP
+Definition at line 524 of file event.h.
+.PP
+Referenced by getSoundPartEnvs(), and setSoundPartEnvs().
+.SS "\fBFileValue\fP* \fBEvent::sound_reverberation\fP\fC [protected]\fP"
+.PP
+Definition at line 526 of file event.h.
+.PP
+Referenced by Bottom::buildSound(), getSoundReverberation(), and setSoundReverberation().
+.SS "\fBFileValue\fP* \fBEvent::sound_spatialization\fP\fC [protected]\fP"
+.PP
+Definition at line 527 of file event.h.
+.PP
+Referenced by Bottom::buildSound(), getSoundSpatialization(), and setSoundSpatialization().
+.SS "int* \fBEvent::starTarray\fP"
+.PP
+Definition at line 406 of file event.h.
+.PP
+Referenced by Attacks(), clear(), Bottom::clear(), Event(), FindDur(), FindLen(), PointsProbs(), Stimes(), and TimeConvert().
+.SS "int \fBEvent::stimeMatrix\fP"
+.PP
+Definition at line 487 of file event.h.
+.PP
+Referenced by Adjustments(), FindDur(), FindLen(), ObjCoordinates(), and TimeConvert().
+.SS "float \fBEvent::stimeSec\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 488 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Bottom::buildNote(), Bottom::buildSound(), BuildSubEvents(), Continuum(), Continuum3(), Bottom::PrintSound(), Sweep3(), and TimeConvert().
+.SS "int \fBEvent::stimeUnits\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 487 of file event.h.
+.PP
+Referenced by TimeConvert().
+.SS "list<\fBEvent\fP*> \fBEvent::subevents\fP"
+.PP
+Definition at line 235 of file event.h.
+.PP
+Referenced by buildNote(), buildScore(), BuildSubEvents(), and Print().
+.SS "int** \fBEvent::tempSieves\fP"
+.PP
+Definition at line 504 of file event.h.
+.SS "double \fBEvent::theDensity\fP"
+.PP
+Definition at line 233 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Event(), getDensity(), Top::SetDens(), and setDensity().
+.SS "float \fBEvent::theDuration\fP"
+.PP
+Definition at line 228 of file event.h.
+.PP
+Referenced by Attacks(), EventFactory::Build(), BuildSubEvents(), Continuum(), Continuum3(), Event(), FindLen(), getDuration(), NewNumObjs(), NumObjs(), operator=(), PointsProbs(), Top::Print(), Low::Print(), High::Print(), Print(), Bottom::Print(), Top::SetDuration(), setDuration(), Stimes(), Sweep3(), and TimeConvert().
+.SS "char* \fBEvent::theName\fP"
+.PP
+Definition at line 230 of file event.h.
+.PP
+Referenced by EventFactory::Build(), BuildSubEvents(), Bottom::clear(), Event(), getName(), operator=(), Top::Print(), Low::Print(), High::Print(), Print(), Bottom::Print(), and setName().
+.SS "float \fBEvent::theStartTime\fP"
+.PP
+Definition at line 227 of file event.h.
+.PP
+Referenced by EventFactory::Build(), Event(), getStartTime(), operator=(), Top::Print(), Low::Print(), High::Print(), Print(), Bottom::Print(), Top::setStartTime(), setStartTime(), and TimeConvert().
+.SS "int \fBEvent::theType\fP"
+.PP
+Definition at line 229 of file event.h.
+.PP
+Referenced by EventFactory::Build(), getType(), Print(), and setType().
+.SS "int \fBEvent::type\fP"
+.PP
+Definition at line 491 of file event.h.
+.PP
+Referenced by Adjustments(), EventFactory::Build(), Bottom::buildNote(), BuildSubEvents(), Continuum(), Continuum3(), FindDur(), FindLen(), ObjCoordinates(), Bottom::OneStep(), Bottom::PrintSound(), and Sweep3().
+.SS "int* \fBEvent::typesInLayer\fP"
+.PP
+Definition at line 403 of file event.h.
+.PP
+Referenced by Adjustments(), EventFactory::Build(), clear(), Bottom::clear(), Event(), LayerDef(), and NewLayerDef().
+.SS "int \fBEvent::uPerSec\fP"
+.PP
+Reimplemented in \fBNote\fP.
+.PP
+Definition at line 400 of file event.h.
+.PP
+Referenced by Attacks(), EventFactory::Build(), Bottom::buildNote(), BuildSubEvents(), Continuum(), Continuum3(), FindLen(), LayerDef(), NewLayerDef(), PointsProbs(), Top::Print(), Low::Print(), High::Print(), Bottom::Print(), Stimes(), Sweep3(), and TimeConvert().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

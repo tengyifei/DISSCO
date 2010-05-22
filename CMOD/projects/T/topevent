@@ -1,0 +1,46 @@
+				/* Top Event: T/topevent */
+
+maxChildDur = 12;			/* float - the maximum duration for a child of this event */
+unitsPerSecond = 1;		/* int - the number of units in a second */
+unitsPerBar = 5;			/* int - the number of units in a bar */
+
+
+/* list< list<string> > - this defines both the types and the layers.         */
+/*      Each of the inner lists represents a layer, and the filename strings	*/
+/*      in order (as if the inner lists didn't exist) define the types.  So   */
+/*      in this example, there are 3 layers and 4 types.											*/
+childNames = <	
+								<"B/note5">, 
+								< "B/note5", "B/note5" >, 
+								<"B/note5"> 
+						 >;
+
+
+/* list<string, ... > - can either be <"FIXED"> (no additional args), or   		*/
+/*			<"DENSITY",	float density, int area, int underone>.  For example:			*/
+/*      <"DENSITY", Random(0.15, 0.35), 8, 4>;.																*/
+numChildren = <"FIXED">;
+
+
+/* list<string method, ...>.  -  defines children to this event. method =     */
+/*      "CONTINUUM", "SWEEP" or "DISCRETE".  In the case of CONTINUUM and 		*/
+/*      DISCRETE, the parameters are: <string method, float stime, 						*/
+/*			string stimetype, int type, float dur, float durtype>, where stimetype*/
+/*      and durtype = "UNITS", "SECONDS" or "PERCENTAGE".											*/
+childEventDef = < "CONTINUUM",				/* Method - CONTINUUM, SWEEP, DISCRETE */
+									Random(0.2, 0.9),		/* Stime */
+									"PERCENTAGE",				/* Stime type - UNITS or SECONDS or PERCENTAGE */
+									CURRENT_CHILD_NUM,	/* Type */
+									5.0,								/* Duration */
+									"UNITS" >;					/* Duration type - UNITS or SECONDS or PERCENTAGE */
+
+/* NOTE: discrete looks like this... 																				  */
+/* 	< "DISCRETE",																														  */
+/*    MakeSieve(0, DURATION_UNITS, "MODS", <2, 3>, "PERIODIC", <3, 1, 2, 1>), */
+/*    MakeSieve(0, DURATION_UNITS, "MODS", <1>, "PERIODIC", <1> ), 				    */
+/*    <1.00>,  --- (length of "typesInLayers" list)												    */
+/*    <EnvLib(109,1.00)>,  --- (attack envelopes --- same length)				     	*/
+/*    <EnvLib(110,0.98)>  --- (duration envelopes --- same length)				    */
+/*  >;																																			  */
+
+

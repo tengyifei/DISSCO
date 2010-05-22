@@ -1,0 +1,484 @@
+\hypertarget{classScore}{
+\section{Score Class Reference}
+\label{classScore}\index{Score@{Score}}
+}
+{\tt \#include $<$Score.h$>$}
+
+Inheritance diagram for Score:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=105pt]{classScore__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Score:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classScore__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+enum \hyperlink{classScore_w6}{Clipping\-Management\-Mode} \{ \par
+\hyperlink{classScore_w6w0}{NONE}, 
+\par
+\hyperlink{classScore_w6w1}{CLIP}, 
+\par
+\hyperlink{classScore_w6w2}{SCALE}, 
+\par
+\hyperlink{classScore_w6w3}{CHANNEL\_\-SCALE}, 
+\par
+\hyperlink{classScore_w6w4}{ANTICLIP}, 
+\par
+\hyperlink{classScore_w6w5}{CHANNEL\_\-ANTICLIP}
+ \}
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classScore_a0}{Score} ()
+\item 
+\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ \hyperlink{classScore_a1}{render} (int num\-Channels, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} sampling\-Rate=\hyperlink{Types_8h_a5}{DEFAULT\_\-SAMPLING\_\-RATE})
+\item 
+\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ \hyperlink{classScore_a2}{render} (int num\-Channels, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} sampling\-Rate, int n\-Threads)
+\item 
+void \hyperlink{classScore_a3}{set\-Clipping\-Management\-Mode} (\hyperlink{classScore_w6}{Clipping\-Management\-Mode} mode)
+\item 
+\hyperlink{classScore_w6}{Clipping\-Management\-Mode} \hyperlink{classScore_a4}{get\-Clipping\-Management\-Mode} ()
+\item 
+void \hyperlink{classScore_a5}{use\_\-reverb} (\hyperlink{classReverb}{Reverb} $\ast$new\-Reverb\-Obj)
+\item 
+void \hyperlink{classScore_a6}{xml\_\-print} ()
+\item 
+void \hyperlink{classScore_a7}{xml\_\-print} (ofstream \&xml\-Output)
+\item 
+void \hyperlink{classScore_a8}{xml\_\-print} (const  char $\ast$xml\-Output\-Path)
+\item 
+void \hyperlink{classScore_a9}{xml\_\-read} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$scoretag)
+\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{classScore_e0}{manage\-Clipping} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt, \hyperlink{classScore_w6}{Clipping\-Management\-Mode} mode)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+hash\_\-map$<$ long, \hyperlink{classReverb}{Reverb} $\ast$ $>$ $\ast$ \hyperlink{classScore_o0}{reverb\-Hash}
+\item 
+hash\_\-map$<$ long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ $\ast$ \hyperlink{classScore_o1}{dv\-Hash}
+\end{CompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{classScore_h0}{clip} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt)
+\item 
+void \hyperlink{classScore_h1}{scale} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt)
+\item 
+void \hyperlink{classScore_h2}{channel\-Scale} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt)
+\item 
+void \hyperlink{classScore_h3}{anticlip} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt)
+\item 
+void \hyperlink{classScore_h4}{channel\-Anticlip} (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$mt)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classScore_w6}{Clipping\-Management\-Mode} \hyperlink{classScore_r0}{cmm\_\-}
+\item 
+\hyperlink{classReverb}{Reverb} $\ast$ \hyperlink{classScore_r1}{reverb\-Obj}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+A Score simply consists of a collection of Sounds. In addition to this, it provides functionality for managing clipping in a piece. \begin{Desc}
+\item[Author:]Braden Kowitz \end{Desc}
+
+
+
+
+Definition at line 71 of file Score.h.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classScore_w6}{
+\index{Score@{Score}!ClippingManagementMode@{ClippingManagementMode}}
+\index{ClippingManagementMode@{ClippingManagementMode}!Score@{Score}}
+\subsubsection[ClippingManagementMode]{\setlength{\rightskip}{0pt plus 5cm}enum \hyperlink{classScore_w6}{Score::Clipping\-Management\-Mode}}}
+\label{classScore_w6}
+
+
+This sets the clipping management mode for this score. This post-process is run after the score is rendered. \begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{NONE@{NONE}!Score@{Score}}\index{Score@{Score}!NONE@{NONE}}\item[{\em 
+\hypertarget{classScore_w6w0}{
+NONE}
+\label{classScore_w6w0}
+}]\begin{itemize}
+\item No clipping management is taken at all.\item This lets the composer render once, then try different post-processes, saving some time. \end{itemize}
+\index{CLIP@{CLIP}!Score@{Score}}\index{Score@{Score}!CLIP@{CLIP}}\item[{\em 
+\hypertarget{classScore_w6w1}{
+CLIP}
+\label{classScore_w6w1}
+}]\begin{itemize}
+\item Any value over 1 or under -1 is clipped to these limits. \end{itemize}
+\index{SCALE@{SCALE}!Score@{Score}}\index{Score@{Score}!SCALE@{SCALE}}\item[{\em 
+\hypertarget{classScore_w6w2}{
+SCALE}
+\label{classScore_w6w2}
+}]\begin{itemize}
+\item The max amplitude value is found in the entire score (all tracks).\item Each track is then scaled by 1/max\-Amplitude. \end{itemize}
+\index{CHANNEL_SCALE@{CHANNEL\_\-SCALE}!Score@{Score}}\index{Score@{Score}!CHANNEL_SCALE@{CHANNEL\_\-SCALE}}\item[{\em 
+\hypertarget{classScore_w6w3}{
+CHANNEL\_\-SCALE}
+\label{classScore_w6w3}
+}]\begin{itemize}
+\item For each track, a max amplitude value if found.\item This track is then scaled by 1/max\-Amplitude \end{itemize}
+\index{ANTICLIP@{ANTICLIP}!Score@{Score}}\index{Score@{Score}!ANTICLIP@{ANTICLIP}}\item[{\em 
+\hypertarget{classScore_w6w4}{
+ANTICLIP}
+\label{classScore_w6w4}
+}]\begin{itemize}
+\item If the total amplitude accross tracks at any given time is greater than 1, then that sample is scaled on all tracks by 1/total\-Amplitude. \end{itemize}
+\index{CHANNEL_ANTICLIP@{CHANNEL\_\-ANTICLIP}!Score@{Score}}\index{Score@{Score}!CHANNEL_ANTICLIP@{CHANNEL\_\-ANTICLIP}}\item[{\em 
+\hypertarget{classScore_w6w5}{
+CHANNEL\_\-ANTICLIP}
+\label{classScore_w6w5}
+}]\begin{itemize}
+\item For each channel, and each sample\item if a sample has an amplitude greater than 1, then that sample is scaled by 1/amplitude. \end{itemize}
+\end{description}
+\end{Desc}
+
+
+
+Definition at line 125 of file Score.h.
+
+Referenced by get\-Clipping\-Management\-Mode(), and xml\_\-read().
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classScore_a0}{
+\index{Score@{Score}!Score@{Score}}
+\index{Score@{Score}!Score@{Score}}
+\subsubsection[Score]{\setlength{\rightskip}{0pt plus 5cm}Score::Score ()}}
+\label{classScore_a0}
+
+
+This is the default constructor. It sets the Clipping\-Management\-Mode to NONE. 
+
+Definition at line 60 of file Score.cpp.
+
+References reverb\-Obj.
+
+\subsection{Member Function Documentation}
+\hypertarget{classScore_h3}{
+\index{Score@{Score}!anticlip@{anticlip}}
+\index{anticlip@{anticlip}!Score@{Score}}
+\subsubsection[anticlip]{\setlength{\rightskip}{0pt plus 5cm}void Score::anticlip (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classScore_h3}
+
+
+This private function unclips the \hyperlink{classMultiTrack}{Multi\-Track}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to unclip \end{description}
+\end{Desc}
+
+
+Definition at line 390 of file Score.cpp.
+
+References Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Track::get\-Wave(), m\_\-sample\_\-count\_\-type, m\_\-sample\_\-type, and Collection$<$ Track $\ast$ $>$::size().
+
+Referenced by manage\-Clipping().\hypertarget{classScore_h4}{
+\index{Score@{Score}!channelAnticlip@{channelAnticlip}}
+\index{channelAnticlip@{channelAnticlip}!Score@{Score}}
+\subsubsection[channelAnticlip]{\setlength{\rightskip}{0pt plus 5cm}void Score::channel\-Anticlip (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classScore_h4}
+
+
+This private function unclips the channels in a \hyperlink{classMultiTrack}{Multi\-Track}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to unclip \end{description}
+\end{Desc}
+
+
+Definition at line 430 of file Score.cpp.
+
+References Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Sound\-Sample::get\-Sample\-Count(), Track::get\-Wave(), m\_\-sample\_\-count\_\-type, and Collection$<$ Track $\ast$ $>$::size().
+
+Referenced by manage\-Clipping().\hypertarget{classScore_h2}{
+\index{Score@{Score}!channelScale@{channelScale}}
+\index{channelScale@{channelScale}!Score@{Score}}
+\subsubsection[channelScale]{\setlength{\rightskip}{0pt plus 5cm}void Score::channel\-Scale (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classScore_h2}
+
+
+This private function scales the channels in the \hyperlink{classMultiTrack}{Multi\-Track}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to scale \end{description}
+\end{Desc}
+
+
+Definition at line 352 of file Score.cpp.
+
+References Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Sound\-Sample::get\-Sample\-Count(), Track::get\-Wave(), m\_\-sample\_\-count\_\-type, m\_\-sample\_\-type, and Collection$<$ Track $\ast$ $>$::size().
+
+Referenced by manage\-Clipping().\hypertarget{classScore_h0}{
+\index{Score@{Score}!clip@{clip}}
+\index{clip@{clip}!Score@{Score}}
+\subsubsection[clip]{\setlength{\rightskip}{0pt plus 5cm}void Score::clip (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classScore_h0}
+
+
+This private function clips the \hyperlink{classMultiTrack}{Multi\-Track}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to clip \end{description}
+\end{Desc}
+
+
+Definition at line 284 of file Score.cpp.
+
+References Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Sound\-Sample::get\-Sample\-Count(), Track::get\-Wave(), m\_\-sample\_\-count\_\-type, and Collection$<$ Track $\ast$ $>$::size().
+
+Referenced by manage\-Clipping().\hypertarget{classScore_a4}{
+\index{Score@{Score}!getClippingManagementMode@{getClippingManagementMode}}
+\index{getClippingManagementMode@{getClippingManagementMode}!Score@{Score}}
+\subsubsection[getClippingManagementMode]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classScore_w6}{Score::Clipping\-Management\-Mode} Score::get\-Clipping\-Management\-Mode ()}}
+\label{classScore_a4}
+
+
+This function gets the current Clipping\-Management\-Mode for this score. \begin{Desc}
+\item[Returns:]The Clipping\-Management\-Mode \end{Desc}
+
+
+Definition at line 251 of file Score.cpp.
+
+References Clipping\-Management\-Mode, and cmm\_\-.
+
+Referenced by xml\_\-print().\hypertarget{classScore_e0}{
+\index{Score@{Score}!manageClipping@{manageClipping}}
+\index{manageClipping@{manageClipping}!Score@{Score}}
+\subsubsection[manageClipping]{\setlength{\rightskip}{0pt plus 5cm}void Score::manage\-Clipping (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt}, \hyperlink{classScore_w6}{Clipping\-Management\-Mode} {\em mode})\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{classScore_e0}
+
+
+This function manages clipping on a \hyperlink{classMultiTrack}{Multi\-Track} object with the specified mode. This is performed automatically when a score is rendered, but is available for the user to render once, then post-process many times. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to clip \item[{\em mode}]The Clipping\-Management\-Mode \end{description}
+\end{Desc}
+
+
+Definition at line 258 of file Score.cpp.
+
+References anticlip(), ANTICLIP, CHANNEL\_\-ANTICLIP, CHANNEL\_\-SCALE, channel\-Anticlip(), channel\-Scale(), clip(), CLIP, NONE, scale(), and SCALE.
+
+Referenced by render().\hypertarget{classScore_a2}{
+\index{Score@{Score}!render@{render}}
+\index{render@{render}!Score@{Score}}
+\subsubsection[render]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ Score::render (int {\em num\-Channels}, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} {\em sampling\-Rate}, int {\em n\-Threads})}}
+\label{classScore_a2}
+
+
+This function:\begin{itemize}
+\item Renders each sound in this Score using a specified number of threads for parallel rendering\item Composites the sounds into a \hyperlink{classMultiTrack}{Multi\-Track} object\item Post-Processes the sound for clipping management\end{itemize}
+
+
+\begin{Desc}
+\item[Note:]The caller must delete this object. Also, the caller must specify a value for sampling\-Rate (unlike single-threaded render) \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em num\-Channels}]The number of channels to render \item[{\em sampling\-Rate}]The sampling rate \item[{\em n\-Threads}]The number of threads to use when rendering \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a \hyperlink{classMultiTrack}{Multi\-Track} object \end{Desc}
+
+
+Definition at line 132 of file Score.cpp.
+
+References Collection$<$ T $>$::add(), cmm\_\-, Multi\-Track::composite(), Reverb::do\_\-reverb\_\-Multi\-Track(), threadlist\_\-entry::done, threadlist\_\-entry::finish\-Condition, Collection$<$ T $>$::get(), Reverb::get\-Decay(), Parameter\-Lib$<$ Sound\-Static\-Param, Sound\-Dynamic\-Param $>$::get\-Param(), Sound::get\-Total\-Duration(), Iterator$<$ T $>$::has\-Next(), Collection$<$ Sound $>$::iterator(), threadlist\_\-entry::list\-Mutex, m\_\-rate\_\-type, m\_\-sample\_\-count\_\-type, m\_\-time\_\-type, manage\-Clipping(), multithreaded\_\-render\_\-worker(), Iterator$<$ T $>$::next(), threadlist\_\-entry::num\-Channels, threadlist\_\-entry::result\-Track, reverb\-Obj, threadlist\_\-entry::sampling\-Rate, Collection$<$ Sound $>$::size(), threadlist\_\-entry::snd, START\_\-TIME, and threadlist\_\-entry::thread.\hypertarget{classScore_a1}{
+\index{Score@{Score}!render@{render}}
+\index{render@{render}!Score@{Score}}
+\subsubsection[render]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ Score::render (int {\em num\-Channels}, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} {\em sampling\-Rate} = \hyperlink{Types_8h_a5}{DEFAULT\_\-SAMPLING\_\-RATE})}}
+\label{classScore_a1}
+
+
+This function:\begin{itemize}
+\item Renders each sound in this Score.\item Composites the sounds into a \hyperlink{classMultiTrack}{Multi\-Track} object\item Post-Processes the sound for clipping management\end{itemize}
+
+
+\begin{Desc}
+\item[Note:]The caller must delete this object. \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em num\-Channels}]The number of channels to render \item[{\em sampling\-Rate}]The sampling rate which defaults to DEFAULT\_\-SAMPLING\_\-RATE \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A \hyperlink{classMultiTrack}{Multi\-Track} object \end{Desc}
+
+
+Definition at line 67 of file Score.cpp.
+
+References cmm\_\-, Multi\-Track::composite(), Reverb::do\_\-reverb\_\-Multi\-Track(), Reverb::get\-Decay(), Parameter\-Lib$<$ Sound\-Static\-Param, Sound\-Dynamic\-Param $>$::get\-Param(), Sound::get\-Total\-Duration(), Iterator$<$ T $>$::has\-Next(), Collection$<$ Sound $>$::iterator(), m\_\-rate\_\-type, m\_\-sample\_\-count\_\-type, m\_\-time\_\-type, manage\-Clipping(), Iterator$<$ T $>$::next(), Sound::render(), reverb\-Obj, and START\_\-TIME.\hypertarget{classScore_h1}{
+\index{Score@{Score}!scale@{scale}}
+\index{scale@{scale}!Score@{Score}}
+\subsubsection[scale]{\setlength{\rightskip}{0pt plus 5cm}void Score::scale (\hyperlink{classMultiTrack}{Multi\-Track} $\ast$ {\em mt})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classScore_h1}
+
+
+This private function scales the \hyperlink{classMultiTrack}{Multi\-Track}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mt}]The \hyperlink{classMultiTrack}{Multi\-Track} to scale \end{description}
+\end{Desc}
+
+
+Definition at line 308 of file Score.cpp.
+
+References Collection$<$ Track $\ast$ $>$::get(), Track::get\-Amp(), Sound\-Sample::get\-Sample\-Count(), Track::get\-Wave(), m\_\-sample\_\-count\_\-type, m\_\-sample\_\-type, and Collection$<$ Track $\ast$ $>$::size().
+
+Referenced by manage\-Clipping().\hypertarget{classScore_a3}{
+\index{Score@{Score}!setClippingManagementMode@{setClippingManagementMode}}
+\index{setClippingManagementMode@{setClippingManagementMode}!Score@{Score}}
+\subsubsection[setClippingManagementMode]{\setlength{\rightskip}{0pt plus 5cm}void Score::set\-Clipping\-Management\-Mode (\hyperlink{classScore_w6}{Clipping\-Management\-Mode} {\em mode})}}
+\label{classScore_a3}
+
+
+This function sets the Clipping\-Management\-Mode for this score. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mode}]The Clipping\-Management\-Mode to set \end{description}
+\end{Desc}
+
+
+Definition at line 245 of file Score.cpp.
+
+References cmm\_\-.
+
+Referenced by xml\_\-read().\hypertarget{classScore_a5}{
+\index{Score@{Score}!use_reverb@{use\_\-reverb}}
+\index{use_reverb@{use\_\-reverb}!Score@{Score}}
+\subsubsection[use\_\-reverb]{\setlength{\rightskip}{0pt plus 5cm}void Score::use\_\-reverb (\hyperlink{classReverb}{Reverb} $\ast$ {\em new\-Reverb\-Obj})}}
+\label{classScore_a5}
+
+
+This function performs reverb in the \hyperlink{classScore_a1}{render()} method. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em new\-Reverb\-Obj}]The \hyperlink{classReverb}{Reverb} object \end{description}
+\end{Desc}
+
+
+Definition at line 273 of file Score.cpp.
+
+References reverb\-Obj.
+
+Referenced by xml\_\-read().\hypertarget{classScore_a8}{
+\index{Score@{Score}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Score@{Score}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Score::xml\_\-print (const char $\ast$ {\em xml\-Output\-Path})}}
+\label{classScore_a8}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000031}{Deprecated}]\end{Desc}
+
+
+Definition at line 567 of file Score.cpp.
+
+References xml\_\-print().\hypertarget{classScore_a7}{
+\index{Score@{Score}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Score@{Score}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Score::xml\_\-print (ofstream \& {\em xml\-Output})}}
+\label{classScore_a7}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000030}{Deprecated}]\end{Desc}
+
+
+Definition at line 524 of file Score.cpp.
+
+References get\-Clipping\-Management\-Mode(), Iterator$<$ T $>$::has\-Next(), Collection$<$ Sound $>$::iterator(), Iterator$<$ T $>$::next(), reverb\-Obj, and Sound::xml\_\-print().\hypertarget{classScore_a6}{
+\index{Score@{Score}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Score@{Score}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Score::xml\_\-print ()}}
+\label{classScore_a6}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000029}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Definition at line 580 of file Score.cpp.
+
+Referenced by xml\_\-print().\hypertarget{classScore_a9}{
+\index{Score@{Score}!xml_read@{xml\_\-read}}
+\index{xml_read@{xml\_\-read}!Score@{Score}}
+\subsubsection[xml\_\-read]{\setlength{\rightskip}{0pt plus 5cm}void Score::xml\_\-read (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em scoretag})}}
+\label{classScore_a9}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000032}{Deprecated}]\end{Desc}
+
+
+Definition at line 456 of file Score.cpp.
+
+References Collection$<$ Sound $>$::add(), Xml\-Reader::xmltag::children, Clipping\-Management\-Mode, Dynamic\-Variable::create\_\-dv\_\-from\_\-xml(), dv\-Hash, Xml\-Reader::xmltag::find\-Child\-Param\-Value(), Xml\-Reader::xmltag::get\-Param\-Value(), Xml\-Reader::xmltag::name, reverb\-Hash, set\-Clipping\-Management\-Mode(), use\_\-reverb(), Sound::xml\_\-read(), and Reverb::xml\_\-read().
+
+\subsection{Member Data Documentation}
+\hypertarget{classScore_r0}{
+\index{Score@{Score}!cmm_@{cmm\_\-}}
+\index{cmm_@{cmm\_\-}!Score@{Score}}
+\subsubsection[cmm\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classScore_w6}{Clipping\-Management\-Mode} \hyperlink{classScore_r0}{Score::cmm\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classScore_r0}
+
+
+
+
+Definition at line 221 of file Score.h.
+
+Referenced by get\-Clipping\-Management\-Mode(), render(), and set\-Clipping\-Management\-Mode().\hypertarget{classScore_o1}{
+\index{Score@{Score}!dvHash@{dvHash}}
+\index{dvHash@{dvHash}!Score@{Score}}
+\subsubsection[dvHash]{\setlength{\rightskip}{0pt plus 5cm}hash\_\-map$<$long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$$>$$\ast$ \hyperlink{classScore_o1}{Score::dv\-Hash}}}
+\label{classScore_o1}
+
+
+
+
+Definition at line 218 of file Score.h.
+
+Referenced by xml\_\-read().\hypertarget{classScore_o0}{
+\index{Score@{Score}!reverbHash@{reverbHash}}
+\index{reverbHash@{reverbHash}!Score@{Score}}
+\subsubsection[reverbHash]{\setlength{\rightskip}{0pt plus 5cm}hash\_\-map$<$long, \hyperlink{classReverb}{Reverb} $\ast$$>$$\ast$ \hyperlink{classScore_o0}{Score::reverb\-Hash}}}
+\label{classScore_o0}
+
+
+
+
+Definition at line 217 of file Score.h.
+
+Referenced by xml\_\-read().\hypertarget{classScore_r1}{
+\index{Score@{Score}!reverbObj@{reverbObj}}
+\index{reverbObj@{reverbObj}!Score@{Score}}
+\subsubsection[reverbObj]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classReverb}{Reverb}$\ast$ \hyperlink{classScore_r1}{Score::reverb\-Obj}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classScore_r1}
+
+
+
+
+Definition at line 223 of file Score.h.
+
+Referenced by render(), Score(), use\_\-reverb(), and xml\_\-print().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Score_8h}{Score.h}\item 
+\hyperlink{Score_8cpp}{Score.cpp}\end{CompactItemize}

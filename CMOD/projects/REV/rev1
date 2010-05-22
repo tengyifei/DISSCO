@@ -1,0 +1,16 @@
+
+/* simple      ---- roomsize: 0 - 1 */
+reverberation = <"SIMPLE", 0.85>;
+
+
+/* medium */
+/* Envelope percentReverb, float hilow_spread: 0-1, float gainAllPass: 0-1, float delay: 0-1 */
+/*reverberation = <"MEDIUM", EnvLib(29, 0.80), 0.56, 0.56, 0.30	>;*/
+ 								
+ 								
+/* advanced */
+/* Envelope percentReverb, float *combGainList, float *lpGainList, float gainAllPass, float delay */
+/*          combGainList - EXACTLY 6... 0-1 (use around 0.5)
+/*          lpGainList - EXACTLY 6 ... 0-1 (use very small)
+/*reverberation = <"ADVANCED", EnvLib(29, 0.80), <0.46, 0.48, 0.50, 0.52, 0.53, 0.55>, */
+/*                    <0.05, 0.06, 0.07, 0.05, 0.04, 0.02>, 0.56, 0.30>;*/

@@ -1,0 +1,775 @@
+\hypertarget{classEnvelope}{
+\section{Envelope Class Reference}
+\label{classEnvelope}\index{Envelope@{Envelope}}
+}
+{\tt \#include $<$Envelope.h$>$}
+
+Inheritance diagram for Envelope:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=102pt]{classEnvelope__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Envelope:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classEnvelope__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classEnvelope_a0}{Envelope} ()
+\item 
+\hyperlink{classEnvelope_a1}{Envelope} (\hyperlink{classEnvelope}{Envelope} \&env)
+\item 
+\hyperlink{classEnvelope_a2}{Envelope} (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ xy\_\-points, \hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ segs)
+\item 
+\hyperlink{classEnvelope_a3}{Envelope} (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ segs)
+\item 
+\hyperlink{classEnvelope_a4}{$\sim$Envelope} ()
+\item 
+\hyperlink{classEnvelope}{Envelope} $\ast$ \hyperlink{classEnvelope_a5}{clone} ()
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classEnvelope_a6}{get\-Value} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} x, \hyperlink{Types_8h_a3}{m\_\-value\_\-type} total\-Length)
+\item 
+void \hyperlink{classEnvelope_a7}{Print} ()
+\item 
+void \hyperlink{classEnvelope_a8}{Define\-Shape} (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ segs)
+\item 
+void \hyperlink{classEnvelope_a9}{Add\-To\-Shape} (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ segs)
+\item 
+void \hyperlink{classEnvelope_a10}{Add\-To\-Shape} (\hyperlink{classEnvelope}{Envelope} $\ast$shape)
+\item 
+\hyperlink{classEnvelope}{Envelope} $\ast$ \hyperlink{classEnvelope_a11}{multiply} (\hyperlink{classEnvelope}{Envelope} \&env1, \hyperlink{classEnvelope}{Envelope} \&env2)
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ $\ast$ \hyperlink{classEnvelope_a12}{get\-Points} ()
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ $\ast$ \hyperlink{classEnvelope_a13}{get\-Segments} ()
+\item 
+void \hyperlink{classEnvelope_a14}{set\-Segment} (int index, \hyperlink{structenvelope__segment}{envelope\_\-segment} segment)
+\item 
+\hyperlink{structenvelope__segment}{envelope\_\-segment} \hyperlink{classEnvelope_a15}{get\-Segment} (int index)
+\item 
+void \hyperlink{classEnvelope_a16}{set\-Point} (int index, \hyperlink{structxy__point}{xy\_\-point} point)
+\item 
+\hyperlink{structxy__point}{xy\_\-point} \hyperlink{classEnvelope_a17}{get\-Point} (int index)
+\item 
+void \hyperlink{classEnvelope_a18}{add\-Point} (\hyperlink{structxy__point}{xy\_\-point} point)
+\item 
+void \hyperlink{classEnvelope_a19}{add\-Segment} (\hyperlink{structenvelope__segment}{envelope\_\-segment} segment)
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classEnvelope_a20}{get\-Segment\-Length} (int index)
+\item 
+void \hyperlink{classEnvelope_a21}{set\-Segment\-Length} (int index, \hyperlink{Types_8h_a3}{m\_\-value\_\-type} length)
+\item 
+\hyperlink{Types_8h_a12}{stretch\_\-type} \hyperlink{classEnvelope_a22}{get\-Segment\-Length\-Type} (int index)
+\item 
+void \hyperlink{classEnvelope_a23}{set\-Segment\-Length\-Type} (int index, \hyperlink{Types_8h_a12}{stretch\_\-type} length\-Type)
+\item 
+\hyperlink{Types_8h_a13}{interpolation\_\-type} \hyperlink{classEnvelope_a24}{get\-Segment\-Interpolation\-Type} (int index)
+\item 
+void \hyperlink{classEnvelope_a25}{set\-Segment\-Interpolation\-Type} (int index, \hyperlink{Types_8h_a13}{interpolation\_\-type} inter\-Type)
+\item 
+\hyperlink{classIterator}{Iterator}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ \hyperlink{classEnvelope_a26}{value\-Iterator} ()
+\item 
+void \hyperlink{classEnvelope_a27}{scale} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} factor)
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classEnvelope_a28}{get\-Max\-Value} ()
+\item 
+void \hyperlink{classEnvelope_a29}{xml\_\-print} (ofstream \&xml\-Output, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \&dyn\-Objs)
+\item 
+void \hyperlink{classEnvelope_a30}{xml\_\-print} (ofstream \&xml\-Output)
+\item 
+void \hyperlink{classEnvelope_a31}{xml\_\-read} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$soundtag)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{classEnvelope_d0}{add\-Interpolators} (\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} rate)
+\item 
+void \hyperlink{classEnvelope_d1}{generate\-Lengths} (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} total\-Length)
+\item 
+bool \hyperlink{classEnvelope_d2}{check\-Valid\-Segment\-Index} (int index)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ $\ast$ \hyperlink{classEnvelope_r0}{segments\_\-}
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{classInterpolator}{Interpolator} $\ast$ $>$ $\ast$ \hyperlink{classEnvelope_r1}{interpolators\_\-}
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ $\ast$ \hyperlink{classEnvelope_r2}{generated\-Segment\-Lengths\_\-}
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classEnvelope_r3}{total\-Length\_\-}
+\item 
+\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} \hyperlink{classEnvelope_r4}{current\-Interpolator\-Rate\_\-}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This class is designed to allow users to specify the shape of an envelope. This is done by using a collection of the \hyperlink{structenv__seg}{env\_\-seg} type, which can be found in \hyperlink{Types_8h}{Types.h}. For each segment, a user must specify the x value of the right endpoint of the segment, the type of interpolation to use for the segment, and whether or not the segment has a FIXED or FLEXIBLE length. If the total length specified by the user is greater than the sum of the lengths of the segments, then every segment with a length type of FLEXIBLE will be scaled up to fit the total length specified. Sample programs of how to use this class can be found in the samples directory, named sampleenvelope$\ast$.cpp
+
+\begin{Desc}
+\item[Note:]All of the public functions of the class increment the index by 1. This means that a sample program will normally not access the dummy segment information used for the first point. In other words, get\-Segment(0) will actually retrieve segments\_\-\mbox{[}1\mbox{]}. This is why the index is changed when segments\_\--$>$get() is used internally by the Envelope functions.\end{Desc}
+\begin{Desc}
+\item[Author:]Michael Aikins 
+
+Greg Augustine \end{Desc}
+
+
+
+
+Definition at line 56 of file Envelope.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classEnvelope_a0}{
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\subsubsection[Envelope]{\setlength{\rightskip}{0pt plus 5cm}Envelope::Envelope ()}}
+\label{classEnvelope_a0}
+
+
+This is the constructor. There are no parameters since it assumes data will be given later. 
+
+Definition at line 44 of file Envelope.cpp.
+
+References current\-Interpolator\-Rate\_\-, generated\-Segment\-Lengths\_\-, interpolators\_\-, segments\_\-, and total\-Length\_\-.
+
+Referenced by clone(), and multiply().\hypertarget{classEnvelope_a1}{
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\subsubsection[Envelope]{\setlength{\rightskip}{0pt plus 5cm}Envelope::Envelope (\hyperlink{classEnvelope}{Envelope} \& {\em env})}}
+\label{classEnvelope_a1}
+
+
+This is a copy constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em env}]The envolope to copy \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A copy of env \end{Desc}
+
+
+Definition at line 54 of file Envelope.cpp.
+
+References current\-Interpolator\-Rate\_\-, generated\-Segment\-Lengths\_\-, get\-Segments(), interpolators\_\-, segments\_\-, and total\-Length\_\-.\hypertarget{classEnvelope_a2}{
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\subsubsection[Envelope]{\setlength{\rightskip}{0pt plus 5cm}Envelope::Envelope (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ {\em xy\_\-points}, \hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ {\em segs})}}
+\label{classEnvelope_a2}
+
+
+Constructor - Make new envelope using a collection of envelope segments and points 
+
+Definition at line 68 of file Envelope.cpp.
+
+References Collection$<$ T $>$::add(), current\-Interpolator\-Rate\_\-, Define\-Shape(), generated\-Segment\-Lengths\_\-, Collection$<$ T $>$::get(), interpolators\_\-, segments\_\-, Collection$<$ T $>$::size(), total\-Length\_\-, xy\_\-point::x, envelope\_\-segment::x, xy\_\-point::y, and envelope\_\-segment::y.\hypertarget{classEnvelope_a3}{
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\index{Envelope@{Envelope}!Envelope@{Envelope}}
+\subsubsection[Envelope]{\setlength{\rightskip}{0pt plus 5cm}Envelope::Envelope (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ {\em segs})}}
+\label{classEnvelope_a3}
+
+
+This is a constructor. It makes a new envelope using a collection of envelope segments. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em segs}]A \hyperlink{classCollection}{Collection} of envelop segments \end{description}
+\end{Desc}
+
+
+Definition at line 94 of file Envelope.cpp.
+
+References current\-Interpolator\-Rate\_\-, Define\-Shape(), generated\-Segment\-Lengths\_\-, interpolators\_\-, segments\_\-, and total\-Length\_\-.\hypertarget{classEnvelope_a4}{
+\index{Envelope@{Envelope}!~Envelope@{$\sim$Envelope}}
+\index{~Envelope@{$\sim$Envelope}!Envelope@{Envelope}}
+\subsubsection[$\sim$Envelope]{\setlength{\rightskip}{0pt plus 5cm}Envelope::$\sim$\hyperlink{classEnvelope}{Envelope} ()}}
+\label{classEnvelope_a4}
+
+
+This is a destructor. 
+
+Definition at line 108 of file Envelope.cpp.
+
+References generated\-Segment\-Lengths\_\-, interpolators\_\-, Collection$<$ Interpolator $\ast$ $>$::remove(), segments\_\-, and Collection$<$ Interpolator $\ast$ $>$::size().
+
+\subsection{Member Function Documentation}
+\hypertarget{classEnvelope_d0}{
+\index{Envelope@{Envelope}!addInterpolators@{addInterpolators}}
+\index{addInterpolators@{addInterpolators}!Envelope@{Envelope}}
+\subsubsection[addInterpolators]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::add\-Interpolators (\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} {\em rate})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_d0}
+
+
+This function populate the private member variable with actual interpolators. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rate}]The rate \end{description}
+\end{Desc}
+
+
+Definition at line 909 of file Envelope.cpp.
+
+References Collection$<$ Interpolator $\ast$ $>$::add(), Interpolator::add\-Entry(), CUBIC\_\-SPLINE, EXPONENTIAL, generated\-Segment\-Lengths\_\-, Collection$<$ m\_\-value\_\-type $>$::get(), Collection$<$ Interpolator $\ast$ $>$::get(), Collection$<$ envelope\_\-segment $>$::get(), get\-Segment\-Interpolation\-Type(), interpolators\_\-, m\_\-rate\_\-type, m\_\-value\_\-type, segments\_\-, Dynamic\-Variable::set\-Duration(), Dynamic\-Variable::set\-Sampling\-Rate(), Collection$<$ envelope\_\-segment $>$::size(), and envelope\_\-segment::y.
+
+Referenced by value\-Iterator().\hypertarget{classEnvelope_a18}{
+\index{Envelope@{Envelope}!addPoint@{addPoint}}
+\index{addPoint@{addPoint}!Envelope@{Envelope}}
+\subsubsection[addPoint]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::add\-Point (\hyperlink{structxy__point}{xy\_\-point} {\em point})}}
+\label{classEnvelope_a18}
+
+
+This function appends a point to the end of the envelope. It's default interpolation type is LINEAR and stretch type is FIXED. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em point}]The point to append \end{description}
+\end{Desc}
+
+
+Definition at line 658 of file Envelope.cpp.
+
+References add\-Segment(), FIXED, envelope\_\-segment::inter\-Type, envelope\_\-segment::length\-Type, LINEAR, xy\_\-point::x, envelope\_\-segment::x, xy\_\-point::y, and envelope\_\-segment::y.\hypertarget{classEnvelope_a19}{
+\index{Envelope@{Envelope}!addSegment@{addSegment}}
+\index{addSegment@{addSegment}!Envelope@{Envelope}}
+\subsubsection[addSegment]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::add\-Segment (\hyperlink{structenvelope__segment}{envelope\_\-segment} {\em segment})}}
+\label{classEnvelope_a19}
+
+
+This function appends a segment to the end of the envelope. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em segment}]The segment to append \end{description}
+\end{Desc}
+
+
+Definition at line 648 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::add(), Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length, segments\_\-, Collection$<$ envelope\_\-segment $>$::size(), and envelope\_\-segment::x.
+
+Referenced by add\-Point().\hypertarget{classEnvelope_a10}{
+\index{Envelope@{Envelope}!AddToShape@{AddToShape}}
+\index{AddToShape@{AddToShape}!Envelope@{Envelope}}
+\subsubsection[AddToShape]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::Add\-To\-Shape (\hyperlink{classEnvelope}{Envelope} $\ast$ {\em shape})}}
+\label{classEnvelope_a10}
+
+
+This overloaded function appends one envelope to another. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em shape}]The Envelope to append \end{description}
+\end{Desc}
+
+
+Definition at line 432 of file Envelope.cpp.\hypertarget{classEnvelope_a9}{
+\index{Envelope@{Envelope}!AddToShape@{AddToShape}}
+\index{AddToShape@{AddToShape}!Envelope@{Envelope}}
+\subsubsection[AddToShape]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::Add\-To\-Shape (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ {\em segs})}}
+\label{classEnvelope_a9}
+
+
+This function adds to the env the given segment descriptions. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em segs}]A \hyperlink{classCollection}{Collection} of envelope segments \end{description}
+\end{Desc}
+
+
+Definition at line 392 of file Envelope.cpp.
+
+References envelope\_\-segment::length, m\_\-value\_\-type, and envelope\_\-segment::x.\hypertarget{classEnvelope_d2}{
+\index{Envelope@{Envelope}!checkValidSegmentIndex@{checkValidSegmentIndex}}
+\index{checkValidSegmentIndex@{checkValidSegmentIndex}!Envelope@{Envelope}}
+\subsubsection[checkValidSegmentIndex]{\setlength{\rightskip}{0pt plus 5cm}bool Envelope::check\-Valid\-Segment\-Index (int {\em index})\hspace{0.3cm}{\tt  \mbox{[}inline, private\mbox{]}}}}
+\label{classEnvelope_d2}
+
+
+This function checks if a number is a valid index for a segment. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]The index to check \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em true}]Is valid \item[{\em false}]Is not valid \end{description}
+\end{Desc}
+
+
+Definition at line 735 of file Envelope.cpp.
+
+References segments\_\-, and Collection$<$ envelope\_\-segment $>$::size().
+
+Referenced by set\-Segment().\hypertarget{classEnvelope_a5}{
+\index{Envelope@{Envelope}!clone@{clone}}
+\index{clone@{clone}!Envelope@{Envelope}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classEnvelope}{Envelope} $\ast$ Envelope::clone ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a5}
+
+
+This makes a copy of this object. \begin{Desc}
+\item[Returns:]A new Envelope \end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a2}{Dynamic\-Variable}.
+
+Definition at line 207 of file Envelope.cpp.
+
+References Envelope(), and segments\_\-.
+
+Referenced by Envelope\-Library::Envelope\-Library().\hypertarget{classEnvelope_a8}{
+\index{Envelope@{Envelope}!DefineShape@{DefineShape}}
+\index{DefineShape@{DefineShape}!Envelope@{Envelope}}
+\subsubsection[DefineShape]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::Define\-Shape (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ {\em segs})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classEnvelope_a8}
+
+
+This function (re)defines the Envelope given point and segment descriptions. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em segs}]A \hyperlink{classCollection}{Collection} of envelope segments \end{description}
+\end{Desc}
+
+
+Definition at line 366 of file Envelope.cpp.
+
+References Collection$<$ T $>$::get(), envelope\_\-segment::length, m\_\-value\_\-type, segments\_\-, Collection$<$ T $>$::set(), Collection$<$ T $>$::size(), and envelope\_\-segment::x.
+
+Referenced by Envelope(), and xml\_\-read().\hypertarget{classEnvelope_d1}{
+\index{Envelope@{Envelope}!generateLengths@{generateLengths}}
+\index{generateLengths@{generateLengths}!Envelope@{Envelope}}
+\subsubsection[generateLengths]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::generate\-Lengths (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} {\em total\-Length})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_d1}
+
+
+This function populates the private member variable with actual lengths. This functions scales all FIXED and FLEXIBLE lengths appropriately. \begin{Desc}
+\item[Note:]If you want to scale the envelope publicly, use the function scale. \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em total\-Length}]The total length of time to scale to \end{description}
+\end{Desc}
+
+
+Definition at line 768 of file Envelope.cpp.
+
+References Collection$<$ m\_\-value\_\-type $>$::add(), FIXED, FLEXIBLE, generated\-Segment\-Lengths\_\-, Collection$<$ m\_\-value\_\-type $>$::get(), get\-Segment\-Length(), get\-Segment\-Length\-Type(), m\_\-time\_\-type, segments\_\-, Collection$<$ m\_\-value\_\-type $>$::set(), set\-Segment\-Length(), Collection$<$ envelope\_\-segment $>$::size(), and total\-Length\_\-.
+
+Referenced by get\-Value(), and value\-Iterator().\hypertarget{classEnvelope_a28}{
+\index{Envelope@{Envelope}!getMaxValue@{getMaxValue}}
+\index{getMaxValue@{getMaxValue}!Envelope@{Envelope}}
+\subsubsection[getMaxValue]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} Envelope::get\-Max\-Value ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a28}
+
+
+This function returns the maximum value in all the entries. \begin{Desc}
+\item[Returns:]The maximum value \end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a5}{Dynamic\-Variable}.
+
+Definition at line 989 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), m\_\-value\_\-type, segments\_\-, Collection$<$ envelope\_\-segment $>$::size(), and envelope\_\-segment::y.\hypertarget{classEnvelope_a17}{
+\index{Envelope@{Envelope}!getPoint@{getPoint}}
+\index{getPoint@{getPoint}!Envelope@{Envelope}}
+\subsubsection[getPoint]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structxy__point}{xy\_\-point} Envelope::get\-Point (int {\em index})}}
+\label{classEnvelope_a17}
+
+
+This function gets a point by its index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which point to get \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The point \end{Desc}
+
+
+Definition at line 635 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), segments\_\-, envelope\_\-segment::x, xy\_\-point::x, envelope\_\-segment::y, and xy\_\-point::y.
+
+Referenced by get\-Value().\hypertarget{classEnvelope_a12}{
+\index{Envelope@{Envelope}!getPoints@{getPoints}}
+\index{getPoints@{getPoints}!Envelope@{Envelope}}
+\subsubsection[getPoints]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ $\ast$ Envelope::get\-Points ()}}
+\label{classEnvelope_a12}
+
+
+This function returns a collection of points that make up the shape. \begin{Desc}
+\item[Returns:]A \hyperlink{classCollection}{Collection} of points \end{Desc}
+
+
+Definition at line 573 of file Envelope.cpp.
+
+References Collection$<$ T $>$::add(), Collection$<$ envelope\_\-segment $>$::get(), segments\_\-, Collection$<$ envelope\_\-segment $>$::size(), envelope\_\-segment::x, xy\_\-point::x, envelope\_\-segment::y, and xy\_\-point::y.\hypertarget{classEnvelope_a15}{
+\index{Envelope@{Envelope}!getSegment@{getSegment}}
+\index{getSegment@{getSegment}!Envelope@{Envelope}}
+\subsubsection[getSegment]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structenvelope__segment}{envelope\_\-segment} Envelope::get\-Segment (int {\em index})}}
+\label{classEnvelope_a15}
+
+
+This function gets a segment by its index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to get \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An envelope segment \end{Desc}
+
+
+Definition at line 615 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), and segments\_\-.\hypertarget{classEnvelope_a24}{
+\index{Envelope@{Envelope}!getSegmentInterpolationType@{getSegmentInterpolationType}}
+\index{getSegmentInterpolationType@{getSegmentInterpolationType}!Envelope@{Envelope}}
+\subsubsection[getSegmentInterpolationType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a13}{interpolation\_\-type} Envelope::get\-Segment\-Interpolation\-Type (int {\em index})}}
+\label{classEnvelope_a24}
+
+
+This function gets the interpolation type for the segment with the given index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to examine \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The interpolation type \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em LINEAR}]\item[{\em EXPONENTIAL}]\item[{\em etc.}]\end{description}
+\end{Desc}
+
+
+Definition at line 714 of file Envelope.cpp.
+
+Referenced by add\-Interpolators(), get\-Value(), and Print().\hypertarget{classEnvelope_a20}{
+\index{Envelope@{Envelope}!getSegmentLength@{getSegmentLength}}
+\index{getSegmentLength@{getSegmentLength}!Envelope@{Envelope}}
+\subsubsection[getSegmentLength]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} Envelope::get\-Segment\-Length (int {\em index})}}
+\label{classEnvelope_a20}
+
+
+This function gets the indexed segment's length of time. If the segment length type is FLEXIBLE, the length returned will be the unscaled, original value. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to examine \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The segment's length \end{Desc}
+
+
+Definition at line 668 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length, m\_\-value\_\-type, and segments\_\-.
+
+Referenced by generate\-Lengths(), and Print().\hypertarget{classEnvelope_a22}{
+\index{Envelope@{Envelope}!getSegmentLengthType@{getSegmentLengthType}}
+\index{getSegmentLengthType@{getSegmentLengthType}!Envelope@{Envelope}}
+\subsubsection[getSegmentLengthType]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a12}{stretch\_\-type} Envelope::get\-Segment\-Length\-Type (int {\em index})}}
+\label{classEnvelope_a22}
+
+
+This function gets the type for the segment with the given index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to examine \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The time type \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em FIXED}]\item[{\em FLEXIBLE}]\end{description}
+\end{Desc}
+
+
+Definition at line 693 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length\-Type, segments\_\-, and stretch\_\-type.
+
+Referenced by generate\-Lengths(), and Print().\hypertarget{classEnvelope_a13}{
+\index{Envelope@{Envelope}!getSegments@{getSegments}}
+\index{getSegments@{getSegments}!Envelope@{Envelope}}
+\subsubsection[getSegments]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ $\ast$ Envelope::get\-Segments ()}}
+\label{classEnvelope_a13}
+
+
+This function returns a collection of segments that make up the shape. \begin{Desc}
+\item[Returns:]A \hyperlink{classCollection}{Collection} of envelope segments \end{Desc}
+
+
+Definition at line 589 of file Envelope.cpp.
+
+Referenced by Envelope(), and multiply().\hypertarget{classEnvelope_a6}{
+\index{Envelope@{Envelope}!getValue@{getValue}}
+\index{getValue@{getValue}!Envelope@{Envelope}}
+\subsubsection[getValue]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} Envelope::get\-Value (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em x}, \hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em total\-Length})}}
+\label{classEnvelope_a6}
+
+
+This gets an approximation of the value at the specified time. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em x}]The type of value \item[{\em total\-Length}]The length of time \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The approximate value \end{Desc}
+
+
+Definition at line 216 of file Envelope.cpp.
+
+References Interpolator::add\-Entry(), CUBIC\_\-SPLINE, EXPONENTIAL, generated\-Segment\-Lengths\_\-, generate\-Lengths(), Collection$<$ m\_\-value\_\-type $>$::get(), Collection$<$ envelope\_\-segment $>$::get(), get\-Point(), get\-Segment\-Interpolation\-Type(), m\_\-value\_\-type, Iterator$<$ T $>$::next(), segments\_\-, Dynamic\-Variable::set\-Duration(), Dynamic\-Variable::set\-Sampling\-Rate(), Collection$<$ envelope\_\-segment $>$::size(), Interpolator::value\-Iterator(), xy\_\-point::y, and envelope\_\-segment::y.
+
+Referenced by multiply().\hypertarget{classEnvelope_a11}{
+\index{Envelope@{Envelope}!multiply@{multiply}}
+\index{multiply@{multiply}!Envelope@{Envelope}}
+\subsubsection[multiply]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classEnvelope}{Envelope} $\ast$ Envelope::multiply (\hyperlink{classEnvelope}{Envelope} \& {\em env1}, \hyperlink{classEnvelope}{Envelope} \& {\em env2})}}
+\label{classEnvelope_a11}
+
+
+This function multiplies two envelopes together. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em env1}]The first Envelope \item[{\em env2}]The second Envelope \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The new Envelope \end{Desc}
+
+
+Definition at line 444 of file Envelope.cpp.
+
+References Collection$<$ T $>$::add(), CUBIC\_\-SPLINE, Envelope(), EXPONENTIAL, FLEXIBLE, Collection$<$ T $>$::get(), get\-Segments(), get\-Value(), envelope\_\-segment::inter\-Type, envelope\_\-segment::length\-Type, LINEAR, envelope\_\-segment::x, and envelope\_\-segment::y.\hypertarget{classEnvelope_a7}{
+\index{Envelope@{Envelope}!Print@{Print}}
+\index{Print@{Print}!Envelope@{Envelope}}
+\subsubsection[Print]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::Print ()}}
+\label{classEnvelope_a7}
+
+
+This is a debugging function that gives a text output of what is stored in the Envelope. 
+
+Definition at line 137 of file Envelope.cpp.
+
+References CUBIC\_\-SPLINE, EXPONENTIAL, FLEXIBLE, Collection$<$ envelope\_\-segment $>$::get(), get\-Segment\-Interpolation\-Type(), get\-Segment\-Length(), get\-Segment\-Length\-Type(), LINEAR, segments\_\-, Collection$<$ envelope\_\-segment $>$::size(), envelope\_\-segment::x, and envelope\_\-segment::y.\hypertarget{classEnvelope_a27}{
+\index{Envelope@{Envelope}!scale@{scale}}
+\index{scale@{scale}!Envelope@{Envelope}}
+\subsubsection[scale]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::scale (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em factor})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a27}
+
+
+This function scales all Entries' values by this factor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em factor}]The factor by which to scale \end{description}
+\end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a4}{Dynamic\-Variable}.
+
+Definition at line 972 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), m\_\-value\_\-type, segments\_\-, Collection$<$ envelope\_\-segment $>$::set(), Collection$<$ envelope\_\-segment $>$::size(), and envelope\_\-segment::y.\hypertarget{classEnvelope_a16}{
+\index{Envelope@{Envelope}!setPoint@{setPoint}}
+\index{setPoint@{setPoint}!Envelope@{Envelope}}
+\subsubsection[setPoint]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::set\-Point (int {\em index}, \hyperlink{structxy__point}{xy\_\-point} {\em point})}}
+\label{classEnvelope_a16}
+
+
+This function sets a point by identified by its index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which point to set \item[{\em point}]The new point value \end{description}
+\end{Desc}
+
+
+Definition at line 625 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), segments\_\-, Collection$<$ envelope\_\-segment $>$::set(), xy\_\-point::x, envelope\_\-segment::x, xy\_\-point::y, and envelope\_\-segment::y.\hypertarget{classEnvelope_a14}{
+\index{Envelope@{Envelope}!setSegment@{setSegment}}
+\index{setSegment@{setSegment}!Envelope@{Envelope}}
+\subsubsection[setSegment]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::set\-Segment (int {\em index}, \hyperlink{structenvelope__segment}{envelope\_\-segment} {\em segment})}}
+\label{classEnvelope_a14}
+
+
+This function sets an envelope segment identified by its index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to set \item[{\em segment}]The new segment value \end{description}
+\end{Desc}
+
+
+Definition at line 597 of file Envelope.cpp.
+
+References check\-Valid\-Segment\-Index(), Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length, segments\_\-, Collection$<$ envelope\_\-segment $>$::set(), and envelope\_\-segment::x.\hypertarget{classEnvelope_a25}{
+\index{Envelope@{Envelope}!setSegmentInterpolationType@{setSegmentInterpolationType}}
+\index{setSegmentInterpolationType@{setSegmentInterpolationType}!Envelope@{Envelope}}
+\subsubsection[setSegmentInterpolationType]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::set\-Segment\-Interpolation\-Type (int {\em index}, \hyperlink{Types_8h_a13}{interpolation\_\-type} {\em inter\-Type})}}
+\label{classEnvelope_a25}
+
+
+This function sets the interpolation type for the segment with the given index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to set \item[{\em inter\-Type}]The new interpolation type \end{description}
+\end{Desc}
+
+
+Definition at line 724 of file Envelope.cpp.
+
+References interpolation\_\-type, and envelope\_\-segment::inter\-Type.\hypertarget{classEnvelope_a21}{
+\index{Envelope@{Envelope}!setSegmentLength@{setSegmentLength}}
+\index{setSegmentLength@{setSegmentLength}!Envelope@{Envelope}}
+\subsubsection[setSegmentLength]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::set\-Segment\-Length (int {\em index}, \hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em length})}}
+\label{classEnvelope_a21}
+
+
+This function sets the indexed segment's length of time. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to set \item[{\em length}]The new length of time \end{description}
+\end{Desc}
+
+
+Definition at line 677 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length, m\_\-value\_\-type, segments\_\-, and Collection$<$ envelope\_\-segment $>$::set().
+
+Referenced by generate\-Lengths().\hypertarget{classEnvelope_a23}{
+\index{Envelope@{Envelope}!setSegmentLengthType@{setSegmentLengthType}}
+\index{setSegmentLengthType@{setSegmentLengthType}!Envelope@{Envelope}}
+\subsubsection[setSegmentLengthType]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::set\-Segment\-Length\-Type (int {\em index}, \hyperlink{Types_8h_a12}{stretch\_\-type} {\em length\-Type})}}
+\label{classEnvelope_a23}
+
+
+This function sets the indexed segment's time type. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which segment to set \item[{\em length\-Type}]The new time type \end{description}
+\end{Desc}
+
+
+Definition at line 702 of file Envelope.cpp.
+
+References Collection$<$ envelope\_\-segment $>$::get(), envelope\_\-segment::length\-Type, segments\_\-, and Collection$<$ envelope\_\-segment $>$::set().\hypertarget{classEnvelope_a26}{
+\index{Envelope@{Envelope}!valueIterator@{valueIterator}}
+\index{valueIterator@{valueIterator}!Envelope@{Envelope}}
+\subsubsection[valueIterator]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classIterator}{Iterator}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ Envelope::value\-Iterator ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a26}
+
+
+This function returns an iterator that iterates through all the values. \begin{Desc}
+\item[Returns:]An iterator \end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a3}{Dynamic\-Variable}.
+
+Definition at line 743 of file Envelope.cpp.
+
+References add\-Interpolators(), current\-Interpolator\-Rate\_\-, generate\-Lengths(), Dynamic\-Variable::get\-Duration(), Dynamic\-Variable::get\-Sampling\-Rate(), interpolators\_\-, and total\-Length\_\-.\hypertarget{classEnvelope_a30}{
+\index{Envelope@{Envelope}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Envelope@{Envelope}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::xml\_\-print (ofstream \& {\em xml\-Output})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a30}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000014}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a12}{Dynamic\-Variable}.
+
+Definition at line 1009 of file Envelope.cpp.
+
+References CUBIC\_\-SPLINE, current\-Interpolator\-Rate\_\-, EXPONENTIAL, FIXED, FLEXIBLE, Dynamic\-Variable::get\-Duration(), Dynamic\-Variable::get\-Sampling\-Rate(), Iterator$<$ T $>$::has\-Next(), envelope\_\-segment::inter\-Type, Collection$<$ envelope\_\-segment $>$::iterator(), envelope\_\-segment::length, envelope\_\-segment::length\-Type, LINEAR, Iterator$<$ T $>$::next(), segments\_\-, total\-Length\_\-, envelope\_\-segment::x, and envelope\_\-segment::y.\hypertarget{classEnvelope_a29}{
+\index{Envelope@{Envelope}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Envelope@{Envelope}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::xml\_\-print (ofstream \& {\em xml\-Output}, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \& {\em dyn\-Objs})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classEnvelope_a29}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000013}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Implements \hyperlink{classDynamicVariable_a11}{Dynamic\-Variable}.
+
+Definition at line 1068 of file Envelope.cpp.\hypertarget{classEnvelope_a31}{
+\index{Envelope@{Envelope}!xml_read@{xml\_\-read}}
+\index{xml_read@{xml\_\-read}!Envelope@{Envelope}}
+\subsubsection[xml\_\-read]{\setlength{\rightskip}{0pt plus 5cm}void Envelope::xml\_\-read (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em soundtag})}}
+\label{classEnvelope_a31}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000015}{Deprecated}]\end{Desc}
+
+
+Definition at line 1089 of file Envelope.cpp.
+
+References Collection$<$ T $>$::add(), Xml\-Reader::xmltag::children, CUBIC\_\-SPLINE, Define\-Shape(), EXPONENTIAL, Xml\-Reader::xmltag::find\-Child\-Param\-Value(), FIXED, FLEXIBLE, Xml\-Reader::xmltag::get\-Param\-Value(), envelope\_\-segment::inter\-Type, envelope\_\-segment::length\-Type, LINEAR, Dynamic\-Variable::set\-Duration(), Dynamic\-Variable::set\-Sampling\-Rate(), envelope\_\-segment::x, and envelope\_\-segment::y.
+
+Referenced by Dynamic\-Variable::create\_\-dv\_\-from\_\-xml().
+
+\subsection{Member Data Documentation}
+\hypertarget{classEnvelope_r4}{
+\index{Envelope@{Envelope}!currentInterpolatorRate_@{currentInterpolatorRate\_\-}}
+\index{currentInterpolatorRate_@{currentInterpolatorRate\_\-}!Envelope@{Envelope}}
+\subsubsection[currentInterpolatorRate\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} \hyperlink{classEnvelope_r4}{Envelope::current\-Interpolator\-Rate\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_r4}
+
+
+This is the sampling rate with which interpolators were generated $\ast$ 
+
+Definition at line 301 of file Envelope.h.
+
+Referenced by Envelope(), value\-Iterator(), and xml\_\-print().\hypertarget{classEnvelope_r2}{
+\index{Envelope@{Envelope}!generatedSegmentLengths_@{generatedSegmentLengths\_\-}}
+\index{generatedSegmentLengths_@{generatedSegmentLengths\_\-}!Envelope@{Envelope}}
+\subsubsection[generatedSegmentLengths\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$\hyperlink{Types_8h_a3}{m\_\-value\_\-type}$>$$\ast$ \hyperlink{classEnvelope_r2}{Envelope::generated\-Segment\-Lengths\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_r2}
+
+
+This is a \hyperlink{classCollection}{Collection} of Time values for segments that were generated based on the stored value. This collection will not include the 0 dummy segment, so element 0 will correspond to element 1 in segments\_\-. 
+
+Definition at line 295 of file Envelope.h.
+
+Referenced by add\-Interpolators(), Envelope(), generate\-Lengths(), get\-Value(), and $\sim$Envelope().\hypertarget{classEnvelope_r1}{
+\index{Envelope@{Envelope}!interpolators_@{interpolators\_\-}}
+\index{interpolators_@{interpolators\_\-}!Envelope@{Envelope}}
+\subsubsection[interpolators\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$\hyperlink{classInterpolator}{Interpolator}$\ast$$>$$\ast$ \hyperlink{classEnvelope_r1}{Envelope::interpolators\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_r1}
+
+
+This is a \hyperlink{classCollection}{Collection} to hold interpolators. 
+
+Definition at line 287 of file Envelope.h.
+
+Referenced by add\-Interpolators(), Envelope(), value\-Iterator(), and $\sim$Envelope().\hypertarget{classEnvelope_r0}{
+\index{Envelope@{Envelope}!segments_@{segments\_\-}}
+\index{segments_@{segments\_\-}!Envelope@{Envelope}}
+\subsubsection[segments\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$\hyperlink{structenvelope__segment}{envelope\_\-segment}$>$$\ast$ \hyperlink{classEnvelope_r0}{Envelope::segments\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_r0}
+
+
+This is a \hyperlink{classCollection}{Collection} to hold the segment data for this DVS. 
+
+Definition at line 282 of file Envelope.h.
+
+Referenced by add\-Interpolators(), add\-Segment(), check\-Valid\-Segment\-Index(), clone(), Define\-Shape(), Envelope(), generate\-Lengths(), get\-Max\-Value(), get\-Point(), get\-Points(), get\-Segment(), get\-Segment\-Length(), get\-Segment\-Length\-Type(), get\-Value(), Print(), scale(), set\-Point(), set\-Segment(), set\-Segment\-Length(), set\-Segment\-Length\-Type(), xml\_\-print(), and $\sim$Envelope().\hypertarget{classEnvelope_r3}{
+\index{Envelope@{Envelope}!totalLength_@{totalLength\_\-}}
+\index{totalLength_@{totalLength\_\-}!Envelope@{Envelope}}
+\subsubsection[totalLength\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classEnvelope_r3}{Envelope::total\-Length\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelope_r3}
+
+
+This is the value with which the segment times were generated $\ast$ 
+
+Definition at line 298 of file Envelope.h.
+
+Referenced by Envelope(), generate\-Lengths(), value\-Iterator(), and xml\_\-print().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Envelope_8h}{Envelope.h}\item 
+\hyperlink{Envelope_8cpp}{Envelope.cpp}\end{CompactItemize}

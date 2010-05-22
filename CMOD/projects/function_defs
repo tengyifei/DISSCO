@@ -1,0 +1,196 @@
+------- FUNCTIONS USED IN CMOD ----------
+
+EnvLib(int envNum, float scaleFact)
+  input: envNum - an envelope number (must exist in your .lib file)
+         scaleFact - a scaling factor (between 0.0 and 1.0)
+  returns: an ENV object
+
+
+ValuePick(float absRange, ENV envLow, ENV envHigh, ENV envDist
+          string eMethod, list<int> eArgVect, string wMethod, list<int> wArgVect, string modifyMethod)
+  input: absRange - the maximum well_tempered pitch to be allowed
+         envLow - describes the lower-bound over time
+         envHigh - describes the upper-bound over time
+         envDist - distribution over the range
+         eMethod - method to produce elements - "MEANINGFUL", "MODS", "FAKE" (etc.)
+         eArgVect - list of int elements to generate the sieve
+         wMethod - method to calculate weights - "PERIODIC", "HIERARCHIC", "INCLUDE"
+         wArgVect - list of int elements to generate the weights 
+                    - will be added up to compute percentage weight in the sieve
+         modifyMethod - method to modify the probabilities - "VARIABLE", "CONSTANT"
+  returns: an int
+
+
+ChooseL(SIV s)
+  input: s - a Sieve object
+  return: an int randomly chosen from the Sieve
+
+
+GetPattern(string method, int origin, PAT p)
+  input: method - method to get the value... "IN_ORDER" (others yet to be impl)
+         origin - the origin to start the pattern from
+				 p - a pattern object
+  return: an int; the next value in the pattern
+
+
+ExpandPattern(string method, int modulo, int low, int high, PAT p)
+  input: method - method to expand the pattern... 
+  							"EQUIVALENCE", "SYMMETRIES", "DISTORT"
+				 modulo - describes the equivalence (12 = octaves)
+				 low - lowest allowed int value
+				 high - highest allowed int value
+				 p - the pattern object to expand
+  return: a PAT object
+
+
+AdjustPattern()
+  NOT IMPLEMENTED YET
+
+
+Stochos(string method, list<ENV> envs, int offset)
+	input: method -      ..."FUNCTIONS", "RANGE_DISTRIB"
+	       envs - if RANGE_DISTRIB = groups of 3 envelopes - minimum, maximum, distribution
+	              if FUNCTIONS = any number of envelopes (add up to 1 at each checkpoint)
+	       offset - if RANGE_DISTRIB = index into which group of 3 envelopes to pick
+	                if FUNCTIONS = an index into the list
+	return: a float
+
+
+MakeEnvelope(list<float> xvals, list<float> yvals, list<string> interpTypes, 
+             list<string> lengthType, float scaleFact )
+	input: xvals - x points
+				 yvals - y points
+				 interpTypes - "LINEAR" or "EXPONENTIAL" or "SPLINE"
+				 lengthType - "FLEXIBLE" or "FIXED"
+				 scaleFact - a float between 0 and 1
+	return: an ENV object
+
+
+MakeSieve(int min, int max, string eMethod, list<int> eVect, string wMethod, list<int> wVect)
+	input: min - lowerbound of the sieve
+				 max - upperbound of the sieve
+				 eMethod - method to produce elements - "MEANINGFUL", "MODS", "FAKE" (etc.)
+         eVect - list of int elements to generate the sieve
+         wMethod - method to calculate weights - "PERIODIC", "HIERARCHIC", "INCLUDE"
+         wVect - list of int elements to generate the weights 
+                 - will be added up to compute percentage weight in the sieve
+	return: a SIV object
+
+
+MakePattern(list<int> intervals)
+	input: intervals - intervals to move at
+	return: a PAT object
+
+
+MakeList(FTN anything, int listsize)
+  input: anything - probably a function, but can really be any type
+         listsize - the number of items long to make the list
+  return: a list of some type
+
+
+ReadENVFile(string fName)
+	input: fName - the directory and name of the file containing this envelope ("ENV/env1")
+	return: an ENV object
+
+
+ReadSIVFile(string fName)
+	input: fName - the directory and name of the file containing this sieve ("SIV/siv1")
+	return: a SIV object
+
+
+ReadPATFile(string fName, float origin)
+	input: fName - the directory and name of the file containing this pattern ("PAT/pat1")
+	       origin - (optional) the base value to begin the pattern from
+	return: a PAT object
+
+
+ReadSPAFile(string fName)
+	input: fName - the directory and name of the file containing this spatialization ("SPA/spa1")
+	return: a spatialization setting
+
+
+ReadREVFile(string fName)
+	input: fName - the directory and name of the file containing this reverberation ("REV/rev1")
+	return: a reverb setting
+
+
+Select(list<float/int> choices, int index)
+	input: choices - a list of floats or ints
+	       index - the index (in the list) of the item to return
+	return: a float or an int
+
+
+Inverse(float num)
+  input: num - the number to inverse
+  return: a float; the inverse of num (1/num)
+
+
+LN(float num)
+  input: num - the number to compute
+  return: a float; the natural log of 'num'
+
+
+Decay(float base, string type, float rate, int index)
+  input: base - 
+         type - "EXPONENTIAL" or "LINEAR"
+         rate - the slope for LIN, or the base for EXP (1.0 = stays the same)
+         index - CURRENT_PARTIAL_NUM or something similar
+  return: a float
+
+
+Fibonacci(int index)
+  input: index - the index of a number in the fib-sequence
+  return: an int; the index-th number of the fib-sequence
+
+
+Randomizer(float base, float percentDev)
+  input: base - the base number
+         percentDev - the percentage allowed to deviate from the base
+  return: a float, randomly deviated up to 'percentDev'% from the base
+
+
+RandomInt(int low, int high)
+	input: low - the lowerbound
+	 			 high - the upperbound
+	return: an int between low and high, inclusive
+
+
+RandomSeed(float seed)
+	input: seed - the number to seed the random number generator with
+	return: (none)
+
+
+Random(float low, float high)
+	input: low - the lowerbound
+	  		 high - the upperbound
+	return: a float between low and high, inclusive
+
+
+CURRENT_TYPE
+  input: (none)
+  return: an int - the current child type being created
+
+CURRENT_CHILD_NUM
+	input: (none)
+	return: an int - the number of the current child being created
+
+CURRENT_PARTIAL_NUM  (only use in a Sound file)
+	input: (none)
+	return: an int
+
+CURRENT_SEGMENT
+  input: (none)
+  return: an int - the current segment number being evaluated in MakeEnvelope()
+
+DURATION_UNITS
+	input: (none)
+	return: the duration of the current event (the parent, NOT the child) in Units
+
+CURRENT_DENSITY (not implemented)
+	input:
+	return:
+
+
+
+
+

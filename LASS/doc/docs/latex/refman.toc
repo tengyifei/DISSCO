@@ -1,0 +1,859 @@
+\contentsline {chapter}{\numberline {1}LASS Reference Manual }{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Introduction}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}More Documentation}{1}{section.1.2}
+\contentsline {chapter}{\numberline {2}LASS Namespace Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}LASS Namespace List}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}LASS Hierarchical Index}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}LASS Class Hierarchy}{5}{section.3.1}
+\contentsline {chapter}{\numberline {4}LASS Class Index}{7}{chapter.4}
+\contentsline {section}{\numberline {4.1}LASS Class List}{7}{section.4.1}
+\contentsline {chapter}{\numberline {5}LASS File Index}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}LASS File List}{9}{section.5.1}
+\contentsline {chapter}{\numberline {6}LASS Page Index}{11}{chapter.6}
+\contentsline {section}{\numberline {6.1}LASS Related Pages}{11}{section.6.1}
+\contentsline {chapter}{\numberline {7}LASS Namespace Documentation}{13}{chapter.7}
+\contentsline {section}{\numberline {7.1}std Namespace Reference}{13}{section.7.1}
+\contentsline {chapter}{\numberline {8}LASS Class Documentation}{15}{chapter.8}
+\contentsline {section}{\numberline {8.1}Abstract\discretionary {-}{}{}Iterator$<$ T $>$ Class Template Reference}{15}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Detailed Description}{16}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Constructor \& Destructor Documentation}{16}{subsection.8.1.2}
+\contentsline {subsubsection}{\numberline {8.1.2.1}$\sim $AbstractIterator}{16}{subsubsection.8.1.2.1}
+\contentsline {subsection}{\numberline {8.1.3}Member Function Documentation}{16}{subsection.8.1.3}
+\contentsline {subsubsection}{\numberline {8.1.3.1}clone}{16}{subsubsection.8.1.3.1}
+\contentsline {subsubsection}{\numberline {8.1.3.2}hasNext}{17}{subsubsection.8.1.3.2}
+\contentsline {subsubsection}{\numberline {8.1.3.3}next}{17}{subsubsection.8.1.3.3}
+\contentsline {section}{\numberline {8.2}All\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter Class Reference}{18}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Detailed Description}{20}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}Constructor \& Destructor Documentation}{20}{subsection.8.2.2}
+\contentsline {subsubsection}{\numberline {8.2.2.1}AllPassFilter}{20}{subsubsection.8.2.2.1}
+\contentsline {subsubsection}{\numberline {8.2.2.2}$\sim $AllPassFilter}{21}{subsubsection.8.2.2.2}
+\contentsline {subsubsection}{\numberline {8.2.2.3}AllPassFilter}{21}{subsubsection.8.2.2.3}
+\contentsline {subsection}{\numberline {8.2.3}Member Function Documentation}{21}{subsection.8.2.3}
+\contentsline {subsubsection}{\numberline {8.2.3.1}do\_\discretionary {-}{}{}filter}{21}{subsubsection.8.2.3.1}
+\contentsline {subsubsection}{\numberline {8.2.3.2}reset}{21}{subsubsection.8.2.3.2}
+\contentsline {subsubsection}{\numberline {8.2.3.3}set\_\discretionary {-}{}{}D}{22}{subsubsection.8.2.3.3}
+\contentsline {subsubsection}{\numberline {8.2.3.4}set\_\discretionary {-}{}{}g}{22}{subsubsection.8.2.3.4}
+\contentsline {subsubsection}{\numberline {8.2.3.5}xml\_\discretionary {-}{}{}print}{22}{subsubsection.8.2.3.5}
+\contentsline {subsubsection}{\numberline {8.2.3.6}xml\_\discretionary {-}{}{}read}{22}{subsubsection.8.2.3.6}
+\contentsline {subsection}{\numberline {8.2.4}Member Data Documentation}{23}{subsection.8.2.4}
+\contentsline {subsubsection}{\numberline {8.2.4.1}D}{23}{subsubsection.8.2.4.1}
+\contentsline {subsubsection}{\numberline {8.2.4.2}g}{23}{subsubsection.8.2.4.2}
+\contentsline {subsubsection}{\numberline {8.2.4.3}g\_\discretionary {-}{}{}sqrd}{23}{subsubsection.8.2.4.3}
+\contentsline {subsubsection}{\numberline {8.2.4.4}x\_\discretionary {-}{}{}hist}{23}{subsubsection.8.2.4.4}
+\contentsline {subsubsection}{\numberline {8.2.4.5}y\_\discretionary {-}{}{}hist}{23}{subsubsection.8.2.4.5}
+\contentsline {section}{\numberline {8.3}Au\discretionary {-}{}{}Writer Class Reference}{25}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Detailed Description}{25}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Member Function Documentation}{25}{subsection.8.3.2}
+\contentsline {subsubsection}{\numberline {8.3.2.1}write}{25}{subsubsection.8.3.2.1}
+\contentsline {subsubsection}{\numberline {8.3.2.2}write}{26}{subsubsection.8.3.2.2}
+\contentsline {subsubsection}{\numberline {8.3.2.3}write}{26}{subsubsection.8.3.2.3}
+\contentsline {subsubsection}{\numberline {8.3.2.4}write}{27}{subsubsection.8.3.2.4}
+\contentsline {subsubsection}{\numberline {8.3.2.5}write\_\discretionary {-}{}{}one\_\discretionary {-}{}{}per\_\discretionary {-}{}{}track}{27}{subsubsection.8.3.2.5}
+\contentsline {subsubsection}{\numberline {8.3.2.6}WriteIntMsb}{27}{subsubsection.8.3.2.6}
+\contentsline {section}{\numberline {8.4}Collection$<$ T $>$ Class Template Reference}{29}{section.8.4}
+\contentsline {subsection}{\numberline {8.4.1}Detailed Description}{30}{subsection.8.4.1}
+\contentsline {subsection}{\numberline {8.4.2}Constructor \& Destructor Documentation}{30}{subsection.8.4.2}
+\contentsline {subsubsection}{\numberline {8.4.2.1}Collection}{30}{subsubsection.8.4.2.1}
+\contentsline {subsubsection}{\numberline {8.4.2.2}Collection}{30}{subsubsection.8.4.2.2}
+\contentsline {subsubsection}{\numberline {8.4.2.3}$\sim $Collection}{31}{subsubsection.8.4.2.3}
+\contentsline {subsection}{\numberline {8.4.3}Member Function Documentation}{31}{subsection.8.4.3}
+\contentsline {subsubsection}{\numberline {8.4.3.1}add}{31}{subsubsection.8.4.3.1}
+\contentsline {subsubsection}{\numberline {8.4.3.2}add}{31}{subsubsection.8.4.3.2}
+\contentsline {subsubsection}{\numberline {8.4.3.3}clear}{32}{subsubsection.8.4.3.3}
+\contentsline {subsubsection}{\numberline {8.4.3.4}get}{32}{subsubsection.8.4.3.4}
+\contentsline {subsubsection}{\numberline {8.4.3.5}iterator}{32}{subsubsection.8.4.3.5}
+\contentsline {subsubsection}{\numberline {8.4.3.6}operator=}{33}{subsubsection.8.4.3.6}
+\contentsline {subsubsection}{\numberline {8.4.3.7}printPointers}{33}{subsubsection.8.4.3.7}
+\contentsline {subsubsection}{\numberline {8.4.3.8}remove}{33}{subsubsection.8.4.3.8}
+\contentsline {subsubsection}{\numberline {8.4.3.9}set}{33}{subsubsection.8.4.3.9}
+\contentsline {subsubsection}{\numberline {8.4.3.10}size}{34}{subsubsection.8.4.3.10}
+\contentsline {subsubsection}{\numberline {8.4.3.11}sortCollection}{34}{subsubsection.8.4.3.11}
+\contentsline {subsection}{\numberline {8.4.4}Member Data Documentation}{34}{subsection.8.4.4}
+\contentsline {subsubsection}{\numberline {8.4.4.1}vector\_\discretionary {-}{}{}}{34}{subsubsection.8.4.4.1}
+\contentsline {section}{\numberline {8.5}Collection$<$ T $>$::Collection\discretionary {-}{}{}Iterator Class Reference}{36}{section.8.5}
+\contentsline {subsection}{\numberline {8.5.1}Detailed Description}{37}{subsection.8.5.1}
+\contentsline {subsection}{\numberline {8.5.2}Constructor \& Destructor Documentation}{37}{subsection.8.5.2}
+\contentsline {subsubsection}{\numberline {8.5.2.1}CollectionIterator}{37}{subsubsection.8.5.2.1}
+\contentsline {subsection}{\numberline {8.5.3}Member Function Documentation}{37}{subsection.8.5.3}
+\contentsline {subsubsection}{\numberline {8.5.3.1}clone}{37}{subsubsection.8.5.3.1}
+\contentsline {subsubsection}{\numberline {8.5.3.2}hasNext}{37}{subsubsection.8.5.3.2}
+\contentsline {subsubsection}{\numberline {8.5.3.3}next}{38}{subsubsection.8.5.3.3}
+\contentsline {subsection}{\numberline {8.5.4}Member Data Documentation}{38}{subsection.8.5.4}
+\contentsline {subsubsection}{\numberline {8.5.4.1}end\_\discretionary {-}{}{}}{38}{subsubsection.8.5.4.1}
+\contentsline {subsubsection}{\numberline {8.5.4.2}it\_\discretionary {-}{}{}}{38}{subsubsection.8.5.4.2}
+\contentsline {section}{\numberline {8.6}Constant Class Reference}{40}{section.8.6}
+\contentsline {subsection}{\numberline {8.6.1}Detailed Description}{42}{subsection.8.6.1}
+\contentsline {subsection}{\numberline {8.6.2}Constructor \& Destructor Documentation}{42}{subsection.8.6.2}
+\contentsline {subsubsection}{\numberline {8.6.2.1}Constant}{42}{subsubsection.8.6.2.1}
+\contentsline {subsection}{\numberline {8.6.3}Member Function Documentation}{42}{subsection.8.6.3}
+\contentsline {subsubsection}{\numberline {8.6.3.1}clone}{42}{subsubsection.8.6.3.1}
+\contentsline {subsubsection}{\numberline {8.6.3.2}getMaxValue}{42}{subsubsection.8.6.3.2}
+\contentsline {subsubsection}{\numberline {8.6.3.3}getValue}{43}{subsubsection.8.6.3.3}
+\contentsline {subsubsection}{\numberline {8.6.3.4}scale}{43}{subsubsection.8.6.3.4}
+\contentsline {subsubsection}{\numberline {8.6.3.5}setValue}{43}{subsubsection.8.6.3.5}
+\contentsline {subsubsection}{\numberline {8.6.3.6}valueIterator}{43}{subsubsection.8.6.3.6}
+\contentsline {subsubsection}{\numberline {8.6.3.7}xml\_\discretionary {-}{}{}print}{44}{subsubsection.8.6.3.7}
+\contentsline {subsubsection}{\numberline {8.6.3.8}xml\_\discretionary {-}{}{}print}{44}{subsubsection.8.6.3.8}
+\contentsline {subsubsection}{\numberline {8.6.3.9}xml\_\discretionary {-}{}{}read}{44}{subsubsection.8.6.3.9}
+\contentsline {subsection}{\numberline {8.6.4}Member Data Documentation}{44}{subsection.8.6.4}
+\contentsline {subsubsection}{\numberline {8.6.4.1}value\_\discretionary {-}{}{}}{44}{subsubsection.8.6.4.1}
+\contentsline {section}{\numberline {8.7}Constant::Constant\discretionary {-}{}{}Iterator Class Reference}{46}{section.8.7}
+\contentsline {subsection}{\numberline {8.7.1}Detailed Description}{47}{subsection.8.7.1}
+\contentsline {subsection}{\numberline {8.7.2}Constructor \& Destructor Documentation}{47}{subsection.8.7.2}
+\contentsline {subsubsection}{\numberline {8.7.2.1}ConstantIterator}{47}{subsubsection.8.7.2.1}
+\contentsline {subsection}{\numberline {8.7.3}Member Function Documentation}{47}{subsection.8.7.3}
+\contentsline {subsubsection}{\numberline {8.7.3.1}clone}{47}{subsubsection.8.7.3.1}
+\contentsline {subsubsection}{\numberline {8.7.3.2}hasNext}{48}{subsubsection.8.7.3.2}
+\contentsline {subsubsection}{\numberline {8.7.3.3}next}{48}{subsubsection.8.7.3.3}
+\contentsline {subsection}{\numberline {8.7.4}Member Data Documentation}{48}{subsection.8.7.4}
+\contentsline {subsubsection}{\numberline {8.7.4.1}count\_\discretionary {-}{}{}}{48}{subsubsection.8.7.4.1}
+\contentsline {subsubsection}{\numberline {8.7.4.2}value\_\discretionary {-}{}{}}{48}{subsubsection.8.7.4.2}
+\contentsline {section}{\numberline {8.8}Cubic\discretionary {-}{}{}Spline\discretionary {-}{}{}Interpolator Class Reference}{49}{section.8.8}
+\contentsline {subsection}{\numberline {8.8.1}Detailed Description}{51}{subsection.8.8.1}
+\contentsline {subsection}{\numberline {8.8.2}Constructor \& Destructor Documentation}{51}{subsection.8.8.2}
+\contentsline {subsubsection}{\numberline {8.8.2.1}CubicSplineInterpolator}{51}{subsubsection.8.8.2.1}
+\contentsline {subsection}{\numberline {8.8.3}Member Function Documentation}{51}{subsection.8.8.3}
+\contentsline {subsubsection}{\numberline {8.8.3.1}clone}{51}{subsubsection.8.8.3.1}
+\contentsline {subsubsection}{\numberline {8.8.3.2}getType}{51}{subsubsection.8.8.3.2}
+\contentsline {subsubsection}{\numberline {8.8.3.3}valueIterator}{52}{subsubsection.8.8.3.3}
+\contentsline {section}{\numberline {8.9}Cubic\discretionary {-}{}{}Spline\discretionary {-}{}{}Interpolator\discretionary {-}{}{}Iterator Class Reference}{53}{section.8.9}
+\contentsline {subsection}{\numberline {8.9.1}Detailed Description}{55}{subsection.8.9.1}
+\contentsline {subsection}{\numberline {8.9.2}Constructor \& Destructor Documentation}{55}{subsection.8.9.2}
+\contentsline {subsubsection}{\numberline {8.9.2.1}CubicSplineInterpolatorIterator}{55}{subsubsection.8.9.2.1}
+\contentsline {subsection}{\numberline {8.9.3}Member Function Documentation}{55}{subsection.8.9.3}
+\contentsline {subsubsection}{\numberline {8.9.3.1}clone}{55}{subsubsection.8.9.3.1}
+\contentsline {subsubsection}{\numberline {8.9.3.2}next}{55}{subsubsection.8.9.3.2}
+\contentsline {subsection}{\numberline {8.9.4}Member Data Documentation}{56}{subsection.8.9.4}
+\contentsline {subsubsection}{\numberline {8.9.4.1}x0}{56}{subsubsection.8.9.4.1}
+\contentsline {subsubsection}{\numberline {8.9.4.2}x3}{56}{subsubsection.8.9.4.2}
+\contentsline {subsubsection}{\numberline {8.9.4.3}y0}{56}{subsubsection.8.9.4.3}
+\contentsline {subsubsection}{\numberline {8.9.4.4}y3}{56}{subsubsection.8.9.4.4}
+\contentsline {section}{\numberline {8.10}Dynamic\discretionary {-}{}{}Variable Class Reference}{57}{section.8.10}
+\contentsline {subsection}{\numberline {8.10.1}Detailed Description}{59}{subsection.8.10.1}
+\contentsline {subsection}{\numberline {8.10.2}Constructor \& Destructor Documentation}{59}{subsection.8.10.2}
+\contentsline {subsubsection}{\numberline {8.10.2.1}DynamicVariable}{59}{subsubsection.8.10.2.1}
+\contentsline {subsubsection}{\numberline {8.10.2.2}$\sim $DynamicVariable}{59}{subsubsection.8.10.2.2}
+\contentsline {subsection}{\numberline {8.10.3}Member Function Documentation}{59}{subsection.8.10.3}
+\contentsline {subsubsection}{\numberline {8.10.3.1}clone}{59}{subsubsection.8.10.3.1}
+\contentsline {subsubsection}{\numberline {8.10.3.2}create\_\discretionary {-}{}{}dv\_\discretionary {-}{}{}from\_\discretionary {-}{}{}xml}{59}{subsubsection.8.10.3.2}
+\contentsline {subsubsection}{\numberline {8.10.3.3}getDuration}{60}{subsubsection.8.10.3.3}
+\contentsline {subsubsection}{\numberline {8.10.3.4}getMaxValue}{60}{subsubsection.8.10.3.4}
+\contentsline {subsubsection}{\numberline {8.10.3.5}getSampleCount}{60}{subsubsection.8.10.3.5}
+\contentsline {subsubsection}{\numberline {8.10.3.6}getSamplingRate}{61}{subsubsection.8.10.3.6}
+\contentsline {subsubsection}{\numberline {8.10.3.7}scale}{61}{subsubsection.8.10.3.7}
+\contentsline {subsubsection}{\numberline {8.10.3.8}setDuration}{61}{subsubsection.8.10.3.8}
+\contentsline {subsubsection}{\numberline {8.10.3.9}setSamplingRate}{62}{subsubsection.8.10.3.9}
+\contentsline {subsubsection}{\numberline {8.10.3.10}valueIterator}{62}{subsubsection.8.10.3.10}
+\contentsline {subsubsection}{\numberline {8.10.3.11}xml\_\discretionary {-}{}{}print}{62}{subsubsection.8.10.3.11}
+\contentsline {subsubsection}{\numberline {8.10.3.12}xml\_\discretionary {-}{}{}print}{63}{subsubsection.8.10.3.12}
+\contentsline {subsection}{\numberline {8.10.4}Member Data Documentation}{63}{subsection.8.10.4}
+\contentsline {subsubsection}{\numberline {8.10.4.1}duration\_\discretionary {-}{}{}}{63}{subsubsection.8.10.4.1}
+\contentsline {subsubsection}{\numberline {8.10.4.2}rate\_\discretionary {-}{}{}}{63}{subsubsection.8.10.4.2}
+\contentsline {section}{\numberline {8.11}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence Class Reference}{64}{section.8.11}
+\contentsline {subsection}{\numberline {8.11.1}Detailed Description}{67}{subsection.8.11.1}
+\contentsline {subsection}{\numberline {8.11.2}Constructor \& Destructor Documentation}{68}{subsection.8.11.2}
+\contentsline {subsubsection}{\numberline {8.11.2.1}DynamicVariableSequence}{68}{subsubsection.8.11.2.1}
+\contentsline {subsubsection}{\numberline {8.11.2.2}DynamicVariableSequence}{68}{subsubsection.8.11.2.2}
+\contentsline {subsubsection}{\numberline {8.11.2.3}DynamicVariableSequence}{68}{subsubsection.8.11.2.3}
+\contentsline {subsubsection}{\numberline {8.11.2.4}$\sim $DynamicVariableSequence}{68}{subsubsection.8.11.2.4}
+\contentsline {subsection}{\numberline {8.11.3}Member Function Documentation}{69}{subsection.8.11.3}
+\contentsline {subsubsection}{\numberline {8.11.3.1}addInterpolators}{69}{subsubsection.8.11.3.1}
+\contentsline {subsubsection}{\numberline {8.11.3.2}addPoint}{69}{subsubsection.8.11.3.2}
+\contentsline {subsubsection}{\numberline {8.11.3.3}addSegment}{69}{subsubsection.8.11.3.3}
+\contentsline {subsubsection}{\numberline {8.11.3.4}AddToShape}{70}{subsubsection.8.11.3.4}
+\contentsline {subsubsection}{\numberline {8.11.3.5}AddToShape}{70}{subsubsection.8.11.3.5}
+\contentsline {subsubsection}{\numberline {8.11.3.6}checkValidPointIndex}{70}{subsubsection.8.11.3.6}
+\contentsline {subsubsection}{\numberline {8.11.3.7}checkValidSegmentIndex}{70}{subsubsection.8.11.3.7}
+\contentsline {subsubsection}{\numberline {8.11.3.8}clone}{71}{subsubsection.8.11.3.8}
+\contentsline {subsubsection}{\numberline {8.11.3.9}DefineShape}{71}{subsubsection.8.11.3.9}
+\contentsline {subsubsection}{\numberline {8.11.3.10}generateTimes}{71}{subsubsection.8.11.3.10}
+\contentsline {subsubsection}{\numberline {8.11.3.11}getMaxValue}{72}{subsubsection.8.11.3.11}
+\contentsline {subsubsection}{\numberline {8.11.3.12}getPoint}{72}{subsubsection.8.11.3.12}
+\contentsline {subsubsection}{\numberline {8.11.3.13}getPoints}{72}{subsubsection.8.11.3.13}
+\contentsline {subsubsection}{\numberline {8.11.3.14}getSegment}{73}{subsubsection.8.11.3.14}
+\contentsline {subsubsection}{\numberline {8.11.3.15}getSegmentInterpolationType}{73}{subsubsection.8.11.3.15}
+\contentsline {subsubsection}{\numberline {8.11.3.16}getSegments}{73}{subsubsection.8.11.3.16}
+\contentsline {subsubsection}{\numberline {8.11.3.17}getSegmentTime}{74}{subsubsection.8.11.3.17}
+\contentsline {subsubsection}{\numberline {8.11.3.18}getSegmentTimeType}{74}{subsubsection.8.11.3.18}
+\contentsline {subsubsection}{\numberline {8.11.3.19}getValue}{74}{subsubsection.8.11.3.19}
+\contentsline {subsubsection}{\numberline {8.11.3.20}Print}{75}{subsubsection.8.11.3.20}
+\contentsline {subsubsection}{\numberline {8.11.3.21}scale}{75}{subsubsection.8.11.3.21}
+\contentsline {subsubsection}{\numberline {8.11.3.22}setPoint}{75}{subsubsection.8.11.3.22}
+\contentsline {subsubsection}{\numberline {8.11.3.23}setSegment}{76}{subsubsection.8.11.3.23}
+\contentsline {subsubsection}{\numberline {8.11.3.24}setSegmentInterpolationType}{76}{subsubsection.8.11.3.24}
+\contentsline {subsubsection}{\numberline {8.11.3.25}setSegmentTime}{76}{subsubsection.8.11.3.25}
+\contentsline {subsubsection}{\numberline {8.11.3.26}setSegmentTimeType}{77}{subsubsection.8.11.3.26}
+\contentsline {subsubsection}{\numberline {8.11.3.27}valueIterator}{77}{subsubsection.8.11.3.27}
+\contentsline {subsubsection}{\numberline {8.11.3.28}xml\_\discretionary {-}{}{}print}{77}{subsubsection.8.11.3.28}
+\contentsline {subsubsection}{\numberline {8.11.3.29}xml\_\discretionary {-}{}{}print}{78}{subsubsection.8.11.3.29}
+\contentsline {subsubsection}{\numberline {8.11.3.30}xml\_\discretionary {-}{}{}read}{78}{subsubsection.8.11.3.30}
+\contentsline {subsection}{\numberline {8.11.4}Member Data Documentation}{78}{subsection.8.11.4}
+\contentsline {subsubsection}{\numberline {8.11.4.1}currentInterpolatorRate\_\discretionary {-}{}{}}{78}{subsubsection.8.11.4.1}
+\contentsline {subsubsection}{\numberline {8.11.4.2}generatedSegmentTimes\_\discretionary {-}{}{}}{78}{subsubsection.8.11.4.2}
+\contentsline {subsubsection}{\numberline {8.11.4.3}interpolators\_\discretionary {-}{}{}}{78}{subsubsection.8.11.4.3}
+\contentsline {subsubsection}{\numberline {8.11.4.4}segments\_\discretionary {-}{}{}}{79}{subsubsection.8.11.4.4}
+\contentsline {subsubsection}{\numberline {8.11.4.5}totalTime\_\discretionary {-}{}{}}{79}{subsubsection.8.11.4.5}
+\contentsline {subsubsection}{\numberline {8.11.4.6}xyPoints\_\discretionary {-}{}{}}{79}{subsubsection.8.11.4.6}
+\contentsline {section}{\numberline {8.12}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence\discretionary {-}{}{}Iterator Class Reference}{80}{section.8.12}
+\contentsline {subsection}{\numberline {8.12.1}Detailed Description}{81}{subsection.8.12.1}
+\contentsline {subsection}{\numberline {8.12.2}Constructor \& Destructor Documentation}{82}{subsection.8.12.2}
+\contentsline {subsubsection}{\numberline {8.12.2.1}DynamicVariableSequenceIterator}{82}{subsubsection.8.12.2.1}
+\contentsline {subsubsection}{\numberline {8.12.2.2}$\sim $DynamicVariableSequenceIterator}{82}{subsubsection.8.12.2.2}
+\contentsline {subsection}{\numberline {8.12.3}Member Function Documentation}{82}{subsection.8.12.3}
+\contentsline {subsubsection}{\numberline {8.12.3.1}clone}{82}{subsubsection.8.12.3.1}
+\contentsline {subsubsection}{\numberline {8.12.3.2}hasNext}{83}{subsubsection.8.12.3.2}
+\contentsline {subsubsection}{\numberline {8.12.3.3}next}{83}{subsubsection.8.12.3.3}
+\contentsline {subsection}{\numberline {8.12.4}Member Data Documentation}{83}{subsection.8.12.4}
+\contentsline {subsubsection}{\numberline {8.12.4.1}currentIterator\_\discretionary {-}{}{}}{83}{subsubsection.8.12.4.1}
+\contentsline {subsubsection}{\numberline {8.12.4.2}currentValue\_\discretionary {-}{}{}}{84}{subsubsection.8.12.4.2}
+\contentsline {subsubsection}{\numberline {8.12.4.3}interpolators\_\discretionary {-}{}{}}{84}{subsubsection.8.12.4.3}
+\contentsline {subsubsection}{\numberline {8.12.4.4}iSegmentIndex\_\discretionary {-}{}{}}{84}{subsubsection.8.12.4.4}
+\contentsline {subsubsection}{\numberline {8.12.4.5}moreValues\_\discretionary {-}{}{}}{84}{subsubsection.8.12.4.5}
+\contentsline {subsubsection}{\numberline {8.12.4.6}tempCounter\_\discretionary {-}{}{}}{84}{subsubsection.8.12.4.6}
+\contentsline {section}{\numberline {8.13}env\_\discretionary {-}{}{}seg Struct Reference}{85}{section.8.13}
+\contentsline {subsection}{\numberline {8.13.1}Member Data Documentation}{85}{subsection.8.13.1}
+\contentsline {subsubsection}{\numberline {8.13.1.1}interType}{85}{subsubsection.8.13.1.1}
+\contentsline {subsubsection}{\numberline {8.13.1.2}length}{86}{subsubsection.8.13.1.2}
+\contentsline {subsubsection}{\numberline {8.13.1.3}lengthType}{86}{subsubsection.8.13.1.3}
+\contentsline {subsubsection}{\numberline {8.13.1.4}x}{86}{subsubsection.8.13.1.4}
+\contentsline {subsubsection}{\numberline {8.13.1.5}y}{86}{subsubsection.8.13.1.5}
+\contentsline {section}{\numberline {8.14}Envelope Class Reference}{87}{section.8.14}
+\contentsline {subsection}{\numberline {8.14.1}Detailed Description}{90}{subsection.8.14.1}
+\contentsline {subsection}{\numberline {8.14.2}Constructor \& Destructor Documentation}{90}{subsection.8.14.2}
+\contentsline {subsubsection}{\numberline {8.14.2.1}Envelope}{90}{subsubsection.8.14.2.1}
+\contentsline {subsubsection}{\numberline {8.14.2.2}Envelope}{90}{subsubsection.8.14.2.2}
+\contentsline {subsubsection}{\numberline {8.14.2.3}Envelope}{91}{subsubsection.8.14.2.3}
+\contentsline {subsubsection}{\numberline {8.14.2.4}Envelope}{91}{subsubsection.8.14.2.4}
+\contentsline {subsubsection}{\numberline {8.14.2.5}$\sim $Envelope}{91}{subsubsection.8.14.2.5}
+\contentsline {subsection}{\numberline {8.14.3}Member Function Documentation}{91}{subsection.8.14.3}
+\contentsline {subsubsection}{\numberline {8.14.3.1}addInterpolators}{91}{subsubsection.8.14.3.1}
+\contentsline {subsubsection}{\numberline {8.14.3.2}addPoint}{92}{subsubsection.8.14.3.2}
+\contentsline {subsubsection}{\numberline {8.14.3.3}addSegment}{92}{subsubsection.8.14.3.3}
+\contentsline {subsubsection}{\numberline {8.14.3.4}AddToShape}{92}{subsubsection.8.14.3.4}
+\contentsline {subsubsection}{\numberline {8.14.3.5}AddToShape}{93}{subsubsection.8.14.3.5}
+\contentsline {subsubsection}{\numberline {8.14.3.6}checkValidSegmentIndex}{93}{subsubsection.8.14.3.6}
+\contentsline {subsubsection}{\numberline {8.14.3.7}clone}{93}{subsubsection.8.14.3.7}
+\contentsline {subsubsection}{\numberline {8.14.3.8}DefineShape}{94}{subsubsection.8.14.3.8}
+\contentsline {subsubsection}{\numberline {8.14.3.9}generateLengths}{94}{subsubsection.8.14.3.9}
+\contentsline {subsubsection}{\numberline {8.14.3.10}getMaxValue}{94}{subsubsection.8.14.3.10}
+\contentsline {subsubsection}{\numberline {8.14.3.11}getPoint}{95}{subsubsection.8.14.3.11}
+\contentsline {subsubsection}{\numberline {8.14.3.12}getPoints}{95}{subsubsection.8.14.3.12}
+\contentsline {subsubsection}{\numberline {8.14.3.13}getSegment}{95}{subsubsection.8.14.3.13}
+\contentsline {subsubsection}{\numberline {8.14.3.14}getSegmentInterpolationType}{96}{subsubsection.8.14.3.14}
+\contentsline {subsubsection}{\numberline {8.14.3.15}getSegmentLength}{96}{subsubsection.8.14.3.15}
+\contentsline {subsubsection}{\numberline {8.14.3.16}getSegmentLengthType}{96}{subsubsection.8.14.3.16}
+\contentsline {subsubsection}{\numberline {8.14.3.17}getSegments}{97}{subsubsection.8.14.3.17}
+\contentsline {subsubsection}{\numberline {8.14.3.18}getValue}{97}{subsubsection.8.14.3.18}
+\contentsline {subsubsection}{\numberline {8.14.3.19}multiply}{98}{subsubsection.8.14.3.19}
+\contentsline {subsubsection}{\numberline {8.14.3.20}Print}{98}{subsubsection.8.14.3.20}
+\contentsline {subsubsection}{\numberline {8.14.3.21}scale}{98}{subsubsection.8.14.3.21}
+\contentsline {subsubsection}{\numberline {8.14.3.22}setPoint}{98}{subsubsection.8.14.3.22}
+\contentsline {subsubsection}{\numberline {8.14.3.23}setSegment}{99}{subsubsection.8.14.3.23}
+\contentsline {subsubsection}{\numberline {8.14.3.24}setSegmentInterpolationType}{99}{subsubsection.8.14.3.24}
+\contentsline {subsubsection}{\numberline {8.14.3.25}setSegmentLength}{99}{subsubsection.8.14.3.25}
+\contentsline {subsubsection}{\numberline {8.14.3.26}setSegmentLengthType}{100}{subsubsection.8.14.3.26}
+\contentsline {subsubsection}{\numberline {8.14.3.27}valueIterator}{100}{subsubsection.8.14.3.27}
+\contentsline {subsubsection}{\numberline {8.14.3.28}xml\_\discretionary {-}{}{}print}{100}{subsubsection.8.14.3.28}
+\contentsline {subsubsection}{\numberline {8.14.3.29}xml\_\discretionary {-}{}{}print}{101}{subsubsection.8.14.3.29}
+\contentsline {subsubsection}{\numberline {8.14.3.30}xml\_\discretionary {-}{}{}read}{101}{subsubsection.8.14.3.30}
+\contentsline {subsection}{\numberline {8.14.4}Member Data Documentation}{101}{subsection.8.14.4}
+\contentsline {subsubsection}{\numberline {8.14.4.1}currentInterpolatorRate\_\discretionary {-}{}{}}{101}{subsubsection.8.14.4.1}
+\contentsline {subsubsection}{\numberline {8.14.4.2}generatedSegmentLengths\_\discretionary {-}{}{}}{101}{subsubsection.8.14.4.2}
+\contentsline {subsubsection}{\numberline {8.14.4.3}interpolators\_\discretionary {-}{}{}}{102}{subsubsection.8.14.4.3}
+\contentsline {subsubsection}{\numberline {8.14.4.4}segments\_\discretionary {-}{}{}}{102}{subsubsection.8.14.4.4}
+\contentsline {subsubsection}{\numberline {8.14.4.5}totalLength\_\discretionary {-}{}{}}{102}{subsubsection.8.14.4.5}
+\contentsline {section}{\numberline {8.15}envelope\_\discretionary {-}{}{}segment Struct Reference}{103}{section.8.15}
+\contentsline {subsection}{\numberline {8.15.1}Detailed Description}{104}{subsection.8.15.1}
+\contentsline {subsection}{\numberline {8.15.2}Member Data Documentation}{104}{subsection.8.15.2}
+\contentsline {subsubsection}{\numberline {8.15.2.1}interType}{104}{subsubsection.8.15.2.1}
+\contentsline {subsubsection}{\numberline {8.15.2.2}length}{104}{subsubsection.8.15.2.2}
+\contentsline {subsubsection}{\numberline {8.15.2.3}lengthType}{104}{subsubsection.8.15.2.3}
+\contentsline {subsubsection}{\numberline {8.15.2.4}timeType}{105}{subsubsection.8.15.2.4}
+\contentsline {subsubsection}{\numberline {8.15.2.5}timeValue}{105}{subsubsection.8.15.2.5}
+\contentsline {subsubsection}{\numberline {8.15.2.6}x}{105}{subsubsection.8.15.2.6}
+\contentsline {subsubsection}{\numberline {8.15.2.7}y}{105}{subsubsection.8.15.2.7}
+\contentsline {section}{\numberline {8.16}Envelope\discretionary {-}{}{}Iterator Class Reference}{106}{section.8.16}
+\contentsline {subsection}{\numberline {8.16.1}Detailed Description}{107}{subsection.8.16.1}
+\contentsline {subsection}{\numberline {8.16.2}Constructor \& Destructor Documentation}{108}{subsection.8.16.2}
+\contentsline {subsubsection}{\numberline {8.16.2.1}EnvelopeIterator}{108}{subsubsection.8.16.2.1}
+\contentsline {subsubsection}{\numberline {8.16.2.2}$\sim $EnvelopeIterator}{108}{subsubsection.8.16.2.2}
+\contentsline {subsection}{\numberline {8.16.3}Member Function Documentation}{108}{subsection.8.16.3}
+\contentsline {subsubsection}{\numberline {8.16.3.1}clone}{108}{subsubsection.8.16.3.1}
+\contentsline {subsubsection}{\numberline {8.16.3.2}hasNext}{108}{subsubsection.8.16.3.2}
+\contentsline {subsubsection}{\numberline {8.16.3.3}next}{109}{subsubsection.8.16.3.3}
+\contentsline {subsection}{\numberline {8.16.4}Member Data Documentation}{109}{subsection.8.16.4}
+\contentsline {subsubsection}{\numberline {8.16.4.1}currentIterator\_\discretionary {-}{}{}}{109}{subsubsection.8.16.4.1}
+\contentsline {subsubsection}{\numberline {8.16.4.2}currentValue\_\discretionary {-}{}{}}{109}{subsubsection.8.16.4.2}
+\contentsline {subsubsection}{\numberline {8.16.4.3}interpolators\_\discretionary {-}{}{}}{110}{subsubsection.8.16.4.3}
+\contentsline {subsubsection}{\numberline {8.16.4.4}iSegmentIndex\_\discretionary {-}{}{}}{110}{subsubsection.8.16.4.4}
+\contentsline {subsubsection}{\numberline {8.16.4.5}moreValues\_\discretionary {-}{}{}}{110}{subsubsection.8.16.4.5}
+\contentsline {subsubsection}{\numberline {8.16.4.6}tempCounter\_\discretionary {-}{}{}}{110}{subsubsection.8.16.4.6}
+\contentsline {section}{\numberline {8.17}Envelope\discretionary {-}{}{}Library Class Reference}{111}{section.8.17}
+\contentsline {subsection}{\numberline {8.17.1}Detailed Description}{112}{subsection.8.17.1}
+\contentsline {subsection}{\numberline {8.17.2}Constructor \& Destructor Documentation}{112}{subsection.8.17.2}
+\contentsline {subsubsection}{\numberline {8.17.2.1}EnvelopeLibrary}{112}{subsubsection.8.17.2.1}
+\contentsline {subsubsection}{\numberline {8.17.2.2}$\sim $EnvelopeLibrary}{113}{subsubsection.8.17.2.2}
+\contentsline {subsubsection}{\numberline {8.17.2.3}EnvelopeLibrary}{113}{subsubsection.8.17.2.3}
+\contentsline {subsection}{\numberline {8.17.3}Member Function Documentation}{113}{subsection.8.17.3}
+\contentsline {subsubsection}{\numberline {8.17.3.1}addEnvelope}{113}{subsubsection.8.17.3.1}
+\contentsline {subsubsection}{\numberline {8.17.3.2}addEnvelope}{114}{subsubsection.8.17.3.2}
+\contentsline {subsubsection}{\numberline {8.17.3.3}getEnvelope}{114}{subsubsection.8.17.3.3}
+\contentsline {subsubsection}{\numberline {8.17.3.4}loadLibrary}{114}{subsubsection.8.17.3.4}
+\contentsline {subsubsection}{\numberline {8.17.3.5}operator=}{115}{subsubsection.8.17.3.5}
+\contentsline {subsubsection}{\numberline {8.17.3.6}saveLibrary}{115}{subsubsection.8.17.3.6}
+\contentsline {subsubsection}{\numberline {8.17.3.7}showEnvelope}{115}{subsubsection.8.17.3.7}
+\contentsline {subsubsection}{\numberline {8.17.3.8}size}{116}{subsubsection.8.17.3.8}
+\contentsline {subsubsection}{\numberline {8.17.3.9}updateEnvelope}{116}{subsubsection.8.17.3.9}
+\contentsline {subsection}{\numberline {8.17.4}Member Data Documentation}{116}{subsection.8.17.4}
+\contentsline {subsubsection}{\numberline {8.17.4.1}library}{116}{subsubsection.8.17.4.1}
+\contentsline {section}{\numberline {8.18}Exponential\discretionary {-}{}{}Interpolator Class Reference}{117}{section.8.18}
+\contentsline {subsection}{\numberline {8.18.1}Detailed Description}{119}{subsection.8.18.1}
+\contentsline {subsection}{\numberline {8.18.2}Constructor \& Destructor Documentation}{119}{subsection.8.18.2}
+\contentsline {subsubsection}{\numberline {8.18.2.1}ExponentialInterpolator}{119}{subsubsection.8.18.2.1}
+\contentsline {subsection}{\numberline {8.18.3}Member Function Documentation}{119}{subsection.8.18.3}
+\contentsline {subsubsection}{\numberline {8.18.3.1}clone}{119}{subsubsection.8.18.3.1}
+\contentsline {subsubsection}{\numberline {8.18.3.2}getType}{119}{subsubsection.8.18.3.2}
+\contentsline {subsubsection}{\numberline {8.18.3.3}valueIterator}{120}{subsubsection.8.18.3.3}
+\contentsline {section}{\numberline {8.19}Exponential\discretionary {-}{}{}Interpolator\discretionary {-}{}{}Iterator Class Reference}{121}{section.8.19}
+\contentsline {subsection}{\numberline {8.19.1}Detailed Description}{122}{subsection.8.19.1}
+\contentsline {subsection}{\numberline {8.19.2}Constructor \& Destructor Documentation}{123}{subsection.8.19.2}
+\contentsline {subsubsection}{\numberline {8.19.2.1}ExponentialInterpolatorIterator}{123}{subsubsection.8.19.2.1}
+\contentsline {subsection}{\numberline {8.19.3}Member Function Documentation}{123}{subsection.8.19.3}
+\contentsline {subsubsection}{\numberline {8.19.3.1}clone}{123}{subsubsection.8.19.3.1}
+\contentsline {subsubsection}{\numberline {8.19.3.2}next}{123}{subsubsection.8.19.3.2}
+\contentsline {section}{\numberline {8.20}Filter Class Reference}{124}{section.8.20}
+\contentsline {subsection}{\numberline {8.20.1}Detailed Description}{124}{subsection.8.20.1}
+\contentsline {subsection}{\numberline {8.20.2}Member Function Documentation}{125}{subsection.8.20.2}
+\contentsline {subsubsection}{\numberline {8.20.2.1}do\_\discretionary {-}{}{}filter}{125}{subsubsection.8.20.2.1}
+\contentsline {subsubsection}{\numberline {8.20.2.2}do\_\discretionary {-}{}{}filter\_\discretionary {-}{}{}MultiTrack}{125}{subsubsection.8.20.2.2}
+\contentsline {subsubsection}{\numberline {8.20.2.3}do\_\discretionary {-}{}{}filter\_\discretionary {-}{}{}SoundSample}{126}{subsubsection.8.20.2.3}
+\contentsline {subsubsection}{\numberline {8.20.2.4}do\_\discretionary {-}{}{}filter\_\discretionary {-}{}{}Track}{126}{subsubsection.8.20.2.4}
+\contentsline {subsubsection}{\numberline {8.20.2.5}reset}{126}{subsubsection.8.20.2.5}
+\contentsline {section}{\numberline {8.21}Filter::hist\_\discretionary {-}{}{}queue$<$ Elem\discretionary {-}{}{}Type $>$ Class Template Reference}{128}{section.8.21}
+\contentsline {subsection}{\numberline {8.21.1}Detailed Description}{129}{subsection.8.21.1}
+\contentsline {subsection}{\numberline {8.21.2}Constructor \& Destructor Documentation}{130}{subsection.8.21.2}
+\contentsline {subsubsection}{\numberline {8.21.2.1}hist\_\discretionary {-}{}{}queue}{130}{subsubsection.8.21.2.1}
+\contentsline {subsubsection}{\numberline {8.21.2.2}$\sim $hist\_\discretionary {-}{}{}queue}{130}{subsubsection.8.21.2.2}
+\contentsline {subsection}{\numberline {8.21.3}Member Function Documentation}{130}{subsection.8.21.3}
+\contentsline {subsubsection}{\numberline {8.21.3.1}dequeue}{130}{subsubsection.8.21.3.1}
+\contentsline {subsubsection}{\numberline {8.21.3.2}enqueue}{130}{subsubsection.8.21.3.2}
+\contentsline {subsubsection}{\numberline {8.21.3.3}index\_\discretionary {-}{}{}from\_\discretionary {-}{}{}newest}{131}{subsubsection.8.21.3.3}
+\contentsline {subsubsection}{\numberline {8.21.3.4}index\_\discretionary {-}{}{}from\_\discretionary {-}{}{}oldest}{131}{subsubsection.8.21.3.4}
+\contentsline {subsection}{\numberline {8.21.4}Member Data Documentation}{131}{subsection.8.21.4}
+\contentsline {subsubsection}{\numberline {8.21.4.1}array}{131}{subsubsection.8.21.4.1}
+\contentsline {subsubsection}{\numberline {8.21.4.2}back\_\discretionary {-}{}{}idx}{132}{subsubsection.8.21.4.2}
+\contentsline {subsubsection}{\numberline {8.21.4.3}front\_\discretionary {-}{}{}idx}{132}{subsubsection.8.21.4.3}
+\contentsline {subsubsection}{\numberline {8.21.4.4}length}{132}{subsubsection.8.21.4.4}
+\contentsline {section}{\numberline {8.22}Interpolator Class Reference}{133}{section.8.22}
+\contentsline {subsection}{\numberline {8.22.1}Detailed Description}{135}{subsection.8.22.1}
+\contentsline {subsection}{\numberline {8.22.2}Constructor \& Destructor Documentation}{135}{subsection.8.22.2}
+\contentsline {subsubsection}{\numberline {8.22.2.1}Interpolator}{135}{subsubsection.8.22.2.1}
+\contentsline {subsection}{\numberline {8.22.3}Member Function Documentation}{135}{subsection.8.22.3}
+\contentsline {subsubsection}{\numberline {8.22.3.1}addEntry}{135}{subsubsection.8.22.3.1}
+\contentsline {subsubsection}{\numberline {8.22.3.2}clone}{136}{subsubsection.8.22.3.2}
+\contentsline {subsubsection}{\numberline {8.22.3.3}getMaxValue}{136}{subsubsection.8.22.3.3}
+\contentsline {subsubsection}{\numberline {8.22.3.4}getType}{136}{subsubsection.8.22.3.4}
+\contentsline {subsubsection}{\numberline {8.22.3.5}scale}{136}{subsubsection.8.22.3.5}
+\contentsline {subsubsection}{\numberline {8.22.3.6}valueIterator}{137}{subsubsection.8.22.3.6}
+\contentsline {subsubsection}{\numberline {8.22.3.7}xml\_\discretionary {-}{}{}print}{137}{subsubsection.8.22.3.7}
+\contentsline {subsubsection}{\numberline {8.22.3.8}xml\_\discretionary {-}{}{}print}{137}{subsubsection.8.22.3.8}
+\contentsline {subsubsection}{\numberline {8.22.3.9}xml\_\discretionary {-}{}{}read}{138}{subsubsection.8.22.3.9}
+\contentsline {section}{\numberline {8.23}Interpolator\discretionary {-}{}{}Entry Class Reference}{139}{section.8.23}
+\contentsline {subsection}{\numberline {8.23.1}Detailed Description}{139}{subsection.8.23.1}
+\contentsline {subsection}{\numberline {8.23.2}Constructor \& Destructor Documentation}{140}{subsection.8.23.2}
+\contentsline {subsubsection}{\numberline {8.23.2.1}InterpolatorEntry}{140}{subsubsection.8.23.2.1}
+\contentsline {subsubsection}{\numberline {8.23.2.2}InterpolatorEntry}{140}{subsubsection.8.23.2.2}
+\contentsline {subsection}{\numberline {8.23.3}Member Function Documentation}{140}{subsection.8.23.3}
+\contentsline {subsubsection}{\numberline {8.23.3.1}operator$<$}{140}{subsubsection.8.23.3.1}
+\contentsline {subsubsection}{\numberline {8.23.3.2}operator==}{140}{subsubsection.8.23.3.2}
+\contentsline {subsubsection}{\numberline {8.23.3.3}operator$>$}{140}{subsubsection.8.23.3.3}
+\contentsline {subsection}{\numberline {8.23.4}Member Data Documentation}{141}{subsection.8.23.4}
+\contentsline {subsubsection}{\numberline {8.23.4.1}time\_\discretionary {-}{}{}}{141}{subsubsection.8.23.4.1}
+\contentsline {subsubsection}{\numberline {8.23.4.2}value\_\discretionary {-}{}{}}{141}{subsubsection.8.23.4.2}
+\contentsline {section}{\numberline {8.24}Interpolator\discretionary {-}{}{}Iterator Class Reference}{142}{section.8.24}
+\contentsline {subsection}{\numberline {8.24.1}Detailed Description}{143}{subsection.8.24.1}
+\contentsline {subsection}{\numberline {8.24.2}Constructor \& Destructor Documentation}{144}{subsection.8.24.2}
+\contentsline {subsubsection}{\numberline {8.24.2.1}InterpolatorIterator}{144}{subsubsection.8.24.2.1}
+\contentsline {subsection}{\numberline {8.24.3}Member Function Documentation}{144}{subsection.8.24.3}
+\contentsline {subsubsection}{\numberline {8.24.3.1}append}{144}{subsubsection.8.24.3.1}
+\contentsline {subsubsection}{\numberline {8.24.3.2}clone}{145}{subsubsection.8.24.3.2}
+\contentsline {subsubsection}{\numberline {8.24.3.3}hasNext}{145}{subsubsection.8.24.3.3}
+\contentsline {subsubsection}{\numberline {8.24.3.4}next}{145}{subsubsection.8.24.3.4}
+\contentsline {subsection}{\numberline {8.24.4}Member Data Documentation}{145}{subsection.8.24.4}
+\contentsline {subsubsection}{\numberline {8.24.4.1}delta\_\discretionary {-}{}{}}{145}{subsubsection.8.24.4.1}
+\contentsline {subsubsection}{\numberline {8.24.4.2}queue\_\discretionary {-}{}{}}{146}{subsubsection.8.24.4.2}
+\contentsline {subsubsection}{\numberline {8.24.4.3}stepsLeft\_\discretionary {-}{}{}}{146}{subsubsection.8.24.4.3}
+\contentsline {subsubsection}{\numberline {8.24.4.4}value\_\discretionary {-}{}{}}{146}{subsubsection.8.24.4.4}
+\contentsline {section}{\numberline {8.25}Interpolator\discretionary {-}{}{}Iterator::Entry Class Reference}{147}{section.8.25}
+\contentsline {subsection}{\numberline {8.25.1}Detailed Description}{148}{subsection.8.25.1}
+\contentsline {subsection}{\numberline {8.25.2}Constructor \& Destructor Documentation}{148}{subsection.8.25.2}
+\contentsline {subsubsection}{\numberline {8.25.2.1}Entry}{148}{subsubsection.8.25.2.1}
+\contentsline {subsection}{\numberline {8.25.3}Member Data Documentation}{148}{subsection.8.25.3}
+\contentsline {subsubsection}{\numberline {8.25.3.1}steps\_\discretionary {-}{}{}}{148}{subsubsection.8.25.3.1}
+\contentsline {subsubsection}{\numberline {8.25.3.2}t\_\discretionary {-}{}{}from\_\discretionary {-}{}{}}{148}{subsubsection.8.25.3.2}
+\contentsline {subsubsection}{\numberline {8.25.3.3}t\_\discretionary {-}{}{}to\_\discretionary {-}{}{}}{149}{subsubsection.8.25.3.3}
+\contentsline {subsubsection}{\numberline {8.25.3.4}v\_\discretionary {-}{}{}from\_\discretionary {-}{}{}}{149}{subsubsection.8.25.3.4}
+\contentsline {subsubsection}{\numberline {8.25.3.5}v\_\discretionary {-}{}{}to\_\discretionary {-}{}{}}{149}{subsubsection.8.25.3.5}
+\contentsline {section}{\numberline {8.26}Iterator$<$ T $>$ Class Template Reference}{150}{section.8.26}
+\contentsline {subsection}{\numberline {8.26.1}Detailed Description}{151}{subsection.8.26.1}
+\contentsline {subsection}{\numberline {8.26.2}Constructor \& Destructor Documentation}{151}{subsection.8.26.2}
+\contentsline {subsubsection}{\numberline {8.26.2.1}Iterator}{151}{subsubsection.8.26.2.1}
+\contentsline {subsubsection}{\numberline {8.26.2.2}Iterator}{151}{subsubsection.8.26.2.2}
+\contentsline {subsubsection}{\numberline {8.26.2.3}$\sim $Iterator}{151}{subsubsection.8.26.2.3}
+\contentsline {subsection}{\numberline {8.26.3}Member Function Documentation}{152}{subsection.8.26.3}
+\contentsline {subsubsection}{\numberline {8.26.3.1}hasNext}{152}{subsubsection.8.26.3.1}
+\contentsline {subsubsection}{\numberline {8.26.3.2}next}{152}{subsubsection.8.26.3.2}
+\contentsline {subsubsection}{\numberline {8.26.3.3}operator=}{152}{subsubsection.8.26.3.3}
+\contentsline {subsection}{\numberline {8.26.4}Member Data Documentation}{153}{subsection.8.26.4}
+\contentsline {subsubsection}{\numberline {8.26.4.1}it\_\discretionary {-}{}{}}{153}{subsubsection.8.26.4.1}
+\contentsline {section}{\numberline {8.27}Linear\discretionary {-}{}{}Interpolator Class Reference}{154}{section.8.27}
+\contentsline {subsection}{\numberline {8.27.1}Detailed Description}{156}{subsection.8.27.1}
+\contentsline {subsection}{\numberline {8.27.2}Constructor \& Destructor Documentation}{156}{subsection.8.27.2}
+\contentsline {subsubsection}{\numberline {8.27.2.1}LinearInterpolator}{156}{subsubsection.8.27.2.1}
+\contentsline {subsection}{\numberline {8.27.3}Member Function Documentation}{156}{subsection.8.27.3}
+\contentsline {subsubsection}{\numberline {8.27.3.1}clone}{156}{subsubsection.8.27.3.1}
+\contentsline {subsubsection}{\numberline {8.27.3.2}getType}{156}{subsubsection.8.27.3.2}
+\contentsline {subsubsection}{\numberline {8.27.3.3}valueIterator}{157}{subsubsection.8.27.3.3}
+\contentsline {section}{\numberline {8.28}Linear\discretionary {-}{}{}Interpolator\discretionary {-}{}{}Iterator Class Reference}{158}{section.8.28}
+\contentsline {subsection}{\numberline {8.28.1}Detailed Description}{159}{subsection.8.28.1}
+\contentsline {subsection}{\numberline {8.28.2}Constructor \& Destructor Documentation}{160}{subsection.8.28.2}
+\contentsline {subsubsection}{\numberline {8.28.2.1}LinearInterpolatorIterator}{160}{subsubsection.8.28.2.1}
+\contentsline {subsection}{\numberline {8.28.3}Member Function Documentation}{160}{subsection.8.28.3}
+\contentsline {subsubsection}{\numberline {8.28.3.1}clone}{160}{subsubsection.8.28.3.1}
+\contentsline {subsubsection}{\numberline {8.28.3.2}next}{160}{subsubsection.8.28.3.2}
+\contentsline {section}{\numberline {8.29}Loudness Class Reference}{161}{section.8.29}
+\contentsline {subsection}{\numberline {8.29.1}Detailed Description}{162}{subsection.8.29.1}
+\contentsline {subsection}{\numberline {8.29.2}Member Function Documentation}{163}{subsection.8.29.2}
+\contentsline {subsubsection}{\numberline {8.29.2.1}calculate}{163}{subsubsection.8.29.2.1}
+\contentsline {subsubsection}{\numberline {8.29.2.2}criticalBandIndex}{163}{subsubsection.8.29.2.2}
+\contentsline {subsection}{\numberline {8.29.3}Member Data Documentation}{163}{subsection.8.29.3}
+\contentsline {subsubsection}{\numberline {8.29.3.1}BANDS}{163}{subsubsection.8.29.3.1}
+\contentsline {subsubsection}{\numberline {8.29.3.2}BANDWIDTH}{164}{subsubsection.8.29.3.2}
+\contentsline {subsubsection}{\numberline {8.29.3.3}CENTROID}{164}{subsubsection.8.29.3.3}
+\contentsline {subsubsection}{\numberline {8.29.3.4}F\_\discretionary {-}{}{}FACTOR}{164}{subsubsection.8.29.3.4}
+\contentsline {subsubsection}{\numberline {8.29.3.5}LOWER\_\discretionary {-}{}{}BOUND}{164}{subsubsection.8.29.3.5}
+\contentsline {subsubsection}{\numberline {8.29.3.6}NUM\_\discretionary {-}{}{}BANDS}{165}{subsubsection.8.29.3.6}
+\contentsline {subsubsection}{\numberline {8.29.3.7}OFFSET}{165}{subsubsection.8.29.3.7}
+\contentsline {subsubsection}{\numberline {8.29.3.8}SLOPE}{165}{subsubsection.8.29.3.8}
+\contentsline {subsubsection}{\numberline {8.29.3.9}UPPER\_\discretionary {-}{}{}BOUND}{165}{subsubsection.8.29.3.9}
+\contentsline {section}{\numberline {8.30}Loudness::Critical\discretionary {-}{}{}Band Class Reference}{166}{section.8.30}
+\contentsline {subsection}{\numberline {8.30.1}Detailed Description}{166}{subsection.8.30.1}
+\contentsline {subsection}{\numberline {8.30.2}Constructor \& Destructor Documentation}{166}{subsection.8.30.2}
+\contentsline {subsubsection}{\numberline {8.30.2.1}CriticalBand}{166}{subsubsection.8.30.2.1}
+\contentsline {subsection}{\numberline {8.30.3}Member Function Documentation}{167}{subsection.8.30.3}
+\contentsline {subsubsection}{\numberline {8.30.3.1}getBandGamma}{167}{subsubsection.8.30.3.1}
+\contentsline {subsection}{\numberline {8.30.4}Member Data Documentation}{167}{subsection.8.30.4}
+\contentsline {subsubsection}{\numberline {8.30.4.1}ID\_\discretionary {-}{}{}}{167}{subsubsection.8.30.4.1}
+\contentsline {subsubsection}{\numberline {8.30.4.2}partials\_\discretionary {-}{}{}}{167}{subsubsection.8.30.4.2}
+\contentsline {section}{\numberline {8.31}Loudness::Partial\discretionary {-}{}{}Snapshot Class Reference}{168}{section.8.31}
+\contentsline {subsection}{\numberline {8.31.1}Detailed Description}{168}{subsection.8.31.1}
+\contentsline {subsection}{\numberline {8.31.2}Constructor \& Destructor Documentation}{169}{subsection.8.31.2}
+\contentsline {subsubsection}{\numberline {8.31.2.1}PartialSnapshot}{169}{subsubsection.8.31.2.1}
+\contentsline {subsection}{\numberline {8.31.3}Member Function Documentation}{169}{subsection.8.31.3}
+\contentsline {subsubsection}{\numberline {8.31.3.1}getScalingFactor}{169}{subsubsection.8.31.3.1}
+\contentsline {subsection}{\numberline {8.31.4}Member Data Documentation}{169}{subsection.8.31.4}
+\contentsline {subsubsection}{\numberline {8.31.4.1}amp\_\discretionary {-}{}{}}{169}{subsubsection.8.31.4.1}
+\contentsline {subsubsection}{\numberline {8.31.4.2}freq\_\discretionary {-}{}{}}{170}{subsubsection.8.31.4.2}
+\contentsline {subsubsection}{\numberline {8.31.4.3}ID\_\discretionary {-}{}{}}{170}{subsubsection.8.31.4.3}
+\contentsline {section}{\numberline {8.32}Low\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter Class Reference}{171}{section.8.32}
+\contentsline {subsection}{\numberline {8.32.1}Detailed Description}{173}{subsection.8.32.1}
+\contentsline {subsection}{\numberline {8.32.2}Constructor \& Destructor Documentation}{173}{subsection.8.32.2}
+\contentsline {subsubsection}{\numberline {8.32.2.1}LowPassFilter}{173}{subsubsection.8.32.2.1}
+\contentsline {subsubsection}{\numberline {8.32.2.2}$\sim $LowPassFilter}{173}{subsubsection.8.32.2.2}
+\contentsline {subsection}{\numberline {8.32.3}Member Function Documentation}{174}{subsection.8.32.3}
+\contentsline {subsubsection}{\numberline {8.32.3.1}do\_\discretionary {-}{}{}filter}{174}{subsubsection.8.32.3.1}
+\contentsline {subsubsection}{\numberline {8.32.3.2}reset}{174}{subsubsection.8.32.3.2}
+\contentsline {subsubsection}{\numberline {8.32.3.3}xml\_\discretionary {-}{}{}print}{174}{subsubsection.8.32.3.3}
+\contentsline {subsection}{\numberline {8.32.4}Member Data Documentation}{174}{subsection.8.32.4}
+\contentsline {subsubsection}{\numberline {8.32.4.1}g}{174}{subsubsection.8.32.4.1}
+\contentsline {subsubsection}{\numberline {8.32.4.2}y\_\discretionary {-}{}{}hist}{175}{subsubsection.8.32.4.2}
+\contentsline {section}{\numberline {8.33}LPComb\discretionary {-}{}{}Filter Class Reference}{176}{section.8.33}
+\contentsline {subsection}{\numberline {8.33.1}Detailed Description}{178}{subsection.8.33.1}
+\contentsline {subsection}{\numberline {8.33.2}Constructor \& Destructor Documentation}{178}{subsection.8.33.2}
+\contentsline {subsubsection}{\numberline {8.33.2.1}LPCombFilter}{178}{subsubsection.8.33.2.1}
+\contentsline {subsubsection}{\numberline {8.33.2.2}$\sim $LPCombFilter}{179}{subsubsection.8.33.2.2}
+\contentsline {subsubsection}{\numberline {8.33.2.3}LPCombFilter}{179}{subsubsection.8.33.2.3}
+\contentsline {subsection}{\numberline {8.33.3}Member Function Documentation}{179}{subsection.8.33.3}
+\contentsline {subsubsection}{\numberline {8.33.3.1}do\_\discretionary {-}{}{}filter}{179}{subsubsection.8.33.3.1}
+\contentsline {subsubsection}{\numberline {8.33.3.2}reset}{180}{subsubsection.8.33.3.2}
+\contentsline {subsubsection}{\numberline {8.33.3.3}set\_\discretionary {-}{}{}D}{180}{subsubsection.8.33.3.3}
+\contentsline {subsubsection}{\numberline {8.33.3.4}set\_\discretionary {-}{}{}g}{180}{subsubsection.8.33.3.4}
+\contentsline {subsubsection}{\numberline {8.33.3.5}set\_\discretionary {-}{}{}lpf\_\discretionary {-}{}{}g}{180}{subsubsection.8.33.3.5}
+\contentsline {subsubsection}{\numberline {8.33.3.6}xml\_\discretionary {-}{}{}print}{181}{subsubsection.8.33.3.6}
+\contentsline {subsubsection}{\numberline {8.33.3.7}xml\_\discretionary {-}{}{}read}{181}{subsubsection.8.33.3.7}
+\contentsline {subsection}{\numberline {8.33.4}Member Data Documentation}{181}{subsection.8.33.4}
+\contentsline {subsubsection}{\numberline {8.33.4.1}D}{181}{subsubsection.8.33.4.1}
+\contentsline {subsubsection}{\numberline {8.33.4.2}g}{181}{subsubsection.8.33.4.2}
+\contentsline {subsubsection}{\numberline {8.33.4.3}lpf}{182}{subsubsection.8.33.4.3}
+\contentsline {subsubsection}{\numberline {8.33.4.4}lpf\_\discretionary {-}{}{}g}{182}{subsubsection.8.33.4.4}
+\contentsline {subsubsection}{\numberline {8.33.4.5}x\_\discretionary {-}{}{}hist}{182}{subsubsection.8.33.4.5}
+\contentsline {section}{\numberline {8.34}Multi\discretionary {-}{}{}Pan Class Reference}{183}{section.8.34}
+\contentsline {subsection}{\numberline {8.34.1}Detailed Description}{184}{subsection.8.34.1}
+\contentsline {subsection}{\numberline {8.34.2}Constructor \& Destructor Documentation}{184}{subsection.8.34.2}
+\contentsline {subsubsection}{\numberline {8.34.2.1}MultiPan}{184}{subsubsection.8.34.2.1}
+\contentsline {subsubsection}{\numberline {8.34.2.2}MultiPan}{185}{subsubsection.8.34.2.2}
+\contentsline {subsubsection}{\numberline {8.34.2.3}$\sim $MultiPan}{185}{subsubsection.8.34.2.3}
+\contentsline {subsection}{\numberline {8.34.3}Member Function Documentation}{185}{subsection.8.34.3}
+\contentsline {subsubsection}{\numberline {8.34.3.1}addEntry}{185}{subsubsection.8.34.3.1}
+\contentsline {subsubsection}{\numberline {8.34.3.2}addEntryHelperFn}{186}{subsubsection.8.34.3.2}
+\contentsline {subsubsection}{\numberline {8.34.3.3}addEntryLocation}{186}{subsubsection.8.34.3.3}
+\contentsline {subsubsection}{\numberline {8.34.3.4}clone}{186}{subsubsection.8.34.3.4}
+\contentsline {subsubsection}{\numberline {8.34.3.5}spatialize}{187}{subsubsection.8.34.3.5}
+\contentsline {subsubsection}{\numberline {8.34.3.6}xml\_\discretionary {-}{}{}print}{187}{subsubsection.8.34.3.6}
+\contentsline {subsection}{\numberline {8.34.4}Member Data Documentation}{187}{subsection.8.34.4}
+\contentsline {subsubsection}{\numberline {8.34.4.1}EnvList}{187}{subsubsection.8.34.4.1}
+\contentsline {subsubsection}{\numberline {8.34.4.2}n\_\discretionary {-}{}{}channels}{188}{subsubsection.8.34.4.2}
+\contentsline {subsubsection}{\numberline {8.34.4.3}nPoints}{188}{subsubsection.8.34.4.3}
+\contentsline {subsubsection}{\numberline {8.34.4.4}segCollectionsList}{188}{subsubsection.8.34.4.4}
+\contentsline {subsubsection}{\numberline {8.34.4.5}useEnvDirectly}{188}{subsubsection.8.34.4.5}
+\contentsline {subsubsection}{\numberline {8.34.4.6}xyCollectionsList}{188}{subsubsection.8.34.4.6}
+\contentsline {section}{\numberline {8.35}Multi\discretionary {-}{}{}Track Class Reference}{189}{section.8.35}
+\contentsline {subsection}{\numberline {8.35.1}Detailed Description}{191}{subsection.8.35.1}
+\contentsline {subsection}{\numberline {8.35.2}Constructor \& Destructor Documentation}{191}{subsection.8.35.2}
+\contentsline {subsubsection}{\numberline {8.35.2.1}MultiTrack}{191}{subsubsection.8.35.2.1}
+\contentsline {subsubsection}{\numberline {8.35.2.2}MultiTrack}{191}{subsubsection.8.35.2.2}
+\contentsline {subsubsection}{\numberline {8.35.2.3}MultiTrack}{191}{subsubsection.8.35.2.3}
+\contentsline {subsubsection}{\numberline {8.35.2.4}$\sim $MultiTrack}{192}{subsubsection.8.35.2.4}
+\contentsline {subsection}{\numberline {8.35.3}Member Function Documentation}{192}{subsection.8.35.3}
+\contentsline {subsubsection}{\numberline {8.35.3.1}composite}{192}{subsubsection.8.35.3.1}
+\contentsline {subsubsection}{\numberline {8.35.3.2}operator=}{192}{subsubsection.8.35.3.2}
+\contentsline {section}{\numberline {8.36}Pan Class Reference}{194}{section.8.36}
+\contentsline {subsection}{\numberline {8.36.1}Detailed Description}{195}{subsection.8.36.1}
+\contentsline {subsection}{\numberline {8.36.2}Constructor \& Destructor Documentation}{195}{subsection.8.36.2}
+\contentsline {subsubsection}{\numberline {8.36.2.1}Pan}{195}{subsubsection.8.36.2.1}
+\contentsline {subsection}{\numberline {8.36.3}Member Function Documentation}{195}{subsection.8.36.3}
+\contentsline {subsubsection}{\numberline {8.36.3.1}clone}{195}{subsubsection.8.36.3.1}
+\contentsline {subsubsection}{\numberline {8.36.3.2}set}{196}{subsubsection.8.36.3.2}
+\contentsline {subsubsection}{\numberline {8.36.3.3}spatialize}{196}{subsubsection.8.36.3.3}
+\contentsline {subsubsection}{\numberline {8.36.3.4}xml\_\discretionary {-}{}{}print}{196}{subsubsection.8.36.3.4}
+\contentsline {subsection}{\numberline {8.36.4}Member Data Documentation}{197}{subsection.8.36.4}
+\contentsline {subsubsection}{\numberline {8.36.4.1}panVar\_\discretionary {-}{}{}}{197}{subsubsection.8.36.4.1}
+\contentsline {section}{\numberline {8.37}Parameter\discretionary {-}{}{}Lib$<$ Static\discretionary {-}{}{}T, Dynamic\discretionary {-}{}{}T $>$ Class Template Reference}{198}{section.8.37}
+\contentsline {subsection}{\numberline {8.37.1}Detailed Description}{199}{subsection.8.37.1}
+\contentsline {subsection}{\numberline {8.37.2}Constructor \& Destructor Documentation}{200}{subsection.8.37.2}
+\contentsline {subsubsection}{\numberline {8.37.2.1}ParameterLib}{200}{subsubsection.8.37.2.1}
+\contentsline {subsubsection}{\numberline {8.37.2.2}ParameterLib}{200}{subsubsection.8.37.2.2}
+\contentsline {subsubsection}{\numberline {8.37.2.3}$\sim $ParameterLib}{200}{subsubsection.8.37.2.3}
+\contentsline {subsection}{\numberline {8.37.3}Member Function Documentation}{200}{subsection.8.37.3}
+\contentsline {subsubsection}{\numberline {8.37.3.1}getParam}{200}{subsubsection.8.37.3.1}
+\contentsline {subsubsection}{\numberline {8.37.3.2}getParam}{201}{subsubsection.8.37.3.2}
+\contentsline {subsubsection}{\numberline {8.37.3.3}operator=}{201}{subsubsection.8.37.3.3}
+\contentsline {subsubsection}{\numberline {8.37.3.4}setParam}{201}{subsubsection.8.37.3.4}
+\contentsline {subsubsection}{\numberline {8.37.3.5}setParam}{201}{subsubsection.8.37.3.5}
+\contentsline {subsubsection}{\numberline {8.37.3.6}setParam}{202}{subsubsection.8.37.3.6}
+\contentsline {subsection}{\numberline {8.37.4}Member Data Documentation}{202}{subsection.8.37.4}
+\contentsline {subsubsection}{\numberline {8.37.4.1}dynamicParams\_\discretionary {-}{}{}}{202}{subsubsection.8.37.4.1}
+\contentsline {subsubsection}{\numberline {8.37.4.2}staticParams\_\discretionary {-}{}{}}{202}{subsubsection.8.37.4.2}
+\contentsline {section}{\numberline {8.38}Partial Class Reference}{204}{section.8.38}
+\contentsline {subsection}{\numberline {8.38.1}Detailed Description}{206}{subsection.8.38.1}
+\contentsline {subsection}{\numberline {8.38.2}Constructor \& Destructor Documentation}{206}{subsection.8.38.2}
+\contentsline {subsubsection}{\numberline {8.38.2.1}Partial}{206}{subsubsection.8.38.2.1}
+\contentsline {subsection}{\numberline {8.38.3}Member Function Documentation}{206}{subsection.8.38.3}
+\contentsline {subsubsection}{\numberline {8.38.3.1}auxLoadParam}{206}{subsubsection.8.38.3.1}
+\contentsline {subsubsection}{\numberline {8.38.3.2}getTotalDuration}{207}{subsubsection.8.38.3.2}
+\contentsline {subsubsection}{\numberline {8.38.3.3}pmod}{207}{subsubsection.8.38.3.3}
+\contentsline {subsubsection}{\numberline {8.38.3.4}render}{207}{subsubsection.8.38.3.4}
+\contentsline {subsubsection}{\numberline {8.38.3.5}use\_\discretionary {-}{}{}reverb}{208}{subsubsection.8.38.3.5}
+\contentsline {subsubsection}{\numberline {8.38.3.6}xml\_\discretionary {-}{}{}print}{208}{subsubsection.8.38.3.6}
+\contentsline {subsubsection}{\numberline {8.38.3.7}xml\_\discretionary {-}{}{}read}{209}{subsubsection.8.38.3.7}
+\contentsline {subsection}{\numberline {8.38.4}Member Data Documentation}{209}{subsection.8.38.4}
+\contentsline {subsubsection}{\numberline {8.38.4.1}reverbObj}{209}{subsubsection.8.38.4.1}
+\contentsline {section}{\numberline {8.39}Reverb Class Reference}{210}{section.8.39}
+\contentsline {subsection}{\numberline {8.39.1}Detailed Description}{211}{subsection.8.39.1}
+\contentsline {subsection}{\numberline {8.39.2}Constructor \& Destructor Documentation}{212}{subsection.8.39.2}
+\contentsline {subsubsection}{\numberline {8.39.2.1}Reverb}{212}{subsubsection.8.39.2.1}
+\contentsline {subsubsection}{\numberline {8.39.2.2}Reverb}{212}{subsubsection.8.39.2.2}
+\contentsline {subsubsection}{\numberline {8.39.2.3}Reverb}{213}{subsubsection.8.39.2.3}
+\contentsline {subsubsection}{\numberline {8.39.2.4}Reverb}{213}{subsubsection.8.39.2.4}
+\contentsline {subsubsection}{\numberline {8.39.2.5}$\sim $Reverb}{214}{subsubsection.8.39.2.5}
+\contentsline {subsection}{\numberline {8.39.3}Member Function Documentation}{214}{subsection.8.39.3}
+\contentsline {subsubsection}{\numberline {8.39.3.1}constructAmp}{214}{subsubsection.8.39.3.1}
+\contentsline {subsubsection}{\numberline {8.39.3.2}ConstructorCommon}{215}{subsubsection.8.39.3.2}
+\contentsline {subsubsection}{\numberline {8.39.3.3}do\_\discretionary {-}{}{}reverb}{215}{subsubsection.8.39.3.3}
+\contentsline {subsubsection}{\numberline {8.39.3.4}do\_\discretionary {-}{}{}reverb\_\discretionary {-}{}{}MultiTrack}{216}{subsubsection.8.39.3.4}
+\contentsline {subsubsection}{\numberline {8.39.3.5}do\_\discretionary {-}{}{}reverb\_\discretionary {-}{}{}SoundSample}{216}{subsubsection.8.39.3.5}
+\contentsline {subsubsection}{\numberline {8.39.3.6}do\_\discretionary {-}{}{}reverb\_\discretionary {-}{}{}Track}{216}{subsubsection.8.39.3.6}
+\contentsline {subsubsection}{\numberline {8.39.3.7}getDecay}{217}{subsubsection.8.39.3.7}
+\contentsline {subsubsection}{\numberline {8.39.3.8}reset}{217}{subsubsection.8.39.3.8}
+\contentsline {subsubsection}{\numberline {8.39.3.9}set\_\discretionary {-}{}{}allPassDelay}{217}{subsubsection.8.39.3.9}
+\contentsline {subsubsection}{\numberline {8.39.3.10}set\_\discretionary {-}{}{}decay\_\discretionary {-}{}{}duration}{218}{subsubsection.8.39.3.10}
+\contentsline {subsubsection}{\numberline {8.39.3.11}set\_\discretionary {-}{}{}gainDirect}{218}{subsubsection.8.39.3.11}
+\contentsline {subsubsection}{\numberline {8.39.3.12}set\_\discretionary {-}{}{}gainReverb}{218}{subsubsection.8.39.3.12}
+\contentsline {subsubsection}{\numberline {8.39.3.13}setAllPass}{218}{subsubsection.8.39.3.13}
+\contentsline {subsubsection}{\numberline {8.39.3.14}setLPComb}{219}{subsubsection.8.39.3.14}
+\contentsline {subsubsection}{\numberline {8.39.3.15}xml\_\discretionary {-}{}{}print}{219}{subsubsection.8.39.3.15}
+\contentsline {subsubsection}{\numberline {8.39.3.16}xml\_\discretionary {-}{}{}read}{219}{subsubsection.8.39.3.16}
+\contentsline {subsection}{\numberline {8.39.4}Member Data Documentation}{219}{subsection.8.39.4}
+\contentsline {subsubsection}{\numberline {8.39.4.1}allPassDelay}{219}{subsubsection.8.39.4.1}
+\contentsline {subsubsection}{\numberline {8.39.4.2}apfilter}{220}{subsubsection.8.39.4.2}
+\contentsline {subsubsection}{\numberline {8.39.4.3}decay\_\discretionary {-}{}{}duration}{220}{subsubsection.8.39.4.3}
+\contentsline {subsubsection}{\numberline {8.39.4.4}gainDirect}{220}{subsubsection.8.39.4.4}
+\contentsline {subsubsection}{\numberline {8.39.4.5}gainReverb}{220}{subsubsection.8.39.4.5}
+\contentsline {subsubsection}{\numberline {8.39.4.6}lpcfilter}{220}{subsubsection.8.39.4.6}
+\contentsline {section}{\numberline {8.40}Score Class Reference}{221}{section.8.40}
+\contentsline {subsection}{\numberline {8.40.1}Detailed Description}{223}{subsection.8.40.1}
+\contentsline {subsection}{\numberline {8.40.2}Member Enumeration Documentation}{224}{subsection.8.40.2}
+\contentsline {subsubsection}{\numberline {8.40.2.1}ClippingManagementMode}{224}{subsubsection.8.40.2.1}
+\contentsline {subsection}{\numberline {8.40.3}Constructor \& Destructor Documentation}{224}{subsection.8.40.3}
+\contentsline {subsubsection}{\numberline {8.40.3.1}Score}{224}{subsubsection.8.40.3.1}
+\contentsline {subsection}{\numberline {8.40.4}Member Function Documentation}{224}{subsection.8.40.4}
+\contentsline {subsubsection}{\numberline {8.40.4.1}anticlip}{224}{subsubsection.8.40.4.1}
+\contentsline {subsubsection}{\numberline {8.40.4.2}channelAnticlip}{225}{subsubsection.8.40.4.2}
+\contentsline {subsubsection}{\numberline {8.40.4.3}channelScale}{225}{subsubsection.8.40.4.3}
+\contentsline {subsubsection}{\numberline {8.40.4.4}clip}{225}{subsubsection.8.40.4.4}
+\contentsline {subsubsection}{\numberline {8.40.4.5}getClippingManagementMode}{226}{subsubsection.8.40.4.5}
+\contentsline {subsubsection}{\numberline {8.40.4.6}manageClipping}{226}{subsubsection.8.40.4.6}
+\contentsline {subsubsection}{\numberline {8.40.4.7}render}{226}{subsubsection.8.40.4.7}
+\contentsline {subsubsection}{\numberline {8.40.4.8}render}{227}{subsubsection.8.40.4.8}
+\contentsline {subsubsection}{\numberline {8.40.4.9}scale}{228}{subsubsection.8.40.4.9}
+\contentsline {subsubsection}{\numberline {8.40.4.10}setClippingManagementMode}{228}{subsubsection.8.40.4.10}
+\contentsline {subsubsection}{\numberline {8.40.4.11}use\_\discretionary {-}{}{}reverb}{228}{subsubsection.8.40.4.11}
+\contentsline {subsubsection}{\numberline {8.40.4.12}xml\_\discretionary {-}{}{}print}{229}{subsubsection.8.40.4.12}
+\contentsline {subsubsection}{\numberline {8.40.4.13}xml\_\discretionary {-}{}{}print}{229}{subsubsection.8.40.4.13}
+\contentsline {subsubsection}{\numberline {8.40.4.14}xml\_\discretionary {-}{}{}print}{229}{subsubsection.8.40.4.14}
+\contentsline {subsubsection}{\numberline {8.40.4.15}xml\_\discretionary {-}{}{}read}{229}{subsubsection.8.40.4.15}
+\contentsline {subsection}{\numberline {8.40.5}Member Data Documentation}{229}{subsection.8.40.5}
+\contentsline {subsubsection}{\numberline {8.40.5.1}cmm\_\discretionary {-}{}{}}{229}{subsubsection.8.40.5.1}
+\contentsline {subsubsection}{\numberline {8.40.5.2}dvHash}{230}{subsubsection.8.40.5.2}
+\contentsline {subsubsection}{\numberline {8.40.5.3}reverbHash}{230}{subsubsection.8.40.5.3}
+\contentsline {subsubsection}{\numberline {8.40.5.4}reverbObj}{230}{subsubsection.8.40.5.4}
+\contentsline {section}{\numberline {8.41}Sound Class Reference}{231}{section.8.41}
+\contentsline {subsection}{\numberline {8.41.1}Detailed Description}{233}{subsection.8.41.1}
+\contentsline {subsection}{\numberline {8.41.2}Constructor \& Destructor Documentation}{233}{subsection.8.41.2}
+\contentsline {subsubsection}{\numberline {8.41.2.1}Sound}{233}{subsubsection.8.41.2.1}
+\contentsline {subsubsection}{\numberline {8.41.2.2}Sound}{233}{subsubsection.8.41.2.2}
+\contentsline {subsection}{\numberline {8.41.3}Member Function Documentation}{234}{subsection.8.41.3}
+\contentsline {subsubsection}{\numberline {8.41.3.1}getPartialParamEnv}{234}{subsubsection.8.41.3.1}
+\contentsline {subsubsection}{\numberline {8.41.3.2}getTotalDuration}{234}{subsubsection.8.41.3.2}
+\contentsline {subsubsection}{\numberline {8.41.3.3}render}{234}{subsubsection.8.41.3.3}
+\contentsline {subsubsection}{\numberline {8.41.3.4}setPartialParam}{235}{subsubsection.8.41.3.4}
+\contentsline {subsubsection}{\numberline {8.41.3.5}setPartialParam}{235}{subsubsection.8.41.3.5}
+\contentsline {subsubsection}{\numberline {8.41.3.6}setPartialParam}{236}{subsubsection.8.41.3.6}
+\contentsline {subsubsection}{\numberline {8.41.3.7}setSpatializer}{236}{subsubsection.8.41.3.7}
+\contentsline {subsubsection}{\numberline {8.41.3.8}setup\_\discretionary {-}{}{}detuning\_\discretionary {-}{}{}env}{236}{subsubsection.8.41.3.8}
+\contentsline {subsubsection}{\numberline {8.41.3.9}use\_\discretionary {-}{}{}reverb}{237}{subsubsection.8.41.3.9}
+\contentsline {subsubsection}{\numberline {8.41.3.10}xml\_\discretionary {-}{}{}print}{237}{subsubsection.8.41.3.10}
+\contentsline {subsubsection}{\numberline {8.41.3.11}xml\_\discretionary {-}{}{}read}{237}{subsubsection.8.41.3.11}
+\contentsline {subsection}{\numberline {8.41.4}Member Data Documentation}{238}{subsection.8.41.4}
+\contentsline {subsubsection}{\numberline {8.41.4.1}reverbObj}{238}{subsubsection.8.41.4.1}
+\contentsline {subsubsection}{\numberline {8.41.4.2}spatializer\_\discretionary {-}{}{}}{238}{subsubsection.8.41.4.2}
+\contentsline {section}{\numberline {8.42}Sound\discretionary {-}{}{}Sample Class Reference}{239}{section.8.42}
+\contentsline {subsection}{\numberline {8.42.1}Detailed Description}{240}{subsection.8.42.1}
+\contentsline {subsection}{\numberline {8.42.2}Constructor \& Destructor Documentation}{240}{subsection.8.42.2}
+\contentsline {subsubsection}{\numberline {8.42.2.1}SoundSample}{240}{subsubsection.8.42.2.1}
+\contentsline {subsubsection}{\numberline {8.42.2.2}SoundSample}{240}{subsubsection.8.42.2.2}
+\contentsline {subsubsection}{\numberline {8.42.2.3}$\sim $SoundSample}{240}{subsubsection.8.42.2.3}
+\contentsline {subsection}{\numberline {8.42.3}Member Function Documentation}{241}{subsection.8.42.3}
+\contentsline {subsubsection}{\numberline {8.42.3.1}composite}{241}{subsubsection.8.42.3.1}
+\contentsline {subsubsection}{\numberline {8.42.3.2}getSampleCount}{241}{subsubsection.8.42.3.2}
+\contentsline {subsubsection}{\numberline {8.42.3.3}getSamplingRate}{241}{subsubsection.8.42.3.3}
+\contentsline {subsubsection}{\numberline {8.42.3.4}operator=}{242}{subsubsection.8.42.3.4}
+\contentsline {subsubsection}{\numberline {8.42.3.5}operator[}{242}{subsubsection.8.42.3.5}
+\contentsline {subsubsection}{\numberline {8.42.3.6}scale}{242}{subsubsection.8.42.3.6}
+\contentsline {subsubsection}{\numberline {8.42.3.7}setSamplingRate}{242}{subsubsection.8.42.3.7}
+\contentsline {subsection}{\numberline {8.42.4}Member Data Documentation}{243}{subsection.8.42.4}
+\contentsline {subsubsection}{\numberline {8.42.4.1}data\_\discretionary {-}{}{}}{243}{subsubsection.8.42.4.1}
+\contentsline {subsubsection}{\numberline {8.42.4.2}samplingRate\_\discretionary {-}{}{}}{243}{subsubsection.8.42.4.2}
+\contentsline {section}{\numberline {8.43}Spatializer Class Reference}{244}{section.8.43}
+\contentsline {subsection}{\numberline {8.43.1}Detailed Description}{244}{subsection.8.43.1}
+\contentsline {subsection}{\numberline {8.43.2}Member Function Documentation}{245}{subsection.8.43.2}
+\contentsline {subsubsection}{\numberline {8.43.2.1}clone}{245}{subsubsection.8.43.2.1}
+\contentsline {subsubsection}{\numberline {8.43.2.2}spatialize}{245}{subsubsection.8.43.2.2}
+\contentsline {subsubsection}{\numberline {8.43.2.3}xml\_\discretionary {-}{}{}print}{245}{subsubsection.8.43.2.3}
+\contentsline {section}{\numberline {8.44}threadlist\_\discretionary {-}{}{}entry Struct Reference}{246}{section.8.44}
+\contentsline {subsection}{\numberline {8.44.1}Member Data Documentation}{246}{subsection.8.44.1}
+\contentsline {subsubsection}{\numberline {8.44.1.1}done}{246}{subsubsection.8.44.1.1}
+\contentsline {subsubsection}{\numberline {8.44.1.2}finishCondition}{247}{subsubsection.8.44.1.2}
+\contentsline {subsubsection}{\numberline {8.44.1.3}listMutex}{247}{subsubsection.8.44.1.3}
+\contentsline {subsubsection}{\numberline {8.44.1.4}numChannels}{247}{subsubsection.8.44.1.4}
+\contentsline {subsubsection}{\numberline {8.44.1.5}resultTrack}{247}{subsubsection.8.44.1.5}
+\contentsline {subsubsection}{\numberline {8.44.1.6}samplingRate}{247}{subsubsection.8.44.1.6}
+\contentsline {subsubsection}{\numberline {8.44.1.7}snd}{247}{subsubsection.8.44.1.7}
+\contentsline {subsubsection}{\numberline {8.44.1.8}thread}{247}{subsubsection.8.44.1.8}
+\contentsline {section}{\numberline {8.45}Track Class Reference}{248}{section.8.45}
+\contentsline {subsection}{\numberline {8.45.1}Detailed Description}{249}{subsection.8.45.1}
+\contentsline {subsection}{\numberline {8.45.2}Constructor \& Destructor Documentation}{249}{subsection.8.45.2}
+\contentsline {subsubsection}{\numberline {8.45.2.1}Track}{249}{subsubsection.8.45.2.1}
+\contentsline {subsubsection}{\numberline {8.45.2.2}Track}{249}{subsubsection.8.45.2.2}
+\contentsline {subsubsection}{\numberline {8.45.2.3}Track}{250}{subsubsection.8.45.2.3}
+\contentsline {subsubsection}{\numberline {8.45.2.4}$\sim $Track}{250}{subsubsection.8.45.2.4}
+\contentsline {subsection}{\numberline {8.45.3}Member Function Documentation}{250}{subsection.8.45.3}
+\contentsline {subsubsection}{\numberline {8.45.3.1}composite}{250}{subsubsection.8.45.3.1}
+\contentsline {subsubsection}{\numberline {8.45.3.2}getAmp}{250}{subsubsection.8.45.3.2}
+\contentsline {subsubsection}{\numberline {8.45.3.3}getWave}{251}{subsubsection.8.45.3.3}
+\contentsline {subsubsection}{\numberline {8.45.3.4}hasAmp}{251}{subsubsection.8.45.3.4}
+\contentsline {subsubsection}{\numberline {8.45.3.5}operator=}{251}{subsubsection.8.45.3.5}
+\contentsline {subsubsection}{\numberline {8.45.3.6}scale}{252}{subsubsection.8.45.3.6}
+\contentsline {subsection}{\numberline {8.45.4}Member Data Documentation}{252}{subsection.8.45.4}
+\contentsline {subsubsection}{\numberline {8.45.4.1}amp\_\discretionary {-}{}{}}{252}{subsubsection.8.45.4.1}
+\contentsline {subsubsection}{\numberline {8.45.4.2}wave\_\discretionary {-}{}{}}{252}{subsubsection.8.45.4.2}
+\contentsline {section}{\numberline {8.46}Xml\discretionary {-}{}{}Reader Class Reference}{253}{section.8.46}
+\contentsline {subsection}{\numberline {8.46.1}Constructor \& Destructor Documentation}{254}{subsection.8.46.1}
+\contentsline {subsubsection}{\numberline {8.46.1.1}XmlReader}{254}{subsubsection.8.46.1.1}
+\contentsline {subsubsection}{\numberline {8.46.1.2}$\sim $XmlReader}{254}{subsubsection.8.46.1.2}
+\contentsline {subsection}{\numberline {8.46.2}Member Function Documentation}{254}{subsection.8.46.2}
+\contentsline {subsubsection}{\numberline {8.46.2.1}closeFile}{254}{subsubsection.8.46.2.1}
+\contentsline {subsubsection}{\numberline {8.46.2.2}dewhitespace}{254}{subsubsection.8.46.2.2}
+\contentsline {subsubsection}{\numberline {8.46.2.3}fillTagBuffer}{254}{subsubsection.8.46.2.3}
+\contentsline {subsubsection}{\numberline {8.46.2.4}openFile}{255}{subsubsection.8.46.2.4}
+\contentsline {subsubsection}{\numberline {8.46.2.5}readTag}{255}{subsubsection.8.46.2.5}
+\contentsline {subsubsection}{\numberline {8.46.2.6}readXMLDocument}{255}{subsubsection.8.46.2.6}
+\contentsline {subsubsection}{\numberline {8.46.2.7}readXMLDocument}{255}{subsubsection.8.46.2.7}
+\contentsline {subsection}{\numberline {8.46.3}Member Data Documentation}{255}{subsection.8.46.3}
+\contentsline {subsubsection}{\numberline {8.46.3.1}fp}{255}{subsubsection.8.46.3.1}
+\contentsline {subsubsection}{\numberline {8.46.3.2}inputbuffer}{255}{subsubsection.8.46.3.2}
+\contentsline {subsubsection}{\numberline {8.46.3.3}nibuf}{256}{subsubsection.8.46.3.3}
+\contentsline {subsubsection}{\numberline {8.46.3.4}tagbuffer}{256}{subsubsection.8.46.3.4}
+\contentsline {section}{\numberline {8.47}Xml\discretionary {-}{}{}Reader::tagparam Class Reference}{257}{section.8.47}
+\contentsline {subsection}{\numberline {8.47.1}Detailed Description}{257}{subsection.8.47.1}
+\contentsline {subsection}{\numberline {8.47.2}Constructor \& Destructor Documentation}{258}{subsection.8.47.2}
+\contentsline {subsubsection}{\numberline {8.47.2.1}tagparam}{258}{subsubsection.8.47.2.1}
+\contentsline {subsubsection}{\numberline {8.47.2.2}$\sim $tagparam}{258}{subsubsection.8.47.2.2}
+\contentsline {subsection}{\numberline {8.47.3}Friends And Related Function Documentation}{258}{subsection.8.47.3}
+\contentsline {subsubsection}{\numberline {8.47.3.1}XmlReader}{258}{subsubsection.8.47.3.1}
+\contentsline {subsection}{\numberline {8.47.4}Member Data Documentation}{258}{subsection.8.47.4}
+\contentsline {subsubsection}{\numberline {8.47.4.1}name}{258}{subsubsection.8.47.4.1}
+\contentsline {subsubsection}{\numberline {8.47.4.2}next}{258}{subsubsection.8.47.4.2}
+\contentsline {subsubsection}{\numberline {8.47.4.3}value}{258}{subsubsection.8.47.4.3}
+\contentsline {section}{\numberline {8.48}Xml\discretionary {-}{}{}Reader::xmltag Class Reference}{260}{section.8.48}
+\contentsline {subsection}{\numberline {8.48.1}Detailed Description}{261}{subsection.8.48.1}
+\contentsline {subsection}{\numberline {8.48.2}Constructor \& Destructor Documentation}{261}{subsection.8.48.2}
+\contentsline {subsubsection}{\numberline {8.48.2.1}xmltag}{261}{subsubsection.8.48.2.1}
+\contentsline {subsubsection}{\numberline {8.48.2.2}$\sim $xmltag}{261}{subsubsection.8.48.2.2}
+\contentsline {subsection}{\numberline {8.48.3}Member Function Documentation}{261}{subsection.8.48.3}
+\contentsline {subsubsection}{\numberline {8.48.3.1}destroyTag}{261}{subsubsection.8.48.3.1}
+\contentsline {subsubsection}{\numberline {8.48.3.2}findChildParamValue}{262}{subsubsection.8.48.3.2}
+\contentsline {subsubsection}{\numberline {8.48.3.3}findParam}{262}{subsubsection.8.48.3.3}
+\contentsline {subsubsection}{\numberline {8.48.3.4}getParamValue}{262}{subsubsection.8.48.3.4}
+\contentsline {subsubsection}{\numberline {8.48.3.5}isParamDefined}{262}{subsubsection.8.48.3.5}
+\contentsline {subsubsection}{\numberline {8.48.3.6}setName}{263}{subsubsection.8.48.3.6}
+\contentsline {subsection}{\numberline {8.48.4}Friends And Related Function Documentation}{263}{subsection.8.48.4}
+\contentsline {subsubsection}{\numberline {8.48.4.1}XmlReader}{263}{subsubsection.8.48.4.1}
+\contentsline {subsection}{\numberline {8.48.5}Member Data Documentation}{263}{subsection.8.48.5}
+\contentsline {subsubsection}{\numberline {8.48.5.1}children}{263}{subsubsection.8.48.5.1}
+\contentsline {subsubsection}{\numberline {8.48.5.2}isClosing}{263}{subsubsection.8.48.5.2}
+\contentsline {subsubsection}{\numberline {8.48.5.3}name}{263}{subsubsection.8.48.5.3}
+\contentsline {subsubsection}{\numberline {8.48.5.4}params}{263}{subsubsection.8.48.5.4}
+\contentsline {section}{\numberline {8.49}Xml\discretionary {-}{}{}Reader::xmltagset Class Reference}{265}{section.8.49}
+\contentsline {subsection}{\numberline {8.49.1}Constructor \& Destructor Documentation}{266}{subsection.8.49.1}
+\contentsline {subsubsection}{\numberline {8.49.1.1}xmltagset}{266}{subsubsection.8.49.1.1}
+\contentsline {subsubsection}{\numberline {8.49.1.2}$\sim $xmltagset}{266}{subsubsection.8.49.1.2}
+\contentsline {subsection}{\numberline {8.49.2}Member Function Documentation}{266}{subsection.8.49.2}
+\contentsline {subsubsection}{\numberline {8.49.2.1}add}{266}{subsubsection.8.49.2.1}
+\contentsline {subsubsection}{\numberline {8.49.2.2}auxfind}{266}{subsubsection.8.49.2.2}
+\contentsline {subsubsection}{\numberline {8.49.2.3}find}{267}{subsubsection.8.49.2.3}
+\contentsline {subsection}{\numberline {8.49.3}Friends And Related Function Documentation}{267}{subsection.8.49.3}
+\contentsline {subsubsection}{\numberline {8.49.3.1}XmlReader}{267}{subsubsection.8.49.3.1}
+\contentsline {subsection}{\numberline {8.49.4}Member Data Documentation}{267}{subsection.8.49.4}
+\contentsline {subsubsection}{\numberline {8.49.4.1}curSearch}{267}{subsubsection.8.49.4.1}
+\contentsline {subsubsection}{\numberline {8.49.4.2}next}{267}{subsubsection.8.49.4.2}
+\contentsline {subsubsection}{\numberline {8.49.4.3}searchName}{267}{subsubsection.8.49.4.3}
+\contentsline {subsubsection}{\numberline {8.49.4.4}tag}{267}{subsubsection.8.49.4.4}
+\contentsline {section}{\numberline {8.50}xy\_\discretionary {-}{}{}point Struct Reference}{268}{section.8.50}
+\contentsline {subsection}{\numberline {8.50.1}Detailed Description}{268}{subsection.8.50.1}
+\contentsline {subsection}{\numberline {8.50.2}Member Data Documentation}{268}{subsection.8.50.2}
+\contentsline {subsubsection}{\numberline {8.50.2.1}x}{268}{subsubsection.8.50.2.1}
+\contentsline {subsubsection}{\numberline {8.50.2.2}y}{269}{subsubsection.8.50.2.2}
+\contentsline {chapter}{\numberline {9}LASS File Documentation}{271}{chapter.9}
+\contentsline {section}{\numberline {9.1}Abstract\discretionary {-}{}{}Iterator.h File Reference}{271}{section.9.1}
+\contentsline {section}{\numberline {9.2}All\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter.cpp File Reference}{272}{section.9.2}
+\contentsline {section}{\numberline {9.3}All\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter.h File Reference}{273}{section.9.3}
+\contentsline {section}{\numberline {9.4}Au\discretionary {-}{}{}Writer.cpp File Reference}{275}{section.9.4}
+\contentsline {section}{\numberline {9.5}Au\discretionary {-}{}{}Writer.h File Reference}{276}{section.9.5}
+\contentsline {section}{\numberline {9.6}Collection.cpp File Reference}{277}{section.9.6}
+\contentsline {section}{\numberline {9.7}Collection.h File Reference}{278}{section.9.7}
+\contentsline {section}{\numberline {9.8}Constant.cpp File Reference}{279}{section.9.8}
+\contentsline {section}{\numberline {9.9}Constant.h File Reference}{280}{section.9.9}
+\contentsline {section}{\numberline {9.10}Dynamic\discretionary {-}{}{}Variable.cpp File Reference}{282}{section.9.10}
+\contentsline {section}{\numberline {9.11}Dynamic\discretionary {-}{}{}Variable.h File Reference}{283}{section.9.11}
+\contentsline {section}{\numberline {9.12}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence.cpp File Reference}{284}{section.9.12}
+\contentsline {section}{\numberline {9.13}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence.h File Reference}{285}{section.9.13}
+\contentsline {section}{\numberline {9.14}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence\discretionary {-}{}{}Iterator.cpp File Reference}{286}{section.9.14}
+\contentsline {section}{\numberline {9.15}Dynamic\discretionary {-}{}{}Variable\discretionary {-}{}{}Sequence\discretionary {-}{}{}Iterator.h File Reference}{287}{section.9.15}
+\contentsline {section}{\numberline {9.16}Envelope.cpp File Reference}{288}{section.9.16}
+\contentsline {section}{\numberline {9.17}Envelope.h File Reference}{289}{section.9.17}
+\contentsline {section}{\numberline {9.18}Envelope\discretionary {-}{}{}Iterator.cpp File Reference}{291}{section.9.18}
+\contentsline {section}{\numberline {9.19}Envelope\discretionary {-}{}{}Iterator.h File Reference}{292}{section.9.19}
+\contentsline {section}{\numberline {9.20}Envelope\discretionary {-}{}{}Library.cpp File Reference}{293}{section.9.20}
+\contentsline {section}{\numberline {9.21}Envelope\discretionary {-}{}{}Library.h File Reference}{294}{section.9.21}
+\contentsline {section}{\numberline {9.22}extra-docs.txt File Reference}{295}{section.9.22}
+\contentsline {subsection}{\numberline {9.22.1}Detailed Description}{295}{subsection.9.22.1}
+\contentsline {section}{\numberline {9.23}Filter.cpp File Reference}{296}{section.9.23}
+\contentsline {section}{\numberline {9.24}Filter.h File Reference}{297}{section.9.24}
+\contentsline {section}{\numberline {9.25}Interpolator.cpp File Reference}{299}{section.9.25}
+\contentsline {section}{\numberline {9.26}Interpolator.h File Reference}{300}{section.9.26}
+\contentsline {section}{\numberline {9.27}Interpolator\discretionary {-}{}{}Iterator.cpp File Reference}{301}{section.9.27}
+\contentsline {section}{\numberline {9.28}Interpolator\discretionary {-}{}{}Iterator.h File Reference}{302}{section.9.28}
+\contentsline {section}{\numberline {9.29}Interpolator\discretionary {-}{}{}Types.cpp File Reference}{303}{section.9.29}
+\contentsline {section}{\numberline {9.30}Interpolator\discretionary {-}{}{}Types.h File Reference}{304}{section.9.30}
+\contentsline {section}{\numberline {9.31}Iterator.h File Reference}{306}{section.9.31}
+\contentsline {section}{\numberline {9.32}lib.h File Reference}{307}{section.9.32}
+\contentsline {section}{\numberline {9.33}Loudness.cpp File Reference}{309}{section.9.33}
+\contentsline {section}{\numberline {9.34}Loudness.h File Reference}{310}{section.9.34}
+\contentsline {section}{\numberline {9.35}Low\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter.cpp File Reference}{311}{section.9.35}
+\contentsline {section}{\numberline {9.36}Low\discretionary {-}{}{}Pass\discretionary {-}{}{}Filter.h File Reference}{312}{section.9.36}
+\contentsline {section}{\numberline {9.37}LPComb\discretionary {-}{}{}Filter.cpp File Reference}{314}{section.9.37}
+\contentsline {section}{\numberline {9.38}LPComb\discretionary {-}{}{}Filter.h File Reference}{315}{section.9.38}
+\contentsline {section}{\numberline {9.39}Multi\discretionary {-}{}{}Pan.cpp File Reference}{317}{section.9.39}
+\contentsline {subsection}{\numberline {9.39.1}Define Documentation}{317}{subsection.9.39.1}
+\contentsline {subsubsection}{\numberline {9.39.1.1}JBL\_\discretionary {-}{}{}SQRD}{317}{subsubsection.9.39.1.1}
+\contentsline {section}{\numberline {9.40}Multi\discretionary {-}{}{}Pan.h File Reference}{318}{section.9.40}
+\contentsline {section}{\numberline {9.41}Multi\discretionary {-}{}{}Track.cpp File Reference}{319}{section.9.41}
+\contentsline {section}{\numberline {9.42}Multi\discretionary {-}{}{}Track.h File Reference}{320}{section.9.42}
+\contentsline {section}{\numberline {9.43}Pan.cpp File Reference}{321}{section.9.43}
+\contentsline {section}{\numberline {9.44}Pan.h File Reference}{322}{section.9.44}
+\contentsline {section}{\numberline {9.45}Parameter\discretionary {-}{}{}Lib.cpp File Reference}{323}{section.9.45}
+\contentsline {section}{\numberline {9.46}Parameter\discretionary {-}{}{}Lib.h File Reference}{324}{section.9.46}
+\contentsline {section}{\numberline {9.47}Partial.cpp File Reference}{326}{section.9.47}
+\contentsline {section}{\numberline {9.48}Partial.h File Reference}{327}{section.9.48}
+\contentsline {subsection}{\numberline {9.48.1}Detailed Description}{328}{subsection.9.48.1}
+\contentsline {subsection}{\numberline {9.48.2}Enumeration Type Documentation}{328}{subsection.9.48.2}
+\contentsline {subsubsection}{\numberline {9.48.2.1}PartialDynamicParam}{328}{subsubsection.9.48.2.1}
+\contentsline {subsubsection}{\numberline {9.48.2.2}PartialStaticParam}{331}{subsubsection.9.48.2.2}
+\contentsline {section}{\numberline {9.49}Reverb.cpp File Reference}{332}{section.9.49}
+\contentsline {subsection}{\numberline {9.49.1}Define Documentation}{332}{subsection.9.49.1}
+\contentsline {subsubsection}{\numberline {9.49.1.1}max}{332}{subsubsection.9.49.1.1}
+\contentsline {section}{\numberline {9.50}Reverb.h File Reference}{333}{section.9.50}
+\contentsline {subsection}{\numberline {9.50.1}Define Documentation}{334}{subsection.9.50.1}
+\contentsline {subsubsection}{\numberline {9.50.1.1}REVERB\_\discretionary {-}{}{}NUM\_\discretionary {-}{}{}COMB\_\discretionary {-}{}{}FILTERS}{334}{subsubsection.9.50.1.1}
+\contentsline {section}{\numberline {9.51}Score.cpp File Reference}{335}{section.9.51}
+\contentsline {subsection}{\numberline {9.51.1}Function Documentation}{335}{subsection.9.51.1}
+\contentsline {subsubsection}{\numberline {9.51.1.1}multithreaded\_\discretionary {-}{}{}render\_\discretionary {-}{}{}worker}{335}{subsubsection.9.51.1.1}
+\contentsline {section}{\numberline {9.52}Score.h File Reference}{336}{section.9.52}
+\contentsline {section}{\numberline {9.53}Sound.cpp File Reference}{337}{section.9.53}
+\contentsline {section}{\numberline {9.54}Sound.h File Reference}{338}{section.9.54}
+\contentsline {subsection}{\numberline {9.54.1}Detailed Description}{339}{subsection.9.54.1}
+\contentsline {subsection}{\numberline {9.54.2}Enumeration Type Documentation}{339}{subsection.9.54.2}
+\contentsline {subsubsection}{\numberline {9.54.2.1}SoundDynamicParam}{339}{subsubsection.9.54.2.1}
+\contentsline {subsubsection}{\numberline {9.54.2.2}SoundStaticParam}{340}{subsubsection.9.54.2.2}
+\contentsline {section}{\numberline {9.55}Sound\discretionary {-}{}{}Sample.cpp File Reference}{341}{section.9.55}
+\contentsline {subsection}{\numberline {9.55.1}Define Documentation}{341}{subsection.9.55.1}
+\contentsline {subsubsection}{\numberline {9.55.1.1}MIN\_\discretionary {-}{}{}CLIP\_\discretionary {-}{}{}WARNING}{341}{subsubsection.9.55.1.1}
+\contentsline {section}{\numberline {9.56}Sound\discretionary {-}{}{}Sample.h File Reference}{342}{section.9.56}
+\contentsline {section}{\numberline {9.57}Spatializer.cpp File Reference}{343}{section.9.57}
+\contentsline {section}{\numberline {9.58}Spatializer.h File Reference}{344}{section.9.58}
+\contentsline {section}{\numberline {9.59}Track.cpp File Reference}{345}{section.9.59}
+\contentsline {section}{\numberline {9.60}Track.h File Reference}{346}{section.9.60}
+\contentsline {section}{\numberline {9.61}Types.h File Reference}{347}{section.9.61}
+\contentsline {subsection}{\numberline {9.61.1}Detailed Description}{348}{subsection.9.61.1}
+\contentsline {subsection}{\numberline {9.61.2}Typedef Documentation}{348}{subsection.9.61.2}
+\contentsline {subsubsection}{\numberline {9.61.2.1}m\_\discretionary {-}{}{}rate\_\discretionary {-}{}{}type}{348}{subsubsection.9.61.2.1}
+\contentsline {subsubsection}{\numberline {9.61.2.2}m\_\discretionary {-}{}{}sample\_\discretionary {-}{}{}count\_\discretionary {-}{}{}type}{349}{subsubsection.9.61.2.2}
+\contentsline {subsubsection}{\numberline {9.61.2.3}m\_\discretionary {-}{}{}sample\_\discretionary {-}{}{}type}{349}{subsubsection.9.61.2.3}
+\contentsline {subsubsection}{\numberline {9.61.2.4}m\_\discretionary {-}{}{}time\_\discretionary {-}{}{}type}{349}{subsubsection.9.61.2.4}
+\contentsline {subsubsection}{\numberline {9.61.2.5}m\_\discretionary {-}{}{}value\_\discretionary {-}{}{}type}{350}{subsubsection.9.61.2.5}
+\contentsline {subsection}{\numberline {9.61.3}Enumeration Type Documentation}{350}{subsection.9.61.3}
+\contentsline {subsubsection}{\numberline {9.61.3.1}interpolation\_\discretionary {-}{}{}type}{350}{subsubsection.9.61.3.1}
+\contentsline {subsubsection}{\numberline {9.61.3.2}stretch\_\discretionary {-}{}{}type}{351}{subsubsection.9.61.3.2}
+\contentsline {subsection}{\numberline {9.61.4}Variable Documentation}{351}{subsection.9.61.4}
+\contentsline {subsubsection}{\numberline {9.61.4.1}DEFAULT\_\discretionary {-}{}{}LOUDNESS\_\discretionary {-}{}{}RATE}{351}{subsubsection.9.61.4.1}
+\contentsline {subsubsection}{\numberline {9.61.4.2}DEFAULT\_\discretionary {-}{}{}SAMPLING\_\discretionary {-}{}{}RATE}{351}{subsubsection.9.61.4.2}
+\contentsline {section}{\numberline {9.62}Xml\discretionary {-}{}{}Reader.cpp File Reference}{352}{section.9.62}
+\contentsline {section}{\numberline {9.63}Xml\discretionary {-}{}{}Reader.h File Reference}{353}{section.9.63}
+\contentsline {subsection}{\numberline {9.63.1}Detailed Description}{354}{subsection.9.63.1}
+\contentsline {subsection}{\numberline {9.63.2}Define Documentation}{354}{subsection.9.63.2}
+\contentsline {subsubsection}{\numberline {9.63.2.1}XML\_\discretionary {-}{}{}BUFFER\_\discretionary {-}{}{}SIZE}{354}{subsubsection.9.63.2.1}
+\contentsline {subsubsection}{\numberline {9.63.2.2}XML\_\discretionary {-}{}{}DEBUG}{354}{subsubsection.9.63.2.2}
+\contentsline {chapter}{\numberline {10}LASS Page Documentation}{355}{chapter.10}
+\contentsline {section}{\numberline {10.1}Deprecated List}{355}{section.10.1}
+\contentsline {section}{\numberline {10.2}Todo List}{358}{section.10.2}

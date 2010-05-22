@@ -1,0 +1,2072 @@
+Envelope 1
+0.00    1.00    LINEAR          FLEXIBLE
+1.00    1.00
+Envelope 2
+0.00    0.00    LINEAR          FLEXIBLE
+1.00    1.00
+Envelope  3
+0.00 	1.00    LINEAR		FLEXIBLE	1.00
+1.00    0.00
+Envelope  4
+0.00   	0.50    LINEAR          FLEXIBLE
+1.00    1.00
+Envelope  5
+0.00   	0.25    LINEAR          FLEXIBLE
+1.00    1.00
+Envelope  6
+0.00   	0.10    LINEAR          FLEXIBLE
+1.00    1.00
+Envelope  7                   
+0.00   	1.00    LINEAR          FLEXIBLE
+1.00    0.50
+Envelope  8
+0.00   	1.00    LINEAR          FLEXIBLE
+1.00    0.25
+Envelope  9
+0.00   	1.00    LINEAR          FLEXIBLE
+1.00    0.10
+Envelope  10
+0.00   	0.20    LINEAR          FLEXIBLE
+0.14   	0.23    LINEAR          FLEXIBLE
+0.23   	0.38    LINEAR          FLEXIBLE
+0.38   	0.94    LINEAR          FLEXIBLE
+0.50   	1.00    LINEAR          FLEXIBLE
+0.62    0.94    LINEAR          FLEXIBLE
+0.77    0.38    LINEAR          FLEXIBLE
+0.86    0.23    LINEAR          FLEXIBLE
+1.00	0.20
+Envelope  11
+0.00   	0.38    LINEAR          FLEXIBLE
+0.14   	0.47    LINEAR          FLEXIBLE
+0.23   	0.61    LINEAR          FLEXIBLE
+0.38   	0.94    LINEAR          FLEXIBLE
+0.50   	1.00    LINEAR          FLEXIBLE
+0.62    0.94    LINEAR          FLEXIBLE
+0.77    0.38    LINEAR          FLEXIBLE
+0.86    0.23    LINEAR          FLEXIBLE
+1.00	0.20
+Envelope  12
+0    	0       LINEAR          FLEXIBLE
+0.42250 0       EXPONENTIAL     FLEXIBLE
+0.52300	1       LINEAR          FLEXIBLE
+0.52400 1       EXPONENTIAL     FLEXIBLE
+0.52450 0       LINEAR          FLEXIBLE
+1	0
+Envelope  13
+0	0	LINEAR		FLEXIBLE           0.57050 
+0.57050 0       EXPONENTIAL     FLEXIBLE
+0.57100	1       LINEAR          FLEXIBLE
+0.57200 1       EXPONENTIAL     FLEXIBLE
+0.57250 0       LINEAR          FLEXIBLE
+1	0
+Envelope  14
+6
+0    	0       LINEAR          FLEXIBLE           0.61850 
+0.61850 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.61900	1       LINEAR          FLEXIBLE           0.00100
+0.62000 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.62050 0       LINEAR          FLEXIBLE           0.37950
+1	0
+Envelope  15
+6
+0    	0       LINEAR          FLEXIBLE           0.66550 
+0.66550 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.66600	1       LINEAR          FLEXIBLE           0.00100
+0.66700 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.66750 0       LINEAR          FLEXIBLE           0.33250
+1	0
+Envelope  16
+6
+0    	0       LINEAR          FLEXIBLE           0.71350 
+0.71350 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.71400	1       LINEAR          FLEXIBLE           0.00100
+0.71500 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.71550 0       LINEAR          FLEXIBLE           0.28450    
+1	0
+Envelope  17
+6
+0    	0       LINEAR          FLEXIBLE           0.76050 
+0.76050 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.76100	1       LINEAR          FLEXIBLE           0.00100
+0.76200 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.76250 0       LINEAR          FLEXIBLE           0.23750
+1	0
+Envelope  18
+6
+0    	0       LINEAR          FLEXIBLE           0.80850 
+0.80850 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.80900	1       LINEAR          FLEXIBLE           0.00100
+0.81000 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.81050 0       LINEAR          FLEXIBLE           0.18950
+1	0
+Envelope  19
+6
+0    	0       LINEAR          FLEXIBLE           0.85650 
+0.85650 0       EXPONENTIAL     FLEXIBLE           0.00050
+0.85700	1       LINEAR          FLEXIBLE           0.00100
+0.85800 1       EXPONENTIAL     FLEXIBLE           0.00050
+0.85850 0       LINEAR          FLEXIBLE           0.14150
+1	0
+Envelope 20
+2
+0.00    0.00    LINEAR          FLEXIBLE        1.00
+1.00    0.98
+Envelope  21
+2
+0.00    0.02    LINEAR          FLEXIBLE        1.00
+1.00    1.00    
+Envelope  22
+4
+0    	1       LINEAR          FLEXIBLE           0.01000
+0.01000 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.01100 0       LINEAR          FLEXIBLE           0.98900
+1     	0
+Envelope  23
+6
+0    	0       LINEAR          FLEXIBLE           0.13900 
+0.13900 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.14000	1       LINEAR          FLEXIBLE           0.01000
+0.15000 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.15100 0       LINEAR          FLEXIBLE           0.84900
+1	0
+Envelope  24
+6
+0    	0       LINEAR          FLEXIBLE           0.27900 
+0.27900 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.28000	1       LINEAR          FLEXIBLE           0.01000
+0.29000 1       EXPONENTIAL     FLEXIBLE           0.00150
+0.29100 0       LINEAR          FLEXIBLE           0.70900
+1	0
+Envelope  25
+6
+0    	0       LINEAR          FLEXIBLE           0.42400 
+0.42400 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.42500	1       LINEAR          FLEXIBLE           0.01000
+0.43500 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.43600 0       LINEAR          FLEXIBLE           0.56400
+1	0
+Envelope  26
+6
+0    	0       LINEAR          FLEXIBLE           0.56900 
+0.56900 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.57000	1       LINEAR          FLEXIBLE           0.01000
+0.58000 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.58100 0       LINEAR          FLEXIBLE           0.41900
+1	0
+Envelope  27
+6
+0    	0       LINEAR          FLEXIBLE           0.70900 
+0.70900 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.71000	1       LINEAR          FLEXIBLE           0.01000
+0.72000 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.72100 0       LINEAR          FLEXIBLE           0.27900
+1	0
+Envelope  28
+6
+0    	0       LINEAR          FLEXIBLE           0.84900 
+0.84900 0       EXPONENTIAL     FLEXIBLE           0.00100
+0.85000	1       LINEAR          FLEXIBLE           0.01000
+0.86000 1       EXPONENTIAL     FLEXIBLE           0.00100
+0.86100 0       LINEAR          FLEXIBLE           0.13900
+1	0
+Envelope 29
+2
+0       1       LINEAR          FLEXIBLE       	1.00
+1       1
+Envelope 30
+2
+0       0       LINEAR          FLEXIBLE        1.00
+1       1
+Envelope 31
+5
+0	0	EXPONENTIAL	FLEXIBLE	0.236
+0.236	0.382   LINEAR		FLEXIBLE	0.146
+0.382	1.00	LINEAR		FLEXIBLE	0.236
+0.618	0.382	EXPONENTIAL	FLEXIBLE	0.382
+1.00	0
+Envelope 32
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.09
+0.09    0.24    LINEAR          FLEXIBLE        0.056
+0.146   0.85    SPLINE          FLEXIBLE        0.09
+0.236   1.00    LINEAR          FLEXIBLE        0.09
+0.326   1.00    EXPONENTIAL     FLEXIBLE        0.056
+0.382   0.90    LINEAR          FLEXIBLE        0.09
+0.472   0.93    LINEAR          FLEXIBLE        0.056
+0.528   0.89    SPLINE          FLEXIBLE        0.09
+0.618   0.86    SPLINE          FLEXIBLE        0.09
+0.708   0.92    LINEAR          FLEXIBLE        0.056
+0.764   0.90    SPLINE          FLEXIBLE        0.09
+0.854   0.618   LINEAR          FLEXIBLE        0.056
+0.91    0.35    EXPONENTIAL     FLEXIBLE        0.09
+1.00    0
+Envelope 33
+14
+0.00	0.00	EXPONENTIAL	FLEXIBLE	0.10
+0.10	0.23	LINEAR		FLEXIBLE	0.04
+0.14 	0.84	SPLINE		FLEXIBLE	0.06
+0.20 	1.00	LINEAR		FLEXIBLE	0.10
+0.30 	1.00	EXPONENTIAL	FLEXIBLE	0.09 
+0.39 	0.92	LINEAR		FLEXIBLE	0.06
+0.45 	0.89	LINEAR		FLEXIBLE	0.08 
+0.53 	0.91	SPLINE		FLEXIBLE	0.05
+0.58 	0.93	SPLINE		FLEXIBLE	0.08
+0.66 	0.86	LINEAR		FLEXIBLE	0.09 
+0.75 	0.92	SPLINE		FLEXIBLE	0.08
+0.83 	0.60 	LINEAR		FLEXIBLE	0.07 
+0.90	0.28	EXPONENTIAL	FLEXIBLE	0.10
+1.00	0
+Envelope 34
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.11 
+0.11    0.25    LINEAR          FLEXIBLE        0.032
+0.142   0.80    SPLINE          FLEXIBLE        0.068
+0.21    1.00    LINEAR          FLEXIBLE        0.12 
+0.33    1.00    EXPONENTIAL     FLEXIBLE        0.04 
+0.37    0.80    LINEAR          FLEXIBLE        0.06
+0.43    0.85    LINEAR          FLEXIBLE        0.06 
+0.49    0.82    SPLINE          FLEXIBLE        0.03
+0.52    0.77    SPLINE          FLEXIBLE        0.11
+0.63    0.83    LINEAR          FLEXIBLE        0.07 
+0.70    0.82    SPLINE          FLEXIBLE        0.14
+0.84    0.50    LINEAR          FLEXIBLE        0.04 
+0.88    0.30    EXPONENTIAL     FLEXIBLE        0.12
+1.00    0
+Envelope 35
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.095
+0.095   0.08    LINEAR          FLEXIBLE        0.02
+0.115   0.61    SPLINE          FLEXIBLE        0.11 
+0.225   1.00    LINEAR          FLEXIBLE        0.085
+0.31    1.00    EXPONENTIAL     FLEXIBLE        0.075
+0.385   0.854   LINEAR          FLEXIBLE        0.085
+0.47    0.87    LINEAR          FLEXIBLE        0.06 
+0.53    0.76    SPLINE          FLEXIBLE        0.09
+0.62    0.85    SPLINE          FLEXIBLE        0.07
+0.69    0.91    LINEAR          FLEXIBLE        0.012
+0.708   0.764   SPLINE          FLEXIBLE        0.092
+0.80    0.528   LINEAR          FLEXIBLE        0.09 
+0.89    0.236   EXPONENTIAL     FLEXIBLE        0.11
+1.00    0
+Envelope 36
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.098
+0.098   0.11    LINEAR          FLEXIBLE        0.032
+0.13    0.708   SPLINE          FLEXIBLE        0.075
+0.205   1.00    LINEAR          FLEXIBLE        0.11 
+0.315   1.00    EXPONENTIAL     FLEXIBLE        0.073
+0.388   0.88    LINEAR          FLEXIBLE        0.072
+0.46    0.905   LINEAR          FLEXIBLE        0.055
+0.515   0.70    SPLINE          FLEXIBLE        0.065
+0.58    0.76    SPLINE          FLEXIBLE        0.04
+0.62    0.81    LINEAR          FLEXIBLE        0.114
+0.734   0.528   SPLINE          FLEXIBLE        0.07 
+0.804   0.382   LINEAR          FLEXIBLE        0.032
+0.836   0.146   EXPONENTIAL     FLEXIBLE        0.164
+1.00    0
+Envelope 37
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.236
+0.236   0.708   SPLINE          FLEXIBLE        0.146
+0.382   1.00    LINEAR          FLEXIBLE        0.008
+0.390   0.92    LINEAR          FLEXIBLE        0.08 
+0.47    0.81    SPLINE          FLEXIBLE        0.03 
+0.50    0.83    LINEAR          FLEXIBLE        0.118
+0.618   0.618   SPLINE          FLEXIBLE        0.072
+0.69    0.47    SPLINE          FLEXIBLE        0.08
+0.77    0.32    LINEAR          FLEXIBLE        0.06 
+0.83    0.38    EXPONENTIAL     FLEXIBLE        0.17 
+1.00    0
+Envelope 38
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.156
+0.156   0.20    SPLINE          FLEXIBLE           0.134
+0.29    1.00    LINEAR          FLEXIBLE        0.06 
+0.35    0.98    LINEAR          FLEXIBLE        0.03
+0.38    0.85    SPLINE          FLEXIBLE        0.07
+0.45    0.78    LINEAR          FLEXIBLE        0.059
+0.509   0.80    SPLINE          FLEXIBLE        0.151
+0.66    0.618   SPLINE          FLEXIBLE           0.10
+0.76    0.528   LINEAR          FLEXIBLE           0.08
+0.84    0.382   EXPONENTIAL     FLEXIBLE           0.16
+1.00    0
+Envelope 39
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.23 
+0.23    0.21    SPLINE          FLEXIBLE           0.07 
+0.30    1.00    LINEAR          FLEXIBLE        0.082
+0.382   0.89    LINEAR          FLEXIBLE        0.098
+0.48    0.764   SPLINE          FLEXIBLE        0.07
+0.55    0.69    LINEAR          FLEXIBLE        0.05
+0.60    0.71    SPLINE          FLEXIBLE        0.095
+0.695   0.784   SPLINE          FLEXIBLE           0.135
+0.83    0.528   LINEAR          FLEXIBLE           0.07
+0.90    0.146   EXPONENTIAL     FLEXIBLE           0.10
+1.00    0
+Envelope 40
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.16 
+0.16    0.51    SPLINE          FLEXIBLE           0.168
+0.328   1.00    LINEAR          FLEXIBLE        0.054
+0.382   1.00    LINEAR          FLEXIBLE        0.108
+0.49    0.864   SPLINE          FLEXIBLE        0.04
+0.53    0.69    LINEAR          FLEXIBLE        0.046
+0.576   0.79    SPLINE          FLEXIBLE        0.039
+0.615   0.784   SPLINE          FLEXIBLE           0.215
+0.83    0.528   LINEAR          FLEXIBLE           0.13
+0.96    0.146   EXPONENTIAL     FLEXIBLE           0.04
+1.00    0
+Envelope 41
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.25
+0.25    0.81    SPLINE          FLEXIBLE           0.066
+0.316   1.00    LINEAR          FLEXIBLE        0.016
+0.332   1.00    LINEAR          FLEXIBLE        0.158
+0.49    0.864   SPLINE          FLEXIBLE        0.046
+0.536   0.69    LINEAR          FLEXIBLE        0.04 
+0.576   0.98    SPLINE          FLEXIBLE        0.084
+0.66    0.76    SPLINE          FLEXIBLE           0.07 
+0.73    0.82    LINEAR          FLEXIBLE           0.13
+0.86    0.74    EXPONENTIAL     FLEXIBLE           0.14
+1.00    0
+Envelope 42
+9 
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.376
+0.376   1.00    LINEAR          FLEXIBLE        0.004
+0.38    0.96    SPLINE          FLEXIBLE        0.02  
+0.40    0.864   SPLINE          FLEXIBLE        0.075
+0.475   0.69    LINEAR          FLEXIBLE        0.101 
+0.576   0.98    SPLINE          FLEXIBLE        0.042
+0.618   0.86    SPLINE          FLEXIBLE           0.287
+0.905   0.74    EXPONENTIAL     FLEXIBLE           0.095
+1.00    0
+Envelope 43
+9 
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.385
+0.385   1.00    LINEAR          FLEXIBLE        0.065
+0.45    0.93    SPLINE          FLEXIBLE        0.02 
+0.47    0.87    SPLINE          FLEXIBLE        0.02 
+0.49    0.69    LINEAR          FLEXIBLE        0.07 
+0.56    0.88    SPLINE          FLEXIBLE        0.04 
+0.60    0.85    SPLINE          FLEXIBLE           0.20 
+0.80    0.66    EXPONENTIAL     FLEXIBLE           0.20 
+1.00    0
+Envelope 44
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.378
+0.378   1.00    LINEAR          FLEXIBLE        0.094
+0.472   0.98    SPLINE          FLEXIBLE        0.056
+0.528   0.89    SPLINE          FLEXIBLE        0.062
+0.59    0.69    LINEAR          FLEXIBLE        0.08 
+0.67    0.88    SPLINE          FLEXIBLE        0.038 
+0.708   0.85    SPLINE          FLEXIBLE        0.112
+0.82    0.66    EXPONENTIAL     FLEXIBLE        0.18 
+1.00    0
+Envelope 45
+3
+0.00	0.20	LINEAR		FLEXIBLE	0.382
+0.382	1.00	LINEAR		FLEXIBLE	0.618
+1.00	0.00
+Envelope 46
+5
+0.00	0.70	LINEAR		FLEXIBLE	0.382
+0.382	1.00	LINEAR		FLEXIBLE	0.118
+0.50 	0.90	LINEAR		FLEXIBLE	0.118
+0.618	0.52	LINEAR		FLEXIBLE	0.382
+1.00	0.10
+Envelope 47
+2
+0.00	0.50	LINEAR		FLEXIBLE	1.00
+1.00	1.00
+Envelope 48
+14
+0.0	0.00	EXPONENTIAL	FIXED		0.73
+0.73	0.18	LINEAR		FIXED		0.28
+1.01	0.618	LINEAR		FIXED		0.45
+1.46	0.784	SPLINE		FIXED		0.45
+1.91	1.00	LINEAR		FLEXIBLE	0.28
+2.19	0.78	SPLINE		FLEXIBLE	0.17
+2.36	0.81	LINEAR		FLEXIBLE	0.28
+2.64	0.90	SPLINE		FLEXIBLE	0.17
+2.81	0.83	LINEAR		FLEXIBLE	0.28
+3.09	0.854	EXPONENTIAL	FIXED		0.73 
+3.82	0.708	SPLINE		FIXED		0.45
+4.27	0.48	LINEAR		FIXED		0.28
+4.55	0.15	EXPONENTIAL	FIXED		0.05
+5.00	0.00
+Envelope 49
+14
+0.0     0.00    EXPONENTIAL     FIXED           0.53
+0.53    0.15    LINEAR          FIXED           0.47
+1.00    0.72    LINEAR          FIXED           0.40
+1.40    0.88    SPLINE          FIXED           0.50
+1.95    1.00    LINEAR          FLEXIBLE        0.15
+2.10    0.88    SPLINE          FLEXIBLE        0.23
+2.33    0.91    LINEAR          FLEXIBLE        0.32
+2.65    0.93    SPLINE          FLEXIBLE        0.16
+2.81    0.81    LINEAR          FLEXIBLE        0.38
+3.19    0.854   EXPONENTIAL     FIXED           0.63
+3.82    0.708   SPLINE          FIXED           0.35
+4.17    0.58    LINEAR          FIXED           0.36 
+4.53    0.18    EXPONENTIAL     FIXED           0.47 
+5.00    0.00 
+Envelope 50
+4
+0.00    1.00    LINEAR          FLEXIBLE        0.03	
+0.03    0.20    LINEAR          FLEXIBLE        0.42
+0.45    0.25    LINEAR          FLEXIBLE        0.55
+1.00    1.00
+Envelope 51
+4 
+0.00    0.00    LINEAR          FLEXIBLE	0.15
+0.15    1.00    LINEAR          FLEXIBLE	0.70
+0.85    1.00    LINEAR          FLEXIBLE        0.15
+1.00    0.00
+Envelope 52
+10
+0.00    0.00    LINEAR		FLEXIBLE	0.29
+0.29    0.00    LINEAR          FLEXIBLE	0.01
+0.30    0.62    LINEAR          FLEXIBLE        0.06
+0.36    0.62    LINEAR          FLEXIBLE        0.01
+0.37    0.001   LINEAR          FLEXIBLE        0.38
+0.75    0.001   LINEAR          FLEXIBLE        0.01
+0.76    1.00    LINEAR          FLEXIBLE        0.10
+0.86    1.00    LINEAR          FLEXIBLE        0.01
+0.87    0.00    LINEAR          FLEXIBLE        0.13
+1.00    0.00
+Envelope 53
+21
+0.00    0.85    LINEAR          FLEXIBLE        0.06
+0.06    0.85    LINEAR          FLEXIBLE        0.01
+0.07    0.001   LINEAR          FLEXIBLE        0.09
+0.16    0.001   LINEAR          FLEXIBLE        0.01
+0.17    0.80    LINEAR          FLEXIBLE        0.05
+0.22    0.75    LINEAR          FLEXIBLE        0.01
+0.23    0.33    LINEAR          FLEXIBLE        0.01
+0.24    0.75    LINEAR          FLEXIBLE        0.05
+0.29    0.70    LINEAR          FLEXIBLE        0.01
+0.30    0.001   LINEAR          FLEXIBLE        0.06
+0.36    0.001   LINEAR          FLEXIBLE        0.01
+0.37    0.65    LINEAR          FLEXIBLE        0.19
+0.56    0.62    LINEAR          FLEXIBLE        0.01
+0.57    0.001   LINEAR          FLEXIBLE        0.12
+0.69    0.001   LINEAR          FLEXIBLE        0.01
+0.70    0.70    LINEAR          FLEXIBLE        0.06
+0.76    0.80    LINEAR          FLEXIBLE        0.01
+0.77    0.001   LINEAR          FLEXIBLE        0.09
+0.86    0.001   LINEAR          FLEXIBLE        0.01
+0.87    0.90    LINEAR          FLEXIBLE        0.13
+1.00    1.00
+Envelope 54
+10
+0.00    0.00    LINEAR          FLEXIBLE        0.06
+0.06    0.00    LINEAR          FLEXIBLE        0.01
+0.07    1.00    LINEAR          FLEXIBLE        0.09
+0.16    0.90    LINEAR          FLEXIBLE        0.01
+0.17    0.001   LINEAR          FLEXIBLE        0.39
+0.56    0.001   LINEAR          FLEXIBLE        0.01
+0.57    0.85    LINEAR          FLEXIBLE        0.06
+0.63    0.80    LINEAR          FLEXIBLE        0.01
+0.64    0.00    LINEAR          FLEXIBLE        0.36
+1.00    0.00
+Envelope 55
+10
+0.00    0.00    LINEAR          FLEXIBLE        0.23
+0.23    0.00    LINEAR          FLEXIBLE        0.01
+0.24    1.00    LINEAR          FLEXIBLE        0.05
+0.29    0.90    LINEAR          FLEXIBLE        0.01
+0.30    0.001   LINEAR          FLEXIBLE        0.13
+0.43    0.001   LINEAR          FLEXIBLE        0.01
+0.44    0.66    LINEAR          FLEXIBLE        0.12
+0.56    0.62    LINEAR          FLEXIBLE        0.01
+0.57    0.00    LINEAR          FLEXIBLE        0.43
+1.00    0.00
+Envelope 56
+8
+0.00    1.00    LINEAR          FLEXIBLE        0.03
+0.02    0.25    LINEAR          FLEXIBLE        0.06
+0.09    0.15	LINEAR          FLEXIBLE        0.01
+0.10    0.10	LINEAR          FLEXIBLE        0.25
+0.35   	0.20	LINEAR          FLEXIBLE        0.03
+0.38    0.40	LINEAR          FLEXIBLE        0.39
+0.77    1.00	LINEAR          FLEXIBLE        0.23
+1.00    1.00
+Envelope 57
+8
+0.00    1.00    LINEAR          FLEXIBLE        0.03
+0.03    0.56    LINEAR          FLEXIBLE        0.06
+0.09    0.50	LINEAR          FLEXIBLE        0.01
+0.10    0.20	LINEAR          FLEXIBLE        0.25
+0.35   	0.25	LINEAR          FLEXIBLE        0.03
+0.38    0.75	LINEAR          FLEXIBLE        0.39
+0.77    1.00	LINEAR          FLEXIBLE        0.23
+1.00    0.80
+Envelope 58
+8
+0.00    1.00    LINEAR          FLEXIBLE        0.03
+0.03    0.80    LINEAR          FLEXIBLE        0.06
+0.09    0.30    LINEAR          FLEXIBLE        0.01
+0.10    0.20    LINEAR          FLEXIBLE        0.25
+0.35    0.15    LINEAR          FLEXIBLE        0.03
+0.38    1.00    LINEAR          FLEXIBLE        0.39
+0.77    0.30    LINEAR          FLEXIBLE        0.23
+1.00    0.20    
+Envelope 59
+6 
+0.00    0.62    LINEAR          FLEXIBLE        0.23
+0.23   	0.57    LINEAR          FLEXIBLE        0.10
+0.33   	0.67    LINEAR          FLEXIBLE        0.27
+0.60   	0.54    LINEAR          FLEXIBLE        0.20
+0.80   	0.65    LINEAR          FLEXIBLE        0.20
+1.00    0.55
+Envelope 60
+6
+0.00    0.78    LINEAR          FLEXIBLE        0.23
+0.23    0.74    LINEAR          FLEXIBLE        0.07
+0.30    0.89    LINEAR          FLEXIBLE        0.33
+0.63    0.76    LINEAR          FLEXIBLE        0.22
+0.85    1.00    LINEAR          FLEXIBLE        0.15
+1.00    0.91
+Envelope 61
+3
+0.0	1.00	LINEAR		FLEXIBLE	0.382
+0.382	0.98	LINEAR		FLEXIBLE	0.618
+1.00	0.90
+Envelope 62
+3
+0.00	1.00	LINEAR		FLEXIBLE	0.382
+0.382	0.98	LINEAR		FLEXIBLE	0.618
+1.00	0.75	
+Envelope 63
+3
+0.00	1.00	LINEAR		FLEXIBLE	0.382
+0.382	0.90	LINEAR		FLEXIBLE	0.618
+1.00	0.75	
+Envelope 64
+6
+0.00	0.00	LINEAR		FLEXIBLE	0.68
+0.68 	0.00	EXPONENTIAL	FLEXIBLE	0.004
+0.684   1.00	LINEAR		FLEXIBLE	0.004
+0.688	1.00	EXPONENTIAL	FLEXIBLE	0.004
+0.792	0.00	LINEAR		FLEXIBLE	0.208
+1.00	0.00
+Envelope 65
+3
+0.00	0.20	LINEAR		FLEXIBLE	0.80
+0.80	1.00	LINEAR		FLEXIBLE	0.20
+1.00	0.30
+Envelope 66
+4
+0.00	1.00	LINEAR		FLEXIBLE	0.15
+0.15	0.80	EXPONENTIAL	FLEXIBLE	0.01
+0.16	0.001	LINEAR		FLEXIBLE	0.84
+1.00	0.00
+Envelope 67
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.10
+0.10    0.63    LINEAR          FLEXIBLE        0.04
+0.14    0.84    SPLINE          FLEXIBLE        0.06
+0.20    1.00    LINEAR          FLEXIBLE        0.10
+0.30    0.50   EXPONENTIAL     FLEXIBLE        0.09 
+0.39    0.82    LINEAR          FLEXIBLE        0.06
+0.45    0.39    LINEAR          FLEXIBLE        0.08
+0.53    0.21    SPLINE          FLEXIBLE        0.05
+0.58    0.43    SPLINE          FLEXIBLE        0.08
+0.66    0.86    LINEAR          FLEXIBLE        0.09
+0.75    0.92    SPLINE          FLEXIBLE        0.08
+0.83    0.60    LINEAR          FLEXIBLE        0.07
+0.90    0.28    EXPONENTIAL     FLEXIBLE        0.10
+1.00    0
+Envelope 68
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.11
+0.11    0.25    LINEAR          FLEXIBLE        0.032
+0.142   0.70    SPLINE          FLEXIBLE        0.068
+0.21    0.65    LINEAR          FLEXIBLE        0.12
+0.33    0.58    EXPONENTIAL     FLEXIBLE        0.04
+0.37    0.70    LINEAR          FLEXIBLE        0.06
+0.43    0.45    LINEAR          FLEXIBLE        0.06
+0.49    0.82    SPLINE          FLEXIBLE        0.03
+0.52    1.00    SPLINE          FLEXIBLE        0.11
+0.63    1.00    LINEAR          FLEXIBLE        0.07
+0.70    0.82    SPLINE          FLEXIBLE        0.14
+0.84    0.25    LINEAR          FLEXIBLE        0.04
+0.88    0.60    EXPONENTIAL     FLEXIBLE        0.12
+1.00    0
+Envelope 69
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.095
+0.095   0.08    LINEAR          FLEXIBLE        0.02
+0.115   0.61    SPLINE          FLEXIBLE        0.11
+0.225   0.23    LINEAR          FLEXIBLE        0.085
+0.31    0.34    EXPONENTIAL     FLEXIBLE        0.075
+0.385   0.854   LINEAR          FLEXIBLE        0.085
+0.47    0.87    LINEAR          FLEXIBLE        0.06
+0.53    1.00    SPLINE          FLEXIBLE        0.09
+0.62    1.00    SPLINE          FLEXIBLE        0.07
+0.69    0.91    LINEAR          FLEXIBLE        0.012
+0.708   0.764   SPLINE          FLEXIBLE        0.092
+0.80    0.285   LINEAR          FLEXIBLE        0.09
+0.89    0.362   EXPONENTIAL     FLEXIBLE        0.11
+1.00    0
+Envelope 70
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.098
+0.098   0.11    LINEAR          FLEXIBLE        0.032
+0.13    1.00    SPLINE          FLEXIBLE        0.075
+0.205   1.00    LINEAR          FLEXIBLE        0.11
+0.315   0.40    EXPONENTIAL     FLEXIBLE        0.073
+0.388   0.58    LINEAR          FLEXIBLE        0.072
+0.46    0.10    LINEAR          FLEXIBLE        0.055
+0.515   0.30    SPLINE          FLEXIBLE        0.065
+0.58    0.26    SPLINE          FLEXIBLE        0.04
+0.62    0.81    LINEAR          FLEXIBLE        0.114
+0.734   1.00    SPLINE          FLEXIBLE        0.07
+0.804   0.92    LINEAR          FLEXIBLE        0.032
+0.836   0.146   EXPONENTIAL     FLEXIBLE        0.164
+1.00    0
+Envelope 71
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.236
+0.236   0.708   SPLINE          FLEXIBLE        0.146
+0.382   0.50    LINEAR          FLEXIBLE        0.008
+0.390   0.62    LINEAR          FLEXIBLE        0.08
+0.47    0.31    SPLINE          FLEXIBLE        0.03
+0.50    0.43    LINEAR          FLEXIBLE        0.118
+0.618   1.00    LINEAR          FLEXIBLE        0.072
+0.69    1.00    SPLINE          FLEXIBLE        0.08
+0.77    0.32    LINEAR          FLEXIBLE        0.06
+0.83    0.38    EXPONENTIAL     FLEXIBLE        0.17
+1.00    0.00
+Envelope 72
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.156
+0.156   0.20    SPLINE          FLEXIBLE           0.134
+0.29    1.00    LINEAR          FLEXIBLE           0.06
+0.35    0.98    LINEAR          FLEXIBLE           0.03
+0.38    0.85    SPLINE          FLEXIBLE           0.07
+0.45    1.00    LINEAR          FLEXIBLE           0.059
+0.509   0.80    SPLINE          FLEXIBLE           0.151
+0.66    1.00    SPLINE          FLEXIBLE           0.10
+0.76    0.328   LINEAR          FLEXIBLE           0.08
+0.84    0.582   EXPONENTIAL     FLEXIBLE           0.16
+1.00    0.00
+Envelope 73
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.23
+0.23    0.21    SPLINE          FLEXIBLE           0.07
+0.30    1.00    LINEAR          FLEXIBLE           0.082
+0.382   0.89    LINEAR          FLEXIBLE           0.098
+0.48    1.00    SPLINE          FLEXIBLE           0.07
+0.55    0.79    LINEAR          FLEXIBLE           0.05
+0.60    0.91    SPLINE          FLEXIBLE           0.095
+0.695   1.00    SPLINE          FLEXIBLE           0.135
+0.83    0.528   LINEAR          FLEXIBLE           0.07
+0.90    0.146   EXPONENTIAL     FLEXIBLE           0.10
+1.00    0
+Envelope 74
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.16
+0.16    0.51    SPLINE          FLEXIBLE           0.168
+0.328   0.20    LINEAR          FLEXIBLE           0.054
+0.382   0.34    LINEAR          FLEXIBLE           0.108
+0.49    0.764   SPLINE          FLEXIBLE           0.04
+0.53    0.69    LINEAR          FLEXIBLE           0.046
+0.576   0.89    SPLINE          FLEXIBLE           0.039
+0.615   0.784   SPLINE          FLEXIBLE           0.215
+0.83    1.00    LINEAR          FLEXIBLE           0.13
+0.96    0.346   EXPONENTIAL     FLEXIBLE           0.04
+1.00    0
+Envelope 75
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.25
+0.25    0.81    SPLINE          FLEXIBLE           0.066
+0.316   0.50    LINEAR          FLEXIBLE           0.016
+0.332   0.45    LINEAR          FLEXIBLE           0.158
+0.49    0.864   SPLINE          FLEXIBLE           0.046
+0.536   1.00    LINEAR          FLEXIBLE           0.04
+0.576   1.00    SPLINE          FLEXIBLE           0.084
+0.66    0.76    SPLINE          FLEXIBLE           0.07
+0.73    0.82    LINEAR          FLEXIBLE           0.13
+0.86    0.74    EXPONENTIAL     FLEXIBLE           0.14
+1.00    0
+Envelope 76
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.376
+0.376   0.50    LINEAR          FLEXIBLE        0.004
+0.38    0.55    SPLINE          FLEXIBLE        0.02
+0.40    0.30    SPLINE          FLEXIBLE        0.075
+0.475   0.69    LINEAR          FLEXIBLE        0.101
+0.576   0.98    SPLINE          FLEXIBLE        0.042
+0.618   0.86    SPLINE          FLEXIBLE           0.287
+0.905   1.00    EXPONENTIAL     FLEXIBLE           0.095
+1.00    0
+Envelope 77
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.385
+0.385   1.00    LINEAR          FLEXIBLE        0.065
+0.45    0.93    SPLINE          FLEXIBLE        0.02
+0.47    0.87    SPLINE          FLEXIBLE        0.02
+0.49    0.69    LINEAR          FLEXIBLE        0.07
+0.56    1.00    SPLINE          FLEXIBLE        0.04
+0.60    0.45    SPLINE          FLEXIBLE           0.20
+0.80    1.00    EXPONENTIAL     FLEXIBLE           0.20
+1.00    0
+Envelope 78
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.378
+0.378   1.00    LINEAR          FLEXIBLE        0.094
+0.472   0.28    SPLINE          FLEXIBLE       	0.056
+0.528   0.93    SPLINE          FLEXIBLE        0.062
+0.59    0.59    LINEAR          FLEXIBLE        0.08
+0.67    0.24    SPLINE          FLEXIBLE        0.038
+0.708   0.75    SPLINE          FLEXIBLE        0.112
+0.82    0.66    EXPONENTIAL     FLEXIBLE        0.18
+1.00    0
+Envelope 79
+9
+0.00    0.98    LINEAR          FLEXIBLE        0.05
+0.10    1.00    EXPONENTIAL     FLEXIBLE        0.11
+0.16    0.01    LINEAR          FLEXIBLE        0.12
+0.28	0.11 	SPLINE		FLEXIBLE	0.16
+0.44	0.40	LINEAR		FLEXIBLE	0.15
+0.61	0.25	EXPONENTIAL	FLEXIBLE	0.04
+0.65	0.15 	LINEAR		FLEXIBLE	0.15
+0.80	0.01	EXPONENTIAL	FLEXIBLE	0.20
+1.00	0.00
+Envelope 80
+3
+0.00	0.01	EXPONENTIAL	FLEXIBLE	0.95
+0.95	1.00	EXPONENTIAL	FLEXIBLE	0.05
+1.00	0.95
+Envelope 81
+3
+0.0     0.00    LINEAR          FLEXIBLE        0.382
+0.618   0.02    LINEAR          FLEXIBLE        0.618
+1.00    0.10
+Envelope 82
+3
+0.00    0.00    LINEAR          FLEXIBLE        0.382
+0.618   0.05    LINEAR          FLEXIBLE        0.618
+1.00    0.40
+Envelope 83
+3
+0.00    0.00    LINEAR          FLEXIBLE        0.382
+0.618   0.10    LINEAR          FLEXIBLE        0.618
+1.00    0.25
+Envelope 84
+2
+0.00	0.00	LINEAR		FLEXIBLE	1.00
+1.00	0.06
+Envelope 85
+2
+0.00	0.06	LINEAR		FLEXIBLE	1.00
+1.00	0.11
+Envelope 86
+2
+0.00	0.11	LINEAR		FLEXIBLE	1.00
+1.00	0.13
+Envelope 87
+2
+0.00	0.13	LINEAR		FLEXIBLE	1.00
+1.00	0.25
+Envelope 88
+3
+0.00	1.00	LINEAR		FLEXIBLE	0.382
+0.382	0.95	LINEAR		FLEXIBLE	0.618
+1.00	0.37
+Envelope 89
+2
+0.00	0.60	LINEAR		FLEXIBLE	1.00
+1.00	0.80	
+Envelope 90
+2
+0.00	0.80	LINEAR		FLEXIBLE	1.00
+1.00	0.69
+Envelope 91
+2
+0.00	1.00	LINEAR		FLEXIBLE	1.00
+1.00	1.05946	
+Envelope 92
+2
+0.00	1.00	LINEAR		FLEXIBLE	1.00
+1.00	0.94054
+Envelope 93
+6
+0.00	1.00	LINEAR		FLEXIBLE	0.10
+0.10	1.00	SPLINE		FLEXIBLE	0.30
+0.40	1.02	SPLINE		FLEXIBLE	0.25
+0.65	0.97	SPLINE		FLEXIBLE	0.20
+0.85	1.00	LINEAR		FLEXIBLE	0.15
+1.00	1.00
+Envelope 94
+6
+0.00	1.00	LINEAR		FLEXIBLE	0.15
+0.15	1.00	SPLINE		FLEXIBLE	0.20
+0.35	0.98	SPLINE		FLEXIBLE	0.25
+0.60	1.03	SPLINE		FLEXIBLE	0.30
+0.90	1.00	LINEAR		FLEXIBLE	0.10
+1.00	1.00
+Envelope 95
+4
+0.00	1.00	LINEAR		FIXED		0.10
+0.10	1.00	LINEAR		FLEXIBLE	0.80
+0.90	1.50	LINEAR		FIXED		0.10
+1.00	1.50
+Envelope 96
+4
+0.00	1.00	LINEAR		FIXED		0.10
+0.10	1.00	LINEAR		FLEXIBLE	0.80
+0.90	0.75	LINEAR		FIXED		0.10
+1.00	0.75
+Envelope 97
+5
+0.00	1.00	LINEAR		FLEXIBLE	0.25
+0.25	0.75	LINEAR          FLEXIBLE        0.05
+0.30	1.00	LINEAR          FLEXIBLE        0.45
+0.75	0.66	LINEAR          FLEXIBLE        0.25
+1.00	0.15
+Envelope 98
+3
+0.00	1.00	LINEAR          FLEXIBLE        0.80
+0.80	1.00	LINEAR          FLEXIBLE        0.20
+1.00	0.60
+Envelope 99
+5
+0.00	0.30	LINEAR          FLEXIBLE        0.30
+0.30	0.75	LINEAR          FLEXIBLE        0.20
+0.50	1.00	LINEAR          FLEXIBLE        0.20
+0.70	0.50	LINEAR          FLEXIBLE        0.30
+1.00	0.00
+Wnvelope 100
+6
+0.00	0.00	LINEAR		FLEXIBLE	0.15
+0.15	0.25	LINEAR		FLEXIBLE	0.20
+0.35	0.50	LINEAR		FLEXIBLE	0.45
+0.80	0.70	LINEAR		FLEXIBLE	0.10
+0.90	0.80	LINEAR		FLEXIBLE	0.10
+1.00	1.00
+Envelope 101
+6
+0.00	1.00	LINEAR          FLEXIBLE	0.15
+0.15	1.00	LINEAR		FLEXIBLE	0.10
+0.25	0.75	LINEAR          FLEXIBLE	0.12
+0.37	1.00	LINEAR          FLEXIBLE	0.48
+0.85	0.46	LINEAR          FLEXIBLE	0.15
+1.00	0.00
+Envelope 102
+9
+0.00	0.00	EXPONENTIAL	FLEXIBLE	0.025
+0.025	1.00	LINEAR		FLEXIBLE	0.075
+0.10	0.625	LINEAR		FLEXIBLE	0.10
+0.20	0.375	LINEAR		FLEXIBLE	0.15
+0.35	0.25	LINEAR		FLEXIBLE	0.16  
+0.51  	0.312	LINEAR		FLEXIBLE	0.09
+0.60	0.125	LINEAR		FLEXIBLE	0.153
+0.753	0.18   	EXPONENTIAL	FLEXIBLE	0.247
+1.00	0.00
+Envelope 103
+9
+0.00	0.00	EXPONENTIAL	FLEXIBLE	0.015
+0.015	1.00	LINEAR		FLEXIBLE	0.095
+0.11	0.65 	LINEAR		FLEXIBLE	0.09
+0.20	0.30 	LINEAR		FLEXIBLE	0.17
+0.37	0.28	LINEAR		FLEXIBLE	0.15
+0.52  	0.35 	LINEAR		FLEXIBLE	0.18  
+0.70	0.125	LINEAR		FLEXIBLE	0.08 
+0.78 	0.20   	EXPONENTIAL	FLEXIBLE	0.22 
+1.00	0.00
+Envelope 104
+13
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.03
+0.03    1.00    LINEAR          FLEXIBLE        0.05
+0.08	0.74	LINEAR		FLEXIBLE	0.05
+0.13    0.80    LINEAR          FLEXIBLE        0.02
+0.15	0.625	LINEAR		FLEXIBLE	0.05
+0.20    0.375   LINEAR          FLEXIBLE        0.15
+0.35    0.45    LINEAR          FLEXIBLE        0.12
+0.47	0.28	LINEAR		FLEXIBLE	0.06
+0.53    0.32    LINEAR          FLEXIBLE        0.11
+0.64    0.09    LINEAR          FLEXIBLE        0.08 
+0.72    0.15    LINEAR          FLEXIBLE        0.17 
+0.89	0.21	EXPONENTIAL	FLEXIBLE	0.11
+1.00    0.00
+Envelope 105
+10
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.035
+0.035   0.80    LINEAR          FLEXIBLE        0.075
+0.11    1.00    LINEAR          FLEXIBLE        0.07
+0.18    0.55    LINEAR          FLEXIBLE        0.15
+0.33    0.23    LINEAR          FLEXIBLE        0.18  
+0.51    0.30    LINEAR          FLEXIBLE        0.10  
+0.61    0.12    LINEAR          FLEXIBLE        0.11 
+0.72    0.14   	LINEAR          FLEXIBLE 	0.09
+0.81    0.08 	EXPONENTIAL     FLEXIBLE        0.19 
+1.00    0.00
+Envelope 106
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.015
+0.015   1.00    LINEAR          FLEXIBLE        0.095
+0.11    0.525   LINEAR          FLEXIBLE        0.12
+0.23    0.61    LINEAR          FLEXIBLE        0.16
+0.39    0.65    LINEAR          FLEXIBLE        0.17  
+0.56    0.512   LINEAR          FLEXIBLE        0.12  
+0.68    0.23    LINEAR          FLEXIBLE        0.03 
+0.71    0.13    EXPONENTIAL     FLEXIBLE        0.29 
+1.00    0.00
+Envelope 107
+9
+0.00	0.00	LINEAR		FLEXIBLE	0.02
+0.02	0.25	LINEAR		FLEXIBLE	0.08
+0.10	0.40	LINEAR		FLEXIBLE	0.15
+0.25	0.48	LINEAR		FLEXIBLE	0.25
+0.50	0.50	LINEAR          FLEXIBLE	0.25
+0.75	0.52	LINEAR          FLEXIBLE	0.15
+0.90	0.60	LINEAR          FLEXIBLE	0.08
+0.98	0.75	LINEAR          FLEXIBLE	0.02
+1.00	1.00
+Envelope 108
+3
+0.00	1.00	LINEAR          FLEXIBLE	0.75
+0.66	1.00	LINEAR          FLEXIBLE	0.25
+1.00	0.34
+Envelope 109
+4
+0.00	1.00	LINEAR          FLEXIBLE	0.66
+0.66	0.75	LINEAR          FLEXIBLE	0.14
+0.82	0.32	LINEAR          FLEXIBLE	0.18
+1.00	0.18	
+Envelope 110
+4
+0.00	0.05	LINEAR          FLEXIBLE	0.382
+0.382	0.30	LINEAR          FLEXIBLE	0.236
+0.618	1.00	LINEAR          FLEXIBLE	0.382
+1.00	0.45
+Envelope 111
+13
+0.00    0.00    EXPONENTIAL     FLEXIBLE        0.03
+0.03    0.24    LINEAR          FLEXIBLE        0.026
+0.056   1.00    LINEAR          FLEXIBLE        0.27 
+0.326   0.98    EXPONENTIAL     FLEXIBLE        0.056
+0.382   0.90    LINEAR          FLEXIBLE        0.09
+0.472   0.93    LINEAR          FLEXIBLE        0.056
+0.528   0.89    SPLINE          FLEXIBLE        0.09
+0.618   0.86    SPLINE          FLEXIBLE        0.09
+0.708   0.62    LINEAR          FLEXIBLE        0.056
+0.764   0.50    SPLINE          FLEXIBLE        0.09
+0.854   0.618   LINEAR          FLEXIBLE        0.056
+0.91    0.35    EXPONENTIAL     FLEXIBLE        0.09
+1.00    0
+Envelope 112
+11
+0.00 	0.00	ExPONENTIAL     FLEXIBLE        0.03
+0.03    0.24    LINEAR          FLEXIBLE        0.029
+0.059   1.00    LINEAR          FLEXIBLE        0.261
+0.32    0.98    EXPONENTIAL     FLEXIBLE        0.08 
+0.40    0.90    LINEAR          FLEXIBLE        0.08
+0.48    0.93    LINEAR          FLEXIBLE        0.05
+0.53    0.89    SPLINE          FLEXIBLE        0.088
+0.618   0.86    LINEAR          FLEXIBLE        0.132
+0.75    0.50    SPLINE          FLEXIBLE        0.14
+0.89    0.35    EXPONENTIAL     FLEXIBLE        0.11
+1.00    0.00
+Envelope 113
+10
+0.00 	0.00	ExPONENTIAL     FLEXIBLE        0.04
+0.04    0.54    LINEAR          FLEXIBLE        0.025
+0.065   1.00    LINEAR          FLEXIBLE        0.295
+0.36    0.88    EXPONENTIAL     FLEXIBLE        0.06 
+0.42    0.79    LINEAR          FLEXIBLE        0.05
+0.47    0.80    LINEAR          FLEXIBLE        0.06
+0.53    0.89    LINEAR          FLEXIBLE        0.07 
+0.60    0.76    LINEAR          FLEXIBLE        0.14 
+0.84    0.31    EXPONENTIAL     FLEXIBLE        0.16
+1.00    0.00
+Envelope 114
+9 
+0.00    0.00    ExPONENTIAL     FLEXIBLE        0.068
+0.068   1.00    LINEAR          FLEXIBLE        0.262
+0.33    0.89    EXPONENTIAL     FLEXIBLE        0.11
+0.44    0.78    LINEAR          FLEXIBLE        0.04
+0.48    0.73    LINEAR          FLEXIBLE        0.08
+0.56    0.67    LINEAR          FLEXIBLE        0.06 
+0.63    0.56    LINEAR          FLEXIBLE        0.17 
+0.80    0.28    EXPONENTIAL     FLEXIBLE        0.20
+1.00    0.00
+Envelope 115
+8 
+0.00    0.00    ExPONENTIAL     FLEXIBLE        0.11 
+0.11    1.00    LINEAR          FLEXIBLE        0.29 
+0.40    0.78    LINEAR          FLEXIBLE        0.04
+0.44    0.53    LINEAR          FLEXIBLE        0.13
+0.59    0.67    LINEAR          FLEXIBLE        0.06 
+0.65    0.56    LINEAR          FLEXIBLE        0.12 
+0.77    0.22    EXPONENTIAL     FLEXIBLE        0.23
+1.00    0.00
+Envelope 116
+4
+0.00	1.00	LINEAR          FLEXIBLE	0.382
+0.382	0.512	LINEAR          FLEXIBLE	0.236
+0.618	0.92	LINEAR          FLEXIBLE	0.382
+1.00	0.256
+Envelope 117
+4
+0.00	1.00	LINEAR          FLEXIBLE	0.382
+0.382	0.725	LINEAR          FLEXIBLE	0.236
+0.618	0.25 	LINEAR          FLEXIBLE	0.382
+1.00	1.00	
+Envelope 118
+4
+0.00	0.01	LINEAR          FLEXIBLE	0.20
+0.20	0.05	LINEAR          FLEXIBLE	0.418
+0.618	0.40	LINEAR          FLEXIBLE	0.382
+1.00	1.00
+Envelope 119
+2
+0.00	1.00	LINEAR          FLEXIBLE	1.00
+1.00	0.00
+Envelope 120
+2
+0.00	1.00	LINEAR          FLEXIBLE 	1.00
+1.00	0.50
+Envelope 121
+2
+0.00	0.70	LINEAR          FLEXIBLE 	1.00
+1.00	1.00
+Envelope 122
+5
+0.00	0.00	LINEAR          FLEXIBLE	0.03
+0.03	1.00	LINEAR          FLEXIBLE	0.07
+0.10	0.20	LINEAR          FLEXIBLE	0.25
+0.35	0.32	LINEAR          FLEXIBLE	0.65
+1.00	0.00
+Envelope 123
+5
+0.00	1.00	LINEAR          FLEXIBLE	0.20
+0.20	0.98	LINEAR          FLEXIBLE	0.20
+0.40	0.30	LINEAR          FLEXIBLE	0.20
+0.60	0.95	LINEAR          FLEXIBLE	0.20
+1.00	0.40	
+Envelope 124
+5
+0.00	1.00	LINEAR          FLEXIBLE	0.20
+0.20	0.95	LINEAR          FLEXIBLE	0.20
+0.40	0.17	LINEAR          FLEXIBLE	0.20
+0.60	0.90	LINEAR          FLEXIBLE	0.20
+1.00	0.32	
+Envelope 125
+2
+0.00	0.40	LINEAR          FLEXIBLE	1.00
+1.00	0.15
+Envelope 126
+5
+0.00	0.85	LINEAR          FLEXIBLE	0.382
+0.382	1.00	LINEAR          FLEXIBLE	0.118
+0.50	0.90	LINEAR          FLEXIBLE	0.118
+0.618	0.60	LINEAR          FLEXIBLE	0.382
+1.00	0.10
+Envelope 127
+3
+0.00	0.70	LINEAR          FLEXIBLE	0.30
+0.30	0.70	LINEAR          FLEXIBLE	0.70
+1.00	0.95
+Envelope 128
+3
+0.00    0.70    LINEAR          FLEXIBLE        0.30
+0.30    0.70    LINEAR          FLEXIBLE        0.70
+1.00    0.50
+Envelope 129
+4
+0.00	1.00	LINEAR          FLEXIBLE	0.03
+0.03	0.0001	LINEAR          FLEXIBLE	0.69
+0.72	0.00  	LINEAR          FLEXIBLE	0.28
+1.00	0.00
+Envelope 130
+7
+0.00	1.00	LINEAR          FLEXIBLE	0.02
+0.02	0.0001	LINEAR          FLEXIBLE	0.20
+0.22	0.00  	LINEAR          FLEXIBLE	0.56
+0.78	0.00	LINEAR          FLEXIBLE	0.02
+0.80	1.00	LINEAR          FLEXIBLE	0.02
+0.82	0.01  	LINEAR          FLEXIBLE	0.18
+1.00	0.00
+Envelope 131
+6
+0.00	0.00	LINEAR          FLEXIBLE	0.38
+0.38	0.00	LINEAR          FLEXIBLE	0.02
+0.40	1.00	LINEAR          FLEXIBLE	0.02
+0.42	0.0001	LINEAR          FLEXIBLE	0.20
+0.62	0.00  	LINEAR          FLEXIBLE	0.38
+1.00	0.00
+Envelope 132
+9
+0.00    0.00    LINEAR          FLEXIBLE        0.18
+0.18    0.00    LINEAR          FLEXIBLE        0.02
+0.20	1.00	LINEAR          FLEXIBLE	0.02
+0.22    0.0001  LINEAR          FLEXIBLE        0.20
+0.42    0.00    LINEAR          FLEXIBLE        0.16
+0.58    0.00    LINEAR          FLEXIBLE        0.02
+0.60	1.00	LINEAR          FLEXIBLE	0.02
+0.62	0.01  	LINEAR          FLEXIBLE	0.38
+1.00	0.00
+Envelope 133
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.10
+0.10	1.00	LINEAR          FLEXIBLE	0.05
+0.15	0.01  	LINEAR          FLEXIBLE	0.85
+1.00    0.00
+Envelope 134
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.625
+0.625	0.00   	LINEAR          FLEXIBLE	0.1875
+0.8125	1.00	LINEAR          FLEXIBLE	0.1875
+1.00	1.00
+Envelope 135
+4
+0.00	0.01	LINEAR          FLEXIBLE	0.18
+0.25   	1.00	LINEAR          FLEXIBLE	0.195
+0.375 	0.00	LINEAR          FLEXIBLE	0.625
+1.00	0.00
+Envelope 136
+5
+0.00	0.01	LINEAR          FLEXIBLE	0.20
+0.20	0.05	LINEAR          FLEXIBLE	0.05
+0.25	1.00	LINEAR          FLEXIBLE	0.25
+0.50	0.00	LINEAR          FLEXIBLE	0.50
+1.00	0.00
+Envelope 137
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.50
+0.30	0.01	LINEAR          FLEXIBLE	0.25
+0.75	1.00	LINEAR          FLEXIBLE	0.25
+1.00	0.00
+Envelope 138
+5
+0.00    0.00    LINEAR          FLEXIBLE        0.73
+0.72    0.00    LINEAR          FLEXIBLE        0.05
+0.75    1.00    LINEAR          FLEXIBLE        0.02
+0.80    0.0001  LINEAR          FLEXIBLE        0.20
+1.00    0.00
+Envelope 139
+2
+0.00	0.76  	LINEAR          FLEXIBLE	1.00
+1.00	1.00
+Envelope 140
+2
+0.00	0.70	LINEAR          FLEXIBLE        1.00
+1.00	1.00
+Envelope 141
+3
+0.00	0.25	LINEAR          FLEXIBLE	0.382
+0.382	0.30	LINEAR          FLEXIBLE	0.618
+1.00	0.33
+Envelope 142
+4
+0.00	0.15	LINEAR          FLEXIBLE	0.43
+0.43	0.20	LINEAR          FLEXIBLE	0.32
+0.75	0.30	LINEAR          FLEXIBLE	0.25
+1.00	0.33
+Envelope 143
+3
+0.00	0.80	LINEAR          FLEXIBLE	0.33
+0.33	1.00	LINEAR          FLEXIBLE	0.64
+1.00	0.60
+Envelope 144
+3
+0.00	0.60	LINEAR          FLEXIBLE	0.33
+0.33	1.00	LINEAR          FLEXIBLE	0.64
+1.00	0.80
+Envelope 145
+3
+0.00    0.00    LINEAR          FLEXIBLE        0.382
+0.618   1.00    LINEAR          FLEXIBLE        0.618
+1.00    0.20
+Envelope 146
+2
+0.00	0.95	LINEAR          FLEXIBLE 	1.00
+1.00	1.00
+Envelope 147
+2
+0.00	0.97	LINEAR          FLEXIBLE	1.00
+1.00	1.00
+Envelope 148
+11
+0.00	1.00	LINEAR          FLEXIBLE	0.03
+0.03	0.94	LINEAR          FLEXIBLE	0.05
+0.08	0.35	LINEAR          FLEXIBLE	0.01
+0.09	0.66	LINEAR          FLEXIBLE	0.09
+0.18	0.125	LINEAR          FLEXIBLE	0.02
+0.20	0.33	LINEAR          FLEXIBLE	0.25
+0.45	0.625	LINEAR          FLEXIBLE	0.03
+0.48	0.16	LINEAR          FLEXIBLE	0.40
+0.88	0.03	LINEAR          FLEXIBLE	0.06
+0.94	0.08	LINEAR          FLEXIBLE	0.06
+1.00	0.02
+Envelope 149
+5
+0.00	0.90	LINEAR          FLEXIBLE	0.08
+0.08	0.25	LINEAR          FLEXIBLE	0.10
+0.18	0.10	LINEAR          FLEXIBLE	0.27
+0.45	0.03	LINEAR          FLEXIBLE	0.55
+1.00	0.01
+Envelolpe 150
+5
+0.00 	0.00	LINEAR          FLEXIBLE	0.18
+0.18	0.00	LINEAR          FLEXIBLE	0.02
+0.20	1.00	LINEAR          FLEXIBLE	0.02
+0.22	0.00	LINEAR          FLEXIBLE	0.78
+1.00	0.00
+Envelolpe 151
+5
+0.00 	0.00	LINEAR          FLEXIBLE	0.23
+0.23	0.01 	LINEAR          FLEXIBLE	0.02
+0.25	1.00	LINEAR          FLEXIBLE	0.02
+0.27	0.001  	LINEAR          FLEXIBLE	0.73
+1.00	0.00
+Envelope 152
+8
+0.00	0.00	LINEAR          FLEXIBLE	0.11
+0.11	0.00	LINEAR          FLEXIBLE	0.015
+0.125	1.00	LINEAR          FLEXIBLE	0.015
+0.14	0.001	LINEAR          FLEXIBLE	0.27
+0.61	0.00	LINEAR          FLEXIBLE	0.015
+0.625	1.00	LINEAR          FLEXIBLE	0.015
+0.64	0.001	LINEAR          FLEXIBLE	0.36
+1.00	0.00
+Envelope 153
+5
+0.00	0.00	LINEAR          FLEXIBLE	0.18
+0.18	0.00	LINEAR          FLEXIBLE	0.02 
+0.20 	1.00	LINEAR          FLEXIBLE	0.02 
+0.22	0.001	LINEAR          FLEXIBLE	0.78
+1.00	0.00
+Envelope 154
+5
+0.00	0.00	LINEAR          FLEXIBLE	0.10
+0.10	0.00	LINEAR          FLEXIBLE	0.08 
+0.20 	1.00	LINEAR          FLEXIBLE	0.07 
+0.25	0.00	LINEAR          FLEXIBLE	0.82
+1.00	0.00
+Envelope 155
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.85
+0.85	0.00	LINEAR          FLEXIBLE	0.05 
+0.90 	1.00	LINEAR          FLEXIBLE	0.10
+1.00	0.50
+Envelope 156
+5
+0.00	0.00	LINEAR          FLEXIBLE	0.55
+0.61	0.00	LINEAR          FLEXIBLE	0.075
+0.70 	1.00	LINEAR          FLEXIBLE	0.075
+0.79	0.00	LINEAR          FLEXIBLE	0.30
+1.00	0.00
+Envelope 157
+5
+0.00	0.00	LINEAR          FLEXIBLE	0.40
+0.44	0.001	LINEAR          FLEXIBLE	0.05 
+0.50 	1.00	LINEAR          FLEXIBLE	0.05 
+0.56	0.001	LINEAR          FLEXIBLE	0.50
+1.00	0.00
+Envelope 158
+4
+0.00 	0.00	LINEAR          FLEXIBLE	0.50
+0.50	0.01 	LINEAR          FLEXIBLE	0.30
+0.80	1.00	LINEAR          FLEXIBLE	0.20
+1.00	0.60
+Envelope 159
+3
+0.00	1.00	LINEAR          FLEXIBLE	0.30
+0.30	0.001	LINEAR          FLEXIBLE	0.70
+1.00	0.00
+Envelope 160
+4
+0.00	0.15	LINEAR          FLEXIBLE	0.20
+0.20	0.28	LINEAR          FLEXIBLE	0.28
+0.48	0.33	LINEAR          FLEXIBLE	0.52
+1.00	0.70
+Envelope 161
+2
+0.00 	0.65	LINEAR          FLEXIBLE	1.00
+1.00	0.28
+Envelope 162
+3
+0.00    0.80    LINEAR          FLEXIBLE        0.80
+0.80    1.00    LINEAR          FLEXIBLE        0.20
+1.00    0.80
+Envelope 163
+3
+0.00    1.00    LINEAR          FLEXIBLE        0.05
+0.05    0.0001  LINEAR          FLEXIBLE        0.95
+1.00    0.00    
+Envelope 164
+4
+0.00    1.00    LINEAR          FLEXIBLE        0.05
+0.05    1.00    LINEAR          FLEXIBLE        0.10
+0.15    0.00001 LINEAR          FLEXIBLE        0.85
+1.00    0.00    
+Envelope 165
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.68
+0.68    0.00    LINEAR          FLEXIBLE        0.02
+0.70    1.00    LINEAR          FLEXIBLE        0.08
+0.78    1.00    LINEAR          FLEXIBLE        0.02
+0.80    0.00001 LINEAR          FLEXIBLE        0.20
+1.00    0.00    
+Envelope 166
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.025
+0.025   0.00    LINEAR          FLEXIBLE        0.012
+0.037   1.00    LINEAR          FLEXIBLE        0.015
+0.052   0.00001 LINEAR          FLEXIBLE        0.263
+0.315   0.00    LINEAR          FLEXIBLE        0.685
+1.00    0.00    
+Envelope 167
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.342
+0.342   0.00    LINEAR          FLEXIBLE        0.013
+0.355   1.00    LINEAR          FLEXIBLE        0.013
+0.368   0.00001 LINEAR          FLEXIBLE        0.263
+0.631   0.00    LINEAR          FLEXIBLE        0.369
+1.00    0.00    
+Envelope 168
+5
+0.00    0.00    LINEAR          FLEXIBLE        0.657
+0.657   0.00    LINEAR          FLEXIBLE        0.0265
+0.6835  1.00    LINEAR          FLEXIBLE        0.0265
+0.71    0.01    LINEAR          FLEXIBLE        0.29
+1.00    0.00    
+Envelope 169
+4
+0.00    1.00    LINEAR          FLEXIBLE        0.01
+0.01    1.00    LINEAR          FLEXIBLE        0.04
+0.05    0.00001 LINEAR          FLEXIBLE        0.95
+1.00    0.00    
+Envelope 170
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.43
+0.43    0.00    LINEAR          FLEXIBLE        0.02
+0.45    1.00    LINEAR          FLEXIBLE        0.15
+0.60    1.00    LINEAR          FLEXIBLE        0.02
+0.62    0.00001 LINEAR          FLEXIBLE        0.38
+1.00    0.00    
+Envelope 171
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.28
+0.28    0.00    LINEAR          FLEXIBLE        0.02
+0.30    1.00    LINEAR          FLEXIBLE        0.05
+0.35    1.00    LINEAR          FLEXIBLE        0.02
+0.37    0.0001  LINEAR          FLEXIBLE        0.63
+1.00    0.00    
+Envelope 172
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.58
+0.58    0.00    LINEAR          FLEXIBLE        0.02
+0.60    1.00    LINEAR          FLEXIBLE        0.15
+0.68    1.00    LINEAR          FLEXIBLE        0.02
+0.70    0.00001 LINEAR          FLEXIBLE        0.23
+1.00    0.00    
+Envelope 173
+5
+0.00    0.00    LINEAR          FLEXIBLE        0.015
+0.015   1.00    LINEAR          FLEXIBLE        0.02
+0.035   1.00    LINEAR          FLEXIBLE        0.01
+0.045   0.00001 LINEAR          FLEXIBLE        0.955
+1.00    0.00    
+Envelope 174
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.37
+0.37    0.00    LINEAR          FLEXIBLE        0.01
+0.38    1.00    LINEAR          FLEXIBLE        0.015
+0.395   1.00    LINEAR          FLEXIBLE        0.005
+0.40    0.00001 LINEAR          FLEXIBLE        0.60
+1.00    0.00    
+Envelope 175
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.60
+0.60    0.00    LINEAR          FLEXIBLE        0.03
+0.63    1.00    LINEAR          FLEXIBLE        0.07
+0.70    1.00    LINEAR          FLEXIBLE        0.03
+0.73    0.00    LINEAR          FLEXIBLE        0.27
+1.00    0.00    
+Envelope 176
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.13
+0.13    0.00    LINEAR          FLEXIBLE        0.03
+0.16    1.00    LINEAR          FLEXIBLE        0.14
+0.30    1.00    LINEAR          FLEXIBLE        0.03
+0.33    0.00    LINEAR          FLEXIBLE        0.67
+1.00    0.00    
+Envelope 177
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.16
+0.16    0.00    LINEAR          FLEXIBLE        0.03
+0.18    1.00    LINEAR          FLEXIBLE        0.02
+0.20    1.00    LINEAR          FLEXIBLE        0.005
+0.205   0.00    LINEAR          FLEXIBLE        0.885
+1.00    0.00    
+Envelope 178
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.40
+0.40    0.00    LINEAR          FLEXIBLE        0.03
+0.43    1.00    LINEAR          FLEXIBLE        0.13
+0.56    1.00    LINEAR          FLEXIBLE        0.03
+0.59    0.00    LINEAR          FLEXIBLE        0.41
+1.00    0.00    
+Envelope 179
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.33
+0.33    0.00    LINEAR          FLEXIBLE        0.03
+0.36    1.00    LINEAR          FLEXIBLE        0.14
+0.50    1.00    LINEAR          FLEXIBLE        0.03
+0.53    0.00    LINEAR          FLEXIBLE        0.47
+1.00    0.00    
+Envelope 180
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.16
+0.16    0.00    LINEAR          FLEXIBLE        0.03
+0.19    1.00    LINEAR          FLEXIBLE        0.02
+0.21    1.00    LINEAR          FLEXIBLE        0.01
+0.22    0.00    LINEAR          FLEXIBLE        0.78
+1.00    0.00    
+Envelope 181
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.20
+0.20    0.00    LINEAR          FLEXIBLE        0.03
+0.23    1.00    LINEAR          FLEXIBLE        0.07
+0.30    1.00    LINEAR          FLEXIBLE        0.03
+0.33    0.00    LINEAR          FLEXIBLE        0.67
+1.00    0.00    
+Envelope 182
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.11
+0.11    0.00    LINEAR          FLEXIBLE        0.02
+0.13    1.00    LINEAR          FLEXIBLE        0.01
+0.14    1.00    LINEAR          FLEXIBLE        0.005
+0.145   0.00    LINEAR          FLEXIBLE        0.855
+1.00    0.00    
+Envelope 183
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.08
+0.08    0.00    LINEAR          FLEXIBLE        0.02
+0.10    1.00    LINEAR          FLEXIBLE        0.02
+0.12    1.00    LINEAR          FLEXIBLE        0.02
+0.14    0.00    LINEAR          FLEXIBLE        0.86
+1.00    0.00    
+Envelope 184
+3
+0.00    0.00    LINEAR          FLEXIBLE        0.90
+0.90    0.00    LINEAR          FLEXIBLE        0.10
+1.00    1.00    
+Envelope 185
+6
+0.00    0.00    LINEAR          FLEXIBLE        0.67
+0.67    0.00    LINEAR          FLEXIBLE        0.01
+0.68    1.00    LINEAR          FLEXIBLE        0.03
+0.71    1.00    LINEAR          FLEXIBLE        0.01
+0.72    0.00001 LINEAR          FLEXIBLE        0.38
+1.00    0.00
+Envelope 186
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.01
+0.01	1.00	LINEAR          FLEXIBLE	0.09
+0.10	0.20	LINEAR          FLEXIBLE	0.90
+1.00	0.00
+Envelope 187
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.015
+0.015	1.00	LINEAR          FLEXIBLE	0.095
+0.11	0.19	LINEAR          FLEXIBLE	0.89
+1.00	0.00
+Envelope 188
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.02
+0.02	1.00	LINEAR          FLEXIBLE	0.07
+0.09	0.21	LINEAR          FLEXIBLE	0.91
+1.00	0.00
+Envelope 189
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.03
+0.03	1.00	LINEAR          FLEXIBLE	0.08
+0.11	0.27	LINEAR          FLEXIBLE	0.91
+1.00	0.00
+Envelope 190
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.05
+0.05	1.00	LINEAR          FLEXIBLE	0.14
+0.19	0.30	LINEAR          FLEXIBLE	0.81
+1.00	0.00
+Envelope 191
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.09
+0.09	1.00	LINEAR          FLEXIBLE	0.30
+0.39	0.33	LINEAR          FLEXIBLE	0.61
+1.00	0.00
+Envelope 192
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.025
+0.025	1.00	LINEAR          FLEXIBLE	0.075
+0.10	0.18	LINEAR          FLEXIBLE	0.90
+1.00	0.00
+Envelope 193
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.032
+0.032	1.00	LINEAR          FLEXIBLE	0.048
+0.08	0.20	LINEAR          FLEXIBLE	0.92
+1.00	0.00
+Envelope 194
+6
+0.00	0.00	LINEAR          FLEXIBLE	0.012
+0.012	1.00	LINEAR          FLEXIBLE	0.238
+0.25	0.30	LINEAR          FLEXIBLE	0.42
+0.67	0.59	LINEAR          FLEXIBLE	0.13
+0.80	0.20	LINEAR          FLEXIBLE	0.20
+1.00	0.00
+Envelope 195
+4
+0.00	0.50	LINEAR		FLEXIBLE	0.125
+0.125	1.00	LINEAR          FLEXIBLE        0.125
+0.25	0.30	LINEAR          FLEXIBLE        0.75
+1.00	0.00
+Envelope 196
+4
+0.00	0.00	LINEAR		FLEXIBLE	0.125
+0.125	0.25	LINEAR          FLEXIBLE        0.375
+0.50	1.00	LINEAR          FLEXIBLE        0.50
+1.00	0.00
+Envelope 197
+4
+0.00	0.00	LINEAR		FLEXIBLE	0.25
+0.25	0.20	LINEAR          FLEXIBLE        0.41
+0.66	1.00	LINEAR          FLEXIBLE        0.34
+1.00	0.40
+Envelope 198
+2
+0.00	0.00	LINEAR		FLEXIBLE	1.00
+1.00	0.95
+Envelope 199
+4
+0.00    1.00    LINEAR          FLEXIBLE        0.382
+0.382   0.725   LINEAR          FLEXIBLE        0.236
+0.618   0.25    LINEAR          FLEXIBLE        0.382
+1.00    0.15
+Envelope 200
+4
+0.00    0.90    LINEAR          FLEXIBLE        0.382
+0.382   0.512   LINEAR          FLEXIBLE        0.236
+0.618   1.00    LINEAR          FLEXIBLE        0.382
+1.00    0.256
+Envelope 201
+4
+0.00    1.00    LINEAR          FLEXIBLE        0.75
+0.50    1.00    LINEAR          FLEXIBLE        0.25
+0.66    0.57    LINEAR          FLEXIBLE        0.25
+1.00    0.25
+Envelope 202
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.14
+0.14    0.18    LINEAR          FLEXIBLE           0.06
+0.20    0.62    LINEAR          FLEXIBLE           0.03
+0.23    0.78    SPLINE          FLEXIBLE           0.15
+0.38    1.00    LINEAR          FLEXIBLE           0.05
+0.43    0.78    SPLINE          FLEXIBLE           0.05
+0.48    0.81    LINEAR          FLEXIBLE           0.03
+0.51    0.90    SPLINE          FLEXIBLE           0.11
+0.62    0.83    LINEAR          FLEXIBLE           0.06
+0.68    0.85    EXPONENTIAL     FLEXIBLE           0.07
+0.75    0.71    LINEAR          FLEXIBLE           0.08
+0.83    0.48    LINEAR          FLEXIBLE           0.07
+0.90    0.15    EXPONENTIAL     FLEXIBLE           0.10
+1.00    0.00
+Envelope 203
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.13
+0.13    0.15    LINEAR          FLEXIBLE           0.07
+0.20    0.72    LINEAR          FLEXIBLE           0.03
+0.23    0.88    SPLINE          FLEXIBLE           0.15
+0.38    1.00    LINEAR          FLEXIBLE           0.04
+0.41    0.88    SPLINE          FLEXIBLE           0.05
+0.46    0.91    LINEAR          FLEXIBLE           0.02
+0.48    0.93    SPLINE          FLEXIBLE           0.03
+0.51    0.81    LINEAR          FLEXIBLE           0.02
+0.53    0.854   EXPONENTIAL     FLEXIBLE           0.24
+0.77    0.708   SPLINE          FLEXIBLE           0.05
+0.82    0.58    LINEAR          FLEXIBLE           0.07
+0.89    0.18    EXPONENTIAL     FLEXIBLE           0.11
+1.00    0.00
+Envelope 204
+14
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.12
+0.12    0.20    LINEAR          FLEXIBLE           0.07
+0.19    0.70    LINEAR          FLEXIBLE           0.03
+0.22    0.83    SPLINE          FLEXIBLE           0.02
+0.24    1.00    LINEAR          FLEXIBLE           0.18
+0.42    0.73    SPLINE          FLEXIBLE           0.05
+0.47    0.88    LINEAR          FLEXIBLE           0.05
+0.52    0.91    SPLINE          FLEXIBLE           0.03
+0.55    0.82    LINEAR          FLEXIBLE           0.07
+0.62    0.83    EXPONENTIAL     FLEXIBLE           0.06
+0.68    0.72    SPLINE          FLEXIBLE           0.13
+0.81    0.52    LINEAR          FLEXIBLE           0.11
+0.92    0.16    EXPONENTIAL     FLEXIBLE           0.08
+1.00    0.00
+Envelope 205
+13
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.12
+0.12    0.10    LINEAR          FLEXIBLE           0.07
+0.19    0.73    LINEAR          FLEXIBLE           0.07
+0.26    0.80    SPLINE          FLEXIBLE           0.16
+0.42    1.00    LINEAR          FLEXIBLE           0.01
+0.43    0.93    SPLINE          FLEXIBLE           0.05
+0.48    0.89    LINEAR          FLEXIBLE           0.05
+0.53    0.96    SPLINE          FLEXIBLE           0.04
+0.57    0.80    LINEAR          FLEXIBLE           0.04
+0.61    0.86    EXPONENTIAL     FLEXIBLE           0.11
+0.72    0.76    SPLINE          FLEXIBLE           0.16
+0.88    0.36    EXPONENTIAL     FLEXIBLE           0.12
+1.00    0.00
+Envelope 206
+12
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.13
+0.13    0.19    LINEAR          FLEXIBLE           0.06
+0.19    0.77    LINEAR          FLEXIBLE           0.04
+0.23    0.85    SPLINE          FLEXIBLE           0.19
+0.42    1.00    LINEAR          FLEXIBLE           0.03
+0.45    0.79    LINEAR          FLEXIBLE           0.12
+0.57    0.87    SPLINE          FLEXIBLE           0.02
+0.59    0.93    LINEAR          FLEXIBLE           0.02
+0.61    0.83    EXPONENTIAL     FLEXIBLE           0.07
+0.69    0.72    SPLINE          FLEXIBLE           0.12
+0.81    0.29    EXPONENTIAL     FLEXIBLE           0.19
+1.00    0.00
+Envelope 207
+12
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.14
+0.14    0.21    LINEAR          FLEXIBLE           0.04
+0.18    0.74    LINEAR          FLEXIBLE           0.03
+0.21    0.85    SPLINE          FLEXIBLE           0.20
+0.41    1.00    LINEAR          FLEXIBLE           0.02
+0.43    0.81    LINEAR          FLEXIBLE           0.09
+0.52    0.83    SPLINE          FLEXIBLE           0.05
+0.57    0.89    LINEAR          FLEXIBLE           0.04
+0.61    0.73    EXPONENTIAL     FLEXIBLE           0.05
+0.66    0.52    SPLINE          FLEXIBLE           0.14
+0.80    0.23    EXPONENTIAL     FLEXIBLE           0.20
+1.00    0.00
+Envelope 208
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.16
+0.16    0.54    LINEAR          FLEXIBLE           0.06
+0.22    0.82    SPLINE          FLEXIBLE           0.18
+0.40    1.00    LINEAR          FLEXIBLE           0.06
+0.46    0.71    LINEAR          FLEXIBLE           0.09
+0.55    0.80    SPLINE          FLEXIBLE           0.03
+0.58    0.82    LINEAR          FLEXIBLE           0.02
+0.60    0.66    EXPONENTIAL     FLEXIBLE           0.04
+0.64    0.32    SPLINE          FLEXIBLE           0.17
+0.81    0.13    EXPONENTIAL     FLEXIBLE           0.19
+1.00    0.00
+Envelope 209
+11
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.17
+0.17    0.51    LINEAR          FLEXIBLE           0.06
+0.23    0.68    SPLINE          FLEXIBLE           0.01
+0.24    1.00    LINEAR          FLEXIBLE           0.04
+0.28    0.81    LINEAR          FLEXIBLE           0.25
+0.53    0.78    SPLINE          FLEXIBLE           0.03
+0.56    0.82    LINEAR          FLEXIBLE           0.03
+0.59    0.63    EXPONENTIAL     FLEXIBLE           0.03
+0.62    0.45    SPLINE          FLEXIBLE           0.09
+0.71    0.12    EXPONENTIAL     FLEXIBLE           0.29
+1.00    0.00
+Envelope 210
+11
+0.00	0.00	EXPONENTIAL	FLEXIBLE	   0.16
+0.16	0.52	LINEAR		FLEXIBLE	   0.08
+0.24	0.68	SPLINE		FLEXIBLE	   0.17
+0.41	1.00	LINEAR		FLEXIBLE	   0.06
+0.47    0.76    LINEAR          FLEXIBLE           0.04
+0.51    0.79    SPLINE          FLEXIBLE           0.06
+0.57    0.87	LINEAR		FLEXIBLE	   0.06
+0.63    0.73    EXPONENTIAL     FLEXIBLE           0.01
+0.64    0.41    SPLINE          FLEXIBLE           0.13
+0.77    0.10    EXPONENTIAL     FLEXIBLE           0.23
+1.00    0.00
+Envelope 211
+10
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.18
+0.18    0.62    LINEAR          FLEXIBLE           0.04
+0.22    0.71    SPLINE          FLEXIBLE           0.22
+0.44    1.00    LINEAR          FLEXIBLE        0.02
+0.46    0.87    SPLINE          FLEXIBLE        0.08
+0.54    0.92    LINEAR          FLEXIBLE        0.03
+0.57    0.67    EXPONENTIAL     FLEXIBLE           0.06
+0.63    0.43    SPLINE          FLEXIBLE           0.16
+0.79    0.12    EXPONENTIAL     FLEXIBLE           0.21
+1.00    0.00
+Envelope 212
+9
+0.00    0.00    EXPONENTIAL     FLEXIBLE           0.28
+0.28    0.71    SPLINE          FLEXIBLE           0.12
+0.40    1.00    LINEAR          FLEXIBLE           0.04
+0.44    0.83    SPLINE          FLEXIBLE           0.07
+0.51    0.92    LINEAR          FLEXIBLE           0.08
+0.59    0.71    EXPONENTIAL     FLEXIBLE           0.04
+0.63    0.43    SPLINE          FLEXIBLE           0.14
+0.77    0.18    EXPONENTIAL     FLEXIBLE           0.23
+1.00    0.00
+Envelope 213
+9
+0.00	0.00	EXPONENTIAL	FLEXIBLE	0.32
+0.32	0.66	SPLINE		FLEXIBLE	0.10
+0.42	1.00	LINEAR		FLEXIBLE	0.03
+0.45	0.83	SPLINE		FLEXIBLE	0.07
+0.52	0.92	LINEAR		FLEXIBLE	0.06
+0.58	0.71	EXPONENTIAL	FLEXIBLE	0.04
+0.62	0.43	SPLINE		FLEXIBLE	0.12
+0.74	0.18	EXPONENTIAL	FLEXIBLE	0.26
+1.00	0.00
+Envelope 214
+9
+0.00	0.00	EXPONENTIAL	FLEXIBLE	0.31
+0.31	0.66	SPLINE		FLEXIBLE	0.09
+0.40	1.00	LINEAR		FLEXIBLE	0.02
+0.42	0.83	SPLINE		FLEXIBLE	0.05
+0.47	0.92	LINEAR		FLEXIBLE	0.11
+0.58	0.71	EXPONENTIAL	FLEXIBLE	0.04
+0.62	0.43	SPLINE		FLEXIBLE	0.10
+0.72	0.18	EXPONENTIAL	FLEXIBLE	0.28
+1.00	0.00
+Envelope 215
+2
+0.00	0.54	LINEAR          FLEXIBLE	1.00
+1.00	0.48
+Envelope 216
+2
+0.00	0.03	LINEAR          FLEXIBLE        1.00
+1.00	0.97
+Envelope 217
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.382
+0.382	1.00	LINEAR          FLEXIBLE	0.236
+0.618	1.00	LINEAR          FLEXIBLE	0.382
+1.00	0.00
+Envelope 218
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.618
+0.618   0.32    LINEAR          FLEXIBLE        0.372
+0.99    1.00    LINEAR          FLEXIBLE        0.012
+1.00    0.00
+Envelope 219
+4
+0.00	0.00	LINEAR          FLEXIBLE	0.63
+0.63	0.33	LINEAR          FLEXIBLE	0.33
+0.96	1.00	LINEAR          FLEXIBLE	0.04
+1.00	0.00
+
+Envelope 220
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.66
+0.66    0.36    LINEAR          FLEXIBLE        0.32
+0.98    1.00    LINEAR          FLEXIBLE        0.02
+1.00    0.00
+Envelope 221
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.69
+0.69    0.37    LINEAR          FLEXIBLE        0.28
+0.97    1.00    LINEAR          FLEXIBLE        0.03
+1.00    0.00
+Envelope 222
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.54
+0.54    0.42    LINEAR          FLEXIBLE        0.39
+0.93    1.00    LINEAR          FLEXIBLE        0.07
+1.00    0.00
+Envelope 223
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.74
+0.74    0.45    LINEAR          FLEXIBLE        0.16
+0.90    1.00    LINEAR          FLEXIBLE        0.10
+1.00    0.00
+Envelope 224
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.78
+0.78    0.49    LINEAR          FLEXIBLE        0.18
+0.96    1.00    LINEAR          FLEXIBLE        0.04
+1.00    0.00
+Envelope 225
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.49
+0.49    0.52    LINEAR          FLEXIBLE        0.40
+0.89    1.00    LINEAR          FLEXIBLE        0.11
+1.00    0.00
+Envelope 226
+2
+0.00	1.00	LINEAR          FLEXIBLE 	1.00
+1.00	0.66
+Envelope 227
+7
+0.00	0.00	LINEAR		FLEXIBLE	0.20
+0.20	0.24	LINEAR		FLEXIBLE	0.10
+0.30	1.00	LINEAR		FLEXIBLE	0.16
+0.46	0.21	LINEAR		FLEXIBLE	0.19
+0.65	1.00	LINEAR		FLEXIBLE	0.10
+0.75	0.05	LINEAR		FLEXIBLE	0.25
+1.00	0.00
+Envelope 228
+5
+0.00	1.00	LINEAR          FLEXIBLE        0.40
+0.20	0.90	LINEAR          FLEXIBLE        0.05
+0.45	0.45	LINEAR          FLEXIBLE        0.168
+0.618	0.65	LINEAR          FLEXIBLE        0.382
+1.00	0.00
+Envelope 229
+3
+0.00	1.00	LINEAR          FLEXIBLE        0.50
+0.50	0.85	LINEAR          FLEXIBLE        0.50
+1.00	0.00
+Envelope 230
+4
+0.00	0.00	LINEAR          FLEXIBLE        0.15
+0.15	1.00	LINEAR          FLEXIBLE        0.45
+0.60	0.75	LINEAR          FLEXIBLE        0.40
+1.00	0.00
+Envelope 231
+5
+0.00	0.40	LINEAR          FLEXIBLE        0.20
+0.20	1.00	LINEAR          FLEXIBLE        0.15
+0.35	0.25	LINEAR          FLEXIBLE        0.20
+0.55	1.00	LINEAR          FLEXIBLE        0.45
+1.00	0.00
+Envelope 232
+5
+0.00	0.00	LINEAR          FLEXIBLE        0.40
+0.40	0.10	LINEAR          FLEXIBLE        0.20
+0.60	1.00	LINEAR          FLEXIBLE        0.25
+0.85	0.05	LINEAR          FLEXIBLE        0.15
+1.00	0.00
+Envelope 233
+3
+0.00	1.00	LINEAR          FLEXIBLE        0.10
+0.10	0.00	LINEAR          FLEXIBLE        0.90
+1.00	0.00
+Envelope 234
+4
+0.00    0.00    LINEAR          FLEXIBLE        0.85
+0.70    0.00    LINEAR          FLEXIBLE        0.05
+0.90    1.00    LINEAR          FLEXIBLE        0.10
+1.00    0.50
+Envelope 235
+4
+0.00	1.00	LINEAR          FLEXIBLE        0.40
+0.40	0.50	LINEAR          FLEXIBLE        0.20
+0.60	0.50	LINEAR          FLEXIBLE        0.20
+1.00	0.25
+Envelope 236
+2
+0.00	0.618	LINEAR          FLEXIBLE        1.00
+1.00	0.382
+Envelope 237
+4
+0.00	0.32	LINEAR          FLEXIBLE        0.11
+0.11	0.45	LINEAR          FLEXIBLE        0.34
+0.45	0.66	LINEAR          FLEXIBLE        0.55
+1.00	1.00
+Envelope 238
+4
+0.00	0.00	LINEAR          FLEXIBLE        0.55
+0.55	0.13	LINEAR          FLEXIBLE        0.34
+0.89	0.21	LINEAR          FLEXIBLE        0.11
+1.00	0.66
+Envelope 239
+3
+0.00	0.55	LINEAR          FLEXIBLE        0.34
+0.34	0.89	LINEAR          FLEXIBLE        0.66
+1.00	1.00
+Envelope 240
+6
+0.00	0.00	LINEAR          FLEXIBLE        0.16
+0.16	0.05	LINEAR          FLEXIBLE        0.17
+0.33	0.10	LINEAR          FLEXIBLE        0.24
+0.57	0.20	LINEAR          FLEXIBLE        0.27
+0.84	0.50	LINEAR          FLEXIBLE        0.16
+1.00	0.60
+Envelope 241
+7
+0.00	0.00	LINEAR          FLEXIBLE        0.17
+0.17	0.04	LINEAR          FLEXIBLE        0.18
+0.35	0.08	LINEAR          FLEXIBLE        0.10
+0.45	0.11	LINEAR          FLEXIBLE        0.11
+0.56	0.15	LINEAR          FLEXIBLE        0.32
+0.88	0.40	LINEAR          FLEXIBLE        0.12
+1.00	0.50
+Envelope 242
+6
+0.00	0.00	LINEAR          FLEXIBLE        0.02
+0.02	0.25	LINEAR          FLEXIBLE        0.29
+0.31	0.30	LINEAR          FLEXIBLE        0.36
+0.67	0.50	LINEAR          FLEXIBLE        0.29
+0.96	0.70	LINEAR          FLEXIBLE        0.04
+1.00	0.75	
+Envelope 243
+5
+0.00	0.20	LINEAR          FLEXIBLE        0.02
+0.02	0.30	LINEAR          FLEXIBLE        0.48
+0.50	0.60	LINEAR          FLEXIBLE        0.45
+0.95	0.70	LINEAR          FLEXIBLE        0.05
+1.00	0.80
+Envelope 244
+5
+0.00	0.20	LINEAR          FLEXIBLE        0.075
+0.075	0.30	LINEAR          FLEXIBLE        0.425
+0.50	0.55	LINEAR          FLEXIBLE        0.40
+0.90	0.85	LINEAR          FLEXIBLE        0.10
+1.00	0.95	
+Envelope 245
+7
+0.00	0.00	LINEAR          FLEXIBLE        0.02
+0.02	0.20	LINEAR          FLEXIBLE        0.105
+0.125	0.40	LINEAR          FLEXIBLE        0.28
+0.405	0.52	LINEAR          FLEXIBLE        0.36
+0.765	0.92	LINEAR          FLEXIBLE        0.205
+0.97	0.96	LINEAR          FLEXIBLE        0.03
+1.00	1.00
+Envelope 246
+6
+0.00	0.00	LINEAR          FLEXIBLE        0.29
+0.29	0.07	LINEAR          FLEXIBLE        0.32
+0.61	0.40	LINEAR          FLEXIBLE        0.27
+0.88	0.45	LINEAR          FLEXIBLE        0.10
+0.98	0.60	LINEAR          FLEXIBLE        0.02
+1.00	0.80
+Envelope 247
+3
+0.00	0.18	LINEAR          FLEXIBLE        0.33
+0.33	0.90	LINEAR          FLEXIBLE        0.67
+1.00	1.00
+Envelope 248
+6
+0.00	0.00	LINEAR          FLEXIBLE        0.25
+0.25	0.20	LINEAR          FLEXIBLE        0.25
+0.50	0.35	LINEAR          FLEXIBLE        0.01
+0.51	0.60	LINEAR          FLEXIBLE        0.24
+0.75	0.70	LINEAR          FLEXIBLE        0.25
+1.00	0.85
+Envelope 249
+7
+0.00	0.532	LINEAR          FLEXIBLE        0.16
+0.16	0.50	LINEAR          FLEXIBLE        0.16
+0.32	0.683	LINEAR          FLEXIBLE        0.16
+0.48	0.603	LINEAR          FLEXIBLE        0.16
+0.64	0.823	LINEAR          FLEXIBLE        0.16
+0.80	0.727	LINEAR          FLEXIBLE        0.20
+1.00	1.00
+Envelope 250
+8
+0.00	0.00	LINEAR          FLEXIBLE        0.16
+0.16	0.21	LINEAR          FLEXIBLE        0.16
+0.32	0.55	LINEAR          FLEXIBLE        0.16
+0.48	1.00	LINEAR          FLEXIBLE        0.16
+0.64	0.55	LINEAR          FLEXIBLE        0.16
+0.80	0.21	LINEAR          FLEXIBLE        0.16
+0.96	0.00	LINEAR          FLEXIBLE        0.04
+1.00	0.00
+Envelope 251
+4
+0.00	1.00 	LINEAR          FLEXIBLE        0.048
+0.048	1.00 	LINEAR          FLEXIBLE        0.904
+0.952	0.943	LINEAR          FLEXIBLE        0.048
+1.00	0.943
+Envelope 252
+4
+0.00	1.00 	LINEAR          FLEXIBLE        0.048
+0.048	1.00 	LINEAR          FLEXIBLE        0.904
+0.952	1.059	LINEAR          FLEXIBLE        0.048
+1.00	1.059
+Envelope 253
+4
+0.00	0.00	LINEAR          FLEXIBLE        0.23
+0.23	0.40	LINEAR          FLEXIBLE        0.52
+0.75	0.66	LINEAR          FLEXIBLE        0.25
+1.00	1.00
+Envelope 254
+2
+0.00	0.30	LINEAR          FLEXIBLE        1.00
+1.00	0.55
+Envelope 255
+2
+0.00	0.30	LINEAR          FLEXIBLE        1.00
+1.00	0.10
+Envelope 256
+3
+0.00	0.00	LINEAR          FLEXIBLE        0.50
+0.50	0.33	LINEAR          FLEXIBLE        0.50
+1.00	1.00
+Envelope 257
+2
+0.00	0.10	LINEAR          FLEXIBLE        1.00
+1.00	0.35
+Envelope 258
+2
+0.00	0.45	LINEAR          FLEXIBLE        1.00
+1.00	0.30
+Envelope 259
+3
+0.00	0.382	LINEAR          FLEXIBLE        0.33
+0.33	0.854	LINEAR          FLEXIBLE        0.66
+1.00	0.618
+Envelope 260
+2
+0.00	1.00	LINEAR          FLEXIBLE        1.00
+1.00	0.73
+Envelope 261
+2
+0.00	0.35	LINEAR          FLEXIBLE        1.00
+1.00	1.00
+Envelope 262
+2
+0.00	1.00	LINEAR          FLEXIBLE        1.00
+1.00	0.80
+Envelope 263
+2
+0.00	0.25	LINEAR          FLEXIBLE        1.00
+1.00	1.00
+Envelope 264
+2
+0.00	1.00	LINEAR          FLEXIBLE        1.00
+1.00	0.93
+Envelope 265
+2
+0.00	0.17	LINEAR          FLEXIBLE        1.00
+1.00	1.00
+Envelope 266
+2
+0.00	1.00	LINEAR          FLEXIBLE        1.00
+1.00	0.61
+Envelope 267
+5
+0.00	1.00	LINEAR          FLEXIBLE	0.30
+0.30	0.90	LINEAR          FLEXIBLE	0.25
+0.55	0.35	LINEAR          FLEXIBLE	0.25
+0.75	0.08	LINEAR          FLEXIBLE	0.20
+1.00	0.00
+Envelope 268
+5
+0.00	1.00	LINEAR          FLEXIBLE	0.30
+0.30	0.90	LINEAR          FLEXIBLE	0.25
+0.55	0.15	LINEAR          FLEXIBLE	0.25
+0.75	0.00	LINEAR          FLEXIBLE	0.20
+1.00	0.00
+Envelope 269
+8
+0.00    0.00    LINEAR          FLEXIBLE        0.16
+0.16    0.05    LINEAR          FLEXIBLE        0.16
+0.32    0.55    LINEAR          FLEXIBLE        0.16
+0.48    1.00    LINEAR          FLEXIBLE        0.16
+0.64    0.55    LINEAR          FLEXIBLE        0.14
+0.78    0.05    LINEAR          FLEXIBLE        0.07
+0.85    0.00    LINEAR          FLEXIBLE        0.15
+1.00    0.00
+Envelope 366
+2
+0.00	1.00	LINEAR          FLEXIBLE        1.00
+1.00	0.61

@@ -1,0 +1,81 @@
+.TH "High" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+High \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <high.h>\fP
+.PP
+Inherits \fBEvent\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBHigh\fP (float aStartTime, float aDuration, int aType, char *\fBaName\fP)"
+.br
+.ti -1c
+.RI "\fBHigh\fP (const  \fBHigh\fP &origHigh)"
+.br
+.ti -1c
+.RI "\fB~High\fP ()"
+.br
+.ti -1c
+.RI "\fBHigh\fP & \fBoperator=\fP (const  \fBHigh\fP &origHigh)"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBPrint\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBhighDensity\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "High::High (float aStartTime, float aDuration, int aType, char * aName)"
+.PP
+Definition at line 43 of file high.cpp.
+.PP
+References Event::aName, bottomID, highID, lowID, Event::setDensity(), Event::setDuration(), Event::setName(), Event::setStartTime(), and Event::setType().
+.SS "High::High (const \fBHigh\fP & origHigh)"
+.PP
+Definition at line 77 of file high.cpp.
+.PP
+References bottomID, and highID.
+.SS "High::~\fBHigh\fP ()"
+.PP
+Definition at line 90 of file high.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void High::clear ()\fC [virtual]\fP"
+.PP
+Clears several internal structures in the \fBEvent\fP: nameType, maxTypes, layerDens, objsInLayer, remainObjs, typesInLayer, starTarray, probSieveArray, durArray, probDurArray Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 101 of file high.cpp.
+.SS "\fBHigh\fP& High::operator= (const \fBHigh\fP & origHigh)"
+.PP
+.SS "void High::Print ()\fC [virtual]\fP"
+.PP
+Reimplemented from \fBEvent\fP.
+.PP
+Definition at line 110 of file high.cpp.
+.PP
+References highID, outputFile, Event::theDuration, Event::theName, Event::theStartTime, and Event::uPerSec.
+.SH "Member Data Documentation"
+.PP 
+.SS "double \fBHigh::highDensity\fP\fC [protected]\fP"
+.PP
+Definition at line 37 of file high.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

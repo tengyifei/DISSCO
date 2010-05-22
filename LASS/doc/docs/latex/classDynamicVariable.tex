@@ -1,0 +1,301 @@
+\hypertarget{classDynamicVariable}{
+\section{Dynamic\-Variable Class Reference}
+\label{classDynamicVariable}\index{DynamicVariable@{DynamicVariable}}
+}
+{\tt \#include $<$Dynamic\-Variable.h$>$}
+
+Inheritance diagram for Dynamic\-Variable:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=303pt]{classDynamicVariable__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Dynamic\-Variable:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=112pt]{classDynamicVariable__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classDynamicVariable_a0}{Dynamic\-Variable} ()
+\item 
+virtual \hyperlink{classDynamicVariable_a1}{$\sim$Dynamic\-Variable} ()
+\item 
+virtual \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ \hyperlink{classDynamicVariable_a2}{clone} ()=0
+\item 
+virtual \hyperlink{classIterator}{Iterator}$<$ \hyperlink{Types_8h_a3}{m\_\-value\_\-type} $>$ \hyperlink{classDynamicVariable_a3}{value\-Iterator} ()=0
+\item 
+virtual void \hyperlink{classDynamicVariable_a4}{scale} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} factor)=0
+\item 
+virtual \hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classDynamicVariable_a5}{get\-Max\-Value} ()=0
+\item 
+void \hyperlink{classDynamicVariable_a6}{set\-Duration} (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} duration)
+\item 
+\hyperlink{Types_8h_a2}{m\_\-time\_\-type} \hyperlink{classDynamicVariable_a7}{get\-Duration} ()
+\item 
+void \hyperlink{classDynamicVariable_a8}{set\-Sampling\-Rate} (\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} rate)
+\item 
+\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} \hyperlink{classDynamicVariable_a9}{get\-Sampling\-Rate} ()
+\item 
+\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} \hyperlink{classDynamicVariable_a10}{get\-Sample\-Count} ()
+\item 
+virtual void \hyperlink{classDynamicVariable_a11}{xml\_\-print} (ofstream \&xml\-Output, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \&dyn\-Objs)=0
+\item 
+virtual void \hyperlink{classDynamicVariable_a12}{xml\_\-print} (ofstream \&xml\-Output)=0
+\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ \hyperlink{classDynamicVariable_e0}{create\_\-dv\_\-from\_\-xml} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$dvtag)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{Types_8h_a2}{m\_\-time\_\-type} \hyperlink{classDynamicVariable_r0}{duration\_\-}
+\item 
+\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} \hyperlink{classDynamicVariable_r1}{rate\_\-}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+An abstract definition of a simple Dynamic Variable. This simply defines an m\_\-value\_\-type that changes over time. Any implemention that derives from Dynamic\-Variable can be added. \begin{Desc}
+\item[Author:]Braden Kowitz \end{Desc}
+
+
+
+
+Definition at line 55 of file Dynamic\-Variable.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classDynamicVariable_a0}{
+\index{DynamicVariable@{Dynamic\-Variable}!DynamicVariable@{DynamicVariable}}
+\index{DynamicVariable@{DynamicVariable}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[DynamicVariable]{\setlength{\rightskip}{0pt plus 5cm}Dynamic\-Variable::Dynamic\-Variable ()}}
+\label{classDynamicVariable_a0}
+
+
+Default constructor for Dynamic\-Variables. Sets the length to 1 second. Sets the rate to DEFAULT\_\-SAMPLING\_\-RATE 
+
+Definition at line 42 of file Dynamic\-Variable.cpp.\hypertarget{classDynamicVariable_a1}{
+\index{DynamicVariable@{Dynamic\-Variable}!~DynamicVariable@{$\sim$DynamicVariable}}
+\index{~DynamicVariable@{$\sim$DynamicVariable}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[$\sim$DynamicVariable]{\setlength{\rightskip}{0pt plus 5cm}virtual Dynamic\-Variable::$\sim$\hyperlink{classDynamicVariable}{Dynamic\-Variable} ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classDynamicVariable_a1}
+
+
+Destructor. 
+
+Definition at line 69 of file Dynamic\-Variable.h.
+
+\subsection{Member Function Documentation}
+\hypertarget{classDynamicVariable_a2}{
+\index{DynamicVariable@{Dynamic\-Variable}!clone@{clone}}
+\index{clone@{clone}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[clone]{\setlength{\rightskip}{0pt plus 5cm}virtual \hyperlink{classDynamicVariable}{Dynamic\-Variable}$\ast$ Dynamic\-Variable::clone ()\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a2}
+
+
+Creates an exact duplicate of this variable. 
+
+Implemented in \hyperlink{classConstant_a1}{Constant}, \hyperlink{classDynamicVariableSequence_a4}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a5}{Envelope}, \hyperlink{classInterpolator_a1}{Interpolator}, \hyperlink{classLinearInterpolator_a1}{Linear\-Interpolator}, \hyperlink{classExponentialInterpolator_a1}{Exponential\-Interpolator}, and \hyperlink{classCubicSplineInterpolator_a1}{Cubic\-Spline\-Interpolator}.
+
+Referenced by Partial::render(), Pan::set(), and Parameter\-Lib$<$ Static\-T, Dynamic\-T $>$::set\-Param().\hypertarget{classDynamicVariable_e0}{
+\index{DynamicVariable@{Dynamic\-Variable}!create_dv_from_xml@{create\_\-dv\_\-from\_\-xml}}
+\index{create_dv_from_xml@{create\_\-dv\_\-from\_\-xml}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[create\_\-dv\_\-from\_\-xml]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ Dynamic\-Variable::create\_\-dv\_\-from\_\-xml (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em dvtag})\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{classDynamicVariable_e0}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000009}{Deprecated}]This create a Dynamic\-Variable from xml\end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dvtag}]Some xml \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A Dynamic\-Variable \end{Desc}
+
+
+Definition at line 80 of file Dynamic\-Variable.cpp.
+
+References CUBIC\_\-SPLINE, EXPONENTIAL, Xml\-Reader::xmltag::find\-Child\-Param\-Value(), LINEAR, Interpolator::xml\_\-read(), Envelope::xml\_\-read(), and Constant::xml\_\-read().
+
+Referenced by Partial::aux\-Load\-Param(), and Score::xml\_\-read().\hypertarget{classDynamicVariable_a7}{
+\index{DynamicVariable@{Dynamic\-Variable}!getDuration@{getDuration}}
+\index{getDuration@{getDuration}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[getDuration]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a2}{m\_\-time\_\-type} Dynamic\-Variable::get\-Duration ()}}
+\label{classDynamicVariable_a7}
+
+
+Returns the Length in seconds of this Dynamic Variablei \begin{Desc}
+\item[Returns:]The duration in seconds \end{Desc}
+
+
+Definition at line 54 of file Dynamic\-Variable.cpp.
+
+References duration\_\-, and m\_\-time\_\-type.
+
+Referenced by Cubic\-Spline\-Interpolator::value\-Iterator(), Exponential\-Interpolator::value\-Iterator(), Linear\-Interpolator::value\-Iterator(), Envelope::value\-Iterator(), Dynamic\-Variable\-Sequence::value\-Iterator(), Interpolator::xml\_\-print(), Envelope::xml\_\-print(), Dynamic\-Variable\-Sequence::xml\_\-print(), and Constant::xml\_\-print().\hypertarget{classDynamicVariable_a5}{
+\index{DynamicVariable@{Dynamic\-Variable}!getMaxValue@{getMaxValue}}
+\index{getMaxValue@{getMaxValue}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[getMaxValue]{\setlength{\rightskip}{0pt plus 5cm}virtual \hyperlink{Types_8h_a3}{m\_\-value\_\-type} Dynamic\-Variable::get\-Max\-Value ()\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a5}
+
+
+Returns the maximum value present in this variable. \begin{Desc}
+\item[Returns:]the max value \end{Desc}
+
+
+Implemented in \hyperlink{classConstant_a6}{Constant}, \hyperlink{classDynamicVariableSequence_a26}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a28}{Envelope}, and \hyperlink{classInterpolator_a5}{Interpolator}.
+
+Referenced by Loudness::calculate().\hypertarget{classDynamicVariable_a10}{
+\index{DynamicVariable@{Dynamic\-Variable}!getSampleCount@{getSampleCount}}
+\index{getSampleCount@{getSampleCount}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[getSampleCount]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} Dynamic\-Variable::get\-Sample\-Count ()}}
+\label{classDynamicVariable_a10}
+
+
+Returns the number of samples at the current length and rate. \begin{Desc}
+\item[Returns:]number of samples \end{Desc}
+
+
+Definition at line 73 of file Dynamic\-Variable.cpp.
+
+References duration\_\-, m\_\-sample\_\-count\_\-type, and rate\_\-.
+
+Referenced by Constant::value\-Iterator().\hypertarget{classDynamicVariable_a9}{
+\index{DynamicVariable@{Dynamic\-Variable}!getSamplingRate@{getSamplingRate}}
+\index{getSamplingRate@{getSamplingRate}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[getSamplingRate]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} Dynamic\-Variable::get\-Sampling\-Rate ()}}
+\label{classDynamicVariable_a9}
+
+
+Returns the sampling rate. \begin{Desc}
+\item[Returns:]The sampling rate \end{Desc}
+
+
+Definition at line 67 of file Dynamic\-Variable.cpp.
+
+References m\_\-rate\_\-type, and rate\_\-.
+
+Referenced by Cubic\-Spline\-Interpolator::value\-Iterator(), Exponential\-Interpolator::value\-Iterator(), Linear\-Interpolator::value\-Iterator(), Envelope::value\-Iterator(), Dynamic\-Variable\-Sequence::value\-Iterator(), Interpolator::xml\_\-print(), Envelope::xml\_\-print(), Dynamic\-Variable\-Sequence::xml\_\-print(), and Constant::xml\_\-print().\hypertarget{classDynamicVariable_a4}{
+\index{DynamicVariable@{Dynamic\-Variable}!scale@{scale}}
+\index{scale@{scale}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[scale]{\setlength{\rightskip}{0pt plus 5cm}virtual void Dynamic\-Variable::scale (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em factor})\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a4}
+
+
+Scales this Dynamic\-Iterator by the given factor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em factor}]The scaling factor \end{description}
+\end{Desc}
+
+
+Implemented in \hyperlink{classConstant_a5}{Constant}, \hyperlink{classDynamicVariableSequence_a25}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a27}{Envelope}, and \hyperlink{classInterpolator_a4}{Interpolator}.\hypertarget{classDynamicVariable_a6}{
+\index{DynamicVariable@{Dynamic\-Variable}!setDuration@{setDuration}}
+\index{setDuration@{setDuration}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[setDuration]{\setlength{\rightskip}{0pt plus 5cm}void Dynamic\-Variable::set\-Duration (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} {\em duration})}}
+\label{classDynamicVariable_a6}
+
+
+Sets the length of this dynamic variable. Will also affect the sample count for this variable. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em duration}]The duration \end{description}
+\end{Desc}
+
+
+Definition at line 48 of file Dynamic\-Variable.cpp.
+
+References duration\_\-, and m\_\-time\_\-type.
+
+Referenced by Envelope::add\-Interpolators(), Dynamic\-Variable\-Sequence::add\-Interpolators(), Loudness::calculate(), Envelope::get\-Value(), Dynamic\-Variable\-Sequence::get\-Value(), Partial::render(), Pan::spatialize(), Interpolator::xml\_\-read(), Envelope::xml\_\-read(), and Constant::xml\_\-read().\hypertarget{classDynamicVariable_a8}{
+\index{DynamicVariable@{Dynamic\-Variable}!setSamplingRate@{setSamplingRate}}
+\index{setSamplingRate@{setSamplingRate}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[setSamplingRate]{\setlength{\rightskip}{0pt plus 5cm}void Dynamic\-Variable::set\-Sampling\-Rate (\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} {\em rate})}}
+\label{classDynamicVariable_a8}
+
+
+Sets the sampling rate for this dynamic variable. Will also affect the sample count for this variable. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rate}]The sampling rate \end{description}
+\end{Desc}
+
+
+Definition at line 61 of file Dynamic\-Variable.cpp.
+
+References m\_\-rate\_\-type, and rate\_\-.
+
+Referenced by Envelope::add\-Interpolators(), Dynamic\-Variable\-Sequence::add\-Interpolators(), Loudness::calculate(), Envelope::get\-Value(), Dynamic\-Variable\-Sequence::get\-Value(), Partial::render(), Pan::spatialize(), Interpolator::xml\_\-read(), Envelope::xml\_\-read(), and Constant::xml\_\-read().\hypertarget{classDynamicVariable_a3}{
+\index{DynamicVariable@{Dynamic\-Variable}!valueIterator@{valueIterator}}
+\index{valueIterator@{valueIterator}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[valueIterator]{\setlength{\rightskip}{0pt plus 5cm}virtual \hyperlink{classIterator}{Iterator}$<$\hyperlink{Types_8h_a3}{m\_\-value\_\-type}$>$ Dynamic\-Variable::value\-Iterator ()\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a3}
+
+
+Returns an iterator object that will iterate over all values in this Dynamic\-Variable. \begin{Desc}
+\item[Returns:]An iterator \end{Desc}
+
+
+Implemented in \hyperlink{classConstant_a4}{Constant}, \hyperlink{classDynamicVariableSequence_a24}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a26}{Envelope}, \hyperlink{classInterpolator_a3}{Interpolator}, \hyperlink{classLinearInterpolator_a2}{Linear\-Interpolator}, \hyperlink{classExponentialInterpolator_a2}{Exponential\-Interpolator}, and \hyperlink{classCubicSplineInterpolator_a2}{Cubic\-Spline\-Interpolator}.
+
+Referenced by Loudness::calculate(), Partial::render(), and Pan::spatialize().\hypertarget{classDynamicVariable_a12}{
+\index{DynamicVariable@{Dynamic\-Variable}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}virtual void Dynamic\-Variable::xml\_\-print (ofstream \& {\em xml\-Output})\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a12}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000008}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Implemented in \hyperlink{classConstant_a8}{Constant}, \hyperlink{classDynamicVariableSequence_a28}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a30}{Envelope}, and \hyperlink{classInterpolator_a8}{Interpolator}.\hypertarget{classDynamicVariable_a11}{
+\index{DynamicVariable@{Dynamic\-Variable}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}virtual void Dynamic\-Variable::xml\_\-print (ofstream \& {\em xml\-Output}, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \& {\em dyn\-Objs})\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classDynamicVariable_a11}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000007}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Implemented in \hyperlink{classConstant_a7}{Constant}, \hyperlink{classDynamicVariableSequence_a27}{Dynamic\-Variable\-Sequence}, \hyperlink{classEnvelope_a29}{Envelope}, and \hyperlink{classInterpolator_a7}{Interpolator}.
+
+Referenced by Partial::xml\_\-print().
+
+\subsection{Member Data Documentation}
+\hypertarget{classDynamicVariable_r0}{
+\index{DynamicVariable@{Dynamic\-Variable}!duration_@{duration\_\-}}
+\index{duration_@{duration\_\-}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[duration\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a2}{m\_\-time\_\-type} \hyperlink{classDynamicVariable_r0}{Dynamic\-Variable::duration\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classDynamicVariable_r0}
+
+
+The duration 
+
+Definition at line 155 of file Dynamic\-Variable.h.
+
+Referenced by get\-Duration(), get\-Sample\-Count(), and set\-Duration().\hypertarget{classDynamicVariable_r1}{
+\index{DynamicVariable@{Dynamic\-Variable}!rate_@{rate\_\-}}
+\index{rate_@{rate\_\-}!DynamicVariable@{Dynamic\-Variable}}
+\subsubsection[rate\_\-]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a4}{m\_\-rate\_\-type} \hyperlink{classDynamicVariable_r1}{Dynamic\-Variable::rate\_\-}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classDynamicVariable_r1}
+
+
+The sampling rate 
+
+Definition at line 160 of file Dynamic\-Variable.h.
+
+Referenced by get\-Sample\-Count(), get\-Sampling\-Rate(), and set\-Sampling\-Rate().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{DynamicVariable_8h}{Dynamic\-Variable.h}\item 
+\hyperlink{DynamicVariable_8cpp}{Dynamic\-Variable.cpp}\end{CompactItemize}

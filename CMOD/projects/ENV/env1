@@ -1,0 +1,9 @@
+																
+envelopeBuilder = EnvLib(4,1.0);
+
+
+/*envelopeBuilder = MakeEnvelope(<0.00, 0.14, 0.23, 0.38, 0.50, 0.62, 0.77, 0.86>,*/
+/*																<0.20, 0.23, 0.38, 0.94, 1.00, 0.94, 0.38, 0.23>,*/
+/*																<"LINEAR", "LINEAR", "LINEAR", "LINEAR", "LINEAR", "LINEAR", "LINEAR">,*/
+/*																<"FLEXIBLE", "FLEXIBLE", "FLEXIBLE", "FLEXIBLE", "FLEXIBLE", "FLEXIBLE", "FLEXIBLE">,*/
+/*																1.00);*/

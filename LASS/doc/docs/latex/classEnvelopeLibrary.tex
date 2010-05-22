@@ -1,0 +1,281 @@
+\hypertarget{classEnvelopeLibrary}{
+\section{Envelope\-Library Class Reference}
+\label{classEnvelopeLibrary}\index{EnvelopeLibrary@{EnvelopeLibrary}}
+}
+{\tt \#include $<$Envelope\-Library.h$>$}
+
+Collaboration diagram for Envelope\-Library:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=131pt]{classEnvelopeLibrary__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classEnvelopeLibrary_a0}{Envelope\-Library} ()
+\item 
+\hyperlink{classEnvelopeLibrary_a1}{$\sim$Envelope\-Library} ()
+\item 
+\hyperlink{classEnvelopeLibrary_a2}{Envelope\-Library} (\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \&lib)
+\item 
+\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \& \hyperlink{classEnvelopeLibrary_a3}{operator=} (\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \&lib)
+\item 
+bool \hyperlink{classEnvelopeLibrary_a4}{save\-Library} (char $\ast$filename)
+\item 
+int \hyperlink{classEnvelopeLibrary_a5}{load\-Library} (char $\ast$filename)
+\item 
+\hyperlink{classEnvelope}{Envelope} $\ast$ \hyperlink{classEnvelopeLibrary_a6}{get\-Envelope} (int index)
+\item 
+int \hyperlink{classEnvelopeLibrary_a7}{add\-Envelope} (\hyperlink{classEnvelope}{Envelope} $\ast$env)
+\item 
+int \hyperlink{classEnvelopeLibrary_a8}{add\-Envelope} (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ points, \hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ segments)
+\item 
+bool \hyperlink{classEnvelopeLibrary_a9}{update\-Envelope} (int index, \hyperlink{classEnvelope}{Envelope} $\ast$env)
+\item 
+void \hyperlink{classEnvelopeLibrary_a10}{show\-Envelope} (int index)
+\item 
+int \hyperlink{classEnvelopeLibrary_a11}{size} ()
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classCollection}{Collection}$<$ \hyperlink{classEnvelope}{Envelope} $\ast$ $>$ \hyperlink{classEnvelopeLibrary_r0}{library}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+This class manages a collection of Envelopes, providing methods for loading and saving the collection to a library file as well as functionality for adding to, retrieving from, updating the collection with, and displaying individual \hyperlink{classEnvelope}{Envelope} items. The name \hyperlink{classEnvelope}{Envelope} is used informally to designate an \hyperlink{classEnvelope}{Envelope}.
+
+\begin{Desc}
+\item[Note:]All methods in this class that take an index argument begin with a first value of 1 for user ease, though the actual \hyperlink{classCollection}{Collection} indices begin at 0.\end{Desc}
+\begin{Desc}
+\item[Author:]Philipp Fraund \end{Desc}
+
+
+
+
+Definition at line 48 of file Envelope\-Library.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classEnvelopeLibrary_a0}{
+\index{EnvelopeLibrary@{Envelope\-Library}!EnvelopeLibrary@{EnvelopeLibrary}}
+\index{EnvelopeLibrary@{EnvelopeLibrary}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[EnvelopeLibrary]{\setlength{\rightskip}{0pt plus 5cm}Envelope\-Library::Envelope\-Library ()}}
+\label{classEnvelopeLibrary_a0}
+
+
+This is the Constructor. 
+
+Definition at line 42 of file Envelope\-Library.cpp.\hypertarget{classEnvelopeLibrary_a1}{
+\index{EnvelopeLibrary@{Envelope\-Library}!~EnvelopeLibrary@{$\sim$EnvelopeLibrary}}
+\index{~EnvelopeLibrary@{$\sim$EnvelopeLibrary}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[$\sim$EnvelopeLibrary]{\setlength{\rightskip}{0pt plus 5cm}Envelope\-Library::$\sim$\hyperlink{classEnvelopeLibrary}{Envelope\-Library} ()}}
+\label{classEnvelopeLibrary_a1}
+
+
+This is the destructor. It deallocates all the Envelopes stored in the library. 
+
+Definition at line 46 of file Envelope\-Library.cpp.
+
+References library, Collection$<$ Envelope $\ast$ $>$::remove(), and Collection$<$ Envelope $\ast$ $>$::size().\hypertarget{classEnvelopeLibrary_a2}{
+\index{EnvelopeLibrary@{Envelope\-Library}!EnvelopeLibrary@{EnvelopeLibrary}}
+\index{EnvelopeLibrary@{EnvelopeLibrary}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[EnvelopeLibrary]{\setlength{\rightskip}{0pt plus 5cm}Envelope\-Library::Envelope\-Library (\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \& {\em lib})}}
+\label{classEnvelopeLibrary_a2}
+
+
+This is a copy constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lib}]The Envelope\-Library to copy \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A copy of lib \end{Desc}
+
+
+Definition at line 54 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::add(), Envelope::clone(), Collection$<$ Envelope $\ast$ $>$::get(), library, and Collection$<$ Envelope $\ast$ $>$::size().
+
+\subsection{Member Function Documentation}
+\hypertarget{classEnvelopeLibrary_a8}{
+\index{EnvelopeLibrary@{Envelope\-Library}!addEnvelope@{addEnvelope}}
+\index{addEnvelope@{addEnvelope}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[addEnvelope]{\setlength{\rightskip}{0pt plus 5cm}int Envelope\-Library::add\-Envelope (\hyperlink{classCollection}{Collection}$<$ \hyperlink{structxy__point}{xy\_\-point} $>$ {\em points}, \hyperlink{classCollection}{Collection}$<$ \hyperlink{structenvelope__segment}{envelope\_\-segment} $>$ {\em segments})}}
+\label{classEnvelopeLibrary_a8}
+
+
+This function adds a \hyperlink{classCollection}{Collection} of n+1 points and a \hyperlink{classCollection}{Collection} of n segments to the Envelope\-Library and returns the index at which it has been added. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em points}]A \hyperlink{classCollection}{Collection} of n+1 points \item[{\em segments}]A \hyperlink{classCollection}{Collection} of n segments \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The index where they were added \end{Desc}
+
+
+Definition at line 268 of file Envelope\-Library.cpp.
+
+References add\-Envelope().\hypertarget{classEnvelopeLibrary_a7}{
+\index{EnvelopeLibrary@{Envelope\-Library}!addEnvelope@{addEnvelope}}
+\index{addEnvelope@{addEnvelope}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[addEnvelope]{\setlength{\rightskip}{0pt plus 5cm}int Envelope\-Library::add\-Envelope (\hyperlink{classEnvelope}{Envelope} $\ast$ {\em env})}}
+\label{classEnvelopeLibrary_a7}
+
+
+This function adds an \hyperlink{classEnvelope}{Envelope} (passed by pointer) to the Envelope\-Library and returns the index at which it has been added. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em env}]The new \hyperlink{classEnvelope}{Envelope} to add to the Envelope\-Library \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The index of the new \hyperlink{classEnvelope}{Envelope} in the Envelope\-Library \end{Desc}
+
+
+Definition at line 260 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::add(), library, and Collection$<$ Envelope $\ast$ $>$::size().
+
+Referenced by add\-Envelope().\hypertarget{classEnvelopeLibrary_a6}{
+\index{EnvelopeLibrary@{Envelope\-Library}!getEnvelope@{getEnvelope}}
+\index{getEnvelope@{getEnvelope}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[getEnvelope]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classEnvelope}{Envelope} $\ast$ Envelope\-Library::get\-Envelope (int {\em index})}}
+\label{classEnvelopeLibrary_a6}
+
+
+This function returns a pointer to a new \hyperlink{classEnvelope}{Envelope} given an index to an existing Envelope\-Library, or NULL if index is out of range. \begin{Desc}
+\item[Note:]This returns a clone of the env and not a pointer to the library object itself \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which \hyperlink{classEnvelope}{Envelope} in the Envelope\-Library to find \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A pointer to a COPY of the original envelope \end{Desc}
+
+
+Definition at line 250 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::get(), library, and Collection$<$ Envelope $\ast$ $>$::size().\hypertarget{classEnvelopeLibrary_a5}{
+\index{EnvelopeLibrary@{Envelope\-Library}!loadLibrary@{loadLibrary}}
+\index{loadLibrary@{loadLibrary}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[loadLibrary]{\setlength{\rightskip}{0pt plus 5cm}int Envelope\-Library::load\-Library (char $\ast$ {\em filename})}}
+\label{classEnvelopeLibrary_a5}
+
+
+This function reads the \hyperlink{classEnvelope}{Envelope} library from a disk file. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filename}]The name of the file to read from \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The number of entries in the library of -1 if unsucessful \end{Desc}
+
+
+Definition at line 153 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::add(), Collection$<$ T $>$::add(), Collection$<$ T $>$::clear(), CUBIC\_\-SPLINE, EXPONENTIAL, FIXED, FLEXIBLE, interpolation\_\-type, envelope\_\-segment::inter\-Type, envelope\_\-segment::length, envelope\_\-segment::length\-Type, library, LINEAR, m\_\-time\_\-type, Collection$<$ Envelope $\ast$ $>$::size(), stretch\_\-type, xy\_\-point::x, and xy\_\-point::y.\hypertarget{classEnvelopeLibrary_a3}{
+\index{EnvelopeLibrary@{Envelope\-Library}!operator=@{operator=}}
+\index{operator=@{operator=}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[operator=]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \& Envelope\-Library::operator= (\hyperlink{classEnvelopeLibrary}{Envelope\-Library} \& {\em lib})}}
+\label{classEnvelopeLibrary_a3}
+
+
+This is an overloaded assignment operator for Evelope\-Libraries 
+
+Definition at line 62 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::add(), Collection$<$ Envelope $\ast$ $>$::get(), library, Collection$<$ Envelope $\ast$ $>$::remove(), and Collection$<$ Envelope $\ast$ $>$::size().\hypertarget{classEnvelopeLibrary_a4}{
+\index{EnvelopeLibrary@{Envelope\-Library}!saveLibrary@{saveLibrary}}
+\index{saveLibrary@{saveLibrary}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[saveLibrary]{\setlength{\rightskip}{0pt plus 5cm}bool Envelope\-Library::save\-Library (char $\ast$ {\em filename})}}
+\label{classEnvelopeLibrary_a4}
+
+
+This function writes the \hyperlink{classEnvelope}{Envelope} library to a disk file. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filename}]The name of the file to write to \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em true}]If successful \item[{\em false}]If unsuccessful \end{description}
+\end{Desc}
+
+
+Definition at line 80 of file Envelope\-Library.cpp.
+
+References CUBIC\_\-SPLINE, EXPONENTIAL, FLEXIBLE, Collection$<$ Envelope $\ast$ $>$::get(), library, LINEAR, size(), and Collection$<$ Envelope $\ast$ $>$::size().\hypertarget{classEnvelopeLibrary_a10}{
+\index{EnvelopeLibrary@{Envelope\-Library}!showEnvelope@{showEnvelope}}
+\index{showEnvelope@{showEnvelope}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[showEnvelope]{\setlength{\rightskip}{0pt plus 5cm}void Envelope\-Library::show\-Envelope (int {\em index})}}
+\label{classEnvelopeLibrary_a10}
+
+
+This function displays the indexed Envelope's contents using the standard output stream. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]The \hyperlink{classEnvelope}{Envelope} in the Evelope\-Library to show \end{description}
+\end{Desc}
+
+
+Definition at line 291 of file Envelope\-Library.cpp.
+
+References Collection$<$ Envelope $\ast$ $>$::get(), library, and Collection$<$ Envelope $\ast$ $>$::size().\hypertarget{classEnvelopeLibrary_a11}{
+\index{EnvelopeLibrary@{Envelope\-Library}!size@{size}}
+\index{size@{size}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[size]{\setlength{\rightskip}{0pt plus 5cm}int Envelope\-Library::size ()}}
+\label{classEnvelopeLibrary_a11}
+
+
+This function returns the number of envelopes existing in the Envelope\-Library \begin{Desc}
+\item[Returns:]The number of envelopes \end{Desc}
+
+
+Definition at line 306 of file Envelope\-Library.cpp.
+
+References library, and Collection$<$ Envelope $\ast$ $>$::size().
+
+Referenced by save\-Library().\hypertarget{classEnvelopeLibrary_a9}{
+\index{EnvelopeLibrary@{Envelope\-Library}!updateEnvelope@{updateEnvelope}}
+\index{updateEnvelope@{updateEnvelope}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[updateEnvelope]{\setlength{\rightskip}{0pt plus 5cm}bool Envelope\-Library::update\-Envelope (int {\em index}, \hyperlink{classEnvelope}{Envelope} $\ast$ {\em env})}}
+\label{classEnvelopeLibrary_a9}
+
+
+This function updates the Envelope\-Library entry at the index with an \hyperlink{classEnvelope}{Envelope} (passed by pointer) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em index}]Which \hyperlink{classEnvelope}{Envelope} in the Envelope\-Library to update \item[{\em env}]A pointer to the new \hyperlink{classEnvelope}{Envelope} \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em true}]Successful \item[{\em false}]Unsuccessful (index out of range) \end{description}
+\end{Desc}
+
+
+Definition at line 278 of file Envelope\-Library.cpp.
+
+References library, Collection$<$ Envelope $\ast$ $>$::set(), and Collection$<$ Envelope $\ast$ $>$::size().
+
+\subsection{Member Data Documentation}
+\hypertarget{classEnvelopeLibrary_r0}{
+\index{EnvelopeLibrary@{Envelope\-Library}!library@{library}}
+\index{library@{library}!EnvelopeLibrary@{Envelope\-Library}}
+\subsubsection[library]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classCollection}{Collection}$<$\hyperlink{classEnvelope}{Envelope} $\ast$$>$ \hyperlink{classEnvelopeLibrary_r0}{Envelope\-Library::library}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classEnvelopeLibrary_r0}
+
+
+This is a data structure to hold the library of envelopes. 
+
+Definition at line 152 of file Envelope\-Library.h.
+
+Referenced by add\-Envelope(), Envelope\-Library(), get\-Envelope(), load\-Library(), operator=(), save\-Library(), show\-Envelope(), size(), update\-Envelope(), and $\sim$Envelope\-Library().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{EnvelopeLibrary_8h}{Envelope\-Library.h}\item 
+\hyperlink{EnvelopeLibrary_8cpp}{Envelope\-Library.cpp}\end{CompactItemize}

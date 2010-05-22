@@ -1,0 +1,78 @@
+				/* B/sound5 */
+
+maxChildDur = 5;
+unitsPerSecond = 1;
+unitsPerBar = 5;
+
+childNames = 	< 
+								<"S/perc.05"> 
+							>;
+
+numChildren = <"FIXED">;
+
+childEventDef = < "CONTINUUM",				/* Method - CONTINUUM, SWEEP, DISCRETE */
+								0.00,								/* Stime */
+								"PERCENTAGE",				/* Stime type - UNITS or SECONDS or PERCENTAGE */
+								0,									/* Type */
+								0.90,								/* Duration */
+								"PERCENTAGE" >;			/* Duration type - UNITS or SECONDS or PERCENTAGE */
+
+/*frequency = <"WELL_TEMPERED", RandomInt(52, 62) >;*/
+/*frequency = <"FUNDAMENTAL", float-fundamental-frequency, int-overtone-num>;*/
+/*frequency = <"WELL_TEMPERED", Select(<52, 53, 55>, CURRENT_OBJ_NUM)>;*/
+/*frequency = <"WELL_TEMPERED", ChooseL( ReadSIVFile("SIV/siv1") ) >;*/
+/*frequency = <"WELL_TEMPERED", ChooseL( MakeSieve(48, 80, "MODS", <2, 3, 5>, "PERIODIC", <3, 2, 1>) ) >;*/
+/*frequency = <"CONTINUUM", "HERTZ", 440 >;*/
+/*frequency = <"CONTINUUM", "POW2", Random(0,1) >;*/
+
+frequency = <"WELL_TEMPERED", GetPattern( "IN_ORDER", ReadPATFile("PAT/pat1") )>;
+
+loudness = 256;
+
+spatialization = ReadSPAFile("SPA/spa1");
+
+reverberation = ReadREVFile("REV/rev1");
+
+modifiers = < < "TREMOLO", 
+                EnvLib(1, 1.00),    /* prob */
+                "SOUND",            /* applyhow -- SOUND or PARTIAL */
+                EnvLib(62, 0.20),   /* amp value ---- env or numeric value */
+                EnvLib(88, 7.00) >, /* rate value ---- env or numeric value */
+              < "VIBRATO",
+                EnvLib(1, 0.70),
+                "SOUND",
+                EnvLib(62, 0.20),
+                EnvLib(88, 7.00),
+                <"MUT_EX", "GROUP1"> >, 
+              < "GLISSANDO",
+                EnvLib(1, 0.50),
+                "SOUND",
+                EnvLib(4, 2.00),
+                <"MUT_EX", "GROUP1"> >,
+              < "BEND",
+                EnvLib(1, 1.00),
+                "PARTIAL",
+                EnvLib(94, 1.20) >,
+              < "DETUNE",
+                EnvLib(1, 0.00),
+                "PARTIAL",
+                EnvLib(1, 0.00) >,
+              < "AMPTRANS",
+                EnvLib(1, 0.00),
+                "SOUND",
+                EnvLib(1, 0.21),      /* amp value */
+                EnvLib(1, 0.26),      /* rate value */
+                EnvLib(1, 1054.00) >, /* width */ 
+              < "FREQTRANS",
+                EnvLib(1, 0.00),
+                "SOUND",
+                EnvLib(1, 0.21),     /* amp value */
+                EnvLib(1, 0.26),     /* rate value */
+                EnvLib(1, 880.00) >, /* width */
+              < "WAVE_TYPE",
+                EnvLib(1, 0.00),
+                "SOUND",
+                EnvLib(1, 1) >
+            >;
+
+

@@ -1,0 +1,288 @@
+\hypertarget{classAllPassFilter}{
+\section{All\-Pass\-Filter Class Reference}
+\label{classAllPassFilter}\index{AllPassFilter@{AllPassFilter}}
+}
+{\tt \#include $<$All\-Pass\-Filter.h$>$}
+
+Inheritance diagram for All\-Pass\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=88pt]{classAllPassFilter__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for All\-Pass\-Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{classAllPassFilter__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classAllPassFilter_a0}{All\-Pass\-Filter} (float gain, long delay)
+\item 
+\hyperlink{classAllPassFilter_a1}{$\sim$All\-Pass\-Filter} ()
+\item 
+\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} \hyperlink{classAllPassFilter_a2}{do\_\-filter} (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} x\_\-t)
+\item 
+void \hyperlink{classAllPassFilter_a3}{reset} (void)
+\item 
+void \hyperlink{classAllPassFilter_a4}{xml\_\-print} (ofstream \&xml\-Output)
+\item 
+\hyperlink{classAllPassFilter_a5}{All\-Pass\-Filter} ()
+\item 
+void \hyperlink{classAllPassFilter_a6}{set\_\-g} (float gain)
+\item 
+void \hyperlink{classAllPassFilter_a7}{set\_\-D} (long delay)
+\item 
+void \hyperlink{classAllPassFilter_a8}{xml\_\-read} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$apftag)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+float \hyperlink{classAllPassFilter_r0}{g}
+\item 
+float \hyperlink{classAllPassFilter_r1}{g\_\-sqrd}
+\item 
+long \hyperlink{classAllPassFilter_r2}{D}
+\item 
+\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} $>$ $\ast$ \hyperlink{classAllPassFilter_r3}{y\_\-hist}
+\item 
+\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$ \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} $>$ $\ast$ \hyperlink{classAllPassFilter_r4}{x\_\-hist}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The comb filter class implements an allpass filter as described on page 385 of 'Elements of Computer Music:
+
+y(t) = -gx(t) + (1-g$^\wedge$2)$\ast$(x(t-D) + g$\ast$y(t-D))
+
+\begin{Desc}
+\item[Note:]This filter (and all other 'class Filter's) are stateful machines with internal feedback mechanisms. Thus this filter should be \hyperlink{classAllPassFilter_a3}{reset()} each time you begin a new channel and should not be mixed between channels. \end{Desc}
+\begin{Desc}
+\item[Author:]Andrew Kurtz 
+
+Jim Lindstrom \end{Desc}
+
+
+
+
+Definition at line 51 of file All\-Pass\-Filter.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classAllPassFilter_a0}{
+\index{AllPassFilter@{All\-Pass\-Filter}!AllPassFilter@{AllPassFilter}}
+\index{AllPassFilter@{AllPassFilter}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[AllPassFilter]{\setlength{\rightskip}{0pt plus 5cm}All\-Pass\-Filter::All\-Pass\-Filter (float {\em gain}, long {\em delay})}}
+\label{classAllPassFilter_a0}
+
+
+This is the constructor. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gain}]The feedback gain (should be in the range 0.0 to 1.0) \item[{\em delay}]The allpass delay (in units of samples) \end{description}
+\end{Desc}
+
+
+Definition at line 43 of file All\-Pass\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, g\_\-sqrd, x\_\-hist, and y\_\-hist.\hypertarget{classAllPassFilter_a1}{
+\index{AllPassFilter@{All\-Pass\-Filter}!~AllPassFilter@{$\sim$AllPassFilter}}
+\index{~AllPassFilter@{$\sim$AllPassFilter}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[$\sim$AllPassFilter]{\setlength{\rightskip}{0pt plus 5cm}All\-Pass\-Filter::$\sim$\hyperlink{classAllPassFilter}{All\-Pass\-Filter} ()}}
+\label{classAllPassFilter_a1}
+
+
+This is the destructor 
+
+Definition at line 62 of file All\-Pass\-Filter.cpp.
+
+References x\_\-hist, and y\_\-hist.\hypertarget{classAllPassFilter_a5}{
+\index{AllPassFilter@{All\-Pass\-Filter}!AllPassFilter@{AllPassFilter}}
+\index{AllPassFilter@{AllPassFilter}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[AllPassFilter]{\setlength{\rightskip}{0pt plus 5cm}All\-Pass\-Filter::All\-Pass\-Filter ()}}
+\label{classAllPassFilter_a5}
+
+
+This is a constructor. 
+
+Definition at line 112 of file All\-Pass\-Filter.cpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{classAllPassFilter_a2}{
+\index{AllPassFilter@{All\-Pass\-Filter}!do_filter@{do\_\-filter}}
+\index{do_filter@{do\_\-filter}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[do\_\-filter]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} All\-Pass\-Filter::do\_\-filter (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} {\em x\_\-t})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classAllPassFilter_a2}
+
+
+This method applies an allpass filter to a single sample \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em x\_\-t}]The input sample \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The sampled filter \end{Desc}
+
+
+Implements \hyperlink{classFilter_a3}{Filter}.
+
+Definition at line 70 of file All\-Pass\-Filter.cpp.
+
+References Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::dequeue(), Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), g, g\_\-sqrd, m\_\-sample\_\-type, x\_\-hist, and y\_\-hist.
+
+Referenced by Reverb::do\_\-reverb().\hypertarget{classAllPassFilter_a3}{
+\index{AllPassFilter@{All\-Pass\-Filter}!reset@{reset}}
+\index{reset@{reset}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[reset]{\setlength{\rightskip}{0pt plus 5cm}void All\-Pass\-Filter::reset (void)\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classAllPassFilter_a3}
+
+
+This method should be redefined by each class derived from \hyperlink{classFilter}{Filter} to reset the filter to an initial state. It should have the same effect as deleting the filter and creating a new one. 
+
+Implements \hyperlink{classFilter_a4}{Filter}.
+
+Definition at line 82 of file All\-Pass\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), x\_\-hist, and y\_\-hist.
+
+Referenced by Reverb::reset().\hypertarget{classAllPassFilter_a7}{
+\index{AllPassFilter@{All\-Pass\-Filter}!set_D@{set\_\-D}}
+\index{set_D@{set\_\-D}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[set\_\-D]{\setlength{\rightskip}{0pt plus 5cm}void All\-Pass\-Filter::set\_\-D (long {\em delay})}}
+\label{classAllPassFilter_a7}
+
+
+This sets the delay. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em delay}]The delay as a long \end{description}
+\end{Desc}
+
+
+Definition at line 121 of file All\-Pass\-Filter.cpp.
+
+References D, Filter::hist\_\-queue$<$ m\_\-sample\_\-type $>$::enqueue(), x\_\-hist, and y\_\-hist.
+
+Referenced by xml\_\-read().\hypertarget{classAllPassFilter_a6}{
+\index{AllPassFilter@{All\-Pass\-Filter}!set_g@{set\_\-g}}
+\index{set_g@{set\_\-g}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[set\_\-g]{\setlength{\rightskip}{0pt plus 5cm}void All\-Pass\-Filter::set\_\-g (float {\em gain})}}
+\label{classAllPassFilter_a6}
+
+
+This sets the gain. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gain}]The gain as a float \end{description}
+\end{Desc}
+
+
+Definition at line 116 of file All\-Pass\-Filter.cpp.
+
+References g, and g\_\-sqrd.
+
+Referenced by xml\_\-read().\hypertarget{classAllPassFilter_a4}{
+\index{AllPassFilter@{All\-Pass\-Filter}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void All\-Pass\-Filter::xml\_\-print (ofstream \& {\em xml\-Output})}}
+\label{classAllPassFilter_a4}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]This outputs an XML representation of the object to STDOUT.\end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em xml\-Output}]The output channel \end{description}
+\end{Desc}
+
+
+Definition at line 100 of file All\-Pass\-Filter.cpp.
+
+References D, and g.
+
+Referenced by Reverb::xml\_\-print().\hypertarget{classAllPassFilter_a8}{
+\index{AllPassFilter@{All\-Pass\-Filter}!xml_read@{xml\_\-read}}
+\index{xml_read@{xml\_\-read}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[xml\_\-read]{\setlength{\rightskip}{0pt plus 5cm}void All\-Pass\-Filter::xml\_\-read (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em apftag})}}
+\label{classAllPassFilter_a8}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000003}{Deprecated}]Reads some xml and sets the gain and delay.\end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em apftag}]A pointer to the xml to read \end{description}
+\end{Desc}
+
+
+Definition at line 136 of file All\-Pass\-Filter.cpp.
+
+References Xml\-Reader::xmltag::find\-Child\-Param\-Value(), set\_\-D(), and set\_\-g().
+
+Referenced by Reverb::xml\_\-read().
+
+\subsection{Member Data Documentation}
+\hypertarget{classAllPassFilter_r2}{
+\index{AllPassFilter@{All\-Pass\-Filter}!D@{D}}
+\index{D@{D}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[D]{\setlength{\rightskip}{0pt plus 5cm}long \hyperlink{classAllPassFilter_r2}{All\-Pass\-Filter::D}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classAllPassFilter_r2}
+
+
+The delay for the comb component of the filter 
+
+Definition at line 124 of file All\-Pass\-Filter.h.
+
+Referenced by All\-Pass\-Filter(), reset(), set\_\-D(), and xml\_\-print().\hypertarget{classAllPassFilter_r0}{
+\index{AllPassFilter@{All\-Pass\-Filter}!g@{g}}
+\index{g@{g}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[g]{\setlength{\rightskip}{0pt plus 5cm}float \hyperlink{classAllPassFilter_r0}{All\-Pass\-Filter::g}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classAllPassFilter_r0}
+
+
+The gain for the comb component of the filter 
+
+Definition at line 114 of file All\-Pass\-Filter.h.
+
+Referenced by All\-Pass\-Filter(), do\_\-filter(), set\_\-g(), and xml\_\-print().\hypertarget{classAllPassFilter_r1}{
+\index{AllPassFilter@{All\-Pass\-Filter}!g_sqrd@{g\_\-sqrd}}
+\index{g_sqrd@{g\_\-sqrd}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[g\_\-sqrd]{\setlength{\rightskip}{0pt plus 5cm}float \hyperlink{classAllPassFilter_r1}{All\-Pass\-Filter::g\_\-sqrd}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classAllPassFilter_r1}
+
+
+The square of the gain 
+
+Definition at line 119 of file All\-Pass\-Filter.h.
+
+Referenced by All\-Pass\-Filter(), do\_\-filter(), and set\_\-g().\hypertarget{classAllPassFilter_r4}{
+\index{AllPassFilter@{All\-Pass\-Filter}!x_hist@{x\_\-hist}}
+\index{x_hist@{x\_\-hist}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[x\_\-hist]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$\hyperlink{Types_8h_a0}{m\_\-sample\_\-type}$>$$\ast$ \hyperlink{classAllPassFilter_r4}{All\-Pass\-Filter::x\_\-hist}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classAllPassFilter_r4}
+
+
+This queue holds past samples to implement the delay 
+
+Definition at line 134 of file All\-Pass\-Filter.h.
+
+Referenced by All\-Pass\-Filter(), do\_\-filter(), reset(), set\_\-D(), and $\sim$All\-Pass\-Filter().\hypertarget{classAllPassFilter_r3}{
+\index{AllPassFilter@{All\-Pass\-Filter}!y_hist@{y\_\-hist}}
+\index{y_hist@{y\_\-hist}!AllPassFilter@{All\-Pass\-Filter}}
+\subsubsection[y\_\-hist]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classFilter_1_1hist__queue}{Filter::hist\_\-queue}$<$\hyperlink{Types_8h_a0}{m\_\-sample\_\-type}$>$$\ast$ \hyperlink{classAllPassFilter_r3}{All\-Pass\-Filter::y\_\-hist}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classAllPassFilter_r3}
+
+
+This queue holds past samples to implement the delay 
+
+Definition at line 129 of file All\-Pass\-Filter.h.
+
+Referenced by All\-Pass\-Filter(), do\_\-filter(), reset(), set\_\-D(), and $\sim$All\-Pass\-Filter().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{AllPassFilter_8h}{All\-Pass\-Filter.h}\item 
+\hyperlink{AllPassFilter_8cpp}{All\-Pass\-Filter.cpp}\end{CompactItemize}

@@ -1,0 +1,201 @@
+\hypertarget{classPartial}{
+\section{Partial Class Reference}
+\label{classPartial}\index{Partial@{Partial}}
+}
+{\tt \#include $<$Partial.h$>$}
+
+Inheritance diagram for Partial:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classPartial__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Partial:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classPartial__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classPartial_a0}{Partial} ()
+\item 
+\hyperlink{classTrack}{Track} $\ast$ \hyperlink{classPartial_a1}{render} (\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} sample\-Count, \hyperlink{Types_8h_a2}{m\_\-time\_\-type} duration, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} sampling\-Rate=\hyperlink{Types_8h_a5}{DEFAULT\_\-SAMPLING\_\-RATE})
+\item 
+void \hyperlink{classPartial_a2}{use\_\-reverb} (\hyperlink{classReverb}{Reverb} $\ast$new\-Reverb\-Obj)
+\item 
+void \hyperlink{classPartial_a3}{xml\_\-print} (ofstream \&xml\-Output, list$<$ \hyperlink{classReverb}{Reverb} $\ast$ $>$ \&rev\-Objs, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \&dyn\-Objs)
+\item 
+void \hyperlink{classPartial_a4}{xml\_\-read} (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$partialtag, hash\_\-map$<$ long, \hyperlink{classReverb}{Reverb} $\ast$ $>$ $\ast$reverb\-Hash, hash\_\-map$<$ long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ $\ast$dv\-Hash)
+\item 
+\hyperlink{Types_8h_a2}{m\_\-time\_\-type} \hyperlink{classPartial_a5}{get\-Total\-Duration} (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} dry\-Duration)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{classPartial_d0}{aux\-Load\-Param} (enum \hyperlink{Partial_8h_a20}{Partial\-Dynamic\-Param} param, \hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$tag, hash\_\-map$<$ long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ $\ast$dv\-Hash)
+\item 
+\hyperlink{Types_8h_a3}{m\_\-value\_\-type} \hyperlink{classPartial_d1}{pmod} (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} num)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{classReverb}{Reverb} $\ast$ \hyperlink{classPartial_r0}{reverb\-Obj}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+A partial is a building block of all sounds. It is a simple Sin wave that is manipulated by several dynamic and static parameters. 
+
+
+
+Definition at line 163 of file Partial.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPartial_a0}{
+\index{Partial@{Partial}!Partial@{Partial}}
+\index{Partial@{Partial}!Partial@{Partial}}
+\subsubsection[Partial]{\setlength{\rightskip}{0pt plus 5cm}Partial::Partial ()}}
+\label{classPartial_a0}
+
+
+Default constructor that sets a few basic parameters\begin{itemize}
+\item RELATIVE\_\-AMPLITUDE = 1.0\item PARTIAL\_\-NUM = 1.0\item WAVE\_\-SHAPE = 1.0\item FREQUENCY = 440\item LOUDNESS\_\-SCALAR = 1.0\item All trans envelopes = 0\item Both TRANS\_\-WIDTH = 1103 \end{itemize}
+
+
+Definition at line 41 of file Partial.cpp.
+
+References AMPTRANS\_\-AMP\_\-ENV, AMPTRANS\_\-RATE\_\-ENV, AMPTRANS\_\-WIDTH, FREQ\_\-ENV, FREQTRANS\_\-AMP\_\-ENV, FREQTRANS\_\-RATE\_\-ENV, FREQTRANS\_\-WIDTH, FREQUENCY, LOUDNESS\_\-SCALAR, PARTIAL\_\-NUM, RELATIVE\_\-AMPLITUDE, reverb\-Obj, Parameter\-Lib$<$ Partial\-Static\-Param, Partial\-Dynamic\-Param $>$::set\-Param(), WAVE\_\-SHAPE, and WAVE\_\-TYPE.
+
+\subsection{Member Function Documentation}
+\hypertarget{classPartial_d0}{
+\index{Partial@{Partial}!auxLoadParam@{auxLoadParam}}
+\index{auxLoadParam@{auxLoadParam}!Partial@{Partial}}
+\subsubsection[auxLoadParam]{\setlength{\rightskip}{0pt plus 5cm}void Partial::aux\-Load\-Param (enum \hyperlink{Partial_8h_a20}{Partial\-Dynamic\-Param} {\em param}, \hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em tag}, hash\_\-map$<$ long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ $\ast$ {\em dv\-Hash})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPartial_d0}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000026}{Deprecated}]Auxillary function to assist in loading dv's from XML \end{Desc}
+
+
+Definition at line 556 of file Partial.cpp.
+
+References Dynamic\-Variable::create\_\-dv\_\-from\_\-xml(), Xml\-Reader::xmltag::find\-Child\-Param\-Value(), and Parameter\-Lib$<$ Partial\-Static\-Param, Partial\-Dynamic\-Param $>$::set\-Param().
+
+Referenced by xml\_\-read().\hypertarget{classPartial_a5}{
+\index{Partial@{Partial}!getTotalDuration@{getTotalDuration}}
+\index{getTotalDuration@{getTotalDuration}!Partial@{Partial}}
+\subsubsection[getTotalDuration]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a2}{m\_\-time\_\-type} Partial::get\-Total\-Duration (\hyperlink{Types_8h_a2}{m\_\-time\_\-type} {\em dry\-Duration})}}
+\label{classPartial_a5}
+
+
+This returns the total length (in seconds) of the partial. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dry\-Duration}]The input 'dry\-Duration' is the duration of the sound without any effects added on. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The total length of time returned includes time for the reverb to die out. \end{Desc}
+
+
+Definition at line 401 of file Partial.cpp.
+
+References Reverb::get\-Decay(), m\_\-time\_\-type, and reverb\-Obj.\hypertarget{classPartial_d1}{
+\index{Partial@{Partial}!pmod@{pmod}}
+\index{pmod@{pmod}!Partial@{Partial}}
+\subsubsection[pmod]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{Types_8h_a3}{m\_\-value\_\-type} Partial::pmod (\hyperlink{Types_8h_a3}{m\_\-value\_\-type} {\em num})\hspace{0.3cm}{\tt  \mbox{[}inline, private\mbox{]}}}}
+\label{classPartial_d1}
+
+
+This is phase-modulation. It basically does an inline modulus 1 on a float value. 
+
+Definition at line 386 of file Partial.cpp.
+
+References m\_\-value\_\-type.
+
+Referenced by render().\hypertarget{classPartial_a1}{
+\index{Partial@{Partial}!render@{render}}
+\index{render@{render}!Partial@{Partial}}
+\subsubsection[render]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classTrack}{Track} $\ast$ Partial::render (\hyperlink{Types_8h_a1}{m\_\-sample\_\-count\_\-type} {\em sample\-Count}, \hyperlink{Types_8h_a2}{m\_\-time\_\-type} {\em duration}, \hyperlink{Types_8h_a4}{m\_\-rate\_\-type} {\em sampling\-Rate} = \hyperlink{Types_8h_a5}{DEFAULT\_\-SAMPLING\_\-RATE})}}
+\label{classPartial_a1}
+
+
+This returns a \hyperlink{classTrack}{Track} object of the rendered partial. The object must be deleted by the user calling the function. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sample\-Count}]The number of samples \item[{\em duration}]The duration \item[{\em sampling\-Rate}]The sampling rate \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A \hyperlink{classTrack}{Track} \end{Desc}
+
+
+Definition at line 64 of file Partial.cpp.
+
+References AMPTRANS\_\-AMP\_\-ENV, AMPTRANS\_\-RATE\_\-ENV, AMPTRANS\_\-WIDTH, Dynamic\-Variable::clone(), Reverb::do\_\-reverb\_\-Track(), FREQ\_\-ENV, FREQTRANS\_\-AMP\_\-ENV, FREQTRANS\_\-RATE\_\-ENV, FREQTRANS\_\-WIDTH, FREQUENCY, Reverb::get\-Decay(), Parameter\-Lib$<$ Partial\-Static\-Param, Partial\-Dynamic\-Param $>$::get\-Param(), LOUDNESS\_\-SCALAR, m\_\-rate\_\-type, m\_\-sample\_\-count\_\-type, m\_\-time\_\-type, m\_\-value\_\-type, Iterator$<$ m\_\-value\_\-type $>$::next(), PARTIAL\_\-NUM, PHASE, pmod(), reverb\-Obj, Dynamic\-Variable::set\-Duration(), Dynamic\-Variable::set\-Sampling\-Rate(), TREMOLO\_\-AMP, TREMOLO\_\-RATE, Dynamic\-Variable::value\-Iterator(), VIBRATO\_\-AMP, VIBRATO\_\-RATE, WAVE\_\-SHAPE, and WAVE\_\-TYPE.\hypertarget{classPartial_a2}{
+\index{Partial@{Partial}!use_reverb@{use\_\-reverb}}
+\index{use_reverb@{use\_\-reverb}!Partial@{Partial}}
+\subsubsection[use\_\-reverb]{\setlength{\rightskip}{0pt plus 5cm}void Partial::use\_\-reverb (\hyperlink{classReverb}{Reverb} $\ast$ {\em new\-Reverb\-Obj})}}
+\label{classPartial_a2}
+
+
+Use this object to perform reverb in the \hyperlink{classPartial_a1}{render()} method \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em new\-Reverb\-Obj}]A pointer to a \hyperlink{classReverb}{Reverb} object \end{description}
+\end{Desc}
+
+
+Definition at line 395 of file Partial.cpp.
+
+References reverb\-Obj.
+
+Referenced by xml\_\-read().\hypertarget{classPartial_a3}{
+\index{Partial@{Partial}!xml_print@{xml\_\-print}}
+\index{xml_print@{xml\_\-print}!Partial@{Partial}}
+\subsubsection[xml\_\-print]{\setlength{\rightskip}{0pt plus 5cm}void Partial::xml\_\-print (ofstream \& {\em xml\-Output}, list$<$ \hyperlink{classReverb}{Reverb} $\ast$ $>$ \& {\em rev\-Objs}, list$<$ \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ \& {\em dyn\-Objs})}}
+\label{classPartial_a3}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000024}{Deprecated}]This outputs an XML representation of the object to STDOUT \end{Desc}
+
+
+Definition at line 407 of file Partial.cpp.
+
+References FREQ\_\-ENV, FREQUENCY, Parameter\-Lib$<$ Partial\-Static\-Param, Partial\-Dynamic\-Param $>$::get\-Param(), LOUDNESS\_\-SCALAR, PARTIAL\_\-NUM, PHASE, RELATIVE\_\-AMPLITUDE, reverb\-Obj, TREMOLO\_\-AMP, TREMOLO\_\-RATE, VIBRATO\_\-AMP, VIBRATO\_\-RATE, WAVE\_\-SHAPE, and Dynamic\-Variable::xml\_\-print().\hypertarget{classPartial_a4}{
+\index{Partial@{Partial}!xml_read@{xml\_\-read}}
+\index{xml_read@{xml\_\-read}!Partial@{Partial}}
+\subsubsection[xml\_\-read]{\setlength{\rightskip}{0pt plus 5cm}void Partial::xml\_\-read (\hyperlink{classXmlReader_1_1xmltag}{Xml\-Reader::xmltag} $\ast$ {\em partialtag}, hash\_\-map$<$ long, \hyperlink{classReverb}{Reverb} $\ast$ $>$ $\ast$ {\em reverb\-Hash}, hash\_\-map$<$ long, \hyperlink{classDynamicVariable}{Dynamic\-Variable} $\ast$ $>$ $\ast$ {\em dv\-Hash})}}
+\label{classPartial_a4}
+
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000025}{Deprecated}]\end{Desc}
+
+
+Definition at line 486 of file Partial.cpp.
+
+References aux\-Load\-Param(), Xml\-Reader::xmltag::children, Xml\-Reader::xmltag::find\-Child\-Param\-Value(), FREQ\_\-ENV, FREQUENCY, LOUDNESS\_\-SCALAR, Xml\-Reader::xmltag::name, Xml\-Reader::xmltagset::next, PARTIAL\_\-NUM, PHASE, RELATIVE\_\-AMPLITUDE, Parameter\-Lib$<$ Partial\-Static\-Param, Partial\-Dynamic\-Param $>$::set\-Param(), Xml\-Reader::xmltagset::tag, TREMOLO\_\-AMP, TREMOLO\_\-RATE, use\_\-reverb(), VIBRATO\_\-AMP, VIBRATO\_\-RATE, and WAVE\_\-SHAPE.
+
+Referenced by Sound::xml\_\-read().
+
+\subsection{Member Data Documentation}
+\hypertarget{classPartial_r0}{
+\index{Partial@{Partial}!reverbObj@{reverbObj}}
+\index{reverbObj@{reverbObj}!Partial@{Partial}}
+\subsubsection[reverbObj]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classReverb}{Reverb}$\ast$ \hyperlink{classPartial_r0}{Partial::reverb\-Obj}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPartial_r0}
+
+
+A \hyperlink{classReverb}{Reverb} object $\ast$ 
+
+Definition at line 231 of file Partial.h.
+
+Referenced by get\-Total\-Duration(), Partial(), render(), use\_\-reverb(), and xml\_\-print().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Partial_8h}{Partial.h}\item 
+\hyperlink{Partial_8cpp}{Partial.cpp}\end{CompactItemize}

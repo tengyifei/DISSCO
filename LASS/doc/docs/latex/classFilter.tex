@@ -1,0 +1,142 @@
+\hypertarget{classFilter}{
+\section{Filter Class Reference}
+\label{classFilter}\index{Filter@{Filter}}
+}
+{\tt \#include $<$Filter.h$>$}
+
+Inheritance diagram for Filter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{classFilter__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classMultiTrack}{Multi\-Track} \& \hyperlink{classFilter_a0}{do\_\-filter\_\-Multi\-Track} (\hyperlink{classMultiTrack}{Multi\-Track} \&in\-Wave)
+\item 
+\hyperlink{classTrack}{Track} \& \hyperlink{classFilter_a1}{do\_\-filter\_\-Track} (\hyperlink{classTrack}{Track} \&in\-Wave)
+\item 
+\hyperlink{classSoundSample}{Sound\-Sample} $\ast$ \hyperlink{classFilter_a2}{do\_\-filter\_\-Sound\-Sample} (\hyperlink{classSoundSample}{Sound\-Sample} $\ast$in\-Wave)
+\item 
+virtual \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} \hyperlink{classFilter_a3}{do\_\-filter} (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} x\_\-t)=0
+\item 
+virtual void \hyperlink{classFilter_a4}{reset} (void)=0
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The filter class is a pure virtual class only meant to ensure that all filters have a common interface. The idea is that a collection of filters, specified by the user at run-time, perhaps, could be applied one after the next without regard to what type of filter each one is.
+
+Each filter will likely have its own configuration that can be done, and if, in the future, this becomes something that needs to be generalized as well, perhaps this class could be expanded to include a \hyperlink{classParameterLib}{Parameter\-Lib}.
+
+\begin{Desc}
+\item[Note:]The Filter objects are stateful machines with internal feedback mechanisms. Thus this filter should be allocated anew each time you begin a new channel and should not be mixed between channels. \end{Desc}
+\begin{Desc}
+\item[Author:]Jim Lindstrom \end{Desc}
+
+
+
+
+Definition at line 52 of file Filter.h.
+
+\subsection{Member Function Documentation}
+\hypertarget{classFilter_a3}{
+\index{Filter@{Filter}!do_filter@{do\_\-filter}}
+\index{do_filter@{do\_\-filter}!Filter@{Filter}}
+\subsubsection[do\_\-filter]{\setlength{\rightskip}{0pt plus 5cm}virtual \hyperlink{Types_8h_a0}{m\_\-sample\_\-type} Filter::do\_\-filter (\hyperlink{Types_8h_a0}{m\_\-sample\_\-type} {\em x\_\-t})\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classFilter_a3}
+
+
+This method should be redefined by each class derived from Filter to perform the actual filtering. It should take in a single sample and return the filtered sample. If, in the future, real-time filtering should become feasible and is desired, this is the entry-point to use.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em x\_\-t}]A sample to filter\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the filtered sample \end{Desc}
+
+
+Implemented in \hyperlink{classAllPassFilter_a2}{All\-Pass\-Filter}, \hyperlink{classLowPassFilter_a2}{Low\-Pass\-Filter}, and \hyperlink{classLPCombFilter_a2}{LPComb\-Filter}.
+
+Referenced by do\_\-filter\_\-Sound\-Sample().\hypertarget{classFilter_a0}{
+\index{Filter@{Filter}!do_filter_MultiTrack@{do\_\-filter\_\-MultiTrack}}
+\index{do_filter_MultiTrack@{do\_\-filter\_\-MultiTrack}!Filter@{Filter}}
+\subsubsection[do\_\-filter\_\-MultiTrack]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classMultiTrack}{Multi\-Track} \& Filter::do\_\-filter\_\-Multi\-Track (\hyperlink{classMultiTrack}{Multi\-Track} \& {\em in\-Wave})}}
+\label{classFilter_a0}
+
+
+This method applies the filter to a \hyperlink{classMultiTrack}{Multi\-Track} source, track by track. It does so by decomposing the wave into \hyperlink{classTrack}{Track} objects (organized as a \hyperlink{classCollection}{Collection} inside the \hyperlink{classMultiTrack}{Multi\-Track} object) and calling the virtual function, do\_\-filter(Sound\-Sample $\ast$in\-Wave), for each \hyperlink{classTrack}{Track}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em in\-Wave}]A reference to a \hyperlink{classMultiTrack}{Multi\-Track} object to Filter\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A reference to a NEW \hyperlink{classMultiTrack}{Multi\-Track}, which the caller is responsible for deleting when done. The original \hyperlink{classMultiTrack}{Multi\-Track} remains intact and untouched \end{Desc}
+
+
+Definition at line 40 of file Filter.cpp.
+
+References Collection$<$ Track $\ast$ $>$::add(), do\_\-filter\_\-Sound\-Sample(), Iterator$<$ T $>$::has\-Next(), Collection$<$ Track $\ast$ $>$::iterator(), Iterator$<$ T $>$::next(), and reset().\hypertarget{classFilter_a2}{
+\index{Filter@{Filter}!do_filter_SoundSample@{do\_\-filter\_\-SoundSample}}
+\index{do_filter_SoundSample@{do\_\-filter\_\-SoundSample}!Filter@{Filter}}
+\subsubsection[do\_\-filter\_\-SoundSample]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classSoundSample}{Sound\-Sample} $\ast$ Filter::do\_\-filter\_\-Sound\-Sample (\hyperlink{classSoundSample}{Sound\-Sample} $\ast$ {\em in\-Wave})}}
+\label{classFilter_a2}
+
+
+This method calls \hyperlink{classFilter_a3}{do\_\-filter(m\_\-sample\_\-type x)} for each sample in a track and builds a new \hyperlink{classSoundSample}{Sound\-Sample} on the fly.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em in\-Wave}]A pointer to a \hyperlink{classSoundSample}{Sound\-Sample} object to Filter\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A reference to a NEW \hyperlink{classMultiTrack}{Multi\-Track}, which the caller is responsible for deleting when done. The original \hyperlink{classTrack}{Track} remains intact and untouched \end{Desc}
+
+
+Definition at line 84 of file Filter.cpp.
+
+References do\_\-filter(), Sound\-Sample::get\-Sample\-Count(), and Sound\-Sample::get\-Sampling\-Rate().
+
+Referenced by do\_\-filter\_\-Multi\-Track(), and do\_\-filter\_\-Track().\hypertarget{classFilter_a1}{
+\index{Filter@{Filter}!do_filter_Track@{do\_\-filter\_\-Track}}
+\index{do_filter_Track@{do\_\-filter\_\-Track}!Filter@{Filter}}
+\subsubsection[do\_\-filter\_\-Track]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classTrack}{Track} \& Filter::do\_\-filter\_\-Track (\hyperlink{classTrack}{Track} \& {\em in\-Wave})}}
+\label{classFilter_a1}
+
+
+This method applies the filter to a source \hyperlink{classTrack}{Track} by calling the virtual function, do\_\-filter(Sound\-Sample $\ast$in\-Wave).
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em in\-Wave}]A reference to a \hyperlink{classTrack}{Track} object to Filter\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A reference to a NEW \hyperlink{classMultiTrack}{Multi\-Track}, which the caller is responsible for deleting when done. The original \hyperlink{classTrack}{Track} remains intact and untouched. \end{Desc}
+
+
+Definition at line 69 of file Filter.cpp.
+
+References do\_\-filter\_\-Sound\-Sample(), and Track::get\-Wave().\hypertarget{classFilter_a4}{
+\index{Filter@{Filter}!reset@{reset}}
+\index{reset@{reset}!Filter@{Filter}}
+\subsubsection[reset]{\setlength{\rightskip}{0pt plus 5cm}virtual void Filter::reset (void)\hspace{0.3cm}{\tt  \mbox{[}pure virtual\mbox{]}}}}
+\label{classFilter_a4}
+
+
+This method should be redefined by each class derived from Filter to reset the filter to an initial state. It should have the same effect as deleting the filter and creating a new one. 
+
+Implemented in \hyperlink{classAllPassFilter_a3}{All\-Pass\-Filter}, \hyperlink{classLowPassFilter_a3}{Low\-Pass\-Filter}, and \hyperlink{classLPCombFilter_a3}{LPComb\-Filter}.
+
+Referenced by do\_\-filter\_\-Multi\-Track().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{Filter_8h}{Filter.h}\item 
+\hyperlink{Filter_8cpp}{Filter.cpp}\end{CompactItemize}

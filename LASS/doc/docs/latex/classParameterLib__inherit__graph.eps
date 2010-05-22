@@ -1,0 +1,508 @@
+%!PS-Adobe-2.0
+%%Creator: dot version 1.7.14 (Mon Feb  3 01:57:13 CST 2003)
+%%For: (parga) 
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: 35 35 707 619
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+
+EncodingVector
+  dup 306 /AE
+  dup 301 /Aacute
+  dup 302 /Acircumflex
+  dup 304 /Adieresis
+  dup 300 /Agrave
+  dup 305 /Aring
+  dup 303 /Atilde
+  dup 307 /Ccedilla
+  dup 311 /Eacute
+  dup 312 /Ecircumflex
+  dup 313 /Edieresis
+  dup 310 /Egrave
+  dup 315 /Iacute
+  dup 316 /Icircumflex
+  dup 317 /Idieresis
+  dup 314 /Igrave
+  dup 334 /Udieresis
+  dup 335 /Yacute
+  dup 376 /thorn
+  dup 337 /germandbls
+  dup 341 /aacute
+  dup 342 /acircumflex
+  dup 344 /adieresis
+  dup 346 /ae
+  dup 340 /agrave
+  dup 345 /aring
+  dup 347 /ccedilla
+  dup 351 /eacute
+  dup 352 /ecircumflex
+  dup 353 /edieresis
+  dup 350 /egrave
+  dup 355 /iacute
+  dup 356 /icircumflex
+  dup 357 /idieresis
+  dup 354 /igrave
+  dup 360 /dcroat
+  dup 361 /ntilde
+  dup 363 /oacute
+  dup 364 /ocircumflex
+  dup 366 /odieresis
+  dup 362 /ograve
+  dup 365 /otilde
+  dup 370 /oslash
+  dup 372 /uacute
+  dup 373 /ucircumflex
+  dup 374 /udieresis
+  dup 371 /ugrave
+  dup 375 /yacute
+  dup 377 /ydieresis  
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+	dup 1 exch div /InvScaleFactor exch def
+	dup scale
+} bind def
+
+% styles
+/solid { } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw aligned label in bounding box aligned to current point
+/alignedtext {			% width adj text
+	/text exch def
+	/adj exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			text stringwidth pop adj mul 0 rmoveto
+		} if
+		[] 0 setdash
+		text show
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+%%Page: 1 1
+%%PageBoundingBox: 36 36 707 619
+%%PageOrientation: Portrait
+gsave
+35 35 672 584 boxprim clip newpath
+36 36 translate
+0 0 1 beginpage
+0 0 translate 0 rotate
+[ /CropBox [36 36 707 619] /PAGES pdfmark
+0.000 0.000 0.000 graphcolor
+10.00 /Helvetica set_font
+
+%	Node341
+gsave 10 dict begin
+filled
+0.000 0.000 1.000 nodecolor
+newpath 217 430 moveto
+397 430 lineto
+397 574 lineto
+217 574 lineto
+closepath
+fill
+gsave 10 dict begin
+307 562 moveto 170 -0.5 (ParameterLib< StaticT, DynamicT >) alignedtext
+end grestore
+newpath 217 559 moveto
+397 559 lineto
+stroke
+gsave 10 dict begin
+257 547 moveto 71 0.0 (- staticParams_) alignedtext
+257 536 moveto 90 0.0 (- dynamicParams_) alignedtext
+end grestore
+newpath 217 533 moveto
+397 533 lineto
+stroke
+gsave 10 dict begin
+258 521 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+258 510 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+258 499 moveto 62 0.0 (+ operator=\(\)) alignedtext
+258 488 moveto 88 0.0 (+ ~ParameterLib\(\)) alignedtext
+258 477 moveto 59 0.0 (+ setParam\(\)) alignedtext
+258 466 moveto 59 0.0 (+ setParam\(\)) alignedtext
+258 455 moveto 61 0.0 (+ getParam\(\)) alignedtext
+258 444 moveto 59 0.0 (+ setParam\(\)) alignedtext
+258 433 moveto 61 0.0 (+ getParam\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node342
+[ /Rect [ 0 234 292 378 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classParameterLib.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 0 234 moveto
+293 234 lineto
+293 378 lineto
+0 378 lineto
+closepath
+stroke
+gsave 10 dict begin
+146 366 moveto 283 -0.5 (ParameterLib< SoundStaticParam, SoundDynamicParam >) alignedtext
+end grestore
+newpath 0 363 moveto
+293 363 lineto
+stroke
+gsave 10 dict begin
+96 351 moveto 71 0.0 (- staticParams_) alignedtext
+96 340 moveto 90 0.0 (- dynamicParams_) alignedtext
+end grestore
+newpath 0 337 moveto
+293 337 lineto
+stroke
+gsave 10 dict begin
+97 325 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+97 314 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+97 303 moveto 62 0.0 (+ operator=\(\)) alignedtext
+97 292 moveto 88 0.0 (+ ~ParameterLib\(\)) alignedtext
+97 281 moveto 59 0.0 (+ setParam\(\)) alignedtext
+97 270 moveto 59 0.0 (+ setParam\(\)) alignedtext
+97 259 moveto 59 0.0 (+ setParam\(\)) alignedtext
+97 248 moveto 61 0.0 (+ getParam\(\)) alignedtext
+97 237 moveto 61 0.0 (+ getParam\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node341 -> Node342
+gsave 10 dict begin
+dashed
+0.106 1.000 1.000 edgecolor
+newpath 211 427 moveto
+195 421 184 426 171 412 curveto
+166 406 162 393 158 378 curveto
+stroke
+newpath 209 423 moveto
+217 430 lineto
+207 428 lineto
+closepath
+fill
+gsave 10 dict begin
+0.000 0.000 0.000 edgecolor
+287 400 moveto 215 -0.5 (< SoundStaticParam, SoundDynamicParam >) alignedtext
+end grestore
+end grestore
+
+%	Node344
+[ /Rect [ 310 234 604 378 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classParameterLib.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 310 234 moveto
+604 234 lineto
+604 378 lineto
+310 378 lineto
+closepath
+stroke
+gsave 10 dict begin
+457 366 moveto 284 -0.5 (ParameterLib< PartialStaticParam, PartialDynamicParam >) alignedtext
+end grestore
+newpath 310 363 moveto
+604 363 lineto
+stroke
+gsave 10 dict begin
+407 351 moveto 71 0.0 (- staticParams_) alignedtext
+407 340 moveto 90 0.0 (- dynamicParams_) alignedtext
+end grestore
+newpath 310 337 moveto
+604 337 lineto
+stroke
+gsave 10 dict begin
+408 325 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+408 314 moveto 81 0.0 (+ ParameterLib\(\)) alignedtext
+408 303 moveto 62 0.0 (+ operator=\(\)) alignedtext
+408 292 moveto 88 0.0 (+ ~ParameterLib\(\)) alignedtext
+408 281 moveto 59 0.0 (+ setParam\(\)) alignedtext
+408 270 moveto 59 0.0 (+ setParam\(\)) alignedtext
+408 259 moveto 59 0.0 (+ setParam\(\)) alignedtext
+408 248 moveto 61 0.0 (+ getParam\(\)) alignedtext
+408 237 moveto 61 0.0 (+ getParam\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node341 -> Node344
+gsave 10 dict begin
+dashed
+0.106 1.000 1.000 edgecolor
+newpath 390 424 moveto
+394 419 398 415 400 412 curveto
+401 411 409 396 419 378 curveto
+stroke
+newpath 393 425 moveto
+384 430 lineto
+389 421 lineto
+closepath
+fill
+gsave 10 dict begin
+0.000 0.000 0.000 edgecolor
+523 400 moveto 216 -0.5 (< PartialStaticParam, PartialDynamicParam >) alignedtext
+end grestore
+end grestore
+
+%	Node343
+[ /Rect [ 85 8 207 196 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classSound.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 85 8 moveto
+208 8 lineto
+208 196 lineto
+85 196 lineto
+closepath
+stroke
+gsave 10 dict begin
+146 184 moveto 31 -0.5 (Sound) alignedtext
+end grestore
+newpath 85 181 moveto
+208 181 lineto
+stroke
+gsave 10 dict begin
+112 169 moveto 59 0.0 (- spatializer_) alignedtext
+112 158 moveto 54 0.0 (- reverbObj) alignedtext
+end grestore
+newpath 85 155 moveto
+208 155 lineto
+stroke
+gsave 10 dict begin
+85 143 moveto 45 0.0 (+ Sound\(\)) alignedtext
+85 132 moveto 45 0.0 (+ Sound\(\)) alignedtext
+85 121 moveto 91 0.0 (+ setPartialParam\(\)) alignedtext
+85 110 moveto 91 0.0 (+ setPartialParam\(\)) alignedtext
+85 99 moveto 91 0.0 (+ setPartialParam\(\)) alignedtext
+85 88 moveto 113 0.0 (+ getPartialParamEnv\(\)) alignedtext
+85 77 moveto 46 0.0 (+ render\(\)) alignedtext
+85 66 moveto 77 0.0 (+ setSpatializer\(\)) alignedtext
+85 55 moveto 69 0.0 (+ use_reverb\(\)) alignedtext
+85 44 moveto 64 0.0 (+ xml_print\(\)) alignedtext
+85 33 moveto 62 0.0 (+ xml_read\(\)) alignedtext
+85 22 moveto 98 0.0 (+ getTotalDuration\(\)) alignedtext
+85 11 moveto 112 0.0 (- setup_detuning_env\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node342 -> Node343
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 146 224 moveto
+146 215 146 206 146 196 curveto
+stroke
+newpath 149 224 moveto
+146 234 lineto
+144 224 lineto
+closepath
+fill
+end grestore
+
+%	Node345
+[ /Rect [ 403 41 511 163 ]
+  /Border [ 0 0 0 ]
+ /Action << /Subtype /URI /URI ($classPartial.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+newpath 403 41 moveto
+511 41 lineto
+511 163 lineto
+403 163 lineto
+closepath
+stroke
+gsave 10 dict begin
+457 151 moveto 31 -0.5 (Partial) alignedtext
+end grestore
+newpath 403 148 moveto
+511 148 lineto
+stroke
+gsave 10 dict begin
+425 136 moveto 54 0.0 (- reverbObj) alignedtext
+end grestore
+newpath 403 133 moveto
+511 133 lineto
+stroke
+gsave 10 dict begin
+403 121 moveto 45 0.0 (+ Partial\(\)) alignedtext
+403 110 moveto 46 0.0 (+ render\(\)) alignedtext
+403 99 moveto 69 0.0 (+ use_reverb\(\)) alignedtext
+403 88 moveto 64 0.0 (+ xml_print\(\)) alignedtext
+403 77 moveto 62 0.0 (+ xml_read\(\)) alignedtext
+403 66 moveto 98 0.0 (+ getTotalDuration\(\)) alignedtext
+403 55 moveto 86 0.0 (- auxLoadParam\(\)) alignedtext
+403 44 moveto 39 0.0 (- pmod\(\)) alignedtext
+end grestore
+end grestore
+
+%	Node344 -> Node345
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 457 224 moveto
+457 204 457 183 457 163 curveto
+stroke
+newpath 460 224 moveto
+457 234 lineto
+455 224 lineto
+closepath
+fill
+end grestore
+endpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+end
+restore
+%%EOF

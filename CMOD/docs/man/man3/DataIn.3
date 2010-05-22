@@ -1,0 +1,420 @@
+.TH "DataIn" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DataIn \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <dataIn.h>\fP
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDataIn\fP (char *)"
+.br
+.ti -1c
+.RI "\fBDataIn\fP (int)"
+.br
+.ti -1c
+.RI "\fBDataIn\fP ()"
+.br
+.ti -1c
+.RI "\fB~DataIn\fP ()"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBReadTags\fP (int size)"
+.br
+.ti -1c
+.RI "void \fBReadDummies\fP ()"
+.br
+.ti -1c
+.RI "void \fBReadCharArray\fP ()"
+.br
+.ti -1c
+.RI "void \fBGenInts\fP (int size)"
+.br
+.ti -1c
+.RI "void \fBGenFloats\fP (int size)"
+.br
+.ti -1c
+.RI "void \fBGenChars\fP (int size)"
+.br
+.ti -1c
+.RI "void \fBReadInts\fP (int)"
+.br
+.ti -1c
+.RI "void \fBReadVarInts\fP (int, int)"
+.br
+.ti -1c
+.RI "void \fBReadFloats\fP (int)"
+.br
+.ti -1c
+.RI "void \fBReadFLong\fP (int)"
+.br
+.ti -1c
+.RI "void \fBReadArray\fP (int)"
+.br
+.ti -1c
+.RI "void \fBReadChars\fP (int)"
+.br
+.ti -1c
+.RI "void \fBReadChars2\fP (int)"
+.br
+.ti -1c
+.RI "void \fBopenFile\fP (char *)"
+.br
+.ti -1c
+.RI "void \fBcloseFile\fP ()"
+.br
+.ti -1c
+.RI "void \fBrewindFile\fP (long \fBloc\fP)"
+.br
+.ti -1c
+.RI "long \fBfileLoc\fP ()"
+.br
+.ti -1c
+.RI "void \fBRememberFileLoc\fP (int posNum, char *\fBfileName\fP, long &location)"
+.br
+.ti -1c
+.RI "void \fBSkip\fP (int size)"
+.br
+.ti -1c
+.RI "void \fBReadBuffer\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBintVect\fP [100]"
+.br
+.ti -1c
+.RI "int \fBgIntVect\fP [100]"
+.br
+.ti -1c
+.RI "float \fBfloatVect\fP [100]"
+.br
+.ti -1c
+.RI "float \fBgFloatVect\fP [100]"
+.br
+.ti -1c
+.RI "long \fBlongVect\fP [100]"
+.br
+.ti -1c
+.RI "char \fBbuffer\fP [80]"
+.br
+.ti -1c
+.RI "char \fBdummy\fP [30]"
+.br
+.ti -1c
+.RI "char \fBcAr\fP [30]"
+.br
+.ti -1c
+.RI "char \fBtag\fP"
+.br
+.ti -1c
+.RI "int \fBarraySize\fP"
+.br
+.ti -1c
+.RI "int \fBnameSize\fP"
+.br
+.ti -1c
+.RI "int \fBpieceLength\fP"
+.br
+.ti -1c
+.RI "long \fBloc\fP"
+.br
+.ti -1c
+.RI "double * \fBarray\fP"
+.br
+.ti -1c
+.RI "char * \fBfileName\fP"
+.br
+.ti -1c
+.RI "char \fBlib_file\fP [10]"
+.br
+.ti -1c
+.RI "char ** \fBnameOf\fP"
+.br
+.ti -1c
+.RI "char ** \fBnameOf2\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ifstream * \fBinputFile\fP = NULL"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetFileName\fP (char *)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DataIn::DataIn (char *)"
+.PP
+Definition at line 42 of file dataIn.cpp.
+.PP
+References array, fileName, inputFile, nameOf, openFile(), and setFileName().
+.SS "DataIn::DataIn (int)"
+.PP
+Definition at line 61 of file dataIn.cpp.
+.PP
+References array, and nameOf.
+.SS "DataIn::DataIn ()"
+.PP
+Definition at line 73 of file dataIn.cpp.
+.PP
+References array, fileName, fileName, inputFile, nameOf, and setFileName().
+.SS "DataIn::~\fBDataIn\fP ()"
+.PP
+Definition at line 94 of file dataIn.cpp.
+.PP
+References array, clear(), inputFile, loc, and nameOf.
+.SH "Member Function Documentation"
+.PP 
+.SS "void DataIn::clear ()"
+.PP
+Definition at line 108 of file dataIn.cpp.
+.PP
+References array, nameOf, and nameSize.
+.PP
+Referenced by ~DataIn().
+.SS "void DataIn::closeFile ()"
+.PP
+Definition at line 158 of file dataIn.cpp.
+.PP
+References inputFile.
+.PP
+Referenced by openFile().
+.SS "long DataIn::fileLoc ()"
+.PP
+Definition at line 181 of file dataIn.cpp.
+.PP
+References inputFile.
+.PP
+Referenced by EnvelopeBuilder(), Event::NumObjs(), and RememberFileLoc().
+.SS "void DataIn::GenChars (int size)"
+.PP
+Definition at line 281 of file dataIn.cpp.
+.PP
+References inputFile, nameOf, and nameSize.
+.PP
+Referenced by CharSequence().
+.SS "void DataIn::GenFloats (int size)"
+.PP
+Definition at line 245 of file dataIn.cpp.
+.PP
+References gFloatVect, and inputFile.
+.PP
+Referenced by Sequence().
+.SS "void DataIn::GenInts (int size)"
+.PP
+Definition at line 263 of file dataIn.cpp.
+.PP
+References gIntVect, and inputFile.
+.PP
+Referenced by EnvelopeBuilder(), Patter::GetPatty(), and Patter::InitPat().
+.SS "void DataIn::openFile (char *)"
+.PP
+Definition at line 141 of file dataIn.cpp.
+.PP
+References closeFile(), fileName, and inputFile.
+.PP
+Referenced by DataIn(), and RememberFileLoc().
+.SS "void DataIn::ReadArray (int)"
+.PP
+Definition at line 385 of file dataIn.cpp.
+.PP
+References array, dummy, and inputFile.
+.SS "void DataIn::ReadBuffer ()"
+.PP
+Definition at line 476 of file dataIn.cpp.
+.PP
+References buffer, and inputFile.
+.PP
+Referenced by Patter::Recorder().
+.SS "void DataIn::ReadCharArray ()"
+.PP
+Definition at line 220 of file dataIn.cpp.
+.PP
+References cAr, dummy, and inputFile.
+.SS "void DataIn::ReadChars (int)"
+.PP
+Definition at line 426 of file dataIn.cpp.
+.PP
+References dummy, inputFile, nameOf, and nameSize.
+.PP
+Referenced by Patter::Chooser(), Event::CopyName(), Patter::Delivery(), Event::DurationMethods(), Patter::Expand(), Event::NumObjs(), Patter::Nursery(), Event::PointsProbs(), and Event::Sweep3().
+.SS "void DataIn::ReadChars2 (int)"
+.PP
+Definition at line 444 of file dataIn.cpp.
+.PP
+References dummy, inputFile, nameOf2, and nameSize.
+.SS "void DataIn::ReadDummies ()"
+.PP
+Definition at line 208 of file dataIn.cpp.
+.PP
+References cAr, and inputFile.
+.PP
+Referenced by Event::CopyName(), Patter::Delivery(), Event::DurationMethods(), Patter::GetPatty(), Event::LayerDef(), Event::NumObjs(), Patter::Nursery(), and Event::PointsProbs().
+.SS "void DataIn::ReadFloats (int)"
+.PP
+Definition at line 342 of file dataIn.cpp.
+.PP
+References dummy, floatVect, and inputFile.
+.PP
+Referenced by Event::PointsProbs().
+.SS "void DataIn::ReadFLong (int)"
+.PP
+Definition at line 364 of file dataIn.cpp.
+.PP
+References dummy, inputFile, and longVect.
+.SS "void DataIn::ReadInts (int)"
+.PP
+Definition at line 304 of file dataIn.cpp.
+.PP
+References dummy, inputFile, and intVect.
+.PP
+Referenced by CharSequence(), Event::CopyName(), Patter::Equivalence(), Patter::GetPatty(), Patter::InitPat(), Event::LayerDef(), Patter::Nursery(), Event::PointsProbs(), Sequence(), and Event::Stimes().
+.SS "void DataIn::ReadTags (int size)"
+.PP
+Definition at line 232 of file dataIn.cpp.
+.PP
+References inputFile, and tag.
+.SS "void DataIn::ReadVarInts (int, int)"
+.PP
+Definition at line 323 of file dataIn.cpp.
+.PP
+References dummy, inputFile, and intVect.
+.SS "void DataIn::RememberFileLoc (int positionNum, char * fileName, long & location)"
+.PP
+RememberFileLocation. Definition at line 191 of file dataIn.cpp.
+.PP
+References fileLoc(), fileName, openFile(), and rewindFile().
+.SS "void DataIn::rewindFile (long loc)"
+.PP
+Definition at line 171 of file dataIn.cpp.
+.PP
+References inputFile.
+.PP
+Referenced by EnvelopeBuilder(), Event::NumObjs(), Patter::Recorder(), and RememberFileLoc().
+.SS "void DataIn::setFileName (char *)\fC [private]\fP"
+.PP
+Definition at line 131 of file dataIn.cpp.
+.PP
+References fileName.
+.PP
+Referenced by DataIn().
+.SS "void DataIn::Skip (int size)"
+.PP
+Definition at line 462 of file dataIn.cpp.
+.PP
+References buffer, and inputFile.
+.PP
+Referenced by Patter::GetPatty().
+.SH "Member Data Documentation"
+.PP 
+.SS "double* \fBDataIn::array\fP"
+.PP
+Definition at line 80 of file dataIn.h.
+.PP
+Referenced by clear(), DataIn(), ReadArray(), and ~DataIn().
+.SS "int \fBDataIn::arraySize\fP"
+.PP
+Definition at line 76 of file dataIn.h.
+.SS "char \fBDataIn::buffer\fP[80]"
+.PP
+Definition at line 71 of file dataIn.h.
+.PP
+Referenced by ReadBuffer(), Patter::Recorder(), and Skip().
+.SS "char \fBDataIn::cAr\fP[30]"
+.PP
+Definition at line 73 of file dataIn.h.
+.PP
+Referenced by ReadCharArray(), and ReadDummies().
+.SS "char \fBDataIn::dummy\fP[30]"
+.PP
+Definition at line 72 of file dataIn.h.
+.PP
+Referenced by ReadArray(), ReadCharArray(), ReadChars(), ReadChars2(), ReadFloats(), ReadFLong(), ReadInts(), and ReadVarInts().
+.SS "char* \fBDataIn::fileName\fP"
+.PP
+Definition at line 82 of file dataIn.h.
+.PP
+Referenced by DataIn(), and setFileName().
+.SS "float \fBDataIn::floatVect\fP[100]"
+.PP
+Definition at line 68 of file dataIn.h.
+.PP
+Referenced by Event::PointsProbs(), and ReadFloats().
+.SS "float \fBDataIn::gFloatVect\fP[100]"
+.PP
+Definition at line 69 of file dataIn.h.
+.PP
+Referenced by GenFloats(), and Sequence().
+.SS "int \fBDataIn::gIntVect\fP[100]"
+.PP
+Definition at line 67 of file dataIn.h.
+.PP
+Referenced by EnvelopeBuilder(), GenInts(), Patter::GetPatty(), and Patter::InitPat().
+.SS "ifstream * \fBDataIn::inputFile\fP = NULL\fC [static]\fP"
+.PP
+Definition at line 34 of file dataIn.cpp.
+.PP
+Referenced by closeFile(), DataIn(), fileLoc(), GenChars(), GenFloats(), GenInts(), openFile(), ReadArray(), ReadBuffer(), ReadCharArray(), ReadChars(), ReadChars2(), ReadDummies(), ReadFloats(), ReadFLong(), ReadInts(), ReadTags(), ReadVarInts(), rewindFile(), Skip(), and ~DataIn().
+.SS "int \fBDataIn::intVect\fP[100]"
+.PP
+Definition at line 66 of file dataIn.h.
+.PP
+Referenced by CharSequence(), Event::CopyName(), Patter::Equivalence(), Patter::GetPatty(), Patter::InitPat(), Event::LayerDef(), Patter::Nursery(), Event::PointsProbs(), ReadInts(), ReadVarInts(), Sequence(), and Event::Stimes().
+.SS "char \fBDataIn::lib_file\fP[10]"
+.PP
+Definition at line 83 of file dataIn.h.
+.SS "long \fBDataIn::loc\fP"
+.PP
+Definition at line 79 of file dataIn.h.
+.PP
+Referenced by ~DataIn().
+.SS "long \fBDataIn::longVect\fP[100]"
+.PP
+Definition at line 70 of file dataIn.h.
+.PP
+Referenced by ReadFLong().
+.SS "char** \fBDataIn::nameOf\fP"
+.PP
+Definition at line 84 of file dataIn.h.
+.PP
+Referenced by CharSequence(), Patter::Chooser(), clear(), Event::CopyName(), DataIn(), Patter::Delivery(), Event::DurationMethods(), Patter::Expand(), GenChars(), Event::NumObjs(), Patter::Nursery(), Event::PointsProbs(), ReadChars(), Event::Sweep3(), and ~DataIn().
+.SS "char** \fBDataIn::nameOf2\fP"
+.PP
+Definition at line 85 of file dataIn.h.
+.PP
+Referenced by ReadChars2().
+.SS "int \fBDataIn::nameSize\fP"
+.PP
+Definition at line 77 of file dataIn.h.
+.PP
+Referenced by clear(), GenChars(), ReadChars(), and ReadChars2().
+.SS "int \fBDataIn::pieceLength\fP"
+.PP
+Definition at line 78 of file dataIn.h.
+.SS "char \fBDataIn::tag\fP"
+.PP
+Definition at line 74 of file dataIn.h.
+.PP
+Referenced by ReadTags().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

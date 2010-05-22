@@ -1,0 +1,132 @@
+.TH "main.cpp" 3 "12 Feb 2007" "CMOD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+main.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include '../../LASS/src/lib.h'\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <cmath>\fP
+.br
+\fC#include <ctime>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include 'dataIn.h'\fP
+.br
+\fC#include 'top.h'\fP
+.br
+\fC#include 'utility.h'\fP
+.br
+\fC#include 'random.h'\fP
+.br
+\fC#include 'piece.h'\fP
+.br
+\fC#include 'lexyacc/eventparser.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "ofstream * \fBoutputFile\fP"
+.br
+.ti -1c
+.RI "EnvelopeLibrary \fBenvlib_cmod\fP"
+.br
+.ti -1c
+.RI "Score \fBscore\fP"
+.br
+.ti -1c
+.RI "vector< Reverb * > \fBreverbObjList\fP"
+.br
+.ti -1c
+.RI "int \fBnumChan\fP"
+.br
+.ti -1c
+.RI "char * \fBnameFlag\fP"
+.br
+.ti -1c
+.RI "char * \fBfileName\fP"
+.br
+.ti -1c
+.RI "int \fBsever\fP"
+.br
+.ti -1c
+.RI "\fBCMODPiece\fP \fBPiece\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+.PP
+This 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargc\fP Count of arguments passed by shell/command line 
+.br
+\fIargv\fP Array of arguments set by shell/command line, as strings (char * 's) 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fI0\fP On success 
+.RE
+.PP
+Definition at line 79 of file main.cpp.
+.PP
+References EventFactory::Build(), envlib_cmod, CMODPiece::length, CMODPiece::numChannels, outputFile, Piece, CMODPiece::Print(), CMODPiece::sampleRate, CMODPiece::sampleSize, score, CMODPiece::scoreFlag, CMODPiece::title, and CMODPiece::topFile.
+.SH "Variable Documentation"
+.PP 
+.SS "EnvelopeLibrary \fBenvlib_cmod\fP"
+.PP
+Definition at line 61 of file main.cpp.
+.PP
+Referenced by FileValue::Evaluate(), and main().
+.SS "char * \fBfileName\fP"
+.PP
+Definition at line 66 of file main.cpp.
+.PP
+Referenced by DataIn::DataIn(), DataIn::openFile(), and DataIn::RememberFileLoc().
+.SS "char* \fBnameFlag\fP"
+.PP
+Definition at line 66 of file main.cpp.
+.SS "int \fBnumChan\fP"
+.PP
+Definition at line 65 of file main.cpp.
+.SS "ofstream* \fBoutputFile\fP"
+.PP
+Definition at line 59 of file main.cpp.
+.SS "\fBCMODPiece\fP \fBPiece\fP"
+.PP
+Definition at line 70 of file main.cpp.
+.PP
+Referenced by EventFactory::Build(), EventFactory::EventFactory(), main(), and EventFactory::parse().
+.SS "vector<Reverb *> \fBreverbObjList\fP"
+.PP
+Definition at line 64 of file main.cpp.
+.SS "Score \fBscore\fP"
+.PP
+Definition at line 62 of file main.cpp.
+.SS "int \fBsever\fP"
+.PP
+Definition at line 68 of file main.cpp.
+.PP
+Referenced by Patter::Adjust(), Event::BuildSubEvents(), Patter::Chooser(), Patter::Delivery(), Patter::Distort(), Event::DurationMethods(), Sieve::Elements(), FileValue::Evaluate(), Patter::Expand(), Event::NewAttackMethods(), Event::NewDurationMethods(), Event::NewNumObjs(), Event::NumObjs(), Bottom::NumPart(), Patter::Nursery(), Event::PointsProbs(), Bottom::Rules(), Bottom::Spatialization(), Bottom::Spectrum(), Event::Sweep3(), Patter::Symmetries(), TestLibrary(), Event::TestNameType(), Bottom::ThreeStep(), and Sieve::Weights().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CMOD from the source code.

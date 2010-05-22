@@ -1,0 +1,4 @@
+
+patternBuilder = ExpandPattern( "EQUIVALENCE", 12, 38, 70, MakePattern(<4, 2, -5>) );
+
+/* patternBuilder = MakePattern(51, <4, 2, -5>); */
