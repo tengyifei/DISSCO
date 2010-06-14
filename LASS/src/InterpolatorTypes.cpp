@@ -29,11 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 #include "InterpolatorTypes.h"
-#if (__GNUC__ >= 3)
-	#include <iostream>
-#else
-	#include <iostream.h>
-#endif
 
 //----------------------------------------------------------------------------//
 LinearInterpolator::LinearInterpolator()

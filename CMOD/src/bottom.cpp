@@ -27,7 +27,6 @@ CMOD (composition module)
 #include "random.h"
 #include "eventfactory.h"
 
-using namespace std;
 //----------------------------------------------------------------------------//
 
 extern EnvelopeLibrary envlib_cmod;
@@ -975,50 +974,61 @@ void Bottom::print() {
 
 void Bottom::printSound(float stime, float dur, int type, string name, 
                         int numPartials, float freq, float sones) {
-  char borderchar = '#';
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<sound>" << endl;                                           //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <name>" << name << "</name>" << endl;                     //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <type>" << type << "</type>" << endl;                     //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <global-sound-count>" << sndcount <<                      //
+    "</global-sound-count>" << endl;                                          //
 
-  borderPrint(printLevel + 1, borderchar);
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <start-time-sec>" << stime << "</start-time-sec>" << endl;//
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <start-time-units>" << stime * unitsPerSecond <<          //
+    "</start-time-units>" << endl;                                            //
 
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "  " << name << "       type: " << type 
-              << "        globalSndCount: " << sndcount << endl;
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <duration-sec>" << dur << "</duration-sec>" << endl;      //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <duration-units>" << dur * unitsPerSecond <<              //
+    "</duration-units>" << endl;                                              //
 
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "        stime:  " << setw(7) << (stime*unitsPerSecond)
-              << " units,  " << setw(8) << stime << " sec" << endl;
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <partials>" << numPartials << "</partials>" << endl;      //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <sones>" << sones << "</sones>" << endl;                  //
 
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "          dur:  " << setw(7) << (dur*unitsPerSecond)
-              << " units,  " << setw(8) << dur << " sec" << endl;
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "  <frequency>" << freq << "</frequency>" << endl;           //
 
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "      numPart:  " << setw(3) << numPartials << "      sones:  "
-              << setw(6) << sones << endl;
-
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "         freq:  " << setw(7) << freq << endl;
-
-  //borderPrint(printLevel + 1, borderchar);
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "</sound>" << endl;                                          //
 }
 
 //----------------------------------------------------------------------------//
 
 void Bottom::printNote(Note& n, int type, string name) {
-  char borderchar = '+';
+  //borderPrint(printLevel + 1, borderchar);
+  string level; for(int i = 0; i < printLevel + 3; i++) level += "  ";
+  
+  *outputFile << level << "<note>" << endl;
+  
+  *outputFile << n.toStringStartTime(printLevel + 4);
 
-  borderPrint(printLevel + 1, borderchar);
+  *outputFile << n.toStringDuration(printLevel + 4);
 
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "  NOTE: " << name << "       type: " << type << endl;
-
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "  " << n.toStringStartTime() << endl;
-
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << "  " << n.toStringDuration() << endl;
-
-  indentPrint(printLevel + 1, borderchar);
-  *outputFile << n.toStringOther() << endl;
+  *outputFile << n.toStringOther(printLevel + 4);
+  
+  *outputFile << level << "</note>" << endl;
 
   //borderPrint(printLevel + 1, borderchar);
 }

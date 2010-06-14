@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 #include "Sound.h"
 #include "Score.h"
-#include <math.h>
 #include "Loudness.h"
 
 //----------------------------------------------------------------------------//
@@ -389,7 +388,7 @@ void Sound::xml_print( ofstream& xmlOutput, list<Reverb*>& revObjs, list<Dynamic
 	xmlOutput << "\t</sound>" << endl;
 }
 
-void Sound::xml_read(XmlReader::xmltag* soundtag, unordered_map<long, Reverb *>* reverbHash, unordered_map<long, DynamicVariable *>* dvHash)
+void Sound::xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>* reverbHash, DISSCO_HASHMAP<long, DynamicVariable *>* dvHash)
 {
 	if(strcmp("sound",soundtag->name))
 	{

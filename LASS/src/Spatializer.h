@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __SPATIALIZER_H
 
 //----------------------------------------------------------------------------//
-#include <iostream>
-#include <fstream>
+#include "StandardHeaders.h"
+
 #include "Types.h"
 #include "MultiTrack.h"
 #include "Track.h"

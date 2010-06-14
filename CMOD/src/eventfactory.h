@@ -35,13 +35,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
 #include "filevalue.h"
 #include "event.h"
 
-#include <string>
-#include <map>
-#include <iostream>
 
 // forward declare
 //class FileValue;

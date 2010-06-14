@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __SCORE_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
+
 #include "XmlReader.h"
 #include "Types.h"
 #include "Collection.h"
@@ -34,8 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Sound.h"
 #include "Reverb.h"
 #include "XmlReader.h"
-#include <iostream>
-#include <fstream>
 
 //----------------------------------------------------------------------------//
 
@@ -214,8 +214,8 @@ public:
     **/
     void xml_read( XmlReader::xmltag *scoretag);
     
-    unordered_map<long, Reverb *>* reverbHash;
-    unordered_map<long, DynamicVariable *>* dvHash;
+    DISSCO_HASHMAP<long, Reverb *>* reverbHash;
+    DISSCO_HASHMAP<long, DynamicVariable *>* dvHash;
 
 private:
     ClippingManagementMode cmm_;

@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-#include <list>
+#include "StandardHeaders.h"
+
 #include "Types.h"
 #include "Interpolator.h"
 #include "Iterator.h"
 #include "Collection.h"
 #include "DynamicVariable.h"
-
 #include "XmlReader.h"
 
 

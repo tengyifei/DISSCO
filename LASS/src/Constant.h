@@ -27,13 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __CONSTANT_H
 
 //----------------------------------------------------------------------------//
-#include <fstream>
-#include <iostream>
-#include <list>
+#include "StandardHeaders.h"
+
 #include "Types.h"
 #include "DynamicVariable.h"
 #include "Iterator.h"
-
 #include "XmlReader.h"
 
 //----------------------------------------------------------------------------//

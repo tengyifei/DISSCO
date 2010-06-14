@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "eventfactory.h"
 #include "sieve.h"
 
-using namespace std;
-
 extern map<string, EventFactory*> factory_lib;
 extern ofstream * outputFile;
 
@@ -388,12 +386,15 @@ void Event::buildChildEvents() {
   for (int i = 0; i < childEvents.size(); i++) {
     childEvents[i]->buildChildEvents();
   }
+  
+  // close the XML tag for this event
+  indentPrint(printLevel);                                                    //
+  *outputFile << "</event>" << endl;                                          //
 }
 
 //----------------------------------------------------------------------------//
 
-void Event::constructChild(float stime, float dur, int type, string name, 
-  int level) {
+void Event::constructChild(float stime, float dur, int type, string name, int level) {
   EventFactory* childFactory = factory_lib[name];
   if (childFactory == NULL) {
     // Parse the file
@@ -656,45 +657,36 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
 //----------------------------------------------------------------------------//
 
 void Event::print() {
-  // alternate border characters
-  char borderchar;
-  if (printLevel % 2 == 0) {
-    borderchar = '%';
-  } else {
-    borderchar = '*';
-  }
+  indentPrint(printLevel);                                                    //
+  *outputFile << "<event>" << endl;                                           //
 
-  borderPrint(printLevel, borderchar);
-
-  indentPrint(printLevel, borderchar);
-  *outputFile << "  " << myName << "       type: " << myType << endl;
-
-  indentPrint(printLevel, borderchar);
-  *outputFile << "        stime:  " << setw(7) << (myStartTime*unitsPerSecond)
-              << " units,  " << setw(8) << myStartTime << " sec" << endl;
-
-  indentPrint(printLevel, borderchar);
-  *outputFile << "          dur:  " << setw(7) << (myDuration*unitsPerSecond)
-      << " units,  " << setw(8) << myDuration << " sec" << endl;
-
-  //borderPrint(printLevel, borderchar);
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<name>" << myName << "</name>" << endl;                     //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<type>" << myType << "</type>" << endl;                     //
+  
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<start-time-sec>" << myStartTime <<                         //
+    "</start-time-sec>" << endl;                                              //
+    
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<start-time-units>" << myStartTime * unitsPerSecond <<      //
+    "</start-time-units>" << endl;                                            //
+    
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<duration-sec>" << myDuration << "</duration-sec>" << endl; //
+    
+  indentPrint(printLevel + 1);                                                //
+  *outputFile << "<duration-units>" << myDuration * unitsPerSecond <<         //
+    "</duration-units>" << endl;                                              //
 }
 
-void Event::indentPrint(int lvl, char borderChar) {
-  // indent 5 spaces for each level
-  for (int i = 0; i < lvl; i++) {
-    *outputFile << "     ";
+void Event::indentPrint(int lvl) {
+  // indent two spaces in the XML per level (plus two indentations to start)
+  for (int i = 0; i < lvl + 2; i++) {
+    *outputFile << "  ";                                                      //
   }
-  *outputFile << borderChar;
-}
-
-void Event::borderPrint(int lvl, char borderChar) {
-  // assumes 5 space indent
-  indentPrint( lvl, borderChar );
-
-  // subtract 1 char, since indentPrint printed 1 already
-  string borderStr( 79 - (5*lvl), borderChar );
-  *outputFile << borderStr << endl;
 }
 
 //----------------------------------------------------------------------------//

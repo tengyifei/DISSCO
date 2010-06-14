@@ -24,10 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __XML_READER_CPP
 #define __XML_READER_CPP
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <iostream>
 #include "XmlReader.h"
 
 //----------------------------------------------------------------------------//

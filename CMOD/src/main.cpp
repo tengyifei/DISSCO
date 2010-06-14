@@ -40,24 +40,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //---------------------------------------------------------------------------//
 
 // CMOD includes
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "define.h"
 #include "random.h"
 #include "cmodpiece.h"
 #include "eventfactory.h"
 #include "note.h"
 #include "lexyacc/eventparser.h"
-#include "../../LASS/src/lib.h"
-
-#include <string>
-#include <list>
-#include <map>
-#include <cmath>
-#include <ctime>
-#include <iostream>
 
 //---------------------------------------------------------------------------//
 /* THESE ARE ALL GLOBAL VARS IN THIS PROGRAM!!! */
-ofstream * outputFile;
+ofstream * outputFile; //
 map<string, EventFactory*> factory_lib;
 EnvelopeLibrary envlib_cmod;
 Score score;
@@ -65,6 +60,14 @@ int numChan;
 int sever;
 CMODPiece Piece;
 //---------------------------------------------------------------------------//
+
+/*Calls CMOD-BBS to generate score output.*/
+void generateScoreFromShell(void)
+{
+  system("./cmodbbs");
+  system("ls");
+  system("evince output.pdf");
+}
 
 /**
 *  This is the main program.
@@ -97,24 +100,26 @@ int main(int argc, char **argv) {
   free(temp_str);
 
   //create output/log file "particel" 
-  string out = pieceName + ".particel";
-  outputFile = new ofstream();
-  outputFile->open(out.c_str());
+  string out = "cmod-output.xml";                                             //
+  outputFile = new ofstream();                                                //
+  outputFile->open(out.c_str());                                              //
 
   //time stamp
   time_t startJob = time(NULL);
 
   //start random number generator
-//Random::Seed(startJob);
-  Random::Seed((unsigned int)1273621714);
-  *outputFile << "\t\t random number= " << startJob << endl;
+  *outputFile << "<particel>" << endl;                                        //
+  Random::Seed(startJob);
+  //Random::Seed((unsigned int)1246381071);
+  *outputFile << "  <random>" << startJob << "</random>" << endl;             //
   cout << "\tMain - Parsing " << mainFile << endl;
 
   // Parse main file
   parseFile(mainFile, NULL, &Piece);
 
   Piece.Print();
-
+  *outputFile << "  <events>" << endl;                                        //
+  
   // set global vars
   numChan = Piece.numChannels;
 
@@ -170,30 +175,39 @@ int main(int argc, char **argv) {
   //print any notes to a separate note file -- and print them IN ORDER!
   list<Note> notes = mainEvent->getNotes();
   if (notes.size() > 0) {
-    string noteOut = pieceName + ".note";
+    string noteOut = "cmod-notes.xml";
     ofstream noteFile;
     noteFile.open(noteOut.c_str());
 
     // important --- sort the notes!
     notes.sort();
 
+    noteFile << "<notes>" << endl;
     list<Note>::iterator iter = notes.begin();
     while (iter != notes.end()) {
-      noteFile << "***************************************************" << endl;
-      noteFile << "  " << iter->toStringStartTime() << endl;
-      noteFile << "  " << iter->toStringDuration() << endl;
-      noteFile << "  " << iter->toStringOther() << endl;
+      noteFile << "  <note>" << endl;
+      noteFile << iter->toStringStartTime();
+      noteFile << iter->toStringDuration();
+      noteFile << iter->toStringOther();
       iter++;
     }
-    noteFile << "***************************************************" << endl << endl;
+    noteFile << "  </note>" << endl;
+    noteFile << "</notes>" << endl;
     noteFile.close();
   }
-
-  // output the xml!
-   score.xml_print();
+  
+  *outputFile << "  </events>" << endl;                                       //
+  *outputFile << "</particel>";
+  
+  //output the xml for the sounds
+  score.xml_print();
+  
+  //create the score
+  generateScoreFromShell();
 
   //cleanup
   delete mainEvent;
+  delete outputFile;
 
   time_t endJob = time(NULL);
   cout << "This job took " << endJob - startJob << "seconds.\n";
@@ -201,3 +215,4 @@ int main(int argc, char **argv) {
 
   delete mainFactory;
 }
+

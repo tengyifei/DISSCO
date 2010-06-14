@@ -27,12 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define RANDOM_H
 
 // CMOD includes
-#include "define.h"
+#include "libraries.h"
 
-#include <vector>
-#include <list>
-#include <cmath>
-#include <iostream>
+#include "define.h"
 
 //----------------------------------------------------------------------------//
 

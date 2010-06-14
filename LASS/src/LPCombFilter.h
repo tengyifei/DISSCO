@@ -29,9 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __LP_COMB_FILTER_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
 
-#include <iostream>
-#include <fstream>
 #include "SoundSample.h"
 #include "Collection.h"
 #include "Track.h"

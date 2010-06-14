@@ -27,8 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __SOUND_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
+
 #include "XmlReader.h"
-#include <list>
 #include "Types.h"
 #include "Partial.h"
 #include "MultiTrack.h"
@@ -37,8 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Spatializer.h"
 #include "Reverb.h"
 #include "InterpolatorTypes.h"
-#include <iostream>
-#include <fstream>
+
 //----------------------------------------------------------------------------//
 
 /**
@@ -227,7 +227,7 @@ public:
     /**
     *	\deprecated
     **/
-    void xml_read(XmlReader::xmltag* soundtag, unordered_map<long, Reverb *>* reverbHash, unordered_map<long, DynamicVariable *>* dvHash);
+    void xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>* reverbHash, DISSCO_HASHMAP<long, DynamicVariable *>* dvHash);
 
     /**
      *  This returns the total duration of the sound.  If there is no reverb

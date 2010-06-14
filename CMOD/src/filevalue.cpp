@@ -28,7 +28,6 @@ CMOD (composition module)
 #include "random.h"
 #include "event.h"
 
-using namespace std;
 //----------------------------------------------------------------------------//
 
 extern EnvelopeLibrary envlib_cmod;

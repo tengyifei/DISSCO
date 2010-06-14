@@ -26,15 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __INTERPOLATOR_ITERATOR_H
 #define __INTERPOLATOR_ITERATOR_H
 
+#include "StandardHeaders.h"
 
 #include "Types.h"
 #include "AbstractIterator.h"
-#if (__GNUC__ >= 3)
-	using namespace std;
-	#include <list>
-#else
-	#include <list.h>
-#endif
 
 
 /**

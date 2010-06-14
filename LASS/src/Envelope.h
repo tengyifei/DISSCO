@@ -27,8 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __ENVELOPE_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
+
 #include "XmlReader.h"
-#include <list>
 #include "Types.h"
 #include "Interpolator.h"
 #include "Iterator.h"

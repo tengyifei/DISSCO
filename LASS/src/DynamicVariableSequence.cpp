@@ -33,9 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "DynamicVariableSequence.h"
 #include "DynamicVariableSequenceIterator.h"
 #include "InterpolatorTypes.h"
-#include "LASS_Headers.h"
-#include <iomanip>
-#include <math.h>
+
 using std::setw;
 
 

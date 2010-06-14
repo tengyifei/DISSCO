@@ -31,19 +31,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BOTTOM_H
 
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
-#include "../../LASS/src/lib.h"
 #include "filevalue.h"
 #include "modifier.h"
 #include "event.h"
 #include "note.h"
-
-#include <string>
-#include <map>
-#include <vector>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
 
 //----------------------------------------------------------------------------//
 class Bottom : public Event {
@@ -142,8 +136,6 @@ class Bottom : public Event {
      *  and Visuals instead of child Events.
      **/
     void constructChild(float stime, float dur, int type, string name, int level);
-//  void constructChild(float stime, float dur, int type, string name, 
-//      int currChildNum, int level);
 
     /**
      *  Returns the number of current partial -- overrides Event

@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "lexyacc/eventparser.h"
 #include "cmodpiece.h"
 
-using namespace std;
-
 extern map<string, EventFactory*> factory_lib;
 extern CMODPiece Piece;
 

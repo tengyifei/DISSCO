@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Score.h"
 #include "Types.h"
-#include <vector>
-#include <pthread.h>
 
 //----------------------------------------------------------------------------//
 
@@ -470,8 +468,8 @@ void Score::xml_read(XmlReader::xmltag *scoretag)
 	// found...  But i'm just coding now for sake of demonstration.
 	XmlReader::xmltag *childtag;
 	char *value;
-	reverbHash = new unordered_map<long, Reverb *>;
-	dvHash = new unordered_map<long, DynamicVariable *>;
+	reverbHash = new DISSCO_HASHMAP<long, Reverb *>;
+	dvHash = new DISSCO_HASHMAP<long, DynamicVariable *>;
 	
 	while(childtag=scoretag->children->find("reverb"))
 	{
@@ -579,7 +577,7 @@ void Score::xml_print(const char * xmlOutputPath)
 
 void Score::xml_print()
 {
-	ofstream xmlOutput("xmloutput.xml");
+	ofstream xmlOutput("lass-output.xml");
 	if(!xmlOutput)
 	{
 		cout << "Error Opening file for XML output!" << endl;
