@@ -30,19 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENT_H
 
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
 #include "matrix.h"
 #include "filevalue.h"
 #include "note.h"
-
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
 
 //----------------  Constructors and Destructors  ---------------------------//
 
@@ -59,8 +52,8 @@ class Event {
 
     // static information (doesn't change for each child)
     float maxChildDur;    // maximum allowed duration for a child
-    int unitsPerSecond; // used in discrete
-    int unitsPerBar;    // used in discrete
+    int unitsPerSecond; // used in discrete, needed for note class
+    int unitsPerBar;    // used in discrete, needed for note class
  
     double checkPoint;
     vector<Event*> childEvents; // children of this event
@@ -218,10 +211,7 @@ class Event {
      *   to allow the creation of note/sound/visual instead of the
      *   usual child events
      **/
-    virtual void constructChild(float stime, float dur, int type, string name, 
-     int level);
-//  virtual void constructChild(float stime, float dur, int type, string name, 
-//   int currChildNum, int level);
+    virtual void constructChild(float stime, float dur, int type, string name, int level);
 
     /**
     *   Prints information about the current subEvent.
@@ -238,12 +228,7 @@ class Event {
     /**
     *   Helper method to indent for Print()
     **/
-    void indentPrint(int lvl, char borderChar);
-
-    /**
-     *   Helper method to print borders for Print()
-     **/
-    void borderPrint(int lvl, char borderChar);
+    void indentPrint(int lvl);                                                //
 
   //------------- Private helper functions  ------------//
   private:

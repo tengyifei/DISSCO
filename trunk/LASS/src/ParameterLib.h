@@ -27,20 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PARAMETER_LIB_H
 
 //----------------------------------------------------------------------------//
-
+#include "StandardHeaders.h"  
 #include "Types.h"
 #include "DynamicVariable.h"
-
-#if (__GNUC__ >= 3)
-	//#include <ext/hash_map>
-	#include <unordered_map>
-	using namespace __gnu_cxx;
-#else
-
-	#include <hash_map.h>
-
-#endif
-
 
 //----------------------------------------------------------------------------//
 
@@ -139,12 +128,12 @@ private:
     /**
     *	Holds the static parameters in an association
     **/
-    unordered_map<int , m_value_type> staticParams_;
+    DISSCO_HASHMAP<int , m_value_type> staticParams_;
     
     /**
     *	Holds the dynamic parameters in an association
     **/
-    unordered_map<int , DynamicVariable*> dynamicParams_;
+    DISSCO_HASHMAP<int , DynamicVariable*> dynamicParams_;
     
 };
 

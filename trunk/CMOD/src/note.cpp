@@ -24,11 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 #include "note.h"
-#include <sstream>
-#include <iomanip>
-#include "CMOD_Headers.h"
 
-using namespace std;
 //----------------------------------------------------------------------------//
 
 Note::Note(float gblStartTimeSec, float durationSec, int uPerSec, int uPerBar) {
@@ -68,6 +64,8 @@ Note::Note(float gblStartTimeSec, float durationSec, int uPerSec, int uPerBar) {
 	<< " durUnitSubEnd=" << durUnitSubEnd << endl;
   cin >> sever;
 */
+  unitsPerBeat = unitsPerSecond; //Assuming quarter note = beat = 1 sec
+  beatsPerBar = unitsPerBar / unitsPerBeat;
 }
 
 //----------------------------------------------------------------------------//
@@ -75,6 +73,8 @@ Note::Note(float gblStartTimeSec, float durationSec, int uPerSec, int uPerBar) {
 Note::Note(const Note& origNote) {
   unitsPerSecond = origNote.unitsPerSecond;
   unitsPerBar = origNote.unitsPerBar;
+  unitsPerBeat = origNote.unitsPerBeat;
+  beatsPerBar = origNote.beatsPerBar;
 
   stimeSec = origNote.stimeSec;
   stimeUnits = origNote.stimeUnits;
@@ -105,6 +105,8 @@ Note::Note(const Note& origNote) {
 Note& Note::operator= (const Note& rhs) {
   unitsPerSecond = rhs.unitsPerSecond;
   unitsPerBar = rhs.unitsPerBar;
+  unitsPerBeat = rhs.unitsPerBeat;
+  beatsPerBar = rhs.beatsPerBar;
 
   stimeSec = rhs.stimeSec;
   stimeUnits = rhs.stimeUnits;
@@ -172,7 +174,7 @@ void Note::setLoudnessSones( float sones ) {
   loudnessNum = -1;
 
   if (sones < 0 || sones > 256) {
-    cerr << "Note recieved invalid value for sones!" << endl;
+    cerr << "Note received invalid value for sones!" << endl;
     exit(1);
   } if (sones < 8) {
     loudnessMark = "pp";
@@ -199,58 +201,73 @@ void Note::setModifiers(vector<string> modNames) {
 
 //----------------------------------------------------------------------------//
 
-string Note::toStringStartTime() {
+string Note::toStringStartTime(int printLevel) {
   ostringstream buffer;
-
-  buffer << "Start: " << setw(8) << stimeSec << "sec    ";
-  buffer << "Bar:" << setw(7) << stimeBar << " Beat:" << setw(7) << stimeBeat;
-
-  if (stimeUnitSubdiv > 0) {
-    buffer << " + " << setw(5) << stimeUnitSubdiv << "/" << unitsPerSecond; 
-  }
+  string level; for(int i = 0; i < printLevel; i++) level += "  ";
+  
+  buffer << level << "<units-per-second>" << unitsPerSecond <<
+    "</units-per-second>" << endl;
+  buffer << level << "<units-per-bar>" << unitsPerBar <<
+    "</units-per-bar>" << endl;
+  buffer << level << "<units-per-beat>" << unitsPerBeat <<
+    "</units-per-beat>" << endl;
+  buffer << level << "<beats-per-bar>" << beatsPerBar <<
+    "</beats-per-bar>" << endl;
+  buffer << level << "<start-time-sec>" << stimeSec <<
+    "</start-time-sec>" << endl;
+  buffer << level << "<start-time-units>" << stimeUnits <<
+    "</start-time-units>" << endl;
+  buffer << level << "<start-bar-index>" << stimeBar << 
+    "</start-bar-index>" << endl;
+  buffer << level << "<start-beat-index>" << stimeBeat <<
+    "</start-beat-index>" << endl;
+  buffer << level << "<start-subdivision-units>" << stimeUnitSubdiv <<
+    "</start-subdivision-units>" << endl;
 
   return buffer.str();
 }
 
 //----------------------------------------------------------------------------//
 
-string Note::toStringDuration() {
+string Note::toStringDuration(int printLevel) {
   ostringstream buffer;
-
-  buffer << "Dur:   " << setw(8) << durSec << "sec    ";
-  buffer << setw(4) << "units";
-
-  if (durUnitSubBeg > 0 && durUnitSubBeg < unitsPerSecond) {
-    buffer << setw(8) << durUnitSubBeg << "/" << unitsPerSecond << " ";
-  } else {
-    buffer << setw(13) << " ";
-  }
-
-  if (durBeat > 0) {
-    buffer << durBeat;
-  }
-  if (durUnitSubEnd > 0) {
-    buffer << " " << durUnitSubEnd << "/" << unitsPerSecond;
-  }
-
+  string level; for(int i = 0; i < printLevel; i++) level += "  ";
+  
+  buffer << level << "<duration-sec>" << durSec <<
+    "</duration-sec>" << endl;
+  buffer << level << "<duration-units>" << durUnits << 
+    "</duration-units>" << endl;
+  buffer << level << "<duration-unit-sub-beg>" << durUnitSubBeg <<
+    "</duration-unit-sub-beg>" << endl;
+  buffer << level << "<duration-beat>" << durBeat <<
+    "</duration-beat>" << endl;
+  buffer << level << "<duration-unit-sub-end>" << durUnitSubEnd <<
+    "</duration-unit-sub-end>" << endl;
+  
   return buffer.str();
 }
 
 //----------------------------------------------------------------------------//
 
-string Note::toStringOther() {
+string Note::toStringOther(int printLevel) {
   ostringstream buffer;
+  string level; for(int i = 0; i < printLevel; i++) level += "  ";
 
   //notate pitch
-  buffer << setw(9) << pitchName << " " << octaveNum;
-
+  buffer << level << "<pitch-name>" << pitchName << "</pitch-name>" << endl;
+  buffer << level << "<octave-num>" << octaveNum << "</octave-num>" << endl;
+  buffer << level << "<pitch-num>" << pitchNum << "</pitch-num>" << endl;
+  buffer << level << "<pitch-in-octave>" << octavePitch << 
+    "</pitch-in-octave>" << endl;
+  
   //notate dynamic
-  buffer << "    " << loudnessMark;
+  buffer << level << "<loudness>" << loudnessMark << "</loudness>" << endl;
+  buffer << level << "<loudness-num>" << loudnessNum <<
+    "</loudness-num>" << endl;
 
   //notate modifiers
-  buffer << "  ";
   for (int i = 0; i < modifiers.size(); i++) {
-    buffer << "  " << modifiers[i];
+    buffer << level << "<modifier>" << modifiers[i] << "</modifier>" << endl;
   }
 
   return buffer.str();

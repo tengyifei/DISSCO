@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __MULTI_PAN_CPP
 #define __MULTI_PAN_CPP
 
-#include <math.h>
-#include <cstdarg>
 #include "Types.h"
 #include "Spatializer.h"
 #include "MultiTrack.h"

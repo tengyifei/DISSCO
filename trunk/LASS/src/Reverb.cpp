@@ -20,7 +20,6 @@
 
 //----------------------------------------------------------------------------//
 
-#include <math.h>
 #include "SoundSample.h"
 #include "Collection.h"
 #include "Track.h"

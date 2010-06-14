@@ -27,13 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __ENVELOPE_ITERATOR_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
+
 #include "Types.h"
 #include "AbstractIterator.h"
-#if (__GNUC__ >= 3)
-	#include <list>
-#else
-	#include <list.h>
-#endif
 #include "Envelope.h"
 
 //----------------------------------------------------------------------------//

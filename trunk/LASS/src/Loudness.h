@@ -27,15 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __LOUDNESS_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
 
 #include "Types.h"
 #include "Sound.h"
 #include "Partial.h"
-#if (__GNUC__ >= 3)
-	#include <vector>
-#else
-	#include <vector.h>
-#endif
 
 //----------------------------------------------------------------------------//
 

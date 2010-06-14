@@ -28,13 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-#if (__GNUC__ >= 3)
-	#include <iostream>
-#else
-	#include <iostream.h>
-#endif
 #include "Collection.h"
-#include "LASS_Headers.h"
 
 //----------------------------------------------------------------------------//
 // CONSTRUCTORS, DESTRUCTOR, ASSIGNMENT

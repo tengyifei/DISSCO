@@ -27,10 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PARTIAL_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
+
 #include "XmlReader.h"
-#include <fstream>
-#include <iostream>
-#include <list>
 #include "Types.h"
 #include "ParameterLib.h"
 #include "Track.h"
@@ -202,7 +201,7 @@ public:
 	/**
 	* \deprecated
 	**/
-	void xml_read( XmlReader::xmltag* partialtag, unordered_map<long, Reverb *>* reverbHash, unordered_map<long, DynamicVariable *> *dvHash);
+	void xml_read( XmlReader::xmltag* partialtag, DISSCO_HASHMAP<long, Reverb *>* reverbHash, DISSCO_HASHMAP<long, DynamicVariable *> *dvHash);
 
 	/**
 	 *  This returns the total length (in seconds) of the partial.  
@@ -219,7 +218,7 @@ private:
 	 * \deprecated
 	 *  Auxillary function to assist in loading dv's from XML
 	 **/
-	void auxLoadParam(enum PartialDynamicParam param,XmlReader::xmltag *tag, unordered_map<long, DynamicVariable *> *dvHash);
+	void auxLoadParam(enum PartialDynamicParam param,XmlReader::xmltag *tag, DISSCO_HASHMAP<long, DynamicVariable *> *dvHash);
         
 	/**
 	 * This is phase-modulation. It basically does an inline 

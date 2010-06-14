@@ -26,10 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef CMODPIECE_H
 #define CMODPIECE_H
 
-#include <string>
-#include <iostream>
-
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
 
 //---------------------------------------------------------------------------//

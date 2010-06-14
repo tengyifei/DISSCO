@@ -32,14 +32,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MATRIX_H
 
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
 #include "sieve.h"
-#include "../../LASS/src/lib.h"
-
-#include <vector>
-#include <cmath>
-#include <iostream>
-#include <iomanip>
 
 struct MatPoint {
   double attdurprob; // probability of attack and duration

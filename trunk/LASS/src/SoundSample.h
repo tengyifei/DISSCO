@@ -27,13 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __SOUND_SAMPLE_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
 
-#if (__GNUC__ >= 3)
-	using namespace std;
-	#include <iostream>
-#endif
 #include "Types.h"
-#include <vector>
 
 //----------------------------------------------------------------------------//
 

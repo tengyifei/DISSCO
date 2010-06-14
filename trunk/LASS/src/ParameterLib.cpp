@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PARAMETER_LIB_CPP
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
 
 #include "ParameterLib.h"
-
 #include "Constant.h"
 
 //----------------------------------------------------------------------------//
@@ -52,7 +52,7 @@ template<class StaticT, class DynamicT>
         staticParams_ = pl.staticParams_;
         
         // and copy over the dynamic variables
-        unordered_map<int , DynamicVariable*>::const_iterator it = pl.dynamicParams_.begin();
+        DISSCO_HASHMAP<int , DynamicVariable*>::const_iterator it = pl.dynamicParams_.begin();
         
         while (it != pl.dynamicParams_.end())
         {
@@ -78,7 +78,7 @@ template<class StaticT, class DynamicT>
         staticParams_ = pl.staticParams_;
 
         // delete dynamic memory:
-        unordered_map<int , DynamicVariable*>::const_iterator it = dynamicParams_.begin();
+        DISSCO_HASHMAP<int , DynamicVariable*>::const_iterator it = dynamicParams_.begin();
         while(it != dynamicParams_.end())
         {
             // (it) is a pair<DynamicT, DynamicVariable*>
@@ -117,7 +117,7 @@ template<class StaticT, class DynamicT>
 {
 
     // delete dynamic memory:
-    unordered_map<int , DynamicVariable*>::iterator it = dynamicParams_.begin();
+    DISSCO_HASHMAP<int , DynamicVariable*>::iterator it = dynamicParams_.begin();
     
     while(it != dynamicParams_.end())
     {
@@ -148,7 +148,7 @@ template<class StaticT, class DynamicT>
     ::setParam(DynamicT p, DynamicVariable& v)
 {
     // is there an entry at this position already?
-    unordered_map<int , DynamicVariable*>::iterator it;
+    DISSCO_HASHMAP<int , DynamicVariable*>::iterator it;
     it = dynamicParams_.find(p);
     if (it != dynamicParams_.end())
     {
@@ -178,7 +178,7 @@ template<class StaticT, class DynamicT>
     ::getParam(DynamicT p)
 {
     // is there an entry at this position already?
-    unordered_map<int , DynamicVariable*>::iterator it;
+    DISSCO_HASHMAP<int , DynamicVariable*>::iterator it;
     it = dynamicParams_.find(p);
     if (it != dynamicParams_.end())
     {
@@ -199,7 +199,7 @@ template<class StaticT, class DynamicT>
 template<class StaticT, class DynamicT>
     DynamicVariable& ParameterLib<StaticT, DynamicT>::getParamEnv(DynamicT p)
 {
-  unordered_map<int, DynamicVariable*>::iterator it;
+  DISSCO_HASHMAP<int, DynamicVariable*>::iterator it;
       it = dynamicParams_.find(p);
     if (it != dynamicParams_.end())
     {
@@ -231,7 +231,7 @@ template<class StaticT, class DynamicT>
     ::getParam(StaticT p)
 {
     // is there an entry at this position already?
-    unordered_map<int , m_value_type>::iterator it;
+    DISSCO_HASHMAP<int , m_value_type>::iterator it;
     it = staticParams_.find(p);
     if (it != staticParams_.end())
     {

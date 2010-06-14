@@ -27,21 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DYNAMIC_VARIABLE_H
 
 //----------------------------------------------------------------------------//
-#include <fstream>
-#include <iostream>
-#include <vector>
+#include "StandardHeaders.h"
+
 #include "Types.h"
 #include "Iterator.h"
 #include "XmlReader.h"
 #include "Collection.h"
-
-#if (__GNUC__ >= 3)
-        using namespace std;
-        #include <list>
-#else
-        #include <list.h>
-#endif
-
 
 //----------------------------------------------------------------------------//
 

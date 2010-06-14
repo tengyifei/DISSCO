@@ -16,8 +16,8 @@
 #define __MOSS_REVERB_H
 
 //----------------------------------------------------------------------------//
-#include <iostream>
-#include <fstream>
+#include "StandardHeaders.h"
+
 #include "SoundSample.h"
 #include "Collection.h"
 #include "Track.h"

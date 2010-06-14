@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cmodpiece.h"
 #include "filevalue.h"
 
-using namespace std;
 extern ofstream * outputFile;
 //----------------------------------------------------------------------------//
 
@@ -157,14 +156,14 @@ void CMODPiece::setPieceDuration(FileValue *fv) {
 //----------------------------------------------------------------------------//
 
 void CMODPiece::Print() {
-  *outputFile << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" << endl;
-  *outputFile << "PIECE TITLE:  " << title << "\n" << endl;
-  *outputFile << "startTime: " << pieceStartTime << "\tduration: " 
-      << pieceDuration << " seconds" << endl;
+  *outputFile << "  <title>" << title << "</title>" << endl <<                //
+    "  <start-time-sec>" << pieceStartTime << "</start-time-sec>" << endl <<  //
+    "  <duration-sec>" << pieceDuration << "</duration-sec>" << endl;         //
   if(soundSynthesis) {
-    *outputFile << "numChannels: " << numChannels << "\tsampleRate: " 
-        << sampleRate << " samples/sec \tsampleSize: " << sampleSize 
-        << " bit\t" << " numThreads: " << numThreads << endl;
+    *outputFile << "  <channels>" << numChannels << "</channels>" << endl <<  //
+      "  <sample-rate>" << sampleRate << "</sample-rate>" << endl <<          //
+      "  <sample-bits>" << sampleSize << "</sample-bits>" << endl <<          //
+      "  <threads>" << numThreads << "</threads>" << endl;                    //
   }
 
   cout << "*****************************" << endl;

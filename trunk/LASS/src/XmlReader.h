@@ -25,9 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef __XML_READER_H
 #define __XML_READER_H
+
+#include "StandardHeaders.h"
+
 #define XML_BUFFER_SIZE 1024
 #define XML_DEBUG
-#include <stdio.h>
+
 
 //----------------------------------------------------------------------------//
 

@@ -28,14 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-#include <fstream>
-#include <iomanip>
-#include <sstream>
 #include "Types.h"
 #include "Collection.h"
 #include "EnvelopeLibrary.h"
 #include "Envelope.h"
-#include "LASS_Headers.h"
 
 using std::setw;
 
@@ -156,7 +152,7 @@ int EnvelopeLibrary::loadLibrary (char * filename)
 {
   int count_envs, count_pts, count_segs, env_number;
   float xpt, ypt, iTemp;
-  char cTemp [10];
+  char cTemp [10000];
   interpolation_type intyp;
   stretch_type tstyp;
   m_time_type timev;

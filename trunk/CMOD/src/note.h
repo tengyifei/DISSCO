@@ -27,41 +27,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NOTE_H
 
 // CMOD includes
-#include "define.h"
+#include "libraries.h"
 
-#include <string>
-#include <vector>
-#include <cmath>
-#include <iostream>
+#include "define.h"
 
 //----------------------------------------------------------------------------//
 
 class Note {
   private:
-    int unitsPerSecond;
-    int unitsPerBar;
+    /*Careful: these are note units. Note units allow for the quantization of
+    complex rhythms and have nothing to do with the global units (i.e. that 
+    sounds events use). A note unit can be defined as the smallest possible
+    mensural increment that will be used. The note unit will correspond exactly
+    to a specific rhythmic duration which can be calculated using beatsPerBar
+    and unitsPerBeat.
 
+    Current assumptions: a beat is a quarter note.
+    */
+    
+    //Conversion metrics
+    int unitsPerSecond;   //note units per second--for this particular note
+    int unitsPerBar;      //note units per bar
+    int unitsPerBeat;     //note units per beat
+    int beatsPerBar;      //number of beats per bar
+
+    //Start time metrics
     float stimeSec;       //absolute start time in seconds
-    int stimeUnits;       //absolute start time of the pitch (in units)
-    int stimeBar;         //where bar starts (in units)
-    int stimeBeat;        //beat number within the bar
-    int stimeUnitSubdiv;  //starttime within the beat (in units)
+    int stimeUnits;       //absolute start time of the pitch (in note units)
+    int stimeBar;         //index of bar (0 = measure 1, 1 = measure 2, etc.)
+    int stimeBeat;        //index of beat within the bar (0 = beat 1)
+    int stimeUnitSubdiv;  //start time within the beat (in note units)
 
+    //Duration metrics
     float durSec;         //duration in seconds
-    int durUnits;         //duration in units
-    int durUnitSubBeg;    //how much of the duration is within the starting beat (in units)
-                          //   ... or 0 if the note starts on a beat
-    int durBeat;          //how many full beats is the duration, after completing 'durUnitSubBeg'
+    int durUnits;         //duration in note units
+    int durUnitSubBeg;    /*how much of the duration is within the starting beat
+                            in note units (or 0 if the note starts on a beat)*/
+    int durBeat;          /*how many full beats are in the duration, after
+                            completing 'durUnitSubBeg'*/
     int durUnitSubEnd;    //how much duration is left at the end (in units)
 
-    int pitchNum;         //absolute numeric value of the pitch
-    int octaveNum;        //the octave the pitch is in
-    int octavePitch;      //the number of the pitch within the octave
-    std::string pitchName;     //the string name of this pitch
+    //Pitch
+    int pitchNum;          //absolute numeric value of the pitch
+    int octaveNum;         //the octave the pitch is in
+    int octavePitch;       //the number of the pitch within the octave
+    std::string pitchName; //the string name of this pitch
 
+    //Dynamic marking
     int loudnessNum;
-    std::string loudnessMark;
+    std::string loudnessMark;  //dynamic marking (i.e. "ff")
 
+    //Modifiers
     std::vector<std::string> modifiers; //string names of the modifiers
 
   public:
@@ -144,17 +160,17 @@ class Note {
     /**
      *  Output the note start time as a string
      **/
-    std::string toStringStartTime();
+    std::string toStringStartTime(int printLevel=2);
 
     /**
      *  Output the note duration as a string
      **/
-    std::string toStringDuration();
+    std::string toStringDuration(int printLevel=2);
 
     /**
      *  Output the other note attributes as a string
      **/
-    std::string toStringOther();
+    std::string toStringOther(int printLevel=2);
 
 //----------------------------------------------------------------------------//
 

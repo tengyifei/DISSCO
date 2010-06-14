@@ -35,18 +35,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 // CMOD includes
+#include "libraries.h"
+
 #include "define.h"
 #include "patter.h"
 #include "sieve.h"
-#include "../../LASS/src/lib.h"
-
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include <cmath>
-#include <iostream>
-#include <cstdarg>
 
 class Event; // forward declared to avoid cyclic dependency
 

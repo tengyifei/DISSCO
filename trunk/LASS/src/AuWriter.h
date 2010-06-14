@@ -27,14 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AU_WRITER_H
 
 //----------------------------------------------------------------------------//
+#include "StandardHeaders.h"
 
 #include "SoundSample.h"
 #include "Track.h"
 #include "MultiTrack.h"
-
-#include <string>
-#include <vector>
-#include <fstream>
 
 //----------------------------------------------------------------------------//
 

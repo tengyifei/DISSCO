@@ -31,11 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Envelope.h"
 #include "EnvelopeIterator.h"
 #include "InterpolatorTypes.h"
-#include "lib.h"
 #include "EnvelopeLibrary.h"
-
-#include <iomanip>
-#include <math.h>
 
 EnvelopeLibrary envlib;
 
