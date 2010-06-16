@@ -203,7 +203,7 @@ int main(int argc, char **argv) {
   score.xml_print();
   
   //create the score
-  generateScoreFromShell();
+  //generateScoreFromShell();
 
   //cleanup
   delete mainEvent;
