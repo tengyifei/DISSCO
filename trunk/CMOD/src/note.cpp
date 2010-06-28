@@ -229,6 +229,21 @@ string Note::toStringStartTime(int printLevel) {
 
 //----------------------------------------------------------------------------//
 
+string Note::toStringStartTimeParticel() {
+  ostringstream buffer;
+
+  buffer << "Start: " << setw(8) << stimeSec << "sec    ";
+  buffer << "Bar:" << setw(7) << stimeBar << " Beat:" << setw(7) << stimeBeat;
+
+  if (stimeUnitSubdiv > 0) {
+    buffer << " + " << setw(5) << stimeUnitSubdiv << "/" << unitsPerSecond;
+  }
+
+  return buffer.str();
+}
+
+//----------------------------------------------------------------------------//
+
 string Note::toStringDuration(int printLevel) {
   ostringstream buffer;
   string level; for(int i = 0; i < printLevel; i++) level += "  ";
@@ -244,6 +259,30 @@ string Note::toStringDuration(int printLevel) {
   buffer << level << "<duration-unit-sub-end>" << durUnitSubEnd <<
     "</duration-unit-sub-end>" << endl;
   
+  return buffer.str();
+}
+
+//----------------------------------------------------------------------------//
+
+string Note::toStringDurationParticel() {
+  ostringstream buffer;
+
+  buffer << "Dur:   " << setw(8) << durSec << "sec    ";
+  buffer << setw(4) << "units";
+
+  if (durUnitSubBeg > 0 && durUnitSubBeg < unitsPerSecond) {
+    buffer << setw(8) << durUnitSubBeg << "/" << unitsPerSecond << " ";
+  } else {
+    buffer << setw(13) << " ";
+  }
+
+  if (durBeat > 0) {
+    buffer << durBeat;
+  }
+  if (durUnitSubEnd > 0) {
+    buffer << " " << durUnitSubEnd << "/" << unitsPerSecond;
+  }
+
   return buffer.str();
 }
 
@@ -268,6 +307,26 @@ string Note::toStringOther(int printLevel) {
   //notate modifiers
   for (int i = 0; i < modifiers.size(); i++) {
     buffer << level << "<modifier>" << modifiers[i] << "</modifier>" << endl;
+  }
+
+  return buffer.str();
+}
+
+//----------------------------------------------------------------------------//
+
+string Note::toStringOtherParticel() {
+  ostringstream buffer;
+
+  //notate pitch
+  buffer << setw(9) << pitchName << " " << octaveNum;
+
+  //notate dynamic
+  buffer << "    " << loudnessMark;
+
+  //notate modifiers
+  buffer << "  ";
+  for (int i = 0; i < modifiers.size(); i++) {
+    buffer << "  " << modifiers[i];
   }
 
   return buffer.str();

@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern map<string, EventFactory*> factory_lib;
 extern ofstream * outputFile;
+extern ofstream * outFile;
 
 //----------------------------------------------------------------------------//
 
@@ -284,6 +285,8 @@ void Event::buildChildEvents() {
   vector<Event*> temporaryChildEvents;
 
   print();
+  printParticel();
+  
   cout << "Event::buildChildEvents - my name is: " << myName << endl;
 
   list<FileValue>* child_def_list = childEventDef->getListPtr(this);
@@ -610,6 +613,8 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     discreteMat = new Matrix(typeVect.size(), attackSiv->GetNumItems(), 
                            durSiv->GetNumItems(), 0.0, numTypesInLayers);
 
+    
+
     discreteMat->setAttacks(attackSiv, attackEnvs);
 
     discreteMat->setDurations(durSiv, durEnvs);
@@ -682,11 +687,61 @@ void Event::print() {
     "</duration-units>" << endl;                                              //
 }
 
+//----------------------------------------------------------------------------//
+
+void Event::printParticel() {
+  // alternate border characters
+  char borderchar;
+  if (printLevel % 2 == 0) {
+    borderchar = '%';
+  } else {
+    borderchar = '*';
+  }
+
+  borderPrintParticel(printLevel, borderchar);
+
+  indentPrintParticel(printLevel, borderchar);
+  *outFile << "  " << myName << "       type: " << myType << endl;
+
+  indentPrintParticel(printLevel, borderchar);
+  *outFile << "        stime:  " << setw(7) << (myStartTime*unitsPerSecond)
+              << " units,  " << setw(8) << myStartTime << " sec" << endl;
+
+  indentPrintParticel(printLevel, borderchar);
+  *outFile << "          dur:  " << setw(7) << (myDuration*unitsPerSecond)
+      << " units,  " << setw(8) << myDuration << " sec" << endl;
+
+  //borderPrint(printLevel, borderchar);
+}
+
+//----------------------------------------------------------------------------//
+
 void Event::indentPrint(int lvl) {
   // indent two spaces in the XML per level (plus two indentations to start)
   for (int i = 0; i < lvl + 2; i++) {
-    *outputFile << "  ";                                                      //
+    *outFile << "  ";                                                      //
   }
+}
+
+//----------------------------------------------------------------------------//
+
+void Event::indentPrintParticel(int lvl, char borderChar) {
+  // indent 5 spaces for each level
+  for (int i = 0; i < lvl; i++) {
+    *outFile << "     ";
+  }
+  *outFile << borderChar;
+}
+
+//----------------------------------------------------------------------------//
+
+void Event::borderPrintParticel(int lvl, char borderChar) {
+  // assumes 5 space indent
+  indentPrintParticel( lvl, borderChar );
+
+  // subtract 1 char, since indentPrint printed 1 already
+  string borderStr( 79 - (5*lvl), borderChar );
+  *outFile << borderStr << endl;
 }
 
 //----------------------------------------------------------------------------//

@@ -165,6 +165,12 @@ class Bottom : public Event {
     void print();
 
     /**
+     *  Prints Bottom ID, name, start time, duration, and other parameters 
+     *  to the outFile: ".particel"
+     **/
+    void printParticel();
+
+    /**
      * Prints the sound ID, start time, duration, type, frequency, 
      * and sones of a sound.
      * \param stime start time for the sound
@@ -179,12 +185,34 @@ class Bottom : public Event {
                      int numPartials, float freq, float sones);
 
     /**
+     * Prints the sound ID, start time, duration, type, frequency, 
+     * and sones of a sound to the outFile: ".particel".
+     * \param stime start time for the sound
+     * \param dur duration of the sound
+     * \param type type of the sound
+     * \param name filename of the sound
+     * \param numPartials integer containing the number of partials
+     * \param freq float containing the frequency value
+     * \param sones float containing the sones value
+     **/
+    void printSoundParticel( float stime, float dur, int type, string name,
+                     int numPartials, float freq, float sones);
+
+    /**
      * Prints a note
      * \param n the note to print
      * \param type type of the note
      * \param name filename of the note
      **/
     void printNote(Note& n, int type, string name);
+
+    /**
+     * Prints a note
+     * \param n the note to print
+     * \param type type of the note
+     * \param name filename of the note
+     **/
+    void printNoteParticel(Note& n, int type, string name);
 
     /**
      * Adds pointers to any notes in this Bottom event to a vector
