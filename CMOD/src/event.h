@@ -217,6 +217,12 @@ class Event {
     *   Prints information about the current subEvent.
     **/
     virtual void print();
+    
+    /**
+    *   Prints information about the current subEvent to the outFile .particel 
+    **/
+    virtual void printParticel();
+
 
     /**
      * Adds pointers to any notes in this Event (or any children) to a vector
@@ -229,6 +235,17 @@ class Event {
     *   Helper method to indent for Print()
     **/
     void indentPrint(int lvl);                                                //
+
+    /**
+    *   Helper method to indent for Print() for outFile .particel
+    **/
+    void indentPrintParticel(int lvl, char borderChar);
+
+    /**
+     *   Helper method to print borders for Print() for outFile .particel
+     **/
+    void borderPrintParticel(int lvl, char borderChar);
+
 
   //------------- Private helper functions  ------------//
   private:

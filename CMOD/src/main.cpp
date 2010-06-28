@@ -53,6 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //---------------------------------------------------------------------------//
 /* THESE ARE ALL GLOBAL VARS IN THIS PROGRAM!!! */
 ofstream * outputFile; //
+ofstream * outFile; //
 map<string, EventFactory*> factory_lib;
 EnvelopeLibrary envlib_cmod;
 Score score;
@@ -104,8 +105,14 @@ int main(int argc, char **argv) {
   outputFile = new ofstream();                                                //
   outputFile->open(out.c_str());                                              //
 
+  string part = pieceName + ".particel";
+  outFile = new ofstream();
+  outFile -> open(part.c_str());
+
   //time stamp
-  time_t startJob = time(NULL);
+  long seedTime = time(NULL);
+  time_t startJob = seedTime;
+  * outFile << "  <random>" << startJob << endl;
 
   //start random number generator
   *outputFile << "<particel>" << endl;                                        //
@@ -176,8 +183,12 @@ int main(int argc, char **argv) {
   list<Note> notes = mainEvent->getNotes();
   if (notes.size() > 0) {
     string noteOut = "cmod-notes.xml";
+    string noteOutput = pieceName + ".note";
     ofstream noteFile;
+    ofstream notePrint;
+
     noteFile.open(noteOut.c_str());
+    notePrint.open(noteOutput.c_str());
 
     // important --- sort the notes!
     notes.sort();
@@ -189,11 +200,21 @@ int main(int argc, char **argv) {
       noteFile << iter->toStringStartTime();
       noteFile << iter->toStringDuration();
       noteFile << iter->toStringOther();
+
+      notePrint << "***************************************************" << endl;
+      notePrint << "  " << iter->toStringStartTimeParticel() << endl;
+      notePrint << "  " << iter->toStringDurationParticel() << endl;
+      notePrint << "  " << iter->toStringOtherParticel() << endl;
+
       iter++;
     }
     noteFile << "  </note>" << endl;
     noteFile << "</notes>" << endl;
     noteFile.close();
+
+    notePrint<< "***************************************************" << endl 
+  	     << endl;
+    notePrint.close();
   }
   
   *outputFile << "  </events>" << endl;                                       //
@@ -208,9 +229,12 @@ int main(int argc, char **argv) {
   //cleanup
   delete mainEvent;
   delete outputFile;
+  delete outFile;
+  delete noteFile;
 
   time_t endJob = time(NULL);
-  cout << "This job took " << endJob - startJob << "seconds.\n";
+  cout << "This job started " << startJob << " ended " << endJob << " it took "
+       << endJob - startJob << "seconds.\n";
   //cin >> sever;
 
   delete mainFactory;

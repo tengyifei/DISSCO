@@ -35,6 +35,7 @@ extern int numChan;
 //extern int currChildNum;
 extern map<string, EventFactory*> factory_lib;
 extern ofstream * outputFile;
+extern ofstream * outFile;
 int Bottom::sndcount = 0;
 
 //----------------------------------------------------------------------------//
@@ -262,6 +263,8 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
   applyReverberation(newSound);
 
   printSound( stime, dur, type, name, numPartials, baseFrequency, loudSones );
+  printSoundParticel(stime, dur, type, name, numPartials, baseFrequency, 
+   loudSones);
 
   score.add(*newSound);
   childSounds.push_back(newSound);
@@ -312,6 +315,7 @@ void Bottom::buildNote(float stime, float dur, int type, string name) {
   }
 
   printNote(*newNote, type, name);
+  printNoteParticel(*newNote, type, name);
   childNotes.push_back(newNote);
 }
 
@@ -972,6 +976,13 @@ void Bottom::print() {
 
 //----------------------------------------------------------------------------//
 
+void Bottom::printParticel() {
+  // bottom prints no differently than regular events (for now)
+  Event::printParticel();
+}
+
+//----------------------------------------------------------------------------//
+
 void Bottom::printSound(float stime, float dur, int type, string name, 
                         int numPartials, float freq, float sones) {
   indentPrint(printLevel + 1);                                                //
@@ -1016,6 +1027,36 @@ void Bottom::printSound(float stime, float dur, int type, string name,
 
 //----------------------------------------------------------------------------//
 
+void Bottom::printSoundParticel(float stime, float dur, int type, string name,
+ 				int numPartials, float freq, float sones) {
+  char borderchar = '#';
+
+  borderPrintParticel(printLevel + 1, borderchar);
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "  " << name << "       type: " << type
+              << "        globalSndCount: " << sndcount << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "        stime:  " << setw(7) << (stime*unitsPerSecond)
+              << " units,  " << setw(8) << stime << " sec" << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "          dur:  " << setw(7) << (dur*unitsPerSecond)
+              << " units,  " << setw(8) << dur << " sec" << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "      numPart:  " << setw(3) << numPartials << "      sones:  "
+              << setw(6) << sones << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "         freq:  " << setw(7) << freq << endl;
+
+  //borderPrintParticel(printLevel + 1, borderchar);
+}
+
+//----------------------------------------------------------------------------//
+
 void Bottom::printNote(Note& n, int type, string name) {
   //borderPrint(printLevel + 1, borderchar);
   string level; for(int i = 0; i < printLevel + 3; i++) level += "  ";
@@ -1031,6 +1072,28 @@ void Bottom::printNote(Note& n, int type, string name) {
   *outputFile << level << "</note>" << endl;
 
   //borderPrint(printLevel + 1, borderchar);
+}
+
+//----------------------------------------------------------------------------//
+
+void Bottom::printNoteParticel(Note& n, int type, string name) {
+  char borderchar = '+';
+
+  borderPrintParticel(printLevel + 1, borderchar);
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "  NOTE: " << name << "       type: " << type << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "  " << n.toStringStartTimeParticel() << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << "  " << n.toStringDurationParticel() << endl;
+
+  indentPrintParticel(printLevel + 1, borderchar);
+  *outFile << n.toStringOtherParticel() << endl;
+
+  //borderPrintParticel(printLevel + 1, borderchar);
 }
 
 //----------------------------------------------------------------------------//

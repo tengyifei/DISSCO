@@ -163,14 +163,29 @@ class Note {
     std::string toStringStartTime(int printLevel=2);
 
     /**
+     *  Output the note start time as a string for outFile .particel
+     **/
+    std::string toStringStartTimeParticel();
+
+    /**
      *  Output the note duration as a string
      **/
     std::string toStringDuration(int printLevel=2);
 
     /**
+     *  Output the note duration as a string for outFile .particel
+     **/
+    std::string toStringDurationParticel();
+
+    /**
      *  Output the other note attributes as a string
      **/
     std::string toStringOther(int printLevel=2);
+
+    /**
+     *  Output the other note attributes as a string for outFile .particel
+     **/
+    std::string toStringOtherParticel();
 
 //----------------------------------------------------------------------------//
 
