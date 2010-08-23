@@ -1,0 +1,14 @@
+maxChildDur = 20;
+tempo = "quarter=60";
+timeSignature = "4/4";
+EDUPerBeat = 3;
+
+numChildren = <"FIXED">;
+
+childNames = < <"B/sound00"> >;
+
+childEventDef = < "SWEEP", 
+		Select(<0>, CURRENT_CHILD_NUM), "UNITS",
+		Select(<0>, CURRENT_CHILD_NUM),
+		Select(<20>, CURRENT_TYPE), "UNITS" >;
+
