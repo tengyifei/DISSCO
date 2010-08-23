@@ -1,0 +1,4 @@
+/*  REV/room.126  */
+
+reverberation = <"SIMPLE", Stochos( "RANGE_DISTRIB",
+		 < EnvLib(1, 0.01), EnvLib(1, 0.05), EnvLib(2, 1.00) >, 0 ) >;
