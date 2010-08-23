@@ -1,8 +1,0 @@
-
-notePitchClass = < "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B" >;
-
-noteDynamicMark = < "ppp", "pp", "p", "mp", "mf", "f", "ff" >;
-
-
-/* !!!! NOTE MODIFIERS NO LONGER USED! USE "MODIFIERS" INSTEAD (in the bottom file) !!!!! */
-/*noteModifiers = < "crescendo", "decrescendo", "rubato", "very annoyingly", "in the manner of a raccoon" >;*/
