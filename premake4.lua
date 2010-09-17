@@ -5,7 +5,7 @@ end
 newoption({trigger="examples",description="Creates makefiles for LASS examples"})
 
 DebugFlags = {"Symbols", "NoPCH", "NoManifest"}
-ReleaseFlags = {}
+ReleaseFlags = {} --Optimize
 
 solution "dissco"
   configurations {"Release", "Debug"}
@@ -40,17 +40,37 @@ project "parser"
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
 
-project "cmod"
+project "lcmod"
   language "C++"
   flags {"StaticRuntime"}
   files {"CMOD/src/**.cpp", "CMOD/src/**.h"}
+  excludes {"CMOD/src/Main.*"}
+  kind "StaticLib"
+  targetdir "lib"
+  buildoptions {"-Wno-deprecated"}
+  configuration "Debug" flags(DeOptimizebugFlags) 
+  configuration "Release" flags(ReleaseFlags)
+
+project "cmod"
+  language "C++"
+  flags {"StaticRuntime"}
+  files {"CMOD/src/Main.*"}
   kind "ConsoleApp"
   libdirs {"lib"}
-  links {"lass", "parser", "pthread"}
+  links {"lcmod", "lass", "parser", "pthread"}
   buildoptions {"-Wno-deprecated"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
-  configuration "macosx" targetdir "bin"
+  
+project "lassie"
+  language "C++"
+  kind "ConsoleApp"
+  files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
+  buildoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
+  linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
+  links {"lcmod", "lass", "parser", "pthread"}
+  configuration "Debug" flags(DebugFlags) 
+  configuration "Release" flags(ReleaseFlags)
   
 --------------------------------------------------------------------------------
 --                       The LASS Examples Directory
