@@ -34,21 +34,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //#define ENVLIB_DEFAULT "library000"
 
-// Typecasting a BOOL to an integer 
-typedef int BOOL;
-
-// This is a nice feature that will turn all instances of DEBUG into a
-// cout.  This makes very useful debugging information print out.
-#define DEBUG cout
-
 // Constants
 //#define RAND_MAX 2147483647.0L
 //#define HRAND_MAX 1073741824.0L
 #define NYQUIST 22050.0L
 #define CEILING 15000.0L
 #define MINFREQ 20.0L
-#define TRUE 1
-#define FALSE 0
 #define PI 4.0*atan(1.0)
 
 //----------------------------------------------------------------------------//

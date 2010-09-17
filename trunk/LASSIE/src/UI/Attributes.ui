@@ -1,0 +1,1713 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkFrame" id="attributesStandard">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkVBox" id="attributesMainVBox">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkHSeparator" id="hseparator3">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="attributesStandardType">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">Event Type:</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox5">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardName">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">Event Name:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">3</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardNameEntry">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="editable">False</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="attributesStandardMaxChirdDur">
+            <property name="visible">True</property>
+            <property name="tooltip_text" translatable="yes">If you select "Percentage" or "Seconds" 
+in Duration Type. This entry should be a float.
+If you select "Units" in Duration Type, 
+This entry should be an integer.</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardMaxChildDurLabel">
+                <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">float (in units)</property>
+                <property name="xalign">0</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">maxChildDur: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardMaxChildDurEntry">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardMaxChildDurFunButton">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="attributesStandardUnitsPerSecond">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardUnitsPerSecondLabel">
+                <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">int</property>
+                <property name="xalign">0</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">EDU Per Beat:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardUnitsPerSecondEntry">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardUnitsPerSecondFunButton">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox30">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardTimeSignature">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">Time Signature:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">3</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardTimeSignatureEntry1">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">positive integer </property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label24">
+                <property name="visible">True</property>
+                <property name="xpad">5</property>
+                <property name="label" translatable="yes">/</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardTimeSignatureEntry2">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">power of 2. 
+Ex:1,2,4,8,16,32, etc.</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox29">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label25">
+                <property name="visible">True</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">Tempo: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">3</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStandardTempleMethodNoteValueRadioButton">
+                <property name="label" translatable="yes">as Note Value</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">3</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStandardTempleMethodFractionRadioButton">
+                <property name="label" translatable="yes">as  Fraction</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesStandardTempleMethodNoteValueRadioButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">4</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVSeparator" id="vseparator1">
+                <property name="visible">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">8</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkAlignment" id="attributesStandardTempoAlignment">
+                <property name="width_request">200</property>
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label26">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">=</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">5</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardTempoValueEntry">
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator1">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">10</property>
+            <property name="position">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox4">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardNumChildrenLabel">
+                <property name="visible">True</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">Number of Children:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStandardNumChildrenDensityButton">
+                <property name="label" translatable="yes">Density</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="xalign">0.43999999761581421</property>
+                <property name="yalign">0.51999998092651367</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesStandardNumChildrenFixedButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStandardNumChildrenFixedButton">
+                <property name="label" translatable="yes">Fixed</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">17</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStandardNumChildrenByLayerButton">
+                <property name="label" translatable="yes">By Layer</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesStandardNumChildrenDensityButton</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">4</property>
+            <property name="position">8</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardNumChildrenLabel1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">FLOAT</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardNumChildrenEntry1">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+                <property name="width_chars">0</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardNumChildrenFunButton1">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">1</property>
+            <property name="position">9</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox2">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardNumChildrenLabel2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">INT</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardNumChildrenEntry2">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardNumChildrenFunButton2">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">1</property>
+            <property name="position">10</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox3">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardNumChildrenLabel3">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">INT</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardNumChildrenEntry3">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardNumChildrenFunButton3">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">1</property>
+            <property name="position">11</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator2">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="padding">10</property>
+            <property name="position">12</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox6">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Children Events Definition:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">15</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesChildEventDefContinuumButton">
+                <property name="label" translatable="yes">Continuum</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesChildEventDefSweepButton">
+                <property name="label" translatable="yes">Sweep</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesChildEventDefContinuumButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesChildEventDefDiscreteButton">
+                <property name="label" translatable="yes">Discrete</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesChildEventDefContinuumButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkHBox" id="hbox12">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label7">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Attack Sieve</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="padding">2</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="attributesChildEventDefAttackSieveEntry">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox13">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label8">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Duration Sieve</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="padding">2</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="attributesChildEventDefDurationSieveEntry">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="padding">10</property>
+            <property name="position">13</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox7">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Start Time</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesChildEventDefEntry1">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ChildEventDefButton1">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">14</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox8">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label3">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Start Type </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStartTypePercentageButton">
+                <property name="label" translatable="yes">Percentage</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">9</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStartTypeUnitsButton">
+                <property name="label" translatable="yes">Units</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesStartTypePercentageButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">9</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesStartTypeSecondsButton">
+                <property name="label" translatable="yes">Seconds</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesStartTypeUnitsButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">15</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox9">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label4">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Child Type</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesChildEventDefEntry2">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ChildEventDefButton2">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">16</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox10">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label5">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Duration</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">19</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesChildEventDefEntry3">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ChildEventDefButton3">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">17</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox11">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="label6">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Duration Type</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesDurationTypePercentageButton">
+                <property name="label" translatable="yes">Percentage</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">9</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesDurationTypeUnitsButton">
+                <property name="label" translatable="yes">Units</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesDurationTypePercentageButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="attributesDurationTypeSecondsButton">
+                <property name="label" translatable="yes">Seconds</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">attributesDurationTypePercentageButton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">18</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator4">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">13</property>
+            <property name="position">19</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="addNewLayerButton">
+            <property name="label" translatable="yes">Add New Layer</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">20</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkVBox" id="layerBoxes">
+            <property name="visible">True</property>
+            <property name="border_width">2</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="position">26</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="attributesStandardLabel">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Attributes</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFrame" id="envelopeAttributesFrame">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkAlignment" id="alignment1">
+        <property name="visible">True</property>
+        <property name="left_padding">12</property>
+        <child>
+          <object class="GtkVBox" id="vbox2">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox14">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="u">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Name:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="envelopeAttributesNameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox15">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label11">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Type: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="envelopeAttributesTypeEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox16">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label12">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Envelope Builder: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="envelopeAttributesBuilderEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="envelopeAttributesFunButton">
+                    <property name="label" translatable="yes">Insert Function</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label9">
+        <property name="visible">True</property>
+        <property name="use_markup">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFrame" id="SieveAttributesFrame">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkAlignment" id="alignment2">
+        <property name="visible">True</property>
+        <property name="left_padding">12</property>
+        <child>
+          <object class="GtkVBox" id="vbox3">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox17">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="u1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Name:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SieveAttributesNameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox18">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label10">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Type: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SieveAttributesTypeEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox19">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label13">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Sieve Builder: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SieveAttributesBuilderEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="SieveAttributesFunButton">
+                    <property name="label" translatable="yes">Insert Function</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label14">
+        <property name="visible">True</property>
+        <property name="use_markup">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFrame" id="PatternAttributesFrame">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkAlignment" id="alignment3">
+        <property name="visible">True</property>
+        <property name="left_padding">12</property>
+        <child>
+          <object class="GtkVBox" id="vbox4">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox20">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="u2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Name:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="PatternAttributesNameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox21">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label15">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Type: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="PatternAttributesTypeEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox22">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label16">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">PatternBuilder: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="PatternAttributesBuilderEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="PatternAttributesFunButton">
+                    <property name="label" translatable="yes">Insert Function</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label17">
+        <property name="visible">True</property>
+        <property name="use_markup">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFrame" id="ReverbAttributesFrame">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkAlignment" id="alignment4">
+        <property name="visible">True</property>
+        <property name="left_padding">12</property>
+        <child>
+          <object class="GtkVBox" id="vbox5">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox23">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="u3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Name:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="ReverbAttributesNameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox24">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label18">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Type: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="ReverbAttributesTypeEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox25">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label19">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Reverberation: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="ReverbAttributesBuilderEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="ReverbAttributesFunButton">
+                    <property name="label" translatable="yes">Insert Function</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label20">
+        <property name="visible">True</property>
+        <property name="use_markup">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFrame" id="SpatializationAttributesFrame">
+    <property name="visible">True</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">none</property>
+    <child>
+      <object class="GtkAlignment" id="alignment5">
+        <property name="visible">True</property>
+        <property name="left_padding">12</property>
+        <child>
+          <object class="GtkVBox" id="vbox6">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox26">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="u4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Name:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SpatializationAttributesNameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox27">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label21">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Type: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SpatializationAttributesTypeEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox28">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label22">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Spatialization: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="SpatializationAttributesBuilderEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="SpatializationAttributesFunButton">
+                    <property name="label" translatable="yes">Insert Function</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label23">
+        <property name="visible">True</property>
+        <property name="use_markup">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkHBox" id="attributesStandardTempoAsNoteValueHBox">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkComboBox" id="attributesStandardTempoNotePrefixCombobox">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="attributesStandardTempoNoteCombobox">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+      </object>
+      <packing>
+        <property name="padding">5</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkHBox" id="attributesStandardTempoAsFractionHbox">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkEntry" id="attributesStandardTempoAsFractionEntry1">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">&#x25CF;</property>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label27">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">/</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="padding">5</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="attributesStandardTempoAsFractionEntry2">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">&#x25CF;</property>
+      </object>
+      <packing>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+</interface>
