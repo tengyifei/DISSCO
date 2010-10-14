@@ -19,17 +19,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//  piece.h
+//  Piece.h
 //
 //----------------------------------------------------------------------------//
 
 #ifndef PIECE_H
 #define PIECE_H
 
-// CMOD includes
 #include "Libraries.h"
-
 #include "Define.h"
+
+//---------------------------------------------------------------------------//
+
+struct PieceHelper {
+
+  static int getDirectoryList(string dir, vector<string> &files);
+  
+  static string getFixedPath(string path);
+  
+  static string getProjectName(string path);
+  
+  static string getSeedFile(string path);
+  
+  static string getSeed(string path);
+  
+  static int getSeedNumber(string seed);
+  
+  static void createSoundFilesDirectory(string path);
+  
+  static bool doesFileExist(string path, string filename);
+  
+  static string getNextSoundFile(string path, string projectName);
+
+  static void createPiece(string path, string projectName, string seed,
+    string soundFilename);
+};
 
 //---------------------------------------------------------------------------//
 class FileValue;

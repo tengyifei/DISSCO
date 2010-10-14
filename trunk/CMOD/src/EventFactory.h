@@ -52,8 +52,6 @@ class EventFactory {
     std::string name;
 
     // Common to all Events
-    //FileValue* unitsPerZecond;
-    //FileValue* unitsPerBaz;
     FileValue* childNames;
     FileValue* numChildren;
     FileValue* childEventDef;
@@ -116,7 +114,7 @@ class EventFactory {
      *  \param level the number of parents to the event (used for printing)
      *  \return Event object
      **/
-    Event* Build(float startTime, float duration, int type, int level);
+    Event* Build(float startTime, float duration, int type);
 
     //Getters and Setters for all the FileValues
     void setUnitsPerSecond(FileValue* fv) { // --> deprecated
@@ -138,9 +136,6 @@ class EventFactory {
       setEDUPerBeat(fv);
     }
     /* --------------------------- */
-    /*FileValue* getUnitsPerBaz() {
-      return unitsPerBaz;
-    }*/
     void setUnitsPerBar(FileValue* fv) { // --> deprecated
       //See if function was actually used, or if it was sent a dummy variable.
       if(fv->isNull())

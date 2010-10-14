@@ -89,7 +89,7 @@ class Bottom : public Event {
     *   \param aName A name for the event
     *   \param level The number of parents to this event
     **/ 
-    Bottom(float aStrtTime, float aDuration, int aType, string aName, int level);
+    Bottom(float aStrtTime, float aDuration, int aType, string aName);
 
     /**
     *   Bottom copy constructor
@@ -135,7 +135,7 @@ class Bottom : public Event {
      *  method in Event, allowing the creation of Sounds, Notes,
      *  and Visuals instead of child Events.
      **/
-    void constructChild(float stime, float dur, int type, string name, int level);
+    void constructChild(float stime, float dur, int type, string name);
 
     /**
      *  Returns the number of current partial -- overrides Event

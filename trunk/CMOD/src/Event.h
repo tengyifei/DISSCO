@@ -51,13 +51,10 @@ class Event {
     Ratio myExactDuration;
     int myType;
     string myName;
-    int printLevel;  //used for indenting in the Print() function
     FileValue* childEventDef;
 
     // static information (doesn't change for each child)
     float maxChildDur;    // maximum allowed duration for a child
-    //int unitsPerZecond; // used in discrete, needed for note class
-    //int unitsPerBaz;    // used in discrete, needed for note class
     
     ///The tempo that this event belongs to.
     Tempo tempo;
@@ -84,7 +81,7 @@ class Event {
     Matrix* discreteMat;
 
 
-    // DON't NEED??? -- used in creating children
+    // DON'T NEED??? -- used in creating children
     float childStartTime;
     float childDuration;
     Ratio exactChildStartTime;
@@ -93,7 +90,6 @@ class Event {
     int currChildNum; 
     int childType; // need this one too (static ftn)
     string childName;
-    int childPrintLevel;
 
   public:
 
@@ -110,7 +106,7 @@ class Event {
     *	\param name Name of the event
     *   \param level The number of parent events to this event
     **/
-    Event(float stime, float dur, int type, string name, int level);
+    Event(float stime, float dur, int type, string name);
 
     /**
     *  Event copy constructor.
@@ -132,10 +128,8 @@ class Event {
     //----------------- Initialization functions  --------------------//
     /**
      *	Initialize the "bar" division info to be used when generating discrete children
-     *  \param aUnitsPerBaz The number of units in a bar
-     *  \param aUnitsPerSecond The number of units in a second
      **/
-    void initDiscreteInfo( /*int aUnitsPerZecond,*/ /*int aUnitsPerBaz,*/
+    void initDiscreteInfo(
       std::string newTempo, std::string newTimeSignature, int newEDUPerBeat,
       float newMaxChildDur );
 
@@ -186,9 +180,9 @@ class Event {
     virtual int getCurrPartialNum() { return 0; };
 
     /**
-     *  Return this events duration in Units
+     *  Return this events duration in EDU
      **/
-    int getDurationEDU();
+    int getAvailableEDU();
     
     /**
     *  Returns check point of the event
@@ -218,41 +212,18 @@ class Event {
      *   to allow the creation of note/sound/visual instead of the
      *   usual child events
      **/
-    virtual void constructChild(float stime, float dur, int type, string name, int level);
+    virtual void constructChild(float stime, float dur, int type, string name);
 
     /**
-    *   Prints information about the current subEvent.
+    *   Outputs information about the current subEvent.
     **/
-    virtual void print();
-    
-    /**
-    *   Prints information about the current subEvent to the outFile .particel 
-    **/
-    virtual void printParticel();
-
+    virtual void outputProperties();
 
     /**
      * Adds pointers to any notes in this Event (or any children) to a vector
      * \param noteVect a reference to a vector of notes
      **/
     virtual list<Note> getNotes();
-
-  protected:
-    /**
-    *   Helper method to indent for Print()
-    **/
-    void indentPrint(int lvl);                                                //
-
-    /**
-    *   Helper method to indent for Print() for outFile .particel
-    **/
-    void indentPrintParticel(int lvl, char borderChar);
-
-    /**
-     *   Helper method to print borders for Print() for outFile .particel
-     **/
-    void borderPrintParticel(int lvl, char borderChar);
-
 
   //------------- Private helper functions  ------------//
   private:
@@ -284,119 +255,6 @@ class Event {
 `   *   \param iter FileValues to pass in for new objects
     **/
     bool buildDiscrete(list<FileValue>::iterator iter);
-
-    //------------- Helpers for Discrete (matrix stuff)  ------------//
-    /**
-    *   Choosing a method to determine attack times
-    *     ====  should call Attacks or PointProbs  ====
-     *  \param attackList list of attack methods to use
-    **/
-    void AttackMethods(list<FileValue>* attackList);
-
-    /**
-    *   Choosing a method to determine durations.
-    *     ====  should call PointProbs  ====
-    *  \param durList A list of the duration methods to use
-    **/
-    void DurationMethods(list<FileValue>* durList);
-
-    /**
-     *   Helper method to read filevalues and create a sieve for
-     *   duration or attack
-     *  \param iter an iterator of the 4 filevalues
-     *  \param outputIntArray reference to an int vector to fill in
-     *  \param outputProbArray reference to a double vector to fill in
-     **/
-    void DoSieve(list<FileValue>::iterator iter, vector<int> &outputIntArray, 
-                 vector<double> &outputProbArray);
-
-    /**
-    *  Creates a Sieve according to the parameters given. Two output arrays 
-    *  are also required, which will be set to the Sieve's integer and 
-    *  probablity arrays.
-    *  \param eMethod e-Method for Sieve
-    *  \param eArgVector e-Vector for Sieve
-    *  \param wMethod w-Method for Sieve
-    *  \param wArgVector w-Vector for Sieve
-    *  \param outputIntArray Integer output array
-    *  \param outputProbArray Probability (double) output array
-    **/
-    void SetSieveArrays(string eMethod, vector<int> eArgVector, 
-                        string wMethod, vector<int> wArgVector, 
-                        vector<int> &outputIntArray, vector<double> &outputProbArray);
-
-    /**
-    *  First creates a "generic matrix", s0, of attacks (or units or sieve
-    *  elements) * obj types.  It will be modified and envelolpes for
-    *  each row will be added as choices are made.  
-    *  Then, a second matrix, d0, of durations (in matrix units) * obj_types 
-    *  is created.
-    *  \param args list with a matrix vector and two lists of envelopes
-    **/
-    void createMatrices(list<FileValue>* matList);
-
-    /**
-    *  Copy the original matrix, include the vector and the sieve weights 
-    *  (probSieveArray) and choose an attack (expressed as location in the 
-    *  sieve) and a obj type.
-    **/
-    void ObjCoordinates();
-
-    /**
-    *  Works only on the s0 (attacks/types matrix).  Find the layer this 
-    *  objType *  belongs to.  Determine the duration of this obj.  Adjust 
-    *  the vector and matrix; get them ready for next choice.  The sizes of 
-    *  stimeMatrix and durMatrix are measured in number of entries in the 
-    *  matrix while endUnitsM *  is measured in basic units (pulses, not 
-    *  seconds).
-    *  \param slope Slope value to pass to AdjustMatrix()
-    **/
-    void Adjustments(int slope);
-
-    /**
-    *  Finds the attacks (s) matrix location where this duration ends.  Copies 
-    *  the original duration matrix and adjusts it. 
-    *  stimeMatrix, durMatrix, and endLocM are expressed in matrix locations; 
-    *  endUnitsM is expressed in basic units (pulses).
-    *  Units:	theDuration				- seconds
-    * 		endUnitsM, startArray[stimeMatrix], 
-    *           durArray[location]			- units (pulses)
-    * 		durLoc, listLen, attackArraySize, 
-    *           stimeMatrix, durMatrix, startArray, 
-    *           tryloc, durArray			- array locations
-    *      == attackArraySize used to be listLen ==
-    *   \param remain0 number of children objects not created yet
-    *   \param density density of current event
-    *   \return tryLoc actually endLoc, the s location where the duration ends
-    **/
-    int FindDur(int remain0, float density);
-
-    /**
-    *  FindLen.  Finds a d matrix location (durLocM), the duration of this 
-    *  event.
-    * 	startArray:	array of possible start times		(in units)
-    * 	stimeMatrix:	a location in startArray		(locations)
-    * 	durArray:	array of possible durations 		(in units)
-    * 	durArraySize:	cardinal of durrArray			(locations)
-    *     == durLen is now durArraySize ==
-    * 	durLoc:		a location in durrArray			(locations)
-    * 	theDuration:	total duration of parent event		(in seconds) 
-    * 	uPerSec:	number of units in a second
-    * 	endUnitsM:	the end of the event			(in units)
-    * 	testEnd:	the end of the event			(locations)
-    *   \return durLoc location of the durArray (size of the duration)
-    **/
-    int FindLen();
-	
-    /**
-    *  Converts stimeMatrix and durMatrix as defined in the (sieve) array 
-    *  into time units (for notation) and into seconds (for synthesis).  It 
-    *  also determines the checkPoint (a %) or where this object is in the larger 
-    *  event for use in further calculations.
-    *  \return durLoc a location of the durArray
-    **/
-    void TimeConvert();
-    //------------- END OF MATRIX STUFF ------------//
 
 //---------------------------------------------------------------------------//
 

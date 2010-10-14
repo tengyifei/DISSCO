@@ -230,6 +230,14 @@ class Tempo {
     return tempoBeatsPerMinute * (tempoBeat / timeSignatureBeat);
   }
   
+  string getTimeSignature(void)
+  {
+    int n = timeSignatureBeatsPerBar.Num();
+    int d = timeSignatureBeat.Den();
+    stringstream oss; oss << n << "/" << d;
+    return oss.str();
+  }
+  
   Ratio getTempoBeatDurationInSeconds(void) {
     return Ratio(60) / tempoBeatsPerMinute;
   }

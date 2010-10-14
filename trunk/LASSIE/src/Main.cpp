@@ -48,14 +48,3 @@ int main (int argc,char** argv){
   return 0;
 }
 
-//---------------------------------------------------------------------------//
-//These are from CMOD's globals which it depends on. These will be removed
-//soon.
-ofstream* outputFile, *outFile;
-map<string, EventFactory*> factory_lib;
-EnvelopeLibrary envlib_cmod;
-Score score;
-int numChan, sever;
-Piece Piece;
-//---------------------------------------------------------------------------//
-

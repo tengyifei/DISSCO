@@ -48,6 +48,7 @@
 *
 *******************************************************************************/
 ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
+  emptyProject = true;
 
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
@@ -103,6 +104,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
 *******************************************************************************/
 ProjectViewController::ProjectViewController(
   std::string _pathAndName, MainWindow* _mainWindow){
+  emptyProject = false;
   
 
   
@@ -1363,11 +1365,12 @@ ProjectViewController::ProjectViewController(
     closedir(dp);
 
 
-    
+  std::vector<IEvent*>::iterator eventsIter = events.begin();
+  
+  for (eventsIter; eventsIter != events.end(); eventsIter++){
+    (*eventsIter)->link(this);
+  }     
 
-
-
-  //TODO:link all IEvents to each other properly.
 
   
   delete envelopeLibrary;
@@ -1388,6 +1391,40 @@ EnvelopeLibraryEntry* ProjectViewController::
   return new EnvelopeLibraryEntry (_envelope, index);  
 }
 
+IEvent* ProjectViewController::findIEvent(EventType _type, std::string _eventName){
+  IEvent* toReturn = NULL;
+  
+
+  std::vector<IEvent*>::iterator eventsIter = events.begin();
+  
+  while (eventsIter != events.end()){
+    if (  (_eventName.compare( (*eventsIter)->getEventName() ) == 0 ) && 
+          ( _type == (*eventsIter)->getEventType() ) ){
+      toReturn = (*eventsIter);
+      break;
+    } 
+    eventsIter++;
+  }    
+
+  if (toReturn ==NULL){
+    std::cout<<"Find event fail :-(    EventName:"<<_eventName<<"  type:" << (int) _type<< std::endl;
+  }
+  return toReturn;
+}
 
 
+
+void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
+ 
+  if (_focus->is_ancestor((Gtk::Widget&)*paletteView)){
+    paletteView->deleteKeyPressed();
+  }
+  else {
+    eventAttributesView->deleteKeyPressed(_focus);  
+  }
+}
+
+bool ProjectViewController::getEmptyProject(){
+  return emptyProject;
+}
 

@@ -326,23 +326,6 @@ public:
   **/
   void Evaluate(Event *ev);
 
-  //------------------------  Printing methods  -------------------------------//
-
-  /**
-  *  Overloaded << operator.  Prints either the string or number based on the 
-  *  file_value_data_type type
-  *  Also prints out the contents of the list of FileValues depending on the 
-  *  file_value_data_type type
-  *  \param os Reference to an output stream
-  *  \param fv Reference to a FileValue object
-  **/
-  friend ostream& operator<<(ostream& os, const FileValue& fv);
-
-  /**
-  *  Method to print the contents of the list to an output stream
-  *  \param os Reference to an output stream
-  **/
-  void printList(ostream &os) const;
 private:
 
   /**
@@ -395,8 +378,9 @@ private:
   void static_ftn_CURRENT_PARTIAL_NUM();
   void static_ftn_CURRENT_DENSITY();
   void static_ftn_CURRENT_SEGMENT();
-  void static_ftn_DURATION_UNITS(); //Deprecated--use DURATION_EDU
-  void static_ftn_DURATION_EDU();
+  void static_ftn_DURATION_UNITS(); //Deprecated--use AVAILABLE_EDU
+  void static_ftn_DURATION_EDU(); //Deprecated--use AVAILABLE_EDU
+  void static_ftn_AVAILABLE_EDU();
   void static_ftn_CURRENT_LAYER();
 
   //----------------------------------------------------------------------------//

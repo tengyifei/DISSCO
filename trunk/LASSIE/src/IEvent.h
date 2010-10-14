@@ -32,9 +32,13 @@
 #ifndef IEVENT_H
 #define IEVENT_H
 
+
 #include "LASSIE.h"
 
+
+
 class EventFactory;
+class ProjectViewController;
 /*! \brief The event types including the types defined in CMOD
   *    (Top - Bottom) and types for LASSIE
   *
@@ -117,9 +121,11 @@ public:
   void  setGroupName(std::string _string);
   
 
+
   EventBottomModifier* next;
   
   std::string getSaveToDiskString();
+  std::string getSaveLASSIEMetaDataString();
   
   
 private:
@@ -142,6 +148,8 @@ class EventDiscretePackage{
 
   public:
     IEvent* event;
+    EventType eventType; // this one and eventName is used to store info to in order to link
+    std::string eventName;
     std::string weight;
     std::string attackEnv;
     std::string attackEnvScale;
@@ -149,13 +157,18 @@ class EventDiscretePackage{
     std::string durationEnvScale;
     EventDiscretePackage(IEvent* _event){
      event = _event;
-     weight = "";
-     attackEnv = "";
-     attackEnvScale = "";
-     durationEnv = "";
-     durationEnvScale = "";
-     
+     eventName = " "; //this is used to store file name of the event for linking after open
+     weight = " ";
+     attackEnv = " ";
+     attackEnvScale = " ";
+     durationEnv = " ";
+     durationEnvScale = " ";
     }
+
+    EventDiscretePackage( FileValue* _thisPackageFileValue);
+    std::string getLASSIEMetadataString();
+    void link(ProjectViewController* _projectView, IEvent* _thisEvent); 
+
     ~EventDiscretePackage(){}
 };
 
@@ -164,15 +177,18 @@ class EventDiscretePackage{
 class EventLayer {
 
   public:
-    EventLayer();
+    EventLayer(IEvent* _thisEvent);
+    EventLayer(FileValue* _thisLayerFileValue,IEvent* _thisEvent);
     ~EventLayer();
     EventDiscretePackage* addChild(IEvent* _child);
-    void removeChild(IEvent* _child);
+    bool removeChild(EventDiscretePackage* _child);
     void showContents();
     int getChildrenWeightSum();
     int size();
     std::string outputChildrenNameString();
-    std::list<EventDiscretePackage*> children;  
+    std::string getLASSIEMetaDataString();
+    std::list<EventDiscretePackage*> children;
+    void link (ProjectViewController* _projectView, IEvent* _thisEvent);  
     //XXX
     //again it's bad putting this as public.
     //make eventattribute easier to build layer box.
@@ -182,6 +198,7 @@ class EventLayer {
   //std::list<IEvent*> children;
   
     std::string byLayer;
+    IEvent* thisIEvent;
   
     std::string getByLayer();
 
@@ -262,7 +279,7 @@ public:
    ****************************************************************************/
   std::string getUnitsPerSecond();
   
-  
+  void link(ProjectViewController* _projectView);  //after open project and constructing all the event, has to link them properly
   
   
   
@@ -292,7 +309,9 @@ public:
   
   
   
-  
+  void setChangedButNotSaved(bool value);
+  void addParent(IEvent* _parent);
+  bool removeParent(IEvent* _event);
   
   
   
@@ -480,6 +499,7 @@ public:
   class BottomEventExtraInfo : public EventExtraInfo {
   public:
     BottomEventExtraInfo();
+    BottomEventExtraInfo(int _readFromParserFileData);
     ~BottomEventExtraInfo();
     int getFrequencyFlag(); // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
     void setFrequencyFlag(int _flag);
@@ -517,7 +537,7 @@ public:
      // Envelope
   class EnvelopeExtraInfo : public EventExtraInfo {
   public:
-    EnvelopeExtraInfo(){envelopeBuilder = "";}
+    EnvelopeExtraInfo(){envelopeBuilder = " ";}
     ~EnvelopeExtraInfo(){}
     std::string getEnvelopeBuilder();
     void setEnvelopeBuilder(std::string _string);
@@ -529,7 +549,7 @@ public:
      // Pattern
   class PatternExtraInfo : public EventExtraInfo {
   public:
-    PatternExtraInfo(){patternBuilder = "";}
+    PatternExtraInfo(){patternBuilder = " ";}
     ~PatternExtraInfo(){}
     std::string getPatternBuilder();
     void setPatternBuilder(std::string _string);
@@ -541,7 +561,7 @@ public:
      // Spatialization
   class SpatializationExtraInfo : public EventExtraInfo {
   public:
-    SpatializationExtraInfo(){spatializationBuilder = "";}
+    SpatializationExtraInfo(){spatializationBuilder = " ";}
     ~SpatializationExtraInfo(){}
     std::string getSpatializationBuilder();
     void setSpatializationBuilder(std::string _string);
@@ -552,7 +572,7 @@ public:
      // Sieve
   class SieveExtraInfo : public EventExtraInfo {
   public:
-    SieveExtraInfo(){sieveBuilder = "";}
+    SieveExtraInfo(){sieveBuilder = " ";}
     ~SieveExtraInfo(){}
     std::string getSieveBuilder();
     void setSieveBuilder(std::string _string);
@@ -560,10 +580,10 @@ public:
     std::string sieveBuilder;
   };
 
-     // Reverb
+    // Reverb
   class ReverbExtraInfo : public EventExtraInfo {  
   public:
-    ReverbExtraInfo(){reverbBuilder = "";}
+    ReverbExtraInfo(){reverbBuilder = " ";}
     ~ReverbExtraInfo(){}
     std::string getReverbBuilder();
     void setReverbBuilder(std::string _string);
@@ -637,7 +657,8 @@ private:
    // 0 = percentage, 1 = units, 2 = seconds
   int flagChildEventDefDurationType;
 
-
+  void IEventParseFile(std::string _fileName);
+  void parseNonEvent();
   void saveAsTHMLB   (std::string _pathOfProject);
   void saveAsSound   (std::string _pathOfProject);
   void saveAsEnv     (std::string _pathOfProject);
@@ -663,7 +684,5 @@ private:
 };
 
 #endif //IEVENT_H
-
-
 
 

@@ -31,8 +31,111 @@
 
 
 #include "FunctionGenerator.h"
+#include "IEvent.h"
 
-FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType){
+
+
+
+// these definitions are for calling yyparse(). They are copied from lex.yy.c
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
+
+
+#ifndef YY_TYPEDEF_YY_BUFFER_STATE
+#define YY_TYPEDEF_YY_BUFFER_STATE
+typedef struct yy_buffer_state *YY_BUFFER_STATE;
+#endif
+
+#ifndef YY_STRUCT_YY_BUFFER_STATE
+#define YY_STRUCT_YY_BUFFER_STATE
+struct yy_buffer_state
+	{
+	FILE *yy_input_file;
+
+	char *yy_ch_buf;		/* input buffer */
+	char *yy_buf_pos;		/* current position in input buffer */
+
+	/* Size of input buffer in bytes, not including room for EOB
+	 * characters.
+	 */
+	yy_size_t yy_buf_size;
+
+	/* Number of characters read into yy_ch_buf, not including EOB
+	 * characters.
+	 */
+	int yy_n_chars;
+
+	/* Whether we "own" the buffer - i.e., we know we created it,
+	 * and can realloc() it to grow it, and should free() it to
+	 * delete it.
+	 */
+	int yy_is_our_buffer;
+
+	/* Whether this is an "interactive" input source; if so, and
+	 * if we're using stdio for input, then we want to use getc()
+	 * instead of fread(), to make sure we stop fetching input after
+	 * each newline.
+	 */
+	int yy_is_interactive;
+
+	/* Whether we're considered to be at the beginning of a line.
+	 * If so, '^' rules will be active on the next match, otherwise
+	 * not.
+	 */
+	int yy_at_bol;
+
+    int yy_bs_lineno; /**< The line count. */
+    int yy_bs_column; /**< The column count. */
+    
+	/* Whether to try to fill the input buffer when we reach the
+	 * end of it.
+	 */
+	int yy_fill_buffer;
+
+	int yy_buffer_status;
+
+#define YY_BUFFER_NEW 0
+#define YY_BUFFER_NORMAL 1
+	/* When an EOF's been seen but there's still some text to process
+	 * then we mark the buffer as YY_EOF_PENDING, to indicate that we
+	 * shouldn't try reading from the input source any more.  We might
+	 * still have a bunch of tokens to match, though, because of
+	 * possible backing-up.
+	 *
+	 * When we actually see the EOF, we change the status to "new"
+	 * (via yyrestart()), so that the user can continue scanning by
+	 * just pointing yyin at a new input file.
+	 */
+#define YY_BUFFER_EOF_PENDING 2
+
+	};
+#endif /* !YY_STRUCT_YY_BUFFER_STATE */
+
+struct ltstr
+{
+  bool operator()(const char* s1, const char* s2) const
+  {
+    return strcmp(s1, s2) < 0;
+  }
+};
+
+
+
+extern YY_BUFFER_STATE yy_scan_string( const char*);
+extern int yyparse();
+extern map<const char*, FileValue*, ltstr> file_data;
+
+
+
+
+
+
+
+FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string _originalString){
+
   set_title("Function Generator");
     set_border_width(3);
     result = "";
@@ -130,8 +233,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType){
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticDURATION_UNITS;
-    row[functionListColumns.m_col_name] = "DURATION_UNITS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -208,8 +311,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType){
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticDURATION_UNITS;
-    row[functionListColumns.m_col_name] = "DURATION_UNITS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -298,8 +401,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType){
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticDURATION_UNITS;
-    row[functionListColumns.m_col_name] = "DURATION_UNITS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -1010,11 +1113,570 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType){
   SPAMethodFlag = 0;
            
   
+  
+  
+  size_t locationOfKeyword;
+  Gtk::TreeModel::iterator iter;
+  Gtk::TreeModel::Row row; 
+  string parsingString;
+  FileValue* value;
+  list<FileValue>::iterator argumentsIter;
+    
+
+  //check if RandomInt
+  locationOfKeyword =_originalString.find("RandomInt");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+   
+    while(row[functionListColumns.m_col_name]!= "RandomInt"){
+      iter++;
+      row = *iter;     
+    }
+    combobox->set_active(iter);
+    
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument
+      attributesRefBuilder->get_widget("RandomIntLowBoundEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));
+      
+      argumentsIter++;
+      
+      value =&(*argumentsIter); // second argument
+      attributesRefBuilder->get_widget("RandomIntHighBoundEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+      
+
+    }
+  }   
+
+
+  
+
+  
+  //check if Stochos
+  locationOfKeyword =_originalString.find("Stochos");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Stochos"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //Stochos has 3 arguments (string, list of envelopes, int)
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument
+      //attributesRefBuilder->get_widget("RandomIntLowBoundEntry",entry);
+      //entry->set_text(getFunctionString(value,functionReturnInt));
+
+      string method = getFunctionString(value,functionReturnString);
+      
+      if (method == "\"FUNCTIONS\""){
+        attributesRefBuilder->get_widget("StochosFunctionsRadioButton",radiobutton);
+        radiobutton->set_active();     
+      }
+      
+      else {  //RANGE_DISTRIB
+        attributesRefBuilder->get_widget("StochosRangeDistribRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+
+
+      argumentsIter++;
+      value =&(*argumentsIter);
+      list<std::string> envelopeStringList = fileValueListToStringList (value->getList(), functionReturnEnvelopeList); 
+      //entry->set_text(getFunctionString(value,functionReturnInt));      
+      list<std::string>::iterator stringIter = envelopeStringList.begin();
+
+
+      if (method =="\"FUNCTIONS\""){
+
+
+        cout<<"!!!!!!!!"<<endl;
+        while (stringIter!= envelopeStringList.end()){
+          StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, 1);
+          if ( stochosSubAlignments ==NULL){
+            stochosSubAlignments = newSubAlignment;
+          }
+          else {
+            stochosSubAlignments->appendNewNode(newSubAlignment);
+          }
+          Gtk::VBox* vbox;
+          attributesRefBuilder->get_widget(
+             "StochosInnerVBox", vbox);
+          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+          newSubAlignment->setFunctionsEntry(*stringIter);
+          newSubAlignment->switchTo(1);
+          stringIter++;
+          stochosNumOfNodes ++;
+        }      
+        stochosTextChanged();      
+        
+      }
+      else {
+
+        while (stringIter!= envelopeStringList.end()){
+          StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, 0);
+          if ( stochosSubAlignments ==NULL){
+            stochosSubAlignments = newSubAlignment;
+          }
+          else {
+            stochosSubAlignments->appendNewNode(newSubAlignment);
+          }
+          Gtk::VBox* vbox;
+          attributesRefBuilder->get_widget(
+             "StochosInnerVBox", vbox);
+          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+          newSubAlignment->setMinEntry(*stringIter);  
+          stringIter++;
+          newSubAlignment->setMaxEntry(*stringIter);  
+          stringIter++;
+          newSubAlignment->setDistEntry(*stringIter);  
+          stringIter++;                    
+          newSubAlignment->switchTo(0);
+          stochosNumOfNodes ++;
+        }      
+        stochosTextChanged();        
+
+      }
+      
+      
+
+      //third argument
+      argumentsIter++;
+      value =&(*argumentsIter);
+      attributesRefBuilder->get_widget("StochosOffsetEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+      
+    }
+  }  
+  
+
+
+
+
+  //check if Select
+  locationOfKeyword =_originalString.find("Select");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Select"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+ 
+
+  //check if ValuePick
+  locationOfKeyword =_originalString.find("ValuePick");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ValuePick"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+
+  //check if ChooseL
+  locationOfKeyword =_originalString.find("ChooseL");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ChooseL"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+ 
+
+  //check if GetPattern
+  locationOfKeyword =_originalString.find("GetPattern");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "GetPattern"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if CURRENT_TYPE
+  locationOfKeyword =_originalString.find("CURRENT_TYPE");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_TYPE"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if CURRENT_CHILD_NUM
+  locationOfKeyword =_originalString.find("CURRENT_CHILD_NUM");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_CHILD_NUM"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+ 
+  //check if CURRENT_PARTIAL_NUM
+  locationOfKeyword =_originalString.find("CURRENT_PARTIAL_NUM");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_PARTIAL_NUM"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if CURRENT_SEGMENT
+  locationOfKeyword =_originalString.find("CURRENT_SEGMENT");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_SEGMENT"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+  
+  //check if AVAILABLE_EDUS
+  locationOfKeyword =_originalString.find("AVAILABLE_EDUS");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "AVAILABLE_EDUS"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+ 
+  //check if CURRENT_LAYER
+  locationOfKeyword =_originalString.find("CURRENT_LAYER");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_LAYER"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if Random
+  locationOfKeyword =_originalString.find("Random");
+  size_t checkNotRandomInt = _originalString.find("RandomInt");
+  size_t checkNotRandomize = _originalString.find("Randomizer");
+  size_t checkNotRandomSeed = _originalString.find("RandomSeed");  
+  if (int(locationOfKeyword)==0
+      &&int(checkNotRandomInt)!=0
+      &&int(checkNotRandomize)!=0
+      &&int(checkNotRandomSeed)!=0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Random"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+ 
+  //check if Randomizer
+  locationOfKeyword =_originalString.find("Randomizer");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Randomizer"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  
+  //check if Inverse
+  locationOfKeyword =_originalString.find("Inverse");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Inverse"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  
+  //check if LN
+  locationOfKeyword =_originalString.find("LN");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "LN"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+
+  //check if Decay
+  locationOfKeyword =_originalString.find("Decay");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "Decay"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+  
+  //check if EnvLib
+  locationOfKeyword =_originalString.find("EnvLib");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "EnvLib"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+  
+  //check if MakeEnvelope
+  locationOfKeyword =_originalString.find("MakeEnvelope");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "MakeEnvelope"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if ReadENVFile
+  locationOfKeyword =_originalString.find("ReadENVFile");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadENVFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if MakeList
+  locationOfKeyword =_originalString.find("MakeList");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "MakeList"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if SPA
+  locationOfKeyword =_originalString.find("SPA");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "SPA"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if ReadSPAFile
+  locationOfKeyword =_originalString.find("ReadSPAFile");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadSPAFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+
+  //check if MakePattern
+  locationOfKeyword =_originalString.find("MakePattern");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "MakePattern"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  } 
+  
+  //check if ExpandPattern
+  locationOfKeyword =_originalString.find("ExpandPattern");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ExpandPattern"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }   
+
+  //check if ReadPATFile
+  locationOfKeyword =_originalString.find("ReadPATFile");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadPATFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  //check if REV_Simple
+  locationOfKeyword =_originalString.find("REV_Simple");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "REV_Simple"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  //check if REV_Medium
+  locationOfKeyword =_originalString.find("REV_Medium");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "REV_Medium"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  
+  //check if REV_Advanced
+  locationOfKeyword =_originalString.find("REV_Advanced");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "REV_Advanced"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+  
+  //check if ReadREVFile
+  locationOfKeyword =_originalString.find("ReadREVFile");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadREVFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }  
+
+  //check if MakeSieve
+  locationOfKeyword =_originalString.find("MakeSieve");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "MakeSieve"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }
+  
+  //check if ReadSIVFile
+  locationOfKeyword =_originalString.find("ReadSIVFile");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadSIVFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    //TODO parse string and put strings into proper entries
+  }
+  
+
+  
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
-  textview->get_buffer()->set_text("");
-  
+  textview->get_buffer()->set_text(_originalString);
+
   show_all_children();
+
 }
 
 FunctionGenerator::~FunctionGenerator(){
@@ -1548,9 +2210,9 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("CURRENT_SEGMENT");
   
       }
-      else if (function == function_staticDURATION_UNITS){
+      else if (function == function_staticAVAILABLE_EDUS){
         alignment->remove();
-        textview->get_buffer()->set_text("DURATION_UNITS");
+        textview->get_buffer()->set_text("AVAILABLE_EDUS");
   
       }
       else if (function == function_staticCURRENT_LAYER){
@@ -1579,7 +2241,7 @@ void FunctionGenerator::randomLowBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomLowBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat, entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1595,7 +2257,7 @@ void FunctionGenerator::randomHighBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomHighBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1633,7 +2295,7 @@ void FunctionGenerator::randomIntLowBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomIntLowBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1649,7 +2311,7 @@ void FunctionGenerator::randomIntHighBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomIntHighBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1686,7 +2348,7 @@ void FunctionGenerator::randomizerBaseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomizerBaseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1702,7 +2364,7 @@ void FunctionGenerator::randomizerDeviationFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomizerDeviationEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1743,7 +2405,7 @@ void FunctionGenerator::decayBaseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayBaseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1759,7 +2421,7 @@ void FunctionGenerator::decayRateFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayRateEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1775,7 +2437,7 @@ void FunctionGenerator::decayIndexFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayIndexEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1835,7 +2497,7 @@ void FunctionGenerator::inverseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "InverseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1862,7 +2524,7 @@ void FunctionGenerator::LNFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "LNEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1893,11 +2555,11 @@ void FunctionGenerator::selectListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SelectListEntry", entry);
   if (returnType == functionReturnInt){
-    generator = new FunctionGenerator(functionReturnList);//was functionReturnIntList
+    generator = new FunctionGenerator(functionReturnList,entry->get_text());//was functionReturnIntList
     generator->run(); 
   } 
   else {  //return float
-    generator = new FunctionGenerator(functionReturnList); //was functionReturnFloatList
+    generator = new FunctionGenerator(functionReturnList,entry->get_text()); //was functionReturnFloatList
     generator->run();   
   }
   if (generator->getResultString() !=""){
@@ -1913,7 +2575,7 @@ void FunctionGenerator::selectIndexFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SelectIndexEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -1996,7 +2658,7 @@ void FunctionGenerator::stochosOffsetFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "StochosOffsetEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2198,13 +2860,42 @@ std::string FunctionGenerator::StochosSubAlignment::toString( int _methodFlag){
   }
 }
 
+void FunctionGenerator::StochosSubAlignment::setFunctionsEntry(std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("FunctionsEntry", entry);
+  entry->set_text(_string);
+}
+
+void FunctionGenerator::StochosSubAlignment::setMinEntry(std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("MinEntry", entry);
+  entry->set_text(_string);
+}
+
+
+void FunctionGenerator::StochosSubAlignment::setMaxEntry(std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("MaxEntry", entry);
+  entry->set_text(_string);
+}
+
+
+void FunctionGenerator::StochosSubAlignment::setDistEntry(std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("DistEntry", entry);
+  entry->set_text(_string);
+}
+
+
+
+
 
 void FunctionGenerator::StochosSubAlignment::functionsFunButtonClicked(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
     "FunctionsEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2219,7 +2910,7 @@ void FunctionGenerator::StochosSubAlignment::minFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MinEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2235,7 +2926,7 @@ void FunctionGenerator::StochosSubAlignment::maxFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MaxEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2251,7 +2942,7 @@ void FunctionGenerator::StochosSubAlignment::distFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DistEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2286,7 +2977,7 @@ void FunctionGenerator::valuePickAbsRangeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickAbsRangeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2301,7 +2992,7 @@ void FunctionGenerator::valuePickLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2317,7 +3008,7 @@ void FunctionGenerator::valuePickHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2333,7 +3024,7 @@ void FunctionGenerator::valuePickDistFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickDistEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2431,7 +3122,7 @@ void FunctionGenerator::chooseLFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ChooseLEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnSIV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2460,7 +3151,7 @@ void FunctionGenerator::getPatternFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "GetPatternEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2489,7 +3180,7 @@ void FunctionGenerator::makeListFunctionFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeListFunctionEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnMakeListFun);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnMakeListFun,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2504,7 +3195,7 @@ void FunctionGenerator::makeListSizeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeListSizeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2545,7 +3236,7 @@ void FunctionGenerator::envLibEnvelopeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "EnvLibEnvelopeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2560,7 +3251,7 @@ void FunctionGenerator::envLibScalingFactorFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "EnvLibScalingFactorEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2759,7 +3450,7 @@ void FunctionGenerator::MakeEnvelopeSubAlignment::xValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "XValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2775,7 +3466,7 @@ void FunctionGenerator::MakeEnvelopeSubAlignment::yValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "YValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2946,7 +3637,7 @@ void FunctionGenerator::makeEnvelopeScalingFactorFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeScalingFactorEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2966,7 +3657,7 @@ void FunctionGenerator::makeEnvelopeXValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeXValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2982,7 +3673,7 @@ void FunctionGenerator::makeEnvelopeYValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeYValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -2997,7 +3688,7 @@ void FunctionGenerator::makePatternOriginFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakePatternOriginEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3012,7 +3703,7 @@ void FunctionGenerator::makePatternIntervalsFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3043,7 +3734,7 @@ void FunctionGenerator::expandPatternModuloFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternModuloEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3058,7 +3749,7 @@ void FunctionGenerator::expandPatternLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3073,7 +3764,7 @@ void FunctionGenerator::expandPatternHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3088,7 +3779,7 @@ void FunctionGenerator::expandPatternPatternFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternPatternEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3128,7 +3819,7 @@ void FunctionGenerator::readPATFileOriginFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ReadPATFileOriginEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3176,7 +3867,7 @@ void FunctionGenerator::REV_SimpleEntryFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_SimpleEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3207,7 +3898,7 @@ void FunctionGenerator::REV_MediumReverbPercentFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumReverbPercentEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3221,7 +3912,7 @@ void FunctionGenerator::REV_MediumHilowSpreadFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumHilowSpreadEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3235,7 +3926,7 @@ void FunctionGenerator::REV_MediumGainAllPassFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumGainAllPassEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3249,7 +3940,7 @@ void FunctionGenerator::REV_MediumDelayFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumDelayEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3292,7 +3983,7 @@ void FunctionGenerator::REV_AdvancedReverbPercentFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedReverbPercentEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3306,7 +3997,7 @@ void FunctionGenerator::REV_AdvancedCombGainListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedCombGainListEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3320,7 +4011,7 @@ void FunctionGenerator::REV_AdvancedLPGainListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_LPGainListEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3336,7 +4027,7 @@ void FunctionGenerator::REV_AdvancedGainAllPassFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedGainAllPassEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3350,7 +4041,7 @@ void FunctionGenerator::REV_AdvancedDelayFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedDelayEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3416,7 +4107,7 @@ void FunctionGenerator::makeSieveLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeSieveLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3432,7 +4123,7 @@ void FunctionGenerator::makeSieveHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeSieveHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3453,24 +4144,21 @@ void FunctionGenerator::makeSieveTextChanged(){
   Gtk::RadioButton* radiobutton1;
   Gtk::RadioButton* radiobutton2;  
   
-  /*
+  
 
   
   attributesRefBuilder->get_widget(
-    "ValuePickLowEntry", entry);
-  std::string stringbuffer = "ValuePick( "+ entry->get_text() + ", ";
+    "MakeSieveLowEntry", entry);
+  std::string stringbuffer = "MakeSieve( "+ entry->get_text() + ", ";
   
   attributesRefBuilder->get_widget(
-    "ValuePickHighEntry", entry);
+    "MakeSieveHighEntry", entry);
   stringbuffer = stringbuffer + entry->get_text()+ ", ";
   
-  attributesRefBuilder->get_widget(
-    "ValuePickDistEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ", ";
   
-  attributesRefBuilder->get_widget("ValuePickElementsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget("MakeSieveElementsMeaningfulRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("ValuePickElementsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget("MakeSieveElementsModsRadioButton", radiobutton2); 
   
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
@@ -3485,13 +4173,13 @@ void FunctionGenerator::makeSieveTextChanged(){
   
   
   attributesRefBuilder->get_widget(
-    "ValuePickElementsEntry", entry);
+    "MakeSieveElementsEntry", entry);
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";
   
 
-  attributesRefBuilder->get_widget("ValuePickWeightsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget("MakeSieveWeightsMeaningfulRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("ValuePickWeightsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget("MakeSieveWeightsModsRadioButton", radiobutton2); 
 
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
@@ -3505,20 +4193,11 @@ void FunctionGenerator::makeSieveTextChanged(){
   }
 
   attributesRefBuilder->get_widget(
-    "ValuePickWeightsEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ">, ";  
-  
-  attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton", radiobutton1);   
+    "MakeSieveWeightsEntry", entry);
+  stringbuffer = stringbuffer + entry->get_text()+ ">); ";  
 
-  if (radiobutton1->get_active()){
-    stringbuffer = stringbuffer + "\"VARIABLE\")";
-  }
-  else {
-    stringbuffer = stringbuffer + "\"CONSTANT\")";
-  }
   
-  */
-  textview->get_buffer()->set_text("Not Implemented yet");
+  textview->get_buffer()->set_text(stringbuffer);
   
 
 }
@@ -3631,7 +4310,7 @@ void FunctionGenerator::SPAPartialAlignment::funButtonClicked(){
     return;
   }
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV);
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4246,12 +4925,133 @@ void FunctionGenerator::SPATextChanged(){
   
   
   
+std::string FunctionGenerator::getFunctionString(FileValue* _value,FunctionReturnType _returnType){
+  std::string stringbuffer;
+  char charbuffer[20];
+  if (_value->isFunction()){
+    stringbuffer= _value->getFtnString()+ "(";
+    list<FileValue> arguments = _value->getFtnArgs();
+    list<FileValue>::iterator iter = arguments.begin();
+    FileValue* argument;    
+    while (iter != arguments.end()){
+      argument = &(*iter);
+      stringbuffer = stringbuffer + getFunctionString (argument, _returnType);
+      
+      iter++;
+      if (iter != arguments.end()){
+        stringbuffer = stringbuffer + ",";   
+      }
+    }
+    
+    stringbuffer += ")";    
+  
+  }
+  else if (_value->isNumber()){
+    if (_returnType == functionReturnInt){    
+      int intNumber = _value->getInt();
+      sprintf( charbuffer, "%d", intNumber);
+      stringbuffer = string(charbuffer);
+    } 
+    else { //float
+      float floatNumber = _value->getFloat();
+      
+      if (floatNumber -(int)floatNumber ==0){
+        int intNumber = _value->getInt();
+        sprintf( charbuffer, "%d", intNumber);
+        stringbuffer = string(charbuffer);          
+      }
+      else {      
+        sprintf( charbuffer, "%.5f", floatNumber);
+        stringbuffer = string(charbuffer); 
+      }
+    }
+  }
+  
+  else if (_value->isString()){
+    stringbuffer ="\""+ _value->getString() + "\"";
+   // stringbuffer =_value->getString();
+  }
+  else if (_value->isList()){
+    stringbuffer = fileValueListToString(_value->getList(), _returnType);
   
   
+  }
+  /*
+  else {
+    if (_returnType == functionReturnInt){    
+      int intNumber = _value->getInt();
+      sprintf( charbuffer, "%d", intNumber);
+      stringbuffer = string(charbuffer);
+    }
+    else if (_returnType == functionReturnFloat){
+      float floatNumber = _value->getFloat();
+      sprintf( charbuffer, "%.5f", floatNumber);
+      stringbuffer = string(charbuffer);    
+    }
+    else if (_returnType == functionReturnString){
+      stringbuffer = _value->getString();
+    }
+    // else if (_returnType == functionReturnEnvelopeList){
+      //stringbuffer = listToString(_value->getList(),functionReturnENV);
+    //}
+    else if (_returnType == functionReturnENV){
+      if (_value->isInt()){
+
+      
+      }
+      else if (_value->isFloat()){
+      float floatNumber = _value->getFloat();
+      sprintf( charbuffer, "%.5f", floatNumber);
+      stringbuffer = string(charbuffer);
+      
+      }
+      else if (_value->isString()){
+      
+      }
+          
+    }
+    
+  }
+  */
+  return stringbuffer;
+}  
+  
+
+
+list<std::string> FunctionGenerator::fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType){
+  list<string> stringList;
+  
+  list<FileValue>::iterator iter = _valueList.begin();
+  FileValue* value;
+  
+  while (iter != _valueList.end()){
+    value = &(*iter);
+    stringList.push_back( getFunctionString(value, _returnType));
+    iter++;
+  }
+  return stringList;
+}
+ 
   
   
-  
-  
+std::string FunctionGenerator::stringListToString(list<std::string> _list){
+  string stringbuffer = "<";
+  list<std::string>::iterator iter = _list.begin();
+  while (iter != _list.end()){
+    stringbuffer += *iter;
+    iter ++;
+    if (iter!= _list.end()){
+      stringbuffer += ",";
+    }
+  }
+  stringbuffer += ">";
+  return stringbuffer;
+
+}
+
+std::string FunctionGenerator::fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType){
+  return stringListToString(fileValueListToStringList( _valueList, _returnType));
+}
   
   
 

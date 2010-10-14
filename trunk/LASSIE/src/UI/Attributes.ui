@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -53,7 +53,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -90,7 +90,7 @@ This entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -136,7 +136,7 @@ This entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -183,7 +183,7 @@ This entry should be an integer.</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">positive integer </property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -208,7 +208,7 @@ This entry should be an integer.</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">power of 2. 
 Ex:1,2,4,8,16,32, etc.</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -304,7 +304,7 @@ Ex:1,2,4,8,16,32, etc.</property>
               <object class="GtkEntry" id="attributesStandardTempoValueEntry">
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">6</property>
@@ -413,7 +413,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
                 <property name="width_chars">0</property>
               </object>
               <packing>
@@ -458,7 +458,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -502,7 +502,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -603,10 +603,11 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <child>
                   <object class="GtkHBox" id="hbox12">
                     <property name="visible">True</property>
+                    <property name="tooltip_text" translatable="yes">Drag a Sieve Object here</property>
                     <child>
                       <object class="GtkLabel" id="label7">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Attack Sieve</property>
+                        <property name="label" translatable="yes">Attack Sieve: </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -619,7 +620,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -633,10 +634,11 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <child>
                   <object class="GtkHBox" id="hbox13">
                     <property name="visible">True</property>
+                    <property name="tooltip_text" translatable="yes">Drag a Sieve Object here</property>
                     <child>
                       <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Duration Sieve</property>
+                        <property name="label" translatable="yes">Duration Sieve: </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -649,7 +651,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -690,7 +692,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -745,7 +747,7 @@ Ex:1,2,4,8,16,32, etc.</property>
             </child>
             <child>
               <object class="GtkRadioButton" id="attributesStartTypeUnitsButton">
-                <property name="label" translatable="yes">Units</property>
+                <property name="label" translatable="yes">EDUs</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -798,7 +800,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -841,7 +843,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -896,7 +898,7 @@ Ex:1,2,4,8,16,32, etc.</property>
             </child>
             <child>
               <object class="GtkRadioButton" id="attributesDurationTypeUnitsButton">
-                <property name="label" translatable="yes">Units</property>
+                <property name="label" translatable="yes">EDUs</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -1033,7 +1035,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1066,7 +1068,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1098,7 +1100,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="envelopeAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1162,7 +1164,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1195,7 +1197,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1227,7 +1229,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="SieveAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1291,7 +1293,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1324,7 +1326,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1356,7 +1358,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="PatternAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1420,7 +1422,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1453,7 +1455,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1485,7 +1487,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="ReverbAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1549,7 +1551,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1582,7 +1584,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1614,7 +1616,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="SpatializationAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1681,7 +1683,7 @@ Ex:1,2,4,8,16,32, etc.</property>
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
+        <property name="invisible_char">●</property>
       </object>
       <packing>
         <property name="position">0</property>
@@ -1703,7 +1705,7 @@ Ex:1,2,4,8,16,32, etc.</property>
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
+        <property name="invisible_char">●</property>
       </object>
       <packing>
         <property name="position">2</property>

@@ -11,7 +11,7 @@ extern YYLTYPE yylloc;
 DIGIT [0-9]
 float "-"?{DIGIT}+"."?{DIGIT}*
 
-%x COMMENT STRING
+%x COMMENT STRING LASSIESTRING
 %%
 
 [=] 				{ 
@@ -34,6 +34,17 @@ float "-"?{DIGIT}+"."?{DIGIT}*
 						#endif
 						yylval= (long int)strdup(yytext); return STRTOK; }
 <STRING>["]			BEGIN(INITIAL);
+
+[`]					BEGIN(LASSIESTRING);
+<LASSIESTRING>[^`]*		{ 
+						#ifdef PARSER_DEBUG
+						printf("Saw a lassiestring %s\n", yytext);
+						#endif
+						yylval= (long int)strdup(yytext); return STRTOK; }
+<LASSIESTRING>[`]			BEGIN(INITIAL);
+
+
+
 [;]					{
 						#ifdef PARSER_DEBUG
 						printf("Line over\n"); 
@@ -86,7 +97,49 @@ noteDynamicMark			|
 noteModifiers         		|
 envelopeBuilder        		|
 sieveBuilder         		|
-patternBuilder         { yylval= (long int)strdup(yytext); return EVENTKEYWORDTOK; }
+patternBuilder    |   
+LASSIEeventType |  
+LASSIEmaxChildDur |
+LASSIEEDUPerBeat |
+LASSIEeventName |
+LASSIEtimeSignatureEntry1 |
+LASSIEtimeSignatureEntry2 |
+LASSIEtempoMethodFlag |
+LASSIEtempoPrefix |
+LASSIEtempoNoteValue |
+LASSIEtempoFractionEntry1 |
+LASSIEtempoFractionEntry2 | 
+LASSIEtempoValueEntry |
+LASSIEnumChildrenEntry1 |
+LASSIEnumChildrenEntry2 |
+LASSIEnumChildrenEntry3 |
+LASSIEchildEventDefEntry1 |
+LASSIEchildEventDefEntry2 |
+LASSIEchildEventDefEntry3 |
+LASSIEchildEventDefAttackSieve |
+LASSIEchildEventDefDurationSieve |
+LASSIEflagNumChildren |
+LASSIEflagChildEventDef |
+LASSIEflagChildEventDefStartType |
+LASSIEflagChildEventDefDurationType |
+LASSIEeventLayers |
+LASSIEBOTTOMfrequencyFlag |
+LASSIEBOTTOMfrequencyContinuumFlag |
+LASSIEBOTTOMfrequencyEntry1 |
+LASSIEBOTTOMfrequencyEntry2 |
+LASSIEBOTTOMloudness |
+LASSIEBOTTOMspatialization |
+LASSIEBOTTOMreverb |
+LASSIEBOTTOMmodifiers |
+LASSIESOUNDnumPartials |
+LASSIESOUNDdeviation |
+LASSIESOUNDspectrum |
+LASSIEENV |
+LASSIESIV |
+LASSIESPA |
+LASSIEPAT |
+LASSIEREV |
+LASSIEFUNCTION { yylval= (long int)strdup(yytext); return EVENTKEYWORDTOK; }
 
 EnvLib				|
 ValuePick           		|

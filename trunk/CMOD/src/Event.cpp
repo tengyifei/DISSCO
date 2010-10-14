@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Event.h"
 #include "EventFactory.h"
+#include "Output.h"
 #include "Sieve.h"
 
 extern map<string, EventFactory*> factory_lib;
@@ -33,12 +34,11 @@ extern ofstream * outFile;
 
 //----------------------------------------------------------------------------//
 
-Event::Event(float stime, float dur, int type, string name, int level) {
+Event::Event(float stime, float dur, int type, string name) {
   myStartTime = stime;
   myDuration = dur;
   myType = type;
   myName = name;
-  printLevel = level;
 
   childEventDef = NULL;
   discreteMat = NULL;
@@ -51,12 +51,9 @@ Event::Event(const Event& origEvent) {
   myDuration = origEvent.myDuration;
   myType = origEvent.myType;
   myName = origEvent.myName;
-  printLevel = origEvent.printLevel;
 
   maxChildDur = origEvent.maxChildDur;
   tempo = origEvent.tempo;
-  //unitsPerZecond = origEvent.unitsPerZecond;
-  //unitsPerBaz = origEvent.unitsPerBaz;
 
   layerVect = origEvent.layerVect;
   typeVect = origEvent.typeVect;
@@ -93,12 +90,9 @@ Event& Event::operator=(const Event& rhs) {
   myDuration = rhs.myDuration;
   myType = rhs.myType;
   myName = rhs.myName;
-  printLevel = rhs.printLevel;
 
   maxChildDur = rhs.maxChildDur;
   tempo = rhs.tempo;
-  //unitsPerZecond = rhs.unitsPerZecond;
-  //unitsPerBaz = rhs.unitsPerBaz;
 
   layerVect = rhs.layerVect;
   typeVect = rhs.typeVect;
@@ -148,7 +142,7 @@ Event::~Event() {
 
 //----------------------------------------------------------------------------//
 
-void Event::initDiscreteInfo( /*int aUnitsPerZecond,*/ /*int aUnitsPerBaz,*/
+void Event::initDiscreteInfo(
       std::string newTempo, std::string newTimeSignature, int newEDUPerBeat,
       float newMaxChildDur ) {
       
@@ -279,8 +273,23 @@ void Event::initChildDef(FileValue* childrenDef) {
 void Event::buildChildEvents() {
   vector<Event*> temporaryChildEvents;
 
-  print();
-  printParticel();
+  Output::beginSubLevel(myName);
+  outputProperties();
+  
+  string isExact;
+  {
+    float actualEDUDuration =
+      (Ratio(getAvailableEDU(), 1) * tempo.getEDUDurationInSeconds()).To<float>();
+    
+    if(actualEDUDuration == myDuration)
+      isExact = "Yes";
+    else if(fabs(actualEDUDuration / myDuration - 1.0f) < 0.01f)
+      isExact = "Almost";
+    else
+      isExact = "No";
+  }
+  Output::addProperty("Available EDU is Exact", isExact);
+  Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
   
   cout << "Event::buildChildEvents - my name is: " << myName << endl;
 
@@ -335,13 +344,11 @@ void Event::buildChildEvents() {
         }
       }
 
-      childPrintLevel = printLevel + 1;
-
       temporaryChildEvents.push_back(new Event(childStartTime, childDuration, 
-        childType, childName, childPrintLevel));		
+        childType, childName));		
 
       // Now split between Event and Bottom (bottom will go to it's own method)
-      //constructChild( childStartTime, childDuration, childType, childName, childPrintLevel );
+      //constructChild( childStartTime, childDuration, childType, childName);
     } else {
       // build failed!  Restart this loop up to 'restarts_remain' times
       if (restarts_remain > 0) {
@@ -386,8 +393,7 @@ void Event::buildChildEvents() {
   for (int i = 0; i < temp_ChildEventsSize; i++) {
     currChildNum = i;
     Event *t = temporaryChildEvents[i];
-    constructChild(t->myStartTime, t->myDuration, t->myType, t->myName, 
-     t->printLevel);
+    constructChild(t->myStartTime, t->myDuration, t->myType, t->myName);
     delete t;
   }
   temporaryChildEvents.clear();
@@ -398,14 +404,12 @@ void Event::buildChildEvents() {
     childEvents[i]->buildChildEvents();
   }
   
-  // close the XML tag for this event
-  indentPrint(printLevel);                                                    //
-  *outputFile << "</event>" << endl;                                          //
+  Output::endSubLevel();
 }
 
 //----------------------------------------------------------------------------//
 
-void Event::constructChild(float stime, float dur, int type, string name, int level) {
+void Event::constructChild(float stime, float dur, int type, string name) {
   EventFactory* childFactory = factory_lib[name];
   if (childFactory == NULL) {
     // Parse the file
@@ -413,7 +417,7 @@ void Event::constructChild(float stime, float dur, int type, string name, int le
   }
 
   // construct the child to this non-bottom event
-  childEvents.push_back( childFactory->Build(stime, dur, type, level) );
+  childEvents.push_back( childFactory->Build(stime, dur, type) );
 }
 
 //----------------------------------------------------------------------------//
@@ -426,15 +430,18 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
   
-  // how to process start time: UNITS, SECONDS or PERCENTAGE
+  // how to process start time: EDU, SECONDS or PERCENTAGE
   string startType = iter++->getString(this);
 
-  if (startType == "UNITS") {
+  if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
+    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+
+  if (startType == "EDU" || startType == "UNITS") {
     childStartTime = rawChildStartTime *
       tempo.getEDUDurationInSeconds().To<float>();
     exactChildStartTime = Ratio((int)rawChildStartTime, 1);
   } else if (startType == "SECONDS") {
-    childStartTime = rawChildStartTime; // no unit conversion needed
+    childStartTime = rawChildStartTime; // no conversion needed
     exactChildStartTime = Ratio(0, 0);  // floating point is not exact: NaN
   } else if (startType == "PERCENTAGE") {
     childStartTime = rawChildStartTime * myDuration; // convert to seconds
@@ -453,16 +460,19 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   // get the duration
   float rawChildDuration = iter++->getFloat(this);
   
-  // pre-quantize the duration in case "UNITS" is used
+  // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
   int maxChildDurInt = (int)maxChildDur;
   if(rawChildDurationInt > maxChildDurInt)
       rawChildDurationInt = maxChildDurInt;
   
-  // how to process duration: UNITS, SECONDS or PERCENTAGE
+  // how to process duration: EDU, SECONDS or PERCENTAGE
   string durType = iter++->getString(this);
 
-  if (durType == "UNITS") {
+  if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
+    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+
+  if (durType == "EDU" || durType == "UNITS") {
     exactChildDuration = Ratio(rawChildDurationInt, 1);
     cout << "Test:" << endl;
     cout << tempo.getEDUDurationInSeconds() << endl;
@@ -531,15 +541,18 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
   
-  // how to process start time: UNITS, SECONDS or PERCENTAGE
+  // how to process start time: EDU, SECONDS or PERCENTAGE
   string startType = iter++->getString(this);
 
-  if (startType == "UNITS") {
+  if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
+    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+
+  if (startType == "EDU" || startType == "UNITS") {
     childStartTime = rawChildStartTime * 
       tempo.getEDUDurationInSeconds().To<float>();
     exactChildStartTime = Ratio((int)rawChildStartTime, 1);
   } else if (startType == "SECONDS") {
-    childStartTime = rawChildStartTime; // no unit conversion needed
+    childStartTime = rawChildStartTime; // no conversion needed
     exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
   } else if (startType == "PERCENTAGE") {
     childStartTime = rawChildStartTime * myDuration; // convert to seconds
@@ -575,16 +588,19 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   // get the duration
   float rawChildDuration = iter++->getFloat(this);
   
-  // pre-quantize the duration in case "UNITS" is used
+  // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
   int maxChildDurInt = (int)maxChildDur;
   if(rawChildDurationInt > maxChildDurInt)
       rawChildDurationInt = maxChildDurInt;
   
-  // how to process duration: UNITS, SECONDS or PERCENTAGE
+  // how to process duration: EDU, SECONDS or PERCENTAGE
   string durType = iter++->getString(this);
 
-  if (durType == "UNITS") {
+  if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
+    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+
+  if (durType == "EDU" || durType == "UNITS") {
     exactChildDuration = Ratio(rawChildDurationInt, 1);
     childDuration = // convert to seconds
       (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
@@ -690,8 +706,6 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
 
     discreteMat->setTypeProbs(typeProbs);
   }
-//discreteMat->printMatrix(1);
-//cin >> sever;
 
   // get something out of the matrix
   childPt  = discreteMat->chooseM(numChildren - currChildNum - 1);
@@ -703,24 +717,21 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     return false; // failure!
   }
 
-  //cout << "       ---- AFTER MATRIX CHOOSEM" << endl;
-  //discreteMat->printMatrix();
-
-  int stimeUnits = childPt.stime;
-  int durUnits = childPt.dur;
+  int stimeEDU = childPt.stime;
+  int durEDU = childPt.dur;
   childType = childPt.type;
 
-  if(durUnits > (int)maxChildDur)
-    durUnits = maxChildDur;
-  exactChildStartTime = stimeUnits;
-  exactChildDuration = durUnits;
+  if(durEDU > (int)maxChildDur)
+    durEDU = maxChildDur;
+  exactChildStartTime = stimeEDU;
+  exactChildDuration = durEDU;
   
-  childStartTime = (float)stimeUnits * 
+  childStartTime = (float)stimeEDU * 
     tempo.getEDUDurationInSeconds().To<float>();
-  childDuration = (float)durUnits * 
+  childDuration = (float)durEDU * 
     tempo.getEDUDurationInSeconds().To<float>();
 
-  // using units
+  // using edu
   checkPoint = (double)childStartTime / myDuration;
   
   //DEBUG//
@@ -739,87 +750,18 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
 
 //----------------------------------------------------------------------------//
 
-void Event::print() {
-  indentPrint(printLevel);                                                    //
-  *outputFile << "<event>" << endl;                                           //
-
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "<name>" << myName << "</name>" << endl;                     //
+void Event::outputProperties() {
+  Output::addProperty("Type", myType);
+  Output::addProperty("Start Time", myStartTime, "sec.");
+  Output::addProperty("Duration", myDuration, "sec.");
+  Output::addProperty("Tempo",
+    tempo.getTempoBeatsPerMinute().toPrettyString(), "BPM");
   
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "<type>" << myType << "</type>" << endl;                     //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "<start-time-sec>" << myStartTime <<                         //
-    "</start-time-sec>" << endl;                                              //
-    
-  //indentPrint(printLevel + 1);                                              //
-  //*outputFile << "<start-time-units>" << myStartTime * unitsPerZecond <<    //
-  //  "</start-time-units>" << endl;                                          //
-    
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "<duration-sec>" << myDuration << "</duration-sec>" << endl; //
-    
-  //indentPrint(printLevel + 1);                                              //
-  //*outputFile << "<duration-units>" << myDuration * unitsPerZecond <<       //
-  //  "</duration-units>" << endl;                                            //
-}
-
-//----------------------------------------------------------------------------//
-
-void Event::printParticel() {
-  // alternate border characters
-  char borderchar;
-  if (printLevel % 2 == 0) {
-    borderchar = '%';
-  } else {
-    borderchar = '*';
-  }
-
-  borderPrintParticel(printLevel, borderchar);
-
-  indentPrintParticel(printLevel, borderchar);
-  *outFile << "  " << myName << "       type: " << myType << endl;
-
-  //indentPrintParticel(printLevel, borderchar);
-  //*outFile << "        stime:  " << setw(7) << (myStartTime*unitsPerZecond)
-  //            << " units,  " << setw(8) << myStartTime << " sec" << endl;
-
-  //indentPrintParticel(printLevel, borderchar);
-  //*outFile << "          dur:  " << setw(7) << (myDuration*unitsPerZecond)
-   //   << " units,  " << setw(8) << myDuration << " sec" << endl;
-
-  //borderPrint(printLevel, borderchar);
-}
-
-//----------------------------------------------------------------------------//
-
-void Event::indentPrint(int lvl) {
-  // indent two spaces in the XML per level (plus two indentations to start)
-  for (int i = 0; i < lvl + 2; i++) {
-    *outFile << "  ";                                                      //
-  }
-}
-
-//----------------------------------------------------------------------------//
-
-void Event::indentPrintParticel(int lvl, char borderChar) {
-  // indent 5 spaces for each level
-  for (int i = 0; i < lvl; i++) {
-    *outFile << "     ";
-  }
-  *outFile << borderChar;
-}
-
-//----------------------------------------------------------------------------//
-
-void Event::borderPrintParticel(int lvl, char borderChar) {
-  // assumes 5 space indent
-  indentPrintParticel( lvl, borderChar );
-
-  // subtract 1 char, since indentPrint printed 1 already
-  string borderStr( 79 - (5*lvl), borderChar );
-  *outFile << borderStr << endl;
+  Output::addProperty("Time Signature", tempo.getTimeSignature());
+  Output::addProperty("Divisions",
+    tempo.getEDUPerTimeSignatureBeat().toPrettyString(),
+    "EDU/beat");
+  Output::addProperty("Available EDU", getAvailableEDU());
 }
 
 //----------------------------------------------------------------------------//
@@ -859,7 +801,7 @@ int Event::getCurrentLayer() {
 
 //----------------------------------------------------------------------------//
 
-int Event::getDurationEDU()
+int Event::getAvailableEDU()
 {
   if(myExactDuration.isDeterminate() && myExactDuration != Ratio(0, 1))
     return myExactDuration.To<int>();
@@ -875,7 +817,7 @@ int Event::getDurationEDU()
         //Must quantize...
         float approximateEDUs = EDUs.To<float>();
         int quantizedEDUs = (int)approximateEDUs;
-        cout << "Warning: quantizing DURATION_UNITS from ";
+        cout << "Warning: quantizing AVAILABLE_EDU from ";
         cout << approximateEDUs << " to " << quantizedEDUs << endl;
         return quantizedEDUs;
       }
@@ -892,7 +834,7 @@ int Event::getDurationEDU()
         //Must quantize...
         float approximateEDUs = EDUs.To<float>() * myDuration;
         int quantizedEDUs = (int)approximateEDUs;
-        cout << "Warning: quantizing DURATION_UNITS from ";
+        cout << "Warning: quantizing AVAILABLE_EDU from ";
         cout << approximateEDUs << " to " << quantizedEDUs << endl;
         return quantizedEDUs;
       }

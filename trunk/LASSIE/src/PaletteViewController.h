@@ -49,6 +49,7 @@ public:
   void refreshObjectName(IEvent* _event);
   Glib::ustring folderSelected(); // check if any row is selected;
   IEvent* getCurrentSelectedEvent();
+  void deleteKeyPressed();
 
 protected:
   // Signal handlers:
@@ -64,7 +65,8 @@ protected:
     guint time);
 
   bool onRightClick(GdkEventButton* event);
-  void AddToProjectTree();
+  void AddToProjectTree(); //deprecated
+  void deleteObject();
 
   // Tree model columns:
   class Columns : public Gtk::TreeModel::ColumnRecord{
@@ -92,7 +94,7 @@ protected:
   Gtk::Label viewName;
   Gtk::Button envelopeLibButton;	
 
-Gtk::TreeModel::Row selectedRow;
+  Gtk::TreeModel::Row selectedRow;
 
 private:
   void on_cursor_changed();

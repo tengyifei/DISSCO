@@ -128,6 +128,10 @@ MainWindow::MainWindow(){
     Gtk::Action::create("ProjectProperties", Gtk::Stock::PROPERTIES),
     sigc::mem_fun(*this, &MainWindow::menuProjectProperties));
 
+  menuRefActionGroup->add(
+    Gtk::Action::create("Synthesize", "Synthesize"),
+    sigc::mem_fun(*this, &MainWindow::menuProjectSynthesize));
+
 
   // Help and its sub-menu
   menuRefActionGroup->add( Gtk::Action::create("HelpMenu", "Help"));
@@ -184,6 +188,7 @@ MainWindow::MainWindow(){
         "    </menu>"
         "     <menu action='ProjectMenu'>"
         "      <menuitem action='ProjectProperties'/>"
+        "      <menuitem action = 'Synthesize'/>"
         "    </menu>"
         "    <menu action='HelpMenu'>"
         "      <menuitem action='HelpContents'/>"
@@ -258,6 +263,9 @@ MainWindow::MainWindow(){
   
 
   
+
+  Gtk::Main::signal_key_snooper().connect(sigc::mem_fun(*this,&MainWindow::captureKeyStroke));
+  
  
   show_all_children();
 }
@@ -317,7 +325,9 @@ void MainWindow::menuFileOpen(){
 }
 
 void MainWindow::menuFileSave(){
-  projectView->save();
+  if (projectView->getEmptyProject()== false){
+    projectView->save();
+  }
 }
 
 void MainWindow::menuFileSaveAs(){}//TODO
@@ -421,5 +431,94 @@ void MainWindow::menuProjectProperties(){
 void MainWindow::showEnvelopeLibraryWindow(){
   envelopeLibraryWindow->show();
 
+}
+
+
+int   MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
+
+  if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 65535){ //delete key stroke
+    if (projectView != NULL){
+      projectView->deleteKeyPressed(get_focus());
+    }
+  }
+    
+  /*
+ GdkEventType type;   8 press 9 release
+ GdkWindow *window; this window
+ gint8 send_event; don't know what's this
+ guint32 time; event time 
+ guint state; usually 16 ctrl keys otherwise
+ guint keyval; ascii
+ gint length;
+ gchar *string;  return ascii code
+ guint16 hardware_keycode; keyboard key code
+ guint8 group;
+  
+  
+  */
+  
+  
+
+  return 0;
+}
+
+
+
+void MainWindow::menuProjectSynthesize(){
+	Gtk::Dialog* synthesizeDialog;
+
+
+  //Load the GtkBuilder file and instantiate its widgets:
+  Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = Gtk::Builder::create();
+
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+    try{
+      synthesizeDialogRefBuilder->add_from_file("./LASSIE/src/UI/SynthesizeDialog.ui");
+    }
+    catch(const Glib::FileError& ex){
+      std::cerr << "FileError: " << ex.what() << std::endl;
+    }
+    catch(const Gtk::BuilderError& ex){
+      std::cerr << "BuilderError: " << ex.what() << std::endl;
+    }
+  #else
+    std::auto_ptr<Glib::Error> error;
+
+    if (!synthesizeDialogRefBuilder->add_from_file("./LASSIE/src/UI/SynthesizeDialog.ui", error)){
+      std::cerr << error->what() << std::endl;
+    }
+  #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
+
+	
+  //Get the GtkBuilder-instantiated Dialog:
+  synthesizeDialogRefBuilder->get_widget("SynthesizeDialog", synthesizeDialog);
+	
+
+
+
+  Gtk::Entry* randomSeedEntry;
+  synthesizeDialogRefBuilder->get_widget("SynthesizeDialogRandomSeedEntry", randomSeedEntry);
+
+
+  int result = synthesizeDialog->run();
+
+	synthesizeDialog->hide(); 
+
+  if(result == 1 && projectView) {
+    string pathAndName = projectView->getPathAndName();
+    string projectPath = pathAndName + "/";
+    string projectName = FileOperations::stringToFileName(pathAndName);
+    
+    //Determine project sound file output.
+    PieceHelper::createSoundFilesDirectory(projectPath);
+    string soundFilename =
+      PieceHelper::getNextSoundFile(projectPath, projectName);
+      
+    if(soundFilename == "")
+      cout << "A new soundfile name could not be reserved." << endl;
+      //TODO: Make message box to warn user. (But this error should probably not happen!)
+    else
+      PieceHelper::createPiece(projectPath, projectName, randomSeedEntry->get_text(), soundFilename);
+	}
 }
 
