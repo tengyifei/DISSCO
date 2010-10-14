@@ -34,7 +34,6 @@
 #define FUNCTIONGENERATOR_H 
 
 #include "LASSIE.h"
-
 #include "EnvelopeLibraryEntry.h"
 
 typedef enum {
@@ -45,8 +44,10 @@ typedef enum {
   functionReturnENV,
   functionReturnSIV,
   functionReturnPAT,
-  //functionReturnIntList,
-  //functionReturnFloatList,
+  functionReturnIntList,
+  functionReturnFloatList,
+  functionReturnEnvelopeList, 
+  functionReturnString, //used to parse FileValue
   functionReturnList,
   functionReturnMakeListFun
   
@@ -93,7 +94,7 @@ typedef enum {
   function_staticCURRENT_PARTIAL_NUM,
   function_staticCURRENT_DENSITY,
   function_staticCURRENT_SEGMENT,
-  function_staticDURATION_UNITS,
+  function_staticAVAILABLE_EDUS,
   function_staticCURRENT_LAYER,
   
   NOT_A_FUNCTION
@@ -113,16 +114,21 @@ typedef enum {
 
 
 
-
+class FileValue;
 
 
 class FunctionGenerator :public Gtk::Dialog{
 
 public:
 
-  FunctionGenerator(FunctionReturnType _returnType);
+  FunctionGenerator(FunctionReturnType _returnType,std::string _originalString);
   ~FunctionGenerator();
   std::string getResultString();
+  std::string getFunctionString(FileValue* _value,FunctionReturnType _returnType);
+  list<std::string> fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType);
+  std::string stringListToString(list<std::string> _list);
+  std::string fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType);
+  
   
   
  class SPAChannelAlignment;
@@ -283,6 +289,10 @@ private:
     void switchTo(int _methodFlag);
     void appendNewNode(StochosSubAlignment* _newNode);
     void clear();
+    void setFunctionsEntry(std::string _string);
+    void setMinEntry(std::string _string);
+    void setMaxEntry(std::string _string); 
+    void setDistEntry(std::string _string);  
     std::string toString(int _methodFlag);// 0 = rang_distrib, 1 = Functions
     StochosSubAlignment* prev;
     StochosSubAlignment* next;

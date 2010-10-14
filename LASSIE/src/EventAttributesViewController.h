@@ -187,12 +187,12 @@ public:
    *
    ****************************************************************************/
   void saveCurrentShownEventData();
-  
+  void refresh();
   
   void continuumButtonClicked();
   void sweepButtonClicked();
   void discreteButtonClicked();
-  
+  void deleteKeyPressed(Gtk::Widget* _focus);
   
 	IEvent* getCurrentEvent();
   
@@ -219,6 +219,7 @@ public:
   void BSFunFreqButton1Clicked();
   void BSFunFreqButton2Clicked();
   void BSContinuumButtonClicked();
+  IEvent* getCurrentlyShownEvent();
   
   
   
@@ -274,6 +275,13 @@ private:
              );
 
     ~LayerBox();
+    bool onRightClick(GdkEventButton* event);
+    void deleteObject();
+    
+    // these three are for setting up pop up menu
+    Glib::RefPtr<Gtk::UIManager> m_refUIManager;
+    Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
+    Gtk::Menu* m_pMenuPopup;    
     
     
     

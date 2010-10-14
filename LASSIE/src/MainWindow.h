@@ -144,10 +144,12 @@ class MainWindow : public Gtk::Window {
 
     void changeCurrentProjectViewTo(ProjectViewController* _newProject);
     void menuProjectProperties();
+    void menuProjectSynthesize();
 
     void includeUi_info(Glib::ustring pathAndName,Glib::ustring ctrl);
     void menuPathAndName();
 
+    int   captureKeyStroke(Gtk::Widget *,GdkEventKey *);
 
 
 };

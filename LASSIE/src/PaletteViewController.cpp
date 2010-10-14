@@ -122,9 +122,13 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   //via a context menu.
   m_refActionGroup->add(Gtk::Action::create("ContextMenu", "Context Menu"));
 
+  //m_refActionGroup->add(
+   // Gtk::Action::create("ContextAdd", "Add To Project Tree"),
+    //sigc::mem_fun(*this, &PaletteViewController::AddToProjectTree));
   m_refActionGroup->add(
-    Gtk::Action::create("ContextAdd", "Add To Project Tree"),
-    sigc::mem_fun(*this, &PaletteViewController::AddToProjectTree));
+    Gtk::Action::create("ContextDelete", "Delete"),
+    sigc::mem_fun(*this, &PaletteViewController::deleteObject));
+
 
   //TODO:
   /*
@@ -142,7 +146,7 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   Glib::ustring ui_info =
     "<ui>"
     "  <popup name='PopupMenu'>"
-    "    <menuitem action='ContextAdd'/>"
+    "    <menuitem action='ContextDelete'/>"
     "  </popup>"
     "</ui>";
 
@@ -328,4 +332,36 @@ void PaletteViewController::showEnvelopeLibrary(){
 
   sharedPointers->mainWindow->showEnvelopeLibraryWindow();
 }
+
+
+
+
+
+
+void PaletteViewController::deleteKeyPressed(){
+  //std::cout<<"cursor changed!!"<<std::endl;
+  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  
+  if (iter != NULL){
+  Gtk::TreeModel::Row row = *iter;
+    if (row){
+      deleteObject();
+    }
+  std::cout<<"palette delet key pressed"<<std::endl;
+  }
+}
+
+
+
+
+void PaletteViewController::deleteObject(){
+    Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Row row = *iter;
+  //projectView->addObjectFromPaletteToProjectTree(row[columns.columnEntry]);
+  std::cout<<"remove this thing"<<row[columns.columnObjectName]<<endl;
+  
+  
+  
+}
+
 

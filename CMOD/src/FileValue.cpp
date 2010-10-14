@@ -307,10 +307,12 @@ void FileValue::Evaluate() {
     static_ftn_CURRENT_DENSITY();
   } else if (ftnString == "CURRENT_SEGMENT") {
     static_ftn_CURRENT_SEGMENT();
-  } else if (ftnString == "DURATION_UNITS") { //Deprecated--use DURATION_EDU
-    static_ftn_DURATION_UNITS();              //Deprecated--use DURATION_EDU
-  } else if (ftnString == "DURATION_EDU") {
-    static_ftn_DURATION_EDU();
+  } else if (ftnString == "DURATION_UNITS") { //Deprecated--use AVAILABLE_EDU
+    static_ftn_DURATION_UNITS();              //Deprecated--use AVAILABLE_EDU
+  } else if (ftnString == "DURATION_EDU") { //Deprecated--use AVAILABLE_EDU
+    static_ftn_DURATION_EDU();              //Deprecated--use AVAILABLE_EDU
+  } else if (ftnString == "AVAILABLE_EDU") {
+    static_ftn_AVAILABLE_EDU();
   } else if (ftnString == "CURRENT_LAYER") {
     static_ftn_CURRENT_LAYER();
   } else {
@@ -1038,28 +1040,42 @@ void FileValue::static_ftn_CURRENT_SEGMENT() {
 
 //----------------------------------------------------------------------------//
 
-void FileValue::static_ftn_DURATION_UNITS() { //Deprecated--use DURATION_EDU
+void FileValue::static_ftn_DURATION_UNITS() { //Deprecated--use AVAILABLE_EDU
   if (evptr == NULL) {
-    cerr << "FileValue Error: DURATION_UNITS " //Deprecated--use DURATION_EDU
+    cerr << "FileValue Error: DURATION_UNITS " //Deprecated--use AVAILABLE_EDU
       << "used outside of Event context" << endl;
     exit(1);
   }
   cout << "Warning: DURATION_UNITS now returns duration in EDU." << endl;
-  cout << "You should use the new DURATION_EDU function instead." << endl;
+  cout << "You should use the new AVAILABLE_EDU function instead." << endl;
   return_type = FVAL_NUMBER;
-  n = evptr->getDurationEDU();
+  n = evptr->getAvailableEDU();
 }
 
 //----------------------------------------------------------------------------//
 
-void FileValue::static_ftn_DURATION_EDU() {
+void FileValue::static_ftn_DURATION_EDU() { //Deprecated--use AVAILABLE_EDU
   if (evptr == NULL) {
-    cerr << "FileValue Error: DURATION_EDU used outside of Event context" 
+    cerr << "FileValue Error: DURATION_EDU " //Deprecated--use AVAILABLE_EDU
+      << "used outside of Event context" << endl;
+    exit(1);
+  }
+  cout << "Warning: DURATION_EDU now returns duration in EDU." << endl;
+  cout << "You should use the new AVAILABLE_EDU function instead." << endl;
+  return_type = FVAL_NUMBER;
+  n = evptr->getAvailableEDU();
+}
+
+//----------------------------------------------------------------------------//
+
+void FileValue::static_ftn_AVAILABLE_EDU() {
+  if (evptr == NULL) {
+    cerr << "FileValue Error: AVAILABLE_EDU used outside of Event context" 
          << endl;
     exit(1);
   }
   return_type = FVAL_NUMBER;
-  n = evptr->getDurationEDU();
+  n = evptr->getAvailableEDU();
 }
 
 //----------------------------------------------------------------------------//
@@ -1074,44 +1090,3 @@ void FileValue::static_ftn_CURRENT_LAYER() {
   n = evptr->getCurrentLayer();
 }
 
-//----------------------------------------------------------------------------//
-
-ostream& operator<<(ostream& os, const FileValue& fv) {
-  /*switch(fv.getReturnType()) {
-    case FVAL_FUNC:
-      string s = fv.getString;
-      os<<s<<" ( "<<flush;
-      fv.printList(os);
-      os<<" )"<<flush;
-      break;
-    case FVAL_STRING:
-      string s = fv.getString();
-      os<<fv.getString()<<flush;
-      break;
-    case FVAL_NUMBER:
-      cout<<fv.getFloat()<<flush;
-      break;
-    case FVAL_LIST:
-      fv.printList(os);
-      break;
-    default:
-      break;
-}*/
-  return os;
-}
-
-//----------------------------------------------------------------------------//
-
-void FileValue::printList(ostream &os) const {
-
-  /*if (!(this->isList()) && !(this->isFunction())) return;
-
-  std::list<FileValue>::const_iterator it;
-  os << "<" << flush;
-
-  for (it=this->getList().begin(); it!=this->getList().end(); it++) {
-    os  << (*it) << " " << flush;
-  }
-
-  os<<">"<<flush;*/
-}

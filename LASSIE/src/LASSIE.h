@@ -73,5 +73,11 @@
 #include <vector>
 */
 
+
+//other
+#include <sstream>
+
+
 #endif //LASSIE_H
+
 

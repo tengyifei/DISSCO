@@ -80,6 +80,10 @@ public:
   void refreshObjectNameInPalette(IEvent* _event);
   void setProperties();
   void save();
+  void deleteKeyPressed(Gtk::Widget* _focus);
+  bool getEmptyProject();
+  
+  IEvent* findIEvent(EventType _type, std::string _eventName);
 
   PaletteViewController* getPalette();
   EnvelopeLibraryEntry* getEnvelopeLibraryEntries();
@@ -148,6 +152,7 @@ private:
   std::string sampleSize;
   std::string numOfThreads;
   bool synthesis;
+  bool emptyProject;
   
   SharedPointers* sharedPointers;
   

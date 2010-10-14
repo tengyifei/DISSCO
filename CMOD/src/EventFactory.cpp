@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Piece.h"
 
 extern map<string, EventFactory*> factory_lib;
-extern Piece Piece;
+extern Piece ThePiece;
 
 //---------------------------------------------------------------------------//
 
@@ -43,7 +43,7 @@ EventFactory::EventFactory(string filename) {
   name = filename;
 
   // parse filename (EventParser)
-  parseFile(name, this, &Piece);
+  parseFile(name, this, &ThePiece);
 
   // add event factories for subevents to library
   factory_lib[filename] = this;
@@ -57,15 +57,15 @@ EventFactory::~EventFactory() {
 
 //----------------------------------------------------------------------------//
 
-Event* EventFactory::Build(float startTime, float duration, int type, int level) {
+Event* EventFactory::Build(float startTime, float duration, int type) {
   int i = 0;
 
   Event* newEvent;
   char c = name[0];
   if(c != 'B') {
-    newEvent = new Event(startTime, duration, type, name, level);
+    newEvent = new Event(startTime, duration, type, name);
   } else {
-    Bottom* tmpEvent = new Bottom(startTime, duration, type, name, level);
+    Bottom* tmpEvent = new Bottom(startTime, duration, type, name);
 
     tmpEvent->initBottomVars( frequency, loudness, spatialization, 
                               reverberation, modifiers );
@@ -76,9 +76,7 @@ Event* EventFactory::Build(float startTime, float duration, int type, int level)
   //  (the theme here is to evaluate the filevalues here, or call a method
   //   in Event to evaluate the filevalues.  THERE ARE NO PRIVATE VARS IN
   //   Event TO HOLD ONTO FileValues!!
-  newEvent->initDiscreteInfo( /*unitsPerZecond->getInt(),*/
-                              /*unitsPerBaz->getInt(),*/
-                              tempo->getString(),
+  newEvent->initDiscreteInfo( tempo->getString(),
                               timeSignature->getString(),
                               EDUPerBeat->getInt(),
                               maxChildDur->getFloat() );

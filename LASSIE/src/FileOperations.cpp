@@ -250,7 +250,10 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   _mainWindow->set_title("LASSIE");
   
   // setup the open project dialog window 
-  Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_OPEN);
+  //Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_OPEN);
+  Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+  
+  
   dialog.set_transient_for(*_mainWindow);
   
   // Add response buttons the the dialog:
@@ -263,16 +266,8 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   
   // Handle the response:
   if(result == Gtk::RESPONSE_OK){		
-    std::string pathFileString = dialog.get_filename();
-    //remove the filename, only the path is left.
-    std::string projectTitle = stringToPath(pathFileString);
 
-    //this chunk remove the last / in the path
-    size_t pos = projectTitle.find_last_of("/");
-    if(pos == projectTitle.length()-1){
-      projectTitle.erase(projectTitle.length()-1);
-    } 
-    return new ProjectViewController(projectTitle, _mainWindow,0);
+    return new ProjectViewController(dialog.get_filename(), _mainWindow,0);
     
   }
   
