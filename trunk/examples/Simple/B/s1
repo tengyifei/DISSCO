@@ -1,0 +1,75 @@
+/*  Bottom Event: B/s1  */
+
+
+
+maxChildDur =  5;
+timeSignature = " 4/ 4";
+EDUPerBeat =  1;
+tempo = "quarter = 123";
+numChildren = <"FIXED", 17>;
+
+childNames = <
+                 <
+                    "S/s2"
+                 >
+             >;
+
+childEventDef = < "CONTINUUM",
+		  Random( 0, 1),
+		  "PERCENTAGE",
+		   0,
+		  Random( 3, 9),
+		  "SECONDS"
+		>;
+
+frequency = <"WELL_TEMPERED", Select( <40,52,69,78,23,34,80,108,55,94,46,29,5,100,104,109,16>, CURRENT_CHILD_NUM) >;
+
+loudness =  256;
+
+spatialization = <"STEREO", "SOUND", <ReadENVFile( "ENV/env3")>>;
+
+reverberation = ReadREVFile( "REV/rev4");
+
+
+
+
+
+
+
+
+
+
+/*=============================LASSIE METADATA=========================*/
+
+
+LASSIEeventName = `s1`;
+LASSIEmaxChildDur = ` 5`;
+LASSIEEDUPerBeat = ` 1`;
+LASSIEtimeSignatureEntry1 = ` 4`;
+LASSIEtimeSignatureEntry2 = ` 4`;
+LASSIEtempoMethodFlag = 0;
+LASSIEtempoPrefix = 0;
+LASSIEtempoNoteValue = 2;
+LASSIEtempoFractionEntry1 = ` `;
+LASSIEtempoFractionEntry2 = ` `;
+LASSIEtempoValueEntry = `123`;
+LASSIEnumChildrenEntry1 = `17`;
+LASSIEnumChildrenEntry2 = `0`;
+LASSIEnumChildrenEntry3 = `0`;
+LASSIEchildEventDefEntry1 = `Random( 0, 1)`;
+LASSIEchildEventDefEntry2 = ` 0`;
+LASSIEchildEventDefEntry3 = `Random( 3, 9)`;
+LASSIEchildEventDefAttackSieve = ` `;
+LASSIEchildEventDefDurationSieve = ` `;
+LASSIEflagNumChildren = 0;
+LASSIEflagChildEventDef = 0;
+LASSIEflagChildEventDefStartType = 0;
+LASSIEflagChildEventDefDurationType = 2;
+LASSIEeventLayers = <<` `,<<`s2`,5,` `,` `,` `,` `,` `>>>>;
+LASSIEBOTTOMfrequencyFlag = 0;
+LASSIEBOTTOMfrequencyContinuumFlag = 0;
+LASSIEBOTTOMfrequencyEntry1 = `Select( <40,52,69,78,23,34,80,108,55,94,46,29,5,100,104,109,16>, CURRENT_CHILD_NUM)`;
+LASSIEBOTTOMfrequencyEntry2 = ` `;
+LASSIEBOTTOMloudness = ` 256`;
+LASSIEBOTTOMspatialization = `<"STEREO", "SOUND", <ReadENVFile( "ENV/env3")>>`;
+LASSIEBOTTOMreverberation = `ReadREVFile( "REV/rev4")`;
