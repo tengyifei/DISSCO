@@ -94,7 +94,7 @@ typedef enum {
   function_staticCURRENT_PARTIAL_NUM,
   function_staticCURRENT_DENSITY,
   function_staticCURRENT_SEGMENT,
-  function_staticAVAILABLE_EDUS,
+  function_staticAVAILABLE_EDU,
   function_staticCURRENT_LAYER,
   
   NOT_A_FUNCTION
@@ -141,6 +141,8 @@ public:
     void clearPartialsWithSameNumber();
     void entryEditSwitch(int _flag);// 0 = disable, 1 = enable
     std::string getText();
+    void setText(std::string _text);
+    void insertPartialButtonClicked();
     SPAPartialAlignment* next;
     SPAPartialAlignment* prev;
     SPAPartialAlignment* prevChan;
@@ -151,7 +153,7 @@ public:
     FunctionGenerator* parent;
 
     void textChanged();
-    void insertPartialButtonClicked();
+
     void removePartialButtonClicked();
     void funButtonClicked();
    
@@ -169,6 +171,7 @@ public:
     void refreshPartialNumbers();  //////////////////////////////implement this
     void refreshLayout();
     void clear();
+    void insertChannelButtonClicked();
     int getButtonsShownStatus(); // 0 = hiden, 1 = shown
 
     std::string getText();
@@ -184,7 +187,7 @@ public:
     Gtk::VBox* outerVBox;
     int flagButtonsShown; // 0 = hiden, 1 = shown
 
-    void insertChannelButtonClicked();
+
     void removeChannelButtonClicked();
   
   };
@@ -366,9 +369,13 @@ private:
     MakeEnvelopeSubAlignment* prev;
     MakeEnvelopeSubAlignment* next;
     std::string getXValueString();
+    void setXValueString(std::string _string);
     std::string getYValueString();
+    void setYValueString(std::string _string);
     envSegmentType getEnvSegmentType();
+    void setEnvSegmentType ( int _type);
     envSegmentProperty getEnvSegmentProperty();
+    void setEnvSegmentProperty( int _property);
     void clear();
     
     

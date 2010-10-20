@@ -233,8 +233,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -311,8 +311,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -401,8 +401,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
 
     row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDUS;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDUS";  
+    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
+    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -1209,7 +1209,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       if (method =="\"FUNCTIONS\""){
 
 
-        cout<<"!!!!!!!!"<<endl;
+
         while (stringIter!= envelopeStringList.end()){
           StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, 1);
           if ( stochosSubAlignments ==NULL){
@@ -1282,10 +1282,110 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a list
+      
+      string listString = getFunctionString(value,functionReturnInt);
+      attributesRefBuilder->get_widget("SelectListEntry",entry);
+      entry->set_text(listString);
+      
+      argumentsIter++;
+      
+      value =&(*argumentsIter); // second argument is an int
+      attributesRefBuilder->get_widget("SelectIndexEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+    }
+    
+    //end parsing
   } 
  
+  //check if CURRENT_TYPE
+  locationOfKeyword =_originalString.find("CURRENT_TYPE");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_TYPE"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
 
+  } 
+
+  //check if CURRENT_CHILD_NUM
+  locationOfKeyword =_originalString.find("CURRENT_CHILD_NUM");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_CHILD_NUM"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  } 
+ 
+  //check if CURRENT_PARTIAL_NUM
+  locationOfKeyword =_originalString.find("CURRENT_PARTIAL_NUM");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_PARTIAL_NUM"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  } 
+
+  //check if CURRENT_SEGMENT
+  locationOfKeyword =_originalString.find("CURRENT_SEGMENT");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_SEGMENT"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  } 
+  
+  //check if AVAILABLE_EDU
+  locationOfKeyword =_originalString.find("AVAILABLE_EDU");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "AVAILABLE_EDU"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  }  
+ 
+  //check if CURRENT_LAYER
+  locationOfKeyword =_originalString.find("CURRENT_LAYER");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "CURRENT_LAYER"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  }
   //check if ValuePick
   locationOfKeyword =_originalString.find("ValuePick");
   if (int(locationOfKeyword)==0){
@@ -1296,7 +1396,113 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+        // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 9 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float (absolute range
+      
+      attributesRefBuilder->get_widget("ValuePickAbsRangeEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));
+      
+      argumentsIter++;
+      
+      value =&(*argumentsIter); // second argument is an envelope (low)
+      attributesRefBuilder->get_widget("ValuePickLowEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // third argument is an envelope (high)
+      attributesRefBuilder->get_widget("ValuePickHighEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // fourth argument is an envelope (distribution)
+      attributesRefBuilder->get_widget("ValuePickDistEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 5th argument is a string  (Elements)
+
+      if (value->getString() == "MEANINGFUL"){
+        attributesRefBuilder->get_widget("ValuePickElementsMeaningfulRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+      else if (value->getString() == "MODS"){
+        attributesRefBuilder->get_widget("ValuePickElementsModsRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {  //FAKE
+        attributesRefBuilder->get_widget("ValuePickElementsFakeRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 6th argument is a list without bracket
+      string listString = fileValueListToString( value->getList(),functionReturnFloat);
+      
+      listString = listString.substr(1, listString.length()-2);
+      
+      attributesRefBuilder->get_widget("ValuePickElementsEntry",entry);
+      entry->set_text(listString);       
+      
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 7th argument is a string  (weight)
+
+      if (value->getString() == "MEANINGFUL"){
+        attributesRefBuilder->get_widget("ValuePickWeightsMeaningfulRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+      else if (value->getString() == "MODS"){
+        attributesRefBuilder->get_widget("ValuePickWeightsModsRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {  //FAKE
+        attributesRefBuilder->get_widget("ValuePickWeightsFakeRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 8th argument is a list without bracket
+      listString = fileValueListToString( value->getList(),functionReturnFloat);
+      
+      listString = listString.substr(1, listString.length()-2);
+      
+      attributesRefBuilder->get_widget("ValuePickWeightsEntry",entry);
+      entry->set_text(listString);        
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 9th argument is a string  (Elements)
+
+      if (value->getString() == "VARIABLE"){
+        attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      
+      else {  //constant
+        attributesRefBuilder->get_widget("ValuePickTypeConstantRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }   
+           
+    }
+    
+    //end parsing
   } 
 
 
@@ -1310,7 +1516,25 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //chooseL has 1 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a function
+
+      
+      attributesRefBuilder->get_widget("ChooseLEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));  
+    }
+    
+    //end parsing
   } 
  
 
@@ -1324,86 +1548,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //getpattern has 1 argument
+      
+      argumentsIter = arguments.begin();
+      argumentsIter++;
+      value =&(*argumentsIter); // first argument is a function
+
+      
+      attributesRefBuilder->get_widget("GetPatternEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));  
+    }
+    
+    //end parsing
   } 
 
-  //check if CURRENT_TYPE
-  locationOfKeyword =_originalString.find("CURRENT_TYPE");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_TYPE"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  } 
-
-  //check if CURRENT_CHILD_NUM
-  locationOfKeyword =_originalString.find("CURRENT_CHILD_NUM");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_CHILD_NUM"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  } 
- 
-  //check if CURRENT_PARTIAL_NUM
-  locationOfKeyword =_originalString.find("CURRENT_PARTIAL_NUM");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_PARTIAL_NUM"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  } 
-
-  //check if CURRENT_SEGMENT
-  locationOfKeyword =_originalString.find("CURRENT_SEGMENT");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_SEGMENT"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  } 
-  
-  //check if AVAILABLE_EDUS
-  locationOfKeyword =_originalString.find("AVAILABLE_EDUS");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "AVAILABLE_EDUS"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  }  
- 
-  //check if CURRENT_LAYER
-  locationOfKeyword =_originalString.find("CURRENT_LAYER");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_LAYER"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
-  } 
 
   //check if Random
   locationOfKeyword =_originalString.find("Random");
@@ -1421,7 +1587,31 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //random has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float
+
+      
+      attributesRefBuilder->get_widget("RandomLowBoundEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+      argumentsIter ++;
+      value =&(*argumentsIter); // second argument is a float
+      attributesRefBuilder->get_widget("RandomHighBoundEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));
+      
+       
+    }
+    
+    //end parsing
   }  
  
   //check if Randomizer
@@ -1434,7 +1624,31 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //randomizer has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float
+
+      
+      attributesRefBuilder->get_widget("RandomizerBaseEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+      argumentsIter ++;
+      value =&(*argumentsIter); // second argument is a float
+      attributesRefBuilder->get_widget("RandomizerDeviationEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));
+      
+       
+    }
+    
+    //end parsing
   }  
   
   //check if Inverse
@@ -1447,7 +1661,26 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //inverse has 1 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float
+
+      
+      attributesRefBuilder->get_widget("InverseEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+       
+    }
+    
+    //end parsing
   }  
   
   //check if LN
@@ -1460,7 +1693,26 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //LN has 1 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float
+
+      
+      attributesRefBuilder->get_widget("LNEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+       
+    }
+    
+    //end parsing
   }  
 
   //check if Decay
@@ -1473,7 +1725,46 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //Decay has 4 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float (base
+      
+      attributesRefBuilder->get_widget("DecayBaseEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 2nd argument is a string
+      
+      if (value->getString() == "EXPONENTIAL"){
+        attributesRefBuilder->get_widget("DecayTypeExponentialRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      }
+      else{
+        attributesRefBuilder->get_widget("DecayTypeLinearRadioButton",radiobutton);
+        radiobutton->set_active();      
+      }
+     
+      argumentsIter++;
+      value =&(*argumentsIter); // 3nd argument is a string   
+      attributesRefBuilder->get_widget("DecayRateEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));       
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 4nd argument is an int   
+      attributesRefBuilder->get_widget("DecayIndexEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));        
+       
+    }
+    
+    //end parsing
   } 
   
   //check if EnvLib
@@ -1486,7 +1777,30 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //EnvLib has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is an int
+      
+      attributesRefBuilder->get_widget("EnvLibEnvelopeEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+            
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 2nd argument is an Float   
+      attributesRefBuilder->get_widget("EnvLibScalingFactorEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));        
+       
+    }
+    
+    //end parsing
   } 
   
   //check if MakeEnvelope
@@ -1499,7 +1813,117 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    //begin parsing
+
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //MakeEnvelope has 5 arguments (string, list of envelopes, int)
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a float list
+
+
+
+      list<std::string> firstList =
+        fileValueListToStringList(value->getList(),functionReturnFloat);
+      
+      list<std::string>::iterator stringIter = firstList.begin();  
+      attributesRefBuilder->get_widget("MakeEnvelopeXValueEntry",entry);
+      entry->set_text(*stringIter);   
+      stringIter++;
+      
+      makeEnvelopeSubAlignments->setXValueString(*stringIter);
+      stringIter++;
+      
+      //makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insertAfter){
+      MakeEnvelopeSubAlignment* insertAfter = makeEnvelopeSubAlignments; 
+      
+      for (stringIter; stringIter != firstList.end(); stringIter++){
+        makeEnvelopeInsertNode(insertAfter);
+        insertAfter = insertAfter->next;
+        insertAfter->setXValueString(*stringIter);
+      }
+       
+    
+      argumentsIter++;
+      value =&(*argumentsIter); // 2nd argument is a float list
+
+
+      list<std::string> secondList =
+        fileValueListToStringList(value->getList(),functionReturnFloat);
+      
+      stringIter = secondList.begin();  
+      attributesRefBuilder->get_widget("MakeEnvelopeYValueEntry",entry);
+      entry->set_text(*stringIter);  
+      stringIter++;
+      
+      MakeEnvelopeSubAlignment* thisAlignment = makeEnvelopeSubAlignments;
+      for (stringIter; stringIter != secondList.end(); stringIter++){
+        thisAlignment->setYValueString(*stringIter);
+        thisAlignment = thisAlignment->next;
+      }    
+    
+    
+    
+      argumentsIter++;
+      value =&(*argumentsIter); // 3rd argument is a string list
+
+
+      list<std::string> thirdList =
+        fileValueListToStringList(value->getList(),functionReturnString);
+      
+      stringIter = thirdList.begin();  
+      thisAlignment = makeEnvelopeSubAlignments;
+      for (stringIter; stringIter != thirdList.end(); stringIter++){
+      
+
+      
+        if (*stringIter == "\"LINEAR\""){
+          thisAlignment->setEnvSegmentType(0);
+        }
+        else if (*stringIter == "\"EXPONENTIAL\""){
+          thisAlignment->setEnvSegmentType(1);
+        }
+        else {
+          thisAlignment->setEnvSegmentType(2);        
+        }
+        thisAlignment = thisAlignment->next;
+      }    
+    
+    
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 4th argument is a string list
+
+
+      list<std::string> fourthList =
+        fileValueListToStringList(value->getList(),functionReturnString);
+      
+      stringIter = fourthList.begin();  
+      thisAlignment = makeEnvelopeSubAlignments;
+      for (stringIter; stringIter != fourthList.end(); stringIter++){
+        if (*stringIter == "\"FLEXIBLE\""){
+          thisAlignment->setEnvSegmentProperty(0);
+        }
+
+        else {
+          thisAlignment->setEnvSegmentProperty(1);        
+        }
+        thisAlignment = thisAlignment->next;
+      }     
+    
+      argumentsIter++;
+      value =&(*argumentsIter);  // 5th argument is a float  
+    
+      attributesRefBuilder->get_widget("MakeEnvelopeScalingFactorEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));     
+ 
+    }
+    //end parsing
   } 
 
   //check if ReadENVFile
@@ -1512,7 +1936,27 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadEnvFile has 1 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("ReadENVFileEntry",entry);
+      string functionString = getFunctionString(value,functionReturnInt);
+      functionString = functionString.substr(5, functionString.length()-6);
+      
+      entry->set_text(functionString); 
+                   
+    }
+    
+    //end parsing
   } 
 
   //check if MakeList
@@ -1525,12 +1969,40 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+  // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadEnvFile has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("MakeListFunctionEntry",entry);      
+      entry->set_text(getFunctionString(value,functionReturnString)); 
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 2nd argument is an int      
+      attributesRefBuilder->get_widget("MakeListSizeEntry",entry);      
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+      
+      
+                   
+    }
+    
+    //end parsing
   } 
 
   //check if SPA
-  locationOfKeyword =_originalString.find("SPA");
-  if (int(locationOfKeyword)==0){
+  locationOfKeyword =_originalString.find("STEREO");
+  size_t lok2 = _originalString.find("MULTI_PAN");
+  size_t lok3 = _originalString.find("POLAR");
+  
+  
+  if (int(locationOfKeyword)==2||int(lok2) ==2 ||int(lok3) ==2){
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
     while(row[functionListColumns.m_col_name]!= "SPA"){
@@ -1538,7 +2010,111 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+// start parsing 
+  
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getList();  //SPA is actually a list with 3 elements
+         
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      if(value->getString()=="STEREO"){
+        attributesRefBuilder->get_widget("SPAStereoRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else if (value->getString() == "MULTI_PAN"){
+        attributesRefBuilder->get_widget("SPAMulti_PanRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {   //polar
+        attributesRefBuilder->get_widget("SPAPolarRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // second argument is a string      
+      
+      if(value->getString()=="SOUND"){
+        attributesRefBuilder->get_widget("SPASoundRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+     
+      else {   //partial
+        attributesRefBuilder->get_widget("SPAPartialRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }      
+      
+
+      argumentsIter++;
+      value =&(*argumentsIter); // third argument is a list
+
+      
+      
+      if ( SPAMethodFlag ==0){ //stereo
+        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
+        
+        list<string> listOfString = fileValueListToStringList(value->getList(),functionReturnFloat);
+        list<string>::iterator stringIter = listOfString.begin();
+        
+        currentPartial->setText(*stringIter);
+        stringIter++;
+        for (stringIter; stringIter!= listOfString.end(); stringIter++){
+          currentPartial->insertPartialButtonClicked();
+          currentPartial = currentPartial->next;
+          currentPartial->setText(*stringIter);
+        }
+    
+      }
+      
+      else {//multi-pan     and polar  
+        SPAChannelAlignment* currentChannel = SPAChannelAlignments;
+        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
+        
+        
+        
+        //these two for loops construct the cells
+        list<FileValue> channelsList = value->getList();
+        int numChannels = channelsList.size();
+        for (int i = 0; i < numChannels-1; i ++){
+          currentChannel->insertChannelButtonClicked();
+          currentChannel = currentChannel->next;
+        }
+        
+        int numPartials = channelsList.begin()->getList().size();
+        
+        for (int i = 0; i < numPartials-1; i ++){
+          currentPartial->insertPartialButtonClicked();
+          currentPartial = currentPartial->next;
+        }        
+        
+        currentChannel = SPAChannelAlignments;
+  
+        
+        
+        list<FileValue>::iterator channelIter = channelsList.begin();
+        for (channelIter; channelIter!= channelsList.end(); channelIter++){
+          currentPartial = currentChannel->partials;           
+          value =&(*channelIter);
+          list<string> listOfString = fileValueListToStringList(value->getList(),functionReturnFloat);
+          list<string>::iterator stringIter = listOfString.begin();
+          for (stringIter; stringIter!= listOfString.end(); stringIter++){
+            currentPartial->setText(*stringIter);
+            currentPartial = currentPartial->next;
+          }          
+          currentChannel = currentChannel->next;
+        }     
+      } 
+             
+    }
+      
+    //end parsing
   } 
 
   //check if ReadSPAFile
@@ -1551,7 +2127,27 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadSPAFile has 1 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("ReadSPAFileEntry",entry);
+      string functionString = getFunctionString(value,functionReturnInt);
+      functionString = functionString.substr(5, functionString.length()-6);
+      
+      entry->set_text(functionString); 
+                   
+    }
+    
+    //end parsing
   } 
 
   //check if MakePattern
@@ -1564,7 +2160,29 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //makepattern has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is an int
+      attributesRefBuilder->get_widget("MakePatternOriginEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // second argument is a list
+      string listString = getFunctionString(value,functionReturnInt);
+      attributesRefBuilder->get_widget("MakePatternIntervalsEntry",entry);
+      entry->set_text(listString);
+      
+    }
+    
+    //end parsing
   } 
   
   //check if ExpandPattern
@@ -1577,7 +2195,41 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //expandpattern has 5 arguments
+      
+      argumentsIter = arguments.begin();
+      
+      argumentsIter ++; //the first argument is fixed.
+      value =&(*argumentsIter); // second argument is an int
+      attributesRefBuilder->get_widget("ExpandPatternModuloEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));      
+
+      argumentsIter ++; 
+      value =&(*argumentsIter); // 3rd argument is an int
+      attributesRefBuilder->get_widget("ExpandPatternLowEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));  
+      
+      argumentsIter ++; 
+      value =&(*argumentsIter); // 4th argument is an int
+      attributesRefBuilder->get_widget("ExpandPatternHighEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+      
+      argumentsIter ++; 
+      value =&(*argumentsIter); // 5th argument is a function string
+      attributesRefBuilder->get_widget("ExpandPatternPatternEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));       
+
+            
+    }
+    
+    //end parsing
   }   
 
   //check if ReadPATFile
@@ -1590,10 +2242,35 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadPATFile has 2 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("ReadPATFileNameEntry",entry);
+      string functionString = getFunctionString(value,functionReturnInt);
+      functionString = functionString.substr(5, functionString.length()-6);
+      entry->set_text(functionString); 
+
+      argumentsIter ++;
+      value =&(*argumentsIter); // first argument is a string      
+      
+      attributesRefBuilder->get_widget("ReadPATFileOriginEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));        
+                   
+    }
+    
+    //end parsing
   }  
   //check if REV_Simple
-  locationOfKeyword =_originalString.find("REV_Simple");
+  locationOfKeyword =_originalString.find("<\"SIMPLE");
   if (int(locationOfKeyword)==0){
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
@@ -1602,10 +2279,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getList();  //Rev_Simple has 2 elements in the list
+      
+      argumentsIter = arguments.begin();
+      argumentsIter ++;
+      value =&(*argumentsIter); // the only useful argument (2nd) is a float
+      
+      attributesRefBuilder->get_widget("REV_SimpleEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+                   
+    }
+    
+    //end parsing
   }  
   //check if REV_Medium
-  locationOfKeyword =_originalString.find("REV_Medium");
+  locationOfKeyword =_originalString.find("<\"MEDIUM");
   if (int(locationOfKeyword)==0){
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
@@ -1614,11 +2309,45 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getList();  //Rev_medium has 5 elements in the list
+      
+      argumentsIter = arguments.begin();
+      argumentsIter ++;
+      value =&(*argumentsIter); // 2nd argument is an envelope
+      
+      attributesRefBuilder->get_widget("REV_MediumReverbPercentEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      argumentsIter ++;
+      value =&(*argumentsIter); // 3rd argument is an float
+      
+      attributesRefBuilder->get_widget("REV_MediumHilowSpreadEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      argumentsIter ++;
+      value =&(*argumentsIter); // 4th argument is an float
+      
+      attributesRefBuilder->get_widget("REV_MediumGainAllPassEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+      argumentsIter ++;
+      value =&(*argumentsIter); // 5th argument is an float
+      
+      attributesRefBuilder->get_widget("REV_MediumDelayEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));             
+                   
+    }
+    
+    //end parsing
   }  
   
   //check if REV_Advanced
-  locationOfKeyword =_originalString.find("REV_Advanced");
+  locationOfKeyword =_originalString.find("<\"ADVANCED");
   if (int(locationOfKeyword)==0){
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
@@ -1627,7 +2356,47 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getList();  //Rev_advanced has 6 elements in the list
+      
+      argumentsIter = arguments.begin();
+      argumentsIter ++;
+      value =&(*argumentsIter); // 2nd argument is an envelope
+      
+      attributesRefBuilder->get_widget("REV_AdvancedReverbPercentEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      argumentsIter ++;
+      value =&(*argumentsIter); // 3rd argument is an list
+      
+      attributesRefBuilder->get_widget("REV_AdvancedCombGainListEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      argumentsIter ++;
+      value =&(*argumentsIter); // 4th argument is an list
+      
+      attributesRefBuilder->get_widget("REV_LPGainListEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
+      
+      argumentsIter ++;
+      value =&(*argumentsIter); // 5th argument is an float
+      
+      attributesRefBuilder->get_widget("REV_AdvancedGainAllPassEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));    
+      
+      argumentsIter ++;
+      value =&(*argumentsIter); // 6th argument is an float
+      
+      attributesRefBuilder->get_widget("REV_AdvancedDelayEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnFloat));                  
+                   
+    }
+    
+    //end parsing
   }  
   
   //check if ReadREVFile
@@ -1640,7 +2409,25 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadREVFile has 1 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("ReadREVFileEntry",entry);
+      string functionString = getFunctionString(value,functionReturnInt);
+      functionString = functionString.substr(5, functionString.length()-6);
+      entry->set_text(functionString); 
+    }
+    
+    //end parsing
   }  
 
   //check if MakeSieve
@@ -1653,7 +2440,88 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+// start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //makesieve has 6 arguments
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is an int (low bound)
+      
+      attributesRefBuilder->get_widget("MakeSieveLowEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt));
+      
+      argumentsIter++;
+      
+      value =&(*argumentsIter); // second argument is an int (high bound)
+      attributesRefBuilder->get_widget("MakeSieveHighEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+         
+      
+      argumentsIter++;
+      value =&(*argumentsIter); // 3rd argument is a string  (Elements)
+
+      if (value->getString() == "MEANINGFUL"){
+        attributesRefBuilder->get_widget("MakeSieveElementsMeaningfulRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+      else if (value->getString() == "MODS"){
+        attributesRefBuilder->get_widget("MakeSieveElementsModsRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {  //FAKE
+        attributesRefBuilder->get_widget("MakeSieveElementsFakeRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 4th argument is a list without bracket
+      string listString = fileValueListToString( value->getList(),functionReturnInt);
+      
+      listString = listString.substr(1, listString.length()-2);
+      
+      attributesRefBuilder->get_widget("MakeSieveElementsEntry",entry);
+      entry->set_text(listString);       
+      
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 5th argument is a string  (weight)
+
+      if (value->getString() == "MEANINGFUL"){
+        attributesRefBuilder->get_widget("MakeSieveWeightsMeaningfulRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+      else if (value->getString() == "MODS"){
+        attributesRefBuilder->get_widget("MakeSieveWeightsModsRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {  //FAKE
+        attributesRefBuilder->get_widget("MakeSieveWeightsFakeRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      argumentsIter++;
+      value =&(*argumentsIter); // 6th argument is a list without bracket
+      listString = fileValueListToString( value->getList(),functionReturnFloat);
+      
+      listString = listString.substr(1, listString.length()-2);
+      
+      attributesRefBuilder->get_widget("MakeSieveWeightsEntry",entry);
+      entry->set_text(listString);          
+           
+    }
+    
+    //end parsing
   }
   
   //check if ReadSIVFile
@@ -1666,7 +2534,25 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       row = *iter;
     }
     combobox->set_active(iter);
-    //TODO parse string and put strings into proper entries
+    // start parsing 
+    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
+    yy_scan_string(parsingString.c_str());//set parser buffer
+    
+    int parsingResult = yyparse();
+    if (parsingResult ==0){
+      value = file_data["LASSIEFUNCTION"];
+      list<FileValue> arguments = value->getFtnArgs();  //ReadSIVFile has 1 argument
+      
+      argumentsIter = arguments.begin();
+      value =&(*argumentsIter); // first argument is a string
+      
+      attributesRefBuilder->get_widget("ReadSIVFileEntry",entry);
+      string functionString = getFunctionString(value,functionReturnInt);
+      functionString = functionString.substr(5, functionString.length()-6);
+      entry->set_text(functionString); 
+    }
+    
+    //end parsing
   }
   
 
@@ -2039,7 +2925,7 @@ void FunctionGenerator::function_list_combo_changed(){
 
         attributesRefBuilder->get_widget(
           "MakePatternIntervalsEntry", entry);
-        entry->set_text("INT1, INT2, INT3 ...");
+        entry->set_text("<INT1, INT2, INT3 ...>");
         
         makePatternTextChanged();
   
@@ -2161,10 +3047,10 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("ENV");
         attributesRefBuilder->get_widget(
           "REV_AdvancedCombGainListEntry", entry);
-        entry->set_text("0.46, 0.48, 0.50, 0.52, 0.53, 0.55");
+        entry->set_text("<0.46, 0.48, 0.50, 0.52, 0.53, 0.55>");
         attributesRefBuilder->get_widget(
           "REV_LPGainListEntry", entry);
-        entry->set_text("0.05, 0.06, 0.07, 0.05, 0.04, 0.02");        
+        entry->set_text("<0.05, 0.06, 0.07, 0.05, 0.04, 0.02>");        
         
         attributesRefBuilder->get_widget(
           "REV_AdvancedGainAllPassEntry", entry);
@@ -2210,9 +3096,9 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("CURRENT_SEGMENT");
   
       }
-      else if (function == function_staticAVAILABLE_EDUS){
+      else if (function == function_staticAVAILABLE_EDU){
         alignment->remove();
-        textview->get_buffer()->set_text("AVAILABLE_EDUS");
+        textview->get_buffer()->set_text("AVAILABLE_EDU");
   
       }
       else if (function == function_staticCURRENT_LAYER){
@@ -3414,11 +4300,25 @@ std::string FunctionGenerator::MakeEnvelopeSubAlignment::getXValueString(){
 	return entry->get_text();
 }
 
+void FunctionGenerator::MakeEnvelopeSubAlignment::setXValueString(std::string _string){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget("XValueEntry", entry);
+	return entry->set_text(_string);
+}
+
+
 std::string FunctionGenerator::MakeEnvelopeSubAlignment::getYValueString(){
 	Gtk::Entry* entry; 
   attributesRefBuilder->get_widget("YValueEntry", entry);
 	return entry->get_text();
 }
+
+void FunctionGenerator::MakeEnvelopeSubAlignment::setYValueString(std::string _string){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget("YValueEntry", entry);
+	return entry->set_text(_string);
+}
+
 
 envSegmentType FunctionGenerator::MakeEnvelopeSubAlignment::getEnvSegmentType(){
   Gtk::ComboBox* combobox;
@@ -3427,12 +4327,28 @@ envSegmentType FunctionGenerator::MakeEnvelopeSubAlignment::getEnvSegmentType(){
   Gtk::TreeModel::Row row = *iter;
   return row[typeColumns.m_col_type];
 }
+
+void FunctionGenerator::MakeEnvelopeSubAlignment::setEnvSegmentType(int _type){
+  Gtk::ComboBox* combobox;
+  attributesRefBuilder->get_widget("SegTypeComboBox", combobox);
+  combobox->set_active(_type);
+}
+
 envSegmentProperty FunctionGenerator::MakeEnvelopeSubAlignment::getEnvSegmentProperty(){
   Gtk::ComboBox* combobox;
   attributesRefBuilder->get_widget("SegPropertyComboBox", combobox);
   Gtk::TreeModel::iterator iter = combobox->get_active();
   Gtk::TreeModel::Row row = *iter;
   return row[propertyColumns.m_col_property];
+
+}
+
+
+void FunctionGenerator::MakeEnvelopeSubAlignment::setEnvSegmentProperty(int _property){
+  Gtk::ComboBox* combobox;
+  attributesRefBuilder->get_widget("SegPropertyComboBox", combobox);
+  combobox->set_active(_property);
+
 
 }
 
@@ -3720,10 +4636,10 @@ void FunctionGenerator::makePatternTextChanged(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
     "MakePatternOriginEntry", entry);
-  std::string stringbuffer = "MakePattern( " + entry->get_text() +  ", <";
+  std::string stringbuffer = "MakePattern( " + entry->get_text() +  ", ";
   attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
-  stringbuffer =stringbuffer + entry->get_text() + ">)";
+  stringbuffer =stringbuffer + entry->get_text() + ")";
   textview->get_buffer()->set_text(stringbuffer);
   
 }
@@ -4060,15 +4976,15 @@ void FunctionGenerator::REV_AdvancedTextChanged(){
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedReverbPercentEntry", entry);
-  std::string stringbuffer = "<\"ADVANCED\", " + entry->get_text() + ", <";
+  std::string stringbuffer = "<\"ADVANCED\", " + entry->get_text() + ", ";
 
   attributesRefBuilder->get_widget(
     "REV_AdvancedCombGainListEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text() + ">, <";  
+  stringbuffer = stringbuffer + entry->get_text() + ", ";  
 
   attributesRefBuilder->get_widget(
     "REV_LPGainListEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text() + ">, ";  
+  stringbuffer = stringbuffer + entry->get_text() + ", ";  
 
   attributesRefBuilder->get_widget(
     "REV_AdvancedGainAllPassEntry", entry);
@@ -4194,7 +5110,7 @@ void FunctionGenerator::makeSieveTextChanged(){
 
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ">); ";  
+  stringbuffer = stringbuffer + entry->get_text()+ ">) ";  
 
   
   textview->get_buffer()->set_text(stringbuffer);
@@ -4297,6 +5213,15 @@ std::string FunctionGenerator::SPAPartialAlignment::getText(){
   attributesRefBuilder->get_widget( "entry", entry);
   return entry->get_text();    
 }
+
+
+void FunctionGenerator::SPAPartialAlignment::setText(std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget( "entry", entry);
+  entry->set_text(_string);    
+}
+
+
 
 void FunctionGenerator::SPAPartialAlignment::textChanged(){
   parent->SPATextChanged();
@@ -4929,7 +5854,14 @@ std::string FunctionGenerator::getFunctionString(FileValue* _value,FunctionRetur
   std::string stringbuffer;
   char charbuffer[20];
   if (_value->isFunction()){
-    stringbuffer= _value->getFtnString()+ "(";
+    stringbuffer= _value->getFtnString();
+    
+    bool isNotStatic = (stringbuffer.find("CURRENT") == string::npos &&
+        stringbuffer.find("AVAILA") == string::npos);
+        
+    if (isNotStatic){
+      stringbuffer = stringbuffer + "(";
+    }
     list<FileValue> arguments = _value->getFtnArgs();
     list<FileValue>::iterator iter = arguments.begin();
     FileValue* argument;    
@@ -4942,9 +5874,11 @@ std::string FunctionGenerator::getFunctionString(FileValue* _value,FunctionRetur
         stringbuffer = stringbuffer + ",";   
       }
     }
-    
-    stringbuffer += ")";    
-  
+
+    if (isNotStatic){
+      stringbuffer = stringbuffer + ")";
+    } 
+       
   }
   else if (_value->isNumber()){
     if (_returnType == functionReturnInt){    

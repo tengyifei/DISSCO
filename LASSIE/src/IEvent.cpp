@@ -1489,6 +1489,12 @@ EventLayer::EventLayer(IEvent* _thisEvent){
 
 
 EventLayer::~EventLayer(){
+  std::list<EventDiscretePackage*>::iterator childIter = children.begin();
+  for (childIter; childIter!= children.end(); childIter++){
+    (*childIter)->event->removeParent(thisIEvent);
+    delete (*childIter);
+  }
+  children.clear();
 }
 
 void IEvent::setChangedButNotSaved(bool value){
@@ -2961,9 +2967,20 @@ bool EventLayer::removeChild(EventDiscretePackage* _child){
 
 
 
+void EventLayer::deleteLayer(){
+  thisIEvent->deleteLayer (this);
+}
 
-
-
+void IEvent::deleteLayer (EventLayer* _deleteLayer){
+  std::list<EventLayer*>::iterator i = layers.begin();
+  
+  while (*i != _deleteLayer){
+    i++;
+  }
+  layers.erase(i);
+  
+  delete (*i);
+}
 
 
 

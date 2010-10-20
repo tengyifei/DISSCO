@@ -60,8 +60,6 @@ class ProjectViewController;
 class SharedPointers;
 class EventAttributesViewController;
 
-
-
 class BottomEventModifierAlignment: public Gtk::Alignment{ //implement as doubly linked list for convenience
 public:
   BottomEventModifierAlignment* prev;
@@ -351,6 +349,7 @@ private:
     Gtk::HBox weightHBox;
     Gtk::Label weightLabel;
     Gtk::Button weightFunctionButton;
+    Gtk::Button deleteLayerButton;
     Gtk::Entry weightEntry;
 
     
@@ -363,6 +362,7 @@ private:
       guint time
     );
     void byLayerWeightButtonClicked();
+    void deleteLayerButtonClicked();
 
     void renderWeight(
       Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
@@ -446,7 +446,7 @@ private:
   void patternFunButtonClicked();
   void reverbFunButtonClicked();
   void spatializationFunButtonClicked(); 
-  
+  void deleteLayer(LayerBox* _deleteBox);
   
    
   TempoPrefix tempoPrefix;  

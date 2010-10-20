@@ -183,6 +183,7 @@ class EventLayer {
     EventDiscretePackage* addChild(IEvent* _child);
     bool removeChild(EventDiscretePackage* _child);
     void showContents();
+    void deleteLayer();
     int getChildrenWeightSum();
     int size();
     std::string outputChildrenNameString();
@@ -312,7 +313,7 @@ public:
   void setChangedButNotSaved(bool value);
   void addParent(IEvent* _parent);
   bool removeParent(IEvent* _event);
-  
+  void deleteLayer (EventLayer* _deleteLayer);
   
   
   
