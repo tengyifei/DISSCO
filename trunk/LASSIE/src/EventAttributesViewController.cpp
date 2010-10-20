@@ -2437,7 +2437,9 @@ IEvent* EventAttributesViewController::getCurrentEvent(){
 }
 
 
-EventAttributesViewController::LayerBox::~LayerBox(){}
+EventAttributesViewController::LayerBox::~LayerBox(){
+
+}
 
 
 EventAttributesViewController::LayerBox::LayerBox(
@@ -2463,8 +2465,13 @@ EventAttributesViewController::LayerBox::LayerBox(
 
 
   weightFunctionButton.set_label("Insert Function");
+  deleteLayerButton.set_label("Delete This Layer");
   
   weightFunctionButton.signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::LayerBox::byLayerWeightButtonClicked));  
+  
+  deleteLayerButton.signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::LayerBox::deleteLayerButtonClicked));  
+  
+  
   
 
   weightEntry.set_text(_childrenInThisLayer->getByLayer());
@@ -2472,6 +2479,7 @@ EventAttributesViewController::LayerBox::LayerBox(
   weightHBox.pack_start(weightLabel,          Gtk::PACK_SHRINK);
   weightHBox.pack_start(weightEntry,          Gtk::PACK_EXPAND_WIDGET);
   weightHBox.pack_start(weightFunctionButton, Gtk::PACK_SHRINK);
+  weightHBox.pack_start(deleteLayerButton, Gtk::PACK_SHRINK);
   innerVBox. pack_start(weightHBox,           Gtk::PACK_SHRINK);
   
 
@@ -3562,6 +3570,16 @@ void EventAttributesViewController::LayerBox::byLayerWeightButtonClicked(){
   
 }
 
+void EventAttributesViewController::LayerBox::deleteLayerButtonClicked(){
+  layerInEvent->deleteLayer();
+  attributesView->deleteLayer(this);
+}
+
+
+
+
+
+
 
 void EventAttributesViewController::BSLoudnessButtonClicked(){
   Gtk::Entry* entry;
@@ -3898,5 +3916,35 @@ void EventAttributesViewController::LayerBox::deleteObject(){
 
 IEvent* EventAttributesViewController::getCurrentlyShownEvent(){
   return currentlyShownEvent;
+}
+
+
+void EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
+  if (layerBoxesStorage.size() ==1){
+    return;
+  }
+;
+  Gtk::VBox* layerBoxes;
+  attributesRefBuilder->get_widget("layerBoxes", layerBoxes);    
+
+  std::vector<LayerBox*>::iterator layerBoxesIter = layerBoxesStorage.begin();
+  
+  for (layerBoxesIter; layerBoxesIter!=layerBoxesStorage.end(); layerBoxesIter++){
+    layerBoxes->remove(**layerBoxesIter);
+  }  
+
+  layerBoxesIter = layerBoxesStorage.begin();
+  
+  while (_deleteBox !=*layerBoxesIter){
+    layerBoxesIter++;
+  }
+
+  layerBoxesStorage.erase(layerBoxesIter);
+  delete _deleteBox;
+  //restore layerboxes  
+  for (layerBoxesIter = layerBoxesStorage.begin(); layerBoxesIter!=layerBoxesStorage.end(); layerBoxesIter++){
+    layerBoxes->pack_start(**layerBoxesIter,Gtk::PACK_SHRINK);
+  }
+  
 }
 
