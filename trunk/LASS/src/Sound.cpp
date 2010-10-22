@@ -177,8 +177,9 @@ MultiTrack* Sound::render(
 	ExponentialInterpolator detuning_env;
 	setup_detuning_env(&detuning_env);
 	if(getParam(DETUNE_FUNDAMENTAL) > 0.0)
-        	iter.next().setParam(DETUNING_ENV,detuning_env);
-        iter.next();
+          iter.next().setParam(DETUNING_ENV,detuning_env);
+        else //NOTE: this else was not here before (Andrew)
+          iter.next();
         
         Track* tempTrack;
         while(iter.hasNext())
