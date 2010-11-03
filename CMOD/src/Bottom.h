@@ -44,33 +44,39 @@ class Bottom : public Event {
 
   private:
 
-    /* We have to hold onto FileValues here, because these vars need to be 
-       recomputed for EVERY sound/note/visual, since there could be some 
-       randomness built in. */
+    /*FileValues are held here because these variables need to be recomputed for
+    every sound and note since there could be some randomness built in. */
     FileValue* frequencyFV;
     FileValue* loudnessFV;
     FileValue* spatializationFV;
     FileValue* reverberationFV;
     FileValue* modifiersFV;
 
-    /* SOUND EVENT */
+    //Sound event
     FileValue* numPartialsFV;
     FileValue* deviationFV;
     FileValue* spectrumFV;
 
-    /* NOTE EVENT */
+    //Note event
     FileValue* notePitchClassFV;
     FileValue* noteDynamicMarkFV;
     FileValue* noteModifiersFV;
 
-    int currPartialNum; // current partial as we're processing the event
-    map<string, double> mod_used; // maps each mod name to an indicator if it's being used - -1=initVal, 0=notUsed, 1=used
-    int wellTempPitch;  // pitch number for a well-tempered frequency (used to create notes)
+    //Current partial during the processing of the event
+    int currPartialNum;
+    
+    /*Maps each mod name to an indicator if it's being used:
+     -1 = initVal, 0 = notUsed, 1 = used.*/
+    map<string, double> mod_used;
+    
+    //Pitch number for a well-tempered frequency (used to create notes)
+    int wellTempPitch;
 
     vector<Sound*> childSounds;
     vector<Note*> childNotes;
 
-    static int sndcount; // used to count the total number of sounds produced for a piece
+    //A count of the total number of sounds produced for a piece.
+    static int sndcount; 
 
 //----------------------------------------------------------------------------//
 
@@ -159,44 +165,14 @@ class Bottom : public Event {
     void buildVisual();
 
     /**
-     *  Prints Bottom ID, name, start time, duration, and other parameters 
-     *  to the outputFile
+     *  Overloaded to prevent Event from printing.
      **/
-    void print();
+    void print() {}
 
     /**
-     *  Prints Bottom ID, name, start time, duration, and other parameters 
-     *  to the outFile: ".particel"
+     *  Overloaded to prevent Event from printing.
      **/
-    void printParticel();
-
-    /**
-     * Prints the sound ID, start time, duration, type, frequency, 
-     * and sones of a sound.
-     * \param stime start time for the sound
-     * \param dur duration of the sound
-     * \param type type of the sound
-     * \param name filename of the sound
-     * \param numPartials integer containing the number of partials
-     * \param freq float containing the frequency value
-     * \param sones float containing the sones value
-     **/
-    void printSound( float stime, float dur, int type, string name,
-                     int numPartials, float freq, float sones);
-
-    /**
-     * Prints the sound ID, start time, duration, type, frequency, 
-     * and sones of a sound to the outFile: ".particel".
-     * \param stime start time for the sound
-     * \param dur duration of the sound
-     * \param type type of the sound
-     * \param name filename of the sound
-     * \param numPartials integer containing the number of partials
-     * \param freq float containing the frequency value
-     * \param sones float containing the sones value
-     **/
-    void printSoundParticel( float stime, float dur, int type, string name,
-                     int numPartials, float freq, float sones);
+    void printParticel() {}
 
     /**
      * Prints a note
@@ -252,7 +228,7 @@ class Bottom : public Event {
      *   \param baseFrequency the fundamental frequency
      *   \param partNum the number of the partial
      **/
-    void setPartialFreq(Partial& part, float deviation, float baseFrequency, int partNum);
+    float setPartialFreq(Partial& part, float deviation, float baseFrequency, int partNum);
 
     /**
      *  Chooses an envelope number for each partial then a scaling factor and 
