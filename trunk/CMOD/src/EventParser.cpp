@@ -119,9 +119,8 @@ EvKeyEval evkeys[] = {
 
 int parseFile(string filename, EventFactory* ef, Piece *piece) {
   setFile(filename);
-  cout<<"CMOD::EventParser::parseFile: parsing.."<<endl;
   yyparse();
-  cout<<"CMOD::EventParser::parseFile: done parsing."<<endl;
+
   int index = 0;
 
   if (file_data["_global"] == NULL) {
