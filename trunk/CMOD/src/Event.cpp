@@ -33,6 +33,7 @@ extern ofstream * outputFile;
 extern ofstream * outFile;
 
 //----------------------------------------------------------------------------//
+//Should go away
 
 Event::Event(float stime, float dur, int type, string name) {
   myStartTime = stime;
@@ -125,39 +126,35 @@ Event& Event::operator=(const Event& rhs) {
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 Event::~Event() {
-  for (int i = 0; i < childEvents.size(); i++) {
+  delete childEventDef;
+  delete discreteMat;
+  for (int i = 0; i < childEvents.size(); i++)
     delete childEvents[i];
-  }
-  if (childEventDef != NULL) {
-    delete childEventDef;
-  }
-  if (discreteMat != NULL) {
-    delete discreteMat;
-  }
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
-//----------------------------------------------------------------------------//
-
-void Event::initDiscreteInfo(
-      std::string newTempo, std::string newTimeSignature, int newEDUPerBeat,
-      float newMaxChildDur ) {
-      
+void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
+  int newEDUPerBeat, float newMaxChildDur) {
   tempo.setTempo(newTempo);
   tempo.setTimeSignature(newTimeSignature);
-  cout << "EDUPERBEAT: " << newEDUPerBeat << endl;
   tempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
   maxChildDur = newMaxChildDur;
 }
+
 //----------------------------------------------------------------------------//
+//Checked
 
 void Event::initChildNames( FileValue* childNames ) {
+  //Get iterator for the childNames list
   list<FileValue>* layersList = childNames->getListPtr(this);
   list<FileValue>::iterator iter = layersList->begin();
 
+  //Initialize layerVect and typeVect
   while (iter != layersList->end()) {
     list<FileValue>* currLayer = iter->getListPtr(this);
     list<FileValue>::iterator currLayerIter = currLayer->begin();
@@ -167,7 +164,7 @@ void Event::initChildNames( FileValue* childNames ) {
       currLayerVect.push_back( currLayerIter->getString(this) );
       currLayerIter++;
 
-      typeVect.push_back( currLayerVect.back() ); // keep track of all the types
+      typeVect.push_back( currLayerVect.back() );
     }
     layerVect.push_back( currLayerVect );
     iter++;
@@ -263,166 +260,174 @@ void Event::initNumChildren( FileValue* numChildrenFV ) {
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 void Event::initChildDef(FileValue* childrenDef) {
   childEventDef = new FileValue(*childrenDef);
 }
 
 //----------------------------------------------------------------------------//
+//Checked
+
+string Event::getEDUDurationExactness(void) {
+  float actualEDUDuration =
+    (Ratio(getAvailableEDU(), 1) * tempo.getEDUDurationInSeconds()).To<float>();
+  
+  if(actualEDUDuration == myDuration)
+    return "Yes";
+  else if(fabs(actualEDUDuration / myDuration - 1.0f) < 0.01f)
+    return "Almost";
+  else
+    return "No";
+}
+
+//----------------------------------------------------------------------------//
+//Checked
 
 void Event::buildChildEvents() {
-  vector<Event*> temporaryChildEvents;
-
+  
+  //Begin this sub-level in the output and write out its properties.
   Output::beginSubLevel(myName);
   outputProperties();
+
+  //Build the event's children.
+  cout << "Building event: " << myName << endl;
   
-  string isExact;
-  {
-    float actualEDUDuration =
-      (Ratio(getAvailableEDU(), 1) * tempo.getEDUDurationInSeconds()).To<float>();
-    
-    if(actualEDUDuration == myDuration)
-      isExact = "Yes";
-    else if(fabs(actualEDUDuration / myDuration - 1.0f) < 0.01f)
-      isExact = "Almost";
-    else
-      isExact = "No";
+  //Create the event definition iterator.
+  list<FileValue>::iterator iter = childEventDef->getListPtr(this)->begin();
+  string method = iter++->getString(this);
+  
+  //Set the number of possible restarts (for buildDiscrete)
+  restartsRemaining = restartsNormallyAllowed;
+
+  //Make sure that the temporary child events array is clear.
+  if(temporaryChildEvents.size() > 0) {
+    cerr << "Warning: temporaryChildEvents should not contain data." << endl;
+    cerr << "There may be a bug in the code. Please report." << endl;
+    exit(1);
   }
-  Output::addProperty("Available EDU is Exact", isExact);
-  Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
   
-  cout << "Event::buildChildEvents - my name is: " << myName << endl;
-
-  list<FileValue>* child_def_list = childEventDef->getListPtr(this);
-  list<FileValue>::iterator iter = child_def_list->begin();
-
-  string method = iter->getString(this);
-  iter++;
-  
-  // Main loop for creating SubEvents
-  bool buildResult;
-  int restarts_remain = 6;
-
+  //Create the child events.
   for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
-
-    if (method == "CONTINUUM") {
-      buildResult = buildContinuum(iter);
-    } else if (method == "SWEEP") {
-      buildResult = buildSweep(iter);
-    } else if (method == "DISCRETE") {
-      buildResult = buildDiscrete(iter);
-    }
-
-    // check to see if the building succeeded
-    
-    if (buildResult)  {
-      childStartTime += myStartTime;
-      if(myExactStartTime.isDeterminate())
-        exactChildStartTime += myExactStartTime;
-      else {
-        if(tempo.getStartTime() == 0) {
-          tempo.setStartTime(myStartTime);
-        }
-        else if(tempo.getStartTime() != myStartTime)
-        {
-          cout << "Warning: children of parent are using " << 
-            "multiple tempo start times. This should not be possible!" << endl;
-        }
-      }
-
-      if (childType >= typeVect.size()) {
-        cerr << "Error: childType of '" << childType << "' specified" << endl;
-        cerr << "    but " << myName << " only has " << typeVect.size() 
-	     << " children!" << endl;
-        exit(1);
-      }
-      string childName = typeVect[childType];
-      if (childName == "") {
-        cout << "Warning: childname not found in typevector!" << endl;
-        for (int i = 0; i < typeVect.size(); i++) {
-          cout << typeVect[i] << ", ";
-        }
-      }
-
-      temporaryChildEvents.push_back(new Event(childStartTime, childDuration, 
-        childType, childName));		
-
-      // Now split between Event and Bottom (bottom will go to it's own method)
-      //constructChild( childStartTime, childDuration, childType, childName);
-    } else {
-      // build failed!  Restart this loop up to 'restarts_remain' times
-      if (restarts_remain > 0) {
-        restarts_remain--;
-
-        cout << "Event::Build -- failed to build in file " << myName << endl;
-        cout << "  childnum=" << currChildNum << " out of " << numChildren 
-             << " children" << endl;
-        cout << "  method=" << method << "; " << restarts_remain << 
-		" tries remaining." << endl;
-        currChildNum = 0;
-        for (int i = 0; i < childEvents.size(); i++) {
-          delete childEvents[i];
-          delete temporaryChildEvents[i];
-        }
-        childEvents.clear();
-        temporaryChildEvents.clear();
-      } else {
-        string answer;
-        cerr << "Event::Build -- failed to build a child too many times." << endl;
-        cerr << "    Do you want to create fewer children? (y/n)" << endl;
-        cin >> answer;
-        if (answer == "y") {
-          currChildNum = 0;
-          for (int i = 0; i < childEvents.size(); i++) {
-            delete childEvents[i];
-            delete temporaryChildEvents[i];
-          }
-          childEvents.clear();
-          temporaryChildEvents.clear();
-          numChildren--;
-          restarts_remain = 10;
-          cerr << "   ...changed numChildren to " << numChildren << endl;
-        } else {
-          exit(1);
-        }
-      }
+    string childName = typeVect[childType];
+    if (method == "CONTINUUM")
+      checkEvent(buildContinuum(iter, childName));
+    else if (method == "SWEEP")
+      checkEvent(buildSweep(iter, childName));
+    else if (method == "DISCRETE")
+      checkEvent(buildDiscrete(iter, childName));
+    else {
+      cerr << "Unknown build method: " << method << endl << "Aborting." << endl;
+      exit(1);
     }
   }
 
-  int temp_ChildEventsSize = temporaryChildEvents.size();
-  for (int i = 0; i < temp_ChildEventsSize; i++) {
+  //Using the temporary events that were created, construct the actual children.
+  for (int i = 0; i < temporaryChildEvents.size(); i++) {
+    //Increment the static current child number.
     currChildNum = i;
-    Event *t = temporaryChildEvents[i];
-    constructChild(t->myStartTime, t->myDuration, t->myType, t->myName);
-    delete t;
+    
+    //Get current event.
+    Event *e = temporaryChildEvents[currChildNum];
+    
+    //Construct the child (overloaded in Bottom)
+    constructChild(e->myStartTime, e->myDuration, e->myType, e->myName);
+
+    //Delete the temporary child event.
+    delete e;
   }
+  //Clear the temporary event list.
   temporaryChildEvents.clear();
 
-  // all the stime/dur/types have been set for the children, so call the 
-  // children (in-order) to build their own child events.
-  for (int i = 0; i < childEvents.size(); i++) {
+  //For each child that was created, build its children.
+  for (int i = 0; i < childEvents.size(); i++)
     childEvents[i]->buildChildEvents();
-  }
   
+  //End this output sublevel.
   Output::endSubLevel();
 }
 
 //----------------------------------------------------------------------------//
+//Checked
+
+void Event::tryToRestart(void) {
+  //Decrement restarts, or if there are none left, ask for fewer children.
+  if (restartsRemaining > 0) {
+    restartsRemaining--;
+    cout << "Failed to build child " << currChildNum << " of " << numChildren
+      << " in file " << myName << ". There are " << restartsRemaining 
+      << " tries remaining." << endl;
+  } else {
+    cerr << "No tries remain. Try building with one less child? (y/n)" << endl;
+    string answer; cin >> answer; if (answer != "y") exit(1);
+    numChildren--; cerr << "Changed numChildren to " << numChildren << endl;
+    restartsRemaining = restartsAllowedWithFewerChildren;
+  }
+  
+  //Start over by clearing the event arrays and resetting the for-loop index.
+  currChildNum = 0;    
+  for (int i = 0; i < childEvents.size(); i++)
+    delete temporaryChildEvents[i];
+  temporaryChildEvents.clear();
+}
+
+//----------------------------------------------------------------------------//
+//Checked
+
+void Event::checkEvent(bool buildResult) {
+
+  //If the build failed, restart if necessary.
+  if (!buildResult)
+    tryToRestart();
+  
+  //Handle start times according to exactness rules.
+  childStartTime += myStartTime;
+  if(myExactStartTime.isDeterminate())
+    exactChildStartTime += myExactStartTime;
+  else if(tempo.getStartTime() == 0)
+    tempo.setStartTime(myStartTime);
+  else if(tempo.getStartTime() != myStartTime)
+    cout << "Warning: children of parent are using multiple tempo start " << 
+      " times. There may be a bug. Please report." << endl;
+
+  //Make sure the childType indexes correctly.
+  if (childType >= typeVect.size() || typeVect[childType] == "")
+    cerr << "There is a mismatch between childType and typeVect." << endl;
+
+  //Add the event to the temporary event list.
+  temporaryChildEvents.push_back(new Event(childStartTime, childDuration, 
+    childType, typeVect[childType]));
+}
+
+//----------------------------------------------------------------------------//
+//Replace parameters with single event.
 
 void Event::constructChild(float stime, float dur, int type, string name) {
+  //Create the event factory.
   EventFactory* childFactory = factory_lib[name];
-  if (childFactory == NULL) {
-    // Parse the file
+  if (!childFactory)
     childFactory = new EventFactory(name);
-  }
 
-  // construct the child to this non-bottom event
-  childEvents.push_back( childFactory->Build(stime, dur, type) );
+  //Construct the child for the event.
+  childEvents.push_back(childFactory->Build(stime, dur, type));
 }
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildContinuum(list<FileValue>::iterator iter) {
+string Event::unitTypeToUnits(string type) {
+  if(type == "UNITS" || type == "EDU")
+    return "EDU";
+  else if(type == "SECONDS")
+    return "sec.";
+  else if(type == "PERCENTAGE")
+    return "normalized";
+  else
+    return "";  
+}
+
+//----------------------------------------------------------------------------//
+
+bool Event::buildContinuum(list<FileValue>::iterator iter, string childName) {
   if (currChildNum == 0) {
     checkPoint = 0;
   }
@@ -494,29 +499,35 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
     cerr << "      in file " << myName << endl;
     exit(1);
   }
+
+  //Output parameters in the different units available.
+  Output::beginSubLevel("Continuum");
+  Output::addProperty("Name", childName);
+  Output::beginSubLevel("Parameters");
+    Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
+    Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
+    if(unitTypeToUnits(startType) == "EDU")
+      Output::addProperty("Max Duration", maxChildDur, "EDU");
+    else
+      Output::addProperty("Max Duration", maxChildDur, "sec.");
+  Output::endSubLevel();
+  Output::beginSubLevel("Seconds");
+    Output::addProperty("Start", childStartTime, "sec.");
+    Output::addProperty("Duration", childDuration, "sec.");
+  Output::endSubLevel();
+  Output::beginSubLevel("EDU");
+    Output::addProperty("Start", exactChildStartTime, "EDU");
+    Output::addProperty("Duration", exactChildDuration, "EDU");
+  Output::endSubLevel();
+  Output::addProperty("Checkpoint", checkPoint, "of parent");
+  Output::endSubLevel();
   
-  //DEBUG//
-  cout << "***CONTINUUM***" << endl;
-  cout << "startType: " << startType << endl;
-  cout << "rawChildStartTime: " << rawChildStartTime << endl;
-  cout << "childStartTime: " << childStartTime << endl;
-  cout << "exactChildStartTime: " << exactChildStartTime << endl;
-  cout << "checkPoint: " << checkPoint << endl;
-  cout << "myDuration: " << myDuration << endl;
-  cout << "durType: " << durType << endl;
-  cout << "rawChildDuration: " << rawChildDuration << endl;
-  cout << "rawChildDurationInt: " << rawChildDurationInt << endl;
-  cout << "maxChildDur: " << maxChildDur << endl;
-  cout << "maxChildDurInt: " << maxChildDurInt << endl;
-  cout << "childDuration: " << childDuration << endl;
-  cout << "exactChildDuration: " << exactChildDuration << endl;
-  //-----//
   return true; //success!
 }
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildSweep(list<FileValue>::iterator iter) {
+bool Event::buildSweep(list<FileValue>::iterator iter, string childName) {
   // find start time and dur of last child
   if (currChildNum == 0) {
     lastTime = 0;
@@ -618,31 +629,36 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   lastTime = childStartTime + childDuration;
   exactLastTime = exactChildStartTime + exactChildDuration;
 
-  //DEBUG//
-  cout << "***SWEEP***" << endl;
-  cout << "startType: " << startType << endl;
-  cout << "rawChildStartTime: " << rawChildStartTime << endl;
-  cout << "childStartTime: " << childStartTime << endl;
-  cout << "exactChildStartTime: " << exactChildStartTime << endl;
-  cout << "checkPoint: " << checkPoint << endl;
-  cout << "myDuration: " << myDuration << endl;
-  cout << "durType: " << durType << endl;
-  cout << "rawChildDuration: " << rawChildDuration << endl;
-  cout << "rawChildDurationInt: " << rawChildDurationInt << endl;
-  cout << "maxChildDur: " << maxChildDur << endl;
-  cout << "maxChildDurInt: " << maxChildDurInt << endl;
-  cout << "childDuration: " << childDuration << endl;
-  cout << "exactChildDuration: " << exactChildDuration << endl;
-  cout << "lastTime: " << lastTime << endl;
-  cout << "exactLastTime: " << exactLastTime << endl;
-  //-----//
+  //Output parameters in the different units available.
+  Output::beginSubLevel("Sweep");
+  Output::addProperty("Name", childName);
+  Output::beginSubLevel("Parameters");
+    Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
+    Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
+    if(unitTypeToUnits(startType) == "EDU")
+      Output::addProperty("Max Duration", maxChildDur, "EDU");
+    else
+      Output::addProperty("Max Duration", maxChildDur, "sec.");
+  Output::endSubLevel();
+  Output::beginSubLevel("Seconds");
+    Output::addProperty("Start", childStartTime, "sec.");
+    Output::addProperty("Duration", childDuration, "sec.");
+    Output::addProperty("Previous", lastTime, "sec.");
+  Output::endSubLevel();
+  Output::beginSubLevel("EDU");
+    Output::addProperty("Start", exactChildStartTime, "EDU");
+    Output::addProperty("Duration", exactChildDuration, "EDU");
+    Output::addProperty("Previous", exactLastTime, "EDU");
+  Output::endSubLevel();
+  Output::addProperty("Checkpoint", checkPoint, "of parent");
+  Output::endSubLevel();
 
   return true; // success!
 }
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildDiscrete(list<FileValue>::iterator iter) {
+bool Event::buildDiscrete(list<FileValue>::iterator iter, string childName) {
   int sever;
 
   if (currChildNum == 0) {
@@ -734,21 +750,28 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
   // using edu
   checkPoint = (double)childStartTime / myDuration;
   
-  //DEBUG//
-  cout << "***DISCRETE***" << endl;
-  cout << "childStartTime: " << childStartTime << endl;
-  cout << "exactChildStartTime: " << exactChildStartTime << endl;
-  cout << "checkPoint: " << checkPoint << endl;
-  cout << "myDuration: " << myDuration << endl;
-  cout << "maxChildDur: " << maxChildDur << endl;
-  cout << "childDuration: " << childDuration << endl;
-  cout << "exactChildDuration: " << exactChildDuration << endl;
-  //-----//
+  
+  //Output parameters in the different units available.
+  Output::beginSubLevel("Sweep");
+  Output::addProperty("Name", childName);
+  Output::beginSubLevel("Parameters");
+    Output::addProperty("Max Duration", maxChildDur, "EDU");
+  Output::endSubLevel();
+  Output::beginSubLevel("Seconds");
+    Output::addProperty("Start", childStartTime, "sec.");
+    Output::addProperty("Duration", childDuration, "sec.");
+  Output::endSubLevel();
+  Output::beginSubLevel("EDU");
+    Output::addProperty("Start", exactChildStartTime, "EDU");
+    Output::addProperty("Duration", exactChildDuration, "EDU");
+  Output::endSubLevel();
+  Output::endSubLevel();
 
   return true; // success!
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 void Event::outputProperties() {
   Output::addProperty("Type", myType);
@@ -756,15 +779,16 @@ void Event::outputProperties() {
   Output::addProperty("Duration", myDuration, "sec.");
   Output::addProperty("Tempo",
     tempo.getTempoBeatsPerMinute().toPrettyString(), "BPM");
-  
   Output::addProperty("Time Signature", tempo.getTimeSignature());
   Output::addProperty("Divisions",
-    tempo.getEDUPerTimeSignatureBeat().toPrettyString(),
-    "EDU/beat");
+    tempo.getEDUPerTimeSignatureBeat().toPrettyString(), "EDU/beat");
   Output::addProperty("Available EDU", getAvailableEDU());
+  Output::addProperty("Available EDU is Exact", getEDUDurationExactness());
+  Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 list<Note> Event::getNotes() {
   list<Note> result;
@@ -775,72 +799,61 @@ list<Note> Event::getNotes() {
       result.push_back(*iter);
       iter++;
     }
-    //result.insert(result.begin(), append.begin(), append.end());
   }
   return result;
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 int Event::getCurrentLayer() {
   int countInLayer = 0;
-  
   for (int i = 0; i < layerVect.size(); i++) {
     countInLayer += layerVect[i].size();
-    if (childType < countInLayer) {
-/*cout << "                                                    type=" 
-	<< childType << ", layer=" << i << endl;			*/
+    if (childType < countInLayer)
       return i;
-    }
   }
-
-  cerr << "Event::getCurrentLayer error in file " << myName << endl;
-  cerr << "   Unable to get layer number" << endl;
-  exit(1);
+  cerr << "Unable to get layer number in file " << myName << endl; exit(1);
 }
 
 //----------------------------------------------------------------------------//
+//Checked
 
 int Event::getAvailableEDU()
 {
+  //Return exact duration if it is already apparent.
   if(myExactDuration.isDeterminate() && myExactDuration != Ratio(0, 1))
     return myExactDuration.To<int>();
-  else {
-    //Don't have exact duration
-    int myDurationInt = (int)myDuration;
-    if(myDuration == (float)myDurationInt)
-    {
-      //But duration is an integer (might be able to have exact EDUs)
-      Ratio EDUs = tempo.getEDUPerSecond() * Ratio(myDurationInt, 1);
-      if(EDUs.Den() == 1)
-      {
-        //Must quantize...
-        float approximateEDUs = EDUs.To<float>();
-        int quantizedEDUs = (int)approximateEDUs;
-        cout << "Warning: quantizing AVAILABLE_EDU from ";
-        cout << approximateEDUs << " to " << quantizedEDUs << endl;
-        return quantizedEDUs;
-      }
-      else if(EDUs.Den() == 0) //This shouldn't happen.
-        return 0;
-      else //We have exact EDUs
-        return EDUs.To<int>();
-    }
-    else
-    {
-      Ratio EDUs = tempo.getEDUPerSecond();
-      if(EDUs.Den() != 0)
-      {
-        //Must quantize...
-        float approximateEDUs = EDUs.To<float>() * myDuration;
-        int quantizedEDUs = (int)approximateEDUs;
-        cout << "Warning: quantizing AVAILABLE_EDU from ";
-        cout << approximateEDUs << " to " << quantizedEDUs << endl;
-        return quantizedEDUs;
-      }
-      else
-        return 0; //This shouldn't happen.
-    }
+ 
+  //The duration is not exact.
+  int myDurationInt = (int)myDuration;
+  Ratio EDUs;
+  float durationScalar;
+  if(myDuration == (float)myDurationInt)
+  {
+    //Since duration is an integer, it may still be possible to have exact EDUs.
+    EDUs = tempo.getEDUPerSecond() * Ratio(myDurationInt, 1);
+    if(EDUs.Den() == 0)//This shouldn't happen.
+      return 0;
+    else if(EDUs.Den() != 0 && EDUs.Den() != 1) //We have exact EDUs
+      return EDUs.To<int>();
+    else //Implied EDUs.Den() == 1
+      durationScalar = 1;
   }
+  else
+  {
+    EDUs = tempo.getEDUPerSecond();
+    if(EDUs.Den() == 0)
+      return 0; //This shouldn't happen.
+    else //Implied EDUs.Den() != 0
+      durationScalar = myDuration;
+  }
+  
+  //The duration is not exact, so the available EDUs must be quantized.
+  float approximateEDUs = EDUs.To<float>() * myDuration;
+  int quantizedEDUs = (int)approximateEDUs;
+  cout << "Warning: quantizing AVAILABLE_EDU from ";
+  cout << approximateEDUs << " to " << quantizedEDUs << endl;
+  return quantizedEDUs;
 };
 

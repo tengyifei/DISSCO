@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//  event.h
+//  Event.h
 //
 //    This class defines a generic event.  It is used to manage all the 
 //    common things between types of events (top, high, low, bottom, etc.).
@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef EVENT_H
 #define EVENT_H
 
-// CMOD includes
 #include "Libraries.h"
 
 #include "Define.h"
@@ -39,57 +38,101 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Rational.h"
 #include "Tempo.h"
 
-//----------------  Constructors and Destructors  ---------------------------//
-
 class Event {
-
   protected:
-    // information about this event
+  
+    //---------------------------- Information -------------------------------//
+    
+    //Name of the event
+    string myName;
+    
+    //Type of the event
+    int myType;
+    
+    //Start time of the event (in both float seconds and exact beats)
     float myStartTime;
     Ratio myExactStartTime;
+    
+    //Duration of the event (in both float seconds and exact beats)
     float myDuration;
     Ratio myExactDuration;
-    int myType;
-    string myName;
+    
+    //Tempo of the event
+    Tempo tempo;
+    
+    //------------------------------ Children --------------------------------//
+    
+    //File value to the event definitions of children
     FileValue* childEventDef;
 
-    // static information (doesn't change for each child)
-    float maxChildDur;    // maximum allowed duration for a child
+    //Children of the event
+    vector<Event*> childEvents;
     
-    ///The tempo that this event belongs to.
-    Tempo tempo;
- 
-    double checkPoint;
-    vector<Event*> childEvents; // children of this event
-
-  private:
-    // concerning the names of layers
-    vector< vector<string> > layerVect; // < <"T/1">, <"T/1","T/3">, <"T/2"> >
-    vector<string> typeVect;
-
-    // concerning the number of child events to create
-    int numChildren;  // total number of children (all layers)  (numObjs)
-    vector<int> layerNumChildren; // number of children to create for each layer
-    vector<int> layerRemainingChildren; // number of children yet to create (initially == layerNumChildren)
-    vector<float> layerDensity; // density of each layer
-
-    /* NOTE: the remaining vars are temporary --- they change for every child */
-    // private vars used in various calculations
+    //------------------------------ Building --------------------------------//
+    
+    //Maximum allowed duration for a child
+    float maxChildDur;
+    
+    //Percentage of child start time divided by total parent duration
+    double checkPoint;    
+    
+    //Previous start time
     float lastTime;
     Ratio exactLastTime;
+
+  private:
+  
+    //-------------------------- Layers and Types ----------------------------//
+
+    //Names of the layers (i.e. from < <"T/1">, <"T/1","T/3">, <"T/2"> > )
+    vector< vector<string> > layerVect;
+    
+    //Names of the children by type.
+    vector<string> typeVect;
+
+    //Number of children to create (all layers)
+    int numChildren;
+    
+    //Number of children to create for each layer
+    vector<int> layerNumChildren;
+    
+    //Number of children yet to create (initially equal to layerNumChildren)
+    vector<int> layerRemainingChildren;
+    
+    //Density of each layer.
+    vector<float> layerDensity;
+    
+    //--------------------------- Restart Control ----------------------------//
+    
+    /*Putative child events are stored here. The children are not added
+    immediately because the build process can fail and need to be restarted in
+    the case of buildDiscrete.*/
+    vector<Event*> temporaryChildEvents;
+    
+    //Number of restarts remaining.
+    int restartsRemaining;
+    static const int restartsNormallyAllowed = 6;
+    static const int restartsAllowedWithFewerChildren = 10;
+ 
+    //---------------------------- Static Values -----------------------------//
+    
+    //Stores value for the getter to the static function CURRENT_CHILD_NUM
+    int currChildNum;
+    
+    //Stores value for the getter to the static function CURRENT_CHILD_TYPE
+    int childType;
+    
+    //--------------------------- Discrete Matrix ----------------------------//
     
     Matrix* discreteMat;
-
-
-    // DON'T NEED??? -- used in creating children
+       
+    //----------------------------- Deprecated -------------------------------//
+    
+    //These will go away -- they are duplicated by myFoo for the child event.
     float childStartTime;
     float childDuration;
     Ratio exactChildStartTime;
     Ratio exactChildDuration;
-    // need this one --- there's a getter for the static ftn CURRENT_CHILD_NUM
-    int currChildNum; 
-    int childType; // need this one too (static ftn)
-    string childName;
 
   public:
 
@@ -228,6 +271,15 @@ class Event {
   //------------- Private helper functions  ------------//
   private:
     /**
+    *  Method for determining the EDU-wise exactness of the duration. Returns
+    *  "Yes", "No", or "Almost". "Almost" occurs when the EDU duration is
+    *  within one-percent of the actual duration. This occurs when floating-
+    *  point math approximates the result, but does not exactly produce it.
+    *  "Yes" can only occur when the result is exactly divisible. "No" occurs
+    *  for all other case (i.e., when there are 3.2 EDU for the total duration).
+    **/
+    string getEDUDurationExactness(void);
+    /**
     *  Method for assigning float values for stimeSec and duration using
     *  continuos (stochastic) distributions and int value for type - 
     *  actually, a discrete value..
@@ -235,7 +287,7 @@ class Event {
     *   Follows aq slightly different procedure than Sweep and Discrete.  Why?
     *  \param iter FileValues to pass in for new objects
     **/
-    bool buildContinuum(list<FileValue>::iterator iter);
+    bool buildContinuum(list<FileValue>::iterator iter, string childName);
 
     /**
      *  Method for assigning stimeSec and durSec values in sequential order - 
@@ -244,21 +296,26 @@ class Event {
      *  values the other for float values.  Type being a discrete value, the 
      *  integer values method is used for it.
      *  \param iter FileValues to pass in for new objects
-     *
-     *  ** NEEDS WORK **
      **/
-    bool buildSweep(list<FileValue>::iterator iter);
+    bool buildSweep(list<FileValue>::iterator iter, string childName);
 
     /**
     *   Wrapper for assigning values for stimeMatrix, type and durMatrix
     *   using a matrix.  Calls ObjCoordinates, Adjustments, and TimeConvert.
 `   *   \param iter FileValues to pass in for new objects
     **/
-    bool buildDiscrete(list<FileValue>::iterator iter);
-
-//---------------------------------------------------------------------------//
-
+    bool buildDiscrete(list<FileValue>::iterator iter, string childName);
+    
+    /**
+     * Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
+     **/
+    string unitTypeToUnits(string type);
+    
+    //Checks the event to see if it was built successfully.
+    void checkEvent(bool buildResult);
+    
+    //Restarts the build process if necessary (for buildDiscrete).
+    void tryToRestart(void);
 };
-
 #endif
 

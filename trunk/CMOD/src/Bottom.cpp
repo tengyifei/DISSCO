@@ -26,6 +26,7 @@ CMOD (composition module)
 #include "Bottom.h"
 #include "Random.h"
 #include "EventFactory.h"
+#include "Output.h"
 
 //----------------------------------------------------------------------------//
 
@@ -219,20 +220,33 @@ cout << "myname:" << myName << endl;
 
 void Bottom::buildSound(float stime, float dur, int type, string name) {
   Sound* newSound = new Sound();
+  
+  Output::beginSubLevel("Sound");
+  
+  Output::addProperty("Name", name);
+  Output::addProperty("Type", type);
+  Output::addProperty("Start Time", stime, "sec.");
+  Output::addProperty("End Time", stime + dur, "sec.");
+  Output::addProperty("Duration", dur, "sec.");
+  
 
   newSound->setParam(START_TIME, stime);
   newSound->setParam(DURATION, dur);
 
   // frequency
   float baseFrequency = computeBaseFreq();
+  Output::addProperty("Base Frequency", baseFrequency, "Hz");
 
   // loudness
   float loudSones = computeLoudness();
   newSound->setParam(LOUDNESS, loudSones);
+  Output::addProperty("Loudness", loudSones, "sones");
 
   // numpartials
   int numPartials = computeNumPartials( baseFrequency );
+  Output::addProperty("Partials", numPartials);
 
+  Output::beginSubLevel("Deviations");
   // for each numPartial, create partial, and add to sound.
   for (int i = 0; i < numPartials; i++) {
     Partial part;
@@ -241,15 +255,24 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
 
     // deviation
     double deviation = computeDeviation();
-
+    
     // set the frequencies for each partial
-    setPartialFreq( part, deviation, baseFrequency, currPartialNum );
+    float actualFreq = 
+      setPartialFreq( part, deviation, baseFrequency, currPartialNum );
+    
+    // report the deviation and actual frequencies
+    stringstream sd; if(i != 0) sd << "Partial " << i << " Deviation";
+      else sd << "Fundamental Deviation";
+    Output::addProperty(sd.str(), deviation);
+    stringstream ss; if(i != 0) ss << "Partial " << i; else ss << "Fundamental";
+    Output::addProperty(ss.str(), actualFreq, "Hz");
 
     // spectrum for each partial
     setPartialSpectrum( part, currPartialNum);
 
     newSound->add(part);
   }
+  Output::endSubLevel();
 
   // Apply modifiers here
   applyModifiers(newSound, numPartials);
@@ -260,9 +283,13 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
   // Apply Reverberation
   applyReverberation(newSound);
 
-  printSound( stime, dur, type, name, numPartials, baseFrequency, loudSones );
+  
+  Output::endSubLevel();
+  
+  /*printSound( stime, dur, type, name, numPartials, baseFrequency, loudSones );
   printSoundParticel(stime, dur, type, name, numPartials, baseFrequency, 
-   loudSones);
+   loudSones);*/
+  
 
   score.add(*newSound);
   childSounds.push_back(newSound);
@@ -393,7 +420,7 @@ float Bottom::computeDeviation() {
 
 //----------------------------------------------------------------------------//
 
-void Bottom::setPartialFreq(Partial& part, float deviation, float baseFreq, int partNum) {
+float Bottom::setPartialFreq(Partial& part, float deviation, float baseFreq, int partNum) {
 
   // assign frequency to each partial
   float pDev = deviation * (Random::Rand() - 0.5) * 2;
@@ -407,6 +434,7 @@ void Bottom::setPartialFreq(Partial& part, float deviation, float baseFreq, int 
   }
 
   part.setParam(FREQUENCY, pFreq);
+  return pFreq;
 }
 
 //----------------------------------------------------------------------------//
@@ -963,89 +991,6 @@ vector<string> Bottom::applyNoteModifiers() {
   }
 
   return result;
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::print() {
-  // bottom prints no differently than regular events (for now)
-  //Event::print();
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::printParticel() {
-  // bottom prints no differently than regular events (for now)
-  //Event::printParticel();
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::printSound(float stime, float dur, int type, string name, 
-                        int numPartials, float freq, float sones) {
-/*  indentPrint(printLevel + 1);                                                //
-  *outputFile << "<sound>" << endl;                                           //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <name>" << name << "</name>" << endl;                     //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <type>" << type << "</type>" << endl;                     //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <global-sound-count>" << sndcount <<                      //
-    "</global-sound-count>" << endl;                                          //
-
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <start-time-sec>" << stime << "</start-time-sec>" << endl;//
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <duration-sec>" << dur << "</duration-sec>" << endl;      //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <partials>" << numPartials << "</partials>" << endl;      //
-  
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <sones>" << sones << "</sones>" << endl;                  //
-
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "  <frequency>" << freq << "</frequency>" << endl;           //
-
-  indentPrint(printLevel + 1);                                                //
-  *outputFile << "</sound>" << endl;                                          //
-  */
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::printSoundParticel(float stime, float dur, int type, string name,
- 				int numPartials, float freq, float sones) {
-  char borderchar = '#';
-/*
-  borderPrintParticel(printLevel + 1, borderchar);
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "  " << name << "       type: " << type
-              << "        globalSndCount: " << sndcount << endl;
-
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "        stime:  " << setw(7) << (stime*nitsPerZecond)
-              << " nits,  " << setw(8) << stime << " sec" << endl;
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "          dur:  " << setw(7) << (dur*nitsPerZecond)
-              << " nits,  " << setw(8) << dur << " sec" << endl;
-
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "      numPart:  " << setw(3) << numPartials << "      sones:  "
-              << setw(6) << sones << endl;
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "         freq:  " << setw(7) << freq << endl;
-
-  //borderPrintParticel(printLevel + 1, borderchar);*/
 }
 
 //----------------------------------------------------------------------------//
