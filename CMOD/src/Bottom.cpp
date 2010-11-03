@@ -244,9 +244,8 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
 
   // numpartials
   int numPartials = computeNumPartials( baseFrequency );
-  Output::addProperty("Partials", numPartials);
-
-  Output::beginSubLevel("Deviations");
+  Output::beginSubLevel("Partials");
+  Output::addProperty("Deviation", computeDeviation(), "normalized");
   // for each numPartial, create partial, and add to sound.
   for (int i = 0; i < numPartials; i++) {
     Partial part;
@@ -254,16 +253,15 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
     part.setParam(PARTIAL_NUM, i);
 
     // deviation
-    double deviation = computeDeviation();
+    double deviation = 0;
+    if(i != 0)
+      deviation = computeDeviation();
     
     // set the frequencies for each partial
     float actualFreq = 
       setPartialFreq( part, deviation, baseFrequency, currPartialNum );
     
-    // report the deviation and actual frequencies
-    stringstream sd; if(i != 0) sd << "Partial " << i << " Deviation";
-      else sd << "Fundamental Deviation";
-    Output::addProperty(sd.str(), deviation);
+    // report the actual frequencies
     stringstream ss; if(i != 0) ss << "Partial " << i; else ss << "Fundamental";
     Output::addProperty(ss.str(), actualFreq, "Hz");
 
