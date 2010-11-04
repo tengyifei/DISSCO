@@ -136,6 +136,7 @@ This entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">int</property>
                 <property name="invisible_char">•</property>
               </object>
               <packing>
@@ -304,6 +305,7 @@ Ex:1,2,4,8,16,32, etc.</property>
               <object class="GtkEntry" id="attributesStandardTempoValueEntry">
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">float</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
@@ -620,6 +622,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
                         <property name="invisible_char">●</property>
                       </object>
                       <packing>
@@ -651,6 +654,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
                         <property name="invisible_char">●</property>
                       </object>
                       <packing>
@@ -676,6 +680,9 @@ Ex:1,2,4,8,16,32, etc.</property>
         <child>
           <object class="GtkHBox" id="hbox7">
             <property name="visible">True</property>
+            <property name="tooltip_text" translatable="yes">If the Start Type is Percentage, this value should be a float between 0 and 1
+If the Start Type is EDUs, this value should be an int
+If the Start Type is Seconds, this value should be a float</property>
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
@@ -800,6 +807,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">int, insert Function recommended</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
@@ -843,6 +851,9 @@ Ex:1,2,4,8,16,32, etc.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">If the Duration Type is Percentage, this value should be a float between 0 and 1
+If the Duration Type is EDUs, this value should be an int
+If the Duration Type is Seconds, this value should be a float</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
@@ -948,6 +959,7 @@ Ex:1,2,4,8,16,32, etc.</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Add a new Layer of children</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1100,6 +1112,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="envelopeAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -1229,6 +1242,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="SieveAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -1358,6 +1372,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="PatternAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -1487,6 +1502,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="ReverbAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -1616,6 +1632,7 @@ Ex:1,2,4,8,16,32, etc.</property>
                   <object class="GtkEntry" id="SpatializationAttributesBuilderEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>

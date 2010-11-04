@@ -32,6 +32,7 @@
 
 #include "IEvent.h"
 #include "ProjectViewController.h"
+#include "FunctionGenerator.h"
 
 #include "../../CMOD/src/parser/lex.yy.c"
 
@@ -128,6 +129,8 @@ IEvent::~IEvent(){
 
 
 IEvent::SoundExtraInfo::SoundExtraInfo(){
+  spectrumPartials = NULL;
+  numPartials =0;
 }
 
 
@@ -1251,7 +1254,8 @@ void IEvent::saveAsSound(std::string _pathOfProject){
       cout<<"illegal deviation value!"<<endl;
     }
 
-  stringbuffer = "spectrum = < " + extraInfo->getSpectrum()+" >;\n";
+  
+  stringbuffer = "spectrum = << " + extraInfo->getSoundSpectrumEnvelopesString()+"> >;\n";
     yy_scan_string( stringbuffer.c_str());//set parser buffer
     if (yyparse()==0){
       fputs(stringbuffer.c_str(),file);
@@ -1260,7 +1264,7 @@ void IEvent::saveAsSound(std::string _pathOfProject){
       cout<<"illegal spectrum value!"<<endl;
     }
 
-
+  
 
 
 
@@ -1280,15 +1284,57 @@ void IEvent::saveAsSound(std::string _pathOfProject){
   stringbuffer = "LASSIESOUNDdeviation = `" + extraInfo->getDeviation() + "`;\n";
   fputs (stringbuffer.c_str(), file);
 
-  stringbuffer = "LASSIESOUNDspectrum = `" + extraInfo->getSpectrum() + "`;\n";
+  
+  stringbuffer = "LASSIESOUNDspectrum = <"+ extraInfo->getSpectrumMetaData() + ">;\n";
   fputs (stringbuffer.c_str(), file);
-
+  
 
 
 
   fclose(file);
   
 }
+
+
+std::string IEvent::SoundExtraInfo::getSpectrumMetaData(){
+  std::string returnString = "";
+  SpectrumPartial* thisPartial = spectrumPartials;
+  
+  while (thisPartial!= NULL){
+    std::string tempstring = thisPartial->envString;
+    if (tempstring == ""){
+      tempstring = " ";
+    }
+  
+  
+  
+    returnString = returnString +"`"+ tempstring + "`";
+    thisPartial = thisPartial->next;
+    if (thisPartial!= NULL){
+      returnString = returnString + ",";
+    }
+  }
+  
+  return returnString;
+  
+}
+
+
+std::string IEvent::SoundExtraInfo::getSoundSpectrumEnvelopesString(){
+  std::string returnString = "";
+  SpectrumPartial* thisPartial = spectrumPartials;
+  
+  while (thisPartial!= NULL){
+    returnString = returnString + thisPartial->envString;
+    thisPartial = thisPartial->next;
+    if (thisPartial!= NULL){
+      returnString = returnString + ",";
+    }
+  }
+  
+  return returnString;
+}
+
 
 
 void IEvent::saveAsEnv(std::string _pathOfProject){
@@ -1587,24 +1633,76 @@ std::string IEvent::SoundExtraInfo::getDeviation(){
 }
 
 
-void IEvent::SoundExtraInfo::setNumPartials(std::string _numPartial){
-  numPartials = _numPartial;
-}
+//void IEvent::SoundExtraInfo::setNumPartials(std::string _numPartial){
+  //numPartials = _numPartial;
+//}
 
 
 std::string IEvent::SoundExtraInfo::getNumPartials(){
-  return numPartials;
+  char charbuffer[20];            
+  sprintf( charbuffer, "%d", numPartials);
+  return string(charbuffer);
 }
 
 
-void IEvent::SoundExtraInfo::setSpectrum(std::string _spectrum){
-  spectrum = _spectrum;
+//void IEvent::SoundExtraInfo::setSpectrum(std::string _spectrum){
+  //spectrum = _spectrum;
+//}
+
+
+SpectrumPartial* IEvent::SoundExtraInfo::getSpectrumPartials(){
+  return spectrumPartials;
+}
+
+SpectrumPartial* IEvent::SoundExtraInfo::addPartial(){
+
+  SpectrumPartial* newPartial = new SpectrumPartial();
+  SpectrumPartial* end = spectrumPartials;
+  numPartials ++;
+  
+  if (spectrumPartials ==NULL){
+    spectrumPartials = newPartial;
+    return newPartial;
+  }
+  else {
+    while (end->next!= NULL){
+      end = end->next;
+    }
+    end->next = newPartial;
+    newPartial->prev = end;
+    return newPartial;
+  }
 }
 
 
-std::string IEvent::SoundExtraInfo::getSpectrum(){
-  return spectrum;
+
+void IEvent::SoundExtraInfo::deletePartial(SpectrumPartial* _partial){
+  if (spectrumPartials == _partial){
+    spectrumPartials = spectrumPartials ->next;
+    if (spectrumPartials != NULL){
+      spectrumPartials->prev = NULL;
+    }
+  }
+
+  else {
+    SpectrumPartial* search = spectrumPartials;
+    while (search != _partial){
+      search = search->next;
+    }
+    
+    search->prev->next = search->next;
+    if (search->next != NULL){
+      search->next->prev = search->prev;
+    }
+  }
+  numPartials --;
+  delete _partial;
+
+
 }
+
+
+
 
 int EventLayer::getChildrenWeightSum(){
   int sum = 0;
@@ -2235,43 +2333,157 @@ void IEvent::IEventParseFile(std::string _fileName){
   
   FileValue* value;
   value = file_data["LASSIEmaxChildDur"];
-  maxChildDur = (value == NULL)? " ": value->getString();
+  if (value!= NULL){
+    maxChildDur = value->getString();
+  }
+  else {
+    value = file_data["maxChildDur"];
+    maxChildDur = (value == NULL)?" ": 
+      FunctionGenerator::getFunctionString(value, functionReturnFloat);
+  }
+  
   
   value = file_data["LASSIEEDUPerBeat"];
-  unitsPerSecond = (value == NULL)? " ": value->getString(); //is the old EDUPerBeat. 
+  if (value!= NULL){
+    unitsPerSecond = value->getString();
+  }
+  else {
+    value = file_data["EDUPerBeat"];
+    unitsPerSecond =(value == NULL)? " ":  
+      FunctionGenerator::getFunctionString(value, functionReturnFloat);
+  }
+  
+  
   
   value = file_data["LASSIEtimeSignatureEntry1"];
-  timeSignatureEntry1 = (value == NULL)? " ": value->getString();
+  if (value!= NULL){
+    timeSignatureEntry1 = value->getString();
+    value = file_data["LASSIEtimeSignatureEntry2"];
+    timeSignatureEntry2 =(value == NULL)? " ": value ->getString();  
+  }
+  else {
+    value = file_data["timeSignature"];
+    if (value ==NULL){
+      timeSignatureEntry1 =="";
+      timeSignatureEntry2 =="";      
+    }
+    else {
+      size_t whereIsSlash;
+      size_t whereIsEqualSign;
+      std::string stringbuffer = value->getString();
+      whereIsSlash = stringbuffer.find("/");
+
+      if (whereIsSlash==string::npos){
+        timeSignatureEntry1 =="";
+        timeSignatureEntry2 =="";
+      }
+      else {
+        timeSignatureEntry1 = value->getString().substr(0, int(whereIsSlash));
+        timeSignatureEntry2 = value->getString().substr(int(whereIsSlash)+1, value->getString().length()-1);  
+      }
+    }
   
-  value = file_data["LASSIEtimeSignatureEntry2"];
-  timeSignatureEntry2 =(value == NULL)? " ": value ->getString();
+  }
+  
+
   
   value = file_data["LASSIEtempoMethodFlag"];
-  tempoMethodFlag =(value == NULL)? 0: value ->getInt(); //0 = as note value, 1 = as fraction
+  if (value != NULL){
+    tempoMethodFlag = value ->getInt(); //0 = as note value, 1 = as fraction
+    value = file_data["LASSIEtempoPrefix"];
+    tempoPrefix =(TempoPrefix) ((value == NULL)? 0: value ->getInt());    
+    value = file_data["LASSIEtempoNoteValue"];
+    tempoNoteValue =(TempoNoteValue)((value == NULL)? 0: value ->getInt());  
+    value =file_data["LASSIEtempoFractionEntry1"]; 
+    tempoFractionEntry1 = (value == NULL)? " ": value->getString();
+    value = file_data["LASSIEtempoFractionEntry2"];
+    tempoFractionEntry2 = (value == NULL)? " ": value->getString();
+    value = file_data["LASSIEtempoValueEntry"];
+    tempoValueEntry = (value == NULL)? " ": value->getString();
+  }
+  else{
+    size_t whereIsSlash;
+    size_t whereIsEqualSign;
+    value = file_data["tempo"];
+    if (value == NULL){
+        timeSignatureEntry1 =="";
+        timeSignatureEntry2 =="";    
+    
+    
+    
+    }
+    
+    else {
+      std::string stringbuffer = value->getString();
+      whereIsSlash = stringbuffer.find("/");
+      whereIsEqualSign = stringbuffer.find("=");
+
+      if (whereIsSlash==string::npos){ // it's in "note value 
+        tempoMethodFlag = 0;
+        std::string firstHalf = value->getString().substr(0, int (whereIsSlash));
+       
+        if(firstHalf.find("thirt") != string::npos)
+            tempoNoteValue = tempoNoteValueThirtySecond;
+        else if(firstHalf.find("six") != string::npos)
+          tempoNoteValue = tempoNoteValueSixteenth;
+        else if(firstHalf.find("eig") != string::npos)
+          tempoNoteValue = tempoNoteValueEighth;
+        else if(firstHalf.find("quar") != string::npos)
+          tempoNoteValue = tempoNoteValueQuarter;
+        else if(firstHalf.find("hal") != string::npos)
+          tempoNoteValue = tempoNoteValueHalf;
+        else if(firstHalf.find("who") != string::npos)
+          tempoNoteValue = tempoNoteValueWhole;
+          
+        if(firstHalf.find("doub") != string::npos)
+              tempoPrefix = tempoPrefixDoubleDotted;
+        else if(firstHalf.find("dot") != string::npos)
+              tempoPrefix = tempoPrefixDotted;
+        else if(firstHalf.find("tripl") != string::npos)
+              tempoPrefix = tempoPrefixTriple;
+        else if(firstHalf.find("quin") != string::npos)
+          tempoPrefix = tempoPrefixQuintuple;
+        else if(firstHalf.find("sext") != string::npos)
+          tempoPrefix = tempoPrefixSextuple;
+        else if(firstHalf.find("sept") != string::npos)
+          tempoPrefix = tempoPrefixSeptuple;
+        else tempoPrefix = tempoPrefixNone;  
+    
+        timeSignatureEntry1 =="";
+        timeSignatureEntry2 =="";
+      }
+      else { //it's in fractional
+        tempoMethodFlag = 1;
+        tempoFractionEntry1 = value->getString().substr(0, int(whereIsSlash));
+        tempoFractionEntry2 = value->getString().substr(int(whereIsSlash)+1, int(whereIsEqualSign) -1 - int(whereIsSlash)  );
+      }
+      tempoValueEntry =value->getString().substr(int(whereIsEqualSign)+1, value->getString().length()-1); 
+    }
   
-  value = file_data["LASSIEtempoPrefix"];
-  tempoPrefix =(TempoPrefix) ((value == NULL)? 0: value ->getInt());
+  }
   
-  value = file_data["LASSIEtempoNoteValue"];
-  tempoNoteValue =(TempoNoteValue)((value == NULL)? 0: value ->getInt());
+
   
-  value =file_data["LASSIEtempoFractionEntry1"]; 
-  tempoFractionEntry1 = (value == NULL)? " ": value->getString();
-  
-  value = file_data["LASSIEtempoFractionEntry2"];
-  tempoFractionEntry2 = (value == NULL)? " ": value->getString();
-  
-  value = file_data["LASSIEtempoValueEntry"];
-  tempoValueEntry = (value == NULL)? " ": value->getString();
 
   value = file_data["LASSIEnumChildrenEntry1"];
-  numChildrenEntry1 = (value == NULL)? " ": value->getString();
+  if (value != NULL){
+    numChildrenEntry1 = value->getString();  
+    value = file_data["LASSIEnumChildrenEntry2"];
+    numChildrenEntry2 = (value == NULL)? " ": value->getString();
   
-  value = file_data["LASSIEnumChildrenEntry2"];
-  numChildrenEntry2 = (value == NULL)? " ": value->getString();
+    value = file_data["LASSIEnumChildrenEntry3"];
+    numChildrenEntry3 = (value == NULL)? " ": value->getString();
+   // 0 = fixed, 1 = density, 2 = By layer
   
-  value = file_data["LASSIEnumChildrenEntry3"];
-  numChildrenEntry3 = (value == NULL)? " ": value->getString();
+    value = file_data["LASSIEflagNumChildren"];
+    flagNumChildren = (value == NULL)? 0: value->getInt();  
+  
+  }
+  else {
+    //TODO implement this!
+  }
+
+  
 
   value = file_data["LASSIEchildEventDefEntry1"];
   childEventDefEntry1 = (value == NULL)? " ": value->getString();
@@ -2288,10 +2500,7 @@ void IEvent::IEventParseFile(std::string _fileName){
   value = file_data["LASSIEchildEventDefDurationSieve"];
   childEventDefDurationSieve = (value == NULL)? " ": value->getString();
 
-   // 0 = fixed, 1 = density, 2 = By layer
-  
-  value = file_data["LASSIEflagNumChildren"];
-  flagNumChildren = (value == NULL)? 0: value->getInt();
+
 
    // 0 = continuum, 1 = sweep, 2 = discrete
   
@@ -2332,99 +2541,7 @@ void IEvent::IEventParseFile(std::string _fileName){
   
   /*
 
-  Piece tempPiece;
-  EventFactory* event = new EventFactory (  );//_filePath +"/"+ _fileName);
-  parseFile (_filePath+"/"+_fileName, event, &tempPiece );
-  FileValue* value;
-  float floatNumber;  
-  int intNumber;  
-  char charBuffer[100];  
-  
-  
-  if (eventType <=4){
-    //maxChildDur
-    value = event->getMaxChildDur();
-    floatNumber = value->getFloat();
-    sprintf( charBuffer, "%.5f", floatNumber);
-    maxChildDur = string(charBuffer);
-
-  
-    //timeSignature
-
-    size_t whereIsSlash;
-    size_t whereIsEqualSign;
-  
-    value = event->getTimeSignature();
-    stringbuffer = value->getString();
-    whereIsSlash = stringbuffer.find("/");
-
-    if (whereIsSlash==string::npos){
-      timeSignatureEntry1 =="";
-      timeSignatureEntry2 =="";
-    }
-    else {
-      timeSignatureEntry1 = value->getString().substr(0, int(whereIsSlash));
-      timeSignatureEntry2 = value->getString().substr(int(whereIsSlash)+1, value->getString().length()-1);
-  }
-
-    //EDUPerBeat
-    value = event->getEDUPerBeat();
-    intNumber = value->getInt();
-
-    sprintf(charBuffer, "%d", intNumber);
-    unitsPerSecond = string(charBuffer);
  
-    //tempo
-    value = event->getTempo();
-    stringbuffer = value->getString();
-    whereIsSlash = stringbuffer.find("/");
-    whereIsEqualSign = stringbuffer.find("=");
-
-    if (whereIsSlash==string::npos){ // it's in "note value 
-      tempoMethodFlag = 0;
-      std::string firstHalf = value->getString().substr(0, int (whereIsSlash));
-     
-      if(firstHalf.find("thirt") != string::npos)
-          tempoNoteValue = tempoNoteValueThirtySecond;
-      else if(firstHalf.find("six") != string::npos)
-        tempoNoteValue = tempoNoteValueSixteenth;
-      else if(firstHalf.find("eig") != string::npos)
-        tempoNoteValue = tempoNoteValueEighth;
-      else if(firstHalf.find("quar") != string::npos)
-        tempoNoteValue = tempoNoteValueQuarter;
-      else if(firstHalf.find("hal") != string::npos)
-        tempoNoteValue = tempoNoteValueHalf;
-      else if(firstHalf.find("who") != string::npos)
-        tempoNoteValue = tempoNoteValueWhole;
-        
-      if(firstHalf.find("doub") != string::npos)
-            tempoPrefix = tempoPrefixDoubleDotted;
-      else if(firstHalf.find("dot") != string::npos)
-            tempoPrefix = tempoPrefixDotted;
-      else if(firstHalf.find("tripl") != string::npos)
-            tempoPrefix = tempoPrefixTriple;
-      else if(firstHalf.find("quin") != string::npos)
-        tempoPrefix = tempoPrefixQuintuple;
-      else if(firstHalf.find("sext") != string::npos)
-        tempoPrefix = tempoPrefixSextuple;
-      else if(firstHalf.find("sept") != string::npos)
-        tempoPrefix = tempoPrefixSeptuple;
-      else tempoPrefix = tempoPrefixNone;  
-  
-      timeSignatureEntry1 =="";
-      timeSignatureEntry2 =="";
-    }
-    else { //it's in fractional
-      tempoMethodFlag = 1;
-      tempoFractionEntry1 = value->getString().substr(0, int(whereIsSlash));
-      tempoFractionEntry2 = value->getString().substr(int(whereIsSlash)+1, int(whereIsEqualSign) -2 );
-    }
-void setChangedButNotSaved(bool value);
-    tempoValueEntry =value->getString().substr(int(whereIsEqualSign)+1, value->getString().length()-1); 
-  
-  
-    
-  
     //numChildren
     value = event->getNumChildren();
   
@@ -2872,13 +2989,28 @@ void IEvent::parseNonEvent(){
   if (eventType == eventSound){
     extraInfo = (EventExtraInfo*) new SoundExtraInfo();
     value = file_data["LASSIESOUNDnumPartials"];
-    extraInfo-> setNumPartials((value == NULL)? " ": value->getString());
+    //extraInfo-> setNumPartials((value == NULL)? " ": value->getString());
 
     value = file_data["LASSIESOUNDdeviation"];
     extraInfo-> setDeviation((value == NULL)? " ": value->getString());
     
     value = file_data["LASSIESOUNDspectrum"];
-    extraInfo->setSpectrum((value == NULL)? " ": value->getString());
+    
+    std::list<FileValue> fileValueList = value->getList();
+    std::list<FileValue>::iterator fileValueListIter = fileValueList.begin();
+    SpectrumPartial* thisPartial = NULL;
+    if (fileValueList.size()!= 0){
+      thisPartial = extraInfo->addPartial();
+      thisPartial->envString = fileValueListIter->getString();    
+      fileValueListIter++;
+    }
+    
+    for (fileValueListIter; fileValueListIter!= fileValueList.end(); fileValueListIter++){
+      thisPartial = extraInfo->addPartial();
+      thisPartial->envString = fileValueListIter->getString();       
+    }
+    
+    //extraInfo->setSpectrum((value == NULL)? " ": value->getString());
   }
   else if (eventType == eventEnv){
     extraInfo = (EventExtraInfo*) new EnvelopeExtraInfo();

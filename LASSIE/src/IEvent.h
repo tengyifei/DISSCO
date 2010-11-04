@@ -206,6 +206,24 @@ class EventLayer {
 };
 
 
+
+class SpectrumPartial {
+public:
+  SpectrumPartial* prev;
+  SpectrumPartial* next;
+  std::string envString;
+
+  SpectrumPartial(){
+    prev = NULL;
+    next = NULL;
+    envString = " ";
+
+  }
+  ~SpectrumPartial(){};
+  
+};
+
+
 /*! \brief The class representing each event file in CMOD
  *
  ******************************************************************************/
@@ -450,9 +468,12 @@ public:
 
     virtual void setDeviation(std::string _deviation){}
     virtual std::string getDeviation(){return "";}
+    virtual std::string getSpectrumMetaData(){ return "";};
+    virtual std::string getSoundSpectrumEnvelopesString(){return "";}
 
-    virtual void  setSpectrum(std::string _spectrum){}
-    virtual std::string getSpectrum(){return "";}
+    virtual SpectrumPartial* getSpectrumPartials(){return NULL;}
+    virtual SpectrumPartial* addPartial(){}
+    virtual void deletePartial(SpectrumPartial* _partial){}    
     
     
     // Bottom extra info
@@ -599,20 +620,23 @@ public:
     SoundExtraInfo();
     ~SoundExtraInfo();
     
-    void        setNumPartials(std::string _numPartials);
+    //void        setNumPartials(std::string _numPartials);
     std::string getNumPartials();
     
     void        setDeviation(std::string _deviation);
     std::string getDeviation();
+    std::string getSoundSpectrumEnvelopesString();
     
-    void        setSpectrum(std::string _spectrum);
-    std::string getSpectrum();
-
+    //void        setSpectrum(std::string _spectrum);
+    std::string getSpectrumMetaData();
+    SpectrumPartial* getSpectrumPartials();
+    SpectrumPartial* addPartial();
+    void deletePartial(SpectrumPartial* _partial);
   private:
     
-    std::string numPartials;
+    int numPartials;
     std::string deviation;
-    std::string spectrum;
+    SpectrumPartial* spectrumPartials;
   };
 
   EventLayer* addLayer();

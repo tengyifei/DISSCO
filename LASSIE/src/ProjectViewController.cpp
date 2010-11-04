@@ -130,9 +130,10 @@ ProjectViewController::ProjectViewController(
 
   //no title when initializing the window
   pathAndName = _pathAndName;
-
+  datPathAndName = pathAndName+ "/"+projectTitle+".dat";
+  libPathAndName = pathAndName+ "/"+projectTitle+".lib";
   sharedPointers = new SharedPointers();
-    sharedPointers->mainWindow = _mainWindow;
+  sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
 
   //create three new children widgets
@@ -179,7 +180,7 @@ ProjectViewController::~ProjectViewController(){
   //delete projectTreeView;
   delete eventAttributesView;
   delete paletteView;
-  std::cout << "ProjectViewController destructor is called." << std::endl;
+  //std::cout << "ProjectViewController destructor is called." << std::endl;
 }
 
 
@@ -195,7 +196,7 @@ void ProjectViewController::cleanUpContents(){
   sharedPointers->projectView = this;
   
   
-  std::cout << "ProjectViewController cleanUpContents is called." << std::endl;
+  //std::cout << "ProjectViewController cleanUpContents is called." << std::endl;
   //projectTreeView = new ProjectTreeViewController(sharedPointers);
   eventAttributesView = new EventAttributesViewController(sharedPointers);
   paletteView = new PaletteViewController(sharedPointers);
@@ -307,7 +308,7 @@ void ProjectViewController::insertObject(){
   //make sure a folder is selected in palette.
   if (selectedPaletteFolder == "None"){
     //prompt error (no row selected in the palette)
-    std::cout << "the row selected is not a folder" << std::endl;
+    //std::cout << "the row selected is not a folder" << std::endl;
     Gtk::MessageDialog dialog(
       "Please select a folder to store the new object.",
       false /* use_markup */,
@@ -415,7 +416,7 @@ void ProjectViewController::insertObject(){
 
   while (result ==1 && nameEntry->get_text() == ""){
     //prompt error (lack of name) and then loop
-    std::cout<<"User didn't name the object!"<<std::endl;
+    //std::cout<<"User didn't name the object!"<<std::endl;
     Gtk::MessageDialog dialog(
       "Please Name the Object",
       false /* use_markup */,
@@ -653,8 +654,9 @@ void ProjectViewController::insertObject(){
 
       if (selectedPaletteFolder =="Bottom"){ // do first letter check here if bottom (must be "snv"
         std::cout<<"Should do Bottom Name checking"<<std::endl;
+        //TODO: bottom name checking
         if (name[0]!='s' && name[0]!='n' && name[0]!= 'v'){
-          std::cout<<"complain!"<<std::endl;
+          std::cout<<"The name of a Bottom event should start with s, n or v"<<std::endl;
         }
       }
       std::vector<IEvent*>::iterator it;
@@ -848,16 +850,9 @@ void ProjectViewController::setProperties (){
 
 
 void ProjectViewController::refreshProjectDotDat(){
-  std::string fileName =  FileOperations::stringToFileName(pathAndName);
-  std::string datFileName = pathAndName
-                            + "/"
-                            + fileName
-                            + ".dat";
 
-
-  std::cout<<datFileName<<std::endl;
   std::string stringbuffer;
-  FILE* dat  = fopen(datFileName.c_str(), "w");
+  FILE* dat  = fopen(datPathAndName.c_str(), "w");
 
   stringbuffer = "title = \"" + projectTitle + "\";\n";
   fputs(stringbuffer.c_str(),dat);
@@ -955,11 +950,10 @@ EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
 void ProjectViewController::saveEnvelopeLibrary(){
   std::string stringbuffer;
   char charbuffer[60];
-  std::string fileName = pathAndName + "/"+projectTitle+".lib";
-  FILE* file  = fopen(fileName.c_str(), "w");
+  FILE* file  = fopen(libPathAndName.c_str(), "w");
   
   if (envelopeLibraryEntries ==NULL){ //safety check
-    std::cout<<"There is no premade envelopes in the library"<<std::endl;
+    //std::cout<<"There is no premade envelopes in the library"<<std::endl;
     fclose(file);
     return;
   }
@@ -968,7 +962,7 @@ void ProjectViewController::saveEnvelopeLibrary(){
   int count = envLib->count();
   
   //put the first number in to the file
-  std::cout<<count<<std::endl;
+  //std::cout<<count<<std::endl;
   sprintf(charbuffer,"%d\n",count);
   fputs(charbuffer,file);
   
@@ -1053,23 +1047,27 @@ void ProjectViewController::saveEnvelopeLibrary(){
 ProjectViewController::ProjectViewController(
 	std::string _pathAndName, 
 	MainWindow* _mainWindow,
- 	int _calledByOpenProject){
-  std::string datFile =  _pathAndName + "/"+
-                        FileOperations::stringToFileName(_pathAndName)
-                        + ".dat"; 	
+ 	std::string _datPathAndName, 
+ 	std::string _libPathAndName){
+  //std::string datFile =  _pathAndName + "/"+
+    //                    FileOperations::stringToFileName(_pathAndName)
+      //                  + ".dat"; 	
  	
 
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
   //listTargets.push_back( Gtk::TargetEntry("text/plain") );
   //////////////////////////////////////////////////////////////////////////
+  datPathAndName = _datPathAndName;
+  libPathAndName = _libPathAndName;
+  pathAndName = _pathAndName;
+  
 
-
-
+  //cout<<"the dat is this one: "<<datPathAndName<<endl;
   //using CMOD class to parse file and read necessary data for the .dat file
   Piece* piece = new Piece();
-  parseFile(datFile, NULL, piece);
-  
+  parseFile(_datPathAndName, NULL, piece);
+  //cout<<"LASSIE done parsing"<<endl;
 
 	char buffer [256];
   std::string topName = piece->fileList;
@@ -1091,7 +1089,6 @@ ProjectViewController::ProjectViewController(
   delete piece; //since the data is no longer needed. delete piece to prevent
   //memory leak
 	
-
 
 
   //add the Paned widget "leftTwoPlusAttributes" as a child
@@ -1120,7 +1117,7 @@ ProjectViewController::ProjectViewController(
   //paletteAndTree.pack2(*projectTreeView,true,false);
 
   showContents();
-    
+ 
   //make a new shared pointers object so all object can find each other easily
   //without calling layers of layers of parents/ children
 
@@ -1133,16 +1130,14 @@ ProjectViewController::ProjectViewController(
   
   //Reconstruct Envelope Entries
   envelopeLibraryEntries = NULL;
-  std::string libFile =  _pathAndName + "/"+
-                        FileOperations::stringToFileName(_pathAndName)
-                        + ".lib";
+  //std::string libFile =  _pathAndName + "/"+
+    //                    FileOperations::stringToFileName(_pathAndName)
+      //                  + ".lib";
+  std::string libFile = _libPathAndName;
 
   char libCharArray [libFile.length()+ 2];                      
   strcpy(libCharArray, libFile.c_str()); 
-  std::cout<<libCharArray<<std::endl;                         
-
-
-
+  //std::cout<<libCharArray<<std::endl;                         
 
   //read envelope out one by one and convert to LASSIE::envelopelibraryentry
   EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
@@ -1165,7 +1160,7 @@ ProjectViewController::ProjectViewController(
     } 
     previousEntry = thisEntry;
   }
-  
+
 
   //construct all the IEvents by reading all the files under the dir
 
@@ -1185,9 +1180,7 @@ ProjectViewController::ProjectViewController(
 
   */
 
-  
 
-  
   
   //  constructs all events
   std::string directory;

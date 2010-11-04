@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="mainVBox">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <child>
       <object class="GtkHSeparator" id="hseparator1">
         <property name="visible">True</property>
@@ -34,7 +33,7 @@
           <object class="GtkEntry" id="XValueEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -62,6 +61,7 @@
     <child>
       <object class="GtkHBox" id="hbox2">
         <property name="visible">True</property>
+        <property name="tooltip_text" translatable="yes">float</property>
         <child>
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
@@ -77,7 +77,7 @@
           <object class="GtkEntry" id="YValueEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>

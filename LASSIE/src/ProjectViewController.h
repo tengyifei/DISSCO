@@ -61,7 +61,7 @@ public:
   ProjectViewController(MainWindow* _mainWindow);
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow);
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
-  	int _calledByOpenProject);// the last arg is meaningless. openProject calls this function, add it just to make the signature different. 
+  std::string _datPathAndName, std::string _libPathAndName); 
   	
   
   /*! \brief The destructor of ProjectViewController
@@ -151,6 +151,8 @@ private:
   std::string sampleRate;
   std::string sampleSize;
   std::string numOfThreads;
+  std::string datPathAndName;
+  std::string libPathAndName;
   bool synthesis;
   bool emptyProject;
   

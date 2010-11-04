@@ -41,6 +41,8 @@ class MainWindow;
 namespace FileOperations {
   ProjectViewController* newProject(MainWindow* _mainWindow);
   ProjectViewController* openProject(MainWindow* _mainWindow);
+  std::string pickDatFile(MainWindow* _mainWindow);
+  std::string pickLibFile(MainWindow* _mainWindow,std::string _defaultPath);  
   void close(MainWindow* _mainWindow);
   void createDirectories(std::string _pathAndName);
   std::string stringToFileName(std::string _filePath);

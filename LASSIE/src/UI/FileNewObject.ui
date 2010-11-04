@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -7,16 +7,13 @@
     <property name="title" translatable="yes">Create New Object</property>
     <property name="modal">True</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -34,7 +31,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkRadioButton" id="buttonTop">
                         <property name="label" translatable="yes">Top Event</property>
@@ -140,7 +136,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkRadioButton" id="buttonEnv">
                         <property name="label" translatable="yes">Envelope</property>
@@ -270,7 +265,10 @@
                   <object class="GtkEntry" id="newObjectNameEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="has_focus">True</property>
+                    <property name="is_focus">True</property>
+                    <property name="invisible_char">●</property>
+                    <property name="activates_default">True</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -297,6 +295,8 @@
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>

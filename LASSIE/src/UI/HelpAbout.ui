@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -12,7 +12,6 @@
     <property name="default_width">720</property>
     <property name="default_height">540</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -81,12 +80,12 @@
     </action-widgets>
   </object>
   <object class="GtkTextBuffer" id="textbuffer1">
-    <property name="text" translatable="yes">Version: 0.1
-Copyright &#xA9; Ming-ching Chiu
+    <property name="text" translatable="yes">Version: 1.0 alpha
+Copyright© 2010 Ming-ching Chiu
 
-LASSIE is created by Ming-ching Chiu under the supervision of Professor Sever Tipei, Author of CMOD. LASSIE is a graphical interface of CMOD.
+LASSIE is the graphical interface of CMOD, a digital music composition program. 
 
-Website of LASSIE:        none
-Website of CMOD:  where?</property>
+
+Website: http://sourceforge.net/projects/dissco/</property>
   </object>
 </interface>

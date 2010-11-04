@@ -34,6 +34,8 @@
 
 //GTKmm library
 #include <gtkmm.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 //LASS library
 #include "../../LASS/src/LASS.h"
@@ -76,6 +78,25 @@
 
 //other
 #include <sstream>
+
+
+
+typedef enum {
+  functionReturnInt,
+  functionReturnFloat,
+  functionReturnSPA,
+  functionReturnREV,
+  functionReturnENV,
+  functionReturnSIV,
+  functionReturnPAT,
+  functionReturnIntList,
+  functionReturnFloatList,
+  functionReturnEnvelopeList, 
+  functionReturnString, //used to parse FileValue
+  functionReturnList,
+  functionReturnMakeListFun
+  
+} FunctionReturnType;
 
 
 #endif //LASSIE_H

@@ -54,7 +54,7 @@ EnvelopeLibraryEntry::~EnvelopeLibraryEntry(){//delete segments!}
 
 
 void EnvelopeLibraryEntry::print(){
-  std::cout<<"number:"<< number<<std::endl;
+  //std::cout<<"number:"<< number<<std::endl;
   
   
   if (next != NULL) next->print();

@@ -3117,8 +3117,8 @@ void FunctionGenerator::function_list_combo_changed(){
     
 
   } //end if iter
-  else
-    std::cout << "invalid iter" << std::endl;
+  //else
+    //std::cout << "invalid iter" << std::endl;
   show_all_children();
 }
 
