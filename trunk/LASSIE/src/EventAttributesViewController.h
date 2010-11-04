@@ -112,16 +112,36 @@ protected:
   Glib::RefPtr<Gtk::ListStore> typeTreeModel;
   
 
-  
-  
-
-
-  
-
 };
 
 
 
+class SoundPartialHBox:public Gtk::HBox{
+public:
+  EventAttributesViewController* attributes;
+  SoundPartialHBox* prev;
+  SoundPartialHBox* next;
+  
+  SoundPartialHBox(SpectrumPartial* _partial,EventAttributesViewController* _attribute);
+  
+  Gtk::Button removeButton;
+  
+  Gtk::Button functionButton;
+  Gtk::Entry envelopeEntry;
+  Gtk::Label label;
+  SpectrumPartial* partial;
+  
+  
+  ~SoundPartialHBox();
+  
+  void clear();
+  void removeButtonClicked();
+  void functionButtonClicked();
+  void setPartialNumber(int _number);
+  void saveString();
+
+
+};
 
 
 
@@ -197,7 +217,7 @@ public:
   bool checkAttackSieve();
   bool checkDurationSieve();
   void removeModifierAlignment(BottomEventModifierAlignment* _alignTempoPrefixment);
-  
+  void removeSoundPartial(SoundPartialHBox* _remove);
   
   //signal handlers for insertfunction buttons
   void maxChildDurFunButtonClicked();
@@ -217,6 +237,7 @@ public:
   void BSFunFreqButton1Clicked();
   void BSFunFreqButton2Clicked();
   void BSContinuumButtonClicked();
+  void addPartialButtonClicked();
   IEvent* getCurrentlyShownEvent();
   
   
@@ -263,6 +284,7 @@ private:
   ProjectViewController* projectView;
   Gtk::VBox* layerBox;
   Gtk::Button* button;
+  SoundPartialHBox* soundPartialHboxes;
   
   class LayerBox: public Gtk::VBox{
   public:
@@ -446,7 +468,7 @@ private:
   void patternFunButtonClicked();
   void reverbFunButtonClicked();
   void spatializationFunButtonClicked(); 
-  void deleteLayer(LayerBox* _deleteBox);
+  bool deleteLayer(LayerBox* _deleteBox);
   
    
   TempoPrefix tempoPrefix;  

@@ -643,11 +643,11 @@ void MainWindow::menuProjectSynthesize(){
     //FILE* newBufferFile = fopen (dat.c_str(), "r");
     yyin = fopen (dat.c_str(), "r");
     
-    cout<<"LASSIE::MainWindow::synthesize: Synthesizing, filename is: "<< dat<<endl;
+    //cout<<"LASSIE::MainWindow::synthesize: Synthesizing, filename is: "<< dat<<endl;
     // create a new buffer for parser
     YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
     //YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( newBufferFile,YY_BUF_SIZE);
-    cout<<"LASSIE::MainWindow::synthesize: create new yy_buffer_state done"<<endl;
+    //cout<<"LASSIE::MainWindow::synthesize: create new yy_buffer_state done"<<endl;
     
     yy_switch_to_buffer (newParserBuffer);
     
@@ -661,13 +661,26 @@ void MainWindow::menuProjectSynthesize(){
     if(soundFilename == "")
       cout << "A new soundfile name could not be reserved." << endl;
       //TODO: Make message box to warn user. (But this error should probably not happen!)
-    else
-      PieceHelper::createPiece(projectPath, projectName, randomSeedEntry->get_text(), soundFilename);
+    else {
+      
+      //if (fork() == 0){
+      //cout<<"this is the child. execute cmod"<<endl;
+      
+      string command = "./cmod " + projectPath + "&"; 
+        system(command.c_str()) ;
+      //}
+      //else {
+        //cout<<"This is the parent"<<endl;
+    	  yy_delete_buffer(newParserBuffer);      
+      //}
+      
+      
+      //PieceHelper::createPiece(projectPath, projectName, randomSeedEntry->get_text(), soundFilename);
 	
-	  yy_delete_buffer(newParserBuffer);
+	  //yy_delete_buffer(newParserBuffer);
 	  
 	  //fclose(newBufferFile);
-	  
+	  }
 	  
 	}
 	

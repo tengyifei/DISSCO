@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -120,7 +120,8 @@
           <object class="GtkEntry" id="BottomSubAttributesLoudnessEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="tooltip_text" translatable="yes">in sone, integer from 0 - 256</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -163,7 +164,8 @@
           <object class="GtkEntry" id="BottomSubAttributesSpatializationEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="tooltip_text" translatable="yes">use Insert Function to fill this field</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -206,7 +208,8 @@
           <object class="GtkEntry" id="BottomSubAttributesReverbEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="tooltip_text" translatable="yes">use Insert Function to fill this field</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -276,6 +279,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
+        <property name="tooltip_text" translatable="yes">add a modifier</property>
       </object>
       <packing>
         <property name="position">9</property>
@@ -310,7 +314,7 @@
       <object class="GtkEntry" id="BottomSubAttributesWellTemperedEntry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
+        <property name="invisible_char">●</property>
       </object>
       <packing>
         <property name="position">1</property>
@@ -350,7 +354,7 @@
           <object class="GtkEntry" id="BottomSubAttributesFunFreqEntry1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -393,7 +397,7 @@
           <object class="GtkEntry" id="BottomSubAttributesFunFreqEntry2">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -468,7 +472,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="tooltip_text" translatable="yes">Float</property>
-        <property name="invisible_char">&#x25CF;</property>
+        <property name="invisible_char">●</property>
       </object>
       <packing>
         <property name="position">3</property>

@@ -36,23 +36,6 @@
 #include "LASSIE.h"
 #include "EnvelopeLibraryEntry.h"
 
-typedef enum {
-  functionReturnInt,
-  functionReturnFloat,
-  functionReturnSPA,
-  functionReturnREV,
-  functionReturnENV,
-  functionReturnSIV,
-  functionReturnPAT,
-  functionReturnIntList,
-  functionReturnFloatList,
-  functionReturnEnvelopeList, 
-  functionReturnString, //used to parse FileValue
-  functionReturnList,
-  functionReturnMakeListFun
-  
-} FunctionReturnType;
-
 
 typedef enum {
   functionRandom,
@@ -124,10 +107,10 @@ public:
   FunctionGenerator(FunctionReturnType _returnType,std::string _originalString);
   ~FunctionGenerator();
   std::string getResultString();
-  std::string getFunctionString(FileValue* _value,FunctionReturnType _returnType);
-  list<std::string> fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType);
-  std::string stringListToString(list<std::string> _list);
-  std::string fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType);
+  std::string static getFunctionString(FileValue* _value,FunctionReturnType _returnType);
+  list<std::string> static fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType);
+  std::string static stringListToString(list<std::string> _list);
+  std::string static fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType);
   
   
   

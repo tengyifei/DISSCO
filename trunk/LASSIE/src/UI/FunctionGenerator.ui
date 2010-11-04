@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -99,7 +99,7 @@
           <object class="GtkEntry" id="RandomLowBoundEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -143,7 +143,7 @@
           <object class="GtkEntry" id="RandomHighBoundEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -190,7 +190,7 @@
           <object class="GtkEntry" id="RandomIntLowBoundEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -234,7 +234,7 @@
           <object class="GtkEntry" id="RandomIntHighBoundEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -281,7 +281,7 @@
           <object class="GtkEntry" id="RandomizerBaseEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -325,7 +325,7 @@
           <object class="GtkEntry" id="RandomizerDeviationEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -427,7 +427,7 @@
           <object class="GtkEntry" id="DecayBaseEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -471,7 +471,7 @@
           <object class="GtkEntry" id="DecayRateEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -515,7 +515,7 @@
           <object class="GtkEntry" id="DecayIndexEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -562,7 +562,7 @@
           <object class="GtkEntry" id="InverseEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -612,7 +612,7 @@
           <object class="GtkEntry" id="LNEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -647,6 +647,7 @@
     <child>
       <object class="GtkHBox" id="hbox14">
         <property name="visible">True</property>
+        <property name="tooltip_text" translatable="yes">a list</property>
         <child>
           <object class="GtkLabel" id="label14">
             <property name="visible">True</property>
@@ -663,7 +664,7 @@
           <object class="GtkEntry" id="SelectListEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -707,7 +708,7 @@
           <object class="GtkEntry" id="SelectIndexEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -804,7 +805,7 @@
           <object class="GtkEntry" id="StochosOffsetEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -835,6 +836,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
+        <property name="tooltip_text" translatable="yes">add a node</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -895,7 +897,7 @@
           <object class="GtkEntry" id="ValuePickAbsRangeEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -939,7 +941,7 @@
           <object class="GtkEntry" id="ValuePickLowEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -983,7 +985,7 @@
           <object class="GtkEntry" id="ValuePickHighEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1027,7 +1029,7 @@
           <object class="GtkEntry" id="ValuePickDistEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1131,7 +1133,7 @@
     <child>
       <object class="GtkHBox" id="hbox23">
         <property name="visible">True</property>
-        <property name="tooltip_text" translatable="yes">Ints</property>
+        <property name="tooltip_text" translatable="yes">Int</property>
         <child>
           <object class="GtkLabel" id="label24">
             <property name="visible">True</property>
@@ -1147,7 +1149,7 @@
           <object class="GtkEntry" id="ValuePickElementsEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="padding">10</property>
@@ -1238,6 +1240,7 @@
     <child>
       <object class="GtkHBox" id="hbox25">
         <property name="visible">True</property>
+        <property name="tooltip_text" translatable="yes">int</property>
         <child>
           <object class="GtkLabel" id="label25">
             <property name="visible">True</property>
@@ -1253,7 +1256,7 @@
           <object class="GtkEntry" id="ValuePickWeightsEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="padding">10</property>
@@ -1322,6 +1325,7 @@
     <child>
       <object class="GtkHBox" id="hbox27">
         <property name="visible">True</property>
+        <property name="tooltip_text" translatable="yes">a Sieve</property>
         <child>
           <object class="GtkLabel" id="label27">
             <property name="visible">True</property>
@@ -1337,7 +1341,7 @@
           <object class="GtkEntry" id="ChooseLEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1388,7 +1392,7 @@
           <object class="GtkEntry" id="GetPatternEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1438,7 +1442,7 @@
           <object class="GtkEntry" id="MakeListFunctionEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1482,7 +1486,7 @@
           <object class="GtkEntry" id="MakeListSizeEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1529,7 +1533,7 @@
           <object class="GtkEntry" id="EnvLibEnvelopeEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1573,7 +1577,7 @@
           <object class="GtkEntry" id="EnvLibScalingFactorEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1620,7 +1624,7 @@
           <object class="GtkEntry" id="ReadENVFileEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1660,7 +1664,7 @@
           <object class="GtkEntry" id="MakeEnvelopeScalingFactorEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1704,7 +1708,7 @@
           <object class="GtkEntry" id="MakeEnvelopeXValueEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1748,7 +1752,7 @@
           <object class="GtkEntry" id="MakeEnvelopeYValueEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1826,7 +1830,7 @@
           <object class="GtkEntry" id="MakePatternOriginEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1870,7 +1874,7 @@
           <object class="GtkEntry" id="MakePatternIntervalsEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1917,7 +1921,7 @@
           <object class="GtkEntry" id="ExpandPatternModuloEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1961,7 +1965,7 @@
           <object class="GtkEntry" id="ExpandPatternLowEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2005,7 +2009,7 @@
           <object class="GtkEntry" id="ExpandPatternHighEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2049,7 +2053,7 @@
           <object class="GtkEntry" id="ExpandPatternPatternEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2117,7 +2121,7 @@
           <object class="GtkEntry" id="ReadPATFileNameEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2151,7 +2155,7 @@
           <object class="GtkEntry" id="ReadPATFileOriginEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2198,7 +2202,7 @@
           <object class="GtkEntry" id="ReadREVFileEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2238,7 +2242,7 @@
           <object class="GtkEntry" id="REV_SimpleEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2288,7 +2292,7 @@
           <object class="GtkEntry" id="REV_MediumReverbPercentEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2332,7 +2336,7 @@
           <object class="GtkEntry" id="REV_MediumHilowSpreadEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2376,7 +2380,7 @@
           <object class="GtkEntry" id="REV_MediumGainAllPassEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2420,7 +2424,7 @@
           <object class="GtkEntry" id="REV_MediumDelayEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2488,7 +2492,7 @@
           <object class="GtkEntry" id="REV_AdvancedReverbPercentEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2533,7 +2537,7 @@ It must contain exactly 6 numbers around 0.5</property>
           <object class="GtkEntry" id="REV_AdvancedCombGainListEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2578,7 +2582,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="REV_LPGainListEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2622,7 +2626,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="REV_AdvancedGainAllPassEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2666,7 +2670,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="REV_AdvancedDelayEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2731,7 +2735,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="ReadSIVFileEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2771,7 +2775,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="MakeSieveLowEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2815,7 +2819,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="MakeSieveHighEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -2853,7 +2857,6 @@ It must contain exactly 6 very small numbers </property>
     <child>
       <object class="GtkHBox" id="hbox61">
         <property name="visible">True</property>
-        <property name="tooltip_text" translatable="yes">Ints</property>
         <child>
           <object class="GtkLabel" id="label60">
             <property name="visible">True</property>
@@ -2935,7 +2938,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="MakeSieveElementsEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="padding">10</property>
@@ -3043,7 +3046,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="MakeSieveWeightsEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="padding">10</property>
@@ -3087,7 +3090,7 @@ It must contain exactly 6 very small numbers </property>
           <object class="GtkEntry" id="ReadSPAFileEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
           <packing>
             <property name="position">1</property>

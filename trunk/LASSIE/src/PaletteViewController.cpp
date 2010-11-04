@@ -347,7 +347,7 @@ void PaletteViewController::deleteKeyPressed(){
     if (row){
       deleteObject();
     }
-  std::cout<<"palette delet key pressed"<<std::endl;
+  //std::cout<<"palette delet key pressed"<<std::endl;
   }
 }
 

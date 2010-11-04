@@ -279,7 +279,7 @@ void EnvelopeLibraryWindow::objectActivated(
   if(iter){
     Gtk::TreeModel::Row row = *iter;
     selectedRow = *iter;
-    std::cout<<"some object is activated in EnvelopeLibraryWindow::objectActivated()"<<std::endl;
+    //std::cout<<"some object is activated in EnvelopeLibraryWindow::objectActivated()"<<std::endl;
     //projectView->showAttributes(row[columns.columnEntry]);
   }
 }
@@ -379,10 +379,10 @@ void PaletteViewController::on_button_drag_data_get(
 //originally want to show the attributes whenever the cursor move, but it's dangerous so skipped. leave the function body for future usage.
 void EnvelopeLibraryWindow::on_cursor_changed(){
 //TODO
-  std::cout<<"cursor changed!! show graph of envelope #";
+  //std::cout<<"cursor changed!! show graph of envelope #";
   Gtk::TreeModel::Children::iterator iter = envelopeLibrary.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
-  std::cout<<row[columns.columnObjectNumber]<<std::endl;
+  //std::cout<<row[columns.columnObjectNumber]<<std::endl;
 
   activeEnvelope = row[columns.columnEntry];
   drawingArea->showGraph(row[columns.columnEntry]);

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -13,7 +13,6 @@
         <child>
           <object class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox6">
                 <property name="visible">True</property>
@@ -31,7 +30,7 @@
                   <object class="GtkEntry" id="SoundAttributesNameEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -60,7 +59,7 @@
                   <object class="GtkEntry" id="SoundAttributesTypeEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -89,7 +88,8 @@
                   <object class="GtkEntry" id="SoundAttributesNumPartialEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="editable">False</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -118,7 +118,7 @@
                   <object class="GtkEntry" id="SoundAttributesDeviationEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -144,10 +144,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="SoundAttributesSpectrumEntry">
+                  <object class="GtkButton" id="SoundAttributesAddPartialButton">
+                    <property name="label" translatable="yes">Add Partial</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="receives_default">True</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -157,6 +158,23 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="SpectrumVBox">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>

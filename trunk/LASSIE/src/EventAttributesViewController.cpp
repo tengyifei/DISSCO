@@ -40,6 +40,7 @@
 
 EventAttributesViewController::EventAttributesViewController(
   SharedPointers* _sharedPointers){
+  soundPartialHboxes =NULL;
     sharedPointers = _sharedPointers;
   projectView = sharedPointers->projectView;
   currentlyShownEvent = NULL;
@@ -420,7 +421,14 @@ EventAttributesViewController::EventAttributesViewController(
   //Pattern
   attributesRefBuilder->get_widget(
     "PatternAttributesFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &   EventAttributesViewController::patternFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(*this, &   EventAttributesViewController::patternFunButtonClicked)); 
+  
+  //Sound
+  attributesRefBuilderSound->get_widget(
+    "SoundAttributesAddPartialButton", button);
+    
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::addPartialButtonClicked));
+    
    
    
   show_all_children();
@@ -507,6 +515,10 @@ void EventAttributesViewController::saveCurrentShownEventData(){
   // check if the current event is NULL or not
   if (currentlyShownEvent == NULL){
     return;
+  }
+  if (soundPartialHboxes != NULL){
+    soundPartialHboxes->saveString();
+    currentlyShownEvent->setChangedButNotSaved(true);
   }
 
   Gtk::Entry* entry; // use to point to a text entry
@@ -791,12 +803,8 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
     } // descrete
     
-    if(currentlyShownEvent->getEventType() ==eventBottom){
-      std::cout << "should do extra work to save bottom information";
-      std::cout << std::endl;
-    }
-    
-    
+
+       
     if (currentlyShownEvent->getEventType()==eventBottom){ //save BottomExtraInfo
       attributesRefBuilder->get_widget(
         "BottomSubAttributesWellTemperedButton", radioButton); 
@@ -870,17 +878,17 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
     Gtk::Entry* entry;
 
-    attributesRefBuilderSound->get_widget(
-      "SoundAttributesNumPartialEntry", entry);
-    extraInfo->setNumPartials(entry->get_text());
+    //attributesRefBuilderSound->get_widget(
+      //"SoundAttributesNumPartialEntry", entry);
+    //extraInfo->setNumPartials(entry->get_text());
     
     attributesRefBuilderSound->get_widget(
       "SoundAttributesDeviationEntry", entry);
     extraInfo->setDeviation(entry->get_text());
     
-    attributesRefBuilderSound->get_widget(
-      "SoundAttributesSpectrumEntry", entry);
-    extraInfo->setSpectrum(entry->get_text());
+    //attributesRefBuilderSound->get_widget(
+      //"SoundAttributesSpectrumEntry", entry);
+    //extraInfo->setSpectrum(entry->get_text());
   }
   else if (currentlyShownEvent->getEventType() ==eventEnv){
     IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
@@ -987,6 +995,12 @@ void EventAttributesViewController::showCurrentEventData(){
   }
   
   
+  //clear soundPartialHboxes ;
+  if (soundPartialHboxes!= NULL){
+    soundPartialHboxes->clear();
+    soundPartialHboxes = NULL;
+
+  }
   //scrolledWindow.remove(); //remove the child from the main scrolled window
   Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
   temp->remove();
@@ -1850,11 +1864,11 @@ void EventAttributesViewController::showCurrentEventData(){
 void EventAttributesViewController::switchToSoundAttributes(){
   Gtk::Frame* frame;
   IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
-  
+
   attributesRefBuilderSound->get_widget("SoundAttributesStandard", frame);
   scrolledWindow.add(*frame);
   Gtk::Entry* entry;
-  
+
   
   attributesRefBuilderSound->get_widget("SoundAttributesNameEntry", entry);
   entry->set_text( currentlyShownEvent->getEventName());
@@ -1868,13 +1882,51 @@ void EventAttributesViewController::switchToSoundAttributes(){
     "SoundAttributesNumPartialEntry", entry);
   
   entry->set_text(extraInfo->getNumPartials());
-  
-  
+
   attributesRefBuilderSound->get_widget("SoundAttributesDeviationEntry", entry);
   entry->set_text(extraInfo->getDeviation());
-  
+  /*
   attributesRefBuilderSound->get_widget("SoundAttributesSpectrumEntry", entry);
   entry->set_text(extraInfo->getSpectrum());
+  
+  */
+  
+
+  SpectrumPartial* partials = extraInfo->getSpectrumPartials();
+  
+  SoundPartialHBox* currentBox = NULL;
+  Gtk::VBox* vbox;
+  attributesRefBuilderSound->get_widget(
+        "SpectrumVBox", vbox);
+
+  if (partials!= NULL){
+    soundPartialHboxes = new SoundPartialHBox(partials, this);
+    partials = partials->next;
+    currentBox = soundPartialHboxes;
+    vbox->pack_start( *currentBox, Gtk::PACK_SHRINK);
+    
+  }
+
+  while (partials != NULL){
+    currentBox->next = new SoundPartialHBox(partials, this);
+    currentBox->next->prev = currentBox;
+    currentBox = currentBox->next;
+    partials = partials->next;
+    vbox->pack_start( *currentBox, Gtk::PACK_SHRINK);    
+  }  
+  
+
+  if (soundPartialHboxes != NULL){
+    soundPartialHboxes->setPartialNumber(1);
+  }
+
+  attributesRefBuilderSound->get_widget(
+        "SoundAttributesNumPartialEntry", entry);
+  entry->set_text (extraInfo->getNumPartials());  
+
+  show_all_children();
+  
+
 }
 
 
@@ -2448,6 +2500,11 @@ EventAttributesViewController::LayerBox::LayerBox(
   EventLayer* _childrenInThisLayer,
   bool _flagShowDiscreteColumns){
 
+  weightHBox.set_tooltip_text("the weight of this layer");
+  deleteLayerButton.set_tooltip_text("delete this layer");
+  innerVBox.set_tooltip_text("Drag an event here from the Objects List");
+
+
   layerInEvent = _childrenInThisLayer;
   attributesView = _attributesView;
   projectView = _projectView;
@@ -2729,9 +2786,9 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
   if (   currentlyShownEvent == NULL
       || currentlyShownEvent->getEventType() >= 5){
     //if not a legal event, return;
-    std::cout << "EventAttributesViewController returned ";
-    std::cout << "because currently shown object is not an event.";
-    std::cout << std::endl;
+    //std::cout << "EventAttributesViewController returned ";
+    //std::cout << "because currently shown object is not an event.";
+    //std::cout << std::endl;
     return;
   }
   
@@ -3241,8 +3298,8 @@ void BottomEventModifierAlignment::on_applyHow_combo_changed(){
       //std::cout << " ID=" << id << ", name=" << name << std::endl;
     }
   }
-  else
-    std::cout << "invalid iter" << std::endl;
+  //else
+    //std::cout << "invalid iter" << std::endl;
 }
 
 
@@ -3289,8 +3346,8 @@ void BottomEventModifierAlignment::on_type_combo_changed(){
     
 
   } //end if iter
-  else
-    std::cout << "invalid iter" << std::endl;
+  //else
+    //std::cout << "invalid iter" << std::endl;
 }
 
 
@@ -3571,8 +3628,9 @@ void EventAttributesViewController::LayerBox::byLayerWeightButtonClicked(){
 }
 
 void EventAttributesViewController::LayerBox::deleteLayerButtonClicked(){
-  layerInEvent->deleteLayer();
-  attributesView->deleteLayer(this);
+  if (attributesView->deleteLayer(this)){
+    layerInEvent->deleteLayer();
+  }
 }
 
 
@@ -3919,11 +3977,11 @@ IEvent* EventAttributesViewController::getCurrentlyShownEvent(){
 }
 
 
-void EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
+bool EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
+
   if (layerBoxesStorage.size() ==1){
-    return;
+    return false;
   }
-;
   Gtk::VBox* layerBoxes;
   attributesRefBuilder->get_widget("layerBoxes", layerBoxes);    
 
@@ -3945,6 +4003,161 @@ void EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
   for (layerBoxesIter = layerBoxesStorage.begin(); layerBoxesIter!=layerBoxesStorage.end(); layerBoxesIter++){
     layerBoxes->pack_start(**layerBoxesIter,Gtk::PACK_SHRINK);
   }
+  return true;
+}
+
+
+
+void EventAttributesViewController::addPartialButtonClicked(){
+    currentlyShownEvent->setChangedButNotSaved(true);
+
+
+  SoundPartialHBox* newBox = new SoundPartialHBox(currentlyShownEvent->getEventExtraInfo()->addPartial(), this);
+  SoundPartialHBox* end = soundPartialHboxes;
+  
+  if (soundPartialHboxes ==NULL){
+    soundPartialHboxes = newBox;
+  }
+  else {
+    while (end->next!= NULL){
+      end = end->next;
+    }
+    end->next = newBox;
+    newBox->prev = end;
+  }  
+  
+  Gtk::VBox* vbox;
+  attributesRefBuilderSound->get_widget(
+        "SpectrumVBox", vbox);
+  vbox->pack_start( *newBox, Gtk::PACK_SHRINK);
+  
+  soundPartialHboxes->setPartialNumber(1);
+
+  Gtk::Entry* entry;
+  attributesRefBuilderSound->get_widget(
+        "SoundAttributesNumPartialEntry", entry);
+  entry->set_text ( currentlyShownEvent->getEventExtraInfo()->getNumPartials());  
+  show_all_children();
+
+}
+
+
+
+
+SoundPartialHBox::SoundPartialHBox(SpectrumPartial* _partial,EventAttributesViewController* _attributes){
+  attributes = _attributes;
+  prev = NULL;
+  next = NULL;
+  removeButton.set_label("Remove Partial");  
+  
+
+  functionButton.set_label("Insert Function");
+  partial = _partial;
+  
+  envelopeEntry.set_text(partial->envString);
+  
+  pack_start(label, Gtk::PACK_SHRINK);
+  pack_start (envelopeEntry, Gtk::PACK_EXPAND_WIDGET);
+  pack_start (functionButton, Gtk::PACK_SHRINK);
+  pack_start (removeButton, Gtk::PACK_SHRINK);
+  
+  
+  removeButton.signal_clicked().connect(sigc::mem_fun(*this, &SoundPartialHBox::removeButtonClicked));
+  
+  functionButton.signal_clicked().connect(sigc::mem_fun(*this, &SoundPartialHBox::functionButtonClicked));  
+  
+  
   
 }
+  
+SoundPartialHBox::~SoundPartialHBox(){}
+  
+  
+
+void SoundPartialHBox::functionButtonClicked(){  
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,envelopeEntry.get_text());
+  generator->run(); 
+   
+  if (generator->getResultString() !=""){
+    envelopeEntry.set_text(generator->getResultString());
+    partial->envString = envelopeEntry.get_text(); 
+  }
+  delete generator;
+}
+  
+void SoundPartialHBox::setPartialNumber(int _number){
+  char charbuffer[20];            
+  sprintf( charbuffer, "%d", _number);
+
+  string labeltext = "Partial " + string (charbuffer);
+  label.set_text(labeltext);
+
+  if (next!= NULL){
+    next->setPartialNumber( _number+1);
+  }
+}
+
+
+void SoundPartialHBox::removeButtonClicked(){
+  attributes->removeSoundPartial(this); 
+}  
+ 
+void EventAttributesViewController::removeSoundPartial(SoundPartialHBox* _remove){
+    currentlyShownEvent->setChangedButNotSaved(true);
+  Gtk::VBox* vbox;
+  attributesRefBuilderSound->get_widget(
+        "SpectrumVBox", vbox);
+  vbox->remove(*_remove);
+  currentlyShownEvent->getEventExtraInfo()->deletePartial(_remove->partial);
+  
+
+  if (soundPartialHboxes == _remove){
+    soundPartialHboxes = soundPartialHboxes ->next;
+    if (soundPartialHboxes != NULL){
+      soundPartialHboxes->prev = NULL;
+    }
+  }
+
+  else {
+    SoundPartialHBox* search = soundPartialHboxes;
+    while (search != _remove){
+      search = search->next;
+    }
+    
+    search->prev->next = search->next;
+    if (search->next != NULL){
+      search->next->prev = search->prev;
+    }
+  }
+  delete _remove;
+  
+   Gtk::Entry* entry;
+  attributesRefBuilderSound->get_widget(
+        "SoundAttributesNumPartialEntry", entry);
+  entry->set_text ( currentlyShownEvent->getEventExtraInfo()->getNumPartials()); 
+  if (soundPartialHboxes != NULL){
+    soundPartialHboxes->setPartialNumber(1);
+  }
+  show_all_children();
+
+}
+
+
+
+void SoundPartialHBox::clear(){
+  if (next!= NULL){
+    next->clear();
+  }
+  delete this;
+}
+
+
+
+void SoundPartialHBox::saveString(){
+  partial->envString = envelopeEntry.get_text();
+  if (next != NULL){
+    next->saveString();
+  }
+}
+
 
