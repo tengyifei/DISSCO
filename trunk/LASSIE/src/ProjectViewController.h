@@ -139,6 +139,7 @@ private:
   
   Gtk::Dialog* projectPropertiesDialog;
   void projectPropertiesDialogButtonClicked();
+  void projectPropertiesDialogFunctionButtonClicked();
   void saveEnvelopeLibrary();
   void refreshProjectDotDat();
   EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry( Envelope* _envelope, int index);
