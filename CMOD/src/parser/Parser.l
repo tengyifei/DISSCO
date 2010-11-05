@@ -66,7 +66,17 @@ sampleRate			|
 sampleSize			|
 numThreads			|
 pieceStartTime			|
-pieceDuration			{ yylval= (long int)strdup(yytext); return GLOBALKEYWORDTOK; 
+pieceDuration  |
+LASSIETITLE |
+LASSIEFILEFLAGS |
+LASSIEFILELIST |
+LASSIEPIECESTARTTIME |
+LASSIEPIECEDURATION |
+LASSIESOUNDSYNTHESIS |
+LASSIENUMCHANNELS |
+LASSIESAMPLERITE |
+LASSIESAMPLESIZE |
+LASSIENUMTHREADS			{ yylval= (long int)strdup(yytext); return GLOBALKEYWORDTOK; 
 				  /* Adding Tokens - keywords:
 				     To add another keyword insert it above this line.
 				     The format is "keyword |" which is a keyword followed by

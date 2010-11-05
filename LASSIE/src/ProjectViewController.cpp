@@ -41,8 +41,120 @@
 #include "MainWindow.h"
 #include "EnvelopeLibraryEntry.h"
 #include "SharedPointers.h"
-
+#include "FunctionGenerator.h"
 #include <dirent.h>
+
+
+
+
+// these definitions are for calling yyparse(). They are copied from lex.yy.c
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
+
+
+#ifndef YY_TYPEDEF_YY_BUFFER_STATE
+#define YY_TYPEDEF_YY_BUFFER_STATE
+typedef struct yy_buffer_state *YY_BUFFER_STATE;
+#endif
+
+#ifndef YY_STRUCT_YY_BUFFER_STATE
+#define YY_STRUCT_YY_BUFFER_STATE
+struct yy_buffer_state
+	{
+	FILE *yy_input_file;
+
+	char *yy_ch_buf;		/* input buffer */
+	char *yy_buf_pos;		/* current position in input buffer */
+
+	/* Size of input buffer in bytes, not including room for EOB
+	 * characters.
+	 */
+	yy_size_t yy_buf_size;
+
+	/* Number of characters read into yy_ch_buf, not including EOB
+	 * characters.
+	 */
+	int yy_n_chars;
+
+	/* Whether we "own" the buffer - i.e., we know we created it,
+	 * and can realloc() it to grow it, and should free() it to
+	 * delete it.
+	 */
+	int yy_is_our_buffer;
+
+	/* Whether this is an "interactive" input source; if so, and
+	 * if we're using stdio for input, then we want to use getc()
+	 * instead of fread(), to make sure we stop fetching input after
+	 * each newline.
+	 */
+	int yy_is_interactive;
+
+	/* Whether we're considered to be at the beginning of a line.
+	 * If so, '^' rules will be active on the next match, otherwise
+	 * not.
+	 */
+	int yy_at_bol;
+
+    int yy_bs_lineno; /**< The line count. */
+    int yy_bs_column; /**< The column count. */
+    
+	/* Whether to try to fill the input buffer when we reach the
+	 * end of it.
+	 */
+	int yy_fill_buffer;
+
+	int yy_buffer_status;
+
+#define YY_BUFFER_NEW 0
+#define YY_BUFFER_NORMAL 1
+	/* When an EOF's been seen but there's still some text to process
+	 * then we mark the buffer as YY_EOF_PENDING, to indicate that we
+	 * shouldn't try reading from the input source any more.  We might
+	 * still have a bunch of tokens to match, though, because of
+	 * possible backing-up.
+	 *
+	 * When we actually see the EOF, we change the status to "new"
+	 * (via yyrestart()), so that the user can continue scanning by
+	 * just pointing yyin at a new input file.
+	 */
+#define YY_BUFFER_EOF_PENDING 2
+
+	};
+#endif /* !YY_STRUCT_YY_BUFFER_STATE */
+
+struct ltstr
+{
+  bool operator()(const char* s1, const char* s2) const
+  {
+    return strcmp(s1, s2) < 0;
+  }
+};
+
+
+
+extern YY_BUFFER_STATE yy_scan_string( const char*);
+extern int yyparse();
+extern map<const char*, FileValue*, ltstr> file_data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*! \brief The constructor of ProjectViewController
 *
@@ -64,9 +176,9 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   add(leftTwoPlusAttributes);
 
   //no title when initializing the window
-  pathAndName   = "";
-  projectTitle  = "";
-  fileFlag      = "";
+  pathAndName   = " ";
+  projectTitle  = " ";
+  fileFlag      = " ";
   duration      = "0";
   numOfChannels = "2";
   sampleRate    = "44100";
@@ -122,7 +234,7 @@ ProjectViewController::ProjectViewController(
   sampleRate    = "44100";
   sampleSize    = "16";
   numOfThreads  = "1";
-  topEvent      = "T/T0";
+  topEvent      = "T/0";
   synthesis     = true;
 
   //add the Paned widget "leftTwoPlusAttributes" as a child
@@ -769,6 +881,12 @@ void ProjectViewController::setProperties (){
 
   Gtk::Button* cancelButton;
   refBuilder->get_widget("Cancel", cancelButton);
+  
+  Gtk::Button* button3;
+  refBuilder->get_widget("button3", button3);  
+  button3->signal_clicked().connect(
+      sigc::mem_fun(
+        *this,&ProjectViewController::projectPropertiesDialogFunctionButtonClicked) );
 
   if (okButton){
     okButton->signal_clicked().connect(
@@ -855,19 +973,46 @@ void ProjectViewController::refreshProjectDotDat(){
   FILE* dat  = fopen(datPathAndName.c_str(), "w");
 
   stringbuffer = "title = \"" + projectTitle + "\";\n";
-  fputs(stringbuffer.c_str(),dat);
+  
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse() == 0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal title value!"<<endl;
+  }
+  
 
+  
   stringbuffer = "fileFlags = \"" + fileFlag + "\";\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal fileFlag value!"<<endl;
+  }
 
   stringbuffer = "fileList = \"" + topEvent + "\";\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+    if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal fileList value!"<<endl;
+  }
 
   stringbuffer = "pieceStartTime = 0;\n";
   fputs(stringbuffer.c_str(),dat);
 
   stringbuffer = "pieceDuration = " + duration + ";\n\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal pieceDuration value!"<<endl;
+  }
 
   if (synthesis){
     stringbuffer = "soundSynthesis = TRUE;\n";
@@ -879,16 +1024,94 @@ void ProjectViewController::refreshProjectDotDat(){
   fputs(stringbuffer.c_str(),dat);
 
   stringbuffer = "numChannels = " + numOfChannels + ";\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal numChannels value!"<<endl;
+  }
 
   stringbuffer = "sampleRate = " + sampleRate + ";\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal sampleRate value!"<<endl;
+  }
 
   stringbuffer = "sampleSize = " + sampleSize + ";\n";
-  fputs(stringbuffer.c_str(),dat);
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal sampleSize value!"<<endl;
+  }
 
   stringbuffer = "numThreads = " + numOfThreads + ";\n";
+  yy_scan_string( stringbuffer.c_str());//set parser buffer
+  if (yyparse()==0){
+    fputs(stringbuffer.c_str(),dat);
+  }
+  else {
+    cout<<"illegal numThreads value!"<<endl;
+  }
+  
+  
+  
+  /* metadata */
+  
+  //stringbuffer = "\n\n\n/*====================LASSIE METADATA===============*/\n\n\n";
+  //fputs(stringbuffer.c_str(),dat);  
+  
+  std::string buffer2;
+  buffer2 = (projectTitle == "")? " ": projectTitle;
+  stringbuffer = "LASSIETITLE = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (fileFlag == "")? " ": fileFlag;
+  stringbuffer = "LASSIEFILEFLAGS = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (topEvent == "")? " ": topEvent;
+  stringbuffer = "LASSIEFILELIST = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  stringbuffer = "LASSIEPIECESTARTTIME = `0`;\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (duration == "")? " ": duration;
+  stringbuffer = "LASSIEPIECEDURATION = `" + buffer2 + "`;\n\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  if (synthesis){
+    stringbuffer = "LASSIESOUNDSYNTHESIS = `TRUE`;\n";
+  }
+  else{
+    stringbuffer = "LASSIESOUNDSYNTHESIS = `FALSE`;\n";
+  }
+
+  fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (numOfChannels == "")? " ": numOfChannels;
+  stringbuffer = "LASSIENUMCHANNELS = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (sampleRate == "")? " ": sampleRate;
+  stringbuffer = "LASSIESAMPLERITE = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+
+  buffer2 = (sampleSize == "")? " ": sampleSize;
+  stringbuffer = "LASSIESAMPLESIZE = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+  
+  buffer2 = (numOfThreads == "")? " ": numOfThreads;
+  stringbuffer = "LASSIENUMTHREADS = `" + buffer2 + "`;\n";
+  fputs(stringbuffer.c_str(),dat);
+  
+
 
   fclose(dat);
 }
@@ -1065,28 +1288,102 @@ ProjectViewController::ProjectViewController(
 
   //cout<<"the dat is this one: "<<datPathAndName<<endl;
   //using CMOD class to parse file and read necessary data for the .dat file
-  Piece* piece = new Piece();
-  parseFile(_datPathAndName, NULL, piece);
+  //Piece* piece = new Piece();
+  //parseFile(_datPathAndName, NULL, piece);
   //cout<<"LASSIE done parsing"<<endl;
 
-	char buffer [256];
-  std::string topName = piece->fileList;
-  projectTitle = FileOperations::stringToFileName(_pathAndName);
-  fileFlag      = piece->fileFlags;
-  sprintf(buffer,"%f", piece->pieceDuration); 
-  duration = buffer; 
-  sprintf(buffer,"%d", piece->numChannels); 
-  numOfChannels = buffer;
-  sprintf(buffer,"%d", piece->sampleRate); 
-  sampleRate    = buffer;
-  sprintf(buffer,"%d", piece->sampleSize); 
-  sampleSize    = buffer;
-  sprintf(buffer,"%d", piece->numThreads); 
-  numOfThreads  = buffer;
-  topEvent      = piece->fileList;
-  synthesis     = piece->soundSynthesis;
 
-  delete piece; //since the data is no longer needed. delete piece to prevent
+
+
+  //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
+  FILE *yytmp;
+  extern FILE *yyin;
+  yytmp = fopen(_datPathAndName.c_str(), "r");
+
+  if (yytmp == NULL) {
+    cout << "ERROR: File " << _datPathAndName << " does not exist!" << endl;
+    exit(1);
+  }
+
+  yyin = yytmp; 
+  //extern map<const char*, FileValue*, ltstr> file_data;
+  yyparse(); 
+
+
+  FileValue* value;
+  std::string buffer2;
+
+  //std::string topName = piece->fileList;
+  value = file_data["LASSIETITLE"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  
+  //projectTitle = FileOperations::stringToFileName(_pathAndName);
+  projectTitle = buffer2;
+  //fileFlag      = piece->fileFlags;
+  value = file_data["LASSIEFILEFLAGS"];
+  buffer2 = value->getString();
+  
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  fileFlag = buffer2;
+  
+  
+  //sprintf(buffer,"%f", piece->pieceDuration); 
+  //duration = buffer; 
+  value = file_data["LASSIEPIECEDURATION"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  duration = buffer2;  
+  
+  
+  
+  //sprintf(buffer,"%d", piece->numChannels); 
+  //numOfChannels = buffer;
+  value = file_data["LASSIENUMCHANNELS"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  numOfChannels = buffer2;
+
+
+  //sprintf(buffer,"%d", piece->sampleRate); 
+  //sampleRate    = buffer;
+  value = file_data["LASSIESAMPLERITE"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  sampleRate = buffer2;
+  
+  
+  
+  //sprintf(buffer,"%d", piece->sampleSize); 
+  //sampleSize    = buffer;
+  value = file_data["LASSIESAMPLESIZE"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  sampleSize = buffer2;
+  
+  
+  
+  
+  //sprintf(buffer,"%d", piece->numThreads); 
+  //numOfThreads  = buffer;
+  
+    value = file_data["LASSIENUMTHREADS"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  numOfThreads = buffer2;
+  
+  //topEvent      = piece->fileList;
+  value = file_data["LASSIEFILELIST"];
+  buffer2 = value->getString();
+  buffer2 = (buffer2 ==" ")?"":buffer2;
+  topEvent = buffer2;  
+  
+    value = file_data["LASSIESOUNDSYNTHESIS"];
+  buffer2 = value->getString();
+  synthesis = (buffer2 =="TRUE")?true:false;
+
+
+  //delete piece; //since the data is no longer needed. delete piece to prevent
   //memory leak
 	
 
@@ -1420,4 +1717,28 @@ void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
 bool ProjectViewController::getEmptyProject(){
   return emptyProject;
 }
+
+
+void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat, duration);
+    generator->run();
+
+  if (generator->getResultString() !=""){
+    duration = generator->getResultString();
+  }
+
+  delete generator;
+  
+  projectPropertiesDialog->hide();
+  delete projectPropertiesDialog;
+  setProperties();
+
+}
+
+
+
+
+
+
+
 

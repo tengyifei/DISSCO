@@ -3915,6 +3915,7 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
 
 
 void EventAttributesViewController::deleteKeyPressed(Gtk::Widget* _focus){
+  if (currentlyShownEvent==NULL || layerBoxesStorage.size() ==0)return;
   vector<LayerBox*>::iterator layerBoxesIter = layerBoxesStorage.begin();
   
   while (layerBoxesIter!= layerBoxesStorage.end()){

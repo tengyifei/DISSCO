@@ -2704,15 +2704,6 @@ void IEvent::IEventParseFile(std::string _fileName){
 
 
 
-
-
-
-
-
-
-
-
-
 /*
 
   if (file_data["_global"] == NULL) {
