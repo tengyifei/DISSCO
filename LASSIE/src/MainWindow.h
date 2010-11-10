@@ -51,6 +51,8 @@ class MainWindow : public Gtk::Window {
     MainWindow();
     ~MainWindow();
     void showEnvelopeLibraryWindow();
+    void setUnsavedTitle();
+    void setSavedTitle();
 
   private:
 
@@ -149,7 +151,7 @@ class MainWindow : public Gtk::Window {
     void includeUi_info(Glib::ustring pathAndName,Glib::ustring ctrl);
     void menuPathAndName();
 
-    int   captureKeyStroke(Gtk::Widget *,GdkEventKey *);
+    int captureKeyStroke(Gtk::Widget *,GdkEventKey *);
 
 
 };

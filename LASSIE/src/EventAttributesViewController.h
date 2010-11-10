@@ -102,7 +102,7 @@ protected:
   void ampValueEnvelopeButtonClicked();
   void rateValueEnvelopeButtonClicked();
   void widthEnvelopeButtonClicked();
-  
+  void modified();  
   ModelColumns applyHowColumns;
   ModelColumns2 typeColumns;
   EventAttributesViewController* attributesView;
@@ -139,6 +139,7 @@ public:
   void functionButtonClicked();
   void setPartialNumber(int _number);
   void saveString();
+  void modified();
 
 
 };
@@ -238,6 +239,7 @@ public:
   void BSFunFreqButton2Clicked();
   void BSContinuumButtonClicked();
   void addPartialButtonClicked();
+  void modified();
   IEvent* getCurrentlyShownEvent();
   
   
@@ -296,6 +298,7 @@ private:
 
     ~LayerBox();
     bool onRightClick(GdkEventButton* event);
+    int refreshChildTypeIndex(int _index);
     void deleteObject();
     
     // these three are for setting up pop up menu
@@ -313,9 +316,9 @@ private:
     public:
       
       Columns(){
+        add(columnObjectChildTypeIndex);
         add(columnObjectType);
         add(columnObjectName); 
-      /*add (columnButton)*/;
         add(columnEntry);
         add(columnObjectWeight);
         add(columnObjectAttackEnv);
@@ -325,6 +328,7 @@ private:
         
       }
       
+      Gtk::TreeModelColumn<int> columnObjectChildTypeIndex;
       Gtk::TreeModelColumn<Glib::ustring> columnObjectType;
       Gtk::TreeModelColumn<Glib::ustring> columnObjectName;
       Gtk::TreeModelColumn<Glib::ustring> columnObjectWeight;
@@ -468,8 +472,9 @@ private:
   void patternFunButtonClicked();
   void reverbFunButtonClicked();
   void spatializationFunButtonClicked(); 
+  bool entryChangedByShowCurrentEvent;
   bool deleteLayer(LayerBox* _deleteBox);
-  
+  void refreshChildTypeInLayer();
    
   TempoPrefix tempoPrefix;  
   TempoNoteValue tempoNoteValue;

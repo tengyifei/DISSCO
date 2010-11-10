@@ -212,7 +212,10 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   if(!m_pMenuPopup) g_warning("menu not found");
   
   
+
+  Gtk::Main::signal_key_snooper().connect(sigc::mem_fun(*this,&EnvelopeLibraryWindow::captureKeyStroke));
   
+   
    show_all();
   
 }
@@ -237,7 +240,7 @@ bool EnvelopeLibraryWindow::onRightClick(GdkEventButton* event){
 
 void EnvelopeLibraryWindow::createNewEnvelope(){
   EnvelopeLibraryEntry* newEnvelope = activeProject->createNewEnvelope();
-  
+  activeProject->modified();
   Gtk::TreeModel::Row childrow= *(refTreeModel->append());
 
   //Gtk::TreeModel::Row childrow = *(refTreeModel->append(selectedRow.children()));
@@ -432,6 +435,60 @@ EnvelopeLibraryEntry* EnvelopeLibraryWindow::getActiveEnvelope(){
   
   return activeEnvelope;
 }
+
+
+
+
+
+
+
+
+int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
+  
+  if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 115 && _gdkEventKey->state ==20){ //ctrl-s pressed
+    activeProject->save();
+  }
+   /*
+  cout<<_gdkEventKey->type<<endl;
+  cout<<_gdkEventKey->state<<endl;
+  cout<<_gdkEventKey->keyval<<endl;
+  cout<<_gdkEventKey->string<<endl;
+  /*  //this chunk is handled by accelkey of FileNewObject
+	if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
+		if (projectView!= NULL&& projectView->getPathAndName() != " "){
+			projectView->nKeyPressed(get_focus());// for palette to add object
+		}
+	} 
+	*/
+  /*
+ GdkEventType type;   8 press 9 release
+ GdkWindow *window; this window
+ gint8 send_event; don't know what's this
+ guint32 time; event time 
+ guint state; usually 16 ctrl keys otherwise
+ guint keyval; ascii
+ gint length;
+ gchar *string;  return ascii code
+ guint16 hardware_keycode; keyboard key code
+ guint8 group;
+  
+  
+  */
+  
+  
+
+  return 0;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

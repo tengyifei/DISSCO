@@ -80,8 +80,11 @@ public:
   void refreshObjectNameInPalette(IEvent* _event);
   void setProperties();
   void save();
+  bool getSaved();
+  void modified();
   void deleteKeyPressed(Gtk::Widget* _focus);
   bool getEmptyProject();
+  void nKeyPressed(Gtk::Widget* _focus);
   
   IEvent* findIEvent(EventType _type, std::string _eventName);
 

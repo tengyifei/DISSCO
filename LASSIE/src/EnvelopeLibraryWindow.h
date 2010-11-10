@@ -53,6 +53,7 @@ public:
   Glib::ustring folderSelected(); // check if any row is selected;
   //Event* getCurrentSelectedEvent();
   Gtk::Label* mouseCoordinate;
+  ProjectViewController* activeProject;  
 protected:
   // Signal handlers:
   void objectActivated(
@@ -107,12 +108,12 @@ private:
   Gtk::Menu* m_pMenuPopup;
   
   
-  ProjectViewController* activeProject;
+
   Glib::RefPtr<Gtk::Builder> attributesRefBuilder;
   EnvLibDrawingArea* drawingArea;
   EnvelopeLibraryEntry* activeEnvelope;
   void fileSave();
-
+  int captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey);
 
 
 };

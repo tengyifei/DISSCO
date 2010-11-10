@@ -673,6 +673,7 @@ Ex:1,2,4,8,16,32, etc.</property>
             </child>
           </object>
           <packing>
+            <property name="expand">False</property>
             <property name="padding">10</property>
             <property name="position">13</property>
           </packing>
@@ -686,7 +687,7 @@ If the Start Type is Seconds, this value should be a float</property>
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Start Time</property>
+                <property name="label" translatable="yes">Child Start Time</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -729,7 +730,7 @@ If the Start Type is Seconds, this value should be a float</property>
             <child>
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Start Type </property>
+                <property name="label" translatable="yes">                     </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -838,7 +839,7 @@ If the Start Type is Seconds, this value should be a float</property>
             <child>
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Duration</property>
+                <property name="label" translatable="yes">Child Duration</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -884,7 +885,7 @@ If the Duration Type is Seconds, this value should be a float</property>
             <child>
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Duration Type</property>
+                <property name="label" translatable="yes">                      </property>
               </object>
               <packing>
                 <property name="expand">False</property>
