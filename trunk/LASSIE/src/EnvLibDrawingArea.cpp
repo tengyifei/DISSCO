@@ -32,7 +32,7 @@
 
 #include "EnvelopeLibraryWindow.h"
 #include "EnvelopeLibraryEntry.h"
-
+#include "ProjectViewController.h"
 EnvLibDrawingArea::EnvLibDrawingArea(EnvelopeLibraryWindow* _envelopeLibraryWindow)
 {
   envelopeLibraryWindow = _envelopeLibraryWindow;
@@ -388,7 +388,7 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
 void EnvLibDrawingArea::insertEnvelopeSegment(){
     EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+    envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
@@ -478,6 +478,7 @@ void EnvLibDrawingArea::moveNode(){
 
   EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
   if (activeEnvelope ==NULL) return;
+  envelopeLibraryWindow->activeProject->modified();  
   
   Gtk::Allocation allocation = get_allocation();
   const int width = allocation.get_width();
@@ -609,7 +610,7 @@ void EnvLibDrawingArea::moveNode(){
 void EnvLibDrawingArea::setFixed(){
       EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+  envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
@@ -646,7 +647,7 @@ void EnvLibDrawingArea::setFlexible(){
 
       EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+  envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
@@ -685,7 +686,7 @@ void EnvLibDrawingArea::setLinear(){
 
       EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+  envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
@@ -725,7 +726,7 @@ void EnvLibDrawingArea::setSpline(){
 
       EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+  envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
@@ -765,7 +766,7 @@ void EnvLibDrawingArea::setExponential(){
 
       EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
     if (activeEnvelope ==NULL) return;
-
+  envelopeLibraryWindow->activeProject->modified();
 
     Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();

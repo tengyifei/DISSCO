@@ -191,17 +191,14 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
       sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
   //create three new children widgets
-
-
-  eventAttributesView = new EventAttributesViewController(  sharedPointers );
-
-  paletteView = new PaletteViewController(  sharedPointers );
+  //eventAttributesView = new EventAttributesViewController(  sharedPointers );
+  //paletteView = new PaletteViewController(  sharedPointers );
 
 
   //set the attributes of two Paned widgets and add children view in them
-  leftTwoPlusAttributes.set_position(300);
-  leftTwoPlusAttributes.pack1(*paletteView,true,false);
-  leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
+  //leftTwoPlusAttributes.set_position(200);
+  //leftTwoPlusAttributes.pack1(*paletteView,true,false);
+  //leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
 
 
 
@@ -217,6 +214,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
 ProjectViewController::ProjectViewController(
   std::string _pathAndName, MainWindow* _mainWindow){
   emptyProject = false;
+  modifiedButNotSaved = true;
   
 
   
@@ -255,7 +253,7 @@ ProjectViewController::ProjectViewController(
 
 
   //set the attributes of two Paned widgets and add children view in them
-  leftTwoPlusAttributes.set_position(300);
+  leftTwoPlusAttributes.set_position(200);
   leftTwoPlusAttributes.pack1(*paletteView,true,false);
   leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
 
@@ -526,19 +524,41 @@ void ProjectViewController::insertObject(){
 
   int result = newObjectDialog->run();
 
-  while (result ==1 && nameEntry->get_text() == ""){
+  while (result ==1){
+    std::string name = nameEntry->get_text();
+    std::string first = name.substr(0,1);
+  
+    if (name == ""){
     //prompt error (lack of name) and then loop
     //std::cout<<"User didn't name the object!"<<std::endl;
-    Gtk::MessageDialog dialog(
-      "Please Name the Object",
-      false /* use_markup */,
-      Gtk::MESSAGE_QUESTION,
-      Gtk::BUTTONS_OK);
+      Gtk::MessageDialog dialog(
+        "Please Name the Object",
+        false /* use_markup */,
+        Gtk::MESSAGE_QUESTION,
+        Gtk::BUTTONS_OK);
 
-    dialog.run();
-    dialog.hide();
+      dialog.run();
+      dialog.hide();
+      result = newObjectDialog->run();
+    }
+    else if (selectedPaletteFolder == "Bottom"&& first!="s"&&first!= "n" &&first!="v"      ){
+    
+      Gtk::MessageDialog dialog(
+        "The name of a Bottom event \nshould starts with 's', 'n', or 'v'",
+        false /* use_markup */,
+        Gtk::MESSAGE_QUESTION,
+        Gtk::BUTTONS_OK);
 
-    result = newObjectDialog->run();
+      dialog.run();
+      dialog.hide();
+      result = newObjectDialog->run();    
+    
+    
+    
+    }
+    else {
+      break;
+    }
   }
 
   if(result ==1){
@@ -705,7 +725,7 @@ void ProjectViewController::insertObject(){
       std::cout << " don't do this! might cause CMOD not functioning properly.";
       std::cout << " also duplicated file names are not checked here.";
       std::cout << std::endl;
-
+      modified();
       IEvent* newEvent = new IEvent();
       newEvent->setEventName(nameEntry->get_text());
       newEvent->setEventType(type);
@@ -719,6 +739,7 @@ void ProjectViewController::insertObject(){
       std::cout << " don't do this! might cause CMOD not functioning properly.";
       std::cout << " also duplicated file names are not checked here.";
       std::cout << std::endl;
+      modified();
       IEvent* newEvent = new IEvent();
       newEvent->setEventName(nameEntry->get_text());
 
@@ -761,16 +782,9 @@ void ProjectViewController::insertObject(){
       paletteView->insertEvent(newEvent);
       events.push_back(newEvent);
     }
-    else{
+    else{ //decision == 2
       std::string name = nameEntry->get_text();
 
-      if (selectedPaletteFolder =="Bottom"){ // do first letter check here if bottom (must be "snv"
-        std::cout<<"Should do Bottom Name checking"<<std::endl;
-        //TODO: bottom name checking
-        if (name[0]!='s' && name[0]!='n' && name[0]!= 'v'){
-          std::cout<<"The name of a Bottom event should start with s, n or v"<<std::endl;
-        }
-      }
       std::vector<IEvent*>::iterator it;
       int renameDialogFlag;
       //check object name exist.
@@ -805,7 +819,7 @@ void ProjectViewController::insertObject(){
 
       if(   nameEntry->get_text() != ""
          && renameDialogFlag != 0){
-
+        modified();
         IEvent* newEvent = new IEvent();
         newEvent->setEventName(nameEntry->get_text());
         newEvent->setEventType(type);
@@ -1121,6 +1135,10 @@ void ProjectViewController::refreshProjectDotDat(){
 
 
 void ProjectViewController::save(){
+  modifiedButNotSaved = false;
+  sharedPointers->mainWindow->setSavedTitle();
+  
+  
   eventAttributesView->saveCurrentShownEventData();
   for (std::vector<IEvent*>::iterator iter = events.begin();
        iter != events.end();
@@ -1276,7 +1294,7 @@ ProjectViewController::ProjectViewController(
     //                    FileOperations::stringToFileName(_pathAndName)
       //                  + ".dat"; 	
  	
-
+  modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
   //listTargets.push_back( Gtk::TargetEntry("text/plain") );
@@ -1405,7 +1423,7 @@ ProjectViewController::ProjectViewController(
 
 
   //set the attributes of two Paned widgets and add children view in them
-  leftTwoPlusAttributes.set_position(300);
+  leftTwoPlusAttributes.set_position(200);
   leftTwoPlusAttributes.pack1(*paletteView,true,false);
   leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
 
@@ -1705,6 +1723,9 @@ IEvent* ProjectViewController::findIEvent(EventType _type, std::string _eventNam
 
 
 void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
+ 	if (_focus ==NULL){
+ 		return;
+ 	}
  
   if (_focus->is_ancestor((Gtk::Widget&)*paletteView)){
     paletteView->deleteKeyPressed();
@@ -1713,6 +1734,18 @@ void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
     eventAttributesView->deleteKeyPressed(_focus);  
   }
 }
+
+void ProjectViewController::nKeyPressed(Gtk::Widget* _focus){
+ 	if (_focus ==NULL){
+ 		return;
+ 	}
+  if (_focus->is_ancestor((Gtk::Widget&)*paletteView)){
+    insertObject();
+  }
+
+}
+
+
 
 bool ProjectViewController::getEmptyProject(){
   return emptyProject;
@@ -1736,7 +1769,19 @@ void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
 }
 
 
+void ProjectViewController::modified(){
+  if (modifiedButNotSaved == false){
+    modifiedButNotSaved = true;
+    sharedPointers->mainWindow->setUnsavedTitle();
+  
+  }
+  
+  
+}
 
+bool ProjectViewController::getSaved(){
+  return !modifiedButNotSaved;
+}
 
 
 

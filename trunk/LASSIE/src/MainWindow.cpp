@@ -170,6 +170,8 @@ MainWindow::MainWindow(){
 
   set_title("LASSIE");
   set_default_size(800, 600);
+  set_decorated(true);
+  
 
   add(mainBox); // put the main box into the window
 
@@ -179,25 +181,26 @@ MainWindow::MainWindow(){
 
   // File|New sub menu:
   menuRefActionGroup->add(
-    Gtk::Action::create("Project","Project","Create a new project"),
+    Gtk::Action::create("FileNewProject",Gtk::Stock::NEW,"Create a new project"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewProject));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("Object",Gtk::Stock::NEW,"_Object"),
+    Gtk::Action::create("FileNewObject",Gtk::Stock::ADD,"_Create a new Object", "Create a new Object"),
+		Gtk::AccelKey("N"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewObject));
 
 
   // File and its sub-menu
   menuRefActionGroup->add(Gtk::Action::create("FileMenu", "File"));
 
-  menuRefActionGroup->add(Gtk::Action::create("FileNew", "New"));
+  //menuRefActionGroup->add(Gtk::Action::create("FileNew", "New"));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileOpen",Gtk::Stock::OPEN),
+    Gtk::Action::create("FileOpen",Gtk::Stock::OPEN, "_Open an existing project","Open an existing project"),
     sigc::mem_fun(*this, &MainWindow::menuFileOpen));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileSave",Gtk::Stock::SAVE),
+    Gtk::Action::create("FileSave",Gtk::Stock::SAVE,"_Save the project","Save the project"),
     sigc::mem_fun(*this, &MainWindow::menuFileSave));
 
   menuRefActionGroup->add(
@@ -215,6 +218,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->add(
     Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
     sigc::mem_fun(*this, &MainWindow::menuFileQuit));
+    
 
 
   // Edit and its sub-menu
@@ -274,6 +278,15 @@ MainWindow::MainWindow(){
 
 
 
+  menuRefActionGroup->get_action("FileNewObject")->set_sensitive(false); 
+  //menuRefActionGroup->get_action("FileNewObject")->add_accel_label("N");    
+  menuRefActionGroup->get_action("FileSave")->set_sensitive(false);
+  menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
+  menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
+  
+
+
+
   // UIManager reads the XML below to layout the menu.
   // add_accel_group activates using hotkeys within this window.
   menuRefUIManager = Gtk::UIManager::create();
@@ -287,16 +300,18 @@ MainWindow::MainWindow(){
         "<ui>"
         "  <menubar name='menuBar'>"
         "    <menu action='FileMenu'>"
-        "      <menu action='FileNew'>"
-        "        <menuitem action='Project'/>"
-        "        <menuitem action='Object'/>"
-        "      </menu>"
-        "      <separator/>"
+//        "      <menu action='FileNew'>"
+//        "        <menuitem action='Project'/>"
+//        "        <menuitem action='Object'/>"
+//        "      </menu>"
+//        "      <separator/>"
+        "      <menuitem action='FileNewProject'/>"
+
         "      <menuitem action='FileOpen'/>"
         "      <menuitem action='FileSave'/>"
-        "      <menuitem action='FileSaveAs'/>"
-        "      <menuitem action='FileClose'/>"
-        "      <menuitem action='FilePrint'/>"
+//        "      <menuitem action='FileSaveAs'/>"
+//        "      <menuitem action='FileClose'/>"
+//        "      <menuitem action='FilePrint'/>"
         "      <separator/>";
 
   ui_info_after = 
@@ -304,17 +319,18 @@ MainWindow::MainWindow(){
         "      <menuitem action='FileQuit'/>"
         "    </menu>"
         "    <menu action='EditMenu'>"
-        "      <menuitem action='EditUndo'/>"
-        "      <menuitem action='EditRedo'/>"
+//        "      <menuitem action='EditUndo'/>"
+//        "      <menuitem action='EditRedo'/>"
         "      <separator/>"
-        "      <menuitem action='EditCut'/>"
-        "      <menuitem action='EditCopy'/>"
-        "      <menuitem action='EditPaste'/>"
-        "      <menuitem action='EditSelectAll'/>"
-        "      <separator/>"
-        "      <menuitem action='EditPreferences'/>"
+//        "      <menuitem action='EditCut'/>"
+//        "      <menuitem action='EditCopy'/>"
+//        "      <menuitem action='EditPaste'/>"
+//        "      <menuitem action='EditSelectAll'/>"
+//        "      <separator/>"
+//        "      <menuitem action='EditPreferences'/>"
         "    </menu>"
         "     <menu action='ProjectMenu'>"
+        "      <menuitem action='FileNewObject'/>"
         "      <menuitem action='ProjectProperties'/>"
         "      <menuitem action = 'Synthesize'/>"
         "    </menu>"
@@ -324,15 +340,16 @@ MainWindow::MainWindow(){
         "    </menu>"
         "  </menubar>"
         "  <toolbar  name='ToolBar'>"
-        "    <toolitem action='Object'/>"
+        "    <toolitem action = 'FileNewProject'/>"
         "    <toolitem action='FileOpen'/>"
         "    <toolitem action='FileSave'/>"
-        "    <toolitem action='FileClose'/>"
-        "    <toolitem action='FilePrint'/>"
+//        "    <toolitem action='FileClose'/>"
+//        "    <toolitem action='FilePrint'/>"
         "    <separator/>"
-        "    <toolitem action='EditCut'/>"
-        "    <toolitem action='EditCopy'/>"
-        "    <toolitem action='EditPaste'/>"
+//        "    <toolitem action='EditCut'/>"
+//        "    <toolitem action='EditCopy'/>"
+//        "    <toolitem action='EditPaste'/>"
+        "    <toolitem action='FileNewObject'/>"
         "    <separator/>"
         "    <toolitem action='HelpContents'/>"
         "  </toolbar>"
@@ -372,6 +389,11 @@ MainWindow::MainWindow(){
   }
 
 
+  //Gtk::MenuItem* newObject = (Gtk::MenuItem*)menuRefUIManager->get_widget("/FileNewObject");
+	//newObject->add_accel_label("N");
+
+
+
   // make an empty project view to the mainbox. 
   // notice that when adding projectView, Pack_EXPAND_WIDGET is used,
   // not PACK_SHRINK,
@@ -387,6 +409,7 @@ MainWindow::MainWindow(){
     // create an instance of EnvelopeLibraryWindow
   //envelopeLibraryWindow = (EnvelopeLibraryWindow*) new Gtk::Window();
   envelopeLibraryWindow = new EnvelopeLibraryWindow();
+  envelopeLibraryWindow->hide();
   envelopeLibraryWindow->setActiveProject(projectView);
   
 
@@ -418,30 +441,42 @@ void MainWindow::menuFileNewProject(){
   ProjectViewController* newProject = FileOperations::newProject(this);
 
   if(newProject!= NULL){
+    menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
+    menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
+    menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+
     projects.push_back(newProject);
     MainWindow::includeUi_info(newProject->getPathAndName(),"add");
     changeCurrentProjectViewTo(newProject);
 
-    std::string title = "LASSIE - ";
-    title += newProject->getPathAndName();
+    std::string title = " - LASSIE";
+    title = "*"+ newProject->getPathAndName()+ title;
     set_title(title);
     newProject->setProperties();
   }
 }
 
 void MainWindow::menuFileNewObject(){
-  projectView->insertObject();
+  if (projectView!= NULL &&projectView->getEmptyProject() == false){
+    projectView->insertObject();
+  }
 }
 
 void MainWindow::menuFileOpen(){
   ProjectViewController* openProject = FileOperations::openProject(this);
 
   if(openProject!= NULL){
+    menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
+    menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
+    menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+      
     projects.push_back(openProject);
     MainWindow::includeUi_info(openProject->getPathAndName(),"add");
     changeCurrentProjectViewTo(openProject);
-    std::string title = "LASSIE - ";
-    title += openProject->getPathAndName();
+    std::string title = " - LASSIE";
+    title = openProject->getPathAndName() + title;
     set_title(title);
     openProject->setProperties();
     
@@ -454,9 +489,16 @@ void MainWindow::menuFileOpen(){
 
 void MainWindow::menuFileSave(){
   if (projectView->getEmptyProject()== false){
-    projectView->save();
+    projectView->save();   
   }
 }
+void MainWindow::setSavedTitle(){
+    std::string title = " - LASSIE";
+    title = projectView->getPathAndName() + title;
+    set_title(title);
+}  
+  
+
 
 void MainWindow::menuFileSaveAs(){}//TODO
 
@@ -562,14 +604,21 @@ void MainWindow::showEnvelopeLibraryWindow(){
 }
 
 
-int   MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
+int MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
 
   if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 65535){ //delete key stroke
-    if (projectView != NULL){
+    if (projectView != NULL&& projectView->getPathAndName() != " "){
       projectView->deleteKeyPressed(get_focus());
     }
   }
-    
+   
+  /*  //this chunk is handled by accelkey of FileNewObject
+	if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
+		if (projectView!= NULL&& projectView->getPathAndName() != " "){
+			projectView->nKeyPressed(get_focus());// for palette to add object
+		}
+	} 
+	*/
   /*
  GdkEventType type;   8 press 9 release
  GdkWindow *window; this window
@@ -684,7 +733,15 @@ void MainWindow::menuProjectSynthesize(){
 	  
 	}
 	
-	
-	
+}
+
+
+
+
+void MainWindow::setUnsavedTitle(){
+  std::string title = " - LASSIE";
+  title = "*" + projectView->getPathAndName() + title;
+  set_title(title);
+   
 }
 

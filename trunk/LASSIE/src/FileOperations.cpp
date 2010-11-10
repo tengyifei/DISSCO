@@ -32,7 +32,7 @@
 #include "MainWindow.h"
 
 ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
-  _mainWindow->set_title("LASSIE");
+  //_mainWindow->set_title("LASSIE");
 
   // setup the new project dialog window 
   Gtk::FileChooserDialog dialog("New Project", Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -247,7 +247,7 @@ void fileNameExist::duplicateProjectName(){
 
 
 ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
-  _mainWindow->set_title("LASSIE");
+  //_mainWindow->set_title("LASSIE");
   
   // setup the open project dialog window 
   //Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_OPEN);
