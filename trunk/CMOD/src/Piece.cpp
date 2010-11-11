@@ -181,7 +181,7 @@ string PieceHelper::getNextSoundFile(string path, string projectName) {
   path = path + "SoundFiles/";
   for(int i = 1; i < 10000; i++) {
     stringstream oss;
-    oss << projectName << i << ".au";
+    oss << projectName << i << ".aiff";
     if(doesFileExist(path, oss.str()))
       continue;
     else

@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "AuWriter.h"
 
+#include "sndfile.h"
+
 //----------------------------------------------------------------------------//
 bool AuWriter::write(SoundSample& ss, string filename, int bits)
 {
@@ -93,135 +95,98 @@ bool AuWriter::write(vector<SoundSample*>& channels, string filename,
     // warn if sections of other SoundSamples are going to be clipped
     // because of this.
     
-    int numChannels = channels.size();
+    //Clear out the info structure.
+    SF_INFO s_info;
+    memset(&s_info, sizeof(SF_INFO), 0);
     
-    if (numChannels == 0)
-    {
-        cout << "ERROR: AuWriter: numChannels = 0" << endl;
+    //Ensure we actually have channels of sound to work with.
+    if (channels.size() == 0) {
+      cout << "ERROR: AuWriter: numChannels = 0" << endl;
+      return false;
+    }
+    
+    //Set the info parameters.
+    s_info.channels = channels.size();
+    s_info.samplerate = channels[0]->getSamplingRate();
+    s_info.format = SF_FORMAT_PCM_24;
+    
+    //Determine what format to use based on the filename extension.
+    if(filename.find(".wav") != string::npos) {
+      s_info.format = s_info.format | SF_FORMAT_WAV;
+    } else if(filename.find(".aiff") != string::npos) {
+      s_info.format = s_info.format | SF_FORMAT_AIFF;
+    } else if(filename.find(".au") != string::npos) {
+      s_info.format = s_info.format | SF_FORMAT_AU;
+    } else {
+      cout << "ERROR: The output file '" << filename <<
+        "' does not have an extension that is recognizable. Try"
+        " using .wav, .aiff, or .au." << endl;
+       return false;
+    }
+    
+    //Open the sound file.
+    SNDFILE* s = sf_open(filename.c_str(), SFM_WRITE, &s_info);
+    if(!s) {
+      cout << "ERROR: The output file '" << filename <<
+        "' could not be opened by libsndfile." << endl;
+      return false;
+    }
+    
+    //Determine max number of samples in the channels.
+    m_sample_count_type minSamples = channels[0]->getSampleCount();
+    m_sample_count_type maxSamples = minSamples;
+    for (int c = 0; c < (int)channels.size(); c++) {
+      //Make sure every channel has the same sampling rate.
+      if (channels[c]->getSamplingRate() != channels[0]->getSamplingRate())
+      {
+        cerr << "ERROR: AuWriter: not all channels "
+             << "have the same sampling rate" << endl;
         return false;
+      }
+      
+      //Check the number of samples.
+      m_sample_count_type count = channels[c]->getSampleCount();
+      if (count < minSamples) minSamples = count;
+      if (count > maxSamples) maxSamples = count;
     }
     
-    m_rate_type samplingRate = channels[0]->getSamplingRate();
-    m_sample_count_type numSamples = channels[0]->getSampleCount();
-    m_sample_count_type maxSamples = numSamples;
+    //Warn about different amounts of samples.
+    if(maxSamples > minSamples) {
+      m_time_type secondsClipped =
+       ((m_time_type)(maxSamples - minSamples)) /
+       ((m_time_type)channels[0]->getSamplingRate());
+       
+      cerr << "WARNING: AuWriter: " 
+           << "Because not all SoundSamples were of the same length, " << endl
+           << secondsClipped << " seconds will be clipped off of the "
+           << "end of one or more channels." << endl;
+    }
     
-    for (int c=0; c<numChannels; c++)
-    {
-        // make sure every channel has the same sampling rate
-        if (channels[c]->getSamplingRate() != samplingRate)
-        {
-            cerr << "ERROR: AuWriter: not all channels "
-                 << "have the same sampling rate" << endl;
-            return false;
+    //Create multi-channel chunk.
+    int chunkFrames = 1024 * 16;
+    float* chunk = new float[chunkFrames * channels.size()];
+    
+    
+    int outOfBounds = 0;
+    
+    for(m_sample_count_type currentIn = 0; currentIn < minSamples; currentIn += chunkFrames){
+      m_sample_count_type framesToWrite = chunkFrames;
+      if(framesToWrite > minSamples - currentIn)
+        framesToWrite = minSamples - currentIn;
+      for(int c = 0; c < channels.size(); c++) {
+        for(m_sample_count_type i = currentIn; i < currentIn + framesToWrite; i++) {
+          m_sample_type sample = (*channels[c])[i];
+          
+          //Check bounds.
+          if (sample > 1.0) {sample = 1.0; outOfBounds++;}
+          if (sample < -1.0) {sample = -1.0; outOfBounds++;}
+          
+          chunk[(i - currentIn) * channels.size() + c] = sample;
         }
-        
-        // check the number of samples
-        m_sample_count_type count = channels[0]->getSampleCount();
-        if (count < numSamples) numSamples = count;
-        if (count > maxSamples) maxSamples = count;
+      }
+      sf_writef_float(s, chunk, (sf_count_t)framesToWrite);
     }
-    
-    if (maxSamples > numSamples)
-    {
-        m_time_type secondsClipped =
-         ((m_time_type)(maxSamples - numSamples)) /
-         ((m_time_type)samplingRate);
-         
-        cerr << "WARNING: AuWriter: " 
-             << "Because not all SoundSamples were of the same length, " << endl
-             << secondsClipped << " seconds will be clipped off of the "
-             << "end of one or more channels." << endl;
-    }
-    
-    
-    cout << "Writing " << numSamples << " samples at " << samplingRate 
-         << " Hz to file " << filename
-         << " (" << numChannels << " channels, " 
-         << (numSamples / samplingRate) << " sec)" << endl;
-    
-    // now, we are ready to output the file.
-    
-    // try to open an output stream to filename
-    ofstream file;
-    file.open(filename.c_str());
-    
-    //--------------------
-    // start of HEADER
-    
-    file.write(".snd",4); // magic string
-    
-    WriteIntMsb(file, 28L, 4); // Length of header
-
-    // length of sound (just really long, players stop at end of file)
-    WriteIntMsb(file, 0x7FFFFFFFL, 4);
-    
-    // file format : 16 bit linear, 24 bit linear, 32 bit linear
-    WriteIntMsb(file, bits, 4);  
-    
-    // sampling rate
-    WriteIntMsb(file, samplingRate, 4);
-
-    // number of channels
-    WriteIntMsb(file, numChannels, 4);
-
-    // padding before the data:
-    WriteIntMsb(file, 0, 4); 
-    
-    // end of HEADER
-    //--------------------
-
-    m_sample_type sample;
-    m_sample_count_type outOfBounds = 0;
-    int value;
-
-    for (m_sample_count_type s=0; s<numSamples; s++)
-    {
-        for (int c=0; c<numChannels; c++)
-        {
-            // get the sample:
-            sample = (*channels[c])[s];
-        
-            // check bounds:
-            if (sample > 1.0) {sample = 1.0; outOfBounds++;}
-            if (sample < -1.0) {sample = -1.0; outOfBounds++;}
-            
-            // convert the doubles to integer values
-			switch (bits) {
-			case _16_BIT_LINEAR:
-			default:
-	            // 16 bit sound (this number is 2^16/2 - 1)
-				value = (int) ((sample) * 32767.0);
-	            WriteIntMsb(file, value, 2);
-				break;
-			case _24_BIT_LINEAR:
-				value = (int) ((sample) * (double) (1 << 23 - 1));
-	            WriteIntMsb(file, value, 3);
-				break;
-			case _32_BIT_LINEAR:
-				value = (int) ((sample) * (double) (2 << 31 - 1));
-	            WriteIntMsb(file, value, 4);
-				break;
-			};
-
-        }
-    }
-
-    
-    // warn on outOfBounds
-    if (outOfBounds > 0)
-    {
-        m_time_type secondsClipped =
-         ((m_time_type)outOfBounds) /
-         ((m_time_type)samplingRate);
-         
-        cerr << "WARNING: AuWriter: "
-             << outOfBounds << " samples "
-             << "(" << secondsClipped << " seconds) "
-             << "contained values that clipped." << endl;
-    }
-    
-    file.close();
-    
+    sf_close(s);
     return true;
 }
 
