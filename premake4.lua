@@ -25,6 +25,7 @@ project "lass"
   language "C++"
   flags {"StaticRuntime"}
   files {"LASS/src/*.cpp", "LASS/src/*.h"}
+  includedirs {"/usr/local/include"}
   kind "StaticLib"
   targetdir "lib"
   buildoptions {"-Wno-deprecated"}
@@ -56,8 +57,8 @@ project "cmod"
   flags {"StaticRuntime"}
   files {"CMOD/src/Main.*"}
   kind "ConsoleApp"
-  libdirs {"lib"}
-  links {"lcmod", "lass", "parser", "pthread"}
+  libdirs {"lib", "/usr/local/lib"}
+  links {"lcmod", "lass", "parser", "pthread", "sndfile"}
   buildoptions {"-Wno-deprecated"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
@@ -68,7 +69,8 @@ project "lassie"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
   buildoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
   linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
-  links {"lcmod", "lass", "parser", "pthread"}
+  libdirs {"/usr/local/lib"}
+  links {"lcmod", "lass", "parser", "pthread", "sndfile"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   
