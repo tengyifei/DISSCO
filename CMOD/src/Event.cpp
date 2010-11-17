@@ -43,6 +43,7 @@ Event::Event(float stime, float dur, int type, string name) {
 
   childEventDef = NULL;
   discreteMat = NULL;
+  childType = 0;
 }
 
 //----------------------------------------------------------------------------//
@@ -81,7 +82,7 @@ Event::Event(const Event& origEvent) {
     discreteMat = NULL;
   }
 
-  //Note: All other vars are temporary things used in calculations
+  childType = 0;
 }
 
 //----------------------------------------------------------------------------//
@@ -307,6 +308,12 @@ void Event::buildChildEvents() {
     exit(1);
   }
   
+  //Make sure the childType indexes correctly.
+  if (childType >= typeVect.size() || typeVect[childType] == "") {
+    cerr << "There is a mismatch between childType and typeVect." << endl;
+    exit(1);
+  }
+
   //Create the child events.
   for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
     string childName = typeVect[childType];
@@ -391,8 +398,10 @@ void Event::checkEvent(bool buildResult) {
       " times. There may be a bug. Please report." << endl;
 
   //Make sure the childType indexes correctly.
-  if (childType >= typeVect.size() || typeVect[childType] == "")
+  if (childType >= typeVect.size() || typeVect[childType] == "") {
     cerr << "There is a mismatch between childType and typeVect." << endl;
+    exit(1);
+  }
 
   //Add the event to the temporary event list.
   temporaryChildEvents.push_back(new Event(childStartTime, childDuration, 
