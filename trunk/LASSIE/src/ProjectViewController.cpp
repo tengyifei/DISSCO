@@ -1377,86 +1377,86 @@ ProjectViewController::ProjectViewController(
 
   if (yytmp == NULL) {
     cout << "ERROR: File " << _datPathAndName << " does not exist!" << endl;
-    exit(1);
+    //exit(1);
   }
+  else {
+    yyin = yytmp; 
+    //extern map<const char*, FileValue*, ltstr> file_data;
+    yyparse(); 
+    fclose(yyin);
 
-  yyin = yytmp; 
-  //extern map<const char*, FileValue*, ltstr> file_data;
-  yyparse(); 
-  fclose(yyin);
+    FileValue* value;
+    std::string buffer2;
 
-  FileValue* value;
-  std::string buffer2;
-
-  //std::string topName = piece->fileList;
-  value = file_data["LASSIETITLE"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
+    //std::string topName = piece->fileList;
+    value = file_data["LASSIETITLE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
   
-  //projectTitle = FileOperations::stringToFileName(_pathAndName);
-  projectTitle = buffer2;
-  //fileFlag      = piece->fileFlags;
-  value = file_data["LASSIEFILEFLAGS"];
-  buffer2 = value->getString();
-  
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  fileFlag = buffer2;
+    //projectTitle = FileOperations::stringToFileName(_pathAndName);
+    projectTitle = buffer2;
+    //fileFlag      = piece->fileFlags;
+    value = file_data["LASSIEFILEFLAGS"];
+    buffer2 = value->getString();
+    
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    fileFlag = buffer2;
   
   
-  //sprintf(buffer,"%f", piece->pieceDuration); 
-  //duration = buffer; 
-  value = file_data["LASSIEPIECEDURATION"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  duration = buffer2;  
+    //sprintf(buffer,"%f", piece->pieceDuration); 
+    //duration = buffer; 
+    value = file_data["LASSIEPIECEDURATION"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    duration = buffer2;  
+    
+    
+    
+    //sprintf(buffer,"%d", piece->numChannels); 
+    //numOfChannels = buffer;
+    value = file_data["LASSIENUMCHANNELS"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    numOfChannels = buffer2;
   
   
-  
-  //sprintf(buffer,"%d", piece->numChannels); 
-  //numOfChannels = buffer;
-  value = file_data["LASSIENUMCHANNELS"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  numOfChannels = buffer2;
-
-
-  //sprintf(buffer,"%d", piece->sampleRate); 
-  //sampleRate    = buffer;
-  value = file_data["LASSIESAMPLERITE"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  sampleRate = buffer2;
-  
-  
-  
-  //sprintf(buffer,"%d", piece->sampleSize); 
-  //sampleSize    = buffer;
-  value = file_data["LASSIESAMPLESIZE"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  sampleSize = buffer2;
-  
-  
-  
-  
-  //sprintf(buffer,"%d", piece->numThreads); 
-  //numOfThreads  = buffer;
-  
+    //sprintf(buffer,"%d", piece->sampleRate); 
+    //sampleRate    = buffer;
+    value = file_data["LASSIESAMPLERITE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    sampleRate = buffer2;
+    
+    
+    
+    //sprintf(buffer,"%d", piece->sampleSize); 
+    //sampleSize    = buffer;
+    value = file_data["LASSIESAMPLESIZE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    sampleSize = buffer2;
+    
+    
+    
+    
+    //sprintf(buffer,"%d", piece->numThreads); 
+    //numOfThreads  = buffer;
+    
     value = file_data["LASSIENUMTHREADS"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  numOfThreads = buffer2;
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    numOfThreads = buffer2;
   
-  //topEvent      = piece->fileList;
-  value = file_data["LASSIEFILELIST"];
-  buffer2 = value->getString();
-  buffer2 = (buffer2 ==" ")?"":buffer2;
-  topEvent = buffer2;  
+    //topEvent      = piece->fileList;
+    value = file_data["LASSIEFILELIST"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 ==" ")?"":buffer2;
+    topEvent = buffer2;  
   
     value = file_data["LASSIESOUNDSYNTHESIS"];
-  buffer2 = value->getString();
-  synthesis = (buffer2 =="TRUE")?true:false;
-
+    buffer2 = value->getString();
+    synthesis = (buffer2 =="TRUE")?true:false;
+  }
 
   //restore notemodifiers
   
@@ -1489,39 +1489,40 @@ ProjectViewController::ProjectViewController(
 
   if (yytmp == NULL) {
     cout << "ERROR: File " << stringbuffer << " does not exist!" << endl;
-    exit(1);
+    //exit(1);
   }
 
-  yyin = yytmp; 
-  //extern map<const char*, FileValue*, ltstr> file_data;
-  yyparse(); 
-  fclose (yyin);
+  else{
+    yyin = yytmp; 
+    //extern map<const char*, FileValue*, ltstr> file_data;
+    yyparse(); 
+    fclose (yyin);
 
-  //FileValue* value;
-  //std::string buffer2;
-
-  //std::string topName = piece->fileList;
-  value = file_data["LASSIENOTEDEFAULTMODIFIER"];
-  std::list<FileValue> valueList = value->getList();
-  std::list<FileValue>::iterator valueListIter = valueList.begin();
-  std::map<string, bool>::iterator modifierMapIter = defaultNoteModifiers.begin();
+    FileValue* value;
+    //std::string buffer2;
   
-  while( valueListIter != valueList.end() && modifierMapIter != defaultNoteModifiers.end()){
-    (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
-    modifierMapIter ++;
-    valueListIter ++;
+    //std::string topName = piece->fileList;
+    value = file_data["LASSIENOTEDEFAULTMODIFIER"];
+    std::list<FileValue> valueList = value->getList();
+    std::list<FileValue>::iterator valueListIter = valueList.begin();
+    std::map<string, bool>::iterator modifierMapIter = defaultNoteModifiers.begin();
+    
+    while( valueListIter != valueList.end() && modifierMapIter != defaultNoteModifiers.end()){
+      (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
+      modifierMapIter ++;
+      valueListIter ++;
+    }
+     
+    value = file_data["LASSIENOTECUSTOMMODIFIER"];
+    if (value){
+      valueList = value->getList();
+      valueListIter = valueList.begin();
+      for (valueListIter;valueListIter != valueList.end(); valueListIter++){
+        customNoteModifiers.push_back((*valueListIter).getString());
+      } 
+    
+    }
   }
-   
-  value = file_data["LASSIENOTECUSTOMMODIFIER"];
-  if (value){
-    valueList = value->getList();
-    valueListIter = valueList.begin();
-    for (valueListIter;valueListIter != valueList.end(); valueListIter++){
-      customNoteModifiers.push_back((*valueListIter).getString());
-    } 
-  
-  }
-  
   //add the Paned widget "leftTwoPlusAttributes" as a child
   add(leftTwoPlusAttributes);
 
@@ -1719,18 +1720,21 @@ ProjectViewController::ProjectViewController(
   //make note event
  directory = _pathAndName+ "/N";
   if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
+     std::cout << "Error opening " << directory <<", directory doesn't exist."<< std::endl;
+     std::cout<<"Creating " <<directory <<endl;
+     string temp = "mkdir "+ directory;
+     system(temp.c_str());
+  }
+  else{
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventNote);
         events.push_back(newEvent);
         paletteView->insertEvent(newEvent,"Note");
       }
-    }
+    }  
     closedir(dp);
-
+  }
 
 
   //  make Env Events
