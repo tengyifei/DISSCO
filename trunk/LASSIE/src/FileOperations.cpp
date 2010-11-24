@@ -86,7 +86,9 @@ void FileOperations::createDirectories(std::string _pathAndName){
   command = "mkdir "+ _pathAndName + "/B";
   system(command.c_str());		 
   command = "mkdir "+ _pathAndName + "/S";
-  system(command.c_str());	
+  system(command.c_str());
+  command = "mkdir "+ _pathAndName + "/N";
+  system(command.c_str());  	
   command = "mkdir "+ _pathAndName + "/PAT";
   system(command.c_str());		 
   command = "mkdir "+ _pathAndName + "/REV";

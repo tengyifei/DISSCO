@@ -109,7 +109,6 @@ IEvent::IEvent(std::string _filePath, std::string _fileName, EventType _type){
   
   changedButNotSaved = false;           
 
-
 }
 
 
@@ -129,8 +128,9 @@ IEvent::~IEvent(){
 
 
 IEvent::SoundExtraInfo::SoundExtraInfo(){
-  spectrumPartials = NULL;
-  numPartials =0;
+  spectrumPartials = new SpectrumPartial();
+  deviation = " ";
+  numPartials =1;
 }
 
 
@@ -177,7 +177,10 @@ void IEvent::setEventType(EventType _type){
     //EventExtraInfo* EnvelopeExtraInfo;
     extraInfo = (IEvent::EventExtraInfo*) new IEvent::ReverbExtraInfo();
   }      
-  
+  else if(_type == eventNote){
+    //EventExtraInfo* EnvelopeExtraInfo;
+    extraInfo = (IEvent::EventExtraInfo*) new IEvent::NoteExtraInfo();
+  }   
   
 }
 
@@ -205,7 +208,7 @@ std::string IEvent::getEventTypeString(){
     case 4:
       return "Bottom";
     case 5:
-      return "Sound";
+      return "Spectrum";
     case 6:
       return "Env.";
     case 7:
@@ -218,6 +221,8 @@ std::string IEvent::getEventTypeString(){
       return "Rev.";
     case 11:
       return "Folder";
+    case 12:
+      return "Note";
   }
 }
 
@@ -551,7 +556,9 @@ void IEvent::saveToDisk(std::string _pathOfProject){
       saveAsRev(_pathOfProject);
       break;
     case 11: //no need to save folder
-      return;
+      break;
+    case 12:
+      saveAsNote(_pathOfProject);  
   }
 }
 
@@ -988,6 +995,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
     stringbuffer = "loudness = " + extraInfo->getLoudness() + ";\n\n" +
       "spatialization = " + extraInfo->getSpatialization() + ";\n\n" +
       "reverberation = " + extraInfo->getReverb() + ";\n\n";
+    yy_scan_string( stringbuffer.c_str());
     if (yyparse()==0){
       fputs(stringbuffer.c_str(),file);
     }
@@ -1015,6 +1023,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
       }
 
       stringbuffer = stringbuffer + "\n            >;\n\n";
+    yy_scan_string( stringbuffer.c_str());  
     if (yyparse()==0){
       fputs(stringbuffer.c_str(),file);
     }
@@ -1233,7 +1242,7 @@ void IEvent::saveAsSound(std::string _pathOfProject){
   std::string stringbuffer;
   FILE* file  = fopen(fileName.c_str(), "w");
   
-  std::string header = "/*  Sound: S/"+eventName+"  */\n\n";  
+  std::string header = "/*  Spectrum: S/"+eventName+"  */\n\n";  
   fputs(header.c_str(),file);
   
   stringbuffer = "numPartials = " + extraInfo->getNumPartials()+";\n";
@@ -1510,6 +1519,47 @@ void IEvent::saveAsRev(std::string _pathOfProject){
 }
 
 
+
+void IEvent::saveAsNote(std::string _pathOfProject){
+
+
+  std::string fileName;
+  fileName = _pathOfProject + "/N/"+ eventName;
+
+  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
+  std::string stringbuffer;
+  FILE* file  = fopen(fileName.c_str(), "w");
+  std::string header = "/*  Note: N/"+eventName+"  */\n\n";  
+  fputs(header.c_str(),file);
+
+  stringbuffer ="notePitchClass = < \"C\", \"C#\", \"D\", \"Eb\", \"E\", \"F\", \"F#\", \"G\", \"Ab\", \"A\", \"Bb\", \"B\" >;\n\nnoteDynamicMark = < \"ppp\", \"pp\", \"p\", \"mp\", \"mf\", \"f\", \"ff\", \"fff\" >;\n\n";
+  fputs(stringbuffer.c_str(),file);
+
+
+
+
+  std::list<std::string> modifiers = extraInfo->getNoteModifiers();
+  if (modifiers.size()!= 0){
+    stringbuffer = "noteModifiers = < ";
+    std::list<std::string>::iterator iter = modifiers.begin();
+  
+    while (iter!= modifiers.end()){
+      stringbuffer = stringbuffer + "\""+*iter + "\"";
+      iter ++;
+      if (iter!= modifiers.end()){
+        stringbuffer = stringbuffer + ", ";
+      }
+    }    
+  
+    stringbuffer = stringbuffer + " >;\n";
+    fputs(stringbuffer.c_str(),file);
+  }
+  fclose(file);
+}
+
+
+
+
 void IEvent::showAllChildren(){
   std::list<EventLayer*>::iterator i = layers.begin();
 
@@ -1676,7 +1726,10 @@ SpectrumPartial* IEvent::SoundExtraInfo::addPartial(){
 
 
 
-void IEvent::SoundExtraInfo::deletePartial(SpectrumPartial* _partial){
+bool IEvent::SoundExtraInfo::deletePartial(SpectrumPartial* _partial){
+  if (numPartials ==1 ){
+    return false;
+  }
   if (spectrumPartials == _partial){
     spectrumPartials = spectrumPartials ->next;
     if (spectrumPartials != NULL){
@@ -1697,6 +1750,7 @@ void IEvent::SoundExtraInfo::deletePartial(SpectrumPartial* _partial){
   }
   numPartials --;
   delete _partial;
+  return true;
 
 
 }
@@ -3032,8 +3086,20 @@ void IEvent::parseNonEvent(){
     value = file_data["LASSIEREV"];
     extraInfo->setReverbBuilder((value == NULL)? " ": value->getString());
 
+  }
+  else if (eventType == eventNote){
+    extraInfo = (EventExtraInfo*) new NoteExtraInfo();
+    value = file_data["noteModifiers"];
+    if (value){
+      std::list<FileValue> fileValueList = value->getList();
+      std::list<FileValue>::iterator fileValueListIter = fileValueList.begin();
+    
+      for (fileValueListIter; fileValueListIter!= fileValueList.end(); fileValueListIter++){
+        extraInfo->addNoteModifiers(fileValueListIter->getString());     
+      }
+    }
   }  
-  
+
 }  
 
 
@@ -3107,7 +3173,24 @@ void IEvent::deleteLayer (EventLayer* _deleteLayer){
 
 
 
+IEvent::NoteExtraInfo::NoteExtraInfo(){
+}
 
+IEvent::NoteExtraInfo::~NoteExtraInfo(){
+}
+
+std::list<std::string> IEvent::NoteExtraInfo::getNoteModifiers(){
+  return modifiers;
+}
+  
+void IEvent::NoteExtraInfo::addNoteModifiers(std::string _modifier){
+  modifiers.push_back(_modifier);
+}    
+
+
+void IEvent::NoteExtraInfo::clearNoteModifiers(){
+  modifiers.clear();
+}
 
 
 

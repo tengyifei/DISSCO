@@ -103,7 +103,7 @@ EventAttributesViewController::EventAttributesViewController(
   
   attributesRefBuilder->get_widget("attributesStandard", frame);
   frame->set_size_request(500, -1);
-  scrolledWindow.add(*frame);
+  //scrolledWindow.add(*frame);
   scrolledWindow.set_size_request(500, 600);
   
   Gtk::Button* addLayerButton;
@@ -595,7 +595,7 @@ EventAttributesViewController::EventAttributesViewController(
     "SpatializationAttributesBuilderEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
 
-
+  buildNoteModifiersList();
 
 }
 
@@ -678,11 +678,14 @@ void EventAttributesViewController::showAttributesOfEvent(IEvent* _event){
   }
   */
   
-  
+
   saveCurrentShownEventData();
   currentlyShownEvent = _event;
+
   entryChangedByShowCurrentEvent = true;
+
   showCurrentEventData();
+
   entryChangedByShowCurrentEvent = false;
   //if (sharedPointers->projectView->getSaved()){
     //cout<<"its saved"<<endl;
@@ -1107,10 +1110,23 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       "ReverbAttributesBuilderEntry", entry);
     extraInfo->setReverbBuilder(entry->get_text());  
 
-  }   
-  
+  }  
+  else if (currentlyShownEvent->getEventType() ==eventNote){
+    currentlyShownEvent->setChangedButNotSaved(true);
+    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    extraInfo->clearNoteModifiers();
+    std::vector<Gtk::CheckButton*>::iterator iter2 = noteModifierCheckButtons.begin();
+    for (iter2; iter2 != noteModifierCheckButtons.end();iter2++){
+      if ((*iter2)->get_active()){
+        extraInfo->addNoteModifiers((*iter2)->get_label());
+      }
+    }
+  } 
+   
   else if (currentlyShownEvent->getEventType() ==eventFolder){ // disable everything if it is a folder
 
+    
+    
     attributesRefBuilder->get_widget(
       "attributesStandardMaxChildDurEntry", entry);
     entry->set_sensitive(false);
@@ -1160,6 +1176,7 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     attributesRefBuilder->get_widget(
       "attributesChildEventDefEntry3", entry);
     entry->set_sensitive(false);
+    
   }
 }
 
@@ -1185,8 +1202,9 @@ void EventAttributesViewController::showCurrentEventData(){
   }
   //scrolledWindow.remove(); //remove the child from the main scrolled window
   Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
-  temp->remove();
-  
+  if (temp){
+    temp->remove();
+  }
   
   Gtk::Entry*        entry; // use to point to a text entry
   Gtk::Label*        label;
@@ -1933,114 +1951,14 @@ void EventAttributesViewController::showCurrentEventData(){
       break;
       
     case 11:
-
-      attributesRefBuilder->get_widget("attributesStandard", frame);
-      
-      scrolledWindow.add(*frame);
-
-      attributesRefBuilder->get_widget(
-        "attributesStandardMaxChildDurEntry", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-
-
-      attributesRefBuilder->get_widget(
-        "attributesStandardTimeSignatureEntry1", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-
-      attributesRefBuilder->get_widget(
-        "attributesStandardTimeSignatureEntry2", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardUnitsPerSecondEntry", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoValueEntry", entry);
-      entry->set_sensitive(false);      
-      entry->set_text(" ");
-
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoAsFractionEntry1", entry);
-      entry->set_sensitive(false);   
-      entry->set_text(" ");   
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoAsFractionEntry2", entry);
-      entry->set_sensitive(false);      
-      entry->set_text(" ");
-
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoNotePrefixCombobox", combobox);
-      combobox->set_sensitive(false); 
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoNoteCombobox", combobox);
-      combobox->set_sensitive(false);       
-            
-    
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardNumChildrenEntry1", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardNumChildrenEntry2", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesStandardNumChildrenEntry3", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesChildEventDefEntry1", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesChildEventDefEntry2", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      attributesRefBuilder->get_widget(
-        "attributesChildEventDefEntry3", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-      
-      attributesRefBuilder->get_widget(
-        "attributesChildEventDefAttackSieveEntry", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-        
-      attributesRefBuilder->get_widget(
-        "attributesChildEventDefDurationSieveEntry", entry);
-      entry->set_sensitive(false);
-      entry->set_text(" ");
-      
-
-      //construct layers  (no layer actually)
-
-      //    Gtk::HBox* layerBoxes;
-      attributesRefBuilder->get_widget("layerBoxes", layerBoxes);
-      
-      //    Gtk::VBox* attributesMainVBox;
-      //    std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
-      i = layerBoxesStorage.begin();
-      for (i; i != layerBoxesStorage.end(); ++i){
-        layerBoxes->remove(**i);
-      }
-      layerBoxesStorage.clear();
       
       break;
+      
+    case 12:
+      switchToNoteAttributes();
+      break;
+      
+      
   }
   //  }
   
@@ -2244,19 +2162,47 @@ void EventAttributesViewController::switchToRevAttributes(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void EventAttributesViewController::switchToNoteAttributes(){
+  Gtk::Frame* frame;
+  IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+  
+  
+  attributesRefBuilder->get_widget("NoteAttributesFrame", frame);
+  scrolledWindow.add(*frame);
+  Gtk::Entry* entry;
+  
+  
+  attributesRefBuilder->get_widget("NoteAttributesNameEntry", entry);
+  entry->set_text( currentlyShownEvent->getEventName());
+  entry->set_sensitive(false);
+  attributesRefBuilder->get_widget("NoteAttributesTypeEntry", entry);
+  entry->set_text( currentlyShownEvent->getEventTypeString()  );
+  entry->set_sensitive(false);
+  
+  
+  // clear all checkbutton
+  
+  std::vector<Gtk::CheckButton*>::iterator iter = noteModifierCheckButtons.begin();
+  for (iter; iter!= noteModifierCheckButtons.end(); iter++){
+    (*iter)->set_active(false);
+  }
+  
+  std::list<std::string> modifierList = extraInfo->getNoteModifiers();
+  std::list<std::string>::iterator iter2 = modifierList.begin();
+  for (iter2; iter2!= modifierList.end(); iter2++){
+    iter = noteModifierCheckButtons.begin();
+    while (iter != noteModifierCheckButtons.end()){
+      if ((*iter)->get_label() == *iter2){
+        (*iter)->set_active(true);
+        break;
+      }
+    iter ++;
+    }
+    
+  }
+  
+  
+}
 
 
 
@@ -3699,9 +3645,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
     "attributesStandardMaxChildDurEntry", entry);
     
     generator = new FunctionGenerator(functionReturnFloat, entry->get_text());
-    generator->run();
-
-    if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   }
@@ -3709,9 +3654,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
     attributesRefBuilder->get_widget(
     "attributesStandardUnitsPerSecondEntry", entry);  
     generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-    generator->run();
-
-    if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   }
@@ -3728,9 +3672,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
         "attributesStandardNumChildrenEntry1", entry);
       generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-      generator->run();   
-
-      if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }
     }    
@@ -3738,9 +3681,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
         "attributesStandardNumChildrenEntry1", entry);
       generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }  
     } 
@@ -3756,11 +3698,10 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
     
     if (radioButton->get_active()){
       attributesRefBuilder->get_widget(
-      "attributesStandardNumChildrenEntry2", entry);
+        "attributesStandardNumChildrenEntry2", entry);
       generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+      int result = generator->run();
+      if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }    
     }    
@@ -3774,9 +3715,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
       "attributesStandardNumChildrenEntry3", entry);
       generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+      int result = generator->run();
+      if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }    
     } 
@@ -3789,9 +3729,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
       "attributesChildEventDefEntry1", entry);
       generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+      int result = generator->run();
+      if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }    
     } 
@@ -3804,9 +3743,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
       "attributesChildEventDefEntry2", entry);
       generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+      int result = generator->run();
+      if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }    
     } 
@@ -3819,9 +3757,8 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       attributesRefBuilder->get_widget(
       "attributesChildEventDefEntry3", entry);
       generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
-      generator->run();
-
-      if (generator->getResultString() !=""){
+      int result = generator->run();
+      if (generator->getResultString() !=""&& result ==0){
         entry->set_text(generator->getResultString());
       }    
     } 
@@ -3836,8 +3773,8 @@ void EventAttributesViewController::LayerBox::byLayerWeightButtonClicked(){
   if (weightEntry.get_sensitive()){
     FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,weightEntry.get_text());
     std::cout<<"NOT sure if byLayer is int or float. ask sever"<<std::endl;
-    generator->run();
-    if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
       weightEntry.set_text(generator->getResultString());
     }
     delete generator;
@@ -3866,9 +3803,8 @@ void EventAttributesViewController::BSLoudnessButtonClicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesLoudnessEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run();  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3879,10 +3815,8 @@ void EventAttributesViewController::BSSpatializationButtonClicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesSpatializationEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnSPA,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3892,10 +3826,8 @@ void EventAttributesViewController::BSReverbButtonClicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesReverbEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnREV,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3905,10 +3837,8 @@ void EventAttributesViewController::BSWellTemperedButtonClicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesWellTemperedEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3918,10 +3848,8 @@ void EventAttributesViewController::BSFunFreqButton1Clicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesFunFreqEntry1", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3931,10 +3859,8 @@ void EventAttributesViewController::BSFunFreqButton2Clicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesFunFreqEntry2", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3944,10 +3870,8 @@ void EventAttributesViewController::BSContinuumButtonClicked(){
   attributesRefBuilder->get_widget(
     "BottomSubAttributesContinuumEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3961,10 +3885,8 @@ void BottomEventModifierAlignment::probablityEnvelopeButtonClicked(){
   attributesRefBuilder->get_widget(
     "probablityEnvelopeEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3976,10 +3898,8 @@ void BottomEventModifierAlignment::ampValueEnvelopeButtonClicked(){
   attributesRefBuilder->get_widget(
     "ampValueEnvelopeEntry", entry);
   FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run();  
-  
-
-    if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
   delete generator;
@@ -3993,9 +3913,8 @@ void BottomEventModifierAlignment::rateValueEnvelopeButtonClicked(){
     
   if (entry->get_sensitive()){
     FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-    generator->run(); 
-    
-    if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
     delete generator;
@@ -4010,9 +3929,8 @@ void BottomEventModifierAlignment::widthEnvelopeButtonClicked(){
     
   if (entry->get_sensitive()){
     FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-    generator->run(); 
-    
-    if (generator->getResultString() !=""){
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
     }
     delete generator;
@@ -4027,9 +3945,8 @@ void EventAttributesViewController::envelopeFunButtonClicked(){
     "envelopeAttributesBuilderEntry", entry);
     
   FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
   }
   delete generator;
@@ -4043,9 +3960,8 @@ void EventAttributesViewController::sieveFunButtonClicked(){
     "SieveAttributesBuilderEntry", entry);
     
   FunctionGenerator* generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
   }
   delete generator;
@@ -4058,9 +3974,8 @@ void EventAttributesViewController::patternFunButtonClicked(){
     "PatternAttributesBuilderEntry", entry);
     
   FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
   }
   delete generator;
@@ -4073,9 +3988,8 @@ void EventAttributesViewController::reverbFunButtonClicked(){
     "ReverbAttributesBuilderEntry", entry);
     
   FunctionGenerator* generator = new FunctionGenerator(functionReturnREV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
   }
   delete generator;
@@ -4088,9 +4002,8 @@ void EventAttributesViewController::spatializationFunButtonClicked(){
     "SpatializationAttributesBuilderEntry", entry);
     
   FunctionGenerator* generator = new FunctionGenerator(functionReturnSPA,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
   }
   delete generator;
@@ -4309,9 +4222,8 @@ SoundPartialHBox::~SoundPartialHBox(){}
 
 void SoundPartialHBox::functionButtonClicked(){  
   FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,envelopeEntry.get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
     envelopeEntry.set_text(generator->getResultString());
     partial->envString = envelopeEntry.get_text(); 
   }
@@ -4337,7 +4249,10 @@ void SoundPartialHBox::removeButtonClicked(){
 }  
  
 void EventAttributesViewController::removeSoundPartial(SoundPartialHBox* _remove){
-    currentlyShownEvent->setChangedButNotSaved(true);
+  if (currentlyShownEvent->getEventExtraInfo()->getNumPartials() == "1"){
+    return;
+  }
+  currentlyShownEvent->setChangedButNotSaved(true);
   Gtk::VBox* vbox;
   attributesRefBuilderSound->get_widget(
         "SpectrumVBox", vbox);
@@ -4398,7 +4313,7 @@ void SoundPartialHBox::saveString(){
 
 
 void EventAttributesViewController::refreshChildTypeInLayer(){
-  int index = 1;
+  int index = 0;
   std::vector<LayerBox*>::iterator layerBoxesIter = layerBoxesStorage.begin();
   for (layerBoxesIter; layerBoxesIter!= layerBoxesStorage.end(); layerBoxesIter++){
     index = (*layerBoxesIter)->refreshChildTypeIndex(index);
@@ -4424,6 +4339,69 @@ int EventAttributesViewController::LayerBox::refreshChildTypeIndex(int _index){
 
 }
 
+
+void EventAttributesViewController::buildNoteModifiersList(){
+  if (currentlyShownEvent!= NULL &&currentlyShownEvent->getEventType() == eventNote){
+    saveCurrentShownEventData();
+  }
+
+
+  Gtk::Table* table;
+  attributesRefBuilder->get_widget(
+        "NoteAttributesModifiersTable", table);
+  //table->remove(); // remove things from the view
+
+   //clean current noteModifierCheckButtons
+  std::vector<Gtk::CheckButton*>::iterator iter = noteModifierCheckButtons.begin();    
+  for (iter; iter!= noteModifierCheckButtons.end(); iter++){
+    table->remove(**iter);
+    delete (*iter);
+  }
+
+  noteModifierCheckButtons.clear();
+  
+  int x = 0;
+  int y = 0;
+
+  Gtk::CheckButton* button;
+  std::map<std::string, bool> defaultModifiers = projectView->getDefaultNoteModifiers(); 
+  std::map<std::string, bool>::iterator modifierIter = defaultModifiers.begin();
+  for (modifierIter; modifierIter != defaultModifiers.end(); modifierIter++){
+    if ((*modifierIter).second){
+      button = new Gtk::CheckButton::CheckButton((*modifierIter).first, false);
+      button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
+      noteModifierCheckButtons.push_back(button);
+      table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
+      x ++;
+      if (x ==3){
+        x = 0;
+        y++;
+      }
+    }
+    
+  }
+  
+  std::vector<std::string> customNoteModifiers =  projectView->getCustomNoteModifiers();
+  std::vector<std::string>::iterator modifierIter2 = customNoteModifiers.begin(); 
+  for (modifierIter2; modifierIter2 != customNoteModifiers.end(); modifierIter2++){
+    button = new Gtk::CheckButton::CheckButton(*modifierIter2, false);
+    button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) );
+    noteModifierCheckButtons.push_back(button);
+    table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
+    x ++;
+    if (x ==3){
+      x = 0;
+      y++;
+    }  
+  }
+  
+ 
+  show_all_children();
+  
+  if (currentlyShownEvent!= NULL &&currentlyShownEvent->getEventType() == eventNote){
+    showCurrentEventData();
+  }
+}
 
 
 

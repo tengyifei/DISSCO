@@ -184,7 +184,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   sampleRate    = "44100";
   sampleSize    = "16";
   numOfThreads  = "1";
-  topEvent      = "T0";
+  topEvent      = "0";
   synthesis     = true;
 
   sharedPointers = new SharedPointers();
@@ -232,9 +232,36 @@ ProjectViewController::ProjectViewController(
   sampleRate    = "44100";
   sampleSize    = "16";
   numOfThreads  = "1";
-  topEvent      = "T/0";
+  topEvent      = "0";
   synthesis     = true;
-
+  
+  
+  
+  // initialize default note modifiers
+  defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("+8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("bend",true));
+  defaultNoteModifiers.insert(pair<string,bool>("dry",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissKeys",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissStringRes",true));
+  defaultNoteModifiers.insert(pair<string,bool>("graceTie",true));
+  defaultNoteModifiers.insert(pair<string,bool>("letVibrate",true));
+  defaultNoteModifiers.insert(pair<string,bool>("moltoVibrato",true));
+  defaultNoteModifiers.insert(pair<string,bool>("mute",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pluck",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pressSilently",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resonance",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resPedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sfz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sffz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
+  defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
+  
+  
+  
+  
   //add the Paned widget "leftTwoPlusAttributes" as a child
   add(leftTwoPlusAttributes);
 
@@ -275,11 +302,14 @@ ProjectViewController::ProjectViewController(
   
   envelopeLibraryEntries = NULL;
   
-  
-  
-  
-  
   show_all_children();
+
+
+
+
+
+
+
 }
 
 
@@ -362,10 +392,15 @@ void ProjectViewController::showContents(){
 
   event = new IEvent();
   event->setEventType(eventFolder);
-  event->setEventName("Sound");
+  event->setEventName("Spectrum");
   events.push_back(event);
   paletteView->insertEvent(event);
 
+  event = new IEvent();
+  event->setEventType(eventFolder);
+  event->setEventName("Note");
+  events.push_back(event);
+  paletteView->insertEvent(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
@@ -414,6 +449,7 @@ void ProjectViewController::hideContents(){
 
 
 void ProjectViewController::insertObject(){
+
   Glib::ustring selectedPaletteFolder = paletteView->folderSelected();
   //make sure a folder is selected in palette.
   if (selectedPaletteFolder == "None"){
@@ -469,8 +505,8 @@ void ProjectViewController::insertObject(){
         sigc::mem_fun(*this,&ProjectViewController::newObjectButtonClicked) );
     }
 
-    Gtk::Entry* nameEntry;
-    refBuilder->get_widget("newObjectNameEntry", nameEntry);
+  Gtk::Entry* nameEntry;
+  refBuilder->get_widget("newObjectNameEntry", nameEntry);
 
   EventType type;
   std::string flagForFolderMatching;
@@ -497,7 +533,7 @@ void ProjectViewController::insertObject(){
     refBuilder->get_widget("buttonBottom", typeButton);
     typeButton->set_active(true);
   }
-  else if (selectedPaletteFolder == "Sound"){
+  else if (selectedPaletteFolder == "Spectrum"){
     refBuilder->get_widget("buttonSound", typeButton);
     typeButton->set_active(true);
   }
@@ -519,6 +555,10 @@ void ProjectViewController::insertObject(){
   }
   else if (selectedPaletteFolder == "Reverb"){
     refBuilder->get_widget("buttonRev", typeButton);
+    typeButton->set_active(true);
+  }
+  else if (selectedPaletteFolder == "Note"){
+    refBuilder->get_widget("buttonNote", typeButton);
     typeButton->set_active(true);
   }
 
@@ -596,7 +636,7 @@ void ProjectViewController::insertObject(){
     refBuilder->get_widget("buttonSound", typeButton);
     if (typeButton->get_active()) {
       type = eventSound;
-      flagForFolderMatching = "Sound";
+      flagForFolderMatching = "Spectrum";
     }
 
     refBuilder->get_widget("buttonEnv", typeButton);
@@ -627,6 +667,12 @@ void ProjectViewController::insertObject(){
     if (typeButton->get_active()) {
       type = eventRev;
       flagForFolderMatching = "Reverb";
+    }
+
+    refBuilder->get_widget("buttonNote", typeButton);
+    if (typeButton->get_active()) {
+      type = eventNote;
+      flagForFolderMatching = "Note";
     }
 
     refBuilder->get_widget("buttonFolder", typeButton);
@@ -758,7 +804,7 @@ void ProjectViewController::insertObject(){
       else if (selectedPaletteFolder =="Bottom"){
         newEvent->setEventType(eventBottom);
       }
-      else if (selectedPaletteFolder =="Sound"){
+      else if (selectedPaletteFolder =="Spectrum"){
         newEvent->setEventType(eventSound);
       }
       else if (selectedPaletteFolder =="Envelope"){
@@ -778,6 +824,9 @@ void ProjectViewController::insertObject(){
       }
       else if (selectedPaletteFolder =="Reverb"){
         newEvent->setEventType(eventRev);
+      }
+      else if (selectedPaletteFolder =="Note"){
+        newEvent->setEventType(eventNote);
       }
       paletteView->insertEvent(newEvent);
       events.push_back(newEvent);
@@ -851,7 +900,14 @@ void ProjectViewController::projectPropertiesDialogButtonClicked(){
 
 //called by palette View to show the attributes of selected event
 void ProjectViewController::showAttributes(IEvent* _event){
-  eventAttributesView->showAttributesOfEvent(_event);
+  //if (_event->getEventTypeString() == "Folder"){
+    //showAttributesView(false);
+  //}
+  
+  //else {
+    //showAttributesView(true);
+    eventAttributesView->showAttributesOfEvent(_event);
+  //}
 }
 
 
@@ -1007,7 +1063,7 @@ void ProjectViewController::refreshProjectDotDat(){
     cout<<"illegal fileFlag value!"<<endl;
   }
 
-  stringbuffer = "fileList = \"" + topEvent + "\";\n";
+  stringbuffer = "fileList = \"T/" + topEvent + "\";\n";
   yy_scan_string( stringbuffer.c_str());//set parser buffer
     if (yyparse()==0){
     fputs(stringbuffer.c_str(),dat);
@@ -1146,6 +1202,7 @@ void ProjectViewController::save(){
     (*iter)->saveToDisk(pathAndName);
   }
   saveEnvelopeLibrary();
+  saveNoteModifierConfiguration();
 }
 
 
@@ -1326,7 +1383,7 @@ ProjectViewController::ProjectViewController(
   yyin = yytmp; 
   //extern map<const char*, FileValue*, ltstr> file_data;
   yyparse(); 
-
+  fclose(yyin);
 
   FileValue* value;
   std::string buffer2;
@@ -1401,11 +1458,70 @@ ProjectViewController::ProjectViewController(
   synthesis = (buffer2 =="TRUE")?true:false;
 
 
-  //delete piece; //since the data is no longer needed. delete piece to prevent
-  //memory leak
-	
+  //restore notemodifiers
+  
+  defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("+8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("bend",true));
+  defaultNoteModifiers.insert(pair<string,bool>("dry",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissKeys",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissStringRes",true));
+  defaultNoteModifiers.insert(pair<string,bool>("graceTie",true));
+  defaultNoteModifiers.insert(pair<string,bool>("letVibrate",true));
+  defaultNoteModifiers.insert(pair<string,bool>("moltoVibrato",true));
+  defaultNoteModifiers.insert(pair<string,bool>("mute",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pluck",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pressSilently",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resonance",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resPedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sfz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sffz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
+  defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
 
+   //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
+  //FILE *yytmp;
+  //extern FILE *yyin;
+  std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
+  yytmp = fopen(stringbuffer.c_str(), "r");
 
+  if (yytmp == NULL) {
+    cout << "ERROR: File " << stringbuffer << " does not exist!" << endl;
+    exit(1);
+  }
+
+  yyin = yytmp; 
+  //extern map<const char*, FileValue*, ltstr> file_data;
+  yyparse(); 
+  fclose (yyin);
+
+  //FileValue* value;
+  //std::string buffer2;
+
+  //std::string topName = piece->fileList;
+  value = file_data["LASSIENOTEDEFAULTMODIFIER"];
+  std::list<FileValue> valueList = value->getList();
+  std::list<FileValue>::iterator valueListIter = valueList.begin();
+  std::map<string, bool>::iterator modifierMapIter = defaultNoteModifiers.begin();
+  
+  while( valueListIter != valueList.end() && modifierMapIter != defaultNoteModifiers.end()){
+    (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
+    modifierMapIter ++;
+    valueListIter ++;
+  }
+   
+  value = file_data["LASSIENOTECUSTOMMODIFIER"];
+  if (value){
+    valueList = value->getList();
+    valueListIter = valueList.begin();
+    for (valueListIter;valueListIter != valueList.end(); valueListIter++){
+      customNoteModifiers.push_back((*valueListIter).getString());
+    } 
+  
+  }
+  
   //add the Paned widget "leftTwoPlusAttributes" as a child
   add(leftTwoPlusAttributes);
 
@@ -1595,10 +1711,27 @@ ProjectViewController::ProjectViewController(
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventSound);
         events.push_back(newEvent);
-        paletteView->insertEvent(newEvent,"Sound");
+        paletteView->insertEvent(newEvent,"Spectrum");
       }
     }
     closedir(dp);
+
+  //make note event
+ directory = _pathAndName+ "/N";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventNote);
+        events.push_back(newEvent);
+        paletteView->insertEvent(newEvent,"Note");
+      }
+    }
+    closedir(dp);
+
+
 
   //  make Env Events
  directory = _pathAndName+ "/ENV";
@@ -1784,6 +1917,424 @@ bool ProjectViewController::getSaved(){
 }
 
 
+void ProjectViewController::showAttributesView(bool _show){
+  if (_show && leftTwoPlusAttributes.get_child2() ==NULL ){
+    
+    leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
+    show_all_children();  
+  }  
+  else if (!_show &&leftTwoPlusAttributes.get_child2() != NULL){  
+    leftTwoPlusAttributes.remove(*(leftTwoPlusAttributes.get_child2()));
+    show_all_children();  
+    
+  }
+ 
+}
 
+
+
+
+void ProjectViewController::configureNoteModifiers(){
+  //Load the GtkBuilder file and instantiate its widgets:
+  Glib::RefPtr<Gtk::Builder> noteModifiersConfigurationDialogRefBuilder = Gtk::Builder::create();
+
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+    try{
+      noteModifiersConfigurationDialogRefBuilder->add_from_file("./LASSIE/src/UI/NoteModifiersConfiguration.ui");
+    }
+    catch(const Glib::FileError& ex){
+      std::cerr << "FileError: " << ex.what() << std::endl;
+    }
+    catch(const Gtk::BuilderError& ex){
+      std::cerr << "BuilderError: " << ex.what() << std::endl;
+    }
+  #else
+    std::auto_ptr<Glib::Error> error;
+
+    if (!noteModifiersConfigurationDialogRefBuilder->add_from_file("./LASSIE/src/UI/NoteModifiersConfiguration.ui", error)){
+      std::cerr << error->what() << std::endl;
+    }
+  #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
+
+	
+  //Get the GtkBuilder-instantiated Dialog:
+  noteModifiersConfigurationDialogRefBuilder->get_widget(
+    "NoteConfigurationDialog", noteModifiersConfigurationDialog);
+	noteModifiersConfigurationDialog->set_title("Note Modifiers Configuration");
+	
+  noteModifiersConfigurationDialogRefBuilder->get_widget(
+    "CustomModifiersVBox",noteModifiersConfigurationCustomVBox );
+	
+	
+	CustomNoteModifierHBox* box;
+	vector<string>::iterator iter = customNoteModifiers.begin();
+	for (iter; iter!= customNoteModifiers.end(); iter++){
+	  box = new CustomNoteModifierHBox(this, *iter);
+	  
+    customNotModifierHBoxes.push_back(box);
+    noteModifiersConfigurationCustomVBox->pack_start(*box,Gtk::PACK_SHRINK);
+	}
+	
+	Gtk::CheckButton* checkButton;
+	if (defaultNoteModifiers["-8va"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "Minus8vaButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["+8va"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "Plus8vaButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["bend"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "BendButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["dry"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "DryButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["glissKeys"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GlissKeysButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["glissStringRes"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GlissStringResButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["graceTie"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GraceTieButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["letVibrate"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "LetVibrateButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["moltoVibrato"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "MoltoVibratoButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["mute"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "MuteButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["pedal"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PedalButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["pluck"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PluckButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["pressSilently"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PressSilentlyButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["resonance"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "ResonanceButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["resPedal"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "ResPedalButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["sfz"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "SfzButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["sffz"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "SffzButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["tenuto"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "TenutoButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["tremolo"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "TremoloButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	if (defaultNoteModifiers["vibrato"]){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "VibratoButton", checkButton);	  
+	  checkButton->set_active(true);
+	}
+	
+	Gtk::Button* button;
+  noteModifiersConfigurationDialogRefBuilder->get_widget(
+     "AddModifierButton", button);		
+	
+	button->signal_clicked().connect(sigc::mem_fun
+    (*this, &ProjectViewController::ConfigureNoteModifiersAddButtonClicked));  
+	
+
+	noteModifiersConfigurationDialog->show_all_children();
+	
+  int result = noteModifiersConfigurationDialog->run();
+  
+  noteModifiersConfigurationDialog->hide();
+  
+  if (result == 1){
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "Minus8vaButton", checkButton);	  
+	  defaultNoteModifiers["-8va"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "Plus8vaButton", checkButton);	  
+	  defaultNoteModifiers["+8va"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "BendButton", checkButton);	  
+	  defaultNoteModifiers["bend"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "DryButton", checkButton);	  
+	  defaultNoteModifiers["dry"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GlissKeysButton", checkButton);	  
+	  defaultNoteModifiers["glissKeys"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GlissStringResButton", checkButton);	  
+	  defaultNoteModifiers["glissStringRes"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "GraceTieButton", checkButton);	  
+	  defaultNoteModifiers["graceTie"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "LetVibrateButton", checkButton);	  
+	  defaultNoteModifiers["letVibrate"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "MoltoVibratoButton", checkButton);	  
+	  defaultNoteModifiers["moltoVibrato"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "MuteButton", checkButton);	  
+	  defaultNoteModifiers["mute"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PedalButton", checkButton);	  
+	  defaultNoteModifiers["pedal"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PluckButton", checkButton);	  
+	  defaultNoteModifiers["pluck"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "PressSilentlyButton", checkButton);	  
+	  defaultNoteModifiers["pressSilently"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "ResonanceButton", checkButton);	  
+	  defaultNoteModifiers["resonance"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "ResPedalButton", checkButton);	  
+	  defaultNoteModifiers["resPedal"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "SfzButton", checkButton);	  
+	  defaultNoteModifiers["sfz"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "SffzButton", checkButton);	  
+	  defaultNoteModifiers["sffz"] = checkButton->get_active();   
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "TenutoButton", checkButton);	  
+	  defaultNoteModifiers["tenuto"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "TremoloButton", checkButton);	  
+	  defaultNoteModifiers["tremolo"] = checkButton->get_active();  
+  
+    noteModifiersConfigurationDialogRefBuilder->get_widget(
+      "VibratoButton", checkButton);	  
+	  defaultNoteModifiers["vibrato"] = checkButton->get_active();      
+
+
+    std::vector<CustomNoteModifierHBox*>::iterator iter =customNotModifierHBoxes.begin();
+    customNoteModifiers.clear();
+    string modifierText;
+    for (iter; iter!= customNotModifierHBoxes.end(); iter++){
+      modifierText = (*iter)->getText();
+      if (modifierText != ""){
+        customNoteModifiers.push_back( (*iter)->getText());
+      }
+    }
+    
+    modified();
+    eventAttributesView->buildNoteModifiersList();
+    
+  }
+   
+  noteModifiersConfigurationDialog = NULL;
+  noteModifiersConfigurationCustomVBox = NULL;
+
+  std::vector<CustomNoteModifierHBox*>::iterator iter2 =customNotModifierHBoxes.begin();
+  for (iter2; iter2!= customNotModifierHBoxes.end(); iter2++){
+    delete (*iter2);
+  }  
+  customNotModifierHBoxes.clear();
+}
+
+void ProjectViewController::ConfigureNoteModifiersAddButtonClicked(){
+  CustomNoteModifierHBox* newHBox = new CustomNoteModifierHBox(this);
+  customNotModifierHBoxes.push_back(newHBox);
+  noteModifiersConfigurationCustomVBox->pack_start(*newHBox,Gtk::PACK_SHRINK);
+  noteModifiersConfigurationDialog->show_all_children();
+
+}
+
+
+CustomNoteModifierHBox::CustomNoteModifierHBox(ProjectViewController* _projectView){
+  projectView = _projectView;
+  label.set_text("Modifier Name: ");
+  removeButton.set_label("Remove Modifier");
+  pack_start(label,Gtk::PACK_SHRINK);
+  pack_start(entry,Gtk::PACK_EXPAND_WIDGET);
+  pack_start(removeButton,Gtk::PACK_SHRINK);
+
+  removeButton.signal_clicked().connect(sigc::mem_fun
+    (*this, &CustomNoteModifierHBox::removeButtonClicked));  
+}
+
+CustomNoteModifierHBox::CustomNoteModifierHBox(ProjectViewController* _projectView, string _string){
+  entry.set_text(_string);
+  
+  projectView = _projectView;
+  label.set_text("Modifier Name: ");
+  removeButton.set_label("Remove Modifier");
+  pack_start(label,Gtk::PACK_SHRINK);
+  pack_start(entry,Gtk::PACK_EXPAND_WIDGET);
+  pack_start(removeButton,Gtk::PACK_SHRINK);
+
+  removeButton.signal_clicked().connect(sigc::mem_fun
+    (*this, &CustomNoteModifierHBox::removeButtonClicked));  
+
+  
+}
+
+
+CustomNoteModifierHBox::~CustomNoteModifierHBox(){
+}
+
+std::string CustomNoteModifierHBox::getText(){
+  return entry.get_text();
+}
+
+void CustomNoteModifierHBox::removeButtonClicked(){
+  projectView->removeCustomNoteModifier(this);
+}
+
+void ProjectViewController::removeCustomNoteModifier(CustomNoteModifierHBox* _hbox){
+  std::vector<CustomNoteModifierHBox*>::iterator iter = customNotModifierHBoxes.begin();
+  while(*iter != _hbox && iter != customNotModifierHBoxes.end()){
+    iter++;
+  } 
+   
+  
+  customNotModifierHBoxes.erase(iter);
+  noteModifiersConfigurationCustomVBox->remove(*_hbox);
+  delete _hbox;
+  noteModifiersConfigurationDialog->show_all_children();
+
+}
+
+
+
+void ProjectViewController::saveNoteModifierConfiguration(){
+  std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
+  //char charbuffer[60];
+    
+  FILE* file  = fopen(stringbuffer.c_str(), "w");
+  
+  stringbuffer = "LASSIENOTEDEFAULTMODIFIER = <";
+  
+  std::map<string, bool>::iterator iter = defaultNoteModifiers.begin();
+  
+  while (iter != defaultNoteModifiers.end()){
+    //cout <<(*iter).second;
+    string buffer2 = ((*iter).second)? "1":"0";
+    stringbuffer = stringbuffer + buffer2;
+    iter++;
+    if (iter!= defaultNoteModifiers.end()){
+      stringbuffer = stringbuffer + ", ";
+    }
+  }
+  
+  stringbuffer = stringbuffer + ">;\n"  ; 
+  fputs(stringbuffer.c_str(),file);
+  
+  
+  if (customNoteModifiers.size() !=0){
+  
+    stringbuffer = "LASSIENOTECUSTOMMODIFIER = <";
+    
+    std::vector<string>::iterator iter2 = customNoteModifiers.begin();
+    
+    while (iter2 != customNoteModifiers.end()){
+      stringbuffer = stringbuffer + "`" + *iter2 + "`";
+      iter2 ++;
+      if (iter2!= customNoteModifiers.end()){
+        stringbuffer = stringbuffer + ", ";
+      }
+    }
+    stringbuffer = stringbuffer + ">;\n";
+    fputs(stringbuffer.c_str(),file);
+  }
+ 
+  fclose(file);
+
+  
+}
+
+
+std::map<std::string, bool> ProjectViewController::getDefaultNoteModifiers(){
+  return defaultNoteModifiers;
+
+}
+std::vector<std::string> ProjectViewController::getCustomNoteModifiers(){
+  return customNoteModifiers;
+}
 
 

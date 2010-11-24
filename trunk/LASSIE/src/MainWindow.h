@@ -53,6 +53,7 @@ class MainWindow : public Gtk::Window {
     void showEnvelopeLibraryWindow();
     void setUnsavedTitle();
     void setSavedTitle();
+    void disableNewAndOpenProject();
 
   private:
 
@@ -147,6 +148,7 @@ class MainWindow : public Gtk::Window {
     void changeCurrentProjectViewTo(ProjectViewController* _newProject);
     void menuProjectProperties();
     void menuProjectSynthesize();
+    void menuProjectConfigureNoteModifiers();
 
     void includeUi_info(Glib::ustring pathAndName,Glib::ustring ctrl);
     void menuPathAndName();

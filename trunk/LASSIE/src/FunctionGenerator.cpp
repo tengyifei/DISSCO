@@ -2625,15 +2625,15 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget("RandomVBox", vbox);
         alignment->add (*vbox); //add random vbox in
         //reset all data
-        textview->get_buffer()->set_text("Random( FLOAT, FLOAT)");
+        textview->get_buffer()->set_text("Random( 0, 1)");
         attributesRefBuilder->get_widget(
           "RandomLowBoundEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("0");
   
 
         attributesRefBuilder->get_widget(
           "RandomHighBoundEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("1");
 
 
       }
@@ -2642,15 +2642,15 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget("RandomIntVBox", vbox);
         alignment->add (*vbox); //add random vbox in
         //reset all data
-        textview->get_buffer()->set_text("RandomInt( INT, INT)");
+        textview->get_buffer()->set_text("RandomInt( 0, 1)");
         attributesRefBuilder->get_widget(
           "RandomIntLowBoundEntry", entry); 
-        entry->set_text("INT");
+        entry->set_text("0");
   
 
         attributesRefBuilder->get_widget(
           "RandomIntHighBoundEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("1");
   
       }
       else if (function == functionRandomSeed){

@@ -245,7 +245,7 @@ public:
   
   
   void insertFunctionString (FunctionButton _button);
-
+  void buildNoteModifiersList();
   
   
 private:
@@ -274,6 +274,7 @@ private:
   void switchToSpaAttributes();
   void switchToPatAttributes();
   void switchToRevAttributes();
+  void switchToNoteAttributes();
 
   
   
@@ -480,6 +481,7 @@ private:
   TempoNoteValue tempoNoteValue;
   
   std::vector<LayerBox*> layerBoxesStorage;
+  std::vector<Gtk::CheckButton*> noteModifierCheckButtons; 
   bool bottomSubAttributesShown;
   BottomEventModifierAlignment* modifiers;
 };

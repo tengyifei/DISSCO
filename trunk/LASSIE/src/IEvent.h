@@ -55,7 +55,8 @@ typedef enum {
   eventSpa    = 8,
   eventPat    = 9,
 	eventRev    = 10,
-	eventFolder = 11
+	eventFolder = 11,
+	eventNote = 12
 
 } EventType;
 
@@ -473,7 +474,7 @@ public:
 
     virtual SpectrumPartial* getSpectrumPartials(){return NULL;}
     virtual SpectrumPartial* addPartial(){}
-    virtual void deletePartial(SpectrumPartial* _partial){}    
+    virtual bool deletePartial(SpectrumPartial* _partial){}    
     
     
     // Bottom extra info
@@ -503,7 +504,12 @@ public:
     virtual std::string getReverbBuilder(){return "";}
     virtual void setReverbBuilder(std::string _string){}    
     virtual std::string getSpatializationBuilder(){return "";}
-    virtual void setSpatializationBuilder(std::string _string){}    
+    virtual void setSpatializationBuilder(std::string _string){}   
+    
+    //note extra info 
+    virtual std::list<std::string> getNoteModifiers(){std::list<std::string> dummy;return dummy;}
+    virtual void clearNoteModifiers(){}
+    virtual void addNoteModifiers(std::string _modifier){}
     
     
     
@@ -631,13 +637,37 @@ public:
     std::string getSpectrumMetaData();
     SpectrumPartial* getSpectrumPartials();
     SpectrumPartial* addPartial();
-    void deletePartial(SpectrumPartial* _partial);
+    bool deletePartial(SpectrumPartial* _partial);
   private:
     
     int numPartials;
     std::string deviation;
     SpectrumPartial* spectrumPartials;
   };
+  
+  class NoteExtraInfo: public EventExtraInfo {
+
+  public:
+    NoteExtraInfo();
+    ~NoteExtraInfo();
+    std::list<std::string> getNoteModifiers();
+    void addNoteModifiers(std::string _modifier);   
+    void clearNoteModifiers();
+    
+  private:
+    std::list<std::string> modifiers;    
+  };  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
 
   EventLayer* addLayer();
 private:
@@ -691,7 +721,7 @@ private:
   void saveAsSpa     (std::string _pathOfProject);
   void saveAsPat     (std::string _pathOfProject);
   void saveAsRev     (std::string _pathOfProject);
-  
+  void saveAsNote    (std::string _pathOfProject);
   EventExtraInfo* openExtraInfo(EventFactory* _event ,EventType _eventType);
   
 

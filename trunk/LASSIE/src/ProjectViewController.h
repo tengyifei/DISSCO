@@ -45,6 +45,26 @@ class MainWindow;
 class SharedPointers;
 
 class Envelope;
+class ProjectViewController;
+
+class CustomNoteModifierHBox:public Gtk::HBox{
+public:
+  CustomNoteModifierHBox(ProjectViewController* _projectView);
+  CustomNoteModifierHBox(ProjectViewController* _projectView, std::string _string);
+  ~CustomNoteModifierHBox();
+  std::string getText();
+  
+private:
+  Gtk::Label label;
+  Gtk::Entry entry;
+  Gtk::Button removeButton;  
+  ProjectViewController* projectView;
+  void removeButtonClicked();
+
+
+};
+
+
 
 
 
@@ -85,6 +105,12 @@ public:
   void deleteKeyPressed(Gtk::Widget* _focus);
   bool getEmptyProject();
   void nKeyPressed(Gtk::Widget* _focus);
+  void showAttributesView(bool _show);
+  void configureNoteModifiers();
+  void removeCustomNoteModifier(CustomNoteModifierHBox* _hbox);
+  
+  std::map<std::string, bool> getDefaultNoteModifiers();
+  std::vector<std::string> getCustomNoteModifiers();
   
   IEvent* findIEvent(EventType _type, std::string _eventName);
 
@@ -138,12 +164,17 @@ private:
   std::vector <IEvent*> events;
   EnvelopeLibraryEntry* envelopeLibraryEntries; //this thing is a double-linked list
   Gtk::Dialog* newObjectDialog;
+  Gtk::Dialog* noteModifiersConfigurationDialog;
+  Gtk::VBox* noteModifiersConfigurationCustomVBox;
   void newObjectButtonClicked();
   
   Gtk::Dialog* projectPropertiesDialog;
+  
   void projectPropertiesDialogButtonClicked();
   void projectPropertiesDialogFunctionButtonClicked();
+  void ConfigureNoteModifiersAddButtonClicked();
   void saveEnvelopeLibrary();
+  void saveNoteModifierConfiguration();
   void refreshProjectDotDat();
   EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry( Envelope* _envelope, int index);
 
@@ -159,7 +190,9 @@ private:
   std::string libPathAndName;
   bool synthesis;
   bool emptyProject;
-  
+  std::vector<std::string> customNoteModifiers;
+  std::map<std::string, bool> defaultNoteModifiers;
+  std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes; 
   SharedPointers* sharedPointers;
   
 };
