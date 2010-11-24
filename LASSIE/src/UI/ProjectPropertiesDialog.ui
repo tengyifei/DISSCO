@@ -17,7 +17,6 @@
             <child>
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Title of this Project</property>
                 <child>
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
@@ -60,9 +59,7 @@
                 <child>
                   <object class="GtkEntry" id="flagEntry">
                     <property name="visible">True</property>
-                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">This is default Value. don't change it in this version of CMOD</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -78,7 +75,6 @@
             <child>
               <object class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">float, duration of the whole piece in seconds</property>
                 <child>
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
@@ -124,7 +120,6 @@
                 <child>
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
-                    <property name="tooltip_text" translatable="yes">int</property>
                     <property name="label" translatable="yes">Number Of Channels: </property>
                   </object>
                   <packing>
@@ -136,7 +131,6 @@
                   <object class="GtkEntry" id="channelEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">int</property>
                     <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">2</property>
                   </object>
@@ -153,7 +147,6 @@
             <child>
               <object class="GtkHBox" id="hbox5">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">default is 44100, changing the value is not recommended</property>
                 <child>
                   <object class="GtkLabel" id="label5">
                     <property name="visible">True</property>
@@ -185,11 +178,10 @@
             <child>
               <object class="GtkHBox" id="hbox6">
                 <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">in Bits, 16 and 24 are the most commonly used values.</property>
                 <child>
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
-                    <property name="tooltip_text" translatable="yes">in Bits, 16 and 24 are the most commonly used values.
-Changing of this value is not recommended</property>
                     <property name="label" translatable="yes">Sample Size: </property>
                   </object>
                   <packing>
@@ -201,6 +193,7 @@ Changing of this value is not recommended</property>
                   <object class="GtkEntry" id="sampleSizeEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">in Bits, 16 and 24 are the most commonly used values.</property>
                     <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">16</property>
                   </object>
@@ -231,7 +224,6 @@ Changing of this value is not recommended</property>
                   <object class="GtkEntry" id="threadsEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">int. usually 1.</property>
                     <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">1</property>
                   </object>
@@ -252,7 +244,7 @@ Changing of this value is not recommended</property>
                   <object class="GtkLabel" id="label8">
                     <property name="visible">True</property>
                     <property name="tooltip_text" translatable="yes">The "Top" event sending to CMOD to make sound</property>
-                    <property name="label" translatable="yes">Top Event: </property>
+                    <property name="label" translatable="yes">Top Event:  T/</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -263,7 +255,6 @@ Changing of this value is not recommended</property>
                   <object class="GtkEntry" id="topEventEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">should be :  T/yourTopEventFileName</property>
                     <property name="invisible_char">●</property>
                   </object>
                   <packing>
@@ -303,12 +294,10 @@ Changing of this value is not recommended</property>
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="OK">
-                <property name="label">gtk-ok</property>
+              <object class="GtkButton" id="Cancel">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -319,8 +308,8 @@ Changing of this value is not recommended</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="Cancel">
-                <property name="label">gtk-cancel</property>
+              <object class="GtkButton" id="OK">
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -342,8 +331,8 @@ Changing of this value is not recommended</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="1">OK</action-widget>
       <action-widget response="0">Cancel</action-widget>
+      <action-widget response="1">OK</action-widget>
     </action-widgets>
   </object>
 </interface>

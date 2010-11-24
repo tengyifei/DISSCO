@@ -186,7 +186,7 @@ MainWindow::MainWindow(){
 
   menuRefActionGroup->add(
     Gtk::Action::create("FileNewObject",Gtk::Stock::ADD,"_Create a new Object", "Create a new Object"),
-		Gtk::AccelKey("N"),
+		Gtk::AccelKey("<alt>N"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewObject));
 
 
@@ -264,6 +264,10 @@ MainWindow::MainWindow(){
     Gtk::Action::create("Synthesize", "Synthesize"),
     sigc::mem_fun(*this, &MainWindow::menuProjectSynthesize));
 
+  menuRefActionGroup->add(
+    Gtk::Action::create("ConfigureNoteModifiers", "Configure Note Modifiers"),
+    sigc::mem_fun(*this, &MainWindow::menuProjectConfigureNoteModifiers));
+
 
   // Help and its sub-menu
   menuRefActionGroup->add( Gtk::Action::create("HelpMenu", "Help"));
@@ -283,7 +287,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->get_action("FileSave")->set_sensitive(false);
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
-  
+  menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(false);  
 
 
 
@@ -333,6 +337,7 @@ MainWindow::MainWindow(){
         "      <menuitem action='FileNewObject'/>"
         "      <menuitem action='ProjectProperties'/>"
         "      <menuitem action = 'Synthesize'/>"
+        "      <menuitem action = 'ConfigureNoteModifiers'/>"        
         "    </menu>"
         "    <menu action='HelpMenu'>"
         "      <menuitem action='HelpContents'/>"
@@ -387,6 +392,7 @@ MainWindow::MainWindow(){
   if(pointerToToolbarWidget){ // add tool
     mainBox.pack_start(*pointerToToolbarWidget, Gtk::PACK_SHRINK);
   }
+  ((Gtk::Toolbar*)pointerToToolbarWidget)->set_toolbar_style(Gtk::TOOLBAR_BOTH);
 
 
   //Gtk::MenuItem* newObject = (Gtk::MenuItem*)menuRefUIManager->get_widget("/FileNewObject");
@@ -445,6 +451,8 @@ void MainWindow::menuFileNewProject(){
     menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+    menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);     
+    disableNewAndOpenProject();
 
     projects.push_back(newProject);
     MainWindow::includeUi_info(newProject->getPathAndName(),"add");
@@ -471,6 +479,8 @@ void MainWindow::menuFileOpen(){
     menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+    menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);      
+    disableNewAndOpenProject();
       
     projects.push_back(openProject);
     MainWindow::includeUi_info(openProject->getPathAndName(),"add");
@@ -582,6 +592,7 @@ void MainWindow::includeUi_info(Glib::ustring pathAndName,
 
     pointerToToolbarWidget = menuRefUIManager->get_widget("/ToolBar");
     if(pointerToToolbarWidget){ // add tool
+      ((Gtk::Toolbar*)pointerToToolbarWidget)->set_toolbar_style(Gtk::TOOLBAR_BOTH);
       mainBox.pack_start(*pointerToToolbarWidget, Gtk::PACK_SHRINK);
     }
   }else if(ctrl == "delete"){}//TODO
@@ -715,8 +726,12 @@ void MainWindow::menuProjectSynthesize(){
       //if (fork() == 0){
       //cout<<"this is the child. execute cmod"<<endl;
       
-      string command = "./cmod " + projectPath + "&"; 
-        system(command.c_str()) ;
+      string command = "rm "+ projectPath + "*.seed";
+      system(command.c_str()); 
+      command = "touch " + projectPath + randomSeedEntry->get_text()+".seed"; 
+      system(command.c_str()) ;
+      command = "./cmod " + projectPath + " &"; 
+      system(command.c_str()) ;
       //}
       //else {
         //cout<<"This is the parent"<<endl;
@@ -743,5 +758,21 @@ void MainWindow::setUnsavedTitle(){
   title = "*" + projectView->getPathAndName() + title;
   set_title(title);
    
+}
+
+
+
+void MainWindow::disableNewAndOpenProject(){
+  menuRefActionGroup->get_action("FileNewProject")->set_sensitive(false); 
+    
+  menuRefActionGroup->get_action("FileOpen")->set_sensitive(false);
+
+}
+
+
+void MainWindow::menuProjectConfigureNoteModifiers(){
+  if (projectView!= NULL &&projectView->getEmptyProject() == false){
+    projectView->configureNoteModifiers();
+  }  
 }
 
