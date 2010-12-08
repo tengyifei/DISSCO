@@ -9,7 +9,7 @@ extern YYLTYPE yylloc;
 %}
 
 DIGIT [0-9]
-float "-"?{DIGIT}+"."?{DIGIT}*
+float "-"?{DIGIT}*"."?{DIGIT}*
 
 %x COMMENT STRING LASSIESTRING
 %%
