@@ -33,6 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Rational.h"
 #include "Tempo.h"
 
+//Forward declarations
+class Event;
+
 //----------------------------------------------------------------------------//
 /*class Note2 {
   Tempo& parentTempo;
@@ -60,6 +63,8 @@ class Note {
     Current assumptions: a beat is a quarter note.
     */
     
+    //ALL DEPRECATED
+
     //Conversion metrics
     //int unitsPerZecond;   //note units per second--for this particular note
     //int unitsPerBaz;      //note units per baz
@@ -82,6 +87,9 @@ class Note {
                             completing 'durUnitSubBeg'*/
     int durUnitSubEnd;    //how much duration is left at the end (in units)
 
+    //Reference to Event
+    const Event* parent;
+
     //Pitch
     int pitchNum;          //absolute numeric value of the pitch
     int octaveNum;         //the octave the pitch is in
@@ -99,7 +107,7 @@ class Note {
    /**
     *  Default constructor for a Note.
     **/
-    Note(){}
+    Note() : parent(0) {}
 
     /**
     *  Generic constructor.  Note_pitchClass, note_dynamicMark, and 
@@ -110,8 +118,13 @@ class Note {
     *  \param unitsPerZecond Units per second
     *  \param unitsPerBaz Units per baz
     **/
+    //DEPRECATED
     Note(float gblStartTimeSec, float durSec /*, int unitsPerZecond*/
     /*, int unitsPerBaz*/);
+
+
+    //Creates a new note based on information from the Event.
+    Note(const Event& e);
 
     /**
      *  Note copy constructor.

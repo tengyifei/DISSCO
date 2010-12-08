@@ -296,7 +296,7 @@ void Bottom::buildSound(float stime, float dur, int type, string name) {
 //----------------------------------------------------------------------------//
 
 void Bottom::buildNote(float stime, float dur, int type, string name) {
-  Note* newNote = new Note(stime, dur);
+  Note* newNote = new Note(*this);
 
   // set the pitch
   float baseFrequency = computeBaseFreq();

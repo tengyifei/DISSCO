@@ -39,8 +39,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Tempo.h"
 
 class Event {
-  protected:
-  
+
+public:
     //---------------------------- Information -------------------------------//
     
     //Name of the event
@@ -59,7 +59,8 @@ class Event {
     
     //Tempo of the event
     Tempo tempo;
-    
+
+protected:   
     //------------------------------ Children --------------------------------//
     
     //File value to the event definitions of children

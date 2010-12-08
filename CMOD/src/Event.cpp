@@ -384,8 +384,10 @@ void Event::tryToRestart(void) {
 void Event::checkEvent(bool buildResult) {
 
   //If the build failed, restart if necessary.
-  if (!buildResult)
+  if (!buildResult) {
     tryToRestart();
+    return;
+  }
   
   //Handle start times according to exactness rules.
   childStartTime += myStartTime;
@@ -859,7 +861,7 @@ int Event::getAvailableEDU()
   }
   
   //The duration is not exact, so the available EDUs must be quantized.
-  float approximateEDUs = EDUs.To<float>() * myDuration;
+  float approximateEDUs = EDUs.To<float>() * durationScalar;
   int quantizedEDUs = (int)approximateEDUs;
   cout << "Warning: quantizing AVAILABLE_EDU from ";
   cout << approximateEDUs << " to " << quantizedEDUs << endl;
