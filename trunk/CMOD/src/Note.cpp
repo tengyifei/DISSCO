@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 #include "Note.h"
+#include "Event.h"
 
 //----------------------------------------------------------------------------//
 
@@ -56,9 +57,12 @@ Note::Note(float gblStartTimeSec, float durationSec/*, int uPerSec, int uPerBar*
   //beatsPerBaz = unitsPerBaz / unitsPerBeat;*/
 }
 
+Note::Note(const Event& e) : parent(&e) {
+}
+
 //----------------------------------------------------------------------------//
 
-Note::Note(const Note& origNote) {
+Note::Note(const Note& origNote) : parent(origNote.parent) {
   //unitsPerZecond = origNote.unitsPerZecond;
   //unitsPerBaz = origNote.unitsPerBaz;
   unitsPerBeat = origNote.unitsPerBeat;
