@@ -3025,6 +3025,12 @@ void EventDiscretePackage::link(ProjectViewController* _projectView, IEvent* _th
 
 
 
+
+
+
+
+
+
 void IEvent::parseNonEvent(){
   extern map<const char*, FileValue*, ltstr> file_data;
  
@@ -3045,7 +3051,7 @@ void IEvent::parseNonEvent(){
     std::list<FileValue>::iterator fileValueListIter = fileValueList.begin();
     SpectrumPartial* thisPartial = NULL;
     if (fileValueList.size()!= 0){
-      thisPartial = extraInfo->addPartial();
+    	thisPartial = extraInfo->getSpectrumPartials();
       thisPartial->envString = fileValueListIter->getString();    
       fileValueListIter++;
     }
@@ -3054,6 +3060,9 @@ void IEvent::parseNonEvent(){
       thisPartial = extraInfo->addPartial();
       thisPartial->envString = fileValueListIter->getString();       
     }
+
+
+
     
     //extraInfo->setSpectrum((value == NULL)? " ": value->getString());
   }
