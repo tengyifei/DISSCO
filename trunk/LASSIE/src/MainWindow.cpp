@@ -185,7 +185,7 @@ MainWindow::MainWindow(){
     sigc::mem_fun(*this, &MainWindow::menuFileNewProject));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileNewObject",Gtk::Stock::ADD,"_Create a new Object", "Create a new Object"),
+    Gtk::Action::create("FileNewObject",Gtk::Stock::ADD,"_Create a new Object", "Create a new object"),
 		Gtk::AccelKey("<alt>N"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewObject));
 
