@@ -138,6 +138,12 @@ string PieceHelper::getSeed(string path) {
 }
 
 int PieceHelper::getSeedNumber(string seed) {
+  if(seed == "time") {
+    int now = (int)time(0);
+    cout << "Using current time " << now << " as seed." << endl;
+    return now;
+  }
+  
   const char* seed_c = seed.c_str();
   int seedNumber = 0;
   int digits = 1;
