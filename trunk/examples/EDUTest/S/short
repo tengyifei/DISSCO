@@ -1,8 +1,0 @@
-/*  S/short  */
-
-numPartials = 1;
-
-deviation = 0;
-
-spectrum = < ReadENVFile("ENV/low") >;
-
