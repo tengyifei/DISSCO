@@ -100,6 +100,7 @@ public:
   void refreshObjectNameInPalette(IEvent* _event);
   void setProperties();
   void save();
+  void saveAs(std::string _newPathAndName);
   bool getSaved();
   void modified();
   void deleteKeyPressed(Gtk::Widget* _focus);

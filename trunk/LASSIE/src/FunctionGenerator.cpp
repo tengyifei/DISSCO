@@ -1026,15 +1026,15 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
-    "MakeSieveWeightsMeaningfulRadioButton", radiobutton);
+    "MakeSieveWeightsPeriodicRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
-    "MakeSieveWeightsModsRadioButton", radiobutton);
+    "MakeSieveWeightsHierarchicRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
-    "MakeSieveWeightsFakeRadioButton", radiobutton);
+    "MakeSieveWeightsIncludeRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
   
 
@@ -2494,18 +2494,18 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       argumentsIter++;
       value =&(*argumentsIter); // 5th argument is a string  (weight)
 
-      if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget("MakeSieveWeightsMeaningfulRadioButton",radiobutton);
+      if (value->getString() == "PERIODIC"){
+        attributesRefBuilder->get_widget("MakeSieveWeightsPeriodicRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
-      else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget("MakeSieveWeightsModsRadioButton",radiobutton);
+      else if (value->getString() == "HIERARCHIC"){
+        attributesRefBuilder->get_widget("MakeSieveWeightsHierarchicRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //FAKE
-        attributesRefBuilder->get_widget("MakeSieveWeightsFakeRadioButton",radiobutton);
+        attributesRefBuilder->get_widget("MakeSieveWeightsIncludeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
@@ -5093,19 +5093,19 @@ void FunctionGenerator::makeSieveTextChanged(){
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";
   
 
-  attributesRefBuilder->get_widget("MakeSieveWeightsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget("MakeSieveWeightsPeriodicRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("MakeSieveWeightsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget("MakeSieveWeightsHierarchicRadioButton", radiobutton2); 
 
   if (radiobutton1->get_active()){
-    stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
+    stringbuffer = stringbuffer + "\"PERIODIC\", <";
   
   }
   else if (radiobutton2->get_active()){
-    stringbuffer = stringbuffer + "\"MODS\", <";
+    stringbuffer = stringbuffer + "\"HIERARCHIC\", <";
   }
   else{
-    stringbuffer = stringbuffer + "\"FAKE\", <";  
+    stringbuffer = stringbuffer + "\"INCLUDE\", <";  
   }
 
   attributesRefBuilder->get_widget(

@@ -54,37 +54,37 @@ struct ltstr
 IEvent::IEvent(){
   eventName = "New IEvent";
 
-  maxChildDur = " ";
+  maxChildDur = "";
 
-  unitsPerSecond = " ";
-  timeSignatureEntry1 = " ";
-  timeSignatureEntry2 = " ";
+  unitsPerSecond = "";
+  timeSignatureEntry1 = "";
+  timeSignatureEntry2 = "";
   
   tempoMethodFlag = 0; //0 = as note value, 1 = as fraction
   tempoPrefix = tempoPrefixNone;
   tempoNoteValue = tempoNoteValueQuarter;
-  tempoFractionEntry1 = " ";
-  tempoFractionEntry2 = " ";
-  tempoValueEntry = " ";  
+  tempoFractionEntry1 = "";
+  tempoFractionEntry2 = "";
+  tempoValueEntry = "";  
   
   
   flagNumChildren    = 0; // 0 = fixed, 1 = density
-  numChildrenEntry1  = " ";
-  numChildrenEntry2  = " ";
-  numChildrenEntry3  = " ";
+  numChildrenEntry1  = "";
+  numChildrenEntry2  = "";
+  numChildrenEntry3  = "";
   changedButNotSaved = false;
   
-  childEventDefEntry1 = " ";
-  childEventDefEntry2 = " ";
-  childEventDefEntry3 = " ";
+  childEventDefEntry1 = "";
+  childEventDefEntry2 = "";
+  childEventDefEntry3 = "";
 
   flagChildEventDef             = 0;
   flagChildEventDefStartType    = 0;
   flagChildEventDefDurationType = 0;
   
   
-  childEventDefAttackSieve = " ";
-  childEventDefDurationSieve = " ";
+  childEventDefAttackSieve = "";
+  childEventDefDurationSieve = "";
   
   
   extraInfo = NULL;
@@ -98,12 +98,12 @@ IEvent::IEvent(){
 
 
 IEvent::IEvent(std::string _filePath, std::string _fileName, EventType _type){
-
+		eventName = _fileName;
   eventType = _type;
   std::cout<<" LASSIE parsing: "<< _filePath<<"/"<< _fileName<<"..."<<std::endl;
 
     IEventParseFile(_filePath+"/"+_fileName);
-    eventName = _fileName;
+    
     eventType = _type;
   
   
@@ -129,7 +129,7 @@ IEvent::~IEvent(){
 
 IEvent::SoundExtraInfo::SoundExtraInfo(){
   spectrumPartials = new SpectrumPartial();
-  deviation = " ";
+  deviation = "";
   numPartials =1;
 }
 
@@ -156,6 +156,19 @@ void IEvent::setEventType(EventType _type){
   else if(_type == eventBottom){
     //EventExtraInfo* BottomEventExtraInfo;
     extraInfo = (IEvent::EventExtraInfo*) new IEvent::BottomEventExtraInfo();
+    string firstChar = eventName.substr(0,1);
+    if (firstChar =="s"){
+    	extraInfo->setChildTypeFlag(0);
+    }
+    else if (firstChar =="n"){
+    	extraInfo->setChildTypeFlag(1);
+    }
+    else {
+    	extraInfo->setChildTypeFlag(2);
+   	}
+   
+    
+    
   }
   else if(_type == eventEnv){
     //EventExtraInfo* EnvelopeExtraInfo;
@@ -516,9 +529,18 @@ void IEvent::setModifiedButNotSaved(){
   changedButNotSaved = true;
 }
 
-
 void IEvent::saveToDisk(std::string _pathOfProject){
-  if(changedButNotSaved == false) return;
+	saveToDiskHelper(_pathOfProject, false);
+}
+
+
+void IEvent::saveAsToDisk(std::string _pathOfProject){ //save everything
+	saveToDiskHelper(_pathOfProject, true);
+}
+
+
+void IEvent::saveToDiskHelper(std::string _pathOfProject, bool _forced){
+  if(changedButNotSaved == false && _forced==false) return;
   changedButNotSaved = false;
   
   switch(eventType){
@@ -711,7 +733,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
 
   if (flagNumChildren ==0){ //fixed num children
 
-      if (numChildrenEntry1 ==""|| numChildrenEntry1 ==" "){  //num children not specified
+      if (numChildrenEntry1 ==""|| numChildrenEntry1 ==""){  //num children not specified
         stringbuffer = "numChildren = <\"FIXED\">;\n\n";
       }else{  //num children is specified
          stringbuffer = "numChildren = <\"FIXED\", " +
@@ -992,9 +1014,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
       cout<<"illegal frequency value!"<<endl;
     }
     
-    stringbuffer = "loudness = " + extraInfo->getLoudness() + ";\n\n" +
-      "spatialization = " + extraInfo->getSpatialization() + ";\n\n" +
-      "reverberation = " + extraInfo->getReverb() + ";\n\n";
+    stringbuffer = "loudness = " + extraInfo->getLoudness() + ";\n\n" ;
     yy_scan_string( stringbuffer.c_str());
     if (yyparse()==0){
       fputs(stringbuffer.c_str(),file);
@@ -1002,7 +1022,26 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
     else {
       cout<<"illegal loudness value!"<<endl;
     }
-
+    
+    if (extraInfo->getChildTypeFlag() ==0){ //save spatialization and reverb only when childtype is sound
+     	stringbuffer = "spatialization = " + extraInfo->getSpatialization() + ";\n\n" ;
+      yy_scan_string( stringbuffer.c_str());
+   		if (yyparse()==0){
+      	fputs(stringbuffer.c_str(),file);
+    	}
+    	else {
+      	cout<<"illegal spatialization value!"<<endl;
+    	}
+     
+     	stringbuffer = "reverberation = " + extraInfo->getReverb() + ";\n\n";
+    	yy_scan_string( stringbuffer.c_str());
+    	if (yyparse()==0){
+      	fputs(stringbuffer.c_str(),file);
+    	}
+    	else {
+      	cout<<"illegal reverberation value!"<<endl;
+    	}
+		}
 
     //save modifier information
     
@@ -1312,7 +1351,7 @@ std::string IEvent::SoundExtraInfo::getSpectrumMetaData(){
   while (thisPartial!= NULL){
     std::string tempstring = thisPartial->envString;
     if (tempstring == ""){
-      tempstring = " ";
+      tempstring = "";
     }
   
   
@@ -1580,7 +1619,7 @@ std::string EventLayer::getByLayer(){
 
 EventLayer::EventLayer(IEvent* _thisEvent){
   thisIEvent = _thisEvent;
-  byLayer     = " ";
+  byLayer     = "";
 }
 
 
@@ -1629,7 +1668,7 @@ int EventLayer::size(){
 
 
 std::string EventLayer::outputChildrenNameString(){
-  if(children.size() == 0) return " ";
+  if(children.size() == 0) return "";
   
   std::string temp = "                 <\n                    ";
   std::list<EventDiscretePackage*>::iterator i = children.begin();
@@ -1774,12 +1813,13 @@ int EventLayer::getChildrenWeightSum(){
 IEvent::BottomEventExtraInfo::BottomEventExtraInfo(){
   frequencyFlag = 0;
   frequencyContinuumFlag = 0;
-  frequencyEntry1 = " ";
-  frequencyEntry2 = " ";
-  loudness = " ";
-  spatialization = " ";
-  reverb = " ";
+  frequencyEntry1 = "";
+  frequencyEntry2 = "";
+  loudness = "";
+  spatialization = "";
+  reverb = "";
   modifiers = NULL;
+  childTypeFlag =-1;
   
 }
 IEvent::BottomEventExtraInfo::~BottomEventExtraInfo(){
@@ -1833,6 +1873,13 @@ void  IEvent::BottomEventExtraInfo::setReverb(std::string _string){
   reverb = _string;
 }
     
+void IEvent::BottomEventExtraInfo::setChildTypeFlag(int _type){
+	childTypeFlag = _type;
+};
+
+int IEvent::BottomEventExtraInfo::getChildTypeFlag(){
+	return childTypeFlag;
+} 
 
 
 EventBottomModifier* IEvent::BottomEventExtraInfo::getModifiers(){
@@ -1889,11 +1936,11 @@ void IEvent::BottomEventExtraInfo::removeModifier(EventBottomModifier* _modifier
 EventBottomModifier::EventBottomModifier(){
   type = modifierTremolo;
   applyHowFlag = 0;
-  probability = " ";
-  ampValue = " ";
-  rateValue = " ";
-  width = " ";
-  groupName = " ";
+  probability = "";
+  ampValue = "";
+  rateValue = "";
+  width = "";
+  groupName = "";
   next = NULL;
 }
 
@@ -1989,7 +2036,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +",\n" +
                   "                "+ rateValue + 
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
                   
   }
@@ -2000,7 +2047,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +",\n" +
                   "                "+ rateValue + 
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
   
   }
@@ -2010,7 +2057,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ probability + ",\n"
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));  
   }
   else if (type == modifierBend){
@@ -2019,7 +2066,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ probability + ",\n"
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
   
   }
@@ -2029,7 +2076,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ probability + ",\n"
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
   
   }
@@ -2041,7 +2088,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ ampValue +",\n" +
                   "                "+ rateValue +",\n" +
                   "                "+ width + 
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
 
   
@@ -2054,7 +2101,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ ampValue +",\n" +
                   "                "+ rateValue +",\n" +
                   "                "+ width + 
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
 
 
@@ -2066,7 +2113,7 @@ std::string EventBottomModifier::getSaveToDiskString(){
                   "                "+ probability + ",\n"
                   "                "+ ((applyHowFlag ==0)?"\"SOUND\",\n":"\"PARTIAL\",\n") +
                   "                "+ ampValue +
-                  ((groupName ==""||groupName ==" ")?"\n              >":(
+                  ((groupName ==""||groupName =="")?"\n              >":(
                   ",\n                <\"MUT_EX\", \"" + groupName + "\">\n              >"));
   
   }
@@ -2094,7 +2141,7 @@ std::string EventBottomModifier::getSaveLASSIEMetaDataString(){
     + "`,`" + width;
     
     
-  if (groupName != "" && groupName != " "){  
+  if (groupName != "" && groupName != ""){  
     stringbuffer = stringbuffer +  "`,`" + groupName + "`>";
   }
   else {
@@ -2392,7 +2439,7 @@ void IEvent::IEventParseFile(std::string _fileName){
   }
   else {
     value = file_data["maxChildDur"];
-    maxChildDur = (value == NULL)?" ": 
+    maxChildDur = (value == NULL)?"": 
       FunctionGenerator::getFunctionString(value, functionReturnFloat);
   }
   
@@ -2403,7 +2450,7 @@ void IEvent::IEventParseFile(std::string _fileName){
   }
   else {
     value = file_data["EDUPerBeat"];
-    unitsPerSecond =(value == NULL)? " ":  
+    unitsPerSecond =(value == NULL)? "":  
       FunctionGenerator::getFunctionString(value, functionReturnFloat);
   }
   
@@ -2413,7 +2460,7 @@ void IEvent::IEventParseFile(std::string _fileName){
   if (value!= NULL){
     timeSignatureEntry1 = value->getString();
     value = file_data["LASSIEtimeSignatureEntry2"];
-    timeSignatureEntry2 =(value == NULL)? " ": value ->getString();  
+    timeSignatureEntry2 =(value == NULL)? "": value ->getString();  
   }
   else {
     value = file_data["timeSignature"];
@@ -2449,11 +2496,11 @@ void IEvent::IEventParseFile(std::string _fileName){
     value = file_data["LASSIEtempoNoteValue"];
     tempoNoteValue =(TempoNoteValue)((value == NULL)? 0: value ->getInt());  
     value =file_data["LASSIEtempoFractionEntry1"]; 
-    tempoFractionEntry1 = (value == NULL)? " ": value->getString();
+    tempoFractionEntry1 = (value == NULL)? "": value->getString();
     value = file_data["LASSIEtempoFractionEntry2"];
-    tempoFractionEntry2 = (value == NULL)? " ": value->getString();
+    tempoFractionEntry2 = (value == NULL)? "": value->getString();
     value = file_data["LASSIEtempoValueEntry"];
-    tempoValueEntry = (value == NULL)? " ": value->getString();
+    tempoValueEntry = (value == NULL)? "": value->getString();
   }
   else{
     size_t whereIsSlash;
@@ -2523,10 +2570,10 @@ void IEvent::IEventParseFile(std::string _fileName){
   if (value != NULL){
     numChildrenEntry1 = value->getString();  
     value = file_data["LASSIEnumChildrenEntry2"];
-    numChildrenEntry2 = (value == NULL)? " ": value->getString();
+    numChildrenEntry2 = (value == NULL)? "": value->getString();
   
     value = file_data["LASSIEnumChildrenEntry3"];
-    numChildrenEntry3 = (value == NULL)? " ": value->getString();
+    numChildrenEntry3 = (value == NULL)? "": value->getString();
    // 0 = fixed, 1 = density, 2 = By layer
   
     value = file_data["LASSIEflagNumChildren"];
@@ -2540,19 +2587,19 @@ void IEvent::IEventParseFile(std::string _fileName){
   
 
   value = file_data["LASSIEchildEventDefEntry1"];
-  childEventDefEntry1 = (value == NULL)? " ": value->getString();
+  childEventDefEntry1 = (value == NULL)? "": value->getString();
   
   value = file_data["LASSIEchildEventDefEntry2"];
-  childEventDefEntry2 = (value == NULL)? " ": value->getString();
+  childEventDefEntry2 = (value == NULL)? "": value->getString();
   
   value = file_data["LASSIEchildEventDefEntry3"];
-  childEventDefEntry3 = (value == NULL)? " ": value->getString();
+  childEventDefEntry3 = (value == NULL)? "": value->getString();
   
   value = file_data["LASSIEchildEventDefAttackSieve"];
-  childEventDefAttackSieve = (value == NULL)? " ": value->getString();
+  childEventDefAttackSieve = (value == NULL)? "": value->getString();
   
   value = file_data["LASSIEchildEventDefDurationSieve"];
-  childEventDefDurationSieve = (value == NULL)? " ": value->getString();
+  childEventDefDurationSieve = (value == NULL)? "": value->getString();
 
 
 
@@ -2584,7 +2631,22 @@ void IEvent::IEventParseFile(std::string _fileName){
   
 
   if (eventType == eventBottom){
-    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(1); //the int is just used to call constructor with different constructor
+  
+  
+    string firstChar = eventName.substr(0,1);
+    int childTypeFlag = -1;
+    if (firstChar =="s"){
+    	childTypeFlag = 0;
+    }
+    else if (firstChar =="n"){
+    	childTypeFlag = 1;
+    }
+    else {
+    	childTypeFlag = 2;
+   	}
+    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag); 
+  
+    
   }
 
 
@@ -2810,7 +2872,10 @@ void IEvent::IEventParseFile(std::string _fileName){
 
 
 
-IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _someNumber){
+IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag){
+
+	childTypeFlag = _childTypeFlag;
+	
   extern map<const char*, FileValue*, ltstr> file_data;
   FileValue* value;
    
@@ -2822,19 +2887,19 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _someNumber){
   frequencyContinuumFlag = (value == NULL)? 0: value->getInt(); //0 = hertz, 1 =] power of two
 
   value = file_data["LASSIEBOTTOMfrequencyEntry1"]; 
-  frequencyEntry1 = (value == NULL)? " ": value->getString();
+  frequencyEntry1 = (value == NULL)? "": value->getString();
  
   value = file_data["LASSIEBOTTOMfrequencyEntry2"]; 
-  frequencyEntry2  = (value == NULL)? " ": value->getString();
+  frequencyEntry2  = (value == NULL)? "": value->getString();
 
   value = file_data["LASSIEBOTTOMloudness"]; 
-  loudness  = (value == NULL)? " ": value->getString();
+  loudness  = (value == NULL)? "": value->getString();
 
   value = file_data["LASSIEBOTTOMspatialization"]; 
-  spatialization  = (value == NULL)? " ": value->getString();
+  spatialization  = (value == NULL)? "": value->getString();
 
   value = file_data["LASSIEBOTTOMreverb"]; 
-  reverb  = (value == NULL)? " ": value->getString();  
+  reverb  = (value == NULL)? "": value->getString();  
   
 
   //read modifiers
@@ -3040,10 +3105,10 @@ void IEvent::parseNonEvent(){
   if (eventType == eventSound){
     extraInfo = (EventExtraInfo*) new SoundExtraInfo();
     value = file_data["LASSIESOUNDnumPartials"];
-    //extraInfo-> setNumPartials((value == NULL)? " ": value->getString());
+    //extraInfo-> setNumPartials((value == NULL)? "": value->getString());
 
     value = file_data["LASSIESOUNDdeviation"];
-    extraInfo-> setDeviation((value == NULL)? " ": value->getString());
+    extraInfo-> setDeviation((value == NULL)? "": value->getString());
     
     value = file_data["LASSIESOUNDspectrum"];
     
@@ -3064,36 +3129,36 @@ void IEvent::parseNonEvent(){
 
 
     
-    //extraInfo->setSpectrum((value == NULL)? " ": value->getString());
+    //extraInfo->setSpectrum((value == NULL)? "": value->getString());
   }
   else if (eventType == eventEnv){
     extraInfo = (EventExtraInfo*) new EnvelopeExtraInfo();
     value = file_data["LASSIEENV"];
-    extraInfo->setEnvelopeBuilder((value == NULL)? " ": value->getString());
+    extraInfo->setEnvelopeBuilder((value == NULL)? "": value->getString());
 
   }
   else if (eventType == eventSiv){
     extraInfo = (EventExtraInfo*) new SieveExtraInfo();
     value = file_data["LASSIESIV"];
-    extraInfo->setSieveBuilder((value == NULL)? " ": value->getString());
+    extraInfo->setSieveBuilder((value == NULL)? "": value->getString());
 
   }
   else if (eventType == eventSpa){
     extraInfo = (EventExtraInfo*) new SpatializationExtraInfo();
     value = file_data["LASSIESPA"];
-    extraInfo->setSpatializationBuilder((value == NULL)? " ": value->getString());
+    extraInfo->setSpatializationBuilder((value == NULL)? "": value->getString());
 
   }  
   else if (eventType == eventPat){
     extraInfo = (EventExtraInfo*) new PatternExtraInfo();
     value = file_data["LASSIEPAT"];
-    extraInfo->setPatternBuilder((value == NULL)? " ": value->getString());
+    extraInfo->setPatternBuilder((value == NULL)? "": value->getString());
 
   }  
   else if (eventType == eventRev){
     extraInfo = (EventExtraInfo*) new ReverbExtraInfo();
     value = file_data["LASSIEREV"];
-    extraInfo->setReverbBuilder((value == NULL)? " ": value->getString());
+    extraInfo->setReverbBuilder((value == NULL)? "": value->getString());
 
   }
   else if (eventType == eventNote){
@@ -3200,6 +3265,7 @@ void IEvent::NoteExtraInfo::addNoteModifiers(std::string _modifier){
 void IEvent::NoteExtraInfo::clearNoteModifiers(){
   modifiers.clear();
 }
+
 
 
 

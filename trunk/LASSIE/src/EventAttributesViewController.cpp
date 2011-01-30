@@ -828,15 +828,15 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       
       attributesRefBuilder->get_widget(
         "attributesStandardNumChildrenEntry1", entry);
-      currentlyShownEvent->setNumChildrenEntry1(" ");
+      currentlyShownEvent->setNumChildrenEntry1("");
       
       attributesRefBuilder->get_widget(
         "attributesStandardNumChildrenEntry2", entry);
-      currentlyShownEvent->setNumChildrenEntry2(" ");
+      currentlyShownEvent->setNumChildrenEntry2("");
       
       attributesRefBuilder->get_widget(
         "attributesStandardNumChildrenEntry3", entry);
-      currentlyShownEvent->setNumChildrenEntry3(" ");
+      currentlyShownEvent->setNumChildrenEntry3("");
     }// end by layer
     
     //save bylayer data  and probability of types for decrete childEventDef use
@@ -1348,10 +1348,10 @@ void EventAttributesViewController::showCurrentEventData(){
         
         attributesRefBuilder->get_widget(
           "attributesStandardTempoAsFractionEntry1", entry);  
-        entry->set_text(" ");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "attributesStandardTempoAsFractionEntry2", entry);  
-        entry->set_text(" "); 
+        entry->set_text(""); 
 
 
 
@@ -1408,8 +1408,8 @@ void EventAttributesViewController::showCurrentEventData(){
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenLabel2", label);
-        label->set_text(" ");
-        label->set_tooltip_text(" ");
+        label->set_text("");
+        label->set_tooltip_text("");
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenEntry2", entry);
@@ -1418,8 +1418,8 @@ void EventAttributesViewController::showCurrentEventData(){
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenLabel3", label);
-        label->set_text(" ");
-        label->set_tooltip_text(" ");
+        label->set_text("");
+        label->set_tooltip_text("");
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenEntry3", entry);
@@ -1470,33 +1470,33 @@ void EventAttributesViewController::showCurrentEventData(){
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenLabel1", label);
-        label->set_text(" ");
+        label->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenEntry1", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenLabel2", label);
-        label->set_text(" ");
+        label->set_text("");
         
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenEntry2", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenLabel3", label);
-        label->set_text(" ");
+        label->set_text("");
         
         
         attributesRefBuilder->get_widget(
           "attributesStandardNumChildrenEntry3", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
       }
 
       //ChildEventDef
@@ -1511,12 +1511,12 @@ void EventAttributesViewController::showCurrentEventData(){
         attributesRefBuilder->get_widget(
           "attributesChildEventDefAttackSieveEntry", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefDurationSieveEntry", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefEntry1", entry);
@@ -1605,12 +1605,12 @@ void EventAttributesViewController::showCurrentEventData(){
         attributesRefBuilder->get_widget(
           "attributesChildEventDefAttackSieveEntry", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefDurationSieveEntry", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefEntry1", entry);
@@ -1711,19 +1711,19 @@ void EventAttributesViewController::showCurrentEventData(){
         attributesRefBuilder->get_widget(
           "attributesChildEventDefEntry1", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefEntry2", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesChildEventDefEntry3", entry);
         entry->set_sensitive(false);
-        entry->set_text(" ");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
@@ -1772,7 +1772,7 @@ void EventAttributesViewController::showCurrentEventData(){
           newbox->weightEntry.set_text((*j)->byLayer);
         }else {
           newbox->weightEntry.set_sensitive(false);
-          newbox->weightEntry.set_text(" ");
+          newbox->weightEntry.set_text("");
         }
       }
 
@@ -1785,7 +1785,7 @@ void EventAttributesViewController::showCurrentEventData(){
           	(*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
           	(*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
           	(*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
-          //(*i)->weightEntry.set_text(" ");
+          //(*i)->weightEntry.set_text("");
           }
         }
       }
@@ -1798,7 +1798,7 @@ void EventAttributesViewController::showCurrentEventData(){
           	(*i)->m_TreeView.append_column((*i)->attackEnvScaleColumn);
           	(*i)->m_TreeView.append_column((*i)->durationEnvColumn);
           	(*i)->m_TreeView.append_column((*i)->durationEnvScaleColumn);
-          //(*i)->weightEntry.set_text(" ");
+          //(*i)->weightEntry.set_text("");
         	}
       	}
       
@@ -1820,15 +1820,15 @@ void EventAttributesViewController::showCurrentEventData(){
 
           attributesRefBuilder->get_widget(
             "BottomSubAttributesFunFreqEntry1", entry);
-          entry->set_text(" ");
+          entry->set_text("");
 
           attributesRefBuilder->get_widget(
             "BottomSubAttributesFunFreqEntry2", entry);
-          entry->set_text(" ");          
+          entry->set_text("");          
         
           attributesRefBuilder->get_widget(
             "BottomSubAttributesContinuumEntry", entry);
-          entry->set_text(" ");   
+          entry->set_text("");   
         
         }
         else if (extraInfo->getFrequencyFlag() == 1){ //Fundamental
@@ -1839,7 +1839,7 @@ void EventAttributesViewController::showCurrentEventData(){
           
           attributesRefBuilder->get_widget(
             "BottomSubAttributesWellTemperedEntry", entry);
-          entry->set_text(" ");
+          entry->set_text("");
 
           attributesRefBuilder->get_widget(
             "BottomSubAttributesFunFreqEntry1", entry);
@@ -1851,7 +1851,7 @@ void EventAttributesViewController::showCurrentEventData(){
         
           attributesRefBuilder->get_widget(
             "BottomSubAttributesContinuumEntry", entry);
-          entry->set_text(" "); 
+          entry->set_text(""); 
         
         }
         else {//Continuum
@@ -1862,15 +1862,15 @@ void EventAttributesViewController::showCurrentEventData(){
           
           attributesRefBuilder->get_widget(
             "BottomSubAttributesWellTemperedEntry", entry);
-          entry->set_text(" ");
+          entry->set_text("");
 
           attributesRefBuilder->get_widget(
             "BottomSubAttributesFunFreqEntry1", entry);
-          entry->set_text(" ");
+          entry->set_text("");
 
           attributesRefBuilder->get_widget(
             "BottomSubAttributesFunFreqEntry2", entry);
-          entry->set_text(" ");          
+          entry->set_text("");          
         
           attributesRefBuilder->get_widget(
             "BottomSubAttributesContinuumEntry", entry);
@@ -1893,13 +1893,34 @@ void EventAttributesViewController::showCurrentEventData(){
           "BottomSubAttributesLoudnessEntry", entry);
         entry->set_text(extraInfo->getLoudness()); 
 
-        attributesRefBuilder->get_widget(
-          "BottomSubAttributesSpatializationEntry", entry);
-        entry->set_text(extraInfo->getSpatialization()); 
+				if (extraInfo->getChildTypeFlag() ==0){//enable spa and reverb entries
+
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesSpatializationEntry", entry);
+        	entry->set_text(extraInfo->getSpatialization()); 
+        	entry->set_sensitive(true);
         
-        attributesRefBuilder->get_widget(
-          "BottomSubAttributesReverbEntry", entry);
-        entry->set_text(extraInfo->getReverb());
+        
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesReverbEntry", entry);
+        	entry->set_text(extraInfo->getReverb());
+        	entry->set_sensitive(true);
+        }
+        else {
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesSpatializationEntry", entry);
+        	entry->set_text(extraInfo->getSpatialization()); 
+        	entry->set_sensitive(false);
+        
+        
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesReverbEntry", entry);
+        	entry->set_text(extraInfo->getReverb());
+        	entry->set_sensitive(false);        
+        
+        
+        }
+        
         
         //show modifiers
         
@@ -2425,15 +2446,15 @@ void EventAttributesViewController::discreteButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("attributesChildEventDefEntry1", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   attributesRefBuilder->get_widget("attributesChildEventDefEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");  
+  entry->set_text("");  
   
   attributesRefBuilder->get_widget("attributesChildEventDefEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");  
+  entry->set_text("");  
   
   
   
@@ -2491,7 +2512,7 @@ void EventAttributesViewController::densityButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(true);
-  entry->set_text(" ");
+  entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2519,7 +2540,7 @@ void EventAttributesViewController::densityButtonClicked(){
   std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
   for (i ; i != layerBoxesStorage.end(); i ++){
     (*i)->weightEntry.set_sensitive(false);
-    (*i)->weightEntry.set_text(" ");
+    (*i)->weightEntry.set_text("");
   }
 }
 
@@ -2539,7 +2560,7 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(true);
-  entry->set_text(" ");
+  entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2550,7 +2571,7 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenLabel3", label);
@@ -2560,14 +2581,14 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   //disable "bylayer entry in all layers
   std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
   
   for (i ; i != layerBoxesStorage.end(); i ++){
     (*i)->weightEntry.set_sensitive(false);
-    (*i)->weightEntry.set_text(" ");
+    (*i)->weightEntry.set_text("");
   }
 }
 
@@ -2587,7 +2608,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2598,7 +2619,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenLabel3", label);
@@ -2608,7 +2629,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text(" ");
+  entry->set_text("");
   
   // enable and shows "bylayer entry in all layers
   std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
@@ -3559,7 +3580,7 @@ void BottomEventModifierAlignment::saveToEvent(){
     modifier->setRateValue(entry->get_text());
 
     attributesRefBuilder->get_widget("widthEnvelopeEntry", entry);  
-    modifier->setWidth(" ");
+    modifier->setWidth("");
     
   }
   else if ( type == modifierAmptrans ||type ==modifierFreqtrans ){
@@ -3573,10 +3594,10 @@ void BottomEventModifierAlignment::saveToEvent(){
   
   else{
     attributesRefBuilder->get_widget("rateValueEnvelopeEntry", entry);
-    modifier->setRateValue(" ");
+    modifier->setRateValue("");
   
     attributesRefBuilder->get_widget("widthEnvelopeEntry", entry);  
-    modifier->setWidth(" ");
+    modifier->setWidth("");
   
   }
 
@@ -3811,6 +3832,11 @@ void EventAttributesViewController::BSLoudnessButtonClicked(){
 }
 
 void EventAttributesViewController::BSSpatializationButtonClicked(){
+	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+		return;
+	}
+
+
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesSpatializationEntry", entry);
@@ -3822,6 +3848,9 @@ void EventAttributesViewController::BSSpatializationButtonClicked(){
   delete generator;
 }
 void EventAttributesViewController::BSReverbButtonClicked(){
+	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+		return;
+	}
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesReverbEntry", entry);

@@ -448,7 +448,8 @@ public:
    *   written according to the path
    ****************************************************************************/
   void saveToDisk(std::string _pathOfProject);
-  
+  void saveAsToDisk(std::string _pathOfProject); //save everything
+  void saveToDiskHelper(std::string _pathOfProject, bool _forced);
   
   int getNumberOfLayers();
 
@@ -504,7 +505,9 @@ public:
     virtual std::string getReverbBuilder(){return "";}
     virtual void setReverbBuilder(std::string _string){}    
     virtual std::string getSpatializationBuilder(){return "";}
-    virtual void setSpatializationBuilder(std::string _string){}   
+    virtual void setSpatializationBuilder(std::string _string){}
+    virtual void setChildTypeFlag(int _type){};
+    virtual int getChildTypeFlag(){ return -1;} 
     
     //note extra info 
     virtual std::list<std::string> getNoteModifiers(){std::list<std::string> dummy;return dummy;}
@@ -527,7 +530,7 @@ public:
   class BottomEventExtraInfo : public EventExtraInfo {
   public:
     BottomEventExtraInfo();
-    BottomEventExtraInfo(int _readFromParserFileData);
+    BottomEventExtraInfo(int _ChildTypeFlag); //called when parsing files.
     ~BottomEventExtraInfo();
     int getFrequencyFlag(); // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
     void setFrequencyFlag(int _flag);
@@ -546,13 +549,16 @@ public:
     void  setReverb(std::string _string);
     EventBottomModifier* getModifiers();    
     EventBottomModifier* addModifier();  
-    void removeModifier(EventBottomModifier* _modifier);   
+    void removeModifier(EventBottomModifier* _modifier); 
+    void setChildTypeFlag(int _type);
+    int getChildTypeFlag();      
    
     EventBottomModifier* modifiers; 
   
   private:
     int frequencyFlag; // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
     int frequencyContinuumFlag; //0 = hertz, 1 =] power of two
+    int childTypeFlag; // 0 = sound, 1 = note, 2 = visual
     std::string frequencyEntry1;
     std::string frequencyEntry2;
     std::string loudness;

@@ -176,9 +176,9 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   add(leftTwoPlusAttributes);
 
   //no title when initializing the window
-  pathAndName   = " ";
-  projectTitle  = " ";
-  fileFlag      = " ";
+  pathAndName   = "";
+  projectTitle  = "";
+  fileFlag      = "";
   duration      = "0";
   numOfChannels = "2";
   sampleRate    = "44100";
@@ -199,7 +199,6 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   //leftTwoPlusAttributes.set_position(200);
   //leftTwoPlusAttributes.pack1(*paletteView,true,false);
   //leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
-
 
 
   envelopeLibraryEntries = NULL;
@@ -224,7 +223,7 @@ ProjectViewController::ProjectViewController(
   //listTargets.push_back( Gtk::TargetEntry("text/plain") );
   //////////////////////////////////////////////////////////////////////////
 
-  std::string topName = "T0";
+  std::string topName = "0";
   projectTitle  = FileOperations::stringToFileName(_pathAndName);
   fileFlag      = "THMLBsnv";
   duration      = "0";
@@ -300,6 +299,15 @@ ProjectViewController::ProjectViewController(
   sharedPointers->paletteView = paletteView;
   
   
+
+  IEvent* newEvent = new IEvent();
+  newEvent->setEventName("0");
+  newEvent->setEventType(eventTop);
+  paletteView->insertEvent(newEvent,"Top");
+  events.push_back(newEvent);
+
+
+
   envelopeLibraryEntries = NULL;
   
   show_all_children();
@@ -1032,7 +1040,8 @@ void ProjectViewController::setProperties (){
 
   delete projectPropertiesDialog;
   projectPropertiesDialog = NULL;
-  refreshProjectDotDat();
+  //refreshProjectDotDat();
+  modified();
 
 }
 
@@ -1203,6 +1212,7 @@ void ProjectViewController::save(){
   }
   saveEnvelopeLibrary();
   saveNoteModifierConfiguration();
+  refreshProjectDotDat();
 }
 
 
@@ -2341,4 +2351,25 @@ std::vector<std::string> ProjectViewController::getCustomNoteModifiers(){
   return customNoteModifiers;
 }
 
+
+
+void ProjectViewController::saveAs(std::string _newPathAndName){
+	pathAndName = _newPathAndName;
+	projectTitle  = FileOperations::stringToFileName(pathAndName);
+	datPathAndName = pathAndName+ "/"+projectTitle+".dat";
+  libPathAndName = pathAndName+ "/"+projectTitle+".lib";
+	
+	saveEnvelopeLibrary();
+  saveNoteModifierConfiguration();
+  refreshProjectDotDat();
+  
+  eventAttributesView->saveCurrentShownEventData();
+  for (std::vector<IEvent*>::iterator iter = events.begin();
+       iter != events.end();
+       ++iter){
+    (*iter)->saveAsToDisk(pathAndName);
+  }
+	
+
+}
 

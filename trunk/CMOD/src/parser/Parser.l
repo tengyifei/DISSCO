@@ -10,6 +10,8 @@ extern YYLTYPE yylloc;
 
 DIGIT [0-9]
 float "-"?{DIGIT}*"."?{DIGIT}*
+emptystring ["]["]
+emptylassiestring [`][`]
 
 %x COMMENT STRING LASSIESTRING
 %%
@@ -27,6 +29,9 @@ float "-"?{DIGIT}*"."?{DIGIT}*
 						printf("Saw float\n"); 
 						#endif
                                                 yylval=(long int)strdup(yytext); return NUMBERTOK; }
+
+{emptystring} { yylval= (long int)strdup(""); return STRTOK; }
+{emptylassiestring} { yylval= (long int)strdup(""); return STRTOK; }
 ["]					BEGIN(STRING);
 <STRING>[^"]*		{ 
 						#ifdef PARSER_DEBUG

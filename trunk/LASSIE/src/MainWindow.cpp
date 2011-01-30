@@ -285,6 +285,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->get_action("FileNewObject")->set_sensitive(false); 
   //menuRefActionGroup->get_action("FileNewObject")->add_accel_label("N");    
   menuRefActionGroup->get_action("FileSave")->set_sensitive(false);
+  menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(false);
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
   menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(false);  
@@ -313,7 +314,7 @@ MainWindow::MainWindow(){
 
         "      <menuitem action='FileOpen'/>"
         "      <menuitem action='FileSave'/>"
-//        "      <menuitem action='FileSaveAs'/>"
+        "      <menuitem action='FileSaveAs'/>"
 //        "      <menuitem action='FileClose'/>"
 //        "      <menuitem action='FilePrint'/>"
         "      <separator/>";
@@ -348,6 +349,7 @@ MainWindow::MainWindow(){
         "    <toolitem action = 'FileNewProject'/>"
         "    <toolitem action='FileOpen'/>"
         "    <toolitem action='FileSave'/>"
+        "    <toolitem action='FileSaveAs'/>"
 //        "    <toolitem action='FileClose'/>"
 //        "    <toolitem action='FilePrint'/>"
         "    <separator/>"
@@ -449,6 +451,7 @@ void MainWindow::menuFileNewProject(){
   if(newProject!= NULL){
     menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
     menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);     
@@ -477,6 +480,7 @@ void MainWindow::menuFileOpen(){
   if(openProject!= NULL){
     menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
     menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);      
@@ -510,7 +514,24 @@ void MainWindow::setSavedTitle(){
   
 
 
-void MainWindow::menuFileSaveAs(){}//TODO
+void MainWindow::menuFileSaveAs(){
+	
+	
+	string newPathAndName = FileOperations::saveAs(this);
+	
+	
+	if (newPathAndName =="") {
+		return ;
+	}
+	  std::string title = " - LASSIE";
+    title = newPathAndName + title;
+    set_title(title);
+	
+	projectView->saveAs(newPathAndName);
+	
+	
+	
+}
 
 void MainWindow::menuFileClose(){
   FileOperations::close(this);
