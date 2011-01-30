@@ -39,8 +39,9 @@ ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
   dialog.set_transient_for(*_mainWindow);
   
   // Add response buttons the the dialog:
+    dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-  dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+
   //dialog.set_do_overwrite_confirmation(true); 
 
   // Show the dialog and wait for a user response:
@@ -72,6 +73,49 @@ ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
   return NULL;
 }
 
+
+
+std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
+
+ //_mainWindow->set_title("LASSIE");
+
+  // setup the new project dialog window 
+  Gtk::FileChooserDialog dialog("Save As...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+  dialog.set_transient_for(*_mainWindow);
+  
+  // Add response buttons the the dialog:
+  dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+  dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+  //dialog.set_do_overwrite_confirmation(true); 
+
+  // Show the dialog and wait for a user response:
+  int result = dialog.run();
+
+  // Handle the response:
+  if(result == Gtk::RESPONSE_OK){
+    bool checker = false;
+    while(checker == false){
+      checker = checkFilePathValidity(dialog.get_filename());
+      if(checker == false){
+        fileNameError window;
+        return saveAs(_mainWindow);
+      }else{
+         std::string command = dialog.get_filename();;
+         int mkdirChecker = mkdir(command.c_str(),S_IRWXU);
+         if(mkdirChecker == -1){
+           fileNameExist window;
+           return saveAs(_mainWindow);
+         }else{
+           std::string pathAndName = dialog.get_filename();
+           createDirectories(pathAndName);           
+           return pathAndName;
+         }
+      }
+    }
+  }
+  else return "";
+}
 
 void FileOperations::createDirectories(std::string _pathAndName){
   std::string command;
