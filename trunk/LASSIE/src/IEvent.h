@@ -241,7 +241,8 @@ public:
    *
    ****************************************************************************/
   IEvent();
-  IEvent(std::string _filePath, std::string _fileName, EventType _type);
+  IEvent(std::string _filePath, std::string _fileName, EventType _type);//when open project
+  IEvent(IEvent* _original, string _newName);
 
   ~IEvent();
 
@@ -530,6 +531,7 @@ public:
   class BottomEventExtraInfo : public EventExtraInfo {
   public:
     BottomEventExtraInfo();
+    BottomEventExtraInfo(BottomEventExtraInfo* _original);
     BottomEventExtraInfo(int _ChildTypeFlag); //called when parsing files.
     ~BottomEventExtraInfo();
     int getFrequencyFlag(); // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
@@ -571,7 +573,8 @@ public:
      // Envelope
   class EnvelopeExtraInfo : public EventExtraInfo {
   public:
-    EnvelopeExtraInfo(){envelopeBuilder = " ";}
+  	EnvelopeExtraInfo(EnvelopeExtraInfo* _original){ envelopeBuilder = _original->envelopeBuilder;}
+    EnvelopeExtraInfo(){envelopeBuilder = "";}
     ~EnvelopeExtraInfo(){}
     std::string getEnvelopeBuilder();
     void setEnvelopeBuilder(std::string _string);
@@ -583,7 +586,8 @@ public:
      // Pattern
   class PatternExtraInfo : public EventExtraInfo {
   public:
-    PatternExtraInfo(){patternBuilder = " ";}
+  	PatternExtraInfo(PatternExtraInfo* _original){patternBuilder = _original->patternBuilder;}
+    PatternExtraInfo(){patternBuilder = "";}
     ~PatternExtraInfo(){}
     std::string getPatternBuilder();
     void setPatternBuilder(std::string _string);
@@ -595,7 +599,8 @@ public:
      // Spatialization
   class SpatializationExtraInfo : public EventExtraInfo {
   public:
-    SpatializationExtraInfo(){spatializationBuilder = " ";}
+  	SpatializationExtraInfo(SpatializationExtraInfo* _original){spatializationBuilder = _original->spatializationBuilder;}
+    SpatializationExtraInfo(){spatializationBuilder = "";}
     ~SpatializationExtraInfo(){}
     std::string getSpatializationBuilder();
     void setSpatializationBuilder(std::string _string);
@@ -606,7 +611,8 @@ public:
      // Sieve
   class SieveExtraInfo : public EventExtraInfo {
   public:
-    SieveExtraInfo(){sieveBuilder = " ";}
+  	SieveExtraInfo(SieveExtraInfo* _original){sieveBuilder = _original->sieveBuilder;}
+    SieveExtraInfo(){sieveBuilder = "";}
     ~SieveExtraInfo(){}
     std::string getSieveBuilder();
     void setSieveBuilder(std::string _string);
@@ -617,7 +623,8 @@ public:
     // Reverb
   class ReverbExtraInfo : public EventExtraInfo {  
   public:
-    ReverbExtraInfo(){reverbBuilder = " ";}
+  	ReverbExtraInfo(ReverbExtraInfo* _original){reverbBuilder = _original->reverbBuilder;}
+    ReverbExtraInfo(){reverbBuilder = "";}
     ~ReverbExtraInfo(){}
     std::string getReverbBuilder();
     void setReverbBuilder(std::string _string);
@@ -630,6 +637,7 @@ public:
 
   public:
     SoundExtraInfo();
+    SoundExtraInfo(SoundExtraInfo* _original);
     ~SoundExtraInfo();
     
     //void        setNumPartials(std::string _numPartials);
@@ -655,6 +663,7 @@ public:
 
   public:
     NoteExtraInfo();
+    NoteExtraInfo(NoteExtraInfo* _original);
     ~NoteExtraInfo();
     std::list<std::string> getNoteModifiers();
     void addNoteModifiers(std::string _modifier);   

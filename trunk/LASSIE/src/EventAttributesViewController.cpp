@@ -102,9 +102,9 @@ EventAttributesViewController::EventAttributesViewController(
   //Get the GtkBuilder-instantiated Dialog:
   
   attributesRefBuilder->get_widget("attributesStandard", frame);
-  frame->set_size_request(500, -1);
+  frame->set_size_request(700, -1);
   //scrolledWindow.add(*frame);
-  scrolledWindow.set_size_request(500, 600);
+  scrolledWindow.set_size_request(700, 600);
   
   Gtk::Button* addLayerButton;
   attributesRefBuilder->get_widget("addNewLayerButton", addLayerButton);
@@ -143,6 +143,12 @@ EventAttributesViewController::EventAttributesViewController(
     sigc::mem_fun(*this,&EventAttributesViewController::byLayerButtonClicked) );
     
     
+  Gtk::VBox* vBox;
+  attributesRefBuilder->get_widget(
+    "AttributestimeSignatureVBox", vBox);
+  //vBox->set_width(30);  
+
+
     
   //setup Tempo sub HBox
   
@@ -165,7 +171,7 @@ EventAttributesViewController::EventAttributesViewController(
   
   Gtk::TreeModel::Row row = *(tempoPrefixTreeModel->append());
   row[tempoPrefixColumns.m_col_type] = tempoPrefixNone;
-  row[tempoPrefixColumns.m_col_name] = "";
+  row[tempoPrefixColumns.m_col_name] = "-------------------------";
     
   row = *(tempoPrefixTreeModel->append());
   row[tempoPrefixColumns.m_col_type] = tempoPrefixDotted;
@@ -207,28 +213,28 @@ EventAttributesViewController::EventAttributesViewController(
   
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueWhole;
-  row[tempoNoteValueColumns.m_col_name] = "Whole Note";    
+  row[tempoNoteValueColumns.m_col_name] = "Whole";    
     
 
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueHalf;
-  row[tempoNoteValueColumns.m_col_name] = "Half Note"; 
+  row[tempoNoteValueColumns.m_col_name] = "Half"; 
 
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueQuarter;
-  row[tempoNoteValueColumns.m_col_name] = "Quarter Note"; 
+  row[tempoNoteValueColumns.m_col_name] = "Quarter"; 
   
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueEighth;
-  row[tempoNoteValueColumns.m_col_name] = "Eighth Note"; 
+  row[tempoNoteValueColumns.m_col_name] = "8th"; 
   
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueSixteenth;
-  row[tempoNoteValueColumns.m_col_name] = "Sixteenth Note"; 
+  row[tempoNoteValueColumns.m_col_name] = "16th"; 
   
   row = *(tempoNoteValueTreeModel->append());
   row[tempoNoteValueColumns.m_col_type] = tempoNoteValueThirtySecond;
-  row[tempoNoteValueColumns.m_col_name] = "Thirty-Second Note"; 
+  row[tempoNoteValueColumns.m_col_name] = "32nd"; 
 
   combobox->pack_start(tempoNoteValueColumns.m_col_name);  
  
