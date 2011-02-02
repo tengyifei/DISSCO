@@ -33,6 +33,8 @@
 #include "ProjectViewController.h"
 #include "SharedPointers.h"
 #include "MainWindow.h"
+#include "EventAttributesViewController.h"
+
 
 PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
  // ProjectViewController* _projectView): 
@@ -128,6 +130,10 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   m_refActionGroup->add(
     Gtk::Action::create("ContextDelete", "Delete"),
     sigc::mem_fun(*this, &PaletteViewController::deleteObject));
+    
+  m_refActionGroup->add(
+    Gtk::Action::create("ContextDuplicate", "Duplicate Object"),
+    sigc::mem_fun(*this, &PaletteViewController::duplicateObject));    
 
 
   //TODO:
@@ -146,7 +152,8 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   Glib::ustring ui_info =
     "<ui>"
     "  <popup name='PopupMenu'>"
-    "    <menuitem action='ContextDelete'/>"
+    //"    <menuitem action='ContextDelete'/>"
+    "		 <menuitem action='ContextDuplicate'/>"
     "  </popup>"
     "</ui>";
 
@@ -195,6 +202,7 @@ void PaletteViewController::objectActivated(
 }
 
 void PaletteViewController::insertEvent(IEvent* _event){
+	cout<<"PaletteViewController::insertEvent(IEvent* _event) says: Should check duplicate name before inserting new event. if duplicate event name found, the new event should be discard (delete _event) and prompt the user about duplicate name"<<endl;  
   Gtk::TreeModel::Row childrow;
   if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
     childrow = *(refTreeModel->append());
@@ -300,6 +308,20 @@ void PaletteViewController::AddToProjectTree(){
 
 bool PaletteViewController::onRightClick(GdkEventButton* event){
   if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ // test if right click
+  
+  
+  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Row row = *iter;
+  if (*iter==NULL){
+	  m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false);    
+	}  
+  else if (folderSelected()!= "None"){
+  	m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false); 
+  }
+  else {
+  	m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(true); 
+  }
+ 
     if(m_pMenuPopup) m_pMenuPopup->popup(event->button, event->time);
 
     return true; // It has been handled.
@@ -307,6 +329,7 @@ bool PaletteViewController::onRightClick(GdkEventButton* event){
     return false;
   }
 }
+
 
 //return None if not a folder is selected
 Glib::ustring PaletteViewController::folderSelected(){
@@ -363,5 +386,79 @@ void PaletteViewController::deleteObject(){
   
   
 }
+
+
+void PaletteViewController::duplicateObject(){
+  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Row row = *iter;
+	IEvent* originalEvent = row[columns.columnEntry];
+  
+  
+	//Load the GtkBuilder file and instantiate its widgets:
+  Glib::RefPtr<Gtk::Builder> refBuilder = Gtk::Builder::create();
+
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+    try{
+      refBuilder->add_from_file("./LASSIE/src/UI/DuplicateObjectDialog.ui");
+    }
+    catch(const Glib::FileError& ex){
+      std::cerr << "FileError: " << ex.what() << std::endl;
+    }
+    catch(const Gtk::BuilderError& ex){
+      std::cerr << "BuilderError: " << ex.what() << std::endl;
+    }
+  #else
+    std::auto_ptr<Glib::Error> error;
+
+    if (!refBuilder->add_from_file("./LASSIE/src/UI/DuplicateObjectDialog.ui", error)){
+      std::cerr << error->what() << std::endl;
+    }
+  #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
+
+	
+
+  //Get the GtkBuilder-instantiated Dialog:
+  Gtk::Dialog* duplicateObjectDialog;
+  refBuilder->get_widget("duplicateObjectDialog", duplicateObjectDialog);
+  string prompt = "You are about to duplicate this object:\n\n" + originalEvent->getEventTypeString()
+   + "/"+ originalEvent->getEventName() + "\n\nPlease name the newly created copy object";
+   
+   Gtk::Label* promptLabel;
+   refBuilder->get_widget("PromptLabel", promptLabel);
+   promptLabel->set_text(prompt);
+   
+   Gtk::Entry* nameEntry;
+   refBuilder->get_widget("NameEntry", nameEntry);
+   string name = originalEvent->getEventName()+"_copy";
+   nameEntry->set_text(name);
+   int response = duplicateObjectDialog->run();
+   duplicateObjectDialog->hide();
+   if (response ==1 && nameEntry->get_text() == ""){
+
+    //prompt error (no row selected in the palette)
+    //std::cout << "the row selected is not a folder" << std::endl;
+    Gtk::MessageDialog dialog(
+      "Please name your new object",
+      false /* use_markup */,
+      Gtk::MESSAGE_QUESTION,
+      Gtk::BUTTONS_OK);
+
+    dialog.run();
+    return;
+	}
+  else if (response ==0){
+  	return;
+  } 
+  else {
+	sharedPointers->eventAttributesView->saveCurrentShownEventData();
+  IEvent* newIEvent = new IEvent( originalEvent, nameEntry->get_text());
+  insertEvent(newIEvent, originalEvent->getEventTypeString());
+  projectView->modified();
+  projectView->events.push_back(newIEvent);
+  }
+  
+}
+
+
 
 

@@ -2666,12 +2666,12 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("Randomizer( FLOAT, FLOAT)");
         attributesRefBuilder->get_widget(
           "RandomizerBaseEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
   
 
         attributesRefBuilder->get_widget(
           "RandomizerDeviationEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
   
       }
       else if (function == functionInverse ){
@@ -2682,7 +2682,7 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("Inverse( FLOAT)");
         attributesRefBuilder->get_widget(
           "InverseEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
   
       }
       else if (function == functionLN){
@@ -2693,7 +2693,7 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("LN( FLOAT)");
         attributesRefBuilder->get_widget(
           "LNEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
   
       }
       else if (function == functionFibonacci){
@@ -2709,11 +2709,11 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("Decay( FLOAT, \"EXPONENTIAL\", FLOAT, CURRENT_PARTIAL_NUM)");
         attributesRefBuilder->get_widget(
           "DecayBaseEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
   
         attributesRefBuilder->get_widget(
           "DecayRateEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "DecayIndexEntry", entry);
@@ -2733,7 +2733,7 @@ void FunctionGenerator::function_list_combo_changed(){
         textview->get_buffer()->set_text("Stochos( \"RANGE_DISTRIB\", <MinEnv, MaxEnv, DistEnv>, INT>");
         attributesRefBuilder->get_widget(
           "StochosOffsetEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "StochosRangeDistribRadioButton", radiobutton);
@@ -2747,12 +2747,12 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "EnvLibEnvelopeEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
   
 
         attributesRefBuilder->get_widget(
           "EnvLibScalingFactorEntry", entry);
-        entry->set_text("Float");
+        entry->set_text("1.0");
         
         envLibTextChanged();
   
@@ -2777,7 +2777,7 @@ void FunctionGenerator::function_list_combo_changed(){
         }
           attributesRefBuilder->get_widget(
             "SelectIndexEntry", entry);
-          entry->set_text("INT");         
+          entry->set_text("");         
   
       }
       else if (function == functionValuePick){
@@ -2788,7 +2788,7 @@ void FunctionGenerator::function_list_combo_changed(){
 
         attributesRefBuilder->get_widget(
           "ValuePickAbsRangeEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "ValuePickLowEntry", entry);
@@ -2846,13 +2846,13 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ExpandPatternModuloEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "ExpandPatternLowEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "ExpandPatternHighEntry", entry);
-        entry->set_text("INT");          
+        entry->set_text("");          
         attributesRefBuilder->get_widget(
           "ExpandPatternPatternEntry", entry);
         entry->set_text("PAT");
@@ -2871,13 +2871,13 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "MakeEnvelopeScalingFactorEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "MakeEnvelopeXValueEntry", entry);
-        entry->set_text("FLOAT");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "MakeEnvelopeYValueEntry", entry);
-        entry->set_text("FLOAT");          
+        entry->set_text("");          
 
         
         makeEnvelopeTextChanged();
@@ -2893,11 +2893,11 @@ void FunctionGenerator::function_list_combo_changed(){
         
         attributesRefBuilder->get_widget(
           "MakeSieveLowEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         
         attributesRefBuilder->get_widget(
           "MakeSieveHighEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         
 
                 
@@ -2920,7 +2920,7 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "MakePatternOriginEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
   
 
         attributesRefBuilder->get_widget(
@@ -2942,7 +2942,7 @@ void FunctionGenerator::function_list_combo_changed(){
 
         attributesRefBuilder->get_widget(
           "MakeListSizeEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         
         makeListTextChanged();
   
@@ -2954,7 +2954,8 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ReadENVFileEntry", entry);
-        entry->set_text("Name of the ENV File");
+        entry->set_text("");
+        entry->grab_focus();
         readENVFileTextChanged();
   
       }
@@ -2965,7 +2966,8 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ReadSIVFileEntry", entry);
-        entry->set_text("Name of the SIV File");
+        entry->set_text("");
+        entry->grab_focus();
         readSIVFileTextChanged();
   
       }
@@ -2976,10 +2978,11 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ReadPATFileNameEntry", entry);
-        entry->set_text("Name of the PAT File");
+        entry->set_text("");
+        entry->grab_focus();
         attributesRefBuilder->get_widget(
           "ReadPATFileOriginEntry", entry);
-        entry->set_text("INT");
+        entry->set_text("");
         readPATFileTextChanged();
   
       }
@@ -2990,7 +2993,8 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ReadSPAFileEntry", entry);
-        entry->set_text("Name of the SPA File");
+        entry->set_text("");
+        entry->grab_focus();
         readSPAFileTextChanged();
   
       }
@@ -3001,7 +3005,8 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "ReadREVFileEntry", entry);
-        entry->set_text("Name of the REV File");
+        entry->set_text("");
+        entry->grab_focus();
         readREVFileTextChanged();
   
       }
@@ -3012,7 +3017,7 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "REV_SimpleEntry", entry);
-        entry->set_text("Float");
+        entry->set_text("");
         REV_SimpleEntryTextChanged();
   
       }      
@@ -3026,13 +3031,13 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("ENV");
         attributesRefBuilder->get_widget(
           "REV_MediumHilowSpreadEntry", entry);
-        entry->set_text("Float");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "REV_MediumGainAllPassEntry", entry);
-        entry->set_text("Float");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "REV_MediumDelayEntry", entry);
-        entry->set_text("Float"); 
+        entry->set_text(""); 
         
         REV_MediumTextChanged();
   
@@ -3054,10 +3059,10 @@ void FunctionGenerator::function_list_combo_changed(){
         
         attributesRefBuilder->get_widget(
           "REV_AdvancedGainAllPassEntry", entry);
-        entry->set_text("Float");
+        entry->set_text("");
         attributesRefBuilder->get_widget(
           "REV_AdvancedDelayEntry", entry);
-        entry->set_text("Float"); 
+        entry->set_text(""); 
         
         REV_AdvancedTextChanged();
   
@@ -4277,12 +4282,12 @@ combobox->set_active(0);
   attributesRefBuilder->get_widget(
     "XValueEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
-  entry->set_text("FLOAT");  
+  entry->set_text("");  
 
   attributesRefBuilder->get_widget(
     "YValueEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
-  entry->set_text("FLOAT");
+  entry->set_text("");
    
    	
 	

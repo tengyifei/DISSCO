@@ -179,7 +179,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   pathAndName   = "";
   projectTitle  = "";
   fileFlag      = "";
-  duration      = "0";
+  duration      = "";
   numOfChannels = "2";
   sampleRate    = "44100";
   sampleSize    = "16";
@@ -226,7 +226,7 @@ ProjectViewController::ProjectViewController(
   std::string topName = "0";
   projectTitle  = FileOperations::stringToFileName(_pathAndName);
   fileFlag      = "THMLBsnv";
-  duration      = "0";
+  duration      = "";
   numOfChannels = "2";
   sampleRate    = "44100";
   sampleSize    = "16";
@@ -589,10 +589,10 @@ void ProjectViewController::insertObject(){
       dialog.hide();
       result = newObjectDialog->run();
     }
-    else if (selectedPaletteFolder == "Bottom"&& first!="s"&&first!= "n" &&first!="v"      ){
+    else if (selectedPaletteFolder == "Bottom"&& first!="s"&&first!= "n"){
     
       Gtk::MessageDialog dialog(
-        "The name of a Bottom event \nshould starts with 's', 'n', or 'v'",
+        "The name of a Bottom event should start with 's' (sound) or 'n' (note).",
         false /* use_markup */,
         Gtk::MESSAGE_QUESTION,
         Gtk::BUTTONS_OK);
@@ -987,6 +987,7 @@ void ProjectViewController::setProperties (){
 
   refBuilder->get_widget("durationEntry", entry);
   entry->set_text(duration);
+  entry->grab_focus();
 
   refBuilder->get_widget("channelEntry", entry);
   entry->set_text(numOfChannels);

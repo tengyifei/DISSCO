@@ -125,7 +125,7 @@ public:
   std::list<Gtk::TargetEntry> listTargets;
   
   //////////////////////////////////////////////////////////////////
-  
+  std::vector <IEvent*> events;//so that palette can push new event back to ievent
 private:
   
   
@@ -162,7 +162,6 @@ private:
   
   IEvent* top;
   bool modifiedButNotSaved;
-  std::vector <IEvent*> events;
   EnvelopeLibraryEntry* envelopeLibraryEntries; //this thing is a double-linked list
   Gtk::Dialog* newObjectDialog;
   Gtk::Dialog* noteModifiersConfigurationDialog;

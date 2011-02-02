@@ -67,6 +67,7 @@ protected:
   bool onRightClick(GdkEventButton* event);
   void AddToProjectTree(); //deprecated
   void deleteObject();
+  void duplicateObject();
 
   // Tree model columns:
   class Columns : public Gtk::TreeModel::ColumnRecord{

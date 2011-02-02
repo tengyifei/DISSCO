@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -53,7 +53,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -63,54 +63,6 @@
           <packing>
             <property name="expand">False</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkHBox" id="attributesStandardMaxChirdDur">
-            <property name="visible">True</property>
-            <property name="tooltip_text" translatable="yes">If the Child Duration is "Fraction" or "Seconds", this entry should be a float (seconds).
-If you select "Units", this entry should be an integer.</property>
-            <child>
-              <object class="GtkLabel" id="attributesStandardMaxChildDurLabel">
-                <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">float (in units)</property>
-                <property name="xalign">0</property>
-                <property name="xpad">10</property>
-                <property name="label" translatable="yes">maxChildDur: </property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="attributesStandardMaxChildDurEntry">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">•</property>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="attributesStandardMaxChildDurFunButton">
-                <property name="label" translatable="yes">Insert Function</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="padding">3</property>
-            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -135,7 +87,7 @@ If you select "Units", this entry should be an integer.</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">int</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -157,6 +109,16 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">3</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator7">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">5</property>
             <property name="position">4</property>
           </packing>
         </child>
@@ -177,14 +139,15 @@ If you select "Units", this entry should be an integer.</property>
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox7">
+              <object class="GtkVBox" id="AttributestimeSignatureVBox">
+                <property name="width_request">40</property>
                 <property name="visible">True</property>
                 <child>
                   <object class="GtkEntry" id="attributesStandardTimeSignatureEntry1">
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">•</property>
+                    <property name="invisible_char">&#x2022;</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -206,7 +169,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">•</property>
+                    <property name="invisible_char">&#x2022;</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -224,6 +187,16 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator8">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">5</property>
+            <property name="position">6</property>
           </packing>
         </child>
         <child>
@@ -272,18 +245,30 @@ If you select "Units", this entry should be an integer.</property>
               </packing>
             </child>
             <child>
-              <object class="GtkVSeparator" id="vseparator1">
-                <property name="visible">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="padding">8</property>
-                <property name="position">3</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox33">
+            <property name="visible">True</property>
+            <child>
               <object class="GtkAlignment" id="attributesStandardTempoAlignment">
-                <property name="width_request">200</property>
+                <property name="width_request">300</property>
                 <property name="visible">True</property>
                 <child>
                   <placeholder/>
@@ -291,7 +276,8 @@ If you select "Units", this entry should be an integer.</property>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">4</property>
+                <property name="padding">13</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -302,25 +288,25 @@ If you select "Units", this entry should be an integer.</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="padding">5</property>
-                <property name="position">5</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="attributesStandardTempoValueEntry">
+                <property name="width_request">60</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">float</property>
-                <property name="invisible_char">●</property>
+                <property name="invisible_char">&#x25CF;</property>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="expand">False</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="padding">3</property>
-            <property name="position">6</property>
+            <property name="padding">1</property>
+            <property name="position">8</property>
           </packing>
         </child>
         <child>
@@ -330,7 +316,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">10</property>
-            <property name="position">7</property>
+            <property name="position">9</property>
           </packing>
         </child>
         <child>
@@ -397,7 +383,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">4</property>
-            <property name="position">8</property>
+            <property name="position">10</property>
           </packing>
         </child>
         <child>
@@ -419,7 +405,7 @@ If you select "Units", this entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
                 <property name="width_chars">0</property>
               </object>
               <packing>
@@ -442,7 +428,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">1</property>
-            <property name="position">9</property>
+            <property name="position">11</property>
           </packing>
         </child>
         <child>
@@ -464,7 +450,7 @@ If you select "Units", this entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -486,7 +472,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">1</property>
-            <property name="position">10</property>
+            <property name="position">12</property>
           </packing>
         </child>
         <child>
@@ -508,7 +494,7 @@ If you select "Units", this entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -530,7 +516,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">1</property>
-            <property name="position">11</property>
+            <property name="position">13</property>
           </packing>
         </child>
         <child>
@@ -541,7 +527,7 @@ If you select "Units", this entry should be an integer.</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="padding">10</property>
-            <property name="position">12</property>
+            <property name="position">14</property>
           </packing>
         </child>
         <child>
@@ -627,7 +613,7 @@ If you select "Units", this entry should be an integer.</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
-                        <property name="invisible_char">●</property>
+                        <property name="invisible_char">&#x25CF;</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -659,7 +645,7 @@ If you select "Units", this entry should be an integer.</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
-                        <property name="invisible_char">●</property>
+                        <property name="invisible_char">&#x25CF;</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -679,7 +665,7 @@ If you select "Units", this entry should be an integer.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">10</property>
-            <property name="position">13</property>
+            <property name="position">15</property>
           </packing>
         </child>
         <child>
@@ -704,7 +690,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
+                <property name="invisible_char">&#x25CF;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -725,7 +711,7 @@ If the Start Type is Seconds, this value should be a float</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">14</property>
+            <property name="position">16</property>
           </packing>
         </child>
         <child>
@@ -790,7 +776,7 @@ If the Start Type is Seconds, this value should be a float</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">15</property>
+            <property name="position">17</property>
           </packing>
         </child>
         <child>
@@ -813,7 +799,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">int, insert Function recommended</property>
-                <property name="invisible_char">●</property>
+                <property name="invisible_char">&#x25CF;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -834,7 +820,7 @@ If the Start Type is Seconds, this value should be a float</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">16</property>
+            <property name="position">18</property>
           </packing>
         </child>
         <child>
@@ -859,7 +845,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="tooltip_text" translatable="yes">If the Duration Type is Percentage, this value should be a float between 0 and 1
 If the Duration Type is EDUs, this value should be an int
 If the Duration Type is Seconds, this value should be a float</property>
-                <property name="invisible_char">●</property>
+                <property name="invisible_char">&#x25CF;</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -880,7 +866,7 @@ If the Duration Type is Seconds, this value should be a float</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">17</property>
+            <property name="position">19</property>
           </packing>
         </child>
         <child>
@@ -945,7 +931,55 @@ If the Duration Type is Seconds, this value should be a float</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">18</property>
+            <property name="position">20</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="attributesStandardMaxChirdDur">
+            <property name="visible">True</property>
+            <property name="tooltip_text" translatable="yes">If the Child Duration is "Fraction" or "Seconds", this entry should be a float (seconds).
+If you select "Units", this entry should be an integer.</property>
+            <child>
+              <object class="GtkLabel" id="attributesStandardMaxChildDurLabel">
+                <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">float (in units)</property>
+                <property name="xalign">0</property>
+                <property name="xpad">10</property>
+                <property name="label" translatable="yes">Max Child Duration: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="attributesStandardMaxChildDurEntry">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x2022;</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="attributesStandardMaxChildDurFunButton">
+                <property name="label" translatable="yes">Insert Function</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">3</property>
+            <property name="position">21</property>
           </packing>
         </child>
         <child>
@@ -955,7 +989,7 @@ If the Duration Type is Seconds, this value should be a float</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">13</property>
-            <property name="position">19</property>
+            <property name="position">22</property>
           </packing>
         </child>
         <child>
@@ -969,17 +1003,8 @@ If the Duration Type is Seconds, this value should be a float</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">20</property>
+            <property name="position">23</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -1052,7 +1077,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1085,7 +1110,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1118,7 +1143,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1182,7 +1207,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1215,7 +1240,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1248,7 +1273,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1312,7 +1337,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1345,7 +1370,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1378,7 +1403,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1442,7 +1467,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1475,7 +1500,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1508,7 +1533,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1572,7 +1597,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1605,7 +1630,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1638,7 +1663,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1705,7 +1730,7 @@ If the Duration Type is Seconds, this value should be a float</property>
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="position">0</property>
@@ -1727,7 +1752,7 @@ If the Duration Type is Seconds, this value should be a float</property>
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="position">2</property>
@@ -1773,7 +1798,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">•</property>
+                            <property name="invisible_char">&#x2022;</property>
                           </object>
                           <packing>
                             <property name="position">1</property>
@@ -1806,7 +1831,7 @@ If the Duration Type is Seconds, this value should be a float</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">•</property>
+                            <property name="invisible_char">&#x2022;</property>
                           </object>
                           <packing>
                             <property name="position">1</property>

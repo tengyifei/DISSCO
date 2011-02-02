@@ -56,16 +56,16 @@ IEvent::IEvent(){
 
   maxChildDur = "";
 
-  unitsPerSecond = "";
-  timeSignatureEntry1 = "";
-  timeSignatureEntry2 = "";
+  unitsPerSecond = "6";
+  timeSignatureEntry1 = "4";
+  timeSignatureEntry2 = "4";
   
   tempoMethodFlag = 0; //0 = as note value, 1 = as fraction
   tempoPrefix = tempoPrefixNone;
   tempoNoteValue = tempoNoteValueQuarter;
   tempoFractionEntry1 = "";
   tempoFractionEntry2 = "";
-  tempoValueEntry = "";  
+  tempoValueEntry = "60";  
   
   
   flagNumChildren    = 0; // 0 = fixed, 1 = density
@@ -3267,5 +3267,65 @@ void IEvent::NoteExtraInfo::clearNoteModifiers(){
 }
 
 
+IEvent::IEvent(IEvent* _original, string _newName){
+	eventName = _newName;
+	eventType = _original->eventType;
+  maxChildDur = _original->maxChildDur;
+
+  unitsPerSecond = _original->unitsPerSecond;
+  timeSignatureEntry1 = _original->timeSignatureEntry1;
+  timeSignatureEntry2 = _original->timeSignatureEntry2;
+  
+  tempoMethodFlag = _original->tempoMethodFlag; //0 = as note value, 1 = as fraction
+  tempoPrefix = _original-> tempoPrefix;
+  tempoNoteValue = _original-> tempoNoteValue;
+  tempoFractionEntry1 = _original->tempoFractionEntry1;
+  tempoFractionEntry2 = _original->tempoFractionEntry2;
+  tempoValueEntry = _original->tempoValueEntry;  
+  
+  
+  flagNumChildren    = _original->flagNumChildren; // 0 = fixed, 1 = density
+  numChildrenEntry1  = _original->numChildrenEntry1;
+  numChildrenEntry2  = _original->numChildrenEntry2;
+  numChildrenEntry3  = _original->numChildrenEntry3;
+  changedButNotSaved = true;
+  
+  childEventDefEntry1 = _original->childEventDefEntry1;
+  childEventDefEntry2 = _original->childEventDefEntry2;
+  childEventDefEntry3 = _original->childEventDefEntry3;
+
+  flagChildEventDef             = _original->flagChildEventDef;
+  flagChildEventDefStartType    = _original->flagChildEventDefStartType;
+  flagChildEventDefDurationType = _original->flagChildEventDefDurationType;
+  
+  
+  childEventDefAttackSieve = _original->childEventDefAttackSieve;
+  childEventDefDurationSieve = _original->childEventDefDurationSieve;
+  
+  
+  
+  //TODO
+  
+  if (eventType ==eventBottom){
+  	extraInfo = (EventExtraInfo*) new BottomEventExtraInfo((BottomEventExtraInfo*) _original->extraInfo);
+  }
+  /*
+  eventSound  = 5,
+  eventEnv    = 6,
+  eventSiv    = 7,
+  eventSpa    = 8,
+  eventPat    = 9,
+	eventRev    = 10,
+	eventFolder = 11,
+	eventNote = 12
+  
+  extraInfo = NULL;
+  EventLayer* newLayer = new EventLayer(this);
+  layers.push_back(newLayer);
+	*/
+}
+IEvent::BottomEventExtraInfo::BottomEventExtraInfo(BottomEventExtraInfo* _original){}
+IEvent::SoundExtraInfo::SoundExtraInfo(SoundExtraInfo* _original){}
+IEvent::NoteExtraInfo::NoteExtraInfo(NoteExtraInfo* _original){}
 
 
