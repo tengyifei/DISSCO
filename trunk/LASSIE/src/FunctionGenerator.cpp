@@ -3017,7 +3017,7 @@ void FunctionGenerator::function_list_combo_changed(){
         //reset all data
         attributesRefBuilder->get_widget(
           "REV_SimpleEntry", entry);
-        entry->set_text("");
+        entry->set_text("0.5");
         REV_SimpleEntryTextChanged();
   
       }      
