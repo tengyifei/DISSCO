@@ -79,8 +79,8 @@ IEvent::IEvent(){
   childEventDefEntry3 = "";
 
   flagChildEventDef             = 0;
-  flagChildEventDefStartType    = 0;
-  flagChildEventDefDurationType = 0;
+  flagChildEventDefStartType    = 2;
+  flagChildEventDefDurationType = 2;
   
   
   childEventDefAttackSieve = "";
