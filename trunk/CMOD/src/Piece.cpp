@@ -278,6 +278,18 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
 
     //Write to file.
     AuWriter::write(*renderedScore, soundFilename);
+    cout << endl;
+    cout << "-----------------------------------------------------------" <<
+      endl;
+    cout << "Synthesis complete." << endl;
+    cout << "Audio File: " << soundFilename << endl;
+    cout << "-----------------------------------------------------------" <<
+      endl;
+    cout.flush();
+    string aud = "audacity ";
+    aud.append(soundFilename);
+    aud.append(" &");
+    system(aud.c_str());
     delete renderedScore;
   }
 
