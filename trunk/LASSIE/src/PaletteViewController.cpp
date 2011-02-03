@@ -202,7 +202,7 @@ void PaletteViewController::objectActivated(
 }
 
 void PaletteViewController::insertEvent(IEvent* _event){
-	cout<<"PaletteViewController::insertEvent(IEvent* _event) says: Should check duplicate name before inserting new event. if duplicate event name found, the new event should be discard (delete _event) and prompt the user about duplicate name"<<endl;  
+	//cout<<"PaletteViewController::insertEvent(IEvent* _event) says: Should check duplicate name before inserting new event. if duplicate event name found, the new event should be discard (delete _event) and prompt the user about duplicate name"<<endl;  
   Gtk::TreeModel::Row childrow;
   if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
     childrow = *(refTreeModel->append());
