@@ -1147,22 +1147,22 @@ void ProjectViewController::refreshProjectDotDat(){
   //fputs(stringbuffer.c_str(),dat);  
   
   std::string buffer2;
-  buffer2 = (projectTitle == "")? " ": projectTitle;
+  buffer2 = (projectTitle == "")? "": projectTitle;
   stringbuffer = "LASSIETITLE = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (fileFlag == "")? " ": fileFlag;
+  buffer2 = (fileFlag == "")? "": fileFlag;
   stringbuffer = "LASSIEFILEFLAGS = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (topEvent == "")? " ": topEvent;
+  buffer2 = (topEvent == "")? "": topEvent;
   stringbuffer = "LASSIEFILELIST = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
 
   stringbuffer = "LASSIEPIECESTARTTIME = `0`;\n";
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (duration == "")? " ": duration;
+  buffer2 = (duration == "")? "": duration;
   stringbuffer = "LASSIEPIECEDURATION = `" + buffer2 + "`;\n\n";
   fputs(stringbuffer.c_str(),dat);
 
@@ -1175,19 +1175,19 @@ void ProjectViewController::refreshProjectDotDat(){
 
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (numOfChannels == "")? " ": numOfChannels;
+  buffer2 = (numOfChannels == "")? "": numOfChannels;
   stringbuffer = "LASSIENUMCHANNELS = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (sampleRate == "")? " ": sampleRate;
+  buffer2 = (sampleRate == "")? "": sampleRate;
   stringbuffer = "LASSIESAMPLERITE = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
 
-  buffer2 = (sampleSize == "")? " ": sampleSize;
+  buffer2 = (sampleSize == "")? "": sampleSize;
   stringbuffer = "LASSIESAMPLESIZE = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
   
-  buffer2 = (numOfThreads == "")? " ": numOfThreads;
+  buffer2 = (numOfThreads == "")? "": numOfThreads;
   stringbuffer = "LASSIENUMTHREADS = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
   
@@ -1402,7 +1402,7 @@ ProjectViewController::ProjectViewController(
     //std::string topName = piece->fileList;
     value = file_data["LASSIETITLE"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
   
     //projectTitle = FileOperations::stringToFileName(_pathAndName);
     projectTitle = buffer2;
@@ -1410,7 +1410,7 @@ ProjectViewController::ProjectViewController(
     value = file_data["LASSIEFILEFLAGS"];
     buffer2 = value->getString();
     
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     fileFlag = buffer2;
   
   
@@ -1418,7 +1418,7 @@ ProjectViewController::ProjectViewController(
     //duration = buffer; 
     value = file_data["LASSIEPIECEDURATION"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     duration = buffer2;  
     
     
@@ -1427,7 +1427,7 @@ ProjectViewController::ProjectViewController(
     //numOfChannels = buffer;
     value = file_data["LASSIENUMCHANNELS"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     numOfChannels = buffer2;
   
   
@@ -1435,7 +1435,7 @@ ProjectViewController::ProjectViewController(
     //sampleRate    = buffer;
     value = file_data["LASSIESAMPLERITE"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     sampleRate = buffer2;
     
     
@@ -1444,7 +1444,7 @@ ProjectViewController::ProjectViewController(
     //sampleSize    = buffer;
     value = file_data["LASSIESAMPLESIZE"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     sampleSize = buffer2;
     
     
@@ -1455,13 +1455,13 @@ ProjectViewController::ProjectViewController(
     
     value = file_data["LASSIENUMTHREADS"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     numOfThreads = buffer2;
   
     //topEvent      = piece->fileList;
     value = file_data["LASSIEFILELIST"];
     buffer2 = value->getString();
-    buffer2 = (buffer2 ==" ")?"":buffer2;
+    buffer2 = (buffer2 =="")?"":buffer2;
     topEvent = buffer2;  
   
     value = file_data["LASSIESOUNDSYNTHESIS"];

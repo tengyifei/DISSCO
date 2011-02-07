@@ -682,15 +682,15 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
-    "ValuePickWeightsMeaningfulRadioButton", radiobutton);
+    "ValuePickWeightsPeriodicRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
-    "ValuePickWeightsModsRadioButton", radiobutton);
+    "ValuePickWeightsHierarchicRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
-    "ValuePickWeightsFakeRadioButton", radiobutton);
+    "ValuePickWeightsIncludeRadioButton", radiobutton);
   radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
@@ -1459,18 +1459,18 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       argumentsIter++;
       value =&(*argumentsIter); // 7th argument is a string  (weight)
 
-      if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget("ValuePickWeightsMeaningfulRadioButton",radiobutton);
+      if (value->getString() == "PERIODIC"){
+        attributesRefBuilder->get_widget("ValuePickWeightsPeriodicRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
-      else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget("ValuePickWeightsModsRadioButton",radiobutton);
+      else if (value->getString() == "HIERARCHIC"){
+        attributesRefBuilder->get_widget("ValuePickWeightsHierarchicRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
-      else {  //FAKE
-        attributesRefBuilder->get_widget("ValuePickWeightsFakeRadioButton",radiobutton);
+      else {  //Include
+        attributesRefBuilder->get_widget("ValuePickWeightsIncludeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
@@ -3971,19 +3971,19 @@ void FunctionGenerator::valuePickTextChanged(){
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";
   
 
-  attributesRefBuilder->get_widget("ValuePickWeightsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget("ValuePickWeightsPeriodicRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("ValuePickWeightsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget("ValuePickWeightsHierarchicRadioButton", radiobutton2); 
 
   if (radiobutton1->get_active()){
-    stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
+    stringbuffer = stringbuffer + "\"PERIODIC\", <";
   
   }
   else if (radiobutton2->get_active()){
-    stringbuffer = stringbuffer + "\"MODS\", <";
+    stringbuffer = stringbuffer + "\"HIERARCHIC\", <";
   }
   else{
-    stringbuffer = stringbuffer + "\"FAKE\", <";  
+    stringbuffer = stringbuffer + "\"INCLUDE\", <";  
   }
 
   attributesRefBuilder->get_widget(
