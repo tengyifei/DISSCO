@@ -158,12 +158,12 @@ class EventDiscretePackage{
     std::string durationEnvScale;
     EventDiscretePackage(IEvent* _event){
      event = _event;
-     eventName = " "; //this is used to store file name of the event for linking after open
-     weight = " ";
-     attackEnv = " ";
-     attackEnvScale = " ";
-     durationEnv = " ";
-     durationEnvScale = " ";
+     eventName = ""; //this is used to store file name of the event for linking after open
+     weight = "";
+     attackEnv = "";
+     attackEnvScale = "";
+     durationEnv = "";
+     durationEnvScale = "";
     }
 
     EventDiscretePackage( FileValue* _thisPackageFileValue);
@@ -217,7 +217,7 @@ public:
   SpectrumPartial(){
     prev = NULL;
     next = NULL;
-    envString = " ";
+    envString = "";
 
   }
   ~SpectrumPartial(){};

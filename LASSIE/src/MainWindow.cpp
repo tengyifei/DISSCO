@@ -646,7 +646,7 @@ int MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey)
    
   /*  //this chunk is handled by accelkey of FileNewObject
 	if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
-		if (projectView!= NULL&& projectView->getPathAndName() != " "){
+		if (projectView!= NULL&& projectView->getPathAndName() != ""){
 			projectView->nKeyPressed(get_focus());// for palette to add object
 		}
 	} 

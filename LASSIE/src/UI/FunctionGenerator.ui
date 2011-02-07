@@ -1187,8 +1187,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkRadioButton" id="ValuePickWeightsMeaningfulRadioButton">
-            <property name="label" translatable="yes">Meaningful</property>
+          <object class="GtkRadioButton" id="ValuePickWeightsPeriodicRadioButton">
+            <property name="label" translatable="yes">Periodic</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -1202,13 +1202,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkRadioButton" id="ValuePickWeightsModsRadioButton">
-            <property name="label" translatable="yes">Mods</property>
+          <object class="GtkRadioButton" id="ValuePickWeightsHierarchicRadioButton">
+            <property name="label" translatable="yes">Hierarchic</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="draw_indicator">True</property>
-            <property name="group">ValuePickWeightsMeaningfulRadioButton</property>
+            <property name="group">ValuePickWeightsPeriodicRadioButton</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1217,13 +1217,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkRadioButton" id="ValuePickWeightsFakeRadioButton">
-            <property name="label" translatable="yes">Fake</property>
+          <object class="GtkRadioButton" id="ValuePickWeightsIncludeRadioButton">
+            <property name="label" translatable="yes">Include</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="draw_indicator">True</property>
-            <property name="group">ValuePickWeightsMeaningfulRadioButton</property>
+            <property name="group">ValuePickWeightsPeriodicRadioButton</property>
           </object>
           <packing>
             <property name="expand">False</property>
