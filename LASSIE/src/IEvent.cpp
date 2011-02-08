@@ -588,7 +588,6 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
   std::string fileName;
   std::string header;
 
-
   switch (eventType){
     case 0:
       fileName = _pathOfProject + "/T/" + eventName;
@@ -810,6 +809,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
   }
 
   stringbuffer = stringbuffer + "\n             >;\n\n";
+  
   yy_scan_string( stringbuffer.c_str());//set parser buffer
   if (yyparse()==0){
     fputs(stringbuffer.c_str(),file);
@@ -1693,7 +1693,10 @@ std::string EventLayer::outputChildrenNameString(){
     
     }else if( thisEvent->getEventType() == eventSound){
       temp = temp + "\"S/" + thisEvent->getEventName() + "\"";
-    }
+    }else if (thisEvent->getEventType() == eventNote){
+    	temp = temp + "\"N/" + thisEvent->getEventName() + "\"";
+   	}
+    
 
     i++;
     if(i == children.end()){
