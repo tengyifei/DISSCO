@@ -349,7 +349,6 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
       
       
       double endy =height - ( segment->y * height *height / (height + 1));  
-      
      
      //set color here
       if (segment->segmentType == envSegmentTypeLinear){
@@ -371,6 +370,7 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
         cr->set_line_width(3.0);
       }
       
+      
 
       cr->move_to(startx, starty);
       cr->line_to(endx, endy);
@@ -378,6 +378,34 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
       //cr->move_to(xc, yc);
       //cr->line_to(width, yc);
       cr->stroke();
+      segment = segment->next;
+    }
+    
+    segment = _envelope->segments;
+    while(segment!=NULL) { // draw this segment
+      // clip to the area indicated by the expose event so that we only redraw
+      // the portion of the window that needs to be redrawn
+      //cr->rectangle(event->area.x, event->area.y,
+      //      event->area.width, event->area.height);
+      //cr->clip();
+      
+      double startx = segment->xStart * width * width / (width +1);
+      double starty = (segment->prev ==NULL)? 
+        (height - _envelope->yStart * height * height / (height + 1)) :
+         height - ( segment->prev->y * height* height/ (height +1));
+      
+      
+      double endx = (segment->next ==NULL)?
+        width: segment->next->xStart *width * width / (width+1);
+      
+      
+      double endy = height - ( segment->y * height *height / (height + 1));  
+      
+      cr->set_source_rgb(0.8, 0.5, 0.4);
+      cr->arc(startx, starty, 5, 0, 2 * 3.141592654);
+      cr->fill();
+      cr->arc(endx, endy, 5, 0, 2 * 3.141592654);
+      cr->fill();
       segment = segment->next;
     }
   }
