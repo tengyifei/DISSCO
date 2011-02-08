@@ -123,7 +123,7 @@ template<class T> T& Collection<T>::get(int index)
     else
     {
         cerr << "ERROR: Collection.get() Index out of bounds: " << index << endl;
-        int *x = 0; int y = *x; //Crash
+        //int *x = 0; int y = *x; //Crash
         return vector_[0];
     }
 }
