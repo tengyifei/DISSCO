@@ -202,7 +202,11 @@ void PaletteViewController::objectActivated(
 }
 
 void PaletteViewController::insertEvent(IEvent* _event){
-	//cout<<"PaletteViewController::insertEvent(IEvent* _event) says: Should check duplicate name before inserting new event. if duplicate event name found, the new event should be discard (delete _event) and prompt the user about duplicate name"<<endl;  
+ 
+	
+	
+
+	
   Gtk::TreeModel::Row childrow;
   if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
     childrow = *(refTreeModel->append());
@@ -222,6 +226,7 @@ void PaletteViewController::insertEvent(IEvent* _event){
 
 
 void PaletteViewController::insertEvent(IEvent* _event, std::string _parentName){
+	cout<<"event name:"<<_event->getEventName()<<", parent name: "<<_parentName<<endl;
   Gtk::TreeModel::Row insertTo;
   //find the row of the given name
   Gtk::TreeModel::Children children = refTreeModel->children();
@@ -433,6 +438,8 @@ void PaletteViewController::duplicateObject(){
    nameEntry->set_text(name);
    int response = duplicateObjectDialog->run();
    duplicateObjectDialog->hide();
+   
+   
    if (response ==1 && nameEntry->get_text() == ""){
 
     //prompt error (no row selected in the palette)
@@ -450,9 +457,39 @@ void PaletteViewController::duplicateObject(){
   	return;
   } 
   else {
+  	if (sharedPointers->projectView->checkNameExists(nameEntry->get_text(), originalEvent->getEventType())){
+    	Gtk::MessageDialog dialog(
+      	"Object with the same name exists.",
+      	false /* use_markup */,
+      	Gtk::MESSAGE_QUESTION,
+      	Gtk::BUTTONS_OK);
+
+    dialog.run();
+    return;
+		
+	}
+  
 	sharedPointers->eventAttributesView->saveCurrentShownEventData();
   IEvent* newIEvent = new IEvent( originalEvent, nameEntry->get_text());
-  insertEvent(newIEvent, originalEvent->getEventTypeString());
+  
+  string typeString;
+  if (newIEvent->getEventTypeString() =="Env."){
+  	typeString = "Envelope";
+  }
+  else if (newIEvent->getEventTypeString() =="Spat."){
+  	typeString = "Spatialization";
+  }
+  else  if (newIEvent->getEventTypeString() =="Rev."){
+  	typeString = "Reverb";
+  }
+  else   if (newIEvent->getEventTypeString() =="Pat."){
+  	typeString = "Pattern";
+  }
+  else {
+  	typeString = newIEvent->getEventTypeString();
+  }
+  
+  insertEvent(newIEvent, typeString);
   projectView->modified();
   projectView->events.push_back(newIEvent);
   }

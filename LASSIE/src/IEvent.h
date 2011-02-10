@@ -97,6 +97,7 @@ class EventBottomModifier{ //implemented as a linked list for the convenience
 public:
 
   EventBottomModifier();
+  EventBottomModifier(EventBottomModifier* _original);
   ~EventBottomModifier();
   
   ModifierType getModifierType();
@@ -165,7 +166,7 @@ class EventDiscretePackage{
      durationEnv = "";
      durationEnvScale = "";
     }
-
+		EventDiscretePackage(EventDiscretePackage* _originalPackage);
     EventDiscretePackage( FileValue* _thisPackageFileValue);
     std::string getLASSIEMetadataString();
     void link(ProjectViewController* _projectView, IEvent* _thisEvent); 
@@ -179,6 +180,7 @@ class EventLayer {
 
   public:
     EventLayer(IEvent* _thisEvent);
+    EventLayer(IEvent* _thisEvent, EventLayer* _originalLayer);
     EventLayer(FileValue* _thisLayerFileValue,IEvent* _thisEvent);
     ~EventLayer();
     EventDiscretePackage* addChild(IEvent* _child);
@@ -623,7 +625,7 @@ public:
     // Reverb
   class ReverbExtraInfo : public EventExtraInfo {  
   public:
-  	ReverbExtraInfo(ReverbExtraInfo* _original){reverbBuilder = _original->reverbBuilder;}
+  	ReverbExtraInfo(ReverbExtraInfo* _original);
     ReverbExtraInfo(){reverbBuilder = "";}
     ~ReverbExtraInfo(){}
     std::string getReverbBuilder();
