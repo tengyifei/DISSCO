@@ -371,74 +371,74 @@ void ProjectViewController::showContents(){
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Top");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("High");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Mid");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Low");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Bottom");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Spectrum");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Note");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Envelope");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Sieve");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Spatialization");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Pattern");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   event = new IEvent();
   event->setEventType(eventFolder);
   event->setEventName("Reverb");
-  events.push_back(event);
   paletteView->insertEvent(event);
+  events.push_back(event);
 
   //event = new IEvent();
   //event->setEventType(eventTop);
@@ -1458,7 +1458,7 @@ ProjectViewController::ProjectViewController(
     buffer2 = (buffer2 =="")?"":buffer2;
     numOfThreads = buffer2;
   
-    //topEvent      = piece->fileList;
+    //topEvent      = piece->fileList
     value = file_data["LASSIEFILELIST"];
     buffer2 = value->getString();
     buffer2 = (buffer2 =="")?"":buffer2;
@@ -1641,8 +1641,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventTop);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent, "Top");
+        events.push_back(newEvent);
       }
     }
     
@@ -1661,8 +1662,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventHigh);
-        events.push_back(newEvent);
+
         paletteView->insertEvent(newEvent, "High");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1677,8 +1679,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventMid);
-        events.push_back(newEvent);
+
         paletteView->insertEvent(newEvent,"Mid");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1691,8 +1694,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventLow);
-        events.push_back(newEvent);
+
         paletteView->insertEvent(newEvent,"Low");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1705,8 +1709,8 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventBottom);
-        events.push_back(newEvent);
         paletteView->insertEvent(newEvent,"Bottom");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1722,8 +1726,8 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventSound);
-        events.push_back(newEvent);
         paletteView->insertEvent(newEvent,"Spectrum");
+				events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1740,8 +1744,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventNote);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Note");
+        events.push_back(newEvent);
       }
     }  
     closedir(dp);
@@ -1757,8 +1762,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventEnv);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Envelope");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1771,8 +1777,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventSiv);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Sieve");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1785,8 +1792,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventPat);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Pattern");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1800,8 +1808,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventSpa);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Spatialization");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -1814,8 +1823,9 @@ ProjectViewController::ProjectViewController(
     while ((dirp = readdir(dp)) != NULL) {
       if (dirp->d_name[0]!= '.'){
         newEvent = new IEvent( directory ,string(dirp->d_name), eventRev);
-        events.push_back(newEvent);
+        
         paletteView->insertEvent(newEvent,"Reverb");
+        events.push_back(newEvent);
       }
     }
     closedir(dp);
@@ -2373,4 +2383,22 @@ void ProjectViewController::saveAs(std::string _newPathAndName){
 	
 
 }
+
+
+bool ProjectViewController::checkNameExists(string _name, EventType _type){
+	vector<IEvent*>::iterator iter = events.begin();
+	bool returnValue = false;
+	while (!returnValue && iter != events.end()){
+
+		if ((*iter)->getEventName() == _name && (*iter)->getEventType() == _type){
+			returnValue = true;
+		}
+
+		iter++;
+	} 
+
+	return returnValue;
+
+}
+
 

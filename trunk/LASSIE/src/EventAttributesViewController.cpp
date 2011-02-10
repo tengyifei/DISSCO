@@ -1933,25 +1933,37 @@ void EventAttributesViewController::showCurrentEventData(){
         Gtk::VBox* vbox;
         attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
         EventBottomModifier* EBmodifiers = currentlyShownEvent->getEventExtraInfo()->getModifiers();
+        cout<<"EBmodifiers= "<<EBmodifiers<<endl;
+        
+        
+        
+        
 
         BottomEventModifierAlignment* nextModifierAlignment;       
         while (EBmodifiers != NULL){
 
           if (modifiers ==NULL){ //if the first modifier
+
             modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
             modifiers->prev = NULL;
+
             nextModifierAlignment = modifiers;
-            vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);            
+            vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK); 
+           
 
           } 
           else { //rest of the modifiers
+
           nextModifierAlignment->next = new BottomEventModifierAlignment(EBmodifiers, this);
           nextModifierAlignment->next->prev = nextModifierAlignment;
           nextModifierAlignment = nextModifierAlignment->next;
             vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
+
           }
           EBmodifiers = EBmodifiers->next;
+
         }    
+
 
       } // end showing bottom extra info
       

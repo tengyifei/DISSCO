@@ -3306,29 +3306,164 @@ IEvent::IEvent(IEvent* _original, string _newName){
   childEventDefDurationSieve = _original->childEventDefDurationSieve;
   
   
-  
-  //TODO
-  
+
   if (eventType ==eventBottom){
   	extraInfo = (EventExtraInfo*) new BottomEventExtraInfo((BottomEventExtraInfo*) _original->extraInfo);
+
   }
-  /*
-  eventSound  = 5,
-  eventEnv    = 6,
-  eventSiv    = 7,
-  eventSpa    = 8,
-  eventPat    = 9,
-	eventRev    = 10,
-	eventFolder = 11,
-	eventNote = 12
+  else if (eventType== eventRev){
+  	extraInfo = (EventExtraInfo*) new ReverbExtraInfo((ReverbExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventSiv){
+  	extraInfo = (EventExtraInfo*) new SieveExtraInfo((SieveExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventEnv){
+  	extraInfo = (EventExtraInfo*) new EnvelopeExtraInfo((EnvelopeExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventSpa){
+  	extraInfo = (EventExtraInfo*) new SpatializationExtraInfo((SpatializationExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventPat){
+  	extraInfo = (EventExtraInfo*) new PatternExtraInfo((PatternExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventSound){
+  	extraInfo = (EventExtraInfo*) new SoundExtraInfo((SoundExtraInfo*) _original->extraInfo);
+  }
+  else if (eventType == eventNote){
+  	extraInfo = (EventExtraInfo*) new NoteExtraInfo((NoteExtraInfo*) _original->extraInfo);
+  }
   
-  extraInfo = NULL;
-  EventLayer* newLayer = new EventLayer(this);
-  layers.push_back(newLayer);
-	*/
+  //layers go here
+  
+  list<EventLayer*>::iterator iter = _original->layers.begin();
+  
+  while (iter!= _original->layers.end()){
+  
+  	EventLayer* newLayer = new EventLayer(this, *iter);
+  
+  	layers.push_back(newLayer);
+  	iter++;
+  }
+  
+  
 }
-IEvent::BottomEventExtraInfo::BottomEventExtraInfo(BottomEventExtraInfo* _original){}
-IEvent::SoundExtraInfo::SoundExtraInfo(SoundExtraInfo* _original){}
-IEvent::NoteExtraInfo::NoteExtraInfo(NoteExtraInfo* _original){}
 
 
+
+IEvent::ReverbExtraInfo::ReverbExtraInfo(ReverbExtraInfo* _original){
+	reverbBuilder = _original->reverbBuilder;
+}
+
+IEvent::NoteExtraInfo::NoteExtraInfo(NoteExtraInfo* _original){
+	 modifiers = _original->modifiers;
+}
+
+
+
+
+IEvent::SoundExtraInfo::SoundExtraInfo(SoundExtraInfo* _original){
+	    
+    numPartials = _original->numPartials;
+    deviation = _original->deviation;
+    
+    SpectrumPartial* currentOriginalPartial = _original->spectrumPartials;
+    SpectrumPartial* currentPartial = NULL;
+    SpectrumPartial* previousPartial = NULL;
+    spectrumPartials = new SpectrumPartial();
+    currentPartial = spectrumPartials;
+    spectrumPartials->envString = currentOriginalPartial->envString;
+    
+    while (currentOriginalPartial->next != NULL){
+    	currentOriginalPartial = currentOriginalPartial->next;
+    
+    	previousPartial = currentPartial;
+    	currentPartial = new SpectrumPartial();
+    	currentPartial->envString = currentOriginalPartial->envString;
+    	currentPartial->prev = previousPartial;
+    	previousPartial->next = currentPartial;
+    
+   
+    }
+    
+     
+}
+
+
+IEvent::BottomEventExtraInfo::BottomEventExtraInfo(BottomEventExtraInfo* _original){
+
+  
+	frequencyFlag = _original->frequencyFlag; // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
+  frequencyContinuumFlag = _original->frequencyContinuumFlag; //0 = hertz, 1 =] power of two
+  childTypeFlag = _original->childTypeFlag; // 0 = sound, 1 = note, 2 = visual
+  frequencyEntry1 = _original->frequencyEntry1;
+  frequencyEntry2 = _original->frequencyEntry2;
+  loudness = _original->loudness;
+  spatialization = _original->spatialization;
+  reverb = _original->reverb;
+    
+  
+  if (_original->modifiers == NULL){    
+  	modifiers = NULL;
+
+  }
+  else{
+  
+  	modifiers = new EventBottomModifier(_original->modifiers);
+  
+  	EventBottomModifier* currentOriginalModifier = _original->modifiers;
+  	EventBottomModifier* prevModifier = NULL;
+  	EventBottomModifier* currentModifier = modifiers;
+  
+  	while (currentOriginalModifier->next!= NULL){
+  		currentOriginalModifier = currentOriginalModifier->next;
+  		prevModifier= currentModifier;
+  		currentModifier = new EventBottomModifier(currentOriginalModifier);
+  		prevModifier->next = currentModifier;
+  
+  	}
+  }  	    
+}
+
+
+EventBottomModifier::EventBottomModifier(EventBottomModifier* _original){
+	next=NULL;
+  type = _original->type;
+  applyHowFlag = _original->applyHowFlag;
+  probability = _original->probability;
+  ampValue = _original->ampValue;
+  rateValue = _original->rateValue;
+  width = _original->width;
+  groupName = _original->groupName;
+
+}
+
+
+
+
+EventLayer::EventLayer(IEvent* _thisEvent, EventLayer* _originalLayer){
+
+	byLayer = _originalLayer->byLayer;
+ 	thisIEvent = _thisEvent;
+    
+  list<EventDiscretePackage*>::iterator iter = _originalLayer->children.begin(); 
+  while (iter != _originalLayer->children.end()){
+   
+    EventDiscretePackage* newPackage = new EventDiscretePackage(*iter);
+    children.push_back(newPackage);
+     
+    iter++;
+     
+   }
+
+}
+
+EventDiscretePackage::EventDiscretePackage(EventDiscretePackage* _originalPackage){
+    event = _originalPackage->event;
+    eventType  = _originalPackage->eventType; // this one and eventName is used to store info to in order to link
+    eventName = _originalPackage->eventName;
+    weight = _originalPackage->weight;
+    attackEnv = _originalPackage->attackEnv;
+    attackEnvScale = _originalPackage->attackEnvScale;
+    durationEnv = _originalPackage->durationEnv;
+    durationEnvScale = _originalPackage->durationEnvScale;
+}

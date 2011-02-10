@@ -109,6 +109,7 @@ public:
   void showAttributesView(bool _show);
   void configureNoteModifiers();
   void removeCustomNoteModifier(CustomNoteModifierHBox* _hbox);
+  bool checkNameExists(string _name, EventType _type);
   
   std::map<std::string, bool> getDefaultNoteModifiers();
   std::vector<std::string> getCustomNoteModifiers();
