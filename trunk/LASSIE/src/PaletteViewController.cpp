@@ -226,7 +226,6 @@ void PaletteViewController::insertEvent(IEvent* _event){
 
 
 void PaletteViewController::insertEvent(IEvent* _event, std::string _parentName){
-	cout<<"event name:"<<_event->getEventName()<<", parent name: "<<_parentName<<endl;
   Gtk::TreeModel::Row insertTo;
   //find the row of the given name
   Gtk::TreeModel::Children children = refTreeModel->children();
