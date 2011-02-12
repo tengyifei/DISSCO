@@ -28,14 +28,14 @@ project "lass"
   includedirs {"/usr/local/include"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-Wno-deprecated"}
+  buildoptions {"-Wno-deprecated", "-gstabs"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   
 project "parser"
   language "C"
   flags {"StaticRuntime"}
-  files {"CMOD/src/parser/lex.yy.c"}
+  files {"CMOD/src/parser/lex.yy.c", "-gstabs"}
   kind "StaticLib"
   targetdir "lib"
   configuration "Debug" flags(DebugFlags) 
@@ -48,7 +48,7 @@ project "lcmod"
   excludes {"CMOD/src/Main.*"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-Wno-deprecated"}
+  buildoptions {"-Wno-deprecated", "-gstabs"}
   configuration "Debug" flags(DeOptimizebugFlags) 
   configuration "Release" flags(ReleaseFlags)
 
@@ -59,7 +59,7 @@ project "cmod"
   kind "ConsoleApp"
   libdirs {"lib", "/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
-  buildoptions {"-Wno-deprecated"}
+  buildoptions {"-Wno-deprecated", "-gstabs"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   
@@ -67,7 +67,7 @@ project "lassie"
   language "C++"
   kind "ConsoleApp"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
-  buildoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
+  buildoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated", "-gstabs"}
   linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
