@@ -288,7 +288,7 @@ protected:
     *   Follows aq slightly different procedure than Sweep and Discrete.  Why?
     *  \param iter FileValues to pass in for new objects
     **/
-    bool buildContinuum(list<FileValue>::iterator iter, string childName);
+    bool buildContinuum(list<FileValue>::iterator iter);
 
     /**
      *  Method for assigning stimeSec and durSec values in sequential order - 
@@ -298,14 +298,14 @@ protected:
      *  integer values method is used for it.
      *  \param iter FileValues to pass in for new objects
      **/
-    bool buildSweep(list<FileValue>::iterator iter, string childName);
+    bool buildSweep(list<FileValue>::iterator iter);
 
     /**
     *   Wrapper for assigning values for stimeMatrix, type and durMatrix
     *   using a matrix.  Calls ObjCoordinates, Adjustments, and TimeConvert.
 `   *   \param iter FileValues to pass in for new objects
     **/
-    bool buildDiscrete(list<FileValue>::iterator iter, string childName);
+    bool buildDiscrete(list<FileValue>::iterator iter);
     
     /**
      * Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.

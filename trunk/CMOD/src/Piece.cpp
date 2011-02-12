@@ -295,6 +295,14 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
 
   delete mainEvent;
   delete mainFactory;
+
+  cout << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl;
+  cout << "Build complete." << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl;
+  cout.flush();
 }
 
 //----------------------------------------------------------------------------//

@@ -839,7 +839,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
         stringbuffer += "\"PERCENTAGE\",\n\t\t  ";
         break;
       case 1:
-        stringbuffer += "\"UNITS\",\n\t\t  ";
+        stringbuffer += "\"EDU\",\n\t\t  ";
         break;
       case 2:
         stringbuffer += "\"SECONDS\",\n\t\t  ";
@@ -857,7 +857,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
         stringbuffer += "\"PERCENTAGE\"\n\t\t>;\n\n";
         break;
       case 1:
-        stringbuffer += "\"UNITS\"\n\t\t>;\n\n";
+        stringbuffer += "\"EDU\"\n\t\t>;\n\n";
         break;
       case 2:
         stringbuffer += "\"SECONDS\"\n\t\t>;\n\n";
