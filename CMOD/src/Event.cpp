@@ -316,13 +316,12 @@ void Event::buildChildEvents() {
 
   //Create the child events.
   for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
-    string childName = typeVect[childType];
     if (method == "CONTINUUM")
-      checkEvent(buildContinuum(iter, childName));
+      checkEvent(buildContinuum(iter));
     else if (method == "SWEEP")
-      checkEvent(buildSweep(iter, childName));
+      checkEvent(buildSweep(iter));
     else if (method == "DISCRETE")
-      checkEvent(buildDiscrete(iter, childName));
+      checkEvent(buildDiscrete(iter));
     else {
       cerr << "Unknown build method: " << method << endl << "Aborting." << endl;
       exit(1);
@@ -438,7 +437,7 @@ string Event::unitTypeToUnits(string type) {
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildContinuum(list<FileValue>::iterator iter, string childName) {
+bool Event::buildContinuum(list<FileValue>::iterator iter) {
   if (currChildNum == 0) {
     checkPoint = 0;
   }
@@ -472,6 +471,7 @@ bool Event::buildContinuum(list<FileValue>::iterator iter, string childName) {
 
   // get the type
   childType = iter++->getInt(this);
+  string childName = typeVect[childType];
   
   // get the duration
   float rawChildDuration = iter++->getFloat(this);
@@ -538,7 +538,7 @@ bool Event::buildContinuum(list<FileValue>::iterator iter, string childName) {
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildSweep(list<FileValue>::iterator iter, string childName) {
+bool Event::buildSweep(list<FileValue>::iterator iter) {
   // find start time and dur of last child
   if (currChildNum == 0) {
     lastTime = 0;
@@ -606,6 +606,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter, string childName) {
 
   // get the type
   childType = iter++->getInt(this);
+  string childName = typeVect[childType];
   
   // get the duration
   float rawChildDuration = iter++->getFloat(this);
@@ -669,7 +670,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter, string childName) {
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildDiscrete(list<FileValue>::iterator iter, string childName) {
+bool Event::buildDiscrete(list<FileValue>::iterator iter) {
   int sever;
 
   if (currChildNum == 0) {
@@ -747,6 +748,7 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter, string childName) {
   int stimeEDU = childPt.stime;
   int durEDU = childPt.dur;
   childType = childPt.type;
+  string childName = typeVect[childType];
 
   if(durEDU > (int)maxChildDur)
     durEDU = maxChildDur;
@@ -862,9 +864,11 @@ int Event::getAvailableEDU()
   
   //The duration is not exact, so the available EDUs must be quantized.
   float approximateEDUs = EDUs.To<float>() * durationScalar;
-  int quantizedEDUs = (int)approximateEDUs;
-  cout << "Warning: quantizing AVAILABLE_EDU from ";
-  cout << approximateEDUs << " to " << quantizedEDUs << endl;
+  int quantizedEDUs = (int)(approximateEDUs + 0.001f);
+  if(abs((float)quantizedEDUs - approximateEDUs) > 0.001f) {
+    cout << "Warning: quantizing AVAILABLE_EDU from ";
+    cout << approximateEDUs << " to " << quantizedEDUs << endl;
+  }
   return quantizedEDUs;
 };
 
