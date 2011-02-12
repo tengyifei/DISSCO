@@ -8,7 +8,7 @@ DebugFlags = {"Symbols", "NoPCH", "NoManifest"}
 ReleaseFlags = {} --Optimize
 
 solution "dissco"
-  configurations {"Release", "Debug"}
+  configurations {"Debug", "Release"}
   
 --[[
 project "bellebonnesage"
