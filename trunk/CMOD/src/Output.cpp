@@ -23,6 +23,65 @@ OutputNode* Output::top;
 ofstream* Output::particelFile;
 int Output::level;
 
+OutputNode::OutputNode(string name) : nodeName(name) {
+}
+
+OutputNode::~OutputNode()
+{
+  for(int i = 0; i < (int)subNodes.size(); i++)
+    delete subNodes[i];
+  propertyNames.clear();
+  propertyValues.clear();
+  propertyUnits.clear();
+  subNodes.clear();
+}
+
+void OutputNode::addProperty(string name, string value, string units)
+{
+  propertyNames.push_back(name);
+  propertyValues.push_back(value);
+  propertyUnits.push_back(units);
+}
+
+string OutputNode::findAndReplace(string in, string needle, string replace) {
+  while(in.find(needle) != string::npos)
+    in.replace(in.find(needle), needle.length(), replace);
+  return in;
+}
+string OutputNode::sanitize(string name) {
+  name = findAndReplace(name, " ", "");
+  name = findAndReplace(name, "/", "_");
+  return name;
+}
+
+string OutputNode::getXML(void) {
+  string s;
+  s += "<";
+  s += sanitize(nodeName);
+  s += ">\n";
+  
+  for(int i = 0; i < propertyNames.size(); i++) {
+    s += "<";
+    s += sanitize(propertyNames[i]);
+    s += ">";
+    
+    s += propertyValues[i];
+    
+    s += "</";
+    s += sanitize(propertyNames[i]);
+    s += ">\n";      
+  }
+  
+  for(int i = 0; i < subNodes.size(); i++) {
+    s += subNodes[i]->getXML();     
+  }
+  
+  s += "</";
+  s += sanitize(nodeName);
+  s += ">\n";
+  return s;
+}
+
 void Output::writeLineToParticel(string line) {
   if(!particelFile) return;
   *particelFile << line << endl;
@@ -104,6 +163,11 @@ void Output::endSubLevel(void) {
 }
 
 void Output::exportToXML(string filename) {
-  filename = "";
+  ofstream* xmlFile;
+  if(filename == "")
+    return;
+  xmlFile = new ofstream();
+  xmlFile->open(filename.c_str());
+  *xmlFile << top->getXML();
 }
 

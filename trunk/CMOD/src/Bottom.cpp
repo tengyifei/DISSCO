@@ -19,7 +19,7 @@ CMOD (composition module)
 
 //----------------------------------------------------------------------------//
 //
-//   bottom.cpp
+//   Bottom.cpp
 //
 //----------------------------------------------------------------------------//
 
@@ -30,109 +30,43 @@ CMOD (composition module)
 
 //----------------------------------------------------------------------------//
 
+//Globals (eventually need to put these in a global class)
 extern EnvelopeLibrary envlib_cmod;
 extern Score score;
 extern int numChan;
-//extern int currChildNum;
 extern map<string, EventFactory*> factory_lib;
-extern ofstream * outputFile;
-extern ofstream * outFile;
+
+//----------------------------------------------------------------------------//
+
+//Static sound count variable (maybe should be wrapped into global class)
 int Bottom::sndcount = 0;
 
 //----------------------------------------------------------------------------//
 
-Bottom::Bottom(float aStartTime, float aDuration, int aType, string aName)
-               : Event(aStartTime, aDuration, aType, aName) {
-  frequencyFV = NULL;
-  loudnessFV = NULL;
-  spatializationFV = NULL;
-  reverberationFV = NULL;
-  modifiersFV = NULL;
-
-  numPartialsFV = NULL;
-  deviationFV = NULL;
-  spectrumFV = NULL;
-
-  notePitchClassFV = NULL;
-  noteDynamicMarkFV = NULL;
-  noteModifiersFV = NULL;
-
-  currPartialNum = 0;
-  wellTempPitch = -1;
-}
-
-//----------------------------------------------------------------------------//
-
-Bottom::Bottom(const Bottom &orig) : Event(orig) {
-  frequencyFV = orig.frequencyFV;
-  loudnessFV = orig.loudnessFV;
-  spatializationFV = orig.spatializationFV;
-  reverberationFV = orig.reverberationFV;
-  modifiersFV = orig.modifiersFV;
-
-  numPartialsFV = orig.numPartialsFV;
-  deviationFV = orig.deviationFV;
-  spectrumFV = orig.spectrumFV;
-
-  notePitchClassFV = orig.notePitchClassFV;
-  noteDynamicMarkFV = orig.noteDynamicMarkFV;
-  noteModifiersFV = orig.noteModifiersFV;
-
-  currPartialNum = orig.currPartialNum;
-  mod_used = orig.mod_used;
-  wellTempPitch = orig.wellTempPitch;
-
-  for (int i = 0; i < orig.childSounds.size(); i++) {
-    childSounds.push_back( new Sound(*orig.childSounds[i]) );
-  }
-  for (int i = 0; i < orig.childNotes.size(); i++) {
-    childNotes.push_back( new Note(*orig.childNotes[i]) );
-  }
-}
-
-//----------------------------------------------------------------------------//
-
-Bottom& Bottom::operator=(const Bottom& rhs) {
-  Event::operator=(rhs);
-
-  frequencyFV = rhs.frequencyFV;
-  loudnessFV = rhs.loudnessFV;
-  spatializationFV = rhs.spatializationFV;
-  reverberationFV = rhs.reverberationFV;
-  modifiersFV = rhs.modifiersFV;
-
-  numPartialsFV = rhs.numPartialsFV;
-  deviationFV = rhs.deviationFV;
-  spectrumFV = rhs.spectrumFV;
-
-  notePitchClassFV = rhs.notePitchClassFV;
-  noteDynamicMarkFV = rhs.noteDynamicMarkFV;
-  noteModifiersFV = rhs.noteModifiersFV;
-
-  currPartialNum = rhs.currPartialNum;
-  mod_used = rhs.mod_used;
-  wellTempPitch = rhs.wellTempPitch;
-
-  for (int i = 0; i < rhs.childSounds.size(); i++) {
-    childSounds.push_back( new Sound(*rhs.childSounds[i]) );
-  }
-  for (int i = 0; i < rhs.childNotes.size(); i++) {
-    childNotes.push_back( new Note(*rhs.childNotes[i]) );
-  }
-}
+Bottom::Bottom(TimeSpan ts, int type, string name) :
+  Event(ts, type, name),
+  frequencyFV(0), loudnessFV(0), spatializationFV(0), reverberationFV(0),
+  modifiersFV(0), numPartialsFV(0), deviationFV(0), spectrumFV(0),
+  notePitchClassFV(0), noteDynamicMarkFV(0), noteModifiersFV(0),
+  currPartialNum(0),
+  wellTempPitch(-1) {}
 
 //----------------------------------------------------------------------------//
 
 Bottom::~Bottom() {
-  for (int i = 0; i < childSounds.size(); i++) {
+  for(int i = 0; i < childSounds.size(); i++)
     delete childSounds[i];
-  }
-  for (int i = 0; i < childNotes.size(); i++) {
+  for (int i = 0; i < childNotes.size(); i++)
     delete childNotes[i];
-  }
-  // note: can't delete filevalues -- segfaults because something else is 
-  //       holding onto them somewhere ---- (cavis)
-  /*if (frequencyFV) { delete frequencyFV; cout << "deleted frequency" << endl; }
+    
+  /*Note: currently we can not delete FileValues. Deleting them causes a 
+  segfaults because something else is holding onto them somewhere. (Cavis)*/
+  
+  /*We need to eventually investigate whether this causes a memory leak. We
+  can ignore this for now since it is an end-of-program leak. (Andrew)*/
+  
+  #if 0
+  if (frequencyFV) delete frequencyFV;
   if (loudnessFV) delete loudnessFV;
   if (spatializationFV) delete spatializationFV;
   if (reverberationFV) delete reverberationFV;
@@ -142,16 +76,17 @@ Bottom::~Bottom() {
   if (spectrumFV) delete spectrumFV;
   if (notePitchClassFV) delete notePitchClassFV;
   if (noteDynamicMarkFV) delete noteDynamicMarkFV;
-  if (noteModifiersFV) delete noteModifiersFV;*/
+  if (noteModifiersFV) delete noteModifiersFV;
+  #endif
 }
 
 //----------------------------------------------------------------------------//
 
-void Bottom::initBottomVars( FileValue* frequency, 
+void Bottom::initBottomVars(FileValue* frequency, 
                              FileValue* loudness,
                              FileValue* spatialization, 
                              FileValue* reverberation,
-                             FileValue* modifiers ) {
+                             FileValue* modifiers) {
   frequencyFV = new FileValue(*frequency);
   loudnessFV = new FileValue(*loudness);
   spatializationFV = new FileValue(*spatialization);
@@ -161,8 +96,8 @@ void Bottom::initBottomVars( FileValue* frequency,
 
 //----------------------------------------------------------------------------//
 
-void Bottom::initSoundVars( FileValue* numPartials, FileValue* deviation,
-                            FileValue* spectrum ) {
+void Bottom::initSoundVars(FileValue* numPartials, FileValue* deviation,
+                            FileValue* spectrum) {
   numPartialsFV = new FileValue(*numPartials);
   deviationFV = new FileValue(*deviation);
   spectrumFV = new FileValue(*spectrum);
@@ -170,8 +105,8 @@ void Bottom::initSoundVars( FileValue* numPartials, FileValue* deviation,
 
 //----------------------------------------------------------------------------//
 
-void Bottom::initNoteVars( FileValue* notePitchClass, FileValue* noteDynamicMark,
-                           FileValue* noteModifiers ) {
+void Bottom::initNoteVars(FileValue* notePitchClass, FileValue* noteDynamicMark,
+                           FileValue* noteModifiers) {
   notePitchClassFV = new FileValue(*notePitchClass);
   noteDynamicMarkFV = new FileValue(*noteDynamicMark);
   noteModifiersFV = new FileValue(*noteModifiers);
@@ -179,167 +114,197 @@ void Bottom::initNoteVars( FileValue* notePitchClass, FileValue* noteDynamicMark
 
 //----------------------------------------------------------------------------//
 
-  void Bottom::constructChild(float stime, float dur, int type, string name) {
-
-  // first, parse the child file
+void Bottom::constructChild(TimeSpan tsChild, int type, string name,
+  Tempo tempo) {
+  /*First parse the child file. If a child factory does not exist, creating one
+  will trigger the parser. If it already exists, then the child is already
+  parsed and available through the global factory library.*/
   EventFactory* childFactory = factory_lib[name];
-  if (childFactory == NULL) {
-    // Parse the file
+  if(!childFactory)
     childFactory = new EventFactory(name);
-  }
   
-  // Att: MyStart Time and myDuration are the stime and dur of the parent !!
-  // Just to get the checkPoint. Not used any other time.
-  checkPoint = (double)(stime-myStartTime) / myDuration;
-cout << "myname:" << myName << endl;
-  // Bottom event - children will be either sounds, notes, or visuals 
-  if (myName[2] == 's') {
-    initSoundVars( childFactory->getNumPartials(),
-                   childFactory->getDeviation(),
-                   childFactory->getSpectrum() );
-
-    buildSound(stime, dur, type, name);
+  //Just to get the checkpoint. Not used any other time.
+  checkPoint = (tsChild.start - ts.start) / ts.duration;
+  
+  //Needs to go to the Output class instead.
+  //cout << "Name: " << myName << endl;
+  
+  /*Given the beginning of the filename we can determine whether or not this is
+  a sound or a note. For example B/s000 is a sound, B/n001 is a note.*/
+  if(name[2] == 's') {
+    //Initialize the sound-related variables.
+    initSoundVars(childFactory->getNumPartials(), childFactory->getDeviation(),
+      childFactory->getSpectrum());
+      
+    //Build the sound.
+    buildSound(ts, type, name);
+    
+    //Increment static sound counter.
     sndcount++;
-    //childEvents.push_back((Bottom *) this);
-  } else if (myName[2] == 'n'){
-    initNoteVars( childFactory->getNotePitchClass(),
-                  childFactory->getNoteDynamicMark(),
-                  childFactory->getNoteModifiers() );
-    buildNote(stime, dur, type, name);
-    //childEvents.push_back((Bottom *) this);
-  } else if (myName[2] == 'v'){
-    cerr << "Bottom::constructChildren - visual output not yet implemented" << endl;
-    exit(1);
+    
+  } else if(name[2] == 'n') {
+    //Initialize the note-related variables.
+    initNoteVars(childFactory->getNotePitchClass(),
+      childFactory->getNoteDynamicMark(), childFactory->getNoteModifiers());
+    
+    //Build the note.
+    buildNote(ts, type, name);
+    
   } else {
-    cerr << "Bottom::constructChildren - invalid beginning character for " << myName << endl;
+    /*If the name does not begin with an 's' or an 'n', we do not know how to
+    process it.*/
+    cerr << "Bottom::constructChildren, invalid beginning character for " <<
+      name << endl;
     exit(1);
   }
 }
 
 //----------------------------------------------------------------------------//
 
-void Bottom::buildSound(float stime, float dur, int type, string name) {
+void Bottom::buildSound(TimeSpan tsChild, int type, string name) {
+  //Create a new sound object.
   Sound* newSound = new Sound();
   
+  //Output sound related properties.
   Output::beginSubLevel("Sound");
-  
   Output::addProperty("Name", name);
   Output::addProperty("Type", type);
-  Output::addProperty("Start Time", stime, "sec.");
-  Output::addProperty("End Time", stime + dur, "sec.");
-  Output::addProperty("Duration", dur, "sec.");
+  Output::addProperty("Start Time", tsChild.start, "sec.");
+  Output::addProperty("End Time", tsChild.start + tsChild.duration, "sec.");
+  Output::addProperty("Duration", tsChild.duration, "sec.");
   
+  //Set the start time and duration from the timespan.
+  newSound->setParam(START_TIME, tsChild.start);
+  newSound->setParam(DURATION, tsChild.duration);
 
-  newSound->setParam(START_TIME, stime);
-  newSound->setParam(DURATION, dur);
-
-  // frequency
+  //Set the frequency.
   float baseFrequency = computeBaseFreq();
   Output::addProperty("Base Frequency", baseFrequency, "Hz");
 
-  // loudness
+  //Set the loudness.
   float loudSones = computeLoudness();
   newSound->setParam(LOUDNESS, loudSones);
   Output::addProperty("Loudness", loudSones, "sones");
 
-  // numpartials
+  //Set the number of partials.
   int numPartials = computeNumPartials( baseFrequency );
   Output::beginSubLevel("Partials");
   Output::addProperty("Deviation", computeDeviation(), "normalized");
-  // for each numPartial, create partial, and add to sound.
+  
+  //For each partial, create and add to sound.
   for (int i = 0; i < numPartials; i++) {
-    Partial part;
-    currPartialNum = i;
-    part.setParam(PARTIAL_NUM, i);
+    //Create the next partial object.
+    Partial partial;
+    
+    //Set the partial number of the partial based on the current index.
+    partial.setParam(PARTIAL_NUM, i);
 
-    // deviation
+    //Compute the deviation for partials above the fundamental.
     double deviation = 0;
     if(i != 0)
       deviation = computeDeviation();
     
-    // set the frequencies for each partial
-    float actualFreq = 
-      setPartialFreq( part, deviation, baseFrequency, currPartialNum );
+    //Set the frequencies for each partial.
+    float actualFrequency = setPartialFreq(
+      partial, deviation, baseFrequency, i);
     
-    // report the actual frequencies
+    //Report the actual frequency.
     stringstream ss; if(i != 0) ss << "Partial " << i; else ss << "Fundamental";
-    Output::addProperty(ss.str(), actualFreq, "Hz");
+    Output::addProperty(ss.str(), actualFrequency, "Hz");
 
-    // spectrum for each partial
-    setPartialSpectrum( part, currPartialNum);
+    //Set the spectrum for this partial.
+    setPartialSpectrum(partial, i);
 
-    newSound->add(part);
+    //Add the partial to the sound.
+    newSound->add(partial);
   }
   Output::endSubLevel();
 
-  // Apply modifiers here
+  //Apply the modifiers to the sound.
   applyModifiers(newSound, numPartials);
 
-  // Apply Spatialization
+  //Apply the spatialization to the sound.
   applySpatialization(newSound, numPartials);
 
-  // Apply Reverberation
+  //Apply the reverberation to the sound.
   applyReverberation(newSound);
 
-  
   Output::endSubLevel();
-  
-  /*printSound( stime, dur, type, name, numPartials, baseFrequency, loudSones );
-  printSoundParticel(stime, dur, type, name, numPartials, baseFrequency, 
-   loudSones);*/
-  
 
+  //Add the sound to the LASS score.
   score.add(*newSound);
+  
+  //The sound to the child sounds list.
   childSounds.push_back(newSound);
 }
 
 //----------------------------------------------------------------------------//
 
-void Bottom::buildNote(float stime, float dur, int type, string name) {
-  Note* newNote = new Note(*this);
+void Bottom::buildNote(TimeSpan tsChild, int type, string name) {
+  //Create the note.
+  Note* newNote = new Note(tsChild, tempo);
+  
+  //Output note-related properties.
+  Output::beginSubLevel("Note");
+  Output::addProperty("Name", name);
+  Output::addProperty("Type", type);
+  Output::addProperty("Start Time", tsChild.start, "sec.");
+  Output::addProperty("End Time", tsChild.start + tsChild.duration, "sec.");
+  Output::addProperty("Duration", tsChild.duration, "sec.");
+  Output::addProperty("Tempo Start Time", tempo.getStartTime(), "sec.");
+  Output::addProperty("EDU Start Time", tsChild.startEDU, "EDU");
+  Output::addProperty("EDU Duration", tsChild.durationEDU, "EDU");
 
-  // set the pitch
+  //Set the pitch.
   float baseFrequency = computeBaseFreq();
-  if (wellTempPitch <= 0) {
-    // we didn't compute the well tempered pitch, so freq is only in hertz
-    newNote->setPitchHertz( baseFrequency );
+  
+  if(wellTempPitch <= 0) {
+    //We did not compute the well tempered pitch, so frequency is only in Hertz.
+    newNote->setPitchHertz(baseFrequency);
   } else {
-    // get the pitch names, and turn into a vector
+    //Get the pitch names, and turn them into a vector.
     vector<string> pitchNames;
     list<FileValue>* pitchList = notePitchClassFV->getListPtr(this);
     list<FileValue>::iterator iter = pitchList->begin();
-    while (iter != pitchList->end()) {
-      pitchNames.push_back( iter->getString(this) );
-      iter++;
-    }
-    newNote->setPitchWellTempered( wellTempPitch, pitchNames );
+    
+    while(iter != pitchList->end())
+      pitchNames.push_back(iter++->getString(this));
+      
+    newNote->setPitchWellTempered(wellTempPitch, pitchNames);
   }
 
-  // set the loudness
+  //Set the loudness.
   float loudfloat = computeLoudness();
   int loudIndex = (int)loudfloat;
   list<FileValue>* loudList = noteDynamicMarkFV->getListPtr(this);
-  if (loudIndex < loudList->size()) {
-    // loudness mark is inbounds, so assume it's an index into this list
+  if(loudIndex < loudList->size()) {
     vector<string> loudNames;
     list<FileValue>::iterator iter = loudList->begin();
-    while (iter != loudList->end()) {
-      loudNames.push_back( iter->getString(this) );
-      iter++;
-    }
-    newNote->setLoudnessMark( loudIndex, loudNames );
+    
+    while(iter != loudList->end())
+      loudNames.push_back(iter++->getString(this));
+      
+    newNote->setLoudnessMark(loudIndex, loudNames);
+    
   } else {
-    newNote->setLoudnessSones( loudfloat );
+    newNote->setLoudnessSones(loudfloat);
   }
 
-  if (modifiersFV != NULL) {
+  if(modifiersFV) {
     vector<string> noteMods = applyNoteModifiers();
-    newNote->setModifiers( noteMods );
+    newNote->setModifiers(noteMods);
   }
-
-  printNote(*newNote, type, name);
-  printNoteParticel(*newNote, type, name);
+  Output::endSubLevel();
   childNotes.push_back(newNote);
+}
+
+//----------------------------------------------------------------------------//
+
+list<Note> Bottom::getNotes() {
+  list<Note> result;
+  for(int i = 0; i < childNotes.size(); i++)
+    result.push_back(*childNotes[i]);
+  return result;
 }
 
 //----------------------------------------------------------------------------//
@@ -737,7 +702,7 @@ void Bottom::applyReverberation(Sound* s) {
   reverberationFV->Evaluate(this);
   if (reverberationFV->getReturnType() != FVAL_LIST) {
     cout << reverberationFV->TypeToString() << endl;
-    cerr << "Syntax error for reverberation in file: " << myName << endl;
+    cerr << "Syntax error for reverberation in file: " << name << endl;
     exit(1);
   }
   list<FileValue>* argList = reverberationFV->getListPtr(this);
@@ -818,7 +783,7 @@ void Bottom::applyReverberation(Sound* s) {
     s->use_reverb(reverbObj);
   } else {
     cerr << "Invalid method/syntax in reverb!" << endl;
-    cerr << "   filename=" << myName << endl;
+    cerr << "   filename=" << name << endl;
     exit(1);
   }
 }
@@ -988,59 +953,6 @@ vector<string> Bottom::applyNoteModifiers() {
     iter++;
   }
 
-  return result;
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::printNote(Note& n, int type, string name) {
-/*
-  //borderPrint(printLevel + 1, borderchar);
-  string level; for(int i = 0; i < printLevel + 3; i++) level += "  ";
-  
-  *outputFile << level << "<note>" << endl;
-  
-  *outputFile << n.toStringStartTime(printLevel + 4);
-
-  *outputFile << n.toStringDuration(printLevel + 4);
-
-  *outputFile << n.toStringOther(printLevel + 4);
-  
-  *outputFile << level << "</note>" << endl;
-
-  //borderPrint(printLevel + 1, borderchar);
-  */
-}
-
-//----------------------------------------------------------------------------//
-
-void Bottom::printNoteParticel(Note& n, int type, string name) {
-  char borderchar = '+';
-/*
-  borderPrintParticel(printLevel + 1, borderchar);
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "  NOTE: " << name << "       type: " << type << endl;
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "  " << n.toStringStartTimeParticel() << endl;
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << "  " << n.toStringDurationParticel() << endl;
-
-  indentPrintParticel(printLevel + 1, borderchar);
-  *outFile << n.toStringOtherParticel() << endl;
-
-  //borderPrintParticel(printLevel + 1, borderchar);*/
-}
-
-//----------------------------------------------------------------------------//
-
-list<Note> Bottom::getNotes() {
-  list<Note> result;
-  for (int i = 0; i < childNotes.size(); i++) {
-    result.push_back( *childNotes[i] );
-  }
   return result;
 }
 

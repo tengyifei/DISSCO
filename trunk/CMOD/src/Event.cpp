@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//  event.ccp
+//  Event.ccp
 //
 //----------------------------------------------------------------------------//
 
@@ -28,103 +28,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Output.h"
 #include "Sieve.h"
 
+//Global -- eventually this should be moved into a class.
 extern map<string, EventFactory*> factory_lib;
-extern ofstream * outputFile;
-extern ofstream * outFile;
 
 //----------------------------------------------------------------------------//
-//Should go away
+//Checked
 
-Event::Event(float stime, float dur, int type, string name) {
-  myStartTime = stime;
-  myDuration = dur;
-  myType = type;
-  myName = name;
-
-  childEventDef = NULL;
-  discreteMat = NULL;
-  childType = 0;
-}
-
-//----------------------------------------------------------------------------//
-
-Event::Event(const Event& origEvent) {
-  myStartTime = origEvent.myStartTime;
-  myDuration = origEvent.myDuration;
-  myType = origEvent.myType;
-  myName = origEvent.myName;
-
-  maxChildDur = origEvent.maxChildDur;
-  tempo = origEvent.tempo;
-
-  layerVect = origEvent.layerVect;
-  typeVect = origEvent.typeVect;
-
-  numChildren = origEvent.numChildren;
-  layerNumChildren = origEvent.layerNumChildren;
-  layerRemainingChildren = origEvent.layerRemainingChildren;
-  layerDensity =  origEvent.layerDensity;
-
-  // make copies of all the subevents
-  for (int i = 0; i < origEvent.childEvents.size(); i++) {
-    childEvents.push_back( new Event(*origEvent.childEvents[i]) );
-  }
-
-  if (origEvent.childEventDef != NULL) {
-    childEventDef = new FileValue( *origEvent.childEventDef );
-  } else {
-    childEventDef = NULL;
-  }
-
-  if (origEvent.discreteMat != NULL) {
-    discreteMat = new Matrix(*(origEvent.discreteMat));
-  } else {
-    discreteMat = NULL;
-  }
-
-  childType = 0;
-}
-
-//----------------------------------------------------------------------------//
-
-Event& Event::operator=(const Event& rhs) {
-  myStartTime = rhs.myStartTime;
-  myDuration = rhs.myDuration;
-  myType = rhs.myType;
-  myName = rhs.myName;
-
-  maxChildDur = rhs.maxChildDur;
-  tempo = rhs.tempo;
-
-  layerVect = rhs.layerVect;
-  typeVect = rhs.typeVect;
-
-  numChildren = rhs.numChildren;
-  layerNumChildren = rhs.layerNumChildren;
-  layerRemainingChildren = rhs.layerRemainingChildren;
-  layerDensity =  rhs.layerDensity;
-
-  // make copies of all the subevents
-  for (int i = 0; i < rhs.childEvents.size(); i++) {
-    childEvents.push_back( new Event(*rhs.childEvents[i]) );
-  }
-
-  if (rhs.childEventDef != NULL) {
-    childEventDef = new FileValue( *rhs.childEventDef );
-  } else {
-    childEventDef = NULL;
-  }
-
-  if (rhs.discreteMat != NULL) {
-    discreteMat = new Matrix(*(rhs.discreteMat));
-  } else {
-    discreteMat = NULL;
-  }
-
-  //Note: All other vars are temporary things used in calculations
-
-  return *this;
-}
+Event::Event(TimeSpan ts, int type, string name) :
+  name(name), type(type), ts(ts),
+  childEventDef(0),
+  maxChildDur(0), checkPoint(0),
+  numChildren(0),
+  restartsRemaining(0),
+  currChildNum(0), childType(0),
+  discreteMat(0) {}
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -141,145 +58,124 @@ Event::~Event() {
 
 void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
   int newEDUPerBeat, float newMaxChildDur) {
-  tempo.setTempo(newTempo);
-  tempo.setTimeSignature(newTimeSignature);
-  tempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
+  /*Only set the tempo to what was indicated in the file if the event does not
+  already have a tempo that was derived from a parent. This is very important,
+  so that tempos are not nested.*/
+  if(tempo.getStartTime() != 0) {
+    tempo.setTempo(newTempo);
+    tempo.setTimeSignature(newTimeSignature);
+    tempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
+  }
   maxChildDur = newMaxChildDur;
 }
 
 //----------------------------------------------------------------------------//
 //Checked
 
-void Event::initChildNames( FileValue* childNames ) {
+void Event::initChildNames(FileValue* childNames) {
   //Get iterator for the childNames list
   list<FileValue>* layersList = childNames->getListPtr(this);
   list<FileValue>::iterator iter = layersList->begin();
 
   //Initialize layerVect and typeVect
   while (iter != layersList->end()) {
-    list<FileValue>* currLayer = iter->getListPtr(this);
+    list<FileValue>* currLayer = iter++->getListPtr(this);
     list<FileValue>::iterator currLayerIter = currLayer->begin();
 
     vector<string> currLayerVect;
     while (currLayerIter != currLayer->end()) {
-      currLayerVect.push_back( currLayerIter->getString(this) );
-      currLayerIter++;
+      currLayerVect.push_back(currLayerIter++->getString(this));
 
-      typeVect.push_back( currLayerVect.back() );
+      typeVect.push_back(currLayerVect.back());
     }
-    layerVect.push_back( currLayerVect );
-    iter++;
+    layerVect.push_back(currLayerVect);
   }
 }
 
 //----------------------------------------------------------------------------//
 
-void Event::initNumChildren( FileValue* numChildrenFV ) {
-  if (layerVect.size() == 0) {
-    cerr << "Error: ChildNames not initialized!" << endl;
-    exit(1);
+void Event::initNumChildren(FileValue* numChildrenFV) {
+  if(!layerVect.size()) {
+    cerr << "Error: ChildNames not initialized!" << endl; exit(1);
   }
 
   list<FileValue>* numChildrenArgs = numChildrenFV->getListPtr(this);
   list<FileValue>::iterator iter = numChildrenArgs->begin();
 
-  string method = iter->getString(this);
-  iter++;
+  string method = iter++->getString(this);
 
-  if (method == "FIXED") {
-    // do for each layer
-    if (iter == numChildrenArgs->end()) {
-      // no additional args ... create same num children as types
+  if(method == "FIXED") {
+    //Do for each layer.
+    if (iter == numChildrenArgs->end())
+      //No additional arguments, so create same number of children as types.
       numChildren = typeVect.size();
-    } else {
-      // last arg is number of children to create
+    else
+      //Last argument is number of children to create.
       numChildren = iter->getInt(this);
-    }
-
-  } else if (method == "BY_LAYER") {
+      
+  } else if(method == "BY_LAYER") {
     list<FileValue>* numPerLayer = iter->getListPtr(this);
     list<FileValue>::iterator numPerLayerIt = numPerLayer->begin();
 
-    // check for errors
-    if (numPerLayer->size() != layerVect.size()) {
-      cerr << "Event::initNumChildren error in file " << myName << endl;
+    //Check for errors.
+    if(numPerLayer->size() != layerVect.size()) {
+      cerr << "Event::initNumChildren error in file " << name << endl;
       cerr << "    BY_LAYER list isn't the same size as the layerVect" << endl;
       exit(1);
     }
-    for (int i = 0; i < layerVect.size(); i++) {
+    
+    for(int i = 0; i < layerVect.size(); i++) {
       if (layerVect[i].size() != 1) {
-        cerr << "Event::initNumChildren error in file " << myName << endl;
-        cerr << "    BY_LAYER requires each layer to have only 1 file in it!!" << endl;
+        cerr << "Event::initNumChildren error in file " << name << endl;
+        cerr << "    BY_LAYER requires each layer to have only 1 file in it!!"
+          << endl;
         exit(1);
       }
     }
 
-    // re-initialize the type and layer vectors
+    //Re-initialize the type and layer vectors.
     typeVect.clear();
-    for (int i = 0; i < layerVect.size(); i++) {
-      int numToAdd = numPerLayerIt->getInt(this);
-      numPerLayerIt++;
+    for(int i = 0; i < layerVect.size(); i++) {
+      int numToAdd = numPerLayerIt++->getInt(this);
       string currLayerStr = layerVect[i][0];
       layerVect[i].clear();
-      for (int count = 0; count < numToAdd; count++) {
+      for(int count = 0; count < numToAdd; count++) {
         layerVect[i].push_back(currLayerStr);
         typeVect.push_back(currLayerStr);
       }
     }
-
+    
+    //Get the number of children.
     numChildren = typeVect.size();
 
-  } else if (method == "DENSITY") {
-    FileValue densityFV = *iter;
-    iter++;
-    FileValue areaFV = *iter;
-    iter++;
+  } else if(method == "DENSITY") {
+    FileValue densityFV = *iter; iter++;
+    FileValue areaFV = *iter; iter++;
     FileValue underOneFV = *iter;
 
-    // do for each layer
-    for (int i = 0; i < layerVect.size(); i++) {
+    //Do for each layer.
+    for(int i = 0; i < layerVect.size(); i++) {
       float density = densityFV.getFloat(this);
       int area = areaFV.getInt(this);
       int underOne = underOneFV.getInt(this);
-
       float soundsPsec = pow(2, density * area - underOne);
-      layerDensity.push_back( soundsPsec );
-      layerNumChildren.push_back( (int)floor(layerDensity[i] * myDuration + 0.5) );
+      layerDensity.push_back(soundsPsec);
+      layerNumChildren.push_back(
+        (int)floor(layerDensity[i] * ts.duration + 0.5));
     }
 
-    // initialize the remaining-children-to-create to be all of them
+    //Initialize the remaining-children-to-create to be all of them.
     layerRemainingChildren = layerNumChildren;
-    // count the total number of children
+    
+    //Count the total number of children.
     numChildren = 0;
-    for (int i = 0; i < layerNumChildren.size(); i++) {
+    for(int i = 0; i < layerNumChildren.size(); i++)
       numChildren += layerNumChildren[i];
-    }
+      
   } else {
-    cerr << "Event::NumChildren - method=" << method << " doesn't exist" << endl;
+    cerr << "Event::NumChildren method " << method << " doesn't exist" << endl;
     exit(1);
   }
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::initChildDef(FileValue* childrenDef) {
-  childEventDef = new FileValue(*childrenDef);
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-string Event::getEDUDurationExactness(void) {
-  float actualEDUDuration =
-    (Ratio(getAvailableEDU(), 1) * tempo.getEDUDurationInSeconds()).To<float>();
-  
-  if(actualEDUDuration == myDuration)
-    return "Yes";
-  else if(fabs(actualEDUDuration / myDuration - 1.0f) < 0.01f)
-    return "Almost";
-  else
-    return "No";
 }
 
 //----------------------------------------------------------------------------//
@@ -288,11 +184,11 @@ string Event::getEDUDurationExactness(void) {
 void Event::buildChildEvents() {
   
   //Begin this sub-level in the output and write out its properties.
-  Output::beginSubLevel(myName);
+  Output::beginSubLevel(name);
   outputProperties();
 
   //Build the event's children.
-  cout << "Building event: " << myName << endl;
+  cout << "Building event: " << name << endl;
   
   //Create the event definition iterator.
   list<FileValue>::iterator iter = childEventDef->getListPtr(this)->begin();
@@ -337,7 +233,7 @@ void Event::buildChildEvents() {
     Event *e = temporaryChildEvents[currChildNum];
     
     //Construct the child (overloaded in Bottom)
-    constructChild(e->myStartTime, e->myDuration, e->myType, e->myName);
+    constructChild(e->ts, e->type, e->name, e->tempo);
 
     //Delete the temporary child event.
     delete e;
@@ -346,7 +242,7 @@ void Event::buildChildEvents() {
   temporaryChildEvents.clear();
 
   //For each child that was created, build its children.
-  for (int i = 0; i < childEvents.size(); i++)
+  for(int i = 0; i < childEvents.size(); i++)
     childEvents[i]->buildChildEvents();
   
   //End this output sublevel.
@@ -358,15 +254,20 @@ void Event::buildChildEvents() {
 
 void Event::tryToRestart(void) {
   //Decrement restarts, or if there are none left, ask for fewer children.
-  if (restartsRemaining > 0) {
+  if(restartsRemaining > 0) {
     restartsRemaining--;
     cout << "Failed to build child " << currChildNum << " of " << numChildren
-      << " in file " << myName << ". There are " << restartsRemaining 
+      << " in file " << name << ". There are " << restartsRemaining 
       << " tries remaining." << endl;
   } else {
+    //Ask for permission to build with less children.
     cerr << "No tries remain. Try building with one less child? (y/n)" << endl;
     string answer; cin >> answer; if (answer != "y") exit(1);
+    
+    //Build with one less child.
     numChildren--; cerr << "Changed numChildren to " << numChildren << endl;
+    
+    //Reset the restart count.
     restartsRemaining = restartsAllowedWithFewerChildren;
   }
   
@@ -381,48 +282,263 @@ void Event::tryToRestart(void) {
 //Checked
 
 void Event::checkEvent(bool buildResult) {
-
   //If the build failed, restart if necessary.
   if (!buildResult) {
     tryToRestart();
     return;
   }
   
-  //Handle start times according to exactness rules.
-  childStartTime += myStartTime;
-  if(myExactStartTime.isDeterminate())
-    exactChildStartTime += myExactStartTime;
-  else if(tempo.getStartTime() == 0)
-    tempo.setStartTime(myStartTime);
-  else if(tempo.getStartTime() != myStartTime)
-    cout << "Warning: children of parent are using multiple tempo start " << 
-      " times. There may be a bug. Please report." << endl;
-
+  /*Up to now the child start time is an *offset*, that is, it has no context
+  yet within the piece. The following section uses the start time/tempo rules to
+  determine the correct exact and inexact start times, in some cases leading to
+  a new tempo.*/
+  
+  /*Inexact start time is global. That is, it *always* refers to the position in
+  time relative to the beginning of the piece. Thus the child start time is 
+  merely the child offset added of the parent start time.*/
+  tsChild.start += ts.start;
+  
+  /*The next part of the code deals with exactness issues since inexact and
+  exact events may be nested inside each other.*/
+  
+  /*The following graphic attempts to show the many possibilities of nested
+  exact and inexact offsets.
+  
+  i = inexact start offset
+  e = exact start offset
+  T = tempo start time
+  
+  0=============================================================================
+  |            EVENT 1-----------------------------------------------------. . .
+  |            |           EVENT 2-----------------------------------------. . .
+  |            |           |          EVENT 3------------------------------. . .
+  |            |           |          |         EVENT 4--------------------. . .
+  |            |           |          |         |         EVENT 5----------. . .
+  |            |           |          |         |         |       EVENT 6--. . .
+  |            |           |          |         |         |       |
+  |      +     i1    +     e2    +    e3   +    i4   +    i5  +   e6
+  |            |           |          |         |         |       |
+  .            .           .          .         .         .       .
+  .            .           .          .         .         .       .
+  .            .           .          .         .         .       .
+  |    TEMPO   |   START   |  TIMES   |         |         |       |
+               \\                                         \\
+               T1         (T1)       (T1)                 T5     (T5)
+  
+  Inexact Start Times (~ means the exact value is truncated to floating point):
+  Event 1 = i1
+  Event 2 = i1 + ~e2
+  Event 3 = i1 + ~e2 + ~e3
+  Event 4 = i1 + ~e2 + ~e3 + i4
+  Event 5 = i1 + ~e2 + ~e3 + i4 + i5
+  Event 6 = i1 + ~e2 + ~e3 + i4 + i5 + ~e6
+  
+  Exact Start Times:
+  Event 1 = (not applicable)
+  Event 2 = T1 + e2
+  Event 3 = T1 + (e2 + e3)
+  Event 4 = (not applicable)
+  Event 5 = (not applicable)
+  Event 6 = T5 + e6
+  
+  Note that Event 4 ignores tempo information altogether since its child is
+  inexact.
+  
+  Possible combinations:
+  1) Parent inexact, child inexact (Events 4-5)
+  Since both are inexact, nothing further is to be done. They will both only
+  have global inexact time offsets.*/
+  if(!ts.startEDU.isDeterminate() && !tsChild.startEDU.isDeterminate()) {
+    //Nothing to do here.
+  }
+  
+  /*2) Parent exact, child inexact (Events 3-4)
+  Since the child is inexact, nothing further is to be done. The child will
+  simply have a global inexact time offset. The parent will already have
+  calculated its tempo start time.*/
+  if(ts.startEDU.isDeterminate() && !tsChild.startEDU.isDeterminate()) {
+    //Nothing to do here.
+  }
+  
+  /*3) Parent exact, child exact (Events 2-3)
+  Since the both are exact, the child inherits the tempo of the parent. Its
+  exact offset is calculated by adding the exact parent start time offset.
+  
+  Important Note:
+  If the child attempts to override the parent tempo, it will be ignored and the
+  above calculation. This is to prevent implicitly nested tempos, which are
+  better handled explicitly at the moment. For example it would be very
+  difficult to properly render "4/4 for 3 1/4 beats, then change to 5/8 for
+  3 beats as a child tempo." If this nesting were allowed, it would be very
+  ambiguous as to how to return back to 4/4. Even if the 5/8 were to trigger a
+  new tempo start time, in the score this would be misleading making it appear
+  that the two sections were not rhythmically related, even though they
+  inherently are by virtue of them both being exact.*/
+  if(ts.startEDU.isDeterminate() && tsChild.startEDU.isDeterminate()) {
+    tsChild.startEDU += ts.startEDU;
+    /*We need to force child to have the same tempo, so that weird things do not
+    happen. This is done below by explictly setting the tempo of the child. This
+    will in turn be honored by initDiscreteInfo which will not override the
+    given parent tempo. Note in order for this to be done, the tempo is passed
+    to buildChildEvents, to constructChild, to EventFactory::Build, and finally
+    to initDiscreteInfo.*/
+  }
+  
+  /*4) Parent inexact, child exact (Events 1-2, 5-6) 
+  In this case, since the parent did not have an exact offset from the
+  grandparent, the exact child needs a new reference point. This triggers the
+  creation of a new tempo start time *for the parent*. Since the child is
+  offset an exact amount from the parent, the parent is the new tempo reference.
+  
+  This could easily be the source of confusion: when a parent offset is inexact, 
+  and a child offset is exact, it is the parent which takes on the new tempo.
+  Note that this implies that the child's siblings will refer to the same new
+  tempo start time.*/
+  if(!ts.startEDU.isDeterminate() && tsChild.startEDU.isDeterminate()) {
+    /*The offset is the new start time, so nothing needs to be done to
+    tsChild.startEDU. Instead we need to trigger a new tempo start for the
+    parent. If this is the second exact child of a parent, then it will merely
+    set the start time to the same thing.*/
+    tempo.setStartTime(ts.start);
+    //We need to force child to have the same tempo. See statement for 3).
+  }
+ 
   //Make sure the childType indexes correctly.
   if (childType >= typeVect.size() || typeVect[childType] == "") {
     cerr << "There is a mismatch between childType and typeVect." << endl;
     exit(1);
   }
 
+  //Create new event.
+  Event* e = new Event(tsChild, childType, typeVect[childType]);
+  
+  //Force the child to have the parent tempo if the child is exact.
+  if(tsChild.startEDU.isDeterminate())
+    e->tempo = tempo;
+  
   //Add the event to the temporary event list.
-  temporaryChildEvents.push_back(new Event(childStartTime, childDuration, 
-    childType, typeVect[childType]));
+  temporaryChildEvents.push_back(e);
 }
 
 //----------------------------------------------------------------------------//
-//Replace parameters with single event.
+//Checked
 
-void Event::constructChild(float stime, float dur, int type, string name) {
+void Event::constructChild(TimeSpan ts, int type, string name, Tempo tempo) {
   //Create the event factory.
   EventFactory* childFactory = factory_lib[name];
-  if (!childFactory)
+  if(!childFactory)
     childFactory = new EventFactory(name);
 
   //Construct the child for the event.
-  childEvents.push_back(childFactory->Build(stime, dur, type));
+  childEvents.push_back(childFactory->Build(ts, type, tempo));
 }
 
 //----------------------------------------------------------------------------//
+//Checked
+
+void Event::outputProperties() {
+  Output::addProperty("Type", type);
+  Output::addProperty("Start Time", ts.start, "sec.");
+  Output::addProperty("Duration", ts.duration, "sec.");
+  Output::addProperty("Tempo",
+    tempo.getTempoBeatsPerMinute().toPrettyString(), "BPM");
+  Output::addProperty("Time Signature", tempo.getTimeSignature());
+  Output::addProperty("Divisions",
+    tempo.getEDUPerTimeSignatureBeat().toPrettyString(), "EDU/beat");
+  Output::addProperty("Available EDU", getAvailableEDU());
+  Output::addProperty("Available EDU is Exact", getEDUDurationExactness());
+  Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
+}
+
+//----------------------------------------------------------------------------//
+//Checked
+
+list<Note> Event::getNotes() {
+  list<Note> result;
+  for (int i = 0; i < childEvents.size(); i++) {
+    list<Note> append = childEvents[i]->getNotes();
+    list<Note>::iterator iter = append.begin();
+    while (iter != append.end()) {
+      result.push_back(*iter);
+      iter++;
+    }
+  }
+  return result;
+}
+
+//----------------------------------------------------------------------------//
+//Checked
+
+int Event::getCurrentLayer() {
+  int countInLayer = 0;
+  for(int i = 0; i < layerVect.size(); i++) {
+    countInLayer += layerVect[i].size();
+    if(childType < countInLayer)
+      return i;
+  }
+  cerr << "Unable to get layer number in file " << name << endl; exit(1);
+}
+
+//----------------------------------------------------------------------------//
+//Checked
+
+int Event::getAvailableEDU()
+{
+  //Return exact duration if it is already apparent.
+  if(ts.startEDU.isDeterminate() && ts.startEDU != Ratio(0, 1))
+    return ts.startEDU.To<int>();
+ 
+  //The duration is not exact.
+  int myDurationInt = (int)ts.duration;
+  Ratio EDUs;
+  float durationScalar;
+  if(ts.duration == (float)myDurationInt)
+  {
+    //Since duration is an integer, it may still be possible to have exact EDUs.
+    EDUs = tempo.getEDUPerSecond() * Ratio(myDurationInt, 1);
+    if(EDUs.Den() == 0)//This shouldn't happen.
+      return 0;
+    else if(EDUs.Den() != 0 && EDUs.Den() != 1) //We have exact EDUs
+      return EDUs.To<int>();
+    else //Implied EDUs.Den() == 1
+      durationScalar = 1;
+  }
+  else
+  {
+    EDUs = tempo.getEDUPerSecond();
+    if(EDUs.Den() == 0)
+      return 0; //This shouldn't happen.
+    else //Implied EDUs.Den() != 0
+      durationScalar = ts.duration;
+  }
+  
+  //The duration is not exact, so the available EDUs must be quantized.
+  float approximateEDUs = EDUs.To<float>() * durationScalar;
+  int quantizedEDUs = (int)(approximateEDUs + 0.001f);
+  if(abs((float)quantizedEDUs - approximateEDUs) > 0.001f) {
+    cout << "Warning: quantizing AVAILABLE_EDU from ";
+    cout << approximateEDUs << " to " << quantizedEDUs << endl;
+  }
+  return quantizedEDUs;
+};
+
+//----------------------------------------------------------------------------//
+//Checked
+
+string Event::getEDUDurationExactness(void) {
+  float actualEDUDuration =
+    (Ratio(getAvailableEDU(), 1) * tempo.getEDUDurationInSeconds()).To<float>();
+  
+  if(actualEDUDuration == ts.duration)
+    return "Yes";
+  else if(fabs(actualEDUDuration / ts.duration - 1.0f) < 0.01f)
+    return "Almost";
+  else
+    return "No";
+}
+
+//----------------------------------------------------------------------------//
+//Checked
 
 string Event::unitTypeToUnits(string type) {
   if(type == "UNITS" || type == "EDU")
@@ -452,22 +568,22 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
     cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
 
   if (startType == "EDU" || startType == "UNITS") {
-    childStartTime = rawChildStartTime *
+    tsChild.start = rawChildStartTime *
       tempo.getEDUDurationInSeconds().To<float>();
-    exactChildStartTime = Ratio((int)rawChildStartTime, 1);
+    tsChild.startEDU = Ratio((int)rawChildStartTime, 1);
   } else if (startType == "SECONDS") {
-    childStartTime = rawChildStartTime; // no conversion needed
-    exactChildStartTime = Ratio(0, 0);  // floating point is not exact: NaN
+    tsChild.start = rawChildStartTime; // no conversion needed
+    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
   } else if (startType == "PERCENTAGE") {
-    childStartTime = rawChildStartTime * myDuration; // convert to seconds
-    exactChildStartTime = Ratio(0, 0);  // floating point is not exact: NaN
+    tsChild.start = rawChildStartTime * ts.duration; // convert to seconds
+    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
   } else {
     cerr << "Event::buildContinuum -- invalid or missing start type!" << endl;
     cerr << "      startType = " << startType << endl;
-    cerr << "      in file " << myName << endl;
+    cerr << "      in file " << name << endl;
     exit(1);
   }
-  checkPoint = (double)childStartTime / myDuration;
+  checkPoint = (double)tsChild.start / ts.duration;
 
   // get the type
   childType = iter++->getInt(this);
@@ -489,25 +605,25 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
     cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
 
   if (durType == "EDU" || durType == "UNITS") {
-    exactChildDuration = Ratio(rawChildDurationInt, 1);
+    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
     cout << "Test:" << endl;
     cout << tempo.getEDUDurationInSeconds() << endl;
-    childDuration = // convert to seconds
+    tsChild.duration = // convert to seconds
       (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
   } else if (durType == "SECONDS") {
-    childDuration = rawChildDuration;
-    if(childDuration > maxChildDur)
-      childDuration = maxChildDur; // enforce limit
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.duration = rawChildDuration;
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   } else if (durType == "PERCENTAGE") {
-    childDuration = rawChildDuration * myDuration; // convert to seconds
-    if(childDuration > maxChildDur)
-      childDuration = maxChildDur; // enforce limit
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   } else {
     cerr << "Event::buildContinuum -- invalid or missing duration type!" << endl;
     cerr << "      durtype = " << durType << endl;
-    cerr << "      in file " << myName << endl;
+    cerr << "      in file " << name << endl;
     exit(1);
   }
 
@@ -523,12 +639,12 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
       Output::addProperty("Max Duration", maxChildDur, "sec.");
   Output::endSubLevel();
   Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", childStartTime, "sec.");
-    Output::addProperty("Duration", childDuration, "sec.");
+    Output::addProperty("Start", tsChild.start, "sec.");
+    Output::addProperty("Duration", tsChild.duration, "sec.");
   Output::endSubLevel();
   Output::beginSubLevel("EDU");
-    Output::addProperty("Start", exactChildStartTime, "EDU");
-    Output::addProperty("Duration", exactChildDuration, "EDU");
+    Output::addProperty("Start", tsChild.startEDU, "EDU");
+    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
   Output::endSubLevel();
   Output::addProperty("Checkpoint", checkPoint, "of parent");
   Output::endSubLevel();
@@ -541,21 +657,21 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
 bool Event::buildSweep(list<FileValue>::iterator iter) {
   // find start time and dur of last child
   if (currChildNum == 0) {
-    lastTime = 0;
-    exactLastTime = 0;
+    tsPrevious.start = 0;
+    tsPrevious.startEDU = 0;
   }
 
   // Set checkpoint to the endpoint of the last event
-  checkPoint = lastTime / myDuration;
+  checkPoint = tsPrevious.start / ts.duration;
 
   if (checkPoint > 1) {
-    cerr << "Event::Sweep -- Error1: childStartTime outside range of " 
+    cerr << "Event::Sweep -- Error1: tsChild.start outside range of " 
         << "parent duration." << endl;
-    cerr << "      childStime=" << childStartTime << ", parentDur=" 
-        << myDuration << endl;
-    cerr << "      in file: " << myName << ", childNum=" 
+    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
+        << ts.duration << endl;
+    cerr << "      in file: " << name << ", childNum=" 
         << currChildNum << endl;
-    cerr << "currChildNum=" << currChildNum << " lastTime=" << lastTime <<
+    cerr << "currChildNum=" << currChildNum << " tsPrevious.start=" << tsPrevious.start <<
 	" checkPoint=" << checkPoint << endl;
     exit(1);
   }
@@ -570,36 +686,36 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
     cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
 
   if (startType == "EDU" || startType == "UNITS") {
-    childStartTime = rawChildStartTime * 
+    tsChild.start = rawChildStartTime * 
       tempo.getEDUDurationInSeconds().To<float>();
-    exactChildStartTime = Ratio((int)rawChildStartTime, 1);
+    tsChild.startEDU = Ratio((int)rawChildStartTime, 1);
   } else if (startType == "SECONDS") {
-    childStartTime = rawChildStartTime; // no conversion needed
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.start = rawChildStartTime; // no conversion needed
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   } else if (startType == "PERCENTAGE") {
-    childStartTime = rawChildStartTime * myDuration; // convert to seconds
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.start = rawChildStartTime * ts.duration; // convert to seconds
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   }
 
-  if (childStartTime < lastTime) {
-    childStartTime = lastTime;
-    exactChildStartTime = exactLastTime;
+  if (tsChild.start < tsPrevious.start) {
+    tsChild.start = tsPrevious.start;
+    tsChild.startEDU = tsPrevious.startEDU;
   }
 
   if (currChildNum == 0) {
-    childStartTime = 0;
-    exactChildStartTime = 0;
+    tsChild.start = 0;
+    tsChild.startEDU = 0;
   }
 
   // set checkpoint to the start of this child event
-  checkPoint = childStartTime / myDuration;
+  checkPoint = tsChild.start / ts.duration;
 
   if (checkPoint > 1) {
-    cerr << "Event::Sweep -- Error2: childStartTime outside range of " 
+    cerr << "Event::Sweep -- Error2: tsChild.start outside range of " 
         << "parent duration." << endl;
-    cerr << "      childStime=" << childStartTime << ", parentDur=" 
-        << myDuration << endl;
-    cerr << "      in file: " << myName << ", childNum=" 
+    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
+        << ts.duration << endl;
+    cerr << "      in file: " << name << ", childNum=" 
         << currChildNum << endl;
     exit(1);
   }
@@ -624,22 +740,22 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
     cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
 
   if (durType == "EDU" || durType == "UNITS") {
-    exactChildDuration = Ratio(rawChildDurationInt, 1);
-    childDuration = // convert to seconds
+    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
+    tsChild.duration = // convert to seconds
       (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
   } else if (durType == "SECONDS") {
-    childDuration = rawChildDuration;
-    if(childDuration > maxChildDur)
-      childDuration = maxChildDur; // enforce limit
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.duration = rawChildDuration;
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   } else if (durType == "PERCENTAGE") {
-    childDuration = rawChildDuration * myDuration; // convert to seconds
-    if(childDuration > maxChildDur)
-      childDuration = maxChildDur; // enforce limit
-    exactChildDuration = Ratio(0, 0); // floating point is not exact: NaN
+    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   }
-  lastTime = childStartTime + childDuration;
-  exactLastTime = exactChildStartTime + exactChildDuration;
+  tsPrevious.start = tsChild.start + tsChild.duration;
+  tsPrevious.startEDU = tsChild.startEDU + tsChild.durationEDU;
 
   //Output parameters in the different units available.
   Output::beginSubLevel("Sweep");
@@ -653,14 +769,14 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
       Output::addProperty("Max Duration", maxChildDur, "sec.");
   Output::endSubLevel();
   Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", childStartTime, "sec.");
-    Output::addProperty("Duration", childDuration, "sec.");
-    Output::addProperty("Previous", lastTime, "sec.");
+    Output::addProperty("Start", tsChild.start, "sec.");
+    Output::addProperty("Duration", tsChild.duration, "sec.");
+    Output::addProperty("Previous", tsPrevious.start, "sec.");
   Output::endSubLevel();
   Output::beginSubLevel("EDU");
-    Output::addProperty("Start", exactChildStartTime, "EDU");
-    Output::addProperty("Duration", exactChildDuration, "EDU");
-    Output::addProperty("Previous", exactLastTime, "EDU");
+    Output::addProperty("Start", tsChild.startEDU, "EDU");
+    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
+    Output::addProperty("Previous", tsPrevious.startEDU, "EDU");
   Output::endSubLevel();
   Output::addProperty("Checkpoint", checkPoint, "of parent");
   Output::endSubLevel();
@@ -687,35 +803,27 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     vector<Envelope*> durEnvs;
     vector<int> numTypesInLayers;
 
-    attackSiv = iter->getSieve(this);
-    iter++;
+    attackSiv = iter++->getSieve(this);
 
-    durSiv = iter->getSieve(this);
-    iter++;
+    durSiv = iter++->getSieve(this);
 
-    list<FileValue>* tmpList = iter->getListPtr(this);
-    iter++;
+    list<FileValue>* tmpList = iter++->getListPtr(this);
     list<FileValue>::iterator tmpIter = tmpList->begin();
     while (tmpIter != tmpList->end()) {
-      typeProbs.push_back(tmpIter->getFloat(this));
-      tmpIter++;
+      typeProbs.push_back(tmpIter++->getFloat(this));
     }
 
-    tmpList = iter->getListPtr(this);
-    iter++;
+    tmpList = iter++->getListPtr(this);
     tmpIter = tmpList->begin();
     while( tmpIter != tmpList->end()) {
-      attackEnvs.push_back(tmpIter->getEnvelope(this));
-      tmpIter++;
+      attackEnvs.push_back(tmpIter++->getEnvelope(this));
     }
 
-    tmpList = iter->getListPtr(this);
-    iter++;
+    tmpList = iter++->getListPtr(this);
     
     tmpIter = tmpList->begin();
     while( tmpIter != tmpList->end()) {
-      durEnvs.push_back(tmpIter->getEnvelope(this));
-      tmpIter++;
+      durEnvs.push_back(tmpIter++->getEnvelope(this));
     }
 
     for (int i = 0; i < layerVect.size(); i++) {
@@ -749,19 +857,19 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
   int durEDU = childPt.dur;
   childType = childPt.type;
   string childName = typeVect[childType];
-
+  
   if(durEDU > (int)maxChildDur)
     durEDU = maxChildDur;
-  exactChildStartTime = stimeEDU;
-  exactChildDuration = durEDU;
+  tsChild.startEDU = stimeEDU;
+  tsChild.durationEDU = durEDU;
   
-  childStartTime = (float)stimeEDU * 
+  tsChild.start = (float)stimeEDU * 
     tempo.getEDUDurationInSeconds().To<float>();
-  childDuration = (float)durEDU * 
+  tsChild.duration = (float)durEDU * 
     tempo.getEDUDurationInSeconds().To<float>();
 
   // using edu
-  checkPoint = (double)childStartTime / myDuration;
+  checkPoint = (double)tsChild.start / ts.duration;
   
   
   //Output parameters in the different units available.
@@ -771,104 +879,17 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     Output::addProperty("Max Duration", maxChildDur, "EDU");
   Output::endSubLevel();
   Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", childStartTime, "sec.");
-    Output::addProperty("Duration", childDuration, "sec.");
+    Output::addProperty("Start", tsChild.start, "sec.");
+    Output::addProperty("Duration", tsChild.duration, "sec.");
   Output::endSubLevel();
   Output::beginSubLevel("EDU");
-    Output::addProperty("Start", exactChildStartTime, "EDU");
-    Output::addProperty("Duration", exactChildDuration, "EDU");
+    Output::addProperty("Start", tsChild.startEDU, "EDU");
+    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
   Output::endSubLevel();
   Output::endSubLevel();
 
-  return true; // success!
+  //Return success.
+  return true;
 }
 
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::outputProperties() {
-  Output::addProperty("Type", myType);
-  Output::addProperty("Start Time", myStartTime, "sec.");
-  Output::addProperty("Duration", myDuration, "sec.");
-  Output::addProperty("Tempo",
-    tempo.getTempoBeatsPerMinute().toPrettyString(), "BPM");
-  Output::addProperty("Time Signature", tempo.getTimeSignature());
-  Output::addProperty("Divisions",
-    tempo.getEDUPerTimeSignatureBeat().toPrettyString(), "EDU/beat");
-  Output::addProperty("Available EDU", getAvailableEDU());
-  Output::addProperty("Available EDU is Exact", getEDUDurationExactness());
-  Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-list<Note> Event::getNotes() {
-  list<Note> result;
-  for (int i = 0; i < childEvents.size(); i++) {
-    list<Note> append = childEvents[i]->getNotes();
-    list<Note>::iterator iter = append.begin();
-    while (iter != append.end()) {
-      result.push_back(*iter);
-      iter++;
-    }
-  }
-  return result;
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-int Event::getCurrentLayer() {
-  int countInLayer = 0;
-  for (int i = 0; i < layerVect.size(); i++) {
-    countInLayer += layerVect[i].size();
-    if (childType < countInLayer)
-      return i;
-  }
-  cerr << "Unable to get layer number in file " << myName << endl; exit(1);
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-int Event::getAvailableEDU()
-{
-  //Return exact duration if it is already apparent.
-  if(myExactDuration.isDeterminate() && myExactDuration != Ratio(0, 1))
-    return myExactDuration.To<int>();
- 
-  //The duration is not exact.
-  int myDurationInt = (int)myDuration;
-  Ratio EDUs;
-  float durationScalar;
-  if(myDuration == (float)myDurationInt)
-  {
-    //Since duration is an integer, it may still be possible to have exact EDUs.
-    EDUs = tempo.getEDUPerSecond() * Ratio(myDurationInt, 1);
-    if(EDUs.Den() == 0)//This shouldn't happen.
-      return 0;
-    else if(EDUs.Den() != 0 && EDUs.Den() != 1) //We have exact EDUs
-      return EDUs.To<int>();
-    else //Implied EDUs.Den() == 1
-      durationScalar = 1;
-  }
-  else
-  {
-    EDUs = tempo.getEDUPerSecond();
-    if(EDUs.Den() == 0)
-      return 0; //This shouldn't happen.
-    else //Implied EDUs.Den() != 0
-      durationScalar = myDuration;
-  }
-  
-  //The duration is not exact, so the available EDUs must be quantized.
-  float approximateEDUs = EDUs.To<float>() * durationScalar;
-  int quantizedEDUs = (int)(approximateEDUs + 0.001f);
-  if(abs((float)quantizedEDUs - approximateEDUs) > 0.001f) {
-    cout << "Warning: quantizing AVAILABLE_EDU from ";
-    cout << approximateEDUs << " to " << quantizedEDUs << endl;
-  }
-  return quantizedEDUs;
-};
 

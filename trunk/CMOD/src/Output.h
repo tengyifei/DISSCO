@@ -32,25 +32,12 @@ struct OutputNode
   
   vector<OutputNode*> subNodes;
   
-  OutputNode(string name) : nodeName(name) {
-  }
-  
-  ~OutputNode()
-  {
-    for(int i = 0; i < (int)subNodes.size(); i++)
-      delete subNodes[i];
-    propertyNames.clear();
-    propertyValues.clear();
-    propertyUnits.clear();
-    subNodes.clear();
-  }
-  
-  void addProperty(string name, string value, string units)
-  {
-    propertyNames.push_back(name);
-    propertyValues.push_back(value);
-    propertyUnits.push_back(units);
-  }
+  OutputNode(string name);
+  ~OutputNode();
+  void addProperty(string name, string value, string units);
+  static string findAndReplace(string in, string needle, string replace);
+  static string sanitize(string name);
+  string getXML(void);
 };
 
 ///The static output class.

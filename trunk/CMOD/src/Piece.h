@@ -27,131 +27,97 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PIECE_H
 
 #include "Libraries.h"
-#include "Define.h"
 
-//---------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
 
 struct PieceHelper {
-
-  static int getDirectoryList(string dir, vector<string> &files);
-  
-  static string getFixedPath(string path);
-  
-  static string getProjectName(string path);
-  
-  static string getSeedFile(string path);
-  
-  static string getSeed(string path);
-  
-  static int getSeedNumber(string seed);
-  
-  static void createSoundFilesDirectory(string path);
-  
-  static bool doesFileExist(string path, string filename);
-  
-  static string getNextSoundFile(string path, string projectName);
-
+  ///Main function to initiate creating the piece.
   static void createPiece(string path, string projectName, string seed,
     string soundFilename);
+  
+  ///Lists contents of directory.
+  static int getDirectoryList(string dir, vector<string> &files);
+  
+  ///Ensures a path has a backslash on the end.
+  static string getFixedPath(string path);
+  
+  ///Determines the name of the project in the given directory. 
+  static string getProjectName(string path);
+  
+  ///Finds the seed file.
+  static string getSeedFile(string path);
+  
+  ///Gets the seed in a given directory.
+  static string getSeed(string path);
+  
+  ///Converts a seed string into a seed number.
+  static int getSeedNumber(string seed);
+  
+  ///Creates the sound files directory if it does not exist.
+  static void createSoundFilesDirectory(string path);
+  
+  ///Checks to see if a file exists.
+  static bool doesFileExist(string path, string filename);
+  
+  ///Gets the next available sound file.
+  static string getNextSoundFile(string path, string projectName);
 };
 
-//---------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
 class FileValue;
 
 class Piece {
+  
   public:
-    std::string title;
-    std::string fileFlags;
-    std::string fileList;
-    bool soundSynthesis;
-    int numChannels;
-    int sampleRate;
-    int sampleSize;
-    int numThreads;
-    double pieceStartTime;
-    double pieceDuration;
+  std::string title;
+  std::string fileFlags;
+  std::string fileList;
+  bool soundSynthesis;
+  int numChannels;
+  int sampleRate;
+  int sampleSize;
+  int numThreads;
+  double pieceStartTime;
+  double pieceDuration;
 
-//---------------------------------------------------------------------------//
-    /**
-     *  Default constructor for a Piece.
-     **/
-    Piece(){}
+  ///Default constructor for a Piece.
+  Piece() : soundSynthesis(false), numChannels(0), sampleRate(0),
+    sampleSize(0), numThreads(0), pieceStartTime(0), pieceDuration(0) {}
 
-    /**
-     *  Piece copy constructor.
-     *	\param orig Piece object to make a copy of
-     **/
-    Piece(const Piece& orig);
+  ///Sets the title of the piece and prints it.
+  void setTitle(FileValue *fv);
 
-    /**
-     *	Assignment operator
-     *	\param rhs The Piece to assign
-     **/
-    Piece& operator= (const Piece& rhs);
+  ///Sets the file flags.
+  void setFileFlags(FileValue *fv);
 
-    /**
-     *	Piece destructor.
-     **/
-    ~Piece();
+  ///Sets the list of files used by current event.
+  void setFileList(FileValue *fv);
 
-//---------------------------------------------------------------------------//
-    /**
-     *  Sets the title of the piece and prints it
-     **/
-    void setTitle(FileValue *fv);
+  ///Sets a flag identifying if sound synthesis takes place.
+  void setSoundSynthesis(FileValue *fv);
 
-    /**
-     *  sets the fileFlags
-     **/
-    void setFileFlags(FileValue *fv);
+  ///Sets the number of channels for sound synthesis.
+  void setNumChannels(FileValue *fv);
 
-    /**
-     *  Sets the list of files used by current event
-     **/
-    void setFileList(FileValue *fv);
+  ///Sets the sample rate for sound synthesis.
+  void setSampleRate(FileValue *fv);
 
-    /**
-     *  Sets a flag identifying if sound synthesis takes place
-     **/
-    void setSoundSynthesis(FileValue *fv);
+  ///Sets the sample size (in bits) for sound synthesis.
+  void setSampleSize(FileValue *fv);
 
-    /**
-     *  Sets the number of channels for sound synthesis
-     **/
-    void setNumChannels(FileValue *fv);
+  ///Sets the number of threads to run.
+  void setNumThreads(FileValue *fv);
 
-    /**
-     *  Sets the sample rate for sound synthesis
-     **/
-    void setSampleRate(FileValue *fv);
+  ///Sets the start time for the piece.
+  void setPieceStartTime(FileValue *fv);
 
-    /**
-     *  Sets the sample size (in bits) for sound synthesis
-     **/
-    void setSampleSize(FileValue *fv);
+  ///Sets the duration of the piece in seconds.
+  void setPieceDuration(FileValue *fv);
 
-    /**
-     *  Sets the number of threads to run
-     **/
-    void setNumThreads(FileValue *fv);
-
-    /**
-     *  Sets the start time for the piece (default is 0)
-     **/
-    void setPieceStartTime(FileValue *fv);
-
-    /**
-     *  Sets the duration of the piece in secounds
-     **/
-    void setPieceDuration(FileValue *fv);
-
-    /**
-     *  Prints information about the piece
-     **/
-    void Print();
-
+  ///Prints information about the piece.
+  void Print();
 };
 
-//---------------------------------------------------------------------------//
-
+//----------------------------------------------------------------------------//
 #endif
+

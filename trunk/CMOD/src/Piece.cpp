@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//   piece.cpp
+//   Piece.cpp
 //
 //----------------------------------------------------------------------------//
 
@@ -35,23 +35,119 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <errno.h>
-#include <unistd.h>
-#include <vector>
-#include <string>
-#include <iostream>
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-/* THESE ARE ALL GLOBAL VARS IN THIS PROGRAM!!! */
+/*These are the global variables in the program. Eventually this should be
+reworked to be more C++ friendly.*/
 map<string, EventFactory*> factory_lib;
 EnvelopeLibrary envlib_cmod;
 Score score;
 int numChan;
 Piece ThePiece;
+
+//----------------------------------------------------------------------------//
+
+void PieceHelper::createPiece(string path, string projectName, string seed,
+  string soundFilename) {
+  
+  //Change working directory.
+  chdir(path.c_str());
+  
+  //Convert seed string to seed number.
+  int seedNumber = getSeedNumber(seed);
+  
+  EventFactory *mainFactory;
+  Event *mainEvent;
+
+  //Get main project file.
+  string mainFile = projectName + ".dat";
+
+  //Load library of envelopes
+  string libraryFile = projectName + ".lib";
+  char *tempString = strdup(libraryFile.c_str());
+  envlib_cmod.loadLibrary(tempString);
+  free(tempString);
+
+  //Initialize the output class.
+  string particelFilename = projectName + ".particel";
+  Output::initialize(particelFilename);
+  Output::beginSubLevel("Piece");
+  
+  //Seed the random number generator.
+  Random::Seed((unsigned int)seedNumber);
+  
+  //Parse main file.
+  cout << "\tMain - Parsing " << mainFile << endl;
+  parseFile(mainFile, NULL, &ThePiece);
+
+  //Print out initial description.
+  ThePiece.Print();
+  
+  //Set global variables.
+  numChan = ThePiece.numChannels;
+  cout << "\t\tMain - Creating main event from " << ThePiece.fileList << endl;
+  mainFactory = new EventFactory(ThePiece.fileList);
+
+  //Create the main event.
+  Tempo mainTempo; //Though we supply this, "Top" will provide its own tempo.
+  TimeSpan pieceSpan;
+  pieceSpan.start = ThePiece.pieceStartTime;
+  pieceSpan.duration = ThePiece.pieceDuration;
+  mainEvent = mainFactory->Build(pieceSpan, 0, mainTempo);
+  mainEvent->buildChildEvents();
+  
+  //Finish particel output and free up the Output class members.
+  Output::endSubLevel();
+  
+  //Write the XML output.
+  string xmlFilename = projectName + ".xml";
+  Output::exportToXML(xmlFilename);
+  string fir = "firefox ";
+  fir.append(xmlFilename);
+  fir.append(" &");
+  system(fir.c_str());
+  
+  Output::free();
+  
+  cout << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl;
+  cout << "Build complete." << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl << endl;
+  cout.flush();
+  
+  //Render sound.
+  if(ThePiece.soundSynthesis) {
+    //Set clipping mode.
+    score.setClippingManagementMode(Score::CHANNEL_ANTICLIP);
+
+    //Note: multithread isn't working quite right yet, so run in single thread.
+    MultiTrack* renderedScore = 
+      score.render(ThePiece.numChannels, ThePiece.sampleRate);
+
+    //Write to file.
+    AuWriter::write(*renderedScore, soundFilename);
+    cout << endl;
+    cout << "-----------------------------------------------------------" <<
+      endl;
+    cout << "Wrote: " << soundFilename << endl;
+    cout << endl;
+    cout << "-----------------------------------------------------------" <<
+      endl;
+    cout.flush();
+    string aud = "audacity ";
+    aud.append(soundFilename);
+    aud.append(" &");
+    system(aud.c_str());
+        
+    //Clean up.
+    delete renderedScore;
+  }
+
+  //Clean up.
+  delete mainEvent;
+  delete mainFactory;
+}
+
 //----------------------------------------------------------------------------//
 
 int PieceHelper::getDirectoryList(string dir, vector<string> &files) {
@@ -69,6 +165,8 @@ int PieceHelper::getDirectoryList(string dir, vector<string> &files) {
   return 0;
 }
 
+//----------------------------------------------------------------------------//
+
 string PieceHelper::getFixedPath(string path) {
   if(path == "")
     return "./";
@@ -76,6 +174,8 @@ string PieceHelper::getFixedPath(string path) {
     path = path + "/";
   return path;
 }
+
+//----------------------------------------------------------------------------//
 
 string PieceHelper::getProjectName(string path) {
   string dir = string(path);
@@ -106,6 +206,8 @@ string PieceHelper::getProjectName(string path) {
   return g;
 }
 
+//----------------------------------------------------------------------------//
+
 string PieceHelper::getSeedFile(string path) {
   string dir = string(path);
   vector<string> files = vector<string>();
@@ -120,6 +222,8 @@ string PieceHelper::getSeedFile(string path) {
   }
   return g;
 }
+
+//----------------------------------------------------------------------------//
 
 string PieceHelper::getSeed(string path) {
   string preexistingSeed = getSeedFile(path);
@@ -136,6 +240,8 @@ string PieceHelper::getSeed(string path) {
   string s; cin >> s;
   return s;
 }
+
+//----------------------------------------------------------------------------//
 
 int PieceHelper::getSeedNumber(string seed) {
   if(seed == "time") {
@@ -157,6 +263,8 @@ int PieceHelper::getSeedNumber(string seed) {
   return seedNumber;
 }
 
+//----------------------------------------------------------------------------//
+
 void PieceHelper::createSoundFilesDirectory(string path) {
   string dir = string(path);
   vector<string> files = vector<string>();
@@ -171,6 +279,8 @@ void PieceHelper::createSoundFilesDirectory(string path) {
   system(h.c_str());
 }
 
+//----------------------------------------------------------------------------//
+
 bool PieceHelper::doesFileExist(string path, string filename) {
   string dir = string(path);
   vector<string> files = vector<string>();
@@ -183,6 +293,8 @@ bool PieceHelper::doesFileExist(string path, string filename) {
   return false;
 }
 
+//----------------------------------------------------------------------------//
+
 string PieceHelper::getNextSoundFile(string path, string projectName) {
   path = path + "SoundFiles/";
   for(int i = 1; i < 10000; i++) {
@@ -194,150 +306,6 @@ string PieceHelper::getNextSoundFile(string path, string projectName) {
       return "SoundFiles/" + oss.str();
   }
   return "";
-}
-
-void PieceHelper::createPiece(string path, string projectName, string seed,
-  string soundFilename) {
-  
-  //Change working directory.
-  chdir(path.c_str());
-  
-  //Convert seed string to seed number.
-  int seedNumber = getSeedNumber(seed);
-  
-  EventFactory *mainFactory;
-  Event *mainEvent;
-
-  //Get main project file.
-  string mainFile = projectName + ".dat";
-
-  //Load library of envelopes
-  string libraryFile = projectName + ".lib";
-  char *temp_str = strdup(libraryFile.c_str());
-  envlib_cmod.loadLibrary(temp_str);
-  free(temp_str);
-
-  //Initialize the output class.
-  string particelFilename = projectName + ".particel";
-  Output::initialize(particelFilename);
-  Output::beginSubLevel("Piece");
-  
-  //Seed the random number generator.
-  Random::Seed((unsigned int)seedNumber);
-  
-  //Parse main file.
-  cout << "\tMain - Parsing " << mainFile << endl;
-  parseFile(mainFile, NULL, &ThePiece);
-
-  //Print out initial description.
-  ThePiece.Print();
-  
-  //Set global vars.
-  numChan = ThePiece.numChannels;
-  cout << "\t\tMain - Creating main event from " << ThePiece.fileList << endl;
-  mainFactory = new EventFactory(ThePiece.fileList);
-
-  //Create mainEvent.
-  mainEvent = mainFactory->Build(ThePiece.pieceStartTime, ThePiece.pieceDuration, 0);
-  mainEvent->buildChildEvents();
-  
-  //Finish output and free up the Output class members.
-  Output::endSubLevel();
-  Output::free();
-  
-  //Render sound.
-  if(ThePiece.soundSynthesis) {
-    //Set clipping mode.
-    score.setClippingManagementMode(Score::CHANNEL_ANTICLIP);
-    
-    //Render in numChans channels, rate
-    int sizeFlag;
-    switch(ThePiece.sampleSize) {
-    default:
-      case 16:
-        sizeFlag = _16_BIT_LINEAR;
-        break;
-      case 24:
-        sizeFlag = _24_BIT_LINEAR;
-        break;
-      case 32:
-        sizeFlag = _32_BIT_LINEAR;
-        break;
-    }
-    
-    //Note: multithread isn't working quite right yet... (Cavis)
-    MultiTrack* renderedScore;
-    if(ThePiece.numThreads > 1) {
-      //Run with multiple threads
-      renderedScore = score.render(ThePiece.numChannels, ThePiece.sampleRate,
-                                  ThePiece.numThreads);
-    } else {
-      //Run non-multithread version
-      renderedScore = score.render(ThePiece.numChannels, ThePiece.sampleRate);
-    }
-
-    //Write to file.
-    AuWriter::write(*renderedScore, soundFilename);
-    cout << endl;
-    cout << "-----------------------------------------------------------" <<
-      endl;
-    cout << "Synthesis complete." << endl;
-    cout << "Audio File: " << soundFilename << endl;
-    cout << "-----------------------------------------------------------" <<
-      endl;
-    cout.flush();
-    string aud = "audacity ";
-    aud.append(soundFilename);
-    aud.append(" &");
-    system(aud.c_str());
-    delete renderedScore;
-  }
-
-  delete mainEvent;
-  delete mainFactory;
-
-  cout << endl;
-  cout << "-----------------------------------------------------------" <<
-    endl;
-  cout << "Build complete." << endl;
-  cout << "-----------------------------------------------------------" <<
-    endl;
-  cout.flush();
-}
-
-//----------------------------------------------------------------------------//
-
-Piece::Piece(const Piece& orig) {
-  title = orig.title;
-  fileFlags = orig.fileFlags;
-  fileList = orig.fileList;
-  soundSynthesis = orig.soundSynthesis;
-  numChannels = orig.numChannels;
-  sampleRate = orig.sampleRate;
-  sampleSize = orig.sampleSize;
-  numThreads = orig.numThreads;
-  pieceStartTime = orig.pieceStartTime;
-  pieceDuration = orig.pieceDuration;
-}
-
-//----------------------------------------------------------------------------//
-
-Piece& Piece::operator= (const Piece& rhs) {
-  title = rhs.title;
-  fileFlags = rhs.fileFlags;
-  fileList = rhs.fileList;
-  soundSynthesis = rhs.soundSynthesis;
-  numChannels = rhs.numChannels;
-  sampleRate = rhs.sampleRate;
-  sampleSize = rhs.sampleSize;
-  numThreads = rhs.numThreads;
-  pieceStartTime = rhs.pieceStartTime;
-  pieceDuration = rhs.pieceDuration;
-}
-
-//----------------------------------------------------------------------------//
-
-Piece::~Piece() {
 }
 
 //----------------------------------------------------------------------------//
