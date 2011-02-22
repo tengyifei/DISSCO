@@ -34,77 +34,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-// CMOD includes
 #include "Libraries.h"
 
-#include "Define.h"
-#include "FileValue.h"
 #include "Event.h"
+#include "FileValue.h"
+#include "Tempo.h"
+#include "TimeSpan.h"
 
-
-// forward declare
-//class FileValue;
-//class Event;
 //----------------------------------------------------------------------------//
 
 class EventFactory {
-  private:
-    std::string name;
+    //Name of the file to parse
+    std::string fileToParse;
 
-    // Common to all Events
+    //File values for basic information
     FileValue* childNames;
     FileValue* numChildren;
     FileValue* childEventDef;
 
-    // Common to all Events (cont'd -- new tempo indications)
+    //File values for rhythmic information
     FileValue* tempo;
     FileValue* timeSignature;
     FileValue* EDUPerBeat;
     FileValue* maxChildDur;
 
-    // for Bottom Events
+    //File values for bottom events
     FileValue* frequency;
     FileValue* loudness;
     FileValue* spatialization;
     FileValue* reverberation;
     FileValue* modifiers;
 
-    // for sounds
+    //File values for sounds
     FileValue* numPartials;
     FileValue* deviation;
     FileValue* spectrum;
 
-    // for notes
+    //File values for notes
     FileValue* notePitchClass;
     FileValue* noteDynamicMark;
     FileValue* noteModifiers;
-
-    // for visuals
-    // nothing yet
-
-    // Special cases (reading objs from external files)
+    
+    //File values for reading objects from external files
     FileValue *envelopeBuilder;
     FileValue *sieveBuilder;
     FileValue *patternBuilder;
 
-//----------------------------------------------------------------------------//
-
   public:
-
-    /**
-    *  Constructor; creates an empty object
-    **/
-    EventFactory();
-
-    /**
-    *  Constructor; parses the file and adds this eventfactory to the library
-    **/
-    EventFactory(std::string filename);
-
-    /**
-    *  Destructor
-    **/
-    virtual ~EventFactory();
+  
+    ///Constructor to parse the file and adds this event factory to the library.
+    EventFactory(std::string fileToParse);
 
     /**
      *  Method to build an instance of an Event from a parsed file.
@@ -114,9 +93,79 @@ class EventFactory {
      *  \param level the number of parents to the event (used for printing)
      *  \return Event object
      **/
-    Event* Build(float startTime, float duration, int type);
+    Event* Build(TimeSpan ts, int type, Tempo tempo);
 
-    //Getters and Setters for all the FileValues
+    //------------------------------------------------------------------------//
+    //               Getters and Setters for each File Value                  //
+    //------------------------------------------------------------------------//
+        
+    FileValue* getTempo() {return tempo;}
+    void setTempo(FileValue* fv) {tempo = fv;}
+    
+    FileValue* getTimeSignature() {return timeSignature;}
+    void setTimeSignature(FileValue* fv) {timeSignature = fv;}
+    
+    FileValue* getEDUPerBeat() {return EDUPerBeat;}
+    void setEDUPerBeat(FileValue* fv) {EDUPerBeat = fv;}
+    
+    FileValue* getMaxChildDur() {return maxChildDur;}
+    void setMaxChildDur(FileValue* fv) {maxChildDur = fv;}
+    
+    FileValue* getChildNames() {return childNames;}
+    void setChildNames(FileValue* fv) {childNames = fv;}
+    
+    FileValue* getNumChildren() {return numChildren;}
+    void setNumChildren(FileValue* fv) {numChildren = fv;}
+    
+    FileValue* getChildEventDef() {return childEventDef;}
+    void setChildEventDef(FileValue* fv) {childEventDef = fv;}
+    
+    FileValue* getFrequency() {return frequency;}
+    void setFrequency(FileValue* fv) {frequency = fv;}
+    
+    FileValue* getLoudness() {return loudness;}
+    void setLoudness(FileValue* fv) {loudness = fv;}
+    
+    FileValue* getSpatialization() {return spatialization;}
+    void setSpatialization(FileValue* fv) {spatialization = fv;}
+    
+    FileValue* getReverberation() {return reverberation;}
+    void setReverberation(FileValue* fv) {reverberation = fv;}
+    
+    FileValue* getModifiers() {return modifiers;}
+    void setModifiers(FileValue* fv) {modifiers = fv;}
+    
+    FileValue* getNumPartials() {return numPartials;}
+    void setNumPartials(FileValue* fv) {numPartials = fv;}
+    
+    FileValue* getDeviation() {return deviation;}
+    void setDeviation(FileValue* fv) {deviation = fv;}
+    
+    FileValue* getSpectrum() {return spectrum;}
+    void setSpectrum(FileValue* fv) {spectrum = fv;}
+    
+    FileValue* getNotePitchClass() {return notePitchClass;}
+    void setNotePitchClass(FileValue* fv) {notePitchClass = fv;}
+    
+    FileValue* getNoteDynamicMark() {return noteDynamicMark;}
+    void setNoteDynamicMark(FileValue* fv) {noteDynamicMark = fv;}
+    
+    FileValue* getNoteModifiers() {return noteModifiers;}
+    void setNoteModifiers(FileValue* fv) {noteModifiers = fv;}
+    
+    FileValue* getEnvelopeBuilder() {return envelopeBuilder;}
+    void setEnvelopeBuilder(FileValue* fv) {envelopeBuilder = fv;}
+    
+    FileValue* getSieveBuilder() {return sieveBuilder;}
+    void setSieveBuilder(FileValue* fv) {sieveBuilder = fv;}
+    
+    FileValue* getPatternBuilder() {return patternBuilder;}
+    void setPatternBuilder(FileValue* fv) {patternBuilder = fv;}
+
+    //------------------------------------------------------------------------//
+    //                Deprecated Setters for some File Values                 //
+    //------------------------------------------------------------------------//
+    
     void setUnitsPerSecond(FileValue* fv) { // --> deprecated
       //See if function was actually used, or if it was sent a dummy variable.
       if(fv->isNull())
@@ -135,7 +184,7 @@ class EventFactory {
       //Forward directly to setEDUPerBeat.
       setEDUPerBeat(fv);
     }
-    /* --------------------------- */
+    
     void setUnitsPerBar(FileValue* fv) { // --> deprecated
       //See if function was actually used, or if it was sent a dummy variable.
       if(fv->isNull())
@@ -148,156 +197,6 @@ class EventFactory {
         cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
       }
     }
-    /* --------------------------- */
-    FileValue* getTempo() {
-      return tempo;
-    }
-    void setTempo(FileValue* fv) {
-      tempo = fv;
-    }
-    /* --------------------------- */
-    FileValue* getTimeSignature() {
-      return timeSignature;
-    }
-    void setTimeSignature(FileValue* fv) {
-      timeSignature = fv;
-    }
-    /* --------------------------- */
-    FileValue* getEDUPerBeat() {
-      return EDUPerBeat;
-    }
-    void setEDUPerBeat(FileValue* fv) {
-      EDUPerBeat = fv;
-    }
-    /* --------------------------- */
-    FileValue* getMaxChildDur() {
-      return maxChildDur;
-    }
-    void setMaxChildDur(FileValue* fv) {
-      maxChildDur = fv;
-    }
-    /* --------------------------- */
-    FileValue* getChildNames() {
-      return childNames;
-    }
-    void setChildNames(FileValue* fv) {
-      childNames = fv;
-    }
-    /* --------------------------- */
-    FileValue* getNumChildren() {
-      return numChildren;
-    }
-    void setNumChildren(FileValue* fv) {
-      numChildren = fv;
-    }
-    /* --------------------------- */
-    FileValue* getChildEventDef() {
-      return childEventDef;
-    }
-    void setChildEventDef(FileValue* fv) {
-      childEventDef = fv;
-    }
-    /* --------------------------- */
-    FileValue* getFrequency() {
-      return frequency;
-    }
-    void setFrequency(FileValue* fv) {
-      frequency = fv;
-    }
-    /* --------------------------- */
-    FileValue* getLoudness() {
-      return loudness;
-    }
-    void setLoudness(FileValue* fv) {
-      loudness = fv;
-    }
-    /* --------------------------- */
-    FileValue* getSpatialization() {
-      return spatialization;
-    }
-    void setSpatialization(FileValue* fv) {
-      spatialization = fv;
-    }
-    /* --------------------------- */
-    FileValue* getReverberation() {
-      return reverberation;
-    }
-    void setReverberation(FileValue* fv) {
-      reverberation = fv;
-    }
-    /* --------------------------- */
-    FileValue* getModifiers() {
-      return modifiers;
-    }
-    void setModifiers(FileValue* fv) {
-      modifiers = fv;
-    }
-    /* --------------------------- */
-    FileValue* getNumPartials() {
-      return numPartials;
-    }
-    void setNumPartials(FileValue* fv) {
-      numPartials = fv;
-    }
-    /* --------------------------- */
-    FileValue* getDeviation() {
-      return deviation;
-    }
-    void setDeviation(FileValue* fv) {
-      deviation = fv;
-    }
-    /* --------------------------- */
-    FileValue* getSpectrum() {
-      return spectrum;
-    }
-    void setSpectrum(FileValue* fv) {
-      spectrum = fv;
-    }
-    /* --------------------------- */
-    FileValue* getNotePitchClass() {
-      return notePitchClass;
-    }
-    void setNotePitchClass(FileValue* fv) {
-      notePitchClass = fv;
-    }
-    /* --------------------------- */
-    FileValue* getNoteDynamicMark() {
-      return noteDynamicMark;
-    }
-    void setNoteDynamicMark(FileValue* fv) {
-      noteDynamicMark = fv;
-    }
-    /* --------------------------- */
-    FileValue* getNoteModifiers() {
-      return noteModifiers;
-    }
-    void setNoteModifiers(FileValue* fv) {
-      noteModifiers = fv;
-    }
-    /* --------------------------- */
-    FileValue* getEnvelopeBuilder() {
-      return envelopeBuilder;
-    }
-    void setEnvelopeBuilder(FileValue* fv) {
-      envelopeBuilder = fv;
-    }
-    /* --------------------------- */
-    FileValue* getSieveBuilder() {
-      return sieveBuilder;
-    }
-    void setSieveBuilder(FileValue* fv) {
-      sieveBuilder = fv;
-    }
-    /* --------------------------- */
-    FileValue* getPatternBuilder() {
-      return patternBuilder;
-    }
-    void setPatternBuilder(FileValue* fv) {
-      patternBuilder = fv;
-    }
-
-//----------------------------------------------------------------------------//
-
 };
-
 #endif /*EVENTFACTORY_H_*/
+

@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //Several C++ standard library includes needed by CMOD
 #include <algorithm>
+#include <cerrno>
 #include <cmath>
 #include <cstdarg>
 #include <ctime>
@@ -34,6 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sstream>
 #include <string>
 #include <vector>
+
+//Pseudo-standard, but widely used headers
+#include <dirent.h>
 
 //The LASS library for additive sound synthesis
 #include "../../LASS/src/LASS.h"

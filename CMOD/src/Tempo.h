@@ -55,12 +55,10 @@ class Tempo {
   Ratio timeSignatureBeat;
   Ratio timeSignatureBeatsPerBar;
   Ratio EDUPerTimeSignatureBeat;
-  
   float tempoStartTime;
   
   /**When unitsPerSecond was used, it assumed this tempo (5/4 at quarter=60).*/
-  void setBackwardsCompatibleTempo(void)
-  {
+  void setBackwardsCompatibleTempo(void) {
     tempoBeatsPerMinute = 60;
     tempoBeat = Ratio(1,4);
     timeSignatureBeat = Ratio(1,4);
@@ -71,18 +69,30 @@ class Tempo {
   
   public:
   //Constructor initializes a backwards-compatible tempo of 5/4 quarter=60.
-  Tempo()
-  {
+  Tempo() {
     //Default tempo should just be the backwards-compatible one.
     setBackwardsCompatibleTempo();
   }
   
-  //Two tempos are identical if they have the same tempo and time signature.
+  //Explicit copy constructor just to be sure (eventually this should go away).
+  Tempo(const Tempo& other) {
+    tempoBeatsPerMinute = other.tempoBeatsPerMinute;
+    tempoBeat = other.tempoBeat;
+    timeSignatureBeat = other.timeSignatureBeat;
+    timeSignatureBeatsPerBar = other.timeSignatureBeatsPerBar;
+    EDUPerTimeSignatureBeat = other.EDUPerTimeSignatureBeat;
+    tempoStartTime = other.tempoStartTime;
+  }
+  
+  /*Two tempos are identical if they have the same tempo and time signature and
+  tempo start time. Note that EDU per beat does not matter because the two
+  tempos are still easily conflated with rational numbers.*/
   bool isTempoSameAs(Tempo& other) {
     return tempoBeatsPerMinute == other.tempoBeatsPerMinute &&
       tempoBeat == other.tempoBeat &&
       timeSignatureBeat == other.timeSignatureBeat &&
-      timeSignatureBeatsPerBar == other.timeSignatureBeatsPerBar;
+      timeSignatureBeatsPerBar == other.timeSignatureBeatsPerBar &&
+      tempoStartTime == other.tempoStartTime;
   }
   
   float getStartTime(void) {return tempoStartTime;}

@@ -19,164 +19,102 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//  note.h
+//  Note.h
 //
 //----------------------------------------------------------------------------//
 
 #ifndef NOTE_H
 #define NOTE_H
 
-// CMOD includes
 #include "Libraries.h"
-#include "Define.h"
 
 #include "Rational.h"
 #include "Tempo.h"
-
-//Forward declarations
-class Event;
-
-//----------------------------------------------------------------------------//
-/*class Note2 {
-  Tempo& parentTempo;
-  Ratio startTime;
-  public:
-  Note2(Tempo& t) : parentTempo(t) {}
-  
-  void setStartTime(Ratio secondsStartTime);
-  
-  void setStartTime(Ratio aStartTime);
-  
-}*/
+#include "TimeSpan.h"
 
 //----------------------------------------------------------------------------//
 
 class Note {
-  private:
-    /*Careful: these are note units. Note units allow for the quantization of
-    complex rhythms and have nothing to do with the global units (i.e. that 
-    sounds events use). A note unit can be defined as the smallest possible
-    mensural increment that will be used. The note unit will correspond exactly
-    to a specific rhythmic duration which can be calculated using beatsPerBar
-    and unitsPerBeat.
 
-    Current assumptions: a beat is a quarter note.
-    */
+    //------//
+    //Rhythm//
+    //------//
     
-    //ALL DEPRECATED
+    //The timespan of the note.
+    TimeSpan ts;
+    
+    //The parent tempo.
+    Tempo tempo;
+    
+    //-----//
+    //Pitch//
+    //-----//
+    
+    //Absolute numeric value of the pitch
+    int pitchNum;
+    
+    //The octave the pitch is in
+    int octaveNum;
+    
+    //The number of the pitches within the octave
+    int octavePitch;
+    
+    //The string name of this pitch
+    std::string pitchName;
 
-    //Conversion metrics
-    //int unitsPerZecond;   //note units per second--for this particular note
-    //int unitsPerBaz;      //note units per baz
-    int unitsPerBeat;     //note units per beat
-    //int beatsPerBaz;      //number of beats per baz
-
-    //Start time metrics
-    float stimeSec;       //absolute start time in seconds
-    int stimeUnits;       //absolute start time of the pitch (in note units)
-    //int stimeBaz;         //index of baz (0 = measure 1, 1 = measure 2, etc.)
-    int stimeBeat;        //index of beat within the bar (0 = beat 1)
-    int stimeUnitSubdiv;  //start time within the beat (in note units)
-
-    //Duration metrics
-    float durSec;         //duration in seconds
-    int durUnits;         //duration in note units
-    int durUnitSubBeg;    /*how much of the duration is within the starting beat
-                            in note units (or 0 if the note starts on a beat)*/
-    int durBeat;          /*how many full beats are in the duration, after
-                            completing 'durUnitSubBeg'*/
-    int durUnitSubEnd;    //how much duration is left at the end (in units)
-
-    //Reference to Event
-    const Event* parent;
-
-    //Pitch
-    int pitchNum;          //absolute numeric value of the pitch
-    int octaveNum;         //the octave the pitch is in
-    int octavePitch;       //the number of the pitch within the octave
-    std::string pitchName; //the string name of this pitch
-
-    //Dynamic marking
+    //Dynamic number
     int loudnessNum;
-    std::string loudnessMark;  //dynamic marking (i.e. "ff")
+    
+    //Dynamic marking (i.e. "ff")
+    std::string loudnessMark;
 
     //Modifiers
     std::vector<std::string> modifiers; //string names of the modifiers
 
   public:
-   /**
-    *  Default constructor for a Note.
-    **/
-    Note() : parent(0) {}
 
-    /**
-    *  Generic constructor.  Note_pitchClass, note_dynamicMark, and 
-    *  note_modifiers are needed to translate notes into letter representation 
-    *  and other score markings.
-    *  \param gblStartTimeSec Start time of this note in seconds
-    *  \param durSec Duration in seconds
-    *  \param unitsPerZecond Units per second
-    *  \param unitsPerBaz Units per baz
-    **/
-    //DEPRECATED
-    Note(float gblStartTimeSec, float durSec /*, int unitsPerZecond*/
-    /*, int unitsPerBaz*/);
-
-
-    //Creates a new note based on information from the Event.
-    Note(const Event& e);
-
-    /**
-     *  Note copy constructor.
-     *	\param origNote Note object to make a copy of
-     **/
-    Note(const Note& origNote);
-
-    /**
-     *	Assignment operator
-     *	\param rhs The Note to assign
-     **/
-    Note& operator= (const Note& rhs);
+    //Constructor with timespan and tempo
+    Note(TimeSpan ts, Tempo tempo);
+    
+    //Copy constructor
+    Note(const Note& other);
 
     /**
      *  Comparison operator (to sort in a list)
      *  \param rhs the object to compare to
      **/
-    bool operator< (const Note& rhs);
+    bool operator < (const Note& rhs);
 
-    /**
-     *	Note destructor.
-     **/
-    ~Note();
+//----------------------------------------------------------------------------//
 
-//-----------------------         ----------------------------------------//
     /**
      *  Assigns the pitch of a note
-     *  \param absPitchNum Pitch on the well-tempered scale, starting with 0 = C0
-     *  \param pitchNames The names of the pitches ( C, C#, D, Eb ... )
+     *  \param absPitchNum Pitch on the well-tempered scale, starting with 0=C0
+     *  \param pitchNames The names of the pitches (C, C#, D, Eb, ...)
      **/
-    void setPitchWellTempered( int absPitchNum, std::vector<std::string> pitchNames );
+    void setPitchWellTempered(int absPitchNum,
+      std::vector<std::string> pitchNames);
 
     /**
      *  Assigns the pitch of a note
      *  \param freqHz The frequency of the note in Hz
      *  \note this assumes a western, equal tempered scale
      **/
-    void setPitchHertz( float freqHz );
+    void setPitchHertz(float freqHz);
 
     /**
      *  Assigns the loudness of a note
      *  \param dynamicNum The index into the noteDynamicMark array
      *  \param dynamicNames The names of the dynamics ( mf, f, ppp ...)
      **/
-    void setLoudnessMark( int dynamicNum, std::vector<std::string> dynamicNames );
+    void setLoudnessMark(int dynamicNum, std::vector<std::string> dynamicNames);
 
     /**
      *  Assigns the loudness of a note
      *  \param sones the loudness of the note in Sones (0-256)
      *  \note this translates sones into "ff", "mf" , "pp", etc.
      **/
-    void setLoudnessSones( float sones );
+    void setLoudnessSones(float sones);
 
     /**
      *  Assigns any modifiers to the sound
@@ -184,41 +122,6 @@ class Note {
      *  \param modNames
      **/
     void setModifiers(std::vector<std::string> modNames);
-
-//----------------------------------------------------------------------------//
-    /**
-     *  Output the note start time as a string
-     **/
-    std::string toStringStartTime(int printLevel=2);
-
-    /**
-     *  Output the note start time as a string for outFile .particel
-     **/
-    std::string toStringStartTimeParticel();
-
-    /**
-     *  Output the note duration as a string
-     **/
-    std::string toStringDuration(int printLevel=2);
-
-    /**
-     *  Output the note duration as a string for outFile .particel
-     **/
-    std::string toStringDurationParticel();
-
-    /**
-     *  Output the other note attributes as a string
-     **/
-    std::string toStringOther(int printLevel=2);
-
-    /**
-     *  Output the other note attributes as a string for outFile .particel
-     **/
-    std::string toStringOtherParticel();
-
-//----------------------------------------------------------------------------//
-
-
 };
-
 #endif /* NOTE_H */
+

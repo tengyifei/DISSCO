@@ -19,11 +19,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 //
-//   eventfactory.cpp
+//   EventFactory.cpp
 //
 //----------------------------------------------------------------------------//
 
 #include "EventFactory.h"
+
 #include "Bottom.h"
 #include "EventParser.h"
 #include "Piece.h"
@@ -33,63 +34,50 @@ extern Piece ThePiece;
 
 //---------------------------------------------------------------------------//
 
-EventFactory::EventFactory() {
-}
+EventFactory::EventFactory(string fileToParse) : fileToParse(fileToParse) {
+  cout << "Parsing file: " << fileToParse << endl;
+  
+  //Parse filename (EventParser)
+  parseFile(fileToParse, this, &ThePiece);
 
-//---------------------------------------------------------------------------//
-
-EventFactory::EventFactory(string filename) {
-  cout << "Parsing file: " << filename << endl;
-  name = filename;
-
-  // parse filename (EventParser)
-  parseFile(name, this, &ThePiece);
-
-  // add event factories for subevents to library
-  factory_lib[filename] = this;
-}
-
-//---------------------------------------------------------------------------//
-
-EventFactory::~EventFactory() {
-
+  //Add event factories for subevents to library.
+  factory_lib[fileToParse] = this;
 }
 
 //----------------------------------------------------------------------------//
 
-Event* EventFactory::Build(float startTime, float duration, int type) {
-  int i = 0;
-
+Event* EventFactory::Build(TimeSpan ts, int type, Tempo tempo) {
+  //Determine type of event to build (Bottom or Event).
+  bool isBottomEvent = (fileToParse[0] == 'B');
+  
+  //Create a Bottom or an Event.
   Event* newEvent;
-  char c = name[0];
-  if(c != 'B') {
-    newEvent = new Event(startTime, duration, type, name);
-  } else {
-    Bottom* tmpEvent = new Bottom(startTime, duration, type, name);
-
-    tmpEvent->initBottomVars( frequency, loudness, spatialization, 
-                              reverberation, modifiers );
-    newEvent = tmpEvent;
+  if(isBottomEvent) {
+    newEvent = new Bottom(ts, type, fileToParse);
+    
+    //Initialize Bottom specific parameters.
+    dynamic_cast<Bottom*>(newEvent)->initBottomVars(frequency, loudness,
+      spatialization, reverberation, modifiers);
   }
+  else
+    newEvent = new Event(ts, type, fileToParse);
+    
+  /*Send the tempo information given by the parent. This will be respected by
+  initDiscreteInfo if it contains a non-zero tempo start time.*/
+  newEvent->tempo = tempo;
 
-  // initialize general event params
-  //  (the theme here is to evaluate the filevalues here, or call a method
-  //   in Event to evaluate the filevalues.  THERE ARE NO PRIVATE VARS IN
-  //   Event TO HOLD ONTO FileValues!!
-  newEvent->initDiscreteInfo( tempo->getString(),
-                              timeSignature->getString(),
-                              EDUPerBeat->getInt(),
-                              maxChildDur->getFloat() );
-  newEvent->initChildNames( childNames );
-  newEvent->initNumChildren( numChildren );
+  /*Initialize general event parameters. The theme here is to evaluate the
+  file values here or call a method in Event to evaluate the file values. Events
+  do not store file values as private variables.*/
+  newEvent->initDiscreteInfo(EventFactory::tempo->getString(),
+    timeSignature->getString(), EDUPerBeat->getInt(), maxChildDur->getFloat());
+  newEvent->initChildNames(childNames);
+  newEvent->initNumChildren(numChildren);
 
-  // initialize child events, if there are any
-  if (childEventDef != NULL) {
-    newEvent->initChildDef( childEventDef );
-  }
+  //Initialize child events, if there are any.
+  if(childEventDef)
+    newEvent->initChildDef(childEventDef);
 
   return newEvent;
 }
-
-
 

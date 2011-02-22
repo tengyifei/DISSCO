@@ -32,11 +32,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Libraries.h"
 
 #include "Define.h"
-#include "Matrix.h"
 #include "FileValue.h"
+#include "Matrix.h"
 #include "Note.h"
 #include "Rational.h"
 #include "Tempo.h"
+#include "TimeSpan.h"
 
 class Event {
 
@@ -44,18 +45,13 @@ public:
     //---------------------------- Information -------------------------------//
     
     //Name of the event
-    string myName;
+    string name;
     
     //Type of the event
-    int myType;
+    int type;
     
-    //Start time of the event (in both float seconds and exact beats)
-    float myStartTime;
-    Ratio myExactStartTime;
-    
-    //Duration of the event (in both float seconds and exact beats)
-    float myDuration;
-    Ratio myExactDuration;
+    //Timespan for the event
+    TimeSpan ts;
     
     //Tempo of the event
     Tempo tempo;
@@ -78,8 +74,7 @@ protected:
     double checkPoint;    
     
     //Previous start time
-    float lastTime;
-    Ratio exactLastTime;
+    TimeSpan tsPrevious;
 
   private:
   
@@ -114,6 +109,9 @@ protected:
     int restartsRemaining;
     static const int restartsNormallyAllowed = 6;
     static const int restartsAllowedWithFewerChildren = 10;
+    
+    ///Restarts the build process if necessary (for buildDiscrete).
+    void tryToRestart(void);
  
     //---------------------------- Static Values -----------------------------//
     
@@ -127,13 +125,11 @@ protected:
     
     Matrix* discreteMat;
        
-    //----------------------------- Deprecated -------------------------------//
+    //-------------------------- Used by build... ----------------------------//
     
-    //These will go away -- they are duplicated by myFoo for the child event.
-    float childStartTime;
-    float childDuration;
-    Ratio exactChildStartTime;
-    Ratio exactChildDuration;
+    /*This stores the intermediate child timespan before it has been implemented
+    an actual Event.*/
+    TimeSpan tsChild;
 
   public:
 
@@ -144,25 +140,11 @@ protected:
 
     /**
     *	Normal constructor for an Event.
-    *	\param stime Start Time of the event
-    *	\param dur Duration of the event
     *	\param type Type of the event
     *	\param name Name of the event
     *   \param level The number of parent events to this event
     **/
-    Event(float stime, float dur, int type, string name);
-
-    /**
-    *  Event copy constructor.
-    *	\param origEvent Event object to make a copy of
-    **/
-    Event(const Event& origEvent);
-
-    /**
-    *	Assignment operator
-    *	\param origEvent The Event to assign
-    **/
-    Event& operator= (const Event& origEvent);
+    Event(TimeSpan ts, int type, string name);
 
     /**
     *	Event destructor.
@@ -173,9 +155,8 @@ protected:
     /**
      *	Initialize the "bar" division info to be used when generating discrete children
      **/
-    void initDiscreteInfo(
-      std::string newTempo, std::string newTimeSignature, int newEDUPerBeat,
-      float newMaxChildDur );
+    void initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
+      int newEDUPerBeat, float newMaxChildDur);
 
     /**
      *	Initialize the list of files containing possible children (layers of the event)
@@ -195,18 +176,20 @@ protected:
      *	Initialize the child event definition
      *  \param childrenDef A filevalue containing definition of how to create child events
      **/
-    void initChildDef( FileValue* childrenDef );
+    void initChildDef(FileValue* childrenDef) {
+      childEventDef = new FileValue(*childrenDef);
+    }
 
     //------------- Used by FileValue static functions  ------------//
     /**
      *	Returns the events name
      **/
-    string getEventName() { return myName; };
+    string getEventName() {return name;};
 
     /**
     *	Returns the number of the child this event is currently building
     **/
-    int getCurrentChild() { return currChildNum; };
+    int getCurrentChild() {return currChildNum;};
 
     /**
      *	Returns layer of the child this event is currently building
@@ -216,12 +199,12 @@ protected:
     /**
     *   Returns the current childs type
     **/
-    int getCurrentChildType() { return childType; };
+    int getCurrentChildType() {return childType;};
 
     /**
      *  Returns the number of current partial -- will call to bottom in most cases
      **/
-    virtual int getCurrPartialNum() { return 0; };
+    virtual int getCurrPartialNum() {return 0;};
 
     /**
      *  Return this events duration in EDU
@@ -232,7 +215,7 @@ protected:
     *  Returns check point of the event
     *  \return check point of the event as a double
     **/
-    double getCheckPoint() { return checkPoint; };
+    double getCheckPoint() {return checkPoint;};
 
     /**
     *   BuildSubEvents. Builds sub-events from parsed information and 
@@ -256,7 +239,11 @@ protected:
      *   to allow the creation of note/sound/visual instead of the
      *   usual child events
      **/
-    virtual void constructChild(float stime, float dur, int type, string name);
+    virtual void constructChild(TimeSpan ts, int type, string name,
+      Tempo tempo);
+
+    ///Checks the event to see if it was built successfully.
+    void checkEvent(bool buildResult);
 
     /**
     *   Outputs information about the current subEvent.
@@ -303,20 +290,12 @@ protected:
     /**
     *   Wrapper for assigning values for stimeMatrix, type and durMatrix
     *   using a matrix.  Calls ObjCoordinates, Adjustments, and TimeConvert.
-`   *   \param iter FileValues to pass in for new objects
+    *   \param iter FileValues to pass in for new objects
     **/
     bool buildDiscrete(list<FileValue>::iterator iter);
     
-    /**
-     * Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
-     **/
+    ///Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
     string unitTypeToUnits(string type);
-    
-    //Checks the event to see if it was built successfully.
-    void checkEvent(bool buildResult);
-    
-    //Restarts the build process if necessary (for buildDiscrete).
-    void tryToRestart(void);
 };
 #endif
 

@@ -38,6 +38,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Modifier.h"
 #include "Event.h"
 #include "Note.h"
+#include "TimeSpan.h"
+#include "Tempo.h"
 
 //----------------------------------------------------------------------------//
 class Bottom : public Event {
@@ -85,7 +87,7 @@ class Bottom : public Event {
     /**
     * Default constructor for a bottom event
     **/
-    Bottom(){}
+    Bottom() {}
 
     /**
     *   Normal Bottom constructor
@@ -95,45 +97,32 @@ class Bottom : public Event {
     *   \param aName A name for the event
     *   \param level The number of parents to this event
     **/ 
-    Bottom(float aStrtTime, float aDuration, int aType, string aName);
-
-    /**
-    *   Bottom copy constructor
-    *   \param origBottom The Bottom to copy
-    *   \return A copy of origBottom
-    **/
-    Bottom(const Bottom &origBottom);
-
-    /**
-     *   Bottom assignment operator
-     *   \param origBottom The Bottom to copy
-     **/
-    Bottom& operator=(const Bottom& origBottom);
+    Bottom(TimeSpan ts, int type, string name);
 
     /**
     *   Destructor.
     **/
-    ~Bottom();
+    virtual ~Bottom();
 
     //--------------------- Initialization functions  -----------------------//
     /**
      *  Initialize the Bottom event variables
      **/
-    void initBottomVars( FileValue* frequency, FileValue* loudness,
+    void initBottomVars(FileValue* frequency, FileValue* loudness,
                          FileValue* spatialization, FileValue* reverberation,
-                         FileValue* modifiers );
+                         FileValue* modifiers);
 
     /**
      *  Initialize variables for a sound
      **/
-    void initSoundVars( FileValue* numPartials, FileValue* deviation,
-                        FileValue* spectrum );
+    void initSoundVars(FileValue* numPartials, FileValue* deviation,
+                        FileValue* spectrum);
 
     /**
      *  Initialize variables for a note
      **/
-    void initNoteVars( FileValue* note_pitchClass, FileValue* note_dynamicMark,
-                        FileValue* note_modifiers );
+    void initNoteVars(FileValue* note_pitchClass, FileValue* note_dynamicMark,
+                        FileValue* note_modifiers);
 
     //--------------------- Build Methods  -----------------------//
     /**
@@ -141,28 +130,23 @@ class Bottom : public Event {
      *  method in Event, allowing the creation of Sounds, Notes,
      *  and Visuals instead of child Events.
      **/
-    void constructChild(float stime, float dur, int type, string name);
+    void constructChild(TimeSpan ts, int type, string name, Tempo tempo);
 
     /**
      *  Returns the number of current partial -- overrides Event
      **/
-    int getCurrPartialNum() { return currPartialNum; };
+    int getCurrPartialNum() {return currPartialNum;};
 
 
     /**
      * Creates a sound and adds the sound to the Score.
      **/
-    void buildSound(float stime, float dur, int type, string name);
+    void buildSound(TimeSpan tsChild, int type, string name);
 
     /**
      *  Creates a note (traditional notation) with all its attributes.
      **/
-    void buildNote(float stime, float dur, int type, string name);
-
-    /**
-     *  Creates a visual.
-     **/
-    void buildVisual();
+    void buildNote(TimeSpan tsChild, int type, string name);
 
     /**
      *  Overloaded to prevent Event from printing.
