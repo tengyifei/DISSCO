@@ -61,7 +61,7 @@ void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
   /*Only set the tempo to what was indicated in the file if the event does not
   already have a tempo that was derived from a parent. This is very important,
   so that tempos are not nested.*/
-  if(tempo.getStartTime() != 0) {
+  if(tempo.getStartTime() == 0) {
     tempo.setTempo(newTempo);
     tempo.setTimeSignature(newTimeSignature);
     tempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
