@@ -131,7 +131,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
   
   /*Given the beginning of the filename we can determine whether or not this is
   a sound or a note. For example B/s000 is a sound, B/n001 is a note.*/
-  if(name[2] == 's') {
+  if(name[2] == 's' || name[0] == 'S') {
     //Initialize the sound-related variables.
     initSoundVars(childFactory->getNumPartials(), childFactory->getDeviation(),
       childFactory->getSpectrum());
@@ -142,7 +142,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
     //Increment static sound counter.
     sndcount++;
     
-  } else if(name[2] == 'n') {
+  } else if(name[2] == 'n' || name[0] == 'N') {
     //Initialize the note-related variables.
     initNoteVars(childFactory->getNotePitchClass(),
       childFactory->getNoteDynamicMark(), childFactory->getNoteModifiers());
