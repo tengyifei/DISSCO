@@ -73,6 +73,10 @@ string OutputNode::getXML(void) {
   }
   
   for(int i = 0; i < subNodes.size(); i++) {
+    string n = subNodes[i]->nodeName;
+    //Omit the build phase for now.
+    if(n == "Sweep" || n == "Continuum" || n == "Discrete")
+      continue;
     s += subNodes[i]->getXML();     
   }
   
