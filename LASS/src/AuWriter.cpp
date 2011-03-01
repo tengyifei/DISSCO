@@ -97,7 +97,7 @@ bool AuWriter::write(vector<SoundSample*>& channels, string filename,
     
     //Clear out the info structure.
     SF_INFO s_info;
-    memset(&s_info, sizeof(SF_INFO), 0);
+    memset(&s_info, 0, sizeof(SF_INFO));
     
     //Ensure we actually have channels of sound to work with.
     if (channels.size() == 0) {
