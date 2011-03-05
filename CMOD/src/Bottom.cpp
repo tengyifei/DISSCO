@@ -137,7 +137,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
       childFactory->getSpectrum());
       
     //Build the sound.
-    buildSound(ts, type, name);
+    buildSound(tsChild, type, name);
     
     //Increment static sound counter.
     sndcount++;
@@ -148,7 +148,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
       childFactory->getNoteDynamicMark(), childFactory->getNoteModifiers());
     
     //Build the note.
-    buildNote(ts, type, name);
+    buildNote(tsChild, type, name);
     
   } else {
     /*If the name does not begin with an 's' or an 'n', we do not know how to
