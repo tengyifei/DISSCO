@@ -647,57 +647,48 @@ EventAttributesViewController::~EventAttributesViewController(){
 
 void EventAttributesViewController::showAttributesOfEvent(IEvent* _event){
   
-  /*
-  Gtk::RadioButton* button;
-  attributesRefBuilder->get_widget(
-    "attributesChildEventDefDiscreteButton", button);
+  if (_event==NULL) {  // if the current shown event is deleted.
+    currentlyShownEvent = NULL;
+    
+      //clear previous object's bottom modifiers if exist
+    while (modifiers != NULL){
+      BottomEventModifierAlignment* temp = modifiers->next;
+    
+      modifiers->get_parent()->remove(*modifiers);
+      delete modifiers;
+      modifiers = temp;
+    }
   
-  // check sieve for event
-  if (   currentlyShownEvent!=NULL 
-      && currentlyShownEvent->getEventType() < 5
-      && button->get_active()){
+  
+    //clear soundPartialHboxes ;
+    if (soundPartialHboxes!= NULL){
+      soundPartialHboxes->clear();
+      soundPartialHboxes = NULL;
 
-    //check attack sieve
-    if( !checkAttackSieve()){
-      Gtk::MessageDialog dialog(
-        "Your Attack Sieve doesen't exist. Are you sure you want to leave editing this event?",
-        false // use_markup 
-        Gtk::MESSAGE_INFO,
-        Gtk::BUTTONS_OK_CANCEL);
-
-      int k = dialog.run();
-      dialog.hide();
-      if (k == -6) return;
     }
-
-    //check attack sieve
-    if( !checkDurationSieve()){
-      Gtk::MessageDialog dialog(
-      "Your Duration Sieve doesen't exist. Are you sure you want to leave editing this event?",
-      false // use_markup ,
-      Gtk::MESSAGE_INFO,
-      Gtk::BUTTONS_OK_CANCEL);
-
-      int k = dialog.run();
-      if (k == -6) return;
+  //scrolledWindow.remove(); //remove the child from the main scrolled window
+    Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
+    if (temp){
+      temp->remove();
     }
+    
+    
   }
-  */
-  
+  else {
 
-  saveCurrentShownEventData();
-  currentlyShownEvent = _event;
+    saveCurrentShownEventData();
+    currentlyShownEvent = _event;
 
-  entryChangedByShowCurrentEvent = true;
+    entryChangedByShowCurrentEvent = true;
 
-  showCurrentEventData();
+    showCurrentEventData();
 
-  entryChangedByShowCurrentEvent = false;
+    entryChangedByShowCurrentEvent = false;
   //if (sharedPointers->projectView->getSaved()){
     //cout<<"its saved"<<endl;
     //sharedPointers->mainWindow->setSavedTitle();
   //}
-  
+  }
   
  
 }
@@ -4117,6 +4108,23 @@ void EventAttributesViewController::deleteKeyPressed(Gtk::Widget* _focus){
 
 
 bool EventAttributesViewController::LayerBox::onRightClick(GdkEventButton* event){
+
+    // This chunk of code change the cursor to the object rightclicked on.
+    int x;
+    int y;
+    Gtk::TreeModel::Path path;
+    Gtk::TreeViewColumn* temp_column;
+
+    m_TreeView.get_path_at_pos( (int)event->x,
+                              (int)event->y,
+                              path,
+                              temp_column,
+                              x,
+                              y );
+    m_TreeView.set_cursor(path);
+
+
+
   if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ // test if right click
     if(m_pMenuPopup) m_pMenuPopup->popup(event->button, event->time);
 

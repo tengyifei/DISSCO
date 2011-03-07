@@ -277,6 +277,7 @@ public:
    *  @return string of the event type
    ****************************************************************************/
   std::string getEventTypeString();
+  std::string getEventFolderName();
 
   /*! \brief set maxChildDur of the event
    *
@@ -339,7 +340,7 @@ public:
   
   
   
-  
+  bool haveString(string _string);
   
   
   
@@ -423,6 +424,8 @@ public:
   void        setChildEventDefDurationSieve(std::string _string);
   std::string getChildEventDefDurationSieve();
   
+  void setEventOrderInPalette(int _number);
+  int getEventOrderInPalette();
   
   
   /*! \brief add an object to the event as a child
@@ -470,6 +473,7 @@ public:
     //implemented in SoundExtraInfo
     virtual void setNumPartials(std::string _numPartials){}
     virtual std::string getNumPartials(){return "";}
+    virtual bool haveString(string _string){return false;} 
 
     virtual void setDeviation(std::string _deviation){}
     virtual std::string getDeviation(){return "";}
@@ -558,6 +562,7 @@ public:
     int getChildTypeFlag();      
    
     EventBottomModifier* modifiers; 
+    bool haveString(string _string);
   
   private:
     int frequencyFlag; // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
@@ -580,6 +585,7 @@ public:
     ~EnvelopeExtraInfo(){}
     std::string getEnvelopeBuilder();
     void setEnvelopeBuilder(std::string _string);
+    bool haveString(string _string);
   private:
     std::string envelopeBuilder;
   
@@ -593,6 +599,7 @@ public:
     ~PatternExtraInfo(){}
     std::string getPatternBuilder();
     void setPatternBuilder(std::string _string);
+    bool haveString(string _string);
   private:
     std::string patternBuilder;
   
@@ -606,6 +613,7 @@ public:
     ~SpatializationExtraInfo(){}
     std::string getSpatializationBuilder();
     void setSpatializationBuilder(std::string _string);
+    bool haveString(string _string);
   private:
     std::string spatializationBuilder;
   };
@@ -618,6 +626,7 @@ public:
     ~SieveExtraInfo(){}
     std::string getSieveBuilder();
     void setSieveBuilder(std::string _string);
+    bool haveString(string _string);
   private:
     std::string sieveBuilder;
   };
@@ -630,6 +639,7 @@ public:
     ~ReverbExtraInfo(){}
     std::string getReverbBuilder();
     void setReverbBuilder(std::string _string);
+    bool haveString(string _string);
   private:
     std::string reverbBuilder;
   };
@@ -654,6 +664,7 @@ public:
     SpectrumPartial* getSpectrumPartials();
     SpectrumPartial* addPartial();
     bool deletePartial(SpectrumPartial* _partial);
+    bool haveString(string _string);
   private:
     
     int numPartials;
@@ -670,6 +681,7 @@ public:
     std::list<std::string> getNoteModifiers();
     void addNoteModifiers(std::string _modifier);   
     void clearNoteModifiers();
+    bool haveString(string _string);
     
   private:
     std::list<std::string> modifiers;    
@@ -689,7 +701,8 @@ public:
   EventLayer* addLayer();
 private:
   EventType eventType;
-
+  std::string oldEventName;
+  int eventOrderInPalette;
   std::string eventName;
 
   std::string maxChildDur;
@@ -728,6 +741,10 @@ private:
 
    // 0 = percentage, 1 = units, 2 = seconds
   int flagChildEventDefDurationType;
+  
+  
+  
+  
 
   void IEventParseFile(std::string _fileName);
   void parseNonEvent();

@@ -50,6 +50,11 @@ public:
   Glib::ustring folderSelected(); // check if any row is selected;
   IEvent* getCurrentSelectedEvent();
   void deleteKeyPressed();
+  int getCurrentMaxObjectNumber(string _folderName);
+  void refreshObjectOrder( string _folderName);
+  
+  
+  
 
 protected:
   // Signal handlers:
@@ -77,11 +82,13 @@ protected:
       add(columnObjectName);
     /*add (columnButton)*/;
       add(columnEntry);
+      add(columnObjectOrder);
     }
     Gtk::TreeModelColumn<Glib::ustring> columnObjectType;
     Gtk::TreeModelColumn<Glib::ustring> columnObjectName;
     
     Gtk::TreeModelColumn<IEvent*> columnEntry;
+    Gtk::TreeModelColumn<int> columnObjectOrder;
   };
   
   Columns columns;
@@ -96,15 +103,20 @@ protected:
   Gtk::Button envelopeLibButton;	
 
   Gtk::TreeModel::Row selectedRow;
+  void on_selection_changed();
 
 private:
   void on_cursor_changed();
+  void switchBackToPreviousCursor(IEvent* _ifDeleteOnCursor);
   
   // these three are for setting up pop up menu
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
   Gtk::Menu* m_pMenuPopup;
   SharedPointers* sharedPointers;
+  
+  IEvent* currentCursorPosition;//this thing record the original activated row. after right click is done, it switch back to this row
+  
 
 };
 

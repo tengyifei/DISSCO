@@ -110,6 +110,7 @@ public:
   void configureNoteModifiers();
   void removeCustomNoteModifier(CustomNoteModifierHBox* _hbox);
   bool checkNameExists(string _name, EventType _type);
+  void deleteObject(IEvent* _toDelete);
   
   std::map<std::string, bool> getDefaultNoteModifiers();
   std::vector<std::string> getCustomNoteModifiers();
@@ -120,13 +121,14 @@ public:
   EnvelopeLibraryEntry* getEnvelopeLibraryEntries();
   
   IEvent* getEventByTypeAndName( EventType type, std::string _name);
-  
+  std::string searchPossibleParents(string _fileName);
   
   ///////////////////////////////////drag and drop targets
   std::list<Gtk::TargetEntry> listTargets;
   
   //////////////////////////////////////////////////////////////////
   std::vector <IEvent*> events;//so that palette can push new event back to ievent
+  std::vector <IEvent*> deletedEvents; //to be delete (and also the files) when "Save" is clicked
 private:
   
   
@@ -195,6 +197,7 @@ private:
   std::map<std::string, bool> defaultNoteModifiers;
   std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes; 
   SharedPointers* sharedPointers;
+  void clearDeletedEvents();
   
 };
 
