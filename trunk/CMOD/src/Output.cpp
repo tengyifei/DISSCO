@@ -317,13 +317,14 @@ void Output::exportToFOMUS(string filenamePrefix) {
       pdfToSVG += svgFile;
       system(pdfToSVG.c_str());
       }
-      
+      /*
       {
         string firsvg = "firefox ";
         firsvg.append(svgFile);
         firsvg.append(" &");
         system(firsvg.c_str());
       }
+      */
     }
   }
 }
