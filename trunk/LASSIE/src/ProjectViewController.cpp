@@ -880,6 +880,11 @@ void ProjectViewController::insertObject(){
         IEvent* newEvent = new IEvent();
         newEvent->setEventName(nameEntry->get_text());
         newEvent->setEventType(type);
+        
+        int order = paletteView->getCurrentMaxObjectNumber( newEvent->getEventFolderName());
+        order += 10;
+        newEvent->setEventOrderInPalette(order);
+        
         paletteView->insertEvent(newEvent);
         events.push_back(newEvent);
       }
@@ -1211,6 +1216,8 @@ void ProjectViewController::save(){
        ++iter){
     (*iter)->saveToDisk(pathAndName);
   }
+  
+  clearDeletedEvents();
   saveEnvelopeLibrary();
   saveNoteModifierConfiguration();
   refreshProjectDotDat();
@@ -1647,7 +1654,7 @@ ProjectViewController::ProjectViewController(
       }
     }
     
-    
+    paletteView->refreshObjectOrder("Top");
 
     
     closedir(dp);
@@ -1667,6 +1674,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("High");
     closedir(dp);
   
     
@@ -1684,6 +1692,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Mid");
     closedir(dp);
   //  make Low Events
  directory = _pathAndName+ "/L";
@@ -1699,6 +1708,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Low");
     closedir(dp);
   //  make Bottom Events
  directory = _pathAndName+ "/B";
@@ -1713,6 +1723,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Bottom");
     closedir(dp);
 
   //  make Sound Events
@@ -1730,6 +1741,7 @@ ProjectViewController::ProjectViewController(
 				events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Spectrum");
     closedir(dp);
 
   //make note event
@@ -1749,6 +1761,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }  
+    paletteView->refreshObjectOrder("Note");
     closedir(dp);
   }
 
@@ -1767,6 +1780,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Envelope");
     closedir(dp);
   //  make Siv Events
  directory = _pathAndName+ "/SIV";
@@ -1782,6 +1796,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Sieve");
     closedir(dp);
   //  make Pat Events
  directory = _pathAndName+ "/PAT";
@@ -1797,6 +1812,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Pattern");
     closedir(dp);
 
   //  make Spa Events
@@ -1813,6 +1829,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Spatialization");
     closedir(dp);
   //  make Rev Events
  directory = _pathAndName+ "/REV";
@@ -1828,6 +1845,7 @@ ProjectViewController::ProjectViewController(
         events.push_back(newEvent);
       }
     }
+    paletteView->refreshObjectOrder("Reverb");
     closedir(dp);
 
 
@@ -2400,5 +2418,126 @@ bool ProjectViewController::checkNameExists(string _name, EventType _type){
 	return returnValue;
 
 }
+
+
+
+void ProjectViewController::deleteObject(IEvent* _toDelete){
+  modified();
+  std::vector<IEvent*>::iterator iter =  events.begin();
+  
+  while ( (*iter)!= _toDelete && iter!= events.end()){
+    iter++;
+  }
+  
+  
+  //cout<<"This event is now in deleted events pool: "<< (*iter)->getEventName()<<endl;
+  
+  events.erase(iter);
+  
+  deletedEvents.push_back( _toDelete);
+  
+  
+  //check if the object is currently shown in the attributes view.
+  if (_toDelete == eventAttributesView->getCurrentEvent()){
+    eventAttributesView->showAttributesOfEvent(NULL);
+  }
+  
+}
+
+void ProjectViewController::clearDeletedEvents(){
+  std::vector <IEvent*>::iterator iter= deletedEvents.begin();
+  
+  
+  for (iter; iter!= deletedEvents.end(); iter++){
+    string pathAndNameOfDeletingObject; // = pathAndName; 
+    string eventName = (*iter)->getEventName();
+     
+    switch ((*iter)->getEventType()){
+      case 0:
+        pathAndNameOfDeletingObject = pathAndName + "/T/" + eventName;
+
+        break;
+      case 1:
+        pathAndNameOfDeletingObject = pathAndName + "/H/" + eventName;
+
+        break;
+      case 2:
+        pathAndNameOfDeletingObject = pathAndName + "/M/" + eventName;
+
+        break;
+      case 3:
+        pathAndNameOfDeletingObject = pathAndName + "/L/" + eventName;
+
+        break;
+      case 4:
+        pathAndNameOfDeletingObject = pathAndName + "/B/" + eventName;
+     
+        break;     
+      case 5:
+        pathAndNameOfDeletingObject = pathAndName + "/S/" + eventName;
+        
+        break;
+        
+      case 6:
+        pathAndNameOfDeletingObject = pathAndName + "/ENV/" + eventName;
+        break;
+      case 7 :
+        pathAndNameOfDeletingObject = pathAndName + "/SIV/" + eventName;
+        break;
+        
+      case 8:
+        pathAndNameOfDeletingObject = pathAndName + "/SPA/" + eventName; 
+        break;
+        
+      case 9:
+        pathAndNameOfDeletingObject = pathAndName + "/PAT/" + eventName; 
+        break;
+      case 10:
+        pathAndNameOfDeletingObject = pathAndName + "/REV/" + eventName;
+        break;
+      case 11:
+        break;
+      case 12:
+        pathAndNameOfDeletingObject = pathAndName + "/N/" + eventName;
+        break;
+    }
+  
+    //cout<<"deleting object: "<<  pathAndNameOfDeletingObject<<"..."<<endl;
+    string command = "rm "+ pathAndNameOfDeletingObject;
+    system(command.c_str());
+    delete *iter;
+    
+    
+  }
+
+  deletedEvents.clear();
+
+
+}
+
+
+
+
+
+
+std::string ProjectViewController::searchPossibleParents(string _fileName){
+  string result = "";
+  std::vector<IEvent*>::iterator iter= events.begin();
+  for( iter; iter!= events.end(); iter++){
+    if ((*iter)->haveString(_fileName)){
+      result = result + (*iter)->getEventFolderName() + "/" +(*iter)->getEventName() + ", ";
+    
+    }
+  }
+  
+  return result;
+  
+  
+}
+
+
+
+
+
 
 

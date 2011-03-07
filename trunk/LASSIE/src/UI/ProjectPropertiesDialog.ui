@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -31,7 +31,7 @@
                   <object class="GtkEntry" id="titleEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="padding">2</property>
@@ -60,7 +60,7 @@
                   <object class="GtkEntry" id="flagEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="padding">2</property>
@@ -89,7 +89,7 @@
                   <object class="GtkEntry" id="channelEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">2</property>
                   </object>
                   <packing>
@@ -120,7 +120,7 @@
                   <object class="GtkEntry" id="sampleRateEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">44100</property>
                   </object>
                   <packing>
@@ -152,7 +152,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">in Bits, 16 and 24 are the most commonly used values.</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">16</property>
                   </object>
                   <packing>
@@ -182,7 +182,7 @@
                   <object class="GtkEntry" id="threadsEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="text" translatable="yes">1</property>
                   </object>
                   <packing>
@@ -238,7 +238,7 @@
                   <object class="GtkEntry" id="topEventEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -267,7 +267,8 @@
                   <object class="GtkEntry" id="durationEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
+                    <property name="activates_default">True</property>
                   </object>
                   <packing>
                     <property name="padding">2</property>
@@ -319,6 +320,8 @@
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>

@@ -53,6 +53,8 @@ struct ltstr
 
 IEvent::IEvent(){
   eventName = "New IEvent";
+  oldEventName = "";
+  eventOrderInPalette = 0;
 
   maxChildDur = "";
 
@@ -1083,7 +1085,10 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
   stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
 
   stringbuffer = "LASSIEmaxChildDur = `" + maxChildDur + "`;\n";
@@ -1317,13 +1322,20 @@ void IEvent::saveAsSound(std::string _pathOfProject){
 
 
   // LASSIE metadata
-
-
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   
   stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+
+
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
+  
+
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIESOUNDnumPartials = `" + extraInfo->getNumPartials() + "`;\n";
@@ -1411,7 +1423,10 @@ void IEvent::saveAsEnv(std::string _pathOfProject){
    stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIEENV = `" + extraInfo->getEnvelopeBuilder() + "`;\n";
@@ -1448,7 +1463,10 @@ void IEvent::saveAsSiv(std::string _pathOfProject){
    stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIESIV = `" + extraInfo->getSieveBuilder() + "`;\n";
@@ -1481,7 +1499,10 @@ void IEvent::saveAsSpa(std::string _pathOfProject){
    stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIESPA = `" + extraInfo->getSpatializationBuilder() + "`;\n";
@@ -1514,7 +1535,10 @@ void IEvent::saveAsPat(std::string _pathOfProject){
      stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIEPAT = `" + extraInfo->getPatternBuilder() + "`;\n";
@@ -1548,7 +1572,10 @@ void IEvent::saveAsRev(std::string _pathOfProject){
    stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
   fputs (stringbuffer.c_str(), file);
   
-  stringbuffer = "LASSIEeventName = `" + eventName + "`;\n";
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
   fputs (stringbuffer.c_str(), file); 
   
   stringbuffer = "LASSIEREV = `" + extraInfo->getReverbBuilder() + "`;\n";
@@ -1593,6 +1620,20 @@ void IEvent::saveAsNote(std::string _pathOfProject){
     stringbuffer = stringbuffer + " >;\n";
     fputs(stringbuffer.c_str(),file);
   }
+  
+  
+  
+  stringbuffer = "\n\n\n\n\n\n\n\n\n/*=============================LASSIE METADATA=========================*/\n\n\n";
+  fputs (stringbuffer.c_str(), file);
+  
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
+  fputs (stringbuffer.c_str(), file); 
+  
+  
+  
   fclose(file);
 }
 
@@ -2436,6 +2477,25 @@ void IEvent::IEventParseFile(std::string _fileName){
 
   
   FileValue* value;
+  
+  
+  value = file_data["LASSIEeventName"];
+  
+  std::list<FileValue> nameAndOrderList = value->getList();
+  
+  if (nameAndOrderList.size()==0){ //old file format
+    eventOrderInPalette = rand();
+  }
+  else {
+    std::list<FileValue>::iterator iter = nameAndOrderList.begin();
+  
+    iter++;
+    value = &(*iter);
+    eventOrderInPalette = value->getInt(); //somehow this doesn't crash with the older version (no object order number) so i just keep it this way
+  }
+  
+  
+  
   value = file_data["LASSIEmaxChildDur"];
   if (value!= NULL){
     maxChildDur = value->getString();
@@ -3105,6 +3165,27 @@ void IEvent::parseNonEvent(){
   
   FileValue* value;
   
+  value = file_data["LASSIEeventName"];
+  if (value!= NULL){
+    std::list<FileValue> nameAndOrderList = value->getList();
+    if (nameAndOrderList.size()==0){ //old file format
+    eventOrderInPalette = rand();
+    }
+    
+    else {
+      std::list<FileValue>::iterator iter = nameAndOrderList.begin();
+  
+      iter++;
+      value = &(*iter);
+      eventOrderInPalette = value->getInt();
+    }
+  }
+  else {
+  
+     //old file format
+    eventOrderInPalette = rand();
+  }
+  
   if (eventType == eventSound){
     extraInfo = (EventExtraInfo*) new SoundExtraInfo();
     value = file_data["LASSIESOUNDnumPartials"];
@@ -3272,6 +3353,8 @@ void IEvent::NoteExtraInfo::clearNoteModifiers(){
 
 IEvent::IEvent(IEvent* _original, string _newName){
 	eventName = _newName;
+  oldEventName = "";
+  eventOrderInPalette = 0;
 	eventType = _original->eventType;
   maxChildDur = _original->maxChildDur;
 
@@ -3467,3 +3550,259 @@ EventDiscretePackage::EventDiscretePackage(EventDiscretePackage* _originalPackag
     durationEnv = _originalPackage->durationEnv;
     durationEnvScale = _originalPackage->durationEnvScale;
 }
+
+
+
+
+
+
+
+void IEvent::setEventOrderInPalette(int _number){
+  eventOrderInPalette = _number;
+  changedButNotSaved = true;
+}
+  
+int IEvent::getEventOrderInPalette(){
+  return eventOrderInPalette;
+}
+
+
+
+
+string IEvent::getEventFolderName(){
+    switch(eventType){
+    case 0:
+      return "Top";
+    case 1:
+      return "High";
+    case 2:
+      return "Mid";
+    case 3:
+      return "Low";
+    case 4:
+      return "Bottom";
+    case 5:
+      return "Spectrum";
+    case 6:
+      return "Envelope";
+    case 7:
+      return "Sieve";
+    case 8:
+      return "Spatialization";
+    case 9:
+      return "Pattern";
+    case 10:
+      return "Reverb";
+    case 11:
+      return "Folder";
+    case 12:
+      return "Note";
+  }
+}
+
+
+bool IEvent::haveString(string _string){
+  size_t position = maxChildDur.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = timeSignatureEntry1.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = timeSignatureEntry2.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = unitsPerSecond.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = tempoValueEntry.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = tempoFractionEntry1.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = tempoFractionEntry2.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = numChildrenEntry1.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = numChildrenEntry2.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  position = numChildrenEntry3.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+
+  std::string thisLayer;
+  std::list<EventLayer*>::iterator i = layers.begin();
+  bool firstNumberExisted = false;
+  while(i != layers.end()){
+    thisLayer = (*i)->outputChildrenNameString();
+    position = thisLayer.find (_string, 0);
+    if (position != -1){
+       return true;
+    }   
+    i++;     
+  }
+
+  position = childEventDefEntry1.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = childEventDefEntry2.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = childEventDefEntry3.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = numChildrenEntry3.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = numChildrenEntry3.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+  position = childEventDefAttackSieve.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  
+    position = childEventDefDurationSieve.find (_string, 0);
+  if (position != -1){
+    return true;
+  }    
+
+  if (extraInfo!= NULL){
+    return extraInfo->haveString(_string);  
+  }   
+  return false;
+
+}
+
+
+bool IEvent::EnvelopeExtraInfo::haveString(string _string){
+  size_t position = envelopeBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+
+bool IEvent::PatternExtraInfo::haveString(string _string){
+  size_t position = patternBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+bool IEvent::SpatializationExtraInfo::haveString(string _string){
+  size_t position = spatializationBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+bool IEvent::SieveExtraInfo::haveString(string _string){
+  size_t position = sieveBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+bool IEvent::ReverbExtraInfo::haveString(string _string){
+  size_t position = reverbBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+
+bool IEvent::NoteExtraInfo::haveString(string _string){
+  return false;
+
+}
+
+
+bool IEvent::SoundExtraInfo::haveString(string _string){
+  size_t position = deviation.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+
+  position = getSoundSpectrumEnvelopesString().find (_string, 0);
+  if (position != -1){
+    return true;
+  }  
+
+  return false;
+
+}
+
+
+
+
+bool IEvent::BottomEventExtraInfo::haveString(string _string){
+  size_t position = frequencyEntry1.find (_string, 0);
+  if (position != -1){
+    return true;
+  } 
+  position = frequencyEntry2.find (_string, 0);
+  if (position != -1){
+    return true;
+  }   
+  position = loudness.find (_string, 0);
+  if (position != -1){
+    return true;
+  }   
+  position = spatialization.find (_string, 0);
+  if (position != -1){
+    return true;
+  }   
+  position = reverb.find (_string, 0);
+  if (position != -1){
+    return true;
+  }   
+
+
+    
+  EventBottomModifier* mod = getModifiers();
+  if (mod!= NULL){
+    
+    string stringbuffer = "";
+    
+ 
+    while (mod != NULL){
+      stringbuffer = stringbuffer + mod->getSaveToDiskString();
+    
+      if (mod->next!=NULL){
+        stringbuffer = stringbuffer + ",\n";
+      }
+      mod = mod->next;
+    }
+    position = stringbuffer.find (_string, 0);
+    if (position != -1){
+      return true;
+    }     
+  }
+  return false;
+}
+
