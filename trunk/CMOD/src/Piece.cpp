@@ -104,7 +104,14 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   fir.append(xmlFilename);
   fir.append(" &");
   system(fir.c_str());
-  
+
+  //Write the FOMUS output.
+  string fomusFilename = "ScoreFiles/";
+  fomusFilename += projectName;
+  fomusFilename += "_";
+  Output::exportToFOMUS(fomusFilename);
+  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly ScoreFiles/*.fms");
+    
   Output::free();
   
   cout << endl;
@@ -276,6 +283,28 @@ void PieceHelper::createSoundFilesDirectory(string path) {
   }
   
   string h = "mkdir " + path + "SoundFiles";
+  system(h.c_str());
+}
+
+//----------------------------------------------------------------------------//
+
+void PieceHelper::createScoreFilesDirectory(string path) {
+  string dir = string(path);
+  vector<string> files = vector<string>();
+  getDirectoryList(dir, files);
+  string g = "";
+  bool dirExists = false;
+  for(unsigned int i = 0; i < files.size(); i++) {
+    if(files[i] == "ScoreFiles") {
+      dirExists = true;
+      break;
+    }
+  }
+  
+  string h = "mkdir " + path + "ScoreFiles";
+  if(!dirExists)
+    system(h.c_str());
+  h = "rm -f " + path + "ScoreFiles/*.fms";
   system(h.c_str());
 }
 

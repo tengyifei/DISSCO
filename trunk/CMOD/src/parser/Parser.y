@@ -135,7 +135,7 @@ void printFileValue(const FileValue *v)
 	case FVAL_LIST:
 		printList(v);
 		break;
-	deafult:
+	default:
 		break;
 	}
 }

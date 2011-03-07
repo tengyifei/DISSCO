@@ -70,6 +70,7 @@ int main(int parameterCount, char **parameterList) {
   
   //Determine project sound file output.
   PieceHelper::createSoundFilesDirectory(path);
+  PieceHelper::createScoreFilesDirectory(path);
   string soundFilename = PieceHelper::getNextSoundFile(path, projectName);
   if(soundFilename == "") {
     cout << "A new soundfile name could not be reserved." << endl;

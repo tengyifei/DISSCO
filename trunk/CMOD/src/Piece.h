@@ -56,6 +56,9 @@ struct PieceHelper {
   ///Creates the sound files directory if it does not exist.
   static void createSoundFilesDirectory(string path);
   
+  ///Creates the score files directory if it does not exist.
+  static void createScoreFilesDirectory(string path);
+  
   ///Checks to see if a file exists.
   static bool doesFileExist(string path, string filename);
   

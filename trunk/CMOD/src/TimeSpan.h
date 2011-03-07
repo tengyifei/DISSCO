@@ -30,11 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Libraries.h"
 #include "Rational.h"
 
-/*
-An TimeSpan is a span in time. Explicitly it has a start time and a duration.
-Implicitly it also has an end time. An interval may be expressed in terms of
-seconds and, in the case of it being an exact interval, EDU.
-*/
+/*A TimeSpan is a span in time. Explicitly it has a start time and a duration.
+Implicitly it also has an end time. A time-span may be expressed in terms of
+seconds and, in the case of it being an exact interval, EDU.*/
 
 //----------------------------------------------------------------------------//
 struct TimeSpan {
