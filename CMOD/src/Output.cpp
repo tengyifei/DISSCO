@@ -36,6 +36,19 @@ OutputNode::~OutputNode()
   subNodes.clear();
 }
 
+bool OutputNode::isBottom(void) {
+  return (nodeName[0] == 'B' && nodeName[1] == '/');
+}
+
+bool OutputNode::isNote(void) {
+  return (nodeName == "Note");
+}
+
+bool OutputNode::isBuildPhase(void) {
+  string n = nodeName;
+  return (n == "Sweep" || n == "Continuum" || n == "Discrete");
+}
+
 void OutputNode::addProperty(string name, string value, string units)
 {
   propertyNames.push_back(name);
@@ -43,15 +56,11 @@ void OutputNode::addProperty(string name, string value, string units)
   propertyUnits.push_back(units);
 }
 
-string OutputNode::findAndReplace(string in, string needle, string replace) {
-  while(in.find(needle) != string::npos)
-    in.replace(in.find(needle), needle.length(), replace);
-  return in;
-}
-string OutputNode::sanitize(string name) {
-  name = findAndReplace(name, " ", "");
-  name = findAndReplace(name, "/", "_");
-  return name;
+string OutputNode::getProperty(string name) {
+  for(unsigned int i = 0; i < propertyNames.size(); i++)
+    if(sanitize(propertyNames[i]) == sanitize(name))
+      return propertyValues[i];
+  return "";
 }
 
 string OutputNode::getXML(void) {
@@ -73,9 +82,7 @@ string OutputNode::getXML(void) {
   }
   
   for(int i = 0; i < subNodes.size(); i++) {
-    string n = subNodes[i]->nodeName;
-    //Omit the build phase for now.
-    if(n == "Sweep" || n == "Continuum" || n == "Discrete")
+    if(subNodes[i]->isBuildPhase())
       continue;
     s += subNodes[i]->getXML();     
   }
@@ -84,6 +91,59 @@ string OutputNode::getXML(void) {
   s += sanitize(nodeName);
   s += ">\n";
   return s;
+}
+
+void OutputNode::getFOMUS(vector<Tempo>& tempos, vector<string>& fomusdata) {  
+  if(!isBottom()) {
+    for(int i = 0; i < subNodes.size(); i++) {
+      if(subNodes[i]->isBuildPhase())
+        continue;
+      subNodes[i]->getFOMUS(tempos, fomusdata);     
+    }
+    return;
+  }
+  else {
+    Tempo t;
+    t.setStartTime(atof(getProperty("TempoStartTime").c_str()));
+    t.setTimeSignature(getProperty("TimeSignature"));
+    t.setEDUPerTimeSignatureBeat(getProperty("Divisions"));
+    string s;
+    s.append(getProperty("TempoBeat"));
+    s.append("=");
+    s.append(getProperty("Tempo"));
+    t.setTempo(s);
+
+    string n;
+    for(unsigned int i = 0; i < subNodes.size(); i++) {
+      if(!subNodes[i]->isNote())
+        continue;
+      Ratio div = t.getEDUPerTimeSignatureBeat();
+      Ratio start = subNodes[i]->getProperty("EDUStartTime");
+      Ratio dur = subNodes[i]->getProperty("EDUDuration");
+      Ratio pitch = subNodes[i]->getProperty("PitchNumber");
+      n.append("time ");
+      n.append((start / div).toString());
+      n.append(" dur ");
+      n.append((dur / div).toString());
+      n.append(" pitch ");
+      n.append(pitch.toPrettyString());
+      n.append(";\n");
+    }
+    tempos.push_back(t);
+    fomusdata.push_back(n);
+  }
+}
+
+string OutputNode::findAndReplace(string in, string needle, string replace) {
+  while(in.find(needle) != string::npos)
+    in.replace(in.find(needle), needle.length(), replace);
+  return in;
+}
+
+string OutputNode::sanitize(string name) {
+  name = findAndReplace(name, " ", "");
+  name = findAndReplace(name, "/", "_");
+  return name;
 }
 
 void Output::writeLineToParticel(string line) {
@@ -173,5 +233,98 @@ void Output::exportToXML(string filename) {
   xmlFile = new ofstream();
   xmlFile->open(filename.c_str());
   *xmlFile << top->getXML();
+}
+
+void Output::exportToFOMUS(string filenamePrefix) {
+  if(filenamePrefix == "")
+    return;
+  vector<Tempo> tempos;
+  vector<string> fomusData;
+  top->getFOMUS(tempos, fomusData);
+  while(tempos.size() > 0) {
+    stringstream ss_stem;
+    float ttime = tempos[0].getStartTime();
+    ss_stem << filenamePrefix << ttime << "s";
+    string fmsFile = ss_stem.str() + ".fms";
+    string lyFile = ss_stem.str() + ".ly";
+    string pdfFile = ss_stem.str() + ".pdf";
+    string svgFile = ss_stem.str() + ".svg";
+    
+    string currentFOMUSData = fomusData[0];
+    /*For all of the FOMUS data that has equivalent tempo, merge them to the
+    same FOMUS file.*/
+    Tempo t = tempos[0];
+    for(unsigned int i = 1; i < tempos.size(); i++) {
+      if(tempos[0].isTempoSameAs(tempos[i])) {
+        if(fomusData[i].size() > 0) {
+          currentFOMUSData.append("/////////////////////////////////////\n");
+          currentFOMUSData.append(fomusData[i]);
+        }
+        tempos.erase(tempos.begin() + i);
+        fomusData.erase(fomusData.begin() + i);
+        i--;
+      }
+    }
+    tempos.erase(tempos.begin());
+    fomusData.erase(fomusData.begin());
+    
+    if(currentFOMUSData.size() > 0) {
+      string FOMUSHeader;
+      stringstream tempoTime;
+      int min = (int)(ttime / 60.f);
+      float sec = (ttime - min * 60.f);
+      
+      tempoTime << t.getTempoBeat().toPrettyString() << "=" <<
+        t.getTempoBeatsPerMinute().toPrettyString();
+      tempoTime << " at " << min << ":";
+      if(sec < 10.f)
+        tempoTime << "0";
+      tempoTime << sec;
+      
+      Ratio r = t.getTimeSignature();
+      FOMUSHeader.append("//Header\n");
+      FOMUSHeader.append("title \"");
+      FOMUSHeader.append(tempoTime.str());
+      FOMUSHeader.append("\"\n");
+      FOMUSHeader.append("time 0 |timesig ( ");
+      Ratio rn = r.Num();
+      Ratio rd = r.Den();
+      FOMUSHeader.append(rn.toPrettyString());
+      FOMUSHeader.append(" ");
+      FOMUSHeader.append(rd.toPrettyString());
+      FOMUSHeader.append(" )|\n");
+      FOMUSHeader.append("\n//Notes\n");
+      
+      {
+      ofstream fomusFile;
+      fomusFile.open(fmsFile.c_str());
+      fomusFile << FOMUSHeader;
+      fomusFile << currentFOMUSData;
+      }
+      
+      {
+      string fomusToLilypond = "fomus -i ";
+      fomusToLilypond += fmsFile;
+      fomusToLilypond += " -o ";
+      fomusToLilypond += lyFile;
+      system(fomusToLilypond.c_str());
+      }
+      
+      {
+      string pdfToSVG = "pdf2svg ";
+      pdfToSVG += pdfFile;
+      pdfToSVG += " ";
+      pdfToSVG += svgFile;
+      system(pdfToSVG.c_str());
+      }
+      
+      {
+        string firsvg = "firefox ";
+        firsvg.append(svgFile);
+        firsvg.append(" &");
+        system(firsvg.c_str());
+      }
+    }
+  }
 }
 

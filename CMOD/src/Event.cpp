@@ -440,8 +440,10 @@ void Event::outputProperties() {
   Output::addProperty("Type", type);
   Output::addProperty("Start Time", ts.start, "sec.");
   Output::addProperty("Duration", ts.duration, "sec.");
+  Output::addProperty("Tempo Start Time", tempo.getStartTime());
   Output::addProperty("Tempo",
     tempo.getTempoBeatsPerMinute().toPrettyString(), "BPM");
+  Output::addProperty("Tempo Beat", tempo.getTempoBeat(), "of whole note");
   Output::addProperty("Time Signature", tempo.getTimeSignature());
   Output::addProperty("Divisions",
     tempo.getEDUPerTimeSignatureBeat().toPrettyString(), "EDU/beat");

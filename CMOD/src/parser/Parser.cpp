@@ -202,7 +202,7 @@ void printFileValue(const FileValue *v)
 	case FVAL_LIST:
 		printList(v);
 		break;
-	deafult:
+	default:
 		break;
 	}
 }
@@ -388,11 +388,11 @@ typedef short int yytype_int16;
 # if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
-#   define YY_(msgid) dgettext ("bison-runtime", msgid)
+#   define YY_(msgid) dgettext ("bison-runtime", (char*)msgid)
 #  endif
 # endif
 # ifndef YY_
-#  define YY_(msgid) msgid
+#  define YY_(msgid) (char*)msgid
 # endif
 #endif
 
@@ -1849,7 +1849,7 @@ yyerrlab:
 	  }
 	else
 	  {
-	    yyerror (YY_((char*)"syntax error"));
+	    yyerror (YY_("syntax error"));
 	    if (yysize != 0)
 	      goto yyexhaustedlab;
 	  }
@@ -1970,7 +1970,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_((char*)"memory exhausted"));
+  yyerror (YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif

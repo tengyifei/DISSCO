@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define OUTPUT_H
 
 #include "Libraries.h"
+#include "Tempo.h"
 
 struct OutputNode
 {
@@ -34,10 +35,17 @@ struct OutputNode
   
   OutputNode(string name);
   ~OutputNode();
+  
   void addProperty(string name, string value, string units);
+  string getProperty(string name);
+  bool isBottom(void);
+  bool isNote(void);
+  bool isBuildPhase(void);
+  string getXML(void);
+  void getFOMUS(vector<Tempo>& tempos, vector<string>& fomusdata);
+  
   static string findAndReplace(string in, string needle, string replace);
   static string sanitize(string name);
-  string getXML(void);
 };
 
 ///The static output class.
@@ -67,6 +75,7 @@ class Output
   }
   static void endSubLevel(void);
   static void exportToXML(string filename);
+  static void exportToFOMUS(string filenamePrefix);
 };
 
 #endif
