@@ -97,23 +97,6 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   //Finish particel output and free up the Output class members.
   Output::endSubLevel();
   
-  //Write the XML output.
-  string xmlFilename = projectName + ".xml";
-  Output::exportToXML(xmlFilename);
-  string fir = "firefox ";
-  fir.append(xmlFilename);
-  fir.append(" &");
-  system(fir.c_str());
-
-  //Write the FOMUS output.
-  string fomusFilename = "ScoreFiles/";
-  fomusFilename += projectName;
-  fomusFilename += "_";
-  Output::exportToFOMUS(fomusFilename);
-  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly ScoreFiles/*.fms");
-    
-  Output::free();
-  
   cout << endl;
   cout << "-----------------------------------------------------------" <<
     endl;
@@ -121,6 +104,30 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   cout << "-----------------------------------------------------------" <<
     endl << endl;
   cout.flush();
+  
+  //Write the XML output.
+  string xmlFilename = projectName + ".xml";
+  Output::exportToXML(xmlFilename);
+  string fir = "firefox ";
+  fir.append(xmlFilename);
+  fir.append(" &");
+  //system(fir.c_str());
+
+  //Write the FOMUS output.
+  string fomusFilename = "ScoreFiles/";
+  fomusFilename += projectName;
+  fomusFilename += "_";
+  Output::exportToFOMUS(fomusFilename);
+  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly ScoreFiles/*.fms");
+  {
+    cout << "Would you like to open up the score files in Firefox (y/n)? ";
+    char response;
+    cin >> response;
+    if(response == 'y' || response == 'Y')
+      system("firefox ScoreFiles/*.svg");
+  }
+  cout << endl;
+  Output::free();
   
   //Render sound.
   if(ThePiece.soundSynthesis) {
@@ -144,7 +151,11 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
     string aud = "audacity ";
     aud.append(soundFilename);
     aud.append(" &");
-    system(aud.c_str());
+    cout << "Would you like to open up the soundfile in Audacity (y/n)? ";
+    char response;
+    cin >> response;
+    if(response == 'y' || response == 'Y')
+      system(aud.c_str());
         
     //Clean up.
     delete renderedScore;
@@ -153,6 +164,9 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   //Clean up.
   delete mainEvent;
   delete mainFactory;
+  
+  cout << "Finished with CMOD." << endl;
+  cout.flush();
 }
 
 //----------------------------------------------------------------------------//
