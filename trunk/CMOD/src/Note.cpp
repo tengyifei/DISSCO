@@ -64,7 +64,7 @@ void Note::setPitchWellTempered(int absPitchNum, vector<string> pitchNames) {
   pitchName = pitchNames[octavePitch];
   Output::addProperty("Pitch Number", pitchNum, "semitones");
   Output::addProperty("Pitch Name", pitchName);
-  Output::addProperty("Octave Number", octavePitch);
+  Output::addProperty("Octave Number", octaveNum);
   Output::addProperty("Pitch In Octave", octavePitch);
 }
 

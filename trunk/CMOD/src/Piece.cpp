@@ -118,13 +118,13 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   fomusFilename += projectName;
   fomusFilename += "_";
   Output::exportToFOMUS(fomusFilename);
-  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly ScoreFiles/*.fms");
+  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly");
   {
     cout << "Would you like to open up the score files in Firefox (y/n)? ";
     char response;
     cin >> response;
     if(response == 'y' || response == 'Y')
-      system("firefox ScoreFiles/*.svg");
+      system("firefox ScoreFiles/*.svg &");
   }
   cout << endl;
   Output::free();
