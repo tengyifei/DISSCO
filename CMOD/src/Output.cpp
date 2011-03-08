@@ -121,6 +121,7 @@ void OutputNode::getFOMUS(vector<Tempo>& tempos, vector<string>& fomusdata) {
       Ratio start = subNodes[i]->getProperty("EDUStartTime");
       Ratio dur = subNodes[i]->getProperty("EDUDuration");
       Ratio pitch = subNodes[i]->getProperty("PitchNumber");
+      pitch += Ratio(12, 1);
       n.append("time ");
       n.append((start / div).toString());
       n.append(" dur ");
