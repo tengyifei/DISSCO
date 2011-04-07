@@ -419,11 +419,8 @@ void Envelope::addToShape(Envelope * shape)
 
 Envelope* Envelope::multiply(Envelope & env1, Envelope & env2)
 {
-	Envelope *bigger;	// more segments
-	Envelope *smaller;	// less segments
-
 	// new envelope that will be returned based on this:
-    Collection<envelope_segment> result;
+  Collection<envelope_segment> result;
 
 	// X and Y segments
 	Collection<envelope_segment>* env1Segs = env1.getSegments();
@@ -453,7 +450,6 @@ Envelope* Envelope::multiply(Envelope & env1, Envelope & env2)
     Iterator<envelope_segment> segments2 = env2Segs->iterator();
 
 	envelope_segment *add_seg, *first_seg, *second_seg;
-	Envelope *first_env, *second_env;
 
 	first_seg = &seg1;
 	second_seg = &seg2;
@@ -988,24 +984,22 @@ void Envelope::xml_read(XmlReader::xmltag * envtag)
 	char *value;
     envelope_segment seg;
 
-    if (value = envtag->findChildParamValue("duration", "value")) {
-	    setDuration(atof(value));
-	}
+  if((value = envtag->findChildParamValue("duration", "value")) != 0)
+    setDuration(atof(value));
 
-    if (value = envtag->findChildParamValue("rate", "value")) {
-	    setSamplingRate(atoi(value));
-	}
+  if((value = envtag->findChildParamValue("rate", "value")) != 0)
+    setSamplingRate(atoi(value));
 
     XmlReader::xmltag * segtag;
-    while (segtag = envtag->children->find("segment")) {
+    while ((segtag = envtag->children->find("segment")) != 0) {
 	    XmlReader::xmltag * xy = segtag->children->find("xyPoint");
-	    if (value = xy->getParamValue("x")) {
+	    if ((value = xy->getParamValue("x")) != 0) {
 		    seg.x = atof(value);
 		}
-	    if (value = xy->getParamValue("y")) {
+	    if ((value = xy->getParamValue("y")) != 0) {
 		    seg.y = atof(value);
 		}
-	    if (value = segtag->findChildParamValue("type", "value")) {
+	    if ((value = segtag->findChildParamValue("type", "value")) != 0) {
 		    if (strcmp(value, "LINEAR") == 0)
 			seg.interType = LINEAR;
 		    if (strcmp(value, "EXPONENTIAL") == 0)
@@ -1013,7 +1007,7 @@ void Envelope::xml_read(XmlReader::xmltag * envtag)
 		    if (strcmp(value, "CUBIC_SPLINE") == 0)
 			seg.interType = CUBIC_SPLINE;
 		}
-	    if (value = segtag->findChildParamValue("length", "type")) {
+	    if ((value = segtag->findChildParamValue("length", "type")) != 0) {
 		    if (strcmp(value, "FIXED") == 0)
 				seg.lengthType = FIXED;
 		    if (strcmp(value, "FLEXIBLE") == 0)

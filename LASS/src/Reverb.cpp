@@ -263,7 +263,6 @@ m_sample_type Reverb::do_reverb(m_sample_type x_t, float x_value)
 }
 m_sample_type Reverb::do_reverb(m_sample_type x_t, float x_value, Envelope *percentReverbinput)
 {
-  int i;
   m_sample_type y;
   Envelope* temp = new Envelope(*percentReverbinput);
   delete percentReverb;
@@ -541,69 +540,66 @@ void Reverb::xml_read(XmlReader::xmltag *reverbtag)
     }
 	
   char *value;
-  if(value=reverbtag->findChildParamValue("gainDirect","value"))
-    {
+  if((value = reverbtag->findChildParamValue("gainDirect","value")) != 0)
       set_gainDirect(atof(value));
-    }
 
-  if(value=reverbtag->findChildParamValue("gainReverb","value"))
-    {
+  if((value = reverbtag->findChildParamValue("gainReverb","value")) != 0)
       set_gainReverb(atof(value));
-    }
 	
-  if(value=reverbtag->findChildParamValue("allPassDelay","value"))
-    {
+  if((value = reverbtag->findChildParamValue("allPassDelay","value")) != 0)
       set_allPassDelay(atof(value));
-    }
 	
-  if(value=reverbtag->findChildParamValue("decay_duration","value"))
-    {
+  if((value = reverbtag->findChildParamValue("decay_duration","value")) != 0)
       set_decay_duration(atof(value));
-    }
 	
   XmlReader::xmltag *childtag;
   int lpIndex = 0;
-  while(childtag=reverbtag->children->find("LPCombFilter"))
-    {
-      LPCombFilter* lp = new LPCombFilter();
-      lp->xml_read(childtag);
-      setLPComb(lpIndex, lp);
-      lpIndex++;
-    }
+  while((childtag = reverbtag->children->find("LPCombFilter")) != 0)
+  {
+    LPCombFilter* lp = new LPCombFilter();
+    lp->xml_read(childtag);
+    setLPComb(lpIndex, lp);
+    lpIndex++;
+  }
 	
-  while(childtag=reverbtag->children->find("AllPassFilter"))
-    {
-      AllPassFilter* apf = new AllPassFilter();
-      apf->xml_read(childtag);
-      setAllPass(apf);	
-    }
+  while((childtag = reverbtag->children->find("AllPassFilter")) != 0)
+  {
+    AllPassFilter* apf = new AllPassFilter();
+    apf->xml_read(childtag);
+    setAllPass(apf);	
+  }
 }
 
 void Reverb::set_gainDirect(float new_gainDirect)
 {
+  new_gainDirect = 0.0;
   gainDirect = 1; //new_gainDirect;
 }
+
 void Reverb::set_gainReverb(float new_gainReverb)
 {
+  new_gainReverb = 0.0;
   gainReverb = 1; //new_gainReverb;
 }
+
 void Reverb::set_allPassDelay(float new_allPassDelay)
 {
   allPassDelay = new_allPassDelay;
 }
+
 void Reverb::set_decay_duration(float new_decay_duration)
 {
   decay_duration = new_decay_duration;
 }
+
 void Reverb::setLPComb(int idx, LPCombFilter *f)
 {
   lpcfilter[idx] = f;
 }
+
 void Reverb::setAllPass(AllPassFilter *f)
 {
   apfilter = f;
 }
-
-
 
 #endif //MOSS_REVERB_CPP

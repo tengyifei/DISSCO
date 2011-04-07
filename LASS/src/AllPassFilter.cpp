@@ -136,15 +136,11 @@ void AllPassFilter::set_D(long delay)
 void AllPassFilter::xml_read(XmlReader::xmltag *apftag)
 {
 	char *value;
-	if(value=apftag->findChildParamValue("g","value"))
-	{
+	if((value = apftag->findChildParamValue("g","value")) != 0)
 		set_g(atof(value));
-	}
 	
-	if(value=apftag->findChildParamValue("D","value"))
-	{
+	if((value = apftag->findChildParamValue("D","value")) != 0)
 		set_D(atoi(value));
-	}
 }
 
 //----------------------------------------------------------------------------//

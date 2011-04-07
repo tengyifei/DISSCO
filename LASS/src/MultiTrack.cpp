@@ -57,7 +57,7 @@ MultiTrack::MultiTrack(
 }
 
 //----------------------------------------------------------------------------//
-MultiTrack::MultiTrack(MultiTrack& mt)
+MultiTrack::MultiTrack(MultiTrack& mt) : Collection<Track*>(mt)
 {
     // copy every track from mt to this object.
     Iterator<Track*> it = mt.iterator();

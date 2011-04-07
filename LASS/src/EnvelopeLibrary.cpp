@@ -150,10 +150,10 @@ bool EnvelopeLibrary::saveLibrary (char * filename)
 //----------------------------------------------------------------------------//
 int EnvelopeLibrary::loadLibrary (char * filename)
 {
-  int count_envs, count_pts, count_segs, env_number;
-  float xpt, ypt, iTemp;
+  int count_envs, count_pts, env_number;
+  float xpt, ypt;
   char cTemp [10000];
-  interpolation_type intyp;
+  interpolation_type intyp = LINEAR;
   stretch_type tstyp;
   m_time_type timev;
   xy_point point;
@@ -261,7 +261,7 @@ int EnvelopeLibrary::loadLibraryNewFormat (char * filename)
     std::string line, buf, interp, stretch;
     Collection <xy_point> env_points;
 
-    interpolation_type intyp;
+    interpolation_type intyp = LINEAR;
     stretch_type tstyp;
     envelope_segment segment;
     Collection <envelope_segment> env_segments;

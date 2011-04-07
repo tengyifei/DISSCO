@@ -160,7 +160,7 @@ MultiTrack* Sound::render(
     if (getParam(LOUDNESS) >= 0)
     {
         cout << "\t Calculating Loudness..." << endl;
-        m_rate_type loudnessRate = m_rate_type(getParam(LOUDNESS_RATE));
+        //m_rate_type loudnessRate = m_rate_type(getParam(LOUDNESS_RATE));
         //Loudness::calculate(*this, loudnessRate);
         Loudness::calculate(*this);
     }
@@ -181,7 +181,6 @@ MultiTrack* Sound::render(
         else //NOTE: this else was not here before (Andrew)
           iter.next();
         
-        Track* tempTrack;
         while(iter.hasNext())
         {
 	    // create the detuning envelope for this partial
@@ -393,62 +392,35 @@ void Sound::xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>
 {
 	if(strcmp("sound",soundtag->name))
 	{
-		printf("Not a sound tag?!  This is a %s tag!\n",soundtag->name);
+		printf("Not a sound tag?!  This is a %s tag!\n", soundtag->name);
 		return;
 	}
 
 	char *value;
 	
-	if(value=soundtag->findChildParamValue("reverb_ptr","id"))
-	{
-		long id=atoi(value);
-		Reverb * temp;
-		temp = (*reverbHash)[id];
-		
-		if(temp != NULL)
-		{
+	if((value=soundtag->findChildParamValue("reverb_ptr","id")) != 0)
+		if(Reverb* temp = (*reverbHash)[atoi(value)])
 			use_reverb(temp);
-		}
-	}
-
-	if(value=soundtag->findChildParamValue("duration","value"))
-	{
+	if((value = soundtag->findChildParamValue("duration","value")) != 0)
 		setParam(DURATION, atof(value));
-	}
-
-	if(value=soundtag->findChildParamValue("start_time","value"))
-	{
+	if((value = soundtag->findChildParamValue("start_time","value")) != 0)
 		setParam(START_TIME, atof(value));
-	}
-
-	if(value=soundtag->findChildParamValue("loudness","value"))
-	{
+	if((value = soundtag->findChildParamValue("loudness","value")) != 0)
 		setParam(LOUDNESS, atof(value));
-	}
-	if(value=soundtag->findChildParamValue("loudness_rate","value"))
-	{
+	if((value = soundtag->findChildParamValue("loudness_rate","value")) != 0)
 		setParam(LOUDNESS_RATE, atof(value));
-	}
-	if(value=soundtag->findChildParamValue("detune_spread","value"))
-	{
+	if((value = soundtag->findChildParamValue("detune_spread","value")) != 0)
 		setParam(DETUNE_SPREAD, atof(value));
-	}
-	if(value=soundtag->findChildParamValue("detune_direction","value"))
-	{
+	if((value = soundtag->findChildParamValue("detune_direction","value")) != 0)
 		setParam(DETUNE_DIRECTION, atof(value));
-	}
-	if(value=soundtag->findChildParamValue("detune_velocity","value"))
-	{
+	if((value = soundtag->findChildParamValue("detune_velocity","value")) != 0)
 		setParam(DETUNE_VELOCITY, atof(value));
-	}
-	if(value=soundtag->findChildParamValue("detune_fundamental","value"))
-	{
+	if((value = soundtag->findChildParamValue("detune_fundamental","value")) != 0)
 		setParam(DETUNE_FUNDAMENTAL, atof(value));
-	}
-
+	
 	XmlReader::xmltag *partialtag;
 
-	while(partialtag=soundtag->children->find("partial"))
+	while((partialtag=soundtag->children->find("partial")) != 0)
 	{
 		Partial p;
 		p.xml_read(partialtag, reverbHash, dvHash);
