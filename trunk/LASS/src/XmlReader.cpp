@@ -423,7 +423,7 @@ bool XmlReader::readTag(xmltag *tag)
 		tag->setName(n);
 
 	tagparam *tp=NULL;
-	while(n=strtok(NULL," >"))
+	while((n = strtok(NULL, " >")) != 0)
 	{
 		if(!strcmp(n,"/"))
 		{

@@ -244,8 +244,8 @@ m_value_type& CubicSplineInterpolatorIterator::next()
     queue_.push_front(e);
 
     // we need this in the larger scope
-    m_time_type x1;
-    m_value_type y1;
+    m_time_type x1 = 0.0;
+    m_value_type y1 = 0.0;
 
     if( ! stepsLeft_ ) // we're at the beginning of an entry, so just return
                        // that value and set up the steps for the next

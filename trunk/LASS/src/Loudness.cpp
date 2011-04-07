@@ -198,7 +198,7 @@ m_value_type Loudness::CriticalBand::getBandGamma(m_value_type maxAmp)
 {
     m_value_type bandGamma = 0.0;
     
-    for (int p=0; p<partials_.size(); p++)
+    for(int p = 0; p < (int)partials_.size(); p++)
     {
         bandGamma += pow(
             (double)(partials_[p].amp_ / maxAmp),

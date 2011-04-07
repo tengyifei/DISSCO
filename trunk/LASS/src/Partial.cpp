@@ -113,11 +113,11 @@ Track* Partial::render(m_sample_count_type sampleCount,
     //
     // calculate the variance:
     // grab the frequency at the start of the partial:
-    m_value_type base_freq = getParam(FREQUENCY).valueIterator().next();
-    m_value_type freq_variance = (base_freq / (getParam(PARTIAL_NUM)+1.0))/2.0;
+    //m_value_type base_freq = getParam(FREQUENCY).valueIterator().next();
+    //m_value_type freq_variance=(base_freq/(getParam(PARTIAL_NUM)+1.0))/2.0;
     //
     // get a random nummber between -1 and 1:
-    m_value_type rand = (((double) random()) / ((double) RAND_MAX) * 2.0) - 1.0;
+    //m_value_type rand = (((double)random())/((double)RAND_MAX)*2.0)-1.0;
     //
     // vary the freq_dev by this value:
     // make a copy of the frequency deviation dynamic variable
@@ -185,8 +185,8 @@ Track* Partial::render(m_sample_count_type sampleCount,
     m_value_type sample;
     m_value_type amptransient;
     m_value_type freqtransient;
-    m_value_type amptrans_width;
-    m_value_type freqtrans_width;
+    m_value_type amptrans_width = 0.0;
+    m_value_type freqtrans_width = 0.0;
     m_time_type amptransprob;
     m_time_type freqtransprob;
 
@@ -205,8 +205,8 @@ Track* Partial::render(m_sample_count_type sampleCount,
     int freqtranscheck = (int)freqtrans_width;
     float random;
 
-    m_value_type freqmod, trans_freqmod = 0;
-    m_value_type amplifier,trans_amplifier = 0;
+    m_value_type freqmod = 0.0, trans_freqmod = 0;
+    m_value_type amplifier = 0.0, trans_amplifier = 0;
     // loop over every sample:
     for (m_sample_count_type s=0; s < numSamplesToRender; s++)
     {
@@ -489,7 +489,7 @@ void Partial::xml_read(XmlReader::xmltag* partialtag, DISSCO_HASHMAP<long, Rever
 
 	char *value;
 
-	if(value=partialtag->findChildParamValue("reverb_ptr","id"))
+	if((value = partialtag->findChildParamValue("reverb_ptr", "id")) != 0)
 	{
 		long id=atoi(value);
 		Reverb * temp;
@@ -501,16 +501,13 @@ void Partial::xml_read(XmlReader::xmltag* partialtag, DISSCO_HASHMAP<long, Rever
 		}
 	}
 
-	if(value=partialtag->findChildParamValue("relative_amplitude","value"))
-	{
-		setParam(RELATIVE_AMPLITUDE, atof(value));
-	}
+	if((value = partialtag->findChildParamValue(
+	  "relative_amplitude", "value")) != 0)
+	  	setParam(RELATIVE_AMPLITUDE, atof(value));
 
-	if(value=partialtag->findChildParamValue("partial_num","value"))
-	{
+	if((value = partialtag->findChildParamValue("partial_num","value")) != 0)
 		setParam(PARTIAL_NUM, atoi(value));
-	}
-
+	
 	// For sake of ease, I am going to forego searching for each item and instead
 	// iterate thru the list of child tags.
 
@@ -554,7 +551,7 @@ void Partial::auxLoadParam(enum PartialDynamicParam param,XmlReader::xmltag *tag
 	char *value;
 
 	// Try and do a lookup
-	if(value=tag->findChildParamValue("dv_ptr","id"))
+	if((value = tag->findChildParamValue("dv_ptr", "id")) != 0)
 	{
 		long id=atol(value);
 		DynamicVariable *dv=(*dvHash)[id];

@@ -134,20 +134,21 @@ void Constant::xml_read(XmlReader::xmltag *constanttag)
 {
 	char *value;
 
-	if(value=constanttag->findChildParamValue("duration","value"))
+	if((value = constanttag->findChildParamValue("duration","value")) != 0)
 		setDuration(atof(value));
 
-	if(value=constanttag->findChildParamValue("rate","value"))
+	if((value = constanttag->findChildParamValue("rate","value")) != 0)
 		setSamplingRate(atoi(value));
 
-	if(value=constanttag->findChildParamValue("value","value"))
+	if((value = constanttag->findChildParamValue("value","value")) != 0)
 		setValue(atof(value));
 }
 
 //----------------------------------------------------------------------------//
 void Constant::xml_print( ofstream& xmlOutput, list<DynamicVariable*>& dynObjs )
 {
-	xml_print( xmlOutput );
+  dynObjs.size(); //remove warning about unused parameter...
+	xml_print(xmlOutput);
 }
 
 

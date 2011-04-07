@@ -471,9 +471,9 @@ void Score::xml_read(XmlReader::xmltag *scoretag)
 	reverbHash = new DISSCO_HASHMAP<long, Reverb *>;
 	dvHash = new DISSCO_HASHMAP<long, DynamicVariable *>;
 	
-	while(childtag=scoretag->children->find("reverb"))
+	while((childtag = scoretag->children->find("reverb")) != 0)
 	{
-		if(value=childtag->getParamValue("id"))
+		if((value = childtag->getParamValue("id")) != 0)
 		{
 			int id = atoi(value);
 			Reverb* tempRev = new Reverb(0);
@@ -482,9 +482,9 @@ void Score::xml_read(XmlReader::xmltag *scoretag)
 		}
 	}
 	
-	while(childtag=scoretag->children->find("dv"))
+	while((childtag = scoretag->children->find("dv")) != 0)
 	{
-		if(value=childtag->getParamValue("id"))
+		if((value = childtag->getParamValue("id")) != 0)
 		{
 			int id = atoi(value);
 			DynamicVariable* tempDV = DynamicVariable::create_dv_from_xml(childtag);
@@ -492,24 +492,20 @@ void Score::xml_read(XmlReader::xmltag *scoretag)
 		}
 	}
 	
-	if(value=scoretag->findChildParamValue("reverb_ptr","id"))
+	if((value = scoretag->findChildParamValue("reverb_ptr","id")) != 0)
 	{
-		long id=atoi(value);
+		long id = atoi(value);
 		Reverb * temp;
 		temp = (*reverbHash)[id];
 		
 		if(temp != NULL)
-		{
 			use_reverb(temp);
-		}
 	}
 
-	if(value=scoretag->findChildParamValue("cmm_","value"))
-	{
+	if((value = scoretag->findChildParamValue("cmm_","value")) != 0)
 		setClippingManagementMode((Score::ClippingManagementMode)atoi(value));
-	}
 	
-	while(childtag=scoretag->children->find("sound"))
+	while((childtag = scoretag->children->find("sound")) != 0)
 	{
 		Sound s;
 		s.xml_read(childtag, reverbHash, dvHash);

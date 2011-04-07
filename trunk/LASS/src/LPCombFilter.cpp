@@ -132,20 +132,12 @@ void LPCombFilter::set_lpf_g(float new_lpf_g)
 void LPCombFilter::xml_read(XmlReader::xmltag *lptag)
 {
 	char *value;
-	if(value=lptag->findChildParamValue("g","value"))
-	{
+	if((value = lptag->findChildParamValue("g", "value")) != 0)
 		set_g(atof(value));
-	}
-	
-	if(value=lptag->findChildParamValue("D","value"))
-	{
+	if((value = lptag->findChildParamValue("D", "value")) != 0)
 		set_D(atoi(value));
-	}
-	
-	if(value=lptag->findChildParamValue("lpf_g","value"))
-	{
+	if((value = lptag->findChildParamValue("lpf_g","value")) != 0)
 		set_lpf_g(atof(value));
-	}
 }
 
 

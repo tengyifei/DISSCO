@@ -87,8 +87,6 @@ MultiPan::MultiPan(int nChans, vector<Envelope*> &List)
  **/
 MultiPan::~MultiPan()
 {
-	int i;
-
 	while(!EnvList.empty())
 	{
 		Envelope *l;

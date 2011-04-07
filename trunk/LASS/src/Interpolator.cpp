@@ -125,34 +125,31 @@ void Interpolator::xml_print( ofstream& xmlOutput, list<DynamicVariable*>& dynOb
 
 void Interpolator::xml_read(XmlReader::xmltag* envtag)
 {
-	char* value=NULL;
+	char* value = 0;
 	XmlReader::xmltag *entrytag;
 	
-	if(value=envtag->findChildParamValue("duration","value"))
+	if((value = envtag->findChildParamValue("duration","value")) != 0)
 	{
 		setDuration(atof(value));
 	}
 	
-	if(value=envtag->findChildParamValue("rate","value"))
+	if((value = envtag->findChildParamValue("rate","value")) != 0)
 	{
 		setSamplingRate(atoi(value));
 	}
 	
-	while(entrytag=envtag->children->find("entry"))
+	while((entrytag = envtag->children->find("entry")) != 0)
 	{
-		float time = 0.0;
-		float val = 0.0;
-		if(value=entrytag->getParamValue("time"))
-		{
+		float time = 0.0f;
+		float val = 0.0f;
+		if((value=entrytag->getParamValue("time")) != 0)
 			time = atof(value);
-		}
-		if(value=entrytag->getParamValue("value"))
-		{
+		if((value=entrytag->getParamValue("value")) != 0)
 			val = atof(value);
-		}
 		InterpolatorEntry ie(time,val);
-		//add the entry to this collection
-    		add(ie);
+		
+		//Add the entry to this collection.
+    add(ie);
 	}
 }
 

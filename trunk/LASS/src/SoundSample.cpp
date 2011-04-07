@@ -161,12 +161,9 @@ void SoundSample::composite(SoundSample& ss, m_time_type startTime)
 //----------------------------------------------------------------------------//
 void SoundSample::scale(m_value_type factor)
 {
-    for(long i=0; i<data_.size(); i++)
-    {
-        data_[i] *= factor;
-    }
+  for(int i = 0; i < (int)data_.size(); i++)
+    data_[i] *= factor;
 }
-
 
 //----------------------------------------------------------------------------//
 #endif //__SOUND_SAMPLE_CPP

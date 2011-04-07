@@ -1,25 +1,16 @@
+--Default to gmake
 if _ACTION ~= "gmake" and _ACTION ~= "clean" then
   _ACTION = "gmake"
 end
 
-newoption({trigger="examples",description="Creates makefiles for LASS examples"})
+newoption({trigger="examples",
+  description="Creates makefiles for LASS examples"})
 
 DebugFlags = {"Symbols", "NoPCH", "NoManifest"}
-ReleaseFlags = {} --Optimize
+ReleaseFlags = {"Optimize"}
 
 solution "dissco"
   configurations {"Debug", "Release"}
-  
---[[
-project "bellebonnesage"
-  language "C++"
-  flags {"StaticRuntime", "ExtraWarnings"}
-  files {"bbs/*.cpp", "bbs/*.h"}
-  excludes {"bbs/lua.*"}
-  kind "StaticLib"
-  configuration "Debug" flags(DebugFlags) 
-  configuration "Release" flags(ReleaseFlags)
-  targetdir "lib"]]
 
 project "lass"
   language "C++"
@@ -28,7 +19,7 @@ project "lass"
   includedirs {"/usr/local/include"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-Wno-deprecated", "-gstabs"}
+  buildoptions {"-Wno-deprecated -Wall -Wextra", "-gstabs"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   
