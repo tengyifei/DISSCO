@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -53,7 +53,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -87,7 +87,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">int</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -147,7 +147,7 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x2022;</property>
+                    <property name="invisible_char">•</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -169,7 +169,7 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x2022;</property>
+                    <property name="invisible_char">•</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -231,7 +231,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="attributesStandardTempleMethodFractionRadioButton">
-                <property name="label" translatable="yes">as  Fraction</property>
+                <property name="label" translatable="yes">EDUs / Seconds</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -271,36 +271,85 @@
                 <property name="width_request">300</property>
                 <property name="visible">True</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkHBox" id="attributesStandardTempoMainHBox">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkAlignment" id="attributesStandardTempoSecondaryAlignment">
+                        <property name="visible">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="attributesStandardTempoAsNoteValueHBox">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkComboBox" id="attributesStandardTempoNotePrefixCombobox">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBox" id="attributesStandardTempoNoteCombobox">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                          </object>
+                          <packing>
+                            <property name="padding">5</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="attributesStandardTempoMidLabel">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">=</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">3</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="attributesStandardTempoValueEntry">
+                            <property name="width_request">150</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">•</property>
+                          </object>
+                          <packing>
+                            <property name="padding">2</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="attributesStandardTempoRightLabel">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">label</property>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
                 <property name="padding">13</property>
                 <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label26">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">=</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="padding">5</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="attributesStandardTempoValueEntry">
-                <property name="width_request">60</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -405,7 +454,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
                 <property name="width_chars">0</property>
               </object>
               <packing>
@@ -450,7 +499,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -494,7 +543,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -613,7 +662,7 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -645,7 +694,7 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">drag a SIV object here from the Objects List</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -690,7 +739,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -799,7 +848,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">int, insert Function recommended</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -845,7 +894,7 @@ If the Start Type is Seconds, this value should be a float</property>
                 <property name="tooltip_text" translatable="yes">If the Duration Type is Percentage, this value should be a float between 0 and 1
 If the Duration Type is EDUs, this value should be an int
 If the Duration Type is Seconds, this value should be a float</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -957,7 +1006,7 @@ If you select "Units", this entry should be an integer.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -1077,7 +1126,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1110,7 +1159,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1143,7 +1192,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1207,7 +1256,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1240,7 +1289,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1273,7 +1322,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1337,7 +1386,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1370,7 +1419,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1403,7 +1452,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1467,7 +1516,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1500,7 +1549,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1533,7 +1582,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1597,7 +1646,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1630,7 +1679,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1663,7 +1712,7 @@ If you select "Units", this entry should be an integer.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">use "Insert Function" to fill in this field</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -1698,48 +1747,15 @@ If you select "Units", this entry should be an integer.</property>
       </object>
     </child>
   </object>
-  <object class="GtkHBox" id="attributesStandardTempoAsNoteValueHBox">
-    <property name="visible">True</property>
-    <child>
-      <object class="GtkComboBox" id="attributesStandardTempoNotePrefixCombobox">
-        <property name="visible">True</property>
-        <property name="sensitive">False</property>
-      </object>
-      <packing>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkComboBox" id="attributesStandardTempoNoteCombobox">
-        <property name="visible">True</property>
-        <property name="sensitive">False</property>
-      </object>
-      <packing>
-        <property name="padding">5</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkHBox" id="attributesStandardTempoAsFractionHbox">
     <property name="visible">True</property>
     <child>
-      <object class="GtkEntry" id="attributesStandardTempoAsFractionEntry1">
-        <property name="visible">True</property>
-        <property name="sensitive">False</property>
-        <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
-      </object>
-      <packing>
-        <property name="position">0</property>
-      </packing>
+      <placeholder/>
     </child>
     <child>
       <object class="GtkLabel" id="label27">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">/</property>
+        <property name="label" translatable="yes">EDUs in</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -1752,11 +1768,29 @@ If you select "Units", this entry should be an integer.</property>
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
+        <property name="invisible_char">●</property>
       </object>
       <packing>
         <property name="position">2</property>
       </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label28">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Seconds</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">3</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkFrame" id="NoteAttributesFrame">
@@ -1798,7 +1832,7 @@ If you select "Units", this entry should be an integer.</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x2022;</property>
+                            <property name="invisible_char">•</property>
                           </object>
                           <packing>
                             <property name="position">1</property>
@@ -1831,7 +1865,7 @@ If you select "Units", this entry should be an integer.</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x2022;</property>
+                            <property name="invisible_char">•</property>
                           </object>
                           <packing>
                             <property name="position">1</property>
@@ -2780,5 +2814,11 @@ If you select "Units", this entry should be an integer.</property>
         <property name="use_markup">True</property>
       </object>
     </child>
+  </object>
+  <object class="GtkEntry" id="attributesStandardTempoAsFractionEntry1">
+    <property name="visible">True</property>
+    <property name="sensitive">False</property>
+    <property name="can_focus">True</property>
+    <property name="invisible_char">•</property>
   </object>
 </interface>

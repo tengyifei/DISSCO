@@ -32,6 +32,7 @@
 #include "EventAttributesViewController.h"
 
 #include "IEvent.h"
+#include "../../CMOD/src/CMOD.h"
 
 #include "ProjectViewController.h"
 #include "PaletteViewController.h"
@@ -42,6 +43,8 @@
 EventAttributesViewController::EventAttributesViewController(
   SharedPointers* _sharedPointers){
   soundPartialHboxes =NULL;
+  tempoEntryAsNoteValueModifiedFlag = false;
+  tempo = new Tempo();
     sharedPointers = _sharedPointers;
   projectView = sharedPointers->projectView;
   currentlyShownEvent = NULL;
@@ -253,10 +256,24 @@ EventAttributesViewController::EventAttributesViewController(
       *this,&EventAttributesViewController::tempoAsFractionButtonClicked) );
 
 
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoValueEntry", entry); 
+  entry->signal_changed().connect(
+    sigc::mem_fun(
+      *this,&EventAttributesViewController::tempoAsNoteValueEntryChanged) );
+
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoAsFractionEntry1", entry); 
+  entry->signal_changed().connect(
+    sigc::mem_fun(
+      *this,&EventAttributesViewController::tempoAsNoteValueEntryChanged) );
+
+
 
   //connect childEventDef buttons to propre functions
 
-
+    attributesRefBuilder->get_widget(
+    "attributesStandardTempoValueEntry", entry); 
   attributesRefBuilder->get_widget(
     "attributesChildEventDefContinuumButton", radioButton);
   
@@ -776,11 +793,38 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       attributesRefBuilder->get_widget(
         "attributesStandardTempoAsFractionEntry1", entry);
       currentlyShownEvent->setTempoFractionEntry1(entry->get_text());   
+
+
+
+    	attributesRefBuilder->get_widget(
+      	"attributesStandardTempoValueEntry", entry);
+    	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());   //save the value here in order to restore data when showing attributes 
+
+
+      Gtk::ComboBox* combobox;
       attributesRefBuilder->get_widget(
-        "attributesStandardTempoAsFractionEntry2", entry);
-      currentlyShownEvent->setTempoFractionEntry2(entry->get_text());        
-      
+        "attributesStandardTempoNotePrefixCombobox", combobox);    
+      Gtk::TreeModel::iterator iter = combobox->get_active();
+      if(iter){
+        Gtk::TreeModel::Row row = *iter;
+        if(row){
+          currentlyShownEvent->setTempoPrefix(
+            row[tempoPrefixColumns.m_col_type]);
+        }    
+      }
+      attributesRefBuilder->get_widget(
+        "attributesStandardTempoNoteCombobox", combobox);    
+      iter = combobox->get_active();
+      if(iter){
+        Gtk::TreeModel::Row row = *iter;
+        if(row){
+          currentlyShownEvent->setTempoNoteValue(
+            row[tempoNoteValueColumns.m_col_type]);
+        }    
+      }      
     }
+
+
     attributesRefBuilder->get_widget(
       "attributesStandardTempoValueEntry", entry);
     currentlyShownEvent->setTempoValueEntry(entry->get_text());       
@@ -1343,14 +1387,57 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempoNoteCombobox", combobox);        
         combobox->set_active(currentlyShownEvent->getTempoNoteValue());        
         
+        /*
         attributesRefBuilder->get_widget(
           "attributesStandardTempoAsFractionEntry1", entry);  
-        entry->set_text("");
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoAsFractionEntry2", entry);  
-        entry->set_text(""); 
+        entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
+				*/
+				tempoEntryAsNoteValueModifiedFlag = true; // so that when switch, it'll generate the proper string
+   
 
 
+				//check if original value is an integer or a fraction
+				
+				string originalValue = currentlyShownEvent->getTempoValueEntry();
+				size_t foundSlash = originalValue.find("/");
+				if (foundSlash != string::npos){ //it is fraction
+					string entry1 = originalValue.substr(0,foundSlash);
+					
+
+				 	attributesRefBuilder->get_widget(
+          	"attributesStandardTempoAsFractionEntry1", entry);  
+        	entry->set_text(entry1);
+        	
+        	
+        	char charBuffer[20];
+        	
+        	int value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str());
+        	value = value * 60;
+        	sprintf (charBuffer, "%d", value);	
+
+					originalTempoValueForFraction = string (charBuffer);
+					
+					
+			
+					tempoEntryAsNoteValueModifiedFlag = false;
+				
+				}
+
+
+				//entry 1 set # of note
+				// original for value
+				
+      attributesRefBuilder->get_widget(
+        "attributesStandardTempoValueEntry", entry);  
+      entry->set_text(currentlyShownEvent->getTempoValueEntry());
+
+
+
+
+
+
+
+						
 
       
       }
@@ -1359,6 +1446,28 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempleMethodFractionRadioButton", radioButton);
         radioButton->set_active();      
         tempoAsFractionButtonClicked();
+        
+        attributesRefBuilder->get_widget(
+          "attributesStandardTempoNotePrefixCombobox", combobox);        
+        combobox->set_active(currentlyShownEvent->getTempoPrefix());
+        
+        attributesRefBuilder->get_widget(
+          "attributesStandardTempoNoteCombobox", combobox);        
+        combobox->set_active(currentlyShownEvent->getTempoNoteValue());        
+        
+        attributesRefBuilder->get_widget(
+          "attributesStandardTempoAsFractionEntry1", entry);  
+        entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
+
+				      attributesRefBuilder->get_widget(
+        "attributesStandardTempoValueEntry", entry);  
+      entry->set_text(currentlyShownEvent->getTempoValueEntry());
+				 
+					tempoEntryAsNoteValueModifiedFlag = true; // so that when switch, it'll generate the proper string
+   
+
+        
+        /*
         attributesRefBuilder->get_widget(
           "attributesStandardTempoAsFractionEntry1", entry);  
         entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
@@ -1373,17 +1482,13 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempoNoteCombobox", combobox);        
         combobox->set_active(0);         
 
+      */
+
       }
     
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoValueEntry", entry);  
-      entry->set_text(currentlyShownEvent->getTempoValueEntry());    
     
     
-    
-    
-    
-    
+		
     
 
       // show numOfChildren
@@ -1919,42 +2024,83 @@ void EventAttributesViewController::showCurrentEventData(){
         }
         
         
-        //show modifiers
+        //show/ hide modifiers
         
+        int childType = extraInfo->getChildTypeFlag();
+
+        Gtk::Label* label;
         Gtk::VBox* vbox;
-        attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
-        EventBottomModifier* EBmodifiers = currentlyShownEvent->getEventExtraInfo()->getModifiers();
-        cout<<"EBmodifiers= "<<EBmodifiers<<endl;
-        
-        
-        
+        Gtk::VBox* vbox2;
+        if (childType == 0){ //sound
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesNewModifierButton", button);
+          	
+          	
+        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", vbox2);
+        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
+        	
+        	if (button->get_parent() ==NULL){        	
+        	  attributesRefBuilder->get_widget(
+          		"ModifierLabel", label);
+        		vbox2->pack_start(*label, Gtk::PACK_SHRINK);
+        		vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+        		vbox2->pack_start(*button, Gtk::PACK_SHRINK);
+        	}
+        	
+        	
+        	
+        	EventBottomModifier* EBmodifiers = currentlyShownEvent->getEventExtraInfo()->getModifiers();
         
 
-        BottomEventModifierAlignment* nextModifierAlignment;       
-        while (EBmodifiers != NULL){
+	        BottomEventModifierAlignment* nextModifierAlignment;       
+  	      while (EBmodifiers != NULL){
 
-          if (modifiers ==NULL){ //if the first modifier
+  	        if (modifiers ==NULL){ //if the first modifier
 
-            modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
-            modifiers->prev = NULL;
-
-            nextModifierAlignment = modifiers;
-            vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK); 
+  	          modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
+  	          modifiers->prev = NULL;
+	
+  	          nextModifierAlignment = modifiers;
+  	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK); 
            
 
-          } 
-          else { //rest of the modifiers
+  	        } 
+  	        else { //rest of the modifiers
 
-          nextModifierAlignment->next = new BottomEventModifierAlignment(EBmodifiers, this);
-          nextModifierAlignment->next->prev = nextModifierAlignment;
-          nextModifierAlignment = nextModifierAlignment->next;
-            vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
+  	        	nextModifierAlignment->next = new BottomEventModifierAlignment(EBmodifiers, this);
+  	        	nextModifierAlignment->next->prev = nextModifierAlignment;
+  	        	nextModifierAlignment = nextModifierAlignment->next;
+  	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
 
-          }
-          EBmodifiers = EBmodifiers->next;
+  	        }
+  	        EBmodifiers = EBmodifiers->next;
+	
+  	      }    
 
-        }    
+				}
+				else if (childType ==1) { //note
 
+				
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesNewModifierButton", button);
+          	
+          	
+        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", vbox2);
+        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
+        	if (button->get_parent() !=NULL){
+        		attributesRefBuilder->get_widget(
+          		"ModifierLabel", label);
+          		
+        		vbox2->remove(*label);
+        		vbox2->remove(*button);
+        		vbox2->remove(*vbox);
+        	}				
+				
+				}
+				
+				else {//childType == 2, visual
+				
+				}
 
       } // end showing bottom extra info
       
@@ -4056,31 +4202,168 @@ void EventAttributesViewController::tempoAsNoteValueButtonClicked(){
     return;
   }
   modified();
-  Gtk::Alignment* alignment;
-  attributesRefBuilder->get_widget(
-    "attributesStandardTempoAlignment", alignment);
-  alignment->remove();
   
-  Gtk::HBox* hBox;
+   Gtk::Entry* entry;
+   Gtk::Label* label;    
+   
+      attributesRefBuilder->get_widget(
+      "attributesStandardTempoMidLabel", label);
+  
+    label->set_text("=");
+
+      attributesRefBuilder->get_widget(
+      "attributesStandardTempoRightLabel", label);    
+
+    label->set_text(""); 
+  
+  
+	Gtk::Alignment* alignment;
+    attributesRefBuilder->get_widget(
+      "attributesStandardTempoSecondaryAlignment", alignment);
+    alignment->remove();
+
   attributesRefBuilder->get_widget(
-    "attributesStandardTempoAsNoteValueHBox", hBox);
-    alignment->add(*hBox);
+    "attributesStandardTempoValueEntry", entry);  
+  
+  originalTempoValueForFraction =   entry->get_text();
+  
+  if (tempoEntryAsNoteValueModifiedFlag ==false){
+    entry->set_text(originalTempoValueForNoteValue);
+  }
+  else {
+
+    tempo->setTempo(generateTempoStringByFraction());
+    
+
+    Ratio ratio =tempo->getTempoBeatsPerMinute();
+  
+    
+    char charbuffer[20];
+    sprintf (charbuffer,"%d", ratio.Num());
+  
+    string stringbuffer = string (charbuffer);
+
+    
+    
+    if (ratio.Den()!=1){
+      sprintf (charbuffer,"%d", ratio.Den());
+    
+      stringbuffer = stringbuffer + "/" + string(charbuffer);
+    }
+  
+    entry->set_text(stringbuffer);
+  }  
+  tempoEntryAsNoteValueModifiedFlag = false;
+
 }
+
+
 
 void EventAttributesViewController::tempoAsFractionButtonClicked(){
   if (currentlyShownEvent ==NULL){
     return;
   }
+  
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget(
+  "attributesStandardTempoValueEntry", entry);  
+  originalTempoValueForNoteValue =   entry->get_text();
+
+
+
+
   modified();
   Gtk::Alignment* alignment;
   attributesRefBuilder->get_widget(
-    "attributesStandardTempoAlignment", alignment);
-  alignment->remove();
-  
-  Gtk::HBox* hBox;
+    "attributesStandardTempoSecondaryAlignment", alignment);
   attributesRefBuilder->get_widget(
-    "attributesStandardTempoAsFractionHbox", hBox);
-    alignment->add(*hBox);
+    "attributesStandardTempoAsFractionEntry1", entry);
+    alignment->add(*entry);
+
+  Gtk::Label* label;
+    attributesRefBuilder->get_widget(
+    "attributesStandardTempoMidLabel", label);
+  
+  label->set_text(" in ");
+
+    attributesRefBuilder->get_widget(
+    "attributesStandardTempoRightLabel", label);    
+
+  label->set_text(" second(s)");
+  
+
+
+  if ( tempoEntryAsNoteValueModifiedFlag == false){
+
+    attributesRefBuilder->get_widget(
+      "attributesStandardTempoValueEntry", entry); 
+    entry->set_text(originalTempoValueForFraction); 
+  }
+  else{ //modified
+  
+  //check if fraction
+  
+      attributesRefBuilder->get_widget(
+      "attributesStandardTempoValueEntry", entry); 
+				string originalValue = entry->get_text();
+				
+				size_t foundSlash = originalValue.find("/");
+				if (foundSlash != string::npos){ //it is fraction
+					string entry1 = originalValue.substr(0,foundSlash);
+					
+
+        	
+        	
+        	char charBuffer[20];
+        	
+        	int value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str());
+        	value = value * 60;
+        	sprintf (charBuffer, "%d", value);	
+        	
+        	string ratioString = entry1 + "/" + charBuffer;
+        	
+        	Ratio ratio = Ratio(ratioString);
+        	
+
+        		
+        	attributesRefBuilder->get_widget(
+          	"attributesStandardTempoAsFractionEntry1", entry); 
+          	
+          sprintf (charBuffer, "%d", ratio.Num());	
+          	
+          	 
+        	entry->set_text(string(charBuffer));	
+        		//entry->set_text(ratio.Num());
+        		
+        		
+
+					attributesRefBuilder->get_widget(
+      			"attributesStandardTempoValueEntry", entry); 
+      			
+      	sprintf (charBuffer, "%d", ratio.Den());	
+      		entry->set_text(string(charBuffer));	
+					
+					//entry->set_text(string(charBuffer));
+						//entry->set_text(ratio.Den());
+				}
+  
+  	else{// integer
+  
+  
+  
+      attributesRefBuilder->get_widget(
+      	"attributesStandardTempoValueEntry", entry); 
+   	 	entry->set_text("60");
+
+   	 	attributesRefBuilder->get_widget(
+      	"attributesStandardTempoAsFractionEntry1", entry);
+   	 	entry->set_text(originalTempoValueForNoteValue);
+    
+		}
+
+  }
+ 
+  tempoEntryAsNoteValueModifiedFlag = false;
 
 
 }
@@ -4459,4 +4742,182 @@ void EventAttributesViewController::buildNoteModifiersList(){
 }
 
 
+
+
+
+string EventAttributesViewController::generateTempoStringByNoteValue(){ 
+  TempoPrefix tempoPrefix;
+  TempoNoteValue tempoNoteValue;     
+     
+  Gtk::Entry* entry;
+  Gtk::ComboBox* combobox;
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoNotePrefixCombobox", combobox);    
+  Gtk::TreeModel::iterator iter = combobox->get_active();
+  if(iter){
+    Gtk::TreeModel::Row row = *iter;
+    if(row){
+      tempoPrefix = row[tempoPrefixColumns.m_col_type];
+    }    
+  }
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoNoteCombobox", combobox);    
+  iter = combobox->get_active();
+  if(iter){
+    Gtk::TreeModel::Row row = *iter;
+    if(row){
+      tempoNoteValue =row[tempoNoteValueColumns.m_col_type];
+    }    
+  }      
+
+  string stringbuffer = "";
+
+    attributesRefBuilder->get_widget(
+      "attributesStandardTempoValueEntry", entry);
+     
+  
+    if (tempoPrefix == tempoPrefixDotted){
+      stringbuffer = stringbuffer + "dotted ";
+    }
+    else if (tempoPrefix == tempoPrefixDoubleDotted){
+      stringbuffer = stringbuffer + "double dotted ";
+    }     
+    else if (tempoPrefix ==tempoPrefixTriple){
+      stringbuffer = stringbuffer + "triple ";
+    }          
+    else if (tempoPrefix ==tempoPrefixQuintuple){
+      stringbuffer = stringbuffer + "quintuple ";
+    }     
+    else if (tempoPrefix ==tempoPrefixSextuple){
+      stringbuffer = stringbuffer + "sextuple ";
+    }     
+    else if (tempoPrefix ==tempoPrefixSeptuple){
+      stringbuffer = stringbuffer + "septuple ";
+    }     
+
+    if (tempoNoteValue == tempoNoteValueWhole){
+      stringbuffer = stringbuffer + "whole = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueHalf){
+      stringbuffer = stringbuffer + "half = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueQuarter){
+      stringbuffer = stringbuffer + "quarter = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueEighth){
+      stringbuffer = stringbuffer + "eighth = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueSixteenth){
+      stringbuffer = stringbuffer + "sixteenth = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueThirtySecond){
+      stringbuffer = stringbuffer + "thirtysecond = ";
+    }
+    
+    stringbuffer = stringbuffer + entry->get_text();
+    
+
+    
+    return stringbuffer;
+}
+
+
+
+string EventAttributesViewController::generateTempoStringByFraction(){ 
+  TempoPrefix tempoPrefix;
+  TempoNoteValue tempoNoteValue;     
+     
+  Gtk::Entry* entry;
+  Gtk::ComboBox* combobox;
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoNotePrefixCombobox", combobox);    
+  Gtk::TreeModel::iterator iter = combobox->get_active();
+  if(iter){
+    Gtk::TreeModel::Row row = *iter;
+    if(row){
+      tempoPrefix = row[tempoPrefixColumns.m_col_type];
+    }    
+  }
+  attributesRefBuilder->get_widget(
+    "attributesStandardTempoNoteCombobox", combobox);    
+  iter = combobox->get_active();
+  if(iter){
+    Gtk::TreeModel::Row row = *iter;
+    if(row){
+      tempoNoteValue =row[tempoNoteValueColumns.m_col_type];
+    }    
+  }      
+
+  string stringbuffer = "";  
+    if (tempoPrefix == tempoPrefixDotted){
+      stringbuffer = stringbuffer + "dotted ";
+    }
+    else if (tempoPrefix == tempoPrefixDoubleDotted){
+      stringbuffer = stringbuffer + "double dotted ";
+    }     
+    else if (tempoPrefix ==tempoPrefixTriple){
+      stringbuffer = stringbuffer + "triple ";
+    }          
+    else if (tempoPrefix ==tempoPrefixQuintuple){
+      stringbuffer = stringbuffer + "quintuple ";
+    }     
+    else if (tempoPrefix ==tempoPrefixSextuple){
+      stringbuffer = stringbuffer + "sextuple ";
+    }     
+    else if (tempoPrefix ==tempoPrefixSeptuple){
+      stringbuffer = stringbuffer + "septuple ";
+    }     
+
+    if (tempoNoteValue == tempoNoteValueWhole){
+      stringbuffer = stringbuffer + "whole = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueHalf){
+      stringbuffer = stringbuffer + "half = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueQuarter){
+      stringbuffer = stringbuffer + "quarter = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueEighth){
+      stringbuffer = stringbuffer + "eighth = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueSixteenth){
+      stringbuffer = stringbuffer + "sixteenth = ";
+    }
+    else if (tempoNoteValue == tempoNoteValueThirtySecond){
+      stringbuffer = stringbuffer + "thirtysecond = ";
+    }
+    
+    
+    
+     attributesRefBuilder->get_widget(
+    "attributesStandardTempoAsFractionEntry1", entry);
+    
+    
+    char charbuffer[20];
+    int numerator = atoi (entry->get_text().c_str() )* 60;
+        sprintf (charbuffer," %d", numerator);
+        stringbuffer += string (charbuffer);
+        
+
+        attributesRefBuilder->get_widget(
+      "attributesStandardTempoValueEntry", entry);        
+        
+        stringbuffer = stringbuffer + "/" + entry->get_text();
+        
+
+    
+    return stringbuffer;
+}
+
+
+
+
+
+
+
+void EventAttributesViewController::tempoAsNoteValueEntryChanged(){
+  tempoEntryAsNoteValueModifiedFlag = true;
+
+
+}
 

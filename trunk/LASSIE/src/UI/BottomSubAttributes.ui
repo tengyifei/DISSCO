@@ -234,7 +234,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label7">
+      <object class="GtkLabel" id="ModifierLabel">
         <property name="visible">True</property>
         <property name="label" translatable="yes">Modifiers:</property>
       </object>

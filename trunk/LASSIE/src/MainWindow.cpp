@@ -707,7 +707,7 @@ void MainWindow::menuProjectSynthesize(){
 
   Gtk::Entry* randomSeedEntry;
   synthesizeDialogRefBuilder->get_widget("SynthesizeDialogRandomSeedEntry", randomSeedEntry);
-
+	randomSeedEntry->grab_focus();
 
   int result = synthesizeDialog->run();
 
