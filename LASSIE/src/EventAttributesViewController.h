@@ -42,6 +42,8 @@
 // forward declaration
 
 
+
+
 typedef enum {
   maxChildDurFunButton,
   unitsPerSecondFunButton,
@@ -55,7 +57,7 @@ typedef enum {
   
 }FunctionButton;
 
-
+class Tempo;
 class ProjectViewController;
 class SharedPointers;
 class EventAttributesViewController;
@@ -476,14 +478,24 @@ private:
   bool entryChangedByShowCurrentEvent;
   bool deleteLayer(LayerBox* _deleteBox);
   void refreshChildTypeInLayer();
-   
+  string generateTempoStringByFraction();
+  string generateTempoStringByNoteValue(); 
+  void tempoAsNoteValueEntryChanged();
+  
   TempoPrefix tempoPrefix;  
   TempoNoteValue tempoNoteValue;
-  
+  Tempo* tempo;
+  string originalTempoValueForFraction;  
+  string originalTempoValueForNoteValue;
+  bool tempoEntryAsNoteValueModifiedFlag;
   std::vector<LayerBox*> layerBoxesStorage;
   std::vector<Gtk::CheckButton*> noteModifierCheckButtons; 
   bool bottomSubAttributesShown;
   BottomEventModifierAlignment* modifiers;
+  
+  
+  
+  
 };
 
 
