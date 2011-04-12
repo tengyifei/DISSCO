@@ -659,9 +659,7 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
 
   
   stringbuffer = "tempo = \"";
-  
-  if (tempoMethodFlag == 0) {// tempo as note value 
-    if (tempoPrefix == tempoPrefixDotted){
+  if (tempoPrefix == tempoPrefixDotted){
       stringbuffer = stringbuffer + "dotted ";
     }
     else if (tempoPrefix == tempoPrefixDoubleDotted){
@@ -698,6 +696,11 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
     else if (tempoNoteValue == tempoNoteValueThirtySecond){
       stringbuffer = stringbuffer + "thirtysecond = ";
     }
+  
+  
+  
+  if (tempoMethodFlag == 0) {// tempo as note value 
+    
     
     stringbuffer = stringbuffer + tempoValueEntry+ "\";\n";
     yy_scan_string( stringbuffer.c_str());//set parser buffer
@@ -710,14 +713,44 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
 
   
   }
-  else { // tempo as fraction
-    stringbuffer = stringbuffer 
-                  + tempoFractionEntry1 
-                  + "/" 
-                  + tempoFractionEntry2
-                  + " = "
-                  + tempoValueEntry
-                  + "\";\n";
+   else { // tempo as fraction
+    //enty1 notes in value seconds
+    //entry : value = actual number : 60
+    //entry1 * 60 / value = actual number
+    
+    
+    int entry1 = atoi (tempoFractionEntry1.c_str()) * 60;
+    int den = atoi (tempoValueEntry.c_str());
+    
+    char tempobuffer [20];
+    sprintf(tempobuffer, "%d", entry1);
+    string numString = string(tempobuffer);
+    
+    sprintf (tempobuffer,"%d", den);
+    string denString = string(tempobuffer);
+    
+    string ratioNumber = numString + "/" + denString;
+    Ratio ratio = Ratio(ratioNumber);
+    
+    
+    
+    sprintf(tempobuffer, "%d", ratio.Num());
+    
+    
+    if (ratio.Den() ==1){
+    
+    	stringbuffer = stringbuffer + string(tempobuffer) + "\";\n";
+    
+    }
+    else{
+    
+    	stringbuffer = stringbuffer + string(tempobuffer) + "/";
+    
+    	sprintf(tempobuffer, "%d", ratio.Den());
+    
+    	stringbuffer = stringbuffer + string(tempobuffer) + "\";\n";
+    
+    }
                  
     yy_scan_string( stringbuffer.c_str());//set parser buffer
     if (yyparse()==0){

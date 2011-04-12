@@ -1412,14 +1412,43 @@ void EventAttributesViewController::showCurrentEventData(){
         	char charBuffer[20];
         	
         	int value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str());
+        	
+            	
         	value = value * 60;
         	sprintf (charBuffer, "%d", value);	
+        	
+        	string ratioString = entry1 + "/" + charBuffer;
+        	
+        	Ratio ratio = Ratio(ratioString);
+        	
+        	
+        	
+        	attributesRefBuilder->get_widget(
+          	"attributesStandardTempoAsFractionEntry1", entry); 
+          	
+          sprintf (charBuffer, "%d", ratio.Num());	
+          	
+          	 
+        	entry->set_text(string(charBuffer));	
+        	
+        	
+      		sprintf (charBuffer, "%d", ratio.Den());	
+  	
+        	
+               	
 
 					originalTempoValueForFraction = string (charBuffer);
 					
 					
 			
 					tempoEntryAsNoteValueModifiedFlag = false;
+					
+					
+					
+					
+					
+					
+					
 				
 				}
 
@@ -4303,31 +4332,36 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
   
   //check if fraction
   
-      attributesRefBuilder->get_widget(
-      "attributesStandardTempoValueEntry", entry); 
-				string originalValue = entry->get_text();
+    attributesRefBuilder->get_widget(
+      "attributesStandardTempoValueEntry", entry);
+    string originalValue = entry->get_text();
 				
-				size_t foundSlash = originalValue.find("/");
-				if (foundSlash != string::npos){ //it is fraction
-					string entry1 = originalValue.substr(0,foundSlash);
-					
-
+		size_t foundSlash = originalValue.find("/");
+		string entry1;
+		int value;
+		char charBuffer[20];
+		string ratioString;			
+		Ratio ratio;
+		if (foundSlash != string::npos){ //it is fraction
+			entry1 = originalValue.substr(0,foundSlash);
+				
+      value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str()) * 60;
+     	sprintf (charBuffer, "%d", value);	        	
+     	ratioString = entry1 + "/" + charBuffer;
+    }
+    else {
+      	
+     	ratioString = originalValue + "/60";
+                
+    }	
         	
         	
-        	char charBuffer[20];
-        	
-        	int value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str());
-        	value = value * 60;
-        	sprintf (charBuffer, "%d", value);	
-        	
-        	string ratioString = entry1 + "/" + charBuffer;
-        	
-        	Ratio ratio = Ratio(ratioString);
+    ratio = Ratio(ratioString);
         	
 
         		
-        	attributesRefBuilder->get_widget(
-          	"attributesStandardTempoAsFractionEntry1", entry); 
+    attributesRefBuilder->get_widget(
+     	"attributesStandardTempoAsFractionEntry1", entry); 
           	
           sprintf (charBuffer, "%d", ratio.Num());	
           	
@@ -4345,8 +4379,9 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
 					
 					//entry->set_text(string(charBuffer));
 						//entry->set_text(ratio.Den());
-				}
+		
   
+   /*
   	else{// integer
   
   
@@ -4360,6 +4395,7 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
    	 	entry->set_text(originalTempoValueForNoteValue);
     
 		}
+		*/
 
   }
  
