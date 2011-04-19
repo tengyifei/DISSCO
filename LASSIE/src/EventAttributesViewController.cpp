@@ -388,6 +388,16 @@ EventAttributesViewController::EventAttributesViewController(
     attributesRefBuilder->get_widget(
     "ChildEventDefButton3", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::childEventDefDurationFunButtonClicked)); 
+  
+  attributesRefBuilder->get_widget(
+    "ChildEventAttackSieveButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::childEventAttackSieveButtonClicked)); 
+  
+  attributesRefBuilder->get_widget(
+    "ChildEventDurationSieveButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::childEventDurationSieveButtonClicked));   
+  
+  
 
 //----------bottom sub
 
@@ -1495,24 +1505,7 @@ void EventAttributesViewController::showCurrentEventData(){
 					tempoEntryAsNoteValueModifiedFlag = true; // so that when switch, it'll generate the proper string
    
 
-        
-        /*
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoAsFractionEntry1", entry);  
-        entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoAsFractionEntry2", entry);  
-        entry->set_text(currentlyShownEvent->getTempoFractionEntry2());
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoNotePrefixCombobox", combobox);        
-        combobox->set_active(0);
-        
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoNoteCombobox", combobox);        
-        combobox->set_active(0);         
-
-      */
-
+     
       }
     
     
@@ -1631,7 +1624,28 @@ void EventAttributesViewController::showCurrentEventData(){
       }
 
       //ChildEventDef
+      
+      Gtk::Alignment* alignment;
+      Gtk::VBox* vbox;
+      
+      
       if (currentlyShownEvent->getFlagChildEventDef() ==0){ //continuum
+      
+      	attributesRefBuilder->get_widget(
+          "ChildEventsDefinitionContinuumSweepAlignment", alignment);
+      	if (alignment->get_child() == NULL){ //alignment is empty
+      		attributesRefBuilder->get_widget(
+  	        "ChildEventsDefinitionContinuumSweepVBox", vbox);
+    			alignment->add(*vbox);
+    			
+    			attributesRefBuilder->get_widget(
+          	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+          alignment->remove();
+    	
+        }    
+          
+          
+      
       
 
         attributesRefBuilder->get_widget(
@@ -1727,6 +1741,23 @@ void EventAttributesViewController::showCurrentEventData(){
       } // end continuum
 
       else if (currentlyShownEvent->getFlagChildEventDef() ==1){ //sweep
+      
+      
+        attributesRefBuilder->get_widget(
+          "ChildEventsDefinitionContinuumSweepAlignment", alignment);
+      	if (alignment->get_child() == NULL){ //alignment is empty
+      		attributesRefBuilder->get_widget(
+  	        "ChildEventsDefinitionContinuumSweepVBox", vbox);
+    			alignment->add(*vbox);
+    			
+    			attributesRefBuilder->get_widget(
+          	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+          alignment->remove();
+    	
+        } 
+      
+
+
 
         attributesRefBuilder->get_widget(
           "attributesChildEventDefSweepButton", radioButton);
@@ -1823,6 +1854,23 @@ void EventAttributesViewController::showCurrentEventData(){
         
       } // end sweep
       else { //discrete
+      
+      
+            	attributesRefBuilder->get_widget(
+          "ChildrenEventsDefinitionDiscreteAlignment", alignment);
+      	if (alignment->get_child() == NULL){ //alignment is empty
+      		attributesRefBuilder->get_widget(
+  	        "ChildrenEventsDefinitionDiscreteVBox", vbox);
+    			alignment->add(*vbox);
+    			
+    			attributesRefBuilder->get_widget(
+          	"ChildEventsDefinitionContinuumSweepAlignment", alignment);
+          alignment->remove();
+    	
+        } 
+      
+      
+      
       
         attributesRefBuilder->get_widget(
           "attributesChildEventDefDiscreteButton", radioButton);
@@ -2471,6 +2519,21 @@ void EventAttributesViewController::continuumButtonClicked(){
     //(*i)->weightEntry.set_text("");
   }
   
+  Gtk::Alignment* alignment;
+  Gtk::VBox* vbox;
+  attributesRefBuilder->get_widget(
+     "ChildEventsDefinitionContinuumSweepAlignment", alignment);
+  if (alignment->get_child() == NULL){ //alignment is empty
+    attributesRefBuilder->get_widget(
+      "ChildEventsDefinitionContinuumSweepVBox", vbox);
+   	alignment->add(*vbox);
+    			
+    attributesRefBuilder->get_widget(
+     	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+    alignment->remove();
+    	
+   }    
+ 
   
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("attributesChildEventDefEntry1", entry);
@@ -2542,6 +2605,22 @@ void EventAttributesViewController::sweepButtonClicked(){
     (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
     //(*i)->weightEntry.set_text("");
   }
+  
+  Gtk::Alignment* alignment;
+  Gtk::VBox* vbox;
+  attributesRefBuilder->get_widget(
+     "ChildEventsDefinitionContinuumSweepAlignment", alignment);
+  if (alignment->get_child() == NULL){ //alignment is empty
+    attributesRefBuilder->get_widget(
+      "ChildEventsDefinitionContinuumSweepVBox", vbox);
+   	alignment->add(*vbox);
+    			
+    attributesRefBuilder->get_widget(
+     	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+    alignment->remove();
+    	
+   }     
+  
 
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("attributesChildEventDefEntry1", entry);
@@ -2627,6 +2706,28 @@ void EventAttributesViewController::discreteButtonClicked(){
   }
   
   
+  Gtk::Alignment* alignment;
+  Gtk::VBox* vbox;
+  
+  attributesRefBuilder->get_widget(
+     "ChildrenEventsDefinitionDiscreteAlignment", alignment);
+  if (alignment->get_child() == NULL){ //alignment is empty
+    attributesRefBuilder->get_widget(
+      "ChildrenEventsDefinitionDiscreteVBox", vbox);
+   	alignment->add(*vbox);
+    			
+    attributesRefBuilder->get_widget(
+     	"ChildEventsDefinitionContinuumSweepAlignment", alignment);
+    alignment->remove();
+    	
+   }    
+  
+  
+  
+  
+  
+  
+  
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("attributesChildEventDefEntry1", entry);
   entry->set_sensitive(false);
@@ -2676,6 +2777,13 @@ void EventAttributesViewController::discreteButtonClicked(){
         attributesRefBuilder->get_widget(
           "attributesDurationTypeSecondsButton", radioButton);
         radioButton->set_sensitive(false);  
+  
+  attributesRefBuilder->get_widget(
+          "attributesChildEventDefDiscreteButton", radioButton);
+  if (radioButton->get_active() ==false){
+  	radioButton->set_active();
+ 	}
+  
   
 
 }
@@ -3837,6 +3945,8 @@ void EventAttributesViewController::numOfChildFunButton3Clicked(){insertFunction
 void EventAttributesViewController::childEventDefStartTimeFunButtonClicked(){insertFunctionString(childEventDefStartTimeFunButton);}
 void EventAttributesViewController::childEventDefChildTypeFunButtonClicked(){insertFunctionString(childEventDefChildTypeFunButton);}
 void EventAttributesViewController::childEventDefDurationFunButtonClicked(){insertFunctionString(childEventDefDurationFunButton);}
+void EventAttributesViewController::childEventAttackSieveButtonClicked(){insertFunctionString(childEventDefAttackSieveFunButton);} 
+void EventAttributesViewController::childEventDurationSieveButtonClicked(){insertFunctionString(childEventDefDurationSieveFunButton);} 
 
 
 
@@ -3968,6 +4078,31 @@ void EventAttributesViewController::insertFunctionString (FunctionButton _button
       }    
     } 
   }
+  else if (_button ==   childEventDefAttackSieveFunButton){
+    attributesRefBuilder->get_widget(
+      "attributesChildEventDefAttackSieveEntry", entry);
+    generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){  
+      entry->set_text(generator->getResultString());
+    }     
+  }
+  else if (_button == childEventDefDurationSieveFunButton){
+    attributesRefBuilder->get_widget(
+      "attributesChildEventDefDurationSieveEntry", entry);
+    generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){  
+      entry->set_text(generator->getResultString());
+    }  
+  
+  
+  }
+  
+  
+  
+  
+  
   
   if (generator!= NULL) {
     delete generator;

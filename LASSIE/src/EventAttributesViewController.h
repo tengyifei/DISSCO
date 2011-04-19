@@ -53,7 +53,9 @@ typedef enum {
   numOfChildFunButton3,
   childEventDefStartTimeFunButton,
   childEventDefChildTypeFunButton,
-  childEventDefDurationFunButton
+  childEventDefDurationFunButton,
+  childEventDefAttackSieveFunButton,
+  childEventDefDurationSieveFunButton
   
 }FunctionButton;
 
@@ -232,6 +234,8 @@ public:
   void childEventDefStartTimeFunButtonClicked();
   void childEventDefChildTypeFunButtonClicked();
   void childEventDefDurationFunButtonClicked();
+  void childEventAttackSieveButtonClicked(); 
+  void childEventDurationSieveButtonClicked(); 
   
   void BSLoudnessButtonClicked();
   void BSSpatializationButtonClicked();

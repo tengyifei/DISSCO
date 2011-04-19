@@ -909,11 +909,10 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
     }    
   }
   else {// discrete
-    stringbuffer += "ReadSIVFile(\"SIV/";
     stringbuffer += childEventDefAttackSieve;
-    stringbuffer += "\"),\n\t\t  ReadSIVFile(\"SIV/";
+    stringbuffer += ",\n\t\t  ";
     stringbuffer += childEventDefDurationSieve;
-    stringbuffer += "\"),\n\t\t  < ";   
+    stringbuffer += ",\n\t\t  < ";   
 
 
 
