@@ -37,16 +37,14 @@ EnvelopeLibraryEntry::EnvelopeLibraryEntry(int _number){
   number =_number;
   prev = NULL;
   next = NULL;
-  yStart = 0;
-  segments = new EnvLibEntrySegment();
-  segments->prev = NULL;
-  segments->next = NULL;
-  segments->xStart = 0;
-  segments->xDuration = 1;
-  segments->y = 0; 
-  segments->segmentType = envSegmentTypeLinear;
-  segments->segmentProperty = envSegmentPropertyFixed;
   
+  head = new EnvLibEntryNode(0,0);
+  head->rightSeg = new EnvLibEntrySeg();
+  head->rightSeg->leftNode = head;
+  head->rightSeg->rightNode = new EnvLibEntryNode(1,0);
+  head->rightSeg->rightNode->leftSeg = head->rightSeg;
+  
+
 }
 EnvelopeLibraryEntry::~EnvelopeLibraryEntry(){//delete segments!}
 }
@@ -54,11 +52,36 @@ EnvelopeLibraryEntry::~EnvelopeLibraryEntry(){//delete segments!}
 
 
 void EnvelopeLibraryEntry::print(){
-  //std::cout<<"number:"<< number<<std::endl;
+
+  EnvLibEntrySeg* currentSeg = head->rightSeg;
+  EnvLibEntrySeg* prevSeg = NULL;
   
+  while (currentSeg != NULL){
+  	cout<<"x: "<<currentSeg->leftNode->x<<", y: "<<currentSeg->leftNode->y<<", ";
+  	if (currentSeg->segmentType == envSegmentTypeLinear){
+  		cout<<"LINEAR, ";
+  	}
+  	else if (currentSeg->segmentType == envSegmentTypeSpline){
+  		cout<<"SPLINE, ";
+  	}
+  	else {
+  		cout<<"EXPONENTIAL, ";
+  	}
+  	
+  	if (currentSeg->segmentProperty ==envSegmentPropertyFlexible){
+  		cout<<"FLEXIBLE"<<endl;
+  	}
+  	else{
+  		cout<<"FIXED"<<endl;
+  	}	
   
-  if (next != NULL) next->print();
+		prevSeg = currentSeg;
+		currentSeg = currentSeg->rightNode->rightSeg;
+
+  }
+  	cout<<"x: "<<prevSeg->rightNode->x<<", y: "<<prevSeg->rightNode->y<<endl;
   
+
 
 }
 
@@ -94,122 +117,69 @@ Glib::ustring EnvelopeLibraryEntry::getNumberString(){
 
 
 EnvelopeLibraryEntry::EnvelopeLibraryEntry(Envelope* _envelope,int _number){
-  number =_number;
-  prev = NULL;
-  next = NULL;
-  
-  Collection<envelope_segment>* lassSegments = _envelope->getSegments();
-  
-  int size = lassSegments->size();
-  
-  
-  //special case, if there are only two nodes in this envelope
-  if (size ==2){
-    envelope_segment thisLassSegment = lassSegments->get(0);
-    yStart = thisLassSegment.y;
-    segments = new EnvLibEntrySegment();
-    segments->prev = NULL;
-    segments->next = NULL;
-    segments->xStart = 0;
-       
-    if (thisLassSegment.lengthType == FIXED){
-      segments->segmentProperty = envSegmentPropertyFixed;
+
+	number = _number;
+	Collection<envelope_segment>* segments = _envelope->getSegments ();
+	
+	EnvLibEntryNode* currentNode = NULL;
+	EnvLibEntryNode* prevNode = NULL;
+	EnvLibEntrySeg* currentSeg = NULL;
+	EnvLibEntrySeg* prevSeg = NULL;
+	
+	
+	
+	int i = 0;
+	for (i ; i < segments->size()-1; i++){
+	
+		prevNode = currentNode;
+		prevSeg = currentSeg;
+		currentNode = new EnvLibEntryNode(segments->get(i).x, segments->get(i).y);
+		currentSeg = new EnvLibEntrySeg();
+		if (i ==0){
+			head = currentNode;
+		}
+		else{
+			prevSeg->rightNode = currentNode;
+		}
+		currentNode->leftSeg = prevSeg;
+		currentNode->rightSeg = currentSeg;
+		currentSeg->leftNode = currentNode;
+		
+		if (_envelope->getSegmentLengthType(i) == FIXED){
+      
+
+      currentSeg->segmentProperty = envSegmentPropertyFixed;
     }
     else {
-      segments->segmentProperty = envSegmentPropertyFlexible;
+      
+      currentSeg->segmentProperty = envSegmentPropertyFlexible;
     }
+    
         
-    if (thisLassSegment.interType ==EXPONENTIAL){
-      segments->segmentType = envSegmentTypeExponential;
+    if (_envelope->getSegmentInterpolationType(i) ==EXPONENTIAL){
+      currentSeg->segmentType = envSegmentTypeExponential;
     }
-    else if(thisLassSegment.interType == CUBIC_SPLINE){
-      segments->segmentType = envSegmentTypeSpline;
+    else if(_envelope->getSegmentInterpolationType(i) == CUBIC_SPLINE){
+      currentSeg->segmentType = envSegmentTypeSpline;
     }
     else {
-      segments->segmentType = envSegmentTypeLinear;
-    }
-    thisLassSegment = lassSegments->get(1);
-    segments->xDuration = 1.0;
-    segments->y = thisLassSegment.y;   
-  
-  }
-
-  else{
-    EnvLibEntrySegment* previousSegment = NULL;
-    EnvLibEntrySegment* currentSegment = NULL;
-  
-  
-  
-    for (int i = 0; i < size -1; i ++){  //-1 because the last LASSseg has no segmentType and segProperty, treat it outside of the loop
-      envelope_segment thisLassSegment = lassSegments->get(i);
-      if (i ==0){ // the first segment
-        yStart = thisLassSegment.y;
-        segments = new EnvLibEntrySegment();
-        segments->prev = NULL;
-        segments->next = NULL;
-        segments->xStart = 0;
-        
-        if (thisLassSegment.lengthType == FIXED){
-          segments->segmentProperty = envSegmentPropertyFixed;
-        }
-        else {
-          segments->segmentProperty = envSegmentPropertyFlexible;
-        }
-        
-        if (thisLassSegment.interType ==EXPONENTIAL){
-          segments->segmentType = envSegmentTypeExponential;
-        }
-        else if(thisLassSegment.interType == CUBIC_SPLINE){
-          segments->segmentType = envSegmentTypeSpline;
-        }
-        else {
-          segments->segmentType = envSegmentTypeLinear;
-        }
-        
-        previousSegment = segments;
-      }
-      //not the first segment
-      else{
-        currentSegment = new EnvLibEntrySegment();
-        currentSegment->prev = previousSegment;
-        previousSegment->next = currentSegment;    
-        currentSegment->xStart = thisLassSegment.x;
-        previousSegment->y = thisLassSegment.y;
-        previousSegment->xDuration = currentSegment->xStart - previousSegment->xStart;
-
-        if (thisLassSegment.lengthType == FIXED){
-          currentSegment->segmentProperty = envSegmentPropertyFixed;
-        }
-        else {
-          currentSegment->segmentProperty = envSegmentPropertyFlexible;
-        }
-        
-        if (thisLassSegment.interType ==EXPONENTIAL){
-          currentSegment->segmentType = envSegmentTypeExponential;
-        }
-        else if(thisLassSegment.interType == CUBIC_SPLINE){
-          currentSegment->segmentType = envSegmentTypeSpline;
-        }
-        else {
-          currentSegment->segmentType = envSegmentTypeLinear;
-        }  
-        previousSegment = currentSegment;
-      }
-    
+      currentSeg->segmentType = envSegmentTypeLinear;
     }
     
-    envelope_segment thisLassSegment = lassSegments->get(size -1);
-    currentSegment->next = NULL;
-    currentSegment->xDuration = 1.0 - currentSegment->xStart;
-    currentSegment->y = thisLassSegment.y;   
+    //thisLassSegment = &(lassSegments->get(1));
+    //head->rightSeg->rightNode->y = thisLassSegment->y;   
   
-  }
-  
-  
-  delete lassSegments;
-  
+  }// end of for loop
+
+	currentSeg->rightNode = new EnvLibEntryNode(segments->get(i).x, segments->get(i).y);
+	//cout<<"test1"<<endl;
+	currentSeg->rightNode->leftSeg = currentSeg;
+	//cout<<"test2"<<endl;
+	//cout<<_envelope->getSegmentInterpolationType(i)<<", "<<_envelope->getSegmentLengthType(i)<<endl; //right things to call
+		
+	
+
 }
-
 
 
 

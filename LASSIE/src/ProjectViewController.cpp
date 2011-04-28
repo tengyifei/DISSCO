@@ -1263,7 +1263,7 @@ EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
 }
 
 
-void ProjectViewController::saveEnvelopeLibrary(){
+void ProjectViewController::saveEnvelopeLibrary(){ 
   std::string stringbuffer;
   char charbuffer[60];
   FILE* file  = fopen(libPathAndName.c_str(), "w");
@@ -1285,76 +1285,86 @@ void ProjectViewController::saveEnvelopeLibrary(){
   
   
   count = 1;//use count as a index counter
+
+
   while (envLib!=NULL){
     sprintf (charbuffer, "Envelope %d\n", count);
         fputs(charbuffer,file);  
- 
+    //envLib->print();
  
  
   
-    int lineNumber = envLib->segments->count();
+    int lineNumber = envLib->head->countNumOfNodes();
     sprintf(charbuffer,"%d\n",lineNumber);
     fputs(charbuffer,file); 
-    EnvLibEntrySegment* libSeg = envLib-> segments;
+    
+    EnvLibEntryNode* currentNode;
+    EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
     while (libSeg!=NULL){
-      sprintf(charbuffer,"%.3f", libSeg->xStart);   
+      currentNode = libSeg->leftNode;
+      
+    
+    
+    
+      sprintf(charbuffer,"%.3f", currentNode->x);   
       stringbuffer = charbuffer;
-      stringbuffer = stringbuffer + "\t";
+      stringbuffer = stringbuffer + "     ";
       //stringbuffer =  charbuffer+ "\t";
            
-      if (libSeg->prev ==NULL){
-        sprintf(charbuffer,"%.3f", envLib->yStart);
-        stringbuffer = stringbuffer + charbuffer +"\t";
-      }// handle first segment
-      else{
-        sprintf(charbuffer,"%.3f", libSeg->prev->y);
-        
-        stringbuffer = stringbuffer + charbuffer +"\t";
       
-      } //normal segment
+      sprintf(charbuffer,"%.3f", currentNode->y);
         
-       
+      stringbuffer = stringbuffer + charbuffer +"     ";
+      
       if (libSeg->segmentType == envSegmentTypeLinear){
-        stringbuffer = stringbuffer + "LINEAR\t\t";
+        stringbuffer = stringbuffer + "LINEAR              ";
       }
       else if (libSeg->segmentType ==envSegmentTypeExponential){
-        stringbuffer = stringbuffer + "EXPONENTIAL\t";
+        stringbuffer = stringbuffer + "EXPONENTIAL         ";
       }
       else {
-        stringbuffer = stringbuffer + "SPLINE\t\t";
+        stringbuffer = stringbuffer + "CUBIC_SPLINE        ";
       }         
       
         
       if (libSeg->segmentProperty == envSegmentPropertyFlexible){
-        stringbuffer = stringbuffer + "FLEXIBLE\t";
+        stringbuffer = stringbuffer + "FLEXIBLE    ";
       }
       else {
-              stringbuffer = stringbuffer + "FIXED\t\t";
+        stringbuffer = stringbuffer + "FIXED       ";
       } 
       
-      sprintf (charbuffer,"%.3f\n", libSeg->xDuration);
+      
+      sprintf (charbuffer,"%.3f\n", libSeg->rightNode->x - currentNode->x);
       stringbuffer = stringbuffer+charbuffer;
-      
-      if (libSeg->next ==NULL){
-
-        sprintf (charbuffer,"%.3f\n", libSeg->y);
-        stringbuffer = stringbuffer + "1.00\t"+ charbuffer;      
-      
-      }//handle last segment
-
-      
+       
       
       fputs(stringbuffer.c_str(),file);        
-      libSeg = libSeg->next;
-    } //end printing one envelope
-  
+      libSeg = libSeg->rightNode->rightSeg;
+    
+    
  
+    } 
+    
+    currentNode = currentNode->rightSeg->rightNode;
+    
+        
+    sprintf(charbuffer,"%.3f", currentNode->x);   
+    stringbuffer = charbuffer;
+    stringbuffer = stringbuffer + "     ";
+        
+    sprintf(charbuffer,"%.3f", currentNode->y);
+    stringbuffer = stringbuffer + charbuffer+ "\n";
+    fputs(stringbuffer.c_str(),file);
+    
+    
+    //end print one envelope
  
     count++;
     envLib = envLib->next;
   }
   
-    fclose(file);
+    fclose(file);  
 }
 
 
@@ -1578,6 +1588,8 @@ ProjectViewController::ProjectViewController(
   
   
   
+
+  
   //Reconstruct Envelope Entries
   envelopeLibraryEntries = NULL;
   //std::string libFile =  _pathAndName + "/"+
@@ -1586,19 +1598,21 @@ ProjectViewController::ProjectViewController(
   std::string libFile = _libPathAndName;
 
   char libCharArray [libFile.length()+ 2];                      
-  strcpy(libCharArray, libFile.c_str()); 
+  strcpy(libCharArray, libFile.c_str());  //this is the file path and name of the lib file
+  
   //std::cout<<libCharArray<<std::endl;                         
-
+	
   //read envelope out one by one and convert to LASSIE::envelopelibraryentry
   EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
   envelopeLibrary->loadLibraryNewFormat(libCharArray);
   EnvelopeLibraryEntry* previousEntry = NULL;
   Envelope* thisEnvelope;
+
   for (int i = 1; i <= envelopeLibrary->size(); i ++){
     thisEnvelope = envelopeLibrary->getEnvelope(i);
     EnvelopeLibraryEntry* thisEntry =convertToLASSIEEnvLibEntry(thisEnvelope, i);
     delete thisEnvelope; 
-    
+
     if (previousEntry ==NULL){
       envelopeLibraryEntries = thisEntry;
       previousEntry = thisEntry;

@@ -4,7 +4,8 @@
 #include "LASSIE.h"
 
 class EnvelopeLibraryEntry;
-class EnvLibEntrySegment;
+class EnvLibEntrySeg;
+class EnvLibEntryNode;
 class EnvelopeLibraryWindow;
 class EnvLibDrawingArea : public Gtk::DrawingArea
 {
@@ -12,10 +13,11 @@ public:
   EnvLibDrawingArea(EnvelopeLibraryWindow* _envelopeLibraryWindow);
   
   virtual ~EnvLibDrawingArea();
-  
+    void resetFields();
   void showGraph(EnvelopeLibraryEntry* _envelope);
   void clearGraph();
   bool mouseMoving (GdkEventMotion* event);
+  void setActiveNodeCoordinate(string _x, string _y); 
 
 protected:
   //Override default signal handler:
@@ -29,9 +31,10 @@ protected:
   double mouseY; //temp variables for exchanging values among methods;
   double mouseX;
 
-  
+
   void moveNode();
   void insertEnvelopeSegment();
+  void removeNode();
   void setFlexible();
   void setFixed();
   void setLinear();
@@ -47,8 +50,14 @@ private:
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
   Gtk::Menu* m_pMenuPopup;
 
-  EnvLibEntrySegment* activeSegment;
-  bool headChosen;// flag to indicate if the head is chosen by the user to modify
+  EnvLibEntrySeg* activeSegment;
+  EnvLibEntryNode* activeNode;
+  //bool headChosen;// flag to indicate if the head is chosen by the user to modify
+  
+  double moveLeftBound;
+  double moveRightBound;
+  EnvLibEntrySeg* head;
+  EnvLibEntryNode* tail;  
 
 
   

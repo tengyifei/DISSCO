@@ -46,6 +46,7 @@ public:
   
   void setActiveProject(ProjectViewController* _project);
   void createNewEnvelope();
+  void setEntries(string _x, string _y);
   EnvelopeLibraryEntry* getActiveEnvelope();
 
 
@@ -101,6 +102,7 @@ protected:
 private:
   void on_cursor_changed();
   void refreshEnvelopeList();
+  void valueEntriesChanged();
   
   // these three are for setting up pop up menu
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
