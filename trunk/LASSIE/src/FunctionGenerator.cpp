@@ -833,7 +833,10 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
 
   attributesRefBuilder->get_widget(
     "MakeEnvelopeXValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeEnvelopeTextChanged));    
+  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeEnvelopeTextChanged)); 
+  //entry->set_text("1.0");
+  //entry->set_editable(false);
+     
    
   attributesRefBuilder->get_widget(
     "MakeEnvelopeYValueEntry", entry);
@@ -1832,9 +1835,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         fileValueListToStringList(value->getList(),functionReturnFloat);
       
       list<std::string>::iterator stringIter = firstList.begin();  
-      attributesRefBuilder->get_widget("MakeEnvelopeXValueEntry",entry);
-      entry->set_text(*stringIter);   
-      stringIter++;
+
       
       makeEnvelopeSubAlignments->setXValueString(*stringIter);
       stringIter++;
@@ -1842,13 +1843,22 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       //makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insertAfter){
       MakeEnvelopeSubAlignment* insertAfter = makeEnvelopeSubAlignments; 
       
-      for (stringIter; stringIter != firstList.end(); stringIter++){
+      
+      list<std::string>::iterator SecondToTheLastIter = firstList.end();  
+      SecondToTheLastIter --;
+      for (stringIter; stringIter != SecondToTheLastIter; stringIter++){
         makeEnvelopeInsertNode(insertAfter);
         insertAfter = insertAfter->next;
         insertAfter->setXValueString(*stringIter);
       }
        
-    
+       
+      attributesRefBuilder->get_widget("MakeEnvelopeXValueEntry",entry);
+      entry->set_text(*stringIter);   
+      
+       
+       
+      
       argumentsIter++;
       value =&(*argumentsIter); // 2nd argument is a float list
 
@@ -1857,15 +1867,18 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         fileValueListToStringList(value->getList(),functionReturnFloat);
       
       stringIter = secondList.begin();  
-      attributesRefBuilder->get_widget("MakeEnvelopeYValueEntry",entry);
-      entry->set_text(*stringIter);  
-      stringIter++;
-      
+      SecondToTheLastIter = secondList.end();  
+      SecondToTheLastIter --;
+    
       MakeEnvelopeSubAlignment* thisAlignment = makeEnvelopeSubAlignments;
-      for (stringIter; stringIter != secondList.end(); stringIter++){
+      for (stringIter; stringIter != SecondToTheLastIter; stringIter++){
         thisAlignment->setYValueString(*stringIter);
         thisAlignment = thisAlignment->next;
       }    
+    
+    
+      attributesRefBuilder->get_widget("MakeEnvelopeYValueEntry",entry);
+      entry->set_text(*stringIter);  
     
     
     
@@ -1921,7 +1934,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     
       attributesRefBuilder->get_widget("MakeEnvelopeScalingFactorEntry",entry);
       entry->set_text(getFunctionString(value,functionReturnFloat));     
- 
+      
     }
     //end parsing
   } 
@@ -4417,31 +4430,33 @@ void FunctionGenerator::makeEnvelopeTextChanged(){
   Gtk::Entry* entry; 
   
   
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeXValueEntry", entry);
-  std::string stringbuffer = "MakeEnvelope( <" + entry->get_text() + ", ";
+
+  std::string stringbuffer = "MakeEnvelope( <";
   MakeEnvelopeSubAlignment* iter = makeEnvelopeSubAlignments;
   
   while (iter != NULL){
     stringbuffer = stringbuffer + iter->getXValueString();
-    if (iter->next != NULL){
+    //if (iter->next != NULL){
       stringbuffer = stringbuffer + ", ";
-    }
+    //}
     iter = iter->next;
   }
-  attributesRefBuilder->get_widget( "MakeEnvelopeYValueEntry", entry);
   
-  stringbuffer = stringbuffer + ">, <"+ entry->get_text() + ", ";
+  attributesRefBuilder->get_widget( "MakeEnvelopeXValueEntry", entry);
+  stringbuffer += entry->get_text() + ">,<";
+ 
   iter = makeEnvelopeSubAlignments;
   while (iter != NULL){
     stringbuffer = stringbuffer + iter->getYValueString();
-    if (iter->next != NULL){
+    //if (iter->next != NULL){
       stringbuffer = stringbuffer + ", ";
-    }
+    //}
     iter = iter->next;
   }
   
-  stringbuffer = stringbuffer + ">, <";
+  attributesRefBuilder->get_widget( "MakeEnvelopeYValueEntry", entry);
+  
+  stringbuffer = stringbuffer + entry->get_text() + ">, <";
   iter = makeEnvelopeSubAlignments;
   while (iter != NULL){
     if(iter->getEnvSegmentType()==envSegmentTypeLinear){

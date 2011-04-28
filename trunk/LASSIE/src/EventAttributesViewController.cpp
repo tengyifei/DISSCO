@@ -4877,7 +4877,8 @@ void EventAttributesViewController::buildNoteModifiersList(){
   std::map<std::string, bool>::iterator modifierIter = defaultModifiers.begin();
   for (modifierIter; modifierIter != defaultModifiers.end(); modifierIter++){
     if ((*modifierIter).second){
-      button = new Gtk::CheckButton::CheckButton((*modifierIter).first, false);
+      //button = new Gtk::CheckButton::CheckButton((*modifierIter).first, false); //ubuntu 10.10
+      button = new Gtk::CheckButton((*modifierIter).first, false);//ubuntu 11.04
       button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
       noteModifierCheckButtons.push_back(button);
       table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
@@ -4893,7 +4894,8 @@ void EventAttributesViewController::buildNoteModifiersList(){
   std::vector<std::string> customNoteModifiers =  projectView->getCustomNoteModifiers();
   std::vector<std::string>::iterator modifierIter2 = customNoteModifiers.begin(); 
   for (modifierIter2; modifierIter2 != customNoteModifiers.end(); modifierIter2++){
-    button = new Gtk::CheckButton::CheckButton(*modifierIter2, false);
+    //button = new Gtk::CheckButton::CheckButton(*modifierIter2, false); //ubuntu 10.10
+    button = new Gtk::CheckButton(*modifierIter2, false); //ubuntu 11.04
     button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) );
     noteModifierCheckButtons.push_back(button);
     table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);

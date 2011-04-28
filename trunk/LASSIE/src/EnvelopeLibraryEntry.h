@@ -48,21 +48,33 @@ typedef enum {
 
 //this is a class hold a doublelinked list of envelope segments
 
-class EnvLibEntrySegment{
+class EnvLibEntryNode;
+class EnvLibEntrySeg{
 
 public:
-  double xStart;
-  double y;
-  double xDuration;  
-  EnvLibEntrySegment* prev;
-  EnvLibEntrySegment* next;
+  EnvLibEntryNode* leftNode;
+  EnvLibEntryNode* rightNode;
+
   envSegmentType segmentType;
   envSegmentProperty segmentProperty;
-  int count(){return (next==NULL)?2:1+ next->count();}
-  EnvLibEntrySegment(){}
-  ~EnvLibEntrySegment(){}
+  //int count(){return (next==NULL)?2:1+ next->count();}
+  EnvLibEntrySeg(){leftNode = NULL; rightNode = NULL; segmentType = envSegmentTypeLinear; segmentProperty = envSegmentPropertyFlexible;}
+  ~EnvLibEntrySeg(){}
 
 
+};
+
+
+class EnvLibEntryNode {
+public:
+  double x;
+  double y;
+  EnvLibEntrySeg* leftSeg;
+  EnvLibEntrySeg* rightSeg;
+  EnvLibEntryNode(double _x, double _y){leftSeg = NULL; rightSeg=NULL;x = _x; y = _y;}
+  int countNumOfNodes(){return (rightSeg==NULL)?1:1+rightSeg->rightNode->countNumOfNodes();}
+  ~EnvLibEntryNode(){}
+  
 };
 
 
@@ -77,9 +89,8 @@ public:
   int count();
   EnvelopeLibraryEntry* createNewEnvelope();
   Glib::ustring getNumberString();
-  double yStart;
-  EnvLibEntrySegment* segments;
-
+  EnvLibEntryNode* head;
+  
 
   int number;
   EnvelopeLibraryEntry* next;

@@ -119,6 +119,16 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
     sigc::mem_fun(*this, &EnvelopeLibraryWindow::objectActivated) );
   envelopeLibrary.signal_cursor_changed().connect(
     sigc::mem_fun(*this,&EnvelopeLibraryWindow::on_cursor_changed) );
+    
+    
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("XValueEntry", entry);
+  entry->signal_changed().connect (
+    sigc::mem_fun(*this, &EnvelopeLibraryWindow::valueEntriesChanged));
+  attributesRefBuilder->get_widget("YValueEntry", entry);
+  entry->signal_changed().connect (
+    sigc::mem_fun(*this, &EnvelopeLibraryWindow::valueEntriesChanged));    
+    
 
   //////////////////////////test for drag and drop///////////////////////////
 
@@ -287,98 +297,7 @@ void EnvelopeLibraryWindow::objectActivated(
   }
 }
 
-/*
-void PaletteViewController::insertEvent(Event* _event){
-  Gtk::TreeModel::Row childrow;
-  if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
-    childrow = *(refTreeModel->append());
-  }else{
-    Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
-    Gtk::TreeModel::Row parent = *iter;
-    childrow = *(refTreeModel->append(parent.children()));
-  }
 
-  //Gtk::TreeModel::Row childrow = *(refTreeModel->append(selectedRow.children()));
-  childrow[columns.columnObjectType] = _event->getEventTypeString();
-  childrow[columns.columnObjectName] = _event->getEventName();
-  //childrow[columns.columnButton].set_text(_event->getEventName());
-  childrow[columns.columnEntry] =_event;
-  //_event->setRowInPalette(&childrow);
-}
-
-*/
-
-
-/*
-void PaletteViewController::insertEvent(Event* _event, std::string _parentName){
-  Gtk::TreeModel::Row insertTo;
-  //find the row of the given name
-  Gtk::TreeModel::Children children = refTreeModel->children();
-
-  for(Gtk::TreeModel::Children::iterator iter = children.begin();
-      iter != children.end();
-      ++iter){
-    Gtk::TreeModel::Row row = *iter;
-    if (row[columns.columnObjectName] == _parentName) insertTo = row;
-  }
-
-  //insert new event
-  Gtk::TreeModel::Row childrow = *(refTreeModel->append(insertTo.children()));
-  childrow[columns.columnObjectType] = _event->getEventTypeString();
-  childrow[columns.columnObjectName] = _event->getEventName();
-  childrow[columns.columnEntry] = _event;
-}
-
-*/
-
-/*
-//called when object name is changed in the atributesview
-void PaletteViewController::refreshObjectName(Event* _event){
-  Gtk::TreeModel::Row toChange;
-  //find the row of the given event
-  Gtk::TreeModel::Children children = refTreeModel->children();
-  for(Gtk::TreeModel::Children::iterator iter = children.begin();
-      iter != children.end();
-      iter++){
-    Gtk::TreeModel::Row row = *iter;
-    //std::cout<<row[columns.columnObjectName]<<std::endl;
-    if (row[columns.columnEntry] == _event) toChange = row;
-}
- //std::cout<<toChange[columns.columnObjectName]<<std::endl;
-//toChange[columns.columnObjectName] = _event->getEventName();
-}
-*/
-
-/*
-void PaletteViewController::on_button_drag_data_get(
-  const Glib::RefPtr<Gdk::DragContext>& context,
-  Gtk::SelectionData& selection_data,
-  guint info,
-  guint time){
-   //keep this statement alive. removing it causes the recieving site not responding :(
-   //selection_data.set(selection_data.get_target(), 8 /* 8 bits format */ //,
-     //    (const guchar*)"I'm Data!",
-       //9 /* the length of I'm Data! in bytes */);*/
-
-  //std::cout<<"187  "<<palette.get_selection()->get_model()->get_string(palette.get_selection()->get_selected())<<std::endl;
-  //std::cout<<"188 "<<palette.get_selection()->get_model()->get_path(palette.get_selection()->get_selected())<<std::endl;
-/*
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
-  Gtk::TreeModel::Row row = *iter;
-
-
-  //right here set up a pointer to the right event object
-  //std::cout<<"Copy Signal sent. Object: "<<row[columns.columnObjectName]<<std::endl;
-  Glib::ustring name = row[columns.columnObjectName];
-
-  selection_data.set(
-    selection_data.get_target(),
-    8 /* 8 bits format *//* ,  
-    (const guchar*)name.c_str(),
-    name.length() /* the length of I'm Data! in bytes );
-}
-
-*/
 //originally want to show the attributes whenever the cursor move, but it's dangerous so skipped. leave the function body for future usage.
 void EnvelopeLibraryWindow::on_cursor_changed(){
 //TODO
@@ -388,6 +307,7 @@ void EnvelopeLibraryWindow::on_cursor_changed(){
   //std::cout<<row[columns.columnObjectNumber]<<std::endl;
 
   activeEnvelope = row[columns.columnEntry];
+  drawingArea->resetFields();
   drawingArea->showGraph(row[columns.columnEntry]);
 
   //projectView->showAttributes(row[columns.columnEntry]);
@@ -395,19 +315,7 @@ void EnvelopeLibraryWindow::on_cursor_changed(){
 
 
 
-//return None if not a folder is selected
 
-
-/*
-
-
-Event* PaletteViewController::getCurrentSelectedEvent(){
-  //std::cout<<"cursor changed!!"<<std::endl;
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
-  Gtk::TreeModel::Row row = *iter;
-  return row[columns.columnEntry];
-}
-*/
 
 
 
@@ -448,32 +356,7 @@ int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _g
   if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 115 && _gdkEventKey->state ==20){ //ctrl-s pressed
     activeProject->save();
   }
-   /*
-  cout<<_gdkEventKey->type<<endl;
-  cout<<_gdkEventKey->state<<endl;
-  cout<<_gdkEventKey->keyval<<endl;
-  cout<<_gdkEventKey->string<<endl;
-  /*  //this chunk is handled by accelkey of FileNewObject
-	if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
-		if (projectView!= NULL&& projectView->getPathAndName() != ""){
-			projectView->nKeyPressed(get_focus());// for palette to add object
-		}
-	} 
-	*/
-  /*
- GdkEventType type;   8 press 9 release
- GdkWindow *window; this window
- gint8 send_event; don't know what's this
- guint32 time; event time 
- guint state; usually 16 ctrl keys otherwise
- guint keyval; ascii
- gint length;
- gchar *string;  return ascii code
- guint16 hardware_keycode; keyboard key code
- guint8 group;
   
-  
-  */
   
   
 
@@ -489,7 +372,26 @@ int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _g
 
 
 
+void EnvelopeLibraryWindow::valueEntriesChanged(){
+  Gtk::Entry* x;
+  Gtk::Entry* y;
+  attributesRefBuilder->get_widget("XValueEntry", x);
+  attributesRefBuilder->get_widget("YValueEntry", y);
 
+  drawingArea->setActiveNodeCoordinate(x->get_text(), y->get_text()); 
+}
+
+
+void EnvelopeLibraryWindow::setEntries(string _x, string _y){
+  Gtk::Entry* x;
+  Gtk::Entry* y;
+  attributesRefBuilder->get_widget("XValueEntry", x);
+  attributesRefBuilder->get_widget("YValueEntry", y);
+  
+  x->set_text(_x);
+  y->set_text(_y);
+
+}
 
 
   
