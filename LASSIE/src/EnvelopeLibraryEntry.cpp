@@ -102,11 +102,14 @@ EnvelopeLibraryEntry* EnvelopeLibraryEntry::createNewEnvelope(){
 
 
 Glib::ustring EnvelopeLibraryEntry::getNumberString(){
+
   std::string temp;
+
   char tem1[20] ;
   sprintf(tem1,"%d",number); 
-  
-  temp = tem1;
+
+  temp = string(tem1);
+
   Glib::ustring ret = temp;
   return ret;
 
@@ -117,7 +120,8 @@ Glib::ustring EnvelopeLibraryEntry::getNumberString(){
 
 
 EnvelopeLibraryEntry::EnvelopeLibraryEntry(Envelope* _envelope,int _number){
-
+  prev =NULL;
+  next =NULL;
 	number = _number;
 	Collection<envelope_segment>* segments = _envelope->getSegments ();
 	
