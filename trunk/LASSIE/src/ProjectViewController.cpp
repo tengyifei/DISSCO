@@ -1607,7 +1607,7 @@ ProjectViewController::ProjectViewController(
   envelopeLibrary->loadLibraryNewFormat(libCharArray);
   EnvelopeLibraryEntry* previousEntry = NULL;
   Envelope* thisEnvelope;
-
+  
   for (int i = 1; i <= envelopeLibrary->size(); i ++){
     thisEnvelope = envelopeLibrary->getEnvelope(i);
     EnvelopeLibraryEntry* thisEntry =convertToLASSIEEnvLibEntry(thisEnvelope, i);
