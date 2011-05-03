@@ -285,11 +285,7 @@ private:
     
   private:  
     Glib::RefPtr<Gtk::Builder> attributesRefBuilder;
-    FunctionGenerator* parent;
-    void functionsFunButtonClicked();
-    void minFunButtonClicked();    
-    void maxFunButtonClicked();    
-    void distFunButtonClicked();    
+    FunctionGenerator* parent; 
     void removeButtonClicked();
     void textChanged();
     
@@ -303,7 +299,8 @@ private:
   void stochosMethodRadioButtonClicked();
   void stochosAddNodeButtonClicked();
   void stochosTextChanged();  
-  void stochosOffsetFunButtonClicked();
+
+  void stochosFunButtonClicked();
   void stochosRemoveNode(StochosSubAlignment* _remove); 
   
   //ValuePick 

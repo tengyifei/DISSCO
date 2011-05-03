@@ -658,15 +658,21 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     "StochosOffsetEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosTextChanged)); 
   
-  attributesRefBuilder->get_widget(
-    "StochosOffsetFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosOffsetFunButtonClicked));  
   
   attributesRefBuilder->get_widget(
     "StochosAddNodeButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosAddNodeButtonClicked)); 
+	
+  attributesRefBuilder->get_widget(
+    "StochosInsertFunctionButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosFunButtonClicked));
+  //button->can_focus(false);
   
   
+
+
+
+
   //ValuePick
   
   attributesRefBuilder->get_widget(
@@ -3557,20 +3563,7 @@ void FunctionGenerator::stochosTextChanged(){
 }
 
 
-void FunctionGenerator::stochosOffsetFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "StochosOffsetEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
 
-}
 
 
 void FunctionGenerator::stochosMethodRadioButtonClicked(){
@@ -3622,6 +3615,34 @@ void FunctionGenerator::stochosRemoveNode(StochosSubAlignment* _remove){
 }  
 
 
+void FunctionGenerator::stochosFunButtonClicked(){
+  
+  //Gtk::Entry* entry = (Gtk::Entry*)get_focus();
+  //cout<<focus ->get_text()<<endl;
+  
+  Gtk::Entry* entry = dynamic_cast< Gtk::Entry * >(get_focus() );
+  if( entry ){
+    Gtk::Entry* offset;
+    attributesRefBuilder->get_widget(
+      "StochosOffsetEntry", offset);   
+    
+    FunctionGenerator* generator = new FunctionGenerator((entry==offset)?functionReturnInt:functionReturnENV, entry->get_text());
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+    delete generator;
+  }
+  else {
+    return;
+  }
+
+ 
+
+
+}
+
+
 FunctionGenerator::StochosSubAlignment::StochosSubAlignment(FunctionGenerator* _parent, int _methodFlag){
   parent = _parent;
   next = NULL;
@@ -3660,24 +3681,9 @@ FunctionGenerator::StochosSubAlignment::StochosSubAlignment(FunctionGenerator* _
   
   Gtk::Button* button;
   Gtk::Entry* entry;
-  attributesRefBuilder->get_widget(
-    "FunctionsFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::functionsFunButtonClicked));
-  
-  
-  attributesRefBuilder->get_widget(
-    "MinFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::minFunButtonClicked));
-  
-  
-  attributesRefBuilder->get_widget(
-    "MaxFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::maxFunButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "DistFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::distFunButtonClicked));
 
+  
+  
   attributesRefBuilder->get_widget(
     "removeNodeButton1", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::removeButtonClicked));
@@ -3792,69 +3798,6 @@ void FunctionGenerator::StochosSubAlignment::setDistEntry(std::string _string){
 
 
 
-
-
-void FunctionGenerator::StochosSubAlignment::functionsFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "FunctionsEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
-
-}
-
-void FunctionGenerator::StochosSubAlignment::minFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "MinEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
-
-}
-
-
-void FunctionGenerator::StochosSubAlignment::maxFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "MaxEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
-
-}
-
-
-void FunctionGenerator::StochosSubAlignment::distFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "DistEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
-
-}
 
 
 
