@@ -38,6 +38,7 @@
 
 //Forward declarations
 
+class ObjectWindow;
 class EventAttributesViewController;
 class PaletteViewController;
 class EnvelopeLibraryEntry;
@@ -129,6 +130,21 @@ public:
   //////////////////////////////////////////////////////////////////
   std::vector <IEvent*> events;//so that palette can push new event back to ievent
   std::vector <IEvent*> deletedEvents; //to be delete (and also the files) when "Save" is clicked
+
+  ObjectWindow* topWindow;
+  ObjectWindow* highWindow;
+  ObjectWindow* midWindow;
+  ObjectWindow* lowWindow;
+  ObjectWindow* bottomWindow;
+  ObjectWindow* spectrumWindow;
+  ObjectWindow* envWindow;
+  ObjectWindow* sivWindow;
+  ObjectWindow* spaWindow;
+  ObjectWindow* patWindow;
+  ObjectWindow* revWindow;
+  ObjectWindow* noteWindow;
+  
+
 private:
   
   
@@ -198,6 +214,9 @@ private:
   std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes; 
   SharedPointers* sharedPointers;
   void clearDeletedEvents();
+  
+  
+
   
 };
 

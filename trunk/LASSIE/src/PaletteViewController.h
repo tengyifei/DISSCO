@@ -36,6 +36,8 @@ class IEvent;
 class ProjectViewController;
 class EnvelopeLibraryWindow;
 class SharedPointers;
+class ObjectWindow;
+class ObjectWindowObjectPackage;
 
 
 class PaletteViewController: public Gtk::VBox {
@@ -52,6 +54,7 @@ public:
   void deleteKeyPressed();
   int getCurrentMaxObjectNumber(string _folderName);
   void refreshObjectOrder( string _folderName);
+  ObjectWindowObjectPackage* getObjectsLinkedList(string _typeString);
   
   
   

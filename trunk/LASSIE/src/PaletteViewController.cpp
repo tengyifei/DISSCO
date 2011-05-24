@@ -34,6 +34,7 @@
 #include "SharedPointers.h"
 #include "MainWindow.h"
 #include "EventAttributesViewController.h"
+#include "ObjectWindow.h"
 
 
 PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
@@ -193,20 +194,12 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   if(!m_pMenuPopup) g_warning("menu not found");
   
   
-  
-  
   //test right click change cursor
   Glib::RefPtr<Gtk::TreeSelection> refTreeSelection =
     palette.get_selection();
     
   refTreeSelection->signal_changed().connect(
     sigc::mem_fun(*this, &PaletteViewController::on_selection_changed));
-  
-  
-  
-  
-  
-  
   
   
 
@@ -226,23 +219,64 @@ void PaletteViewController::objectActivated(
   if(iter){
     Gtk::TreeModel::Row row = *iter;
     selectedRow = *iter;
-    projectView->showAttributes(row[columns.columnEntry]);
+    if (row[columns.columnEntry] != NULL){
+      projectView->showAttributes(row[columns.columnEntry]);
+    }
+    
   }
+  
 }
 
 void PaletteViewController::insertEvent(IEvent* _event){
  
-	
-	
-
-	
+	ObjectWindow* windowToRefresh = NULL;	
   Gtk::TreeModel::Row childrow;
+
   if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
     childrow = *(refTreeModel->append());
+  
   }else{
     Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
     Gtk::TreeModel::Row parent = *iter;
     childrow = *(refTreeModel->append(parent.children()));
+
+    if (parent[columns.columnObjectName] == "Top"){
+      windowToRefresh = projectView->topWindow;
+    }
+    else if (parent[columns.columnObjectName] == "High"){
+      windowToRefresh = projectView->highWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Mid"){
+      windowToRefresh = projectView->midWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Low"){
+      windowToRefresh = projectView->lowWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Bottom"){
+      windowToRefresh = projectView->bottomWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Spectrum"){
+      windowToRefresh = projectView->spectrumWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Envelope"){
+      windowToRefresh = projectView->envWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Sieve"){
+      windowToRefresh = projectView->sivWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Spatialization"){
+      windowToRefresh = projectView->spaWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Pattern"){
+      windowToRefresh = projectView->patWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Reverb"){
+      windowToRefresh = projectView->revWindow;
+    }
+    else if (parent[columns.columnObjectName] == "Note"){
+      windowToRefresh = projectView->noteWindow;
+    }
+
   }
 
   //Gtk::TreeModel::Row childrow = *(refTreeModel->append(selectedRow.children()));
@@ -252,6 +286,11 @@ void PaletteViewController::insertEvent(IEvent* _event){
   childrow[columns.columnEntry] =_event;
   //_event->setRowInPalette(&childrow);
   childrow[columns.columnObjectOrder] =_event->getEventOrderInPalette();
+
+  if (windowToRefresh != NULL){
+    windowToRefresh->refresh();
+  }
+
 }
 
 
@@ -791,6 +830,65 @@ void PaletteViewController::refreshObjectOrder( string _folderName){
   
   }
 
+}
+
+
+
+ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(string _typeString){
+  ObjectWindowObjectPackage* result = NULL;
+  
+ typedef Gtk::TreeModel::Children type_children; //minimize code length.
+  type_children children = refTreeModel->children();
+  type_children::iterator iter = children.begin();
+  bool entryNotFoundYet = true;
+  Gtk::TreeModel::Row row;
+  
+  while (entryNotFoundYet &&iter!= children.end()){
+    row = *iter;
+    if (_typeString != row[columns.columnObjectName]){
+      iter++;
+    } 
+    else {
+      entryNotFoundYet = false;  
+    }
+  }
+
+  children = row.children();
+  iter = children.begin();
+  if (children.size() == 0){
+    cout<<"children Size == 0"<<endl;
+    return NULL;
+  }
+  else if (children.size() == 1){
+    result = new ObjectWindowObjectPackage();
+    row = *iter;
+    result->set_label(row[columns.columnObjectName]);
+    result->ievent = row[columns.columnEntry];
+    result->next = NULL;
+    return result;
+  }
+  else{
+    result = new ObjectWindowObjectPackage();
+    row = *iter;
+    result->set_label(row[columns.columnObjectName]);
+    result->ievent = row[columns.columnEntry];
+    iter++;
+    ObjectWindowObjectPackage* currentPackage = result;
+    ObjectWindowObjectPackage* newPackage;
+    
+    for (iter; iter!= children.end(); iter++){
+      newPackage = new ObjectWindowObjectPackage();
+      row = *iter;
+      newPackage->set_label(row[columns.columnObjectName]);
+      newPackage->ievent = row[columns.columnEntry];
+      newPackage->prev = currentPackage;
+      currentPackage->next = newPackage;
+      currentPackage= newPackage;
+    
+    }
+    currentPackage->next = NULL;
+    return result;
+  }
 
 }
 
