@@ -3415,6 +3415,8 @@ It must contain exactly 6 very small numbers </property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">click on the text entry you want to insert a function
+before clicking this button</property>
             <property name="use_action_appearance">False</property>
             <property name="focus_on_click">False</property>
           </object>

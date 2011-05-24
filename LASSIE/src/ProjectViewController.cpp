@@ -42,6 +42,7 @@
 #include "EnvelopeLibraryEntry.h"
 #include "SharedPointers.h"
 #include "FunctionGenerator.h"
+#include "ObjectWindow.h"
 #include <dirent.h>
 
 
@@ -202,6 +203,19 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
 
 
   envelopeLibraryEntries = NULL;
+  
+  topWindow = NULL;
+  highWindow = NULL;
+  midWindow = NULL;
+  lowWindow = NULL;
+  bottomWindow = NULL;
+  spectrumWindow = NULL;
+  envWindow = NULL;
+  sivWindow = NULL;
+  spaWindow = NULL;
+  patWindow = NULL;
+  revWindow = NULL;
+  noteWindow = NULL;
 
   show_all_children();
 }
@@ -309,6 +323,23 @@ ProjectViewController::ProjectViewController(
 
 
   envelopeLibraryEntries = NULL;
+  
+  
+  topWindow = new ObjectWindow(eventTop,this);
+  highWindow = new ObjectWindow(eventHigh,this);
+  midWindow = new ObjectWindow(eventMid,this);
+  lowWindow = new ObjectWindow(eventLow,this);
+  bottomWindow = new ObjectWindow(eventBottom,this);
+  spectrumWindow = new ObjectWindow(eventSound,this);
+  envWindow = new ObjectWindow(eventEnv,this);
+  sivWindow = new ObjectWindow(eventSiv,this);
+  spaWindow = new ObjectWindow(eventSpa,this);
+  patWindow = new ObjectWindow(eventPat,this);
+  revWindow = new ObjectWindow(eventRev,this);
+  noteWindow = new ObjectWindow(eventNote,this);
+  
+  
+  
   
   show_all_children();
 
@@ -913,14 +944,49 @@ void ProjectViewController::projectPropertiesDialogButtonClicked(){
 
 //called by palette View to show the attributes of selected event
 void ProjectViewController::showAttributes(IEvent* _event){
-  //if (_event->getEventTypeString() == "Folder"){
-    //showAttributesView(false);
-  //}
-  
-  //else {
-    //showAttributesView(true);
-    eventAttributesView->showAttributesOfEvent(_event);
-  //}
+  if (_event->getEventType() ==eventFolder){
+    if (_event->getEventName() == "Top" ){
+      topWindow->show_all_children();
+      topWindow->show();
+    }
+    else if (_event->getEventName() == "High" ){
+      highWindow->show();
+    }
+    else if (_event->getEventName() == "Mid" ){
+      midWindow->show();
+    }
+    else if (_event->getEventName() == "Low" ){
+      lowWindow->show();
+    }
+    else if (_event->getEventName() == "Bottom" ){
+      bottomWindow->show();
+    }
+    else if (_event->getEventName() == "Spectrum" ){
+      spectrumWindow->show();
+    }
+    else if (_event->getEventName() == "Note" ){
+      noteWindow->show();
+    }
+    else if (_event->getEventName() == "Envelope" ){
+      envWindow->show();
+    }
+    else if (_event->getEventName() == "Sieve" ){
+      sivWindow->show();
+    }
+    else if (_event->getEventName() == "Spatialization" ){
+      spaWindow->show();
+    }
+    else if (_event->getEventName() == "Pattern" ){
+      patWindow->show();
+    }
+    else if (_event->getEventName() == "Reverb" ){
+      revWindow->show();
+    }
+   
+  }
+   
+  eventAttributesView->showAttributesOfEvent(_event);
+ 
 }
 
 
@@ -1873,7 +1939,18 @@ ProjectViewController::ProjectViewController(
   
   delete envelopeLibrary;
 
-
+  topWindow = new ObjectWindow(eventTop,this);
+  highWindow = new ObjectWindow(eventHigh,this);
+  midWindow = new ObjectWindow(eventMid,this);
+  lowWindow = new ObjectWindow(eventLow,this);
+  bottomWindow = new ObjectWindow(eventBottom,this);
+  spectrumWindow = new ObjectWindow(eventSound,this);
+  envWindow = new ObjectWindow(eventEnv,this);
+  sivWindow = new ObjectWindow(eventSiv,this);
+  spaWindow = new ObjectWindow(eventSpa,this);
+  patWindow = new ObjectWindow(eventPat,this);
+  revWindow = new ObjectWindow(eventRev,this);
+  noteWindow = new ObjectWindow(eventNote,this);
 
 show_all_children(); 	
 }

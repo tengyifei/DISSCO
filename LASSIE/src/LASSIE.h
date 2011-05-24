@@ -98,6 +98,56 @@ typedef enum {
   
 } FunctionReturnType;
 
+typedef enum {
+  eventTop    = 0,
+  eventHigh   = 1,
+  eventMid    = 2,
+  eventLow    = 3,
+  eventBottom = 4,
+  eventSound  = 5,
+  eventEnv    = 6,
+  eventSiv    = 7,
+  eventSpa    = 8,
+  eventPat    = 9,
+	eventRev    = 10,
+	eventFolder = 11,
+	eventNote = 12
+
+} EventType;
+
+typedef enum{
+  modifierTremolo = 0,
+  modifierVibrato = 1,
+  modifierGlissando = 2,
+  modifierBend = 3,
+  modifierDetune = 4,
+  modifierAmptrans = 5,
+  modifierFreqtrans = 6,
+  modifierWave_type = 7
+} ModifierType;
+
+
+typedef enum{
+  tempoPrefixNone = 0,
+  tempoPrefixDotted = 1,
+  tempoPrefixDoubleDotted = 2,
+  tempoPrefixTriple = 3,
+  tempoPrefixQuintuple = 4,
+  tempoPrefixSextuple = 5,
+  tempoPrefixSeptuple = 6
+} TempoPrefix;
+
+typedef enum {
+  tempoNoteValueWhole = 0,
+  tempoNoteValueHalf =1,
+  tempoNoteValueQuarter = 2,
+  tempoNoteValueEighth = 3,
+  tempoNoteValueSixteenth = 4,
+  tempoNoteValueThirtySecond = 5
+} TempoNoteValue;
+
+
+
 
 #endif //LASSIE_H
 

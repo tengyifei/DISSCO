@@ -98,12 +98,7 @@ EnvLibDrawingArea::EnvLibDrawingArea(EnvelopeLibraryWindow* _envelopeLibraryWind
     
     
     
-       
-    
-    
-
-  //TODO:
-
+  
 
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(m_refActionGroup);
@@ -149,15 +144,12 @@ EnvLibDrawingArea::EnvLibDrawingArea(EnvelopeLibraryWindow* _envelopeLibraryWind
 
   if(!m_pMenuPopup) g_warning("menu not found");
   
-	
-	
-	
-	
 }
 
 EnvLibDrawingArea::~EnvLibDrawingArea()
 {
 }
+
 
 bool EnvLibDrawingArea::on_expose_event(GdkEventExpose* event)
 {
