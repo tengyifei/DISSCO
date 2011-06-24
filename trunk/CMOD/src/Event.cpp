@@ -61,10 +61,30 @@ void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
   /*Only set the tempo to what was indicated in the file if the event does not
   already have a tempo that was derived from a parent. This is very important,
   so that tempos are not nested.*/
-  if(tempo.getStartTime() == 0) {
-    tempo.setTempo(newTempo);
-    tempo.setTimeSignature(newTimeSignature);
-    tempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
+  Tempo fvTempo;
+  fvTempo.setTempo(newTempo);
+  fvTempo.setTimeSignature(newTimeSignature);
+  fvTempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
+  fvTempo.setStartTime(tempo.getStartTime());
+  if(tempo.getStartTime() == 0)
+    tempo = fvTempo;
+  else if(!tempo.isTempoSameAs(fvTempo)) { //Warn if different tempi
+    cout << endl << "WARNING: the tempo of this exact event differs from" << endl
+      << "that of its exact parent." << endl;
+    cout << "Parent: " << endl;
+    cout << "  " << tempo.getTempoBeatsPerMinute() << endl;
+    cout << "  " << tempo.getTempoBeat() << endl;
+    cout << "  " << tempo.getTimeSignatureBeat() << endl;
+    cout << "  " << tempo.getTimeSignatureBeatsPerBar() << endl;
+    cout << "  " << tempo.getEDUPerTimeSignatureBeat() << endl;
+    cout << "  " << tempo.getStartTime() << endl;
+    cout << "File-Value Tempo: " << endl;
+    cout << "  " << fvTempo.getTempoBeatsPerMinute() << endl;
+    cout << "  " << fvTempo.getTempoBeat() << endl;
+    cout << "  " << fvTempo.getTimeSignatureBeat() << endl;
+    cout << "  " << fvTempo.getTimeSignatureBeatsPerBar() << endl;
+    cout << "  " << fvTempo.getEDUPerTimeSignatureBeat() << endl;
+    cout << "  " << fvTempo.getStartTime() << endl;
   }
   maxChildDur = newMaxChildDur;
 }
@@ -199,7 +219,7 @@ void Event::buildChildEvents() {
 
   //Make sure that the temporary child events array is clear.
   if(temporaryChildEvents.size() > 0) {
-    cerr << "Warning: temporaryChildEvents should not contain data." << endl;
+    cerr << "WARNING: temporaryChildEvents should not contain data." << endl;
     cerr << "There may be a bug in the code. Please report." << endl;
     exit(1);
   }
@@ -246,6 +266,7 @@ void Event::buildChildEvents() {
     childEvents[i]->buildChildEvents();
   
   //End this output sublevel.
+  Output::addProperty("Updated Tempo Start Time", tempo.getStartTime());
   Output::endSubLevel();
 }
 
@@ -518,7 +539,7 @@ int Event::getAvailableEDU()
   float approximateEDUs = EDUs.To<float>() * durationScalar;
   int quantizedEDUs = (int)(approximateEDUs + 0.001f);
   if(abs((float)quantizedEDUs - approximateEDUs) > 0.001f) {
-    cout << "Warning: quantizing AVAILABLE_EDU from ";
+    cout << "WARNING: quantizing AVAILABLE_EDU from ";
     cout << approximateEDUs << " to " << quantizedEDUs << endl;
   }
   return quantizedEDUs;
@@ -567,7 +588,7 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   string startType = iter++->getString(this);
 
   if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
 
   if (startType == "EDU" || startType == "UNITS") {
     tsChild.start = rawChildStartTime *
@@ -604,12 +625,10 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   string durType = iter++->getString(this);
 
   if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
 
   if (durType == "EDU" || durType == "UNITS") {
     tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
-    cout << "Test:" << endl;
-    cout << tempo.getEDUDurationInSeconds() << endl;
     tsChild.duration = // convert to seconds
       (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
   } else if (durType == "SECONDS") {
@@ -685,7 +704,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   string startType = iter++->getString(this);
 
   if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
 
   if (startType == "EDU" || startType == "UNITS") {
     tsChild.start = rawChildStartTime * 
@@ -739,7 +758,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   string durType = iter++->getString(this);
 
   if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "Warning: 'UNITS' type is now 'EDU'" << endl;
+    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
 
   if (durType == "EDU" || durType == "UNITS") {
     tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
@@ -875,7 +894,7 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
   
   
   //Output parameters in the different units available.
-  Output::beginSubLevel("Sweep");
+  Output::beginSubLevel("Discrete");
   Output::addProperty("Name", childName);
   Output::beginSubLevel("Parameters");
     Output::addProperty("Max Duration", maxChildDur, "EDU");
