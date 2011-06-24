@@ -61,6 +61,7 @@ bool Tempo::isTempoSameAs(Tempo& other) {
     tempoBeat == other.tempoBeat &&
     timeSignatureBeat == other.timeSignatureBeat &&
     timeSignatureBeatsPerBar == other.timeSignatureBeatsPerBar &&
+    EDUPerTimeSignatureBeat == other.EDUPerTimeSignatureBeat &&
     tempoStartTime == other.tempoStartTime;
 }
 
