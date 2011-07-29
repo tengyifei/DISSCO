@@ -856,11 +856,11 @@ ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(string _t
   children = row.children();
   iter = children.begin();
   if (children.size() == 0){
-    cout<<"children Size == 0"<<endl;
+    
     return NULL;
   }
   else if (children.size() == 1){
-    result = new ObjectWindowObjectPackage();
+    result = new ObjectWindowObjectPackage(projectView);
     row = *iter;
     result->set_label(row[columns.columnObjectName]);
     result->ievent = row[columns.columnEntry];
@@ -868,7 +868,7 @@ ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(string _t
     return result;
   }
   else{
-    result = new ObjectWindowObjectPackage();
+    result = new ObjectWindowObjectPackage(projectView);
     row = *iter;
     result->set_label(row[columns.columnObjectName]);
     result->ievent = row[columns.columnEntry];
@@ -877,7 +877,7 @@ ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(string _t
     ObjectWindowObjectPackage* newPackage;
     
     for (iter; iter!= children.end(); iter++){
-      newPackage = new ObjectWindowObjectPackage();
+      newPackage = new ObjectWindowObjectPackage(projectView);
       row = *iter;
       newPackage->set_label(row[columns.columnObjectName]);
       newPackage->ievent = row[columns.columnEntry];
