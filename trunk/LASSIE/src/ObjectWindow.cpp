@@ -327,7 +327,17 @@ void ObjectWindow::sizeChange(int _newNumOfColumns){
 }
   
   
-ObjectWindowObjectPackage::ObjectWindowObjectPackage(){
+ObjectWindowObjectPackage::ObjectWindowObjectPackage(ProjectViewController* _projectView){
+  projectView = _projectView;
+  this->signal_pressed().connect(
+    sigc::mem_fun(
+      *this,&ObjectWindowObjectPackage::showContent) );
+}
+
+
+void ObjectWindowObjectPackage::showContent(){
+  projectView->showAttributes(ievent);
+
 }
 ObjectWindowObjectPackage::~ObjectWindowObjectPackage(){
 }  

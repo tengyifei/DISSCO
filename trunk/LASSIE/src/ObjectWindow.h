@@ -43,13 +43,16 @@ class IEvent;
 
 class ObjectWindowObjectPackage:public Gtk::Button {
 public:
-  ObjectWindowObjectPackage();
+  ObjectWindowObjectPackage(ProjectViewController* _projectView);
   ~ObjectWindowObjectPackage();  
   int count();
   void clear();
+  void showContent();
   ObjectWindowObjectPackage* prev;
   ObjectWindowObjectPackage* next;
   IEvent* ievent;
+private:
+  ProjectViewController* projectView;
 
 
 };
