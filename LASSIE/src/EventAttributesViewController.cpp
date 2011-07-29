@@ -3244,6 +3244,8 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
   
   projectView->modified();
   
+  
+  
   Gtk::VBox* layerBoxes;
   attributesRefBuilder->get_widget("layerBoxes", layerBoxes);
   
@@ -3266,9 +3268,11 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
     newbox->weightEntry.set_sensitive(false);
   }
 
-
-  showAttributesOfEvent(currentlyShownEvent);  //so that the right click of delete event works  
   
+  showAttributesOfEvent(currentlyShownEvent);  //so that the right click of delete event works 
+  Gtk::Adjustment* adjustment = scrolledWindow.get_vadjustment();
+  adjustment->set_value(adjustment->get_value() + 200); //200 is the height of a layer box
+   
   
 }
 
@@ -3851,6 +3855,13 @@ void EventAttributesViewController::addModifierButtonClicked(){
   vbox->pack_start(*newModifierAlignment, Gtk::PACK_SHRINK);
 
   show_all_children();
+  
+  
+  Gtk::Adjustment* adjustment = scrolledWindow.get_vadjustment();
+  //adjustment->set_value(adjustment->get_value() + 200); 
+  adjustment->set_value(adjustment->get_upper());
+  
+  
 }
 
 void BottomEventModifierAlignment::saveToEvent(){
