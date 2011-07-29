@@ -413,7 +413,12 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   else if (_returnType ==functionReturnList){
   Gtk::TreeModel::Row row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionMakeList;
-    row[functionListColumns.m_col_name] = "MakeList";  
+    row[functionListColumns.m_col_name] = "MakeList"; 
+
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionRawList;
+    row[functionListColumns.m_col_name] = "RawList";  
+ 
   }
   
   else if (_returnType ==functionReturnENV){
@@ -2015,6 +2020,20 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     //end parsing
   } 
 
+  // check if RawList
+  locationOfKeyword = _originalString.find("<");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "RawList"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+  //TODO parse list
+
+  }
+
   //check if SPA
   locationOfKeyword =_originalString.find("STEREO");
   size_t lok2 = _originalString.find("MULTI_PAN");
@@ -3146,6 +3165,7 @@ void FunctionGenerator::function_list_combo_changed(){
   show_all_children();
 }
 
+
 void FunctionGenerator::randomLowBoundFunButtonClicked(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
@@ -4072,9 +4092,33 @@ void FunctionGenerator::makeListTextChanged(){
 
 }
 
+/*
 
+FunctionGenerator::RawListHBox::RawListHBox(FunctionGenerator* _parentGenerator){
+  parentGenerator = _parentGenerator;
+  attributesRefBuilder = Gtk::Builder::create();
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+  try{
+    attributesRefBuilder->add_from_file("./LASSIE/src/UI/RawList.ui");
+  }
+  catch (const Glib::FileError& ex){
+    std::cerr << "FileError: " << ex.what() << std::endl;
+  }
+  catch (const Gtk::BuilderError& ex){
+    std::cerr << "BuilderError: " << ex.what() << std::endl;
+  }
+   
+   #else
+  std::auto_ptr<Glib::Error> error;
+  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/RawList.ui", error)){
+    std::cerr << error->what() << std::endl;
+  }
+   
+   #endif
 
+}
 
+*/
 
 
 

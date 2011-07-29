@@ -60,6 +60,7 @@ typedef enum {
   functionMakeSieve,
   functionMakePattern,
   functionMakeList,
+  functionRawList,
   functionReadENVFile,
   functionReadSIVFile,
   functionReadPATFile,
@@ -325,6 +326,20 @@ private:
   void makeListFunctionFunButtonClicked();
   void makeListSizeFunButtonClicked();
   void makeListTextChanged();
+
+  //RawList
+  class RawListHBox: public Gtk::HBox{
+  public:
+    Glib::RefPtr<Gtk::Builder> attributesRefBuilder;
+    RawListHBox(FunctionGenerator* _parentGenerator);
+    ~RawListHBox();
+    RawListHBox* next;
+    RawListHBox* prev;
+    FunctionGenerator* parentGenerator;    
+
+  };
+
+  
   
   
   //EnvLib

@@ -139,7 +139,8 @@ class EventLayer {
     bool removeChild(EventDiscretePackage* _child);
     void showContents();
     void deleteLayer();
-    int getChildrenWeightSum();
+    
+    double getChildrenWeightSum();
     int size();
     std::string outputChildrenNameString();
     std::string getLASSIEMetaDataString();
