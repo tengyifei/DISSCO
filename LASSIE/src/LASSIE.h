@@ -91,7 +91,7 @@ typedef enum {
   functionReturnPAT,
   functionReturnIntList,
   functionReturnFloatList,
-  functionReturnEnvelopeList, 
+  functionReturnEnvelopeList,
   functionReturnString, //used to parse FileValue
   functionReturnList,
   functionReturnMakeListFun

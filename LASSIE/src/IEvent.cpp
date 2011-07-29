@@ -915,12 +915,13 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
     stringbuffer += ",\n\t\t  < ";   
 
 
-
-    int weightSum = 0;
+    double weightSum = 0;
+    
     std::list<EventLayer*>::iterator i =layers.begin();
     for (i ; i != layers.end(); i ++){
       //numTotalChildren += (*i)->size();
       weightSum += (*i)->getChildrenWeightSum();
+      
     }
     
     //double unit = ((double) weightSum) / numTotalChildren; 
@@ -964,7 +965,10 @@ void IEvent::saveAsTHMLB(std::string _pathOfProject){
       current = head -> next;//cuz the first node is empty
 
       while (current != NULL){
-        temp = ((double) atoi (current->package->weight.c_str())) * unit;
+      
+        
+        temp = ((double) atof (current->package->weight.c_str())) * unit;
+        
         sprintf (charbuffer," %.3f", temp);
         
         stringbuffer += string (charbuffer);
@@ -1873,11 +1877,14 @@ bool IEvent::SoundExtraInfo::deletePartial(SpectrumPartial* _partial){
 
 
 
-int EventLayer::getChildrenWeightSum(){
-  int sum = 0;
+double EventLayer::getChildrenWeightSum(){
+  double sum = 0;
+  
   std::list<EventDiscretePackage*>::iterator i = children.begin(); 
   for (i; i!= children.end(); i++){
-     sum += atoi((*i)->weight.c_str());
+     
+     sum += atof((*i)->weight.c_str());
+     
   }
 
   return sum;
