@@ -2501,6 +2501,9 @@ void EventAttributesViewController::LayerBox::on_label_drop_drag_data_received(
   }
   attributesView->refreshChildTypeInLayer();
   projectView->modified();
+  
+  Gtk::Adjustment* adjustment = m_ScrolledWindow2.get_vadjustment();
+  adjustment->set_value(adjustment->get_upper());  
 }
 
 
@@ -2978,10 +2981,10 @@ EventAttributesViewController::LayerBox::LayerBox(
   pack_start(m_ScrolledWindow2, Gtk::PACK_EXPAND_WIDGET);
   
   set_size_request(200,200);
-  innerVBox.set_size_request(140,85);
+  //innerVBox.set_size_request(140,85);
 
 
-  set_border_width(5);
+  set_border_width(10);
   //pack_start(m_TreeView, Gtk::PACK_EXPAND_WIDGET);
 
   weightLabel.set_text("Number of children in this layer: ");
@@ -3243,7 +3246,6 @@ EventAttributesViewController::LayerBox::LayerBox(
   signal_drag_data_received().connect(
     sigc::mem_fun(
       *this, &EventAttributesViewController::LayerBox::on_label_drop_drag_data_received) );
-
   show_all_children();
   
 }
