@@ -161,7 +161,10 @@ EventAttributesViewController::EventAttributesViewController(
   Gtk::Alignment* alignment;  
   attributesRefBuilder->get_widget(
     "attributesStandardTempoAlignment", alignment);
-  alignment->add (*hBox);      
+  if (hBox->get_parent() ==NULL){
+ 
+    alignment->add (*hBox);      
+  }
     
 
   Gtk::ComboBox* combobox;
@@ -326,8 +329,9 @@ EventAttributesViewController::EventAttributesViewController(
   Gtk::HBox* wellTemperedVBox;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesWellTemperedHBox", wellTemperedVBox);
+  
   allignment->add(*wellTemperedVBox);
-
+  
 
   bottomSubAttributesShown = false;
   /*
@@ -2509,16 +2513,22 @@ void EventAttributesViewController::continuumButtonClicked(){
 
   if (currentlyShownEvent == NULL) return;
   modified();
-  std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
-  for (i ; i != layerBoxesStorage.end(); i ++){
-    (*i)->m_TreeView.remove_column((*i)->weightColumn);
-    (*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
-    (*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
-    (*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
-    (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
-    //(*i)->weightEntry.set_text("");
-  }
+  Gtk::RadioButton* radioButton;
+  attributesRefBuilder->get_widget(
+    "attributesChildEventDefDiscreteButton", radioButton);  
   
+  if (radioButton->get_active()){
+  
+    std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
+    for (i ; i != layerBoxesStorage.end(); i ++){
+      (*i)->m_TreeView.remove_column((*i)->weightColumn);
+      (*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
+      (*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
+      (*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
+      (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
+      //(*i)->weightEntry.set_text("");
+    }
+  }
   Gtk::Alignment* alignment;
   Gtk::VBox* vbox;
   attributesRefBuilder->get_widget(
@@ -2563,7 +2573,7 @@ void EventAttributesViewController::continuumButtonClicked(){
 
 
 
-  Gtk::RadioButton* radioButton;
+
 
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
@@ -2595,15 +2605,21 @@ void EventAttributesViewController::continuumButtonClicked(){
 void EventAttributesViewController::sweepButtonClicked(){
   if (currentlyShownEvent == NULL) return;
   modified();
+  Gtk::RadioButton* radioButton;
+  attributesRefBuilder->get_widget(
+    "attributesChildEventDefDiscreteButton", radioButton);  
   
-  std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
-  for (i ; i != layerBoxesStorage.end(); i ++){
-    (*i)->m_TreeView.remove_column((*i)->weightColumn);
-    (*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
-    (*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
-    (*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
-    (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
-    //(*i)->weightEntry.set_text("");
+  if (radioButton->get_active()){
+  
+    std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
+    for (i ; i != layerBoxesStorage.end(); i ++){
+      (*i)->m_TreeView.remove_column((*i)->weightColumn);
+      (*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
+      (*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
+      (*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
+      (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
+      //(*i)->weightEntry.set_text("");
+    }
   }
   
   Gtk::Alignment* alignment;
@@ -2653,8 +2669,7 @@ void EventAttributesViewController::sweepButtonClicked(){
   
   
   
-  
-  Gtk::RadioButton* radioButton;
+
 
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
@@ -2692,17 +2707,22 @@ void EventAttributesViewController::sweepButtonClicked(){
 void EventAttributesViewController::discreteButtonClicked(){
   if (currentlyShownEvent == NULL) return;
   modified();
-  std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
-  for (i ; i != layerBoxesStorage.end(); i ++){
-    (*i)->m_TreeView.append_column((*i)->weightColumn);
-    (*i)->m_TreeView.append_column((*i)->attackEnvColumn);
-    (*i)->m_TreeView.append_column((*i)->attackEnvScaleColumn);
-    (*i)->m_TreeView.append_column((*i)->durationEnvColumn);
-    (*i)->m_TreeView.append_column((*i)->durationEnvScaleColumn);
-    
-
-
-    //(*i)->weightEntry.set_text("");
+  Gtk::RadioButton* radioButton;
+  attributesRefBuilder->get_widget(
+    "attributesChildEventDefDiscreteButton", radioButton);  
+  
+  if (!radioButton->get_active()){
+  
+    std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
+    for (i ; i != layerBoxesStorage.end(); i ++){
+      (*i)->m_TreeView.append_column((*i)->weightColumn);
+      (*i)->m_TreeView.append_column((*i)->attackEnvColumn);
+      (*i)->m_TreeView.append_column((*i)->attackEnvScaleColumn);
+      (*i)->m_TreeView.append_column((*i)->durationEnvColumn);
+      (*i)->m_TreeView.append_column((*i)->durationEnvScaleColumn);
+   
+      //(*i)->weightEntry.set_text("");
+    }
   }
   
   
@@ -2756,8 +2776,6 @@ void EventAttributesViewController::discreteButtonClicked(){
   entry->set_sensitive(true);
   entry->set_text( currentlyShownEvent->getChildEventDefDurationSieve()    );
   
-  
-  Gtk::RadioButton* radioButton;
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
         radioButton->set_sensitive(false);
@@ -3858,7 +3876,6 @@ void EventAttributesViewController::addModifierButtonClicked(){
   
   
   Gtk::Adjustment* adjustment = scrolledWindow.get_vadjustment();
-  //adjustment->set_value(adjustment->get_value() + 200); 
   adjustment->set_value(adjustment->get_upper());
   
   
@@ -4697,6 +4714,8 @@ void EventAttributesViewController::addPartialButtonClicked(){
         "SoundAttributesNumPartialEntry", entry);
   entry->set_text ( currentlyShownEvent->getEventExtraInfo()->getNumPartials());  
   show_all_children();
+  Gtk::Adjustment* adjustment = scrolledWindow.get_vadjustment();
+  adjustment->set_value(adjustment->get_upper());
 
 }
 
