@@ -102,7 +102,7 @@ IEvent::IEvent(){
 IEvent::IEvent(std::string _filePath, std::string _fileName, EventType _type){
 		eventName = _fileName;
   eventType = _type;
-  std::cout<<" LASSIE parsing: "<< _filePath<<"/"<< _fileName<<"..."<<std::endl;
+  //std::cout<<" LASSIE parsing: "<< _filePath<<"/"<< _fileName<<"..."<<std::endl;
 
     IEventParseFile(_filePath+"/"+_fileName);
     
@@ -2358,8 +2358,6 @@ IEvent::EventExtraInfo* IEvent::openExtraInfo(EventFactory* _event ,EventType _e
 
     value = _event->getModifiers();           
     std::list<FileValue> modifierList = value->getList();
-    std::cout<<"This bottom event has "<< modifierList.size()<<" modifiers.\n"
-              <<std::endl;
     std::list<FileValue>::iterator modifierListIter =modifierList.begin();
     
     
@@ -3014,8 +3012,7 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag){
     std::list<FileValue> modifierList = value->getList();
    
 
-    std::cout<<"This bottom event has "<< modifierList.size()<<" modifiers.\n"
-              <<std::endl;
+
     std::list<FileValue>::iterator modifierListIter =modifierList.begin();
     
     
