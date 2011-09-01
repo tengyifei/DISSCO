@@ -102,7 +102,8 @@
                   <object class="GtkLabel" id="label9">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Number of Partials:</property>
+                    <property name="tooltip_text" translatable="yes">an integer, indicating the partial you want.</property>
+                    <property name="label" translatable="yes">Partial Number: </property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -113,6 +114,7 @@
                 <child>
                   <object class="GtkEntry" id="SoundAttributesNumPartialEntry">
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
                     <property name="invisible_char">●</property>

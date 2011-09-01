@@ -2029,7 +2029,11 @@ int main()
 
 int yyerror (char *msg)
 {
-	return printf("Error encountered, line %d: %s\n", yylloc.first_line, msg);
+	//this line is disabled to avoid printing too much 
+	//unnecessary warnings while saving incomplete file
+	//in lassie.
+	
+	//return printf("Error encountered, line %d: %s\n", yylloc.first_line, msg);
 }
 
 int yywrap()
