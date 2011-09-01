@@ -2020,6 +2020,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     //end parsing
   } 
 
+  /*
   // check if RawList
   locationOfKeyword = _originalString.find("<");
   if (int(locationOfKeyword)==0){
@@ -2033,7 +2034,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   //TODO parse list
 
   }
-
+  */
   //check if SPA
   locationOfKeyword =_originalString.find("STEREO");
   size_t lok2 = _originalString.find("MULTI_PAN");
