@@ -381,11 +381,11 @@
     <child>
       <object class="GtkHBox" id="hbox4">
         <property name="visible">True</property>
-        <property name="tooltip_text" translatable="yes">Int</property>
+        <property name="tooltip_text" translatable="yes">Int, the number of the partial based on the fundamental frequency</property>
         <child>
           <object class="GtkLabel" id="BottomSubAttributesNumOvertonesEntry">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Number of Overtones:</property>
+            <property name="label" translatable="yes">Partial Number:</property>
           </object>
           <packing>
             <property name="expand">False</property>
