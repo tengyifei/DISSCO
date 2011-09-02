@@ -148,7 +148,10 @@
     <child>
       <object class="GtkHBox" id="hbox5">
         <property name="visible">True</property>
-        <property name="tooltip_text" translatable="yes">SPA Value / SPA File</property>
+        <property name="tooltip_text" translatable="yes">SPA Value / SPA File.
+If this bottom file is a 'n'
+object (name starts with an 'n'),
+this field is disabled.</property>
         <child>
           <object class="GtkLabel" id="Spatialization">
             <property name="visible">True</property>
@@ -192,7 +195,10 @@
     <child>
       <object class="GtkHBox" id="hbox6">
         <property name="visible">True</property>
-        <property name="tooltip_text" translatable="yes">REV Value/ REV File</property>
+        <property name="tooltip_text" translatable="yes">REV Value/ REV File
+If this bottom file is a 'n'
+object (name starts with an 'n'),
+this field is disabled.</property>
         <child>
           <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
