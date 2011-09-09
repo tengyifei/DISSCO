@@ -714,6 +714,7 @@ void MainWindow::menuProjectSynthesize(){
 	synthesizeDialog->hide(); 
 
   if(result == 1 && projectView) {
+  
     string pathAndName = projectView->getPathAndName();
     string projectPath = pathAndName + "/";
     string projectName = FileOperations::stringToFileName(pathAndName);
@@ -744,6 +745,8 @@ void MainWindow::menuProjectSynthesize(){
       //TODO: Make message box to warn user. (But this error should probably not happen!)
     else {
       
+      
+      
       //if (fork() == 0){
       //cout<<"this is the child. execute cmod"<<endl;
       
@@ -751,7 +754,9 @@ void MainWindow::menuProjectSynthesize(){
       system(command.c_str()); 
       command = "touch " + projectPath + randomSeedEntry->get_text()+".seed"; 
       system(command.c_str()) ;
-      command = "./cmod " + projectPath + " &"; 
+      //gnome-terminal -e "bash -c \"./cmod /home/percle/Software/dissco/branches/ming/xtestcmodresponse; exec bash\""
+      command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath;     
+      command = command + " ; exec bash\\\"\""; 
       system(command.c_str()) ;
       //}
       //else {

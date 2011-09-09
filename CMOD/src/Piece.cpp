@@ -148,9 +148,9 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
     cout << "-----------------------------------------------------------" <<
       endl;
     cout.flush();
-    string aud = "audacity ";
+    string aud = "nohup audacity \""; //nohup prevent audacity
     aud.append(soundFilename);
-    aud.append(" &");
+    aud.append("\"");
     cout << "Would you like to open up the soundfile in Audacity (y/n)? ";
     char response;
     cin >> response;
