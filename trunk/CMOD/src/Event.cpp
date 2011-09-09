@@ -779,7 +779,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   tsPrevious.startEDU = tsChild.startEDU + tsChild.durationEDU;
 
   //Output parameters in the different units available.
-  Output::beginSubLevel("Sweep");
+  Output::beginSubLevel("Discrete");
   Output::addProperty("Name", childName);
   Output::beginSubLevel("Parameters");
     Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));

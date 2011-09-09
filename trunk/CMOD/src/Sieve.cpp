@@ -250,10 +250,16 @@ void Sieve::Fake(int minVal, int maxVal) {
 //---------------------------------------------------------------------------//
 
 void Sieve::PeriodicWeights(vector<int> wArgVect) {
+/*
+=>changed by Sever: elist is >= wArgVect.size; loop should go to eList.size
   for (int count = 0; count < wArgVect.size(); count++) {
     if (count < eList.size()) {
       wList.push_back(wArgVect[count % wArgVect.size()]);
     }
+  }
+*/
+  for (int count = 0; count < eList.size(); count++) {
+    wList.push_back(wArgVect[count % wArgVect.size()]);
   }
 }
 

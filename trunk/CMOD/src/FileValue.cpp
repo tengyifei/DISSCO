@@ -659,6 +659,8 @@ void FileValue::ftn_ValuePick() {
 
   int minVal = (int)floor( envLow->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
   int maxVal = (int)floor( envHigh->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
+//cout << "FileValue: ValuePick - minVal=" << minVal << " maxVal=" << maxVal <<
+//	  " absRange=" << absRange << endl;
   Sieve si;
   si.Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgVect, wArgVect);
 
