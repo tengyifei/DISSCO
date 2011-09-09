@@ -337,6 +337,7 @@ float Bottom::computeBaseFreq() {
   } else if (freq_method == "WELL_TEMPERED") {
     /* 2nd arg is an int */
     wellTempPitch = iter->getInt(this);
+//  cout << "Bottom: computeBaseFreq - wellTempPitch=" << wellTempPitch << endl;
     baseFreqResult = C0 * pow(WELL_TEMP_INCR, wellTempPitch);
 
   } else if (freq_method == "FUNDAMENTAL") {
