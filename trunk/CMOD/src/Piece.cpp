@@ -118,15 +118,6 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   fomusFilename += projectName;
   fomusFilename += "_";
   Output::exportToFOMUS(fomusFilename);
-  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly");
-  {
-    cout << "Would you like to open up the score files in Firefox (y/n)? ";
-    char response;
-    cin >> response;
-    if(response == 'y' || response == 'Y')
-      system("firefox ScoreFiles/*.svg &");
-  }
-  cout << endl;
   Output::free();
   
   //Render sound.
@@ -140,14 +131,26 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
 
     //Write to file.
     AuWriter::write(*renderedScore, soundFilename);
+    
+    //Creating spectrogram of rendered file.
+    string bri = "brick ";
+    bri.append(soundFilename);
+    bri.append(" ");
+    string bripng = soundFilename;
+    bripng.replace(bripng.find("aiff"), 4, "png");
+    bri.append(bripng);
+    system(bri.c_str());
+
     cout << endl;
     cout << "-----------------------------------------------------------" <<
       endl;
     cout << "Wrote: " << soundFilename << endl;
+    cout << "       " << bripng << endl;
     cout << endl;
     cout << "-----------------------------------------------------------" <<
       endl;
     cout.flush();
+
     string aud = "nohup audacity \""; //nohup prevent audacity
     aud.append(soundFilename);
     aud.append("\"");
@@ -156,9 +159,28 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
     cin >> response;
     if(response == 'y' || response == 'Y')
       system(aud.c_str());
+
+    string brifox = "nohup firefox \""; //nohup prevent audacity
+    brifox.append(bripng);
+    brifox.append("\"");
+    cout << "Would you like to open up the spectrogram in Firefox (y/n)? ";
+    char response2;
+    cin >> response2;
+    if(response2 == 'y' || response2 == 'Y')
+      system(brifox.c_str());
         
     //Clean up.
     delete renderedScore;
+  }
+
+  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly");
+  {
+    cout << "Would you like to open up the score files in Firefox (y/n)? ";
+    char response;
+    cin >> response;
+    if(response == 'y' || response == 'Y')
+      system("firefox ScoreFiles/*.svg &");
+    cout << endl;
   }
 
   //Clean up.
