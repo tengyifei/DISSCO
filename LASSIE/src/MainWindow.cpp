@@ -675,8 +675,10 @@ int MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey)
 
 void MainWindow::menuProjectSynthesize(){
 	Gtk::Dialog* synthesizeDialog;
+  
+  
 
-
+  
   //Load the GtkBuilder file and instantiate its widgets:
   Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = Gtk::Builder::create();
 
@@ -696,7 +698,7 @@ void MainWindow::menuProjectSynthesize(){
     if (!synthesizeDialogRefBuilder->add_from_file("./LASSIE/src/UI/SynthesizeDialog.ui", error)){
       std::cerr << error->what() << std::endl;
     }
-  #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
+  #endif // !GLIBMM_EXCEPTIONS_ENABLED 
 
 	
   //Get the GtkBuilder-instantiated Dialog:
@@ -773,6 +775,7 @@ void MainWindow::menuProjectSynthesize(){
 	  }
 	  
 	}
+	
 	
 }
 

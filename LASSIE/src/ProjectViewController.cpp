@@ -45,6 +45,8 @@
 #include "ObjectWindow.h"
 #include <dirent.h>
 
+#include "../../CMOD/src/muParser/muParser.h"
+
 
 
 
@@ -1108,6 +1110,10 @@ void ProjectViewController::setProperties (){
     topEvent = entry->get_text();
 
     synthesis = button->get_active();
+    
+
+     
+    
   }
 
   delete projectPropertiesDialog;

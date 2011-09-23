@@ -4193,7 +4193,7 @@ void EventAttributesViewController::BSSpatializationButtonClicked(){
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
-    }
+  }
   delete generator;
 }
 void EventAttributesViewController::BSReverbButtonClicked(){
