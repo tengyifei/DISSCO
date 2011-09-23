@@ -28,8 +28,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
+#define PRIM_COMPILE_INLINE
+#define PRIM_THREADS_USE_PTHREAD
+#include "Threads.h"
+
 #include "Score.h"
 #include "Types.h"
+
+struct SoundRender : public prim::Thread
+{
+  Sound* snd;
+  MultiTrack* mt;
+  int numChannels;
+  int samplingRate;
+  SoundRender() : snd(0), mt(0), numChannels(0), samplingRate(0) {}
+  void Run(void)
+  {
+    mt = snd->render(numChannels, samplingRate);
+  }
+};
 
 //----------------------------------------------------------------------------//
 
@@ -90,6 +107,46 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     // for each sound in this score:
     int num=0;
     it = iterator();
+    const int ThreadCount = 4;
+    while(true)
+    {
+        Sound* Sounds[ThreadCount];
+        MultiTrack* Tracks[ThreadCount];
+        SoundRender Renderers[ThreadCount];
+        
+        for(int i = 0; i < ThreadCount; i++)
+          Sounds[i] = 0;
+        
+        for(int i = 0; i < ThreadCount; i++)
+        {
+          if(!it.hasNext())
+            break;
+          num++;
+          cout << "Sound #" << num << ":" << endl;
+          Sounds[i] = &it.next();
+          Tracks[i] = 0;
+          Renderers[i].snd = Sounds[i];
+          Renderers[i].numChannels = numChannels;
+          Renderers[i].samplingRate = samplingRate;
+        }
+        
+        for(int i = 0; i < ThreadCount && Sounds[i]; i++)
+          Renderers[i].Begin();
+        
+        for(int i = 0; i < ThreadCount && Sounds[i]; i++)
+          Renderers[i].WaitToEnd();
+        
+        for(int i = 0; i < ThreadCount && Sounds[i]; i++)
+        {
+          Tracks[i] = Renderers[i].mt;
+          score->composite(*Tracks[i], Sounds[i]->getParam(START_TIME));
+          delete Tracks[i];
+        }
+        
+        if(!it.hasNext())
+          break;   
+    }
+    /*
     while (it.hasNext())
     {
 
@@ -106,6 +163,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
         // delete the rendered sound:
         delete renderedSound;
     }
+    */
     
     // do the reverb
     if(reverbObj != NULL)
