@@ -3589,13 +3589,24 @@ void FunctionGenerator::stochosTextChanged(){
 
 void FunctionGenerator::stochosMethodRadioButtonClicked(){
   Gtk::RadioButton* radiobutton;
+  Gtk::Entry* entry;
+    attributesRefBuilder->get_widget(
+      "StochosOffsetEntry", entry);
   attributesRefBuilder->get_widget(
     "StochosFunctionsRadioButton", radiobutton);
   if (radiobutton->get_active()){
     stochosMethodFlag = 1;
+    
+    attributesRefBuilder->get_widget(
+      "StochosOffsetEntry", entry);
+    entry->set_sensitive(false);
+    entry->set_text("0");
+    
   }
   else {
     stochosMethodFlag = 0;
+    entry->set_sensitive(true);
+    entry->set_text("");
   }
   
   if (stochosSubAlignments!= NULL){
