@@ -107,6 +107,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     // for each sound in this score:
     int num=0;
     it = iterator();
+    #if 0
     const int ThreadCount = 8;
     while(true)
     {
@@ -146,7 +147,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
         if(!it.hasNext())
           break;   
     }
-    /*
+    #else
     while (it.hasNext())
     {
 
@@ -163,7 +164,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
         // delete the rendered sound:
         delete renderedSound;
     }
-    */
+    #endif
     
     // do the reverb
     if(reverbObj != NULL)
