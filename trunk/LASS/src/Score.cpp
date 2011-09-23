@@ -107,7 +107,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     // for each sound in this score:
     int num=0;
     it = iterator();
-    const int ThreadCount = 4;
+    const int ThreadCount = 8;
     while(true)
     {
         Sound* Sounds[ThreadCount];
