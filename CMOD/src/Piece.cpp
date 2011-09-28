@@ -168,7 +168,20 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
     char response2;
     cin >> response2;
     if(response2 == 'y' || response2 == 'Y')
+    {
+      //Wait for spectrogram to finish.
+      string bripngfile = bripng;
+      bripngfile.replace(bripngfile.find("SoundFiles/"), 11, "");
+      cout << "Waiting for spectrogram to finish.";
+      while(!PieceHelper::doesFileExist("SoundFiles/", bripngfile))
+      {
+        cout.flush();
+        sleep(1);
+        cout << ".";
+      }
+      cout << endl;
       system(brifox.c_str());
+    }
         
     //Clean up.
     delete renderedScore;
