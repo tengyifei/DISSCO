@@ -1309,9 +1309,16 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a list
       
-      string listString = getFunctionString(value,functionReturnInt);
-      attributesRefBuilder->get_widget("SelectListEntry",entry);
-      entry->set_text(listString);
+      if (returnType == functionReturnInt){ // return int
+        string listString = getFunctionString(value,functionReturnInt);
+        attributesRefBuilder->get_widget("SelectListEntry",entry);
+        entry->set_text(listString);
+      }
+      else { //return float
+        string listString = getFunctionString(value,functionReturnFloat);
+        attributesRefBuilder->get_widget("SelectListEntry",entry);
+        entry->set_text(listString);      
+      }
       
       argumentsIter++;
       
@@ -1429,17 +1436,17 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       
       value =&(*argumentsIter); // second argument is an envelope (low)
       attributesRefBuilder->get_widget("ValuePickLowEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
+      entry->set_text(getFunctionString(value,functionReturnFloat)); 
       
       argumentsIter++;
       value =&(*argumentsIter); // third argument is an envelope (high)
       attributesRefBuilder->get_widget("ValuePickHighEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
+      entry->set_text(getFunctionString(value,functionReturnFloat));      
       
       argumentsIter++;
       value =&(*argumentsIter); // fourth argument is an envelope (distribution)
       attributesRefBuilder->get_widget("ValuePickDistEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
+      entry->set_text(getFunctionString(value,functionReturnFloat));      
       
       argumentsIter++;
       value =&(*argumentsIter); // 5th argument is a string  (Elements)
