@@ -127,6 +127,7 @@ public:
     std::string getText();
     void setText(std::string _text);
     void insertPartialButtonClicked();
+    void setLabel(string _label);
     SPAPartialAlignment* next;
     SPAPartialAlignment* prev;
     SPAPartialAlignment* prevChan;

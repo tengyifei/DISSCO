@@ -1894,7 +1894,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         thisAlignment = thisAlignment->next;
       }    
     
-    
+    set_position(Gtk::WIN_POS_CENTER);
       attributesRefBuilder->get_widget("MakeEnvelopeYValueEntry",entry);
       entry->set_text(*stringIter);  
     
@@ -2086,10 +2086,10 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       
       argumentsIter++;
       value =&(*argumentsIter); // second argument is a string      
-      
       if(value->getString()=="SOUND"){
         attributesRefBuilder->get_widget("SPASoundRadioButton",radiobutton);
-        radiobutton->set_active();       
+        radiobutton->set_active();   
+  
       }
      
       else {   //partial
@@ -2157,9 +2157,11 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
           currentChannel = currentChannel->next;
         }     
       } 
+      SPAApplyByRadioButtonClicked(); //if parse fail(or empty), the label of the first entry should still be "Envelope"        
              
     }
-      
+    
+    set_position(Gtk::WIN_POS_CENTER);   
     //end parsing
   } 
 
@@ -2784,6 +2786,7 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "StochosRangeDistribRadioButton", radiobutton);
         radiobutton->set_active(true);  
+                set_position(Gtk::WIN_POS_CENTER_ALWAYS);
   
       }
       else if (function == functionEnvLib){
@@ -2858,7 +2861,7 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("INT1, INT2, INT3 ...");
         
         valuePickTextChanged();
-        
+                set_position(Gtk::WIN_POS_CENTER_ALWAYS);
   
       }
       else if (function == functionChooseL){
@@ -2927,6 +2930,7 @@ void FunctionGenerator::function_list_combo_changed(){
 
         
         makeEnvelopeTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
   
       }
       else if (function == functionMakeSieve){
@@ -3117,9 +3121,10 @@ void FunctionGenerator::function_list_combo_changed(){
 
         alignment->remove(); //remove the current parameter box
         attributesRefBuilder->get_widget("SPAVBox", vbox);
+        SPAApplyByRadioButtonClicked(); //if parse fail(or empty), the label of the first entry should still be "Envelope"  
         alignment->add (*vbox); //add vbox in
         SPATextChanged();
-
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
   
       }       
       else if (function == function_staticCURRENT_TYPE){
@@ -5423,7 +5428,9 @@ void FunctionGenerator::SPAChannelAlignment::refreshPartialNumbers(){
 void FunctionGenerator::SPAChannelAlignment::refreshLayout(){
   SPAPartialAlignment* current = partials;
   while (current != NULL){
-    mainVBox->remove(*current);
+    if (current->get_parent()==mainVBox){
+      mainVBox->remove(*current);
+    }
     current = current ->next;
   }
   current = partials;
@@ -5515,6 +5522,20 @@ void FunctionGenerator::SPAInsertChannel(SPAChannelAlignment* _insertAfter){
     return;
   }
 
+  Gtk::HBox* hbox;
+  attributesRefBuilder->get_widget( "SPAMainHBox", hbox);
+  SPAChannelAlignment* temp = SPAChannelAlignments;
+  while (temp != NULL){
+    if(temp->get_parent()==hbox){
+      hbox->remove(*temp);
+    }
+    temp = temp->next;
+  }
+
+
+
+
+
   SPANumOfChannels ++;
   SPAChannelAlignment* newChannel = new SPAChannelAlignment(this, SPANumOfPartials, _insertAfter->getButtonsShownStatus());
 
@@ -5544,14 +5565,6 @@ void FunctionGenerator::SPAInsertChannel(SPAChannelAlignment* _insertAfter){
     }
   }
 
-  Gtk::HBox* hbox;
-  attributesRefBuilder->get_widget( "SPAMainHBox", hbox);
-
-  SPAChannelAlignment* temp = SPAChannelAlignments;
-  while (temp != NULL){
-    hbox->remove(*temp);
-    temp = temp->next;
-  }
 
   temp = SPAChannelAlignments;
   while (temp !=NULL){
@@ -5659,7 +5672,9 @@ void FunctionGenerator::SPAInsertPartial (SPAPartialAlignment* _insertAfter){
   
   while (temp != NULL){
     temp->refreshPartialNumbers();
+
     temp->refreshLayout();
+
     temp = temp->next;
   }
   
@@ -5721,6 +5736,7 @@ void FunctionGenerator::SPAMethodRadioButtonClicked(){
     }  
 
     if (SPANumOfChannels ==1){
+
       SPAMethodFlag =1; //just for excuting next statement;
       SPAInsertChannel(SPAChannelAlignments);
 
@@ -5728,6 +5744,7 @@ void FunctionGenerator::SPAMethodRadioButtonClicked(){
     else if (SPANumOfChannels >2){
 
       SPAChannelAlignments->next->next->clear();
+
       SPAPartialAlignment* partial = SPAChannelAlignments->next->partials;
 
       while (partial!= NULL){
@@ -5744,8 +5761,6 @@ void FunctionGenerator::SPAMethodRadioButtonClicked(){
     SPAChannelAlignments->hideButtons();
     SPAChannelAlignments->next->hideButtons();
     SPAChannelAlignments->next->next = NULL;
-
-        SPAApplyByRadioButtonClicked(); //make sure it shows up as partial or sound
   }//end polar
   
   SPATextChanged();
@@ -5753,16 +5768,27 @@ void FunctionGenerator::SPAMethodRadioButtonClicked(){
 
 }
   
+void FunctionGenerator::SPAPartialAlignment::setLabel(string _label){
+  Gtk::Label* label;
+  attributesRefBuilder->get_widget( "TitleLabel", label);  
+  label->set_text(_label);
 
+
+}
 void FunctionGenerator::SPAApplyByRadioButtonClicked(){
   Gtk::RadioButton* radiobutton;
   attributesRefBuilder->get_widget( "SPASoundRadioButton", radiobutton);
     
-  if (radiobutton->get_active()){
+  if (radiobutton->get_active()){ //applied by sound
     SPAApplyFlag = 0;
     SPAChannelAlignment* temp = SPAChannelAlignments;
     
-    while (temp != NULL){
+    while (temp != NULL){ //each channel
+      SPAPartialAlignment* firstPartial = temp->partials;
+      if (firstPartial!=NULL){
+        firstPartial->setLabel("Envelope");
+      }
+    
       SPAPartialAlignment* partial = temp->partials->next;
       while (partial!= NULL){
         partial->entryEditSwitch(0);
@@ -5772,11 +5798,17 @@ void FunctionGenerator::SPAApplyByRadioButtonClicked(){
     }
     
   }  
-  else {
+  else {//applied by partial
     SPAApplyFlag = 1;
     SPAChannelAlignment* temp = SPAChannelAlignments;
     
     while (temp != NULL){
+      SPAPartialAlignment* firstPartial = temp->partials;
+      if (firstPartial!=NULL){
+        firstPartial->setLabel("Partial 1");
+      }    
+    
+    
       SPAPartialAlignment* partial = temp->partials->next;
       while (partial!= NULL){
         partial->entryEditSwitch(1);

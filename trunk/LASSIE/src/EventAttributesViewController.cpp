@@ -4154,10 +4154,12 @@ void EventAttributesViewController::LayerBox::byLayerWeightButtonClicked(){
 }
 
 void EventAttributesViewController::LayerBox::deleteLayerButtonClicked(){
-  if (attributesView->deleteLayer(this)){
-    layerInEvent->deleteLayer();
-    projectView->modified();
-  }
+
+  bool result = attributesView->deleteLayer(this);
+  if (result){
+    layerInEvent->deleteLayer();//*  crashed by this line
+    projectView->modified();  
+  } 
   attributesView->refreshChildTypeInLayer();
 }
 
