@@ -112,9 +112,10 @@ int Sieve::ChooseL() {
 
   list<int>::iterator eIter = eList.begin();
   list<double>::iterator wIter = wList.begin();
-
-//  cout << "SIEVE::CHOOSEL  --- Random num = " << randomNumber << endl;
-//  cout << "                --- eList = " << *eIter << ", wList = " << *wIter << endl;
+/*
+    cout << "SIEVE::CHOOSEL  --- Random num = " << randomNumber << endl;
+    cout << "                --- eList = " << *eIter << ", wList = " << *wIter << endl;
+*/
   while (eIter != eList.end() && (randomNumber > *wIter)) {
     eIter++;
     wIter++;
@@ -135,8 +136,6 @@ void Sieve::Elements(int minVal, int maxVal,
   if(strcmp(method, "MEANINGFUL") == 0) {		//only meaningful elem.
     Sieve::Meaningful(minVal, maxVal, eArgVect);
   } else if(strcmp(method, "MODS") == 0) {		//uses moduli
-    //cout << "  Sieve::Elements - MODS - minVal=" << minVal << "  maxVal="
-    //     << maxVal << endl;
     Sieve::Multiples(minVal, maxVal, eArgVect);
   } else if(strcmp(method, "FAKE") == 0) {		//all elem, same weight
     Sieve::Fake(minVal, maxVal);
@@ -269,7 +268,8 @@ void Sieve::HierarchicWeights(vector<int> wArgVect) {
   int level;
   double probability;
 
-  for(int count = 0; count < wArgVect.size(); count++) {
+//for(int count = 0; count < wArgVect.size(); count++) { see note above)
+  for(int count = 0; count < eList.size(); count++) {
     level = 0;
     probability = 0;
 
@@ -290,7 +290,8 @@ void Sieve::HierarchicWeights(vector<int> wArgVect) {
 //---------------------------------------------------------------------------//
 
 void Sieve::IncludeWeights(vector<int> wArgVect) {
-  for(int i = 0; i < wArgVect.size(); i++) {
+//for(int i = 0; i < wArgVect.size(); i++) {
+  for(int i = 0; i < eList.size(); i++) {
     if(i >= skip && i < eList.size()+ skip) {
       wList.push_back(wArgVect[i]);
     }
