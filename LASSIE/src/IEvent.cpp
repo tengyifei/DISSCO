@@ -3351,18 +3351,25 @@ bool EventLayer::removeChild(EventDiscretePackage* _child){
 
 
 void EventLayer::deleteLayer(){
-  thisIEvent->deleteLayer (this);
+
+  if (thisIEvent!= NULL){
+    thisIEvent->deleteLayer (this);
+  }
+
 }
 
 void IEvent::deleteLayer (EventLayer* _deleteLayer){
+
   std::list<EventLayer*>::iterator i = layers.begin();
-  
+
   while (*i != _deleteLayer){
     i++;
   }
+
   layers.erase(i);
-  
+
   delete (*i);
+
 }
 
 
