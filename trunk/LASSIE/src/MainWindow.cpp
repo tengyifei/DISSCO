@@ -171,6 +171,8 @@ MainWindow::MainWindow(){
   set_title("LASSIE");
   set_default_size(1000, 600);
   set_decorated(true);
+  set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+      
   
 
   add(mainBox); // put the main box into the window

@@ -2682,7 +2682,8 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "RandomHighBoundEntry", entry);
         entry->set_text("1");
-
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
 
       }
       else if (function == functionRandomInt){
@@ -2699,6 +2700,8 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "RandomIntHighBoundEntry", entry);
         entry->set_text("1");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionRandomSeed){
@@ -2720,7 +2723,8 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "RandomizerDeviationEntry", entry);
         entry->set_text("");
-  
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
       }
       else if (function == functionInverse ){
         alignment->remove(); //remove the current parameter box
@@ -2731,6 +2735,8 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "InverseEntry", entry);
         entry->set_text("");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionLN){
@@ -2742,6 +2748,8 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "LNEntry", entry);
         entry->set_text("");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionFibonacci){
@@ -2769,7 +2777,9 @@ void FunctionGenerator::function_list_combo_changed(){
         
         attributesRefBuilder->get_widget(
           "DecayTypeExponentialRadioButton", radiobutton);
-        radiobutton->set_active(true);  
+        radiobutton->set_active(true); 
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300); 
   
       }
       else if (function == functionStochos){
@@ -2786,7 +2796,7 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "StochosRangeDistribRadioButton", radiobutton);
         radiobutton->set_active(true);  
-                set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
   
       }
       else if (function == functionEnvLib){
@@ -2804,6 +2814,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("1.0");
         
         envLibTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionSelect){
@@ -2826,7 +2838,9 @@ void FunctionGenerator::function_list_combo_changed(){
         }
           attributesRefBuilder->get_widget(
             "SelectIndexEntry", entry);
-          entry->set_text("");         
+          entry->set_text("");   
+          set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);      
   
       }
       else if (function == functionValuePick){
@@ -2861,8 +2875,9 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("INT1, INT2, INT3 ...");
         
         valuePickTextChanged();
-                set_position(Gtk::WIN_POS_CENTER_ALWAYS);
-  
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+       
+        resize(500,400);
       }
       else if (function == functionChooseL){
         alignment->remove(); //remove the current parameter box
@@ -2874,6 +2889,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("SIV");
         
         chooseLEntryChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionGetPattern){
@@ -2886,6 +2903,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("PAT");
         
         getPatternEntryChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionExpandPattern){
@@ -2907,6 +2926,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("PAT");
         
         expandPatternTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionAdjustPattern){
@@ -2961,6 +2982,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("INT1, INT2, INT3 ...");
         
         makeSieveTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(500,400);
   
       }
       else if (function == functionMakePattern){
@@ -2978,6 +3001,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("<INT1, INT2, INT3 ...>");
         
         makePatternTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionMakeList){
@@ -2995,7 +3020,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");
         
         makeListTextChanged();
-  
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
       }
       else if (function == functionReadENVFile){
         alignment->remove(); //remove the current parameter box
@@ -3007,6 +3033,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");
         entry->grab_focus();
         readENVFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionReadSIVFile){
@@ -3019,6 +3047,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");
         entry->grab_focus();
         readSIVFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionReadPATFile){
@@ -3034,6 +3064,8 @@ void FunctionGenerator::function_list_combo_changed(){
           "ReadPATFileOriginEntry", entry);
         entry->set_text("");
         readPATFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionReadSPAFile){
@@ -3046,6 +3078,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");
         entry->grab_focus();
         readSPAFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionReadREVFile){
@@ -3058,6 +3092,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");
         entry->grab_focus();
         readREVFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }
       else if (function == functionREV_Simple){
@@ -3069,6 +3105,8 @@ void FunctionGenerator::function_list_combo_changed(){
           "REV_SimpleEntry", entry);
         entry->set_text("0.5");
         REV_SimpleEntryTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }      
       else if (function == functionREV_Medium){
@@ -3090,6 +3128,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text(""); 
         
         REV_MediumTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }    
       else if (function == functionREV_Advanced){
@@ -3115,6 +3155,8 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text(""); 
         
         REV_AdvancedTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }        
       else if (function == functionSPA){
@@ -3125,46 +3167,63 @@ void FunctionGenerator::function_list_combo_changed(){
         alignment->add (*vbox); //add vbox in
         SPATextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
   
       }       
       else if (function == function_staticCURRENT_TYPE){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_TYPE");
-  
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
       }
       else if (function == function_staticCURRENT_CHILD_NUM){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_CHILD_NUM");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else if (function == function_staticCURRENT_PARTIAL_NUM){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_PARTIAL_NUM");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else if (function == function_staticCURRENT_DENSITY){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_DENSITY");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else if (function == function_staticCURRENT_SEGMENT){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_SEGMENT");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else if (function == function_staticAVAILABLE_EDU){
         alignment->remove();
         textview->get_buffer()->set_text("AVAILABLE_EDU");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else if (function == function_staticCURRENT_LAYER){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_LAYER");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
   
       }
       else {  //not a function
         alignment->remove();
         textview->get_buffer()->set_text("");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
       }
       
 
