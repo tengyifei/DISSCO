@@ -732,6 +732,10 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   attributesRefBuilder->get_widget(
     "ValuePickElementsEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+
+  attributesRefBuilder->get_widget(
+    "ValuePickOffsetEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickWeightsEntry", entry);
@@ -1066,6 +1070,10 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   attributesRefBuilder->get_widget(
     "MakeSieveElementsEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+
+  attributesRefBuilder->get_widget(
+    "MakeSieveOffsetEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
@@ -1424,7 +1432,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 9 arguments
+      list<FileValue> arguments = value->getFtnArgs();  //ValuePick has 10 arguments. Old version has 9 arguments (no offset, the last argument)
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a float (absolute range
@@ -1520,6 +1528,20 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         radiobutton->set_active(); 
       
       }   
+      
+      argumentsIter++;
+      if (argumentsIter != arguments.end()){ //the 10th argument, offset, exists
+      
+        attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
+        value =&(*argumentsIter);
+        entry->set_text(getFunctionString(value,functionReturnInt));
+      }
+      else {
+        attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
+        entry->set_text("0");      
+      
+      }
+      
            
     }
     
@@ -2495,7 +2517,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //makesieve has 6 arguments
+      list<FileValue> arguments = value->getFtnArgs();  //makesieve has 7 arguments. old version has 6 arguments (no offset, which is the last argument)
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is an int (low bound)
@@ -2565,7 +2587,20 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       listString = listString.substr(1, listString.length()-2);
       
       attributesRefBuilder->get_widget("MakeSieveWeightsEntry",entry);
-      entry->set_text(listString);          
+      entry->set_text(listString);    
+      
+      argumentsIter++;
+      if (argumentsIter != arguments.end() ){ // the 7th argument exists
+        value =&(*argumentsIter);
+        attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
+        entry->set_text(getFunctionString(value,functionReturnInt));
+      }
+      else { // the 7th argument doesn't exist.
+        attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
+        entry->set_text("0");
+        makeSieveTextChanged();
+      
+      }
            
     }
     
@@ -4052,13 +4087,15 @@ void FunctionGenerator::valuePickTextChanged(){
   attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton", radiobutton1);   
 
   if (radiobutton1->get_active()){
-    stringbuffer = stringbuffer + "\"VARIABLE\")";
+    stringbuffer = stringbuffer + "\"VARIABLE\",";
   }
   else {
-    stringbuffer = stringbuffer + "\"CONSTANT\")";
+    stringbuffer = stringbuffer + "\"CONSTANT\", ";
   }
   
-  
+  attributesRefBuilder->get_widget(
+    "ValuePickOffsetEntry", entry);
+  stringbuffer = stringbuffer + entry->get_text()+ ") ";
   textview->get_buffer()->set_text(stringbuffer);
 
 }
@@ -5200,7 +5237,12 @@ void FunctionGenerator::makeSieveTextChanged(){
 
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ">) ";  
+  stringbuffer = stringbuffer + entry->get_text()+ ">, ";
+  
+  
+  attributesRefBuilder->get_widget(
+    "MakeSieveOffsetEntry", entry);
+  stringbuffer = stringbuffer + entry->get_text()+ ")";  
 
   
   textview->get_buffer()->set_text(stringbuffer);

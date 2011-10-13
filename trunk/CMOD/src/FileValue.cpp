@@ -621,10 +621,21 @@ void FileValue::ftn_Select() {
 //----------------------------------------------------------------------------//
 
 void FileValue::ftn_ValuePick() {
+
   return_type = FVAL_NUMBER;
-  vector<FileValue*> args = EvaluateArgs(9, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE, 
+  vector<FileValue*> args;
+  
+  if (ftnArgs.size() ==10){ // new format with offset
+    args = EvaluateArgs(10, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE, 
+                                         FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING, 
+                                         FVAL_LIST, FVAL_STRING, FVAL_NUMBER);
+  }
+  else { // old format without offset    
+   args = EvaluateArgs(9, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE, 
                                          FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING, 
                                          FVAL_LIST, FVAL_STRING);
+  }
+
 
   // setup routine vars
   double checkpoint = 0;
@@ -641,18 +652,23 @@ void FileValue::ftn_ValuePick() {
   string wMethod = args[6]->getString();
   list<FileValue>* wArgList = args[7]->getListPtr(NULL);
   string modifyMethod = args[8]->getString();
+  int offset =(ftnArgs.size()==10)? args[9]->getInt(): 0;  //default offset = 0 if the function is in the old format
+  
 
   // convert the lists to vectors
   vector<int> eArgVect;
   list<FileValue>::iterator iter = eArgList->begin();
   while (iter != eArgList->end()) {
+
     eArgVect.push_back( iter->getInt() );
     iter++;
   }
 
   vector<int> wArgVect;
   iter = wArgList->begin();
+
   while (iter != wArgList->end()) {
+
     wArgVect.push_back( iter->getInt() );
     iter++;
   }
@@ -662,10 +678,11 @@ void FileValue::ftn_ValuePick() {
 //cout << "FileValue: ValuePick - minVal=" << minVal << " maxVal=" << maxVal <<
 //	  " absRange=" << absRange << endl;
   Sieve si;
-  si.Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgVect, wArgVect);
+  si.Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgVect, wArgVect, offset);
 
   //use third envelope to choose a value
   n = si.Modify(envDist, modifyMethod);
+
 }
 
 //----------------------------------------------------------------------------//
@@ -829,9 +846,21 @@ void FileValue::ftn_MakeSieve() {
       Arg3: string elementMethod
       Arg4: <elementArgVector>
       Arg5: string weightMethod
-      Arg6: <weightArgVector> */
-  vector<FileValue*> args = EvaluateArgs(6, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING, 
-                                            FVAL_LIST, FVAL_STRING, FVAL_LIST);
+      Arg6: <weightArgVector> 
+      Arg7: int offset (only exist in the new format)
+      */
+
+  vector<FileValue*> args;
+        
+  if (ftnArgs.size() ==7){ // new format with offset
+    args = EvaluateArgs(7, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING, 
+                           FVAL_LIST, FVAL_STRING, FVAL_LIST,FVAL_NUMBER);
+  }
+  else { // old format
+    args = EvaluateArgs(6, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING, 
+                           FVAL_LIST, FVAL_STRING, FVAL_LIST);
+  
+  }                         
 
   int minVal = args[0]->getInt();
   int maxVal = args[1]->getInt();
@@ -839,6 +868,7 @@ void FileValue::ftn_MakeSieve() {
   list<FileValue>* eArgs = args[3]->getListPtr(NULL);
   string wMethod = args[4]->getString();
   list<FileValue>* wArgs = args[5]->getListPtr(NULL);
+  int offset = (ftnArgs.size()==7)? args[6]->getInt(): 0; // default offset = 0 if it's old format
 
   // convert the args into vectors of ints
   vector<int> eArgInts;
@@ -855,7 +885,7 @@ void FileValue::ftn_MakeSieve() {
   }
 
   Sieve * siv = new Sieve();
-  siv->Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgInts, wArgInts);
+  siv->Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgInts, wArgInts, offset);
 
   obj = (void *)siv;
 }

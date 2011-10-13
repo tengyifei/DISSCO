@@ -84,10 +84,11 @@ class Sieve {
     *  \param wMethod method for selecting weights
     *  \param eArgVector data for selecting elements of sieve
     *  \param wArgVector data for selecting weights 
+    *  \param offset offset of the elements
     **/
     void Build(int minVal, int maxVal, 
                const char *eMethod, const char *wMethod, 
-               std::vector<int> eArgVect, std::vector<int> wArgVect);
+               std::vector<int> eArgVect, std::vector<int> wArgVect, int offset);
 
     /**
     *  FillInVectors calls CumulWeights to normalize and and add the result in 
@@ -131,10 +132,11 @@ class Sieve {
     *  \param minVal smallest value allowed by the sieve
     *  \param maxVal largest value allowed by the sieve
     *  \param eArgVect vector containing the elements of the sieve
+    *  \param offset offset of the elements
     **/
     void Elements(int minVal, int maxVal, 
                   const char *method, 
-                  std::vector<int> eArgVect);
+                  std::vector<int> eArgVect,int offset);
 
     /**
     *  Weights assigns weights to be stored in a linkList of doubles.
@@ -151,8 +153,9 @@ class Sieve {
     *  \param minVal smallest value allowed
     *  \param maxVal largest value allowed
     *  \param eArgVect list of available values
+    *  \param offset offset of elements
     **/
-    void Meaningful(int minVal, int maxVal, std::vector<int> eArgVect); 
+    void Meaningful(int minVal, int maxVal, std::vector<int> eArgVect, int offset); 
 
     /**
     *  Multiples makes a linkList of multiples of given moduli numbers
@@ -160,9 +163,10 @@ class Sieve {
     *  \param minVal smallest value allowed
     *  \param maxVal largest value allowed
     *  \param numMods vector containing the moduli to be used
+    *  \param offset offset of elements
     **/
     void Multiples(int minVal, int maxVal, 
-                   std::vector<int> numMods);
+                   std::vector<int> numMods, int offset);
 
     /**
     *  Fake.  Lists all elemets within a given range. 

@@ -310,6 +310,7 @@ list<Note> Bottom::getNotes() {
 //----------------------------------------------------------------------------//
 
 float Bottom::computeBaseFreq() {
+
   float baseFreqResult;
 
   list<FileValue>* defList = frequencyFV->getListPtr(this);
@@ -336,6 +337,7 @@ float Bottom::computeBaseFreq() {
 
   } else if (freq_method == "WELL_TEMPERED") {
     /* 2nd arg is an int */
+
     wellTempPitch = iter->getInt(this);
 //  cout << "Bottom: computeBaseFreq - wellTempPitch=" << wellTempPitch << endl;
     baseFreqResult = C0 * pow(WELL_TEMP_INCR, wellTempPitch);
@@ -347,6 +349,7 @@ float Bottom::computeBaseFreq() {
     int overtone_step = iter->getInt(this);
     baseFreqResult = fund_freq * overtone_step;
   }
+
   return baseFreqResult;
 }
 
