@@ -1509,7 +1509,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       listString = fileValueListToString( value->getList(),functionReturnFloat);
       
       listString = listString.substr(1, listString.length()-2);
-      
+      int listLength = value->getList().size();
       attributesRefBuilder->get_widget("ValuePickWeightsEntry",entry);
       entry->set_text(listString);        
       
@@ -1533,12 +1533,19 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       if (argumentsIter != arguments.end()){ //the 10th argument, offset, exists
       
         attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
-        value =&(*argumentsIter);
-        entry->set_text(getFunctionString(value,functionReturnInt));
+        value =&(*argumentsIter); //offset is a list of integer
+        
+              
+      string listString = fileValueListToString( value->getList(),functionReturnFloat);
+      
+      listString = listString.substr(1, listString.length()-2);
+      
+      entry->set_text(listString);  
+        
       }
       else {
         attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
-        entry->set_text("0");      
+        entry->set_text(makeSieveNValuePickZeros(listLength));      
       
       }
       
@@ -2583,7 +2590,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       argumentsIter++;
       value =&(*argumentsIter); // 6th argument is a list without bracket
       listString = fileValueListToString( value->getList(),functionReturnFloat);
-      
+      int listLength = value->getList().size();
       listString = listString.substr(1, listString.length()-2);
       
       attributesRefBuilder->get_widget("MakeSieveWeightsEntry",entry);
@@ -2591,13 +2598,17 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       
       argumentsIter++;
       if (argumentsIter != arguments.end() ){ // the 7th argument exists
-        value =&(*argumentsIter);
+        value =&(*argumentsIter); // 4th argument is a list without bracket
+        string listString = fileValueListToString( value->getList(),functionReturnInt);
+      
+        listString = listString.substr(1, listString.length()-2);
+      
         attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
-        entry->set_text(getFunctionString(value,functionReturnInt));
+        entry->set_text(listString);     
       }
       else { // the 7th argument doesn't exist.
         attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
-        entry->set_text("0");
+        entry->set_text(makeSieveNValuePickZeros(listLength));
         makeSieveTextChanged();
       
       }
@@ -2909,6 +2920,10 @@ void FunctionGenerator::function_list_combo_changed(){
           "ValuePickWeightsEntry", entry);
         entry->set_text("INT1, INT2, INT3 ...");
         
+        attributesRefBuilder->get_widget(
+          "ValuePickOffsetEntry", entry);
+        entry->set_text("INT1, INT2, INT3 ...");
+        
         valuePickTextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
        
@@ -3015,6 +3030,12 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget(
           "MakeSieveWeightsEntry", entry);
         entry->set_text("INT1, INT2, INT3 ...");
+        
+        attributesRefBuilder->get_widget(
+          "MakeSieveOffSetEntry", entry);
+        entry->set_text("INT1, INT2, INT3 ...");
+        
+        
         
         makeSieveTextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
@@ -4019,6 +4040,21 @@ void FunctionGenerator::valuePickDistFunButtonClicked(){
 
 }
 
+string FunctionGenerator::makeSieveNValuePickZeros(int _listLength){
+  string toReturn = "";
+  
+  for (int i = 0; i < _listLength -1; i ++){
+    toReturn = toReturn + "0, ";
+  }
+  toReturn = toReturn + "0";
+  
+  return toReturn;
+}
+  
+
+
+
+
 
 
 void FunctionGenerator::valuePickTextChanged(){
@@ -4087,15 +4123,15 @@ void FunctionGenerator::valuePickTextChanged(){
   attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton", radiobutton1);   
 
   if (radiobutton1->get_active()){
-    stringbuffer = stringbuffer + "\"VARIABLE\",";
+    stringbuffer = stringbuffer + "\"VARIABLE\", <";
   }
   else {
-    stringbuffer = stringbuffer + "\"CONSTANT\", ";
+    stringbuffer = stringbuffer + "\"CONSTANT\", <";
   }
   
   attributesRefBuilder->get_widget(
     "ValuePickOffsetEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ") ";
+  stringbuffer = stringbuffer + entry->get_text()+ ">) ";
   textview->get_buffer()->set_text(stringbuffer);
 
 }
@@ -5237,12 +5273,12 @@ void FunctionGenerator::makeSieveTextChanged(){
 
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ">, ";
+  stringbuffer = stringbuffer + entry->get_text()+ ">, <";
   
   
   attributesRefBuilder->get_widget(
     "MakeSieveOffsetEntry", entry);
-  stringbuffer = stringbuffer + entry->get_text()+ ")";  
+  stringbuffer = stringbuffer + entry->get_text()+ " >)";  
 
   
   textview->get_buffer()->set_text(stringbuffer);

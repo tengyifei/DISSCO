@@ -311,6 +311,7 @@ private:
   void valuePickLowFunButtonClicked();
   void valuePickHighFunButtonClicked();
   void valuePickDistFunButtonClicked();
+  string makeSieveNValuePickZeros(int _listLength);
   
 
   //chooseL
