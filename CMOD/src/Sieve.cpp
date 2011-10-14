@@ -52,7 +52,7 @@ string Sieve::getFileName() {
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Build(int minVal, int maxVal, y
+void Sieve::Build(int minVal, int maxVal, 
 
                   const char *eMethod, const char *wMethod, 
                   vector<int> eArgVect, vector<int> wArgVect, vector<int> offsetVector) {
