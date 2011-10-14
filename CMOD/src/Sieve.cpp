@@ -52,12 +52,28 @@ string Sieve::getFileName() {
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Build(int minVal, int maxVal, 
+void Sieve::Build(int minVal, int maxVal, y
+
                   const char *eMethod, const char *wMethod, 
                   vector<int> eArgVect, vector<int> wArgVect, vector<int> offsetVector) {
                   
   Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVector);
   Sieve::Weights(wMethod, wArgVect);
+
+     //cout for debugging
+  list<int>::iterator i = eList.begin();
+  cout<<"Elements list: ";
+  for ( i ; i != eList.end(); i ++){
+    cout<< *i<<", "; 
+  }
+  cout<<endl;
+
+  list<double>::iterator j = wList.begin();
+  cout<<"weight list: ";
+  for ( j ; j != wList.end(); j ++){
+    cout<< *j<<", "; 
+  }
+  cout<<endl;
   
 }      
 
@@ -215,8 +231,8 @@ void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, std::vector<i
 
   for (int i = 0; i < numMods.size(); i++) {
   
-    if (minVal == 0 && offsetVector[i] ==0) { //put 0 in the list if minVal ==0 and at least one of the offset is 0
-      eList.push_back(0);
+    if (minVal == 0 && offsetVector[i] >=0) { //put 0 in the list if minVal ==0 and at least one of the offset is 0
+      eList.push_back(offsetVector[i]);
     }
   
     int newElement = numMods[i] + offsetVector[i];
