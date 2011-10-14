@@ -489,6 +489,7 @@ void Score::channelAnticlip(MultiTrack* mt)
     cout << "Performing CHANNEL_ANTICLIP" << endl;
 
     // for each track
+    m_sample_type maxAmplitude = 0.0;
     for (int t=0; t<mt->size(); t++)
     {
         SoundSample& wave = mt->get(t)->getWave();
@@ -504,7 +505,37 @@ void Score::channelAnticlip(MultiTrack* mt)
                 wave[s] *= 1.0 / amp[s];
                 amp[s] = 1.0;
             }
+            m_sample_type cur = wave[s];
+            if(cur < 0) cur = -cur;
+            if(cur > maxAmplitude)
+              maxAmplitude = cur; 
         }
+    }
+    if(maxAmplitude < 0.99)
+    {
+      cout << "Peak at " << maxAmplitude << endl;
+      cout << "Normalizing to achieve better signal-to-noise ratio.";
+    }
+    else
+    {
+      cout << "Warning: peak is " << maxAmplitude << endl;
+      cout << "Normalizing to avoid waveform clip.";
+    }
+    {
+      m_sample_type normalizeValue = 0.99 / maxAmplitude;
+      for (int t=0; t<mt->size(); t++)
+      {
+          SoundSample& wave = mt->get(t)->getWave();
+          SoundSample& amp = mt->get(t)->getAmp();
+          
+          // for each sample
+          m_sample_count_type numSamples = wave.getSampleCount();
+          for (m_sample_count_type s=0; s<numSamples; s++)
+          {
+              amp[s] = 1.0;
+              wave[s] *= normalizeValue;
+          }
+      }
     }
 }
 
