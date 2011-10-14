@@ -3032,7 +3032,7 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("INT1, INT2, INT3 ...");
         
         attributesRefBuilder->get_widget(
-          "MakeSieveOffSetEntry", entry);
+          "MakeSieveOffsetEntry", entry);
         entry->set_text("INT1, INT2, INT3 ...");
         
         
