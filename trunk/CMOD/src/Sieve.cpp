@@ -54,13 +54,11 @@ string Sieve::getFileName() {
 
 void Sieve::Build(int minVal, int maxVal, 
                   const char *eMethod, const char *wMethod, 
-                  vector<int> eArgVect, vector<int> wArgVect, int offset) {
-  Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offset);
+                  vector<int> eArgVect, vector<int> wArgVect, vector<int> offsetVector) {
+                  
+  Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVector);
   Sieve::Weights(wMethod, wArgVect);
-  cout<<"Build Sieve, Size of sieve is "<<eArgVect.size()<<endl;
-  for (std::list<int>::iterator i = eList.begin(); i != eList.end(); i ++){
-    cout<<"=="<<*i<<endl;
-  } 
+  
 }      
 
 
@@ -135,12 +133,12 @@ int Sieve::ChooseL() {
 
 void Sieve::Elements(int minVal, int maxVal, 
                      const char *method, 
-                     vector<int> eArgVect, int offset) {
+                     vector<int> eArgVect, std::vector<int> offsetVector) {
 
   if(strcmp(method, "MEANINGFUL") == 0) {		//only meaningful elem.
-    Sieve::Meaningful(minVal, maxVal, eArgVect, offset);
+    Sieve::Meaningful(minVal, maxVal, eArgVect, offsetVector);
   } else if(strcmp(method, "MODS") == 0) {		//uses moduli
-    Sieve::Multiples(minVal, maxVal, eArgVect, offset);
+    Sieve::Multiples(minVal, maxVal, eArgVect, offsetVector);
   } else if(strcmp(method, "FAKE") == 0) {		//all elem, same weight
     Sieve::Fake(minVal, maxVal);
   } else if(strcmp(method, "FIBONACCI") == 0) {       	//Fibonacci sieve
@@ -180,17 +178,17 @@ void Sieve::Weights(const char *method,
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, int offset) {
+void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, std::vector<int> offsetVector) {
   skip = 0;
 
   for (int i = 0; i < eArgVect.size(); i++) {
-    if( (eArgVect[i]+ offset) >= minVal && (eArgVect[i] + offset) <= maxVal) {
+    if( (eArgVect[i]+ offsetVector[i]) >= minVal && (eArgVect[i] + offsetVector[i]) <= maxVal) {
       //if eList.Includes(eArgVect[i])
       
-      eList.push_back( eArgVect[i] + offset );
+      eList.push_back( eArgVect[i] + offsetVector[i] );
     }
 
-    if(eArgVect[i] + offset< minVal) {
+    if(eArgVect[i] + offsetVector[i]< minVal) {
       skip++;
     }
   }
@@ -201,16 +199,13 @@ void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, int offset)
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, int offset) {
+void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, std::vector<int> offsetVector) {
   int element, modulo;
 
   eList.clear();
 
   skip = 0;
 
-  if (minVal == 0 && offset ==0) {
-    eList.push_back(0);
-  }
 
 /*cout << "Sieve::Multiples - numMods=";
   for (int q = 0; q < numMods.size(); q++){
@@ -219,7 +214,12 @@ void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, int offset) {
   cout << endl;*/
 
   for (int i = 0; i < numMods.size(); i++) {
-    int newElement = numMods[i] + offset;
+  
+    if (minVal == 0 && offsetVector[i] ==0) { //put 0 in the list if minVal ==0 and at least one of the offset is 0
+      eList.push_back(0);
+    }
+  
+    int newElement = numMods[i] + offsetVector[i];
 
     while (newElement <= maxVal) {
       if ( newElement >= minVal ) {
