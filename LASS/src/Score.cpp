@@ -502,8 +502,8 @@ void Score::channelAnticlip(MultiTrack* mt)
             if (amp[s] > 1.0)
             {
                 // scale this sample:
-                wave[s] *= 1.0 / amp[s];
-                amp[s] = 1.0;
+                //wave[s] *= 1.0 / amp[s];
+                //amp[s] = 1.0;
             }
             m_sample_type cur = wave[s];
             if(cur < 0) cur = -cur;
