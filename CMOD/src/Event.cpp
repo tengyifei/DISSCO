@@ -246,6 +246,7 @@ void Event::buildChildEvents() {
 
   //Using the temporary events that were created, construct the actual children.
   for (int i = 0; i < temporaryChildEvents.size(); i++) {
+     
     //Increment the static current child number.
     currChildNum = i;
     
@@ -253,8 +254,11 @@ void Event::buildChildEvents() {
     Event *e = temporaryChildEvents[currChildNum];
     
     //Construct the child (overloaded in Bottom)
+    
+   
+    
     constructChild(e->ts, e->type, e->name, e->tempo);
-
+    
     //Delete the temporary child event.
     delete e;
   }
@@ -269,6 +273,7 @@ void Event::buildChildEvents() {
   Output::addProperty("Updated Tempo Start Time", tempo.getStartTime());
   Output::endSubLevel();
 }
+
 
 //----------------------------------------------------------------------------//
 //Checked

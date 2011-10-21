@@ -722,13 +722,17 @@ void FileValue::ftn_ChooseL() {
 //----------------------------------------------------------------------------//
 
 void FileValue::ftn_GetPattern() {
+  cout<<"evaluate get pattern!"<<endl;
   return_type = FVAL_NUMBER;
 
   vector<FileValue*> args = EvaluateArgs(3, FVAL_STRING, FVAL_NUMBER, FVAL_PATTERN);
-  string method = args[0]->getString(evptr);
-  int origin = args[1]->getInt(evptr);
+  patterMethod = args[0]->getString(evptr);
+  patterOrigin = args[1]->getInt(evptr);
   Patter* patPtr = args[2]->getPattern(evptr);
-  n = patPtr->GetNextValue( method, origin );
+  obj = patPtr;
+  //n = patPtr->GetNextValue( patterMethod, patterOrigin );
+   
+  
 }
 
 //----------------------------------------------------------------------------//

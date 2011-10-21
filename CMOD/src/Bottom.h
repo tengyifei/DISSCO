@@ -66,6 +66,7 @@ class Bottom : public Event {
 
     //Current partial during the processing of the event
     int currPartialNum;
+
     
     /*Maps each mod name to an indicator if it's being used:
      -1 = initVal, 0 = notUsed, 1 = used.*/
@@ -130,7 +131,7 @@ class Bottom : public Event {
      *  method in Event, allowing the creation of Sounds, Notes,
      *  and Visuals instead of child Events.
      **/
-    void constructChild(TimeSpan ts, int type, string name, Tempo tempo);
+    void constructChild(TimeSpan ts, int type, string name, Tempo tempo, bool usePattern, float patternFreqValue);
 
     /**
      *  Returns the number of current partial -- overrides Event
@@ -141,7 +142,7 @@ class Bottom : public Event {
     /**
      * Creates a sound and adds the sound to the Score.
      **/
-    void buildSound(TimeSpan tsChild, int type, string name);
+    void buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue);
 
     /**
      *  Creates a note (traditional notation) with all its attributes.
@@ -179,13 +180,16 @@ class Bottom : public Event {
      * \param noteVect a reference to a vector of notes
     **/
     list<Note> getNotes();
+    
+    
+    void buildChildEvents();
 
     //--------------------- Private helper methods  -----------------------//
   private:
     /**
      *  Computes a base frequency for the bottom event
      **/
-    float computeBaseFreq();
+    float computeBaseFreq( bool usePattern, float patternFreqValue);
 
     /**
      *  Computes a loudness value for the bottom event

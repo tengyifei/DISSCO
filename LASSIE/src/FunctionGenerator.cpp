@@ -775,8 +775,38 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   //GetPattern
  
   attributesRefBuilder->get_widget(
+    "GetPatternInOrderRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+
+  attributesRefBuilder->get_widget(
+    "GetPatternOtherRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+   
+  attributesRefBuilder->get_widget(
+    "GetPatternTypeClustersRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  
+  attributesRefBuilder->get_widget(
+    "GetPatternTimeDependRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  
+  attributesRefBuilder->get_widget(
+    "GetPatternProbabilityRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+
+  attributesRefBuilder->get_widget(
+    "GetPatternOffsetFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternOffsetFunButtonClicked));
+
+  attributesRefBuilder->get_widget(
+    "GetPatternOffsetEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+
+
+  attributesRefBuilder->get_widget(
     "GetPatternFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternFunButtonClicked));
+
 
   attributesRefBuilder->get_widget(
     "GetPatternEntry", entry);
@@ -866,16 +896,12 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   vbox->pack_start(*makeEnvelopeSubAlignments,Gtk::PACK_SHRINK);
 
   //MakePattern
-    attributesRefBuilder->get_widget(
-    "MakePatternOriginFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makePatternOriginFunButtonClicked));  
+  
     attributesRefBuilder->get_widget(
     "MakePatternIntervalsFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makePatternIntervalsFunButtonClicked));  
 
-  attributesRefBuilder->get_widget(
-    "MakePatternOriginEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makePatternTextChanged));  
+ 
 
   attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
@@ -1606,11 +1632,42 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //getpattern has 1 argument
+      list<FileValue> arguments = value->getFtnArgs();  //getpattern has 3 argument
       
       argumentsIter = arguments.begin();
+      value =&(*argumentsIter);  //first argument is a string (method)
+      
+      if (value->getString() == "IN_ORDER"){
+        attributesRefBuilder->get_widget("GetPatternInOrderRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      }
+      else if (value->getString() == "OTHER"){
+        attributesRefBuilder->get_widget("GetPatternOtherRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      }
+      else if (value->getString() == "TYPE_CLUSTERS"){
+        attributesRefBuilder->get_widget("GetPatternTypeClustersRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      } 
+      else if (value->getString() == "TIME_DEPEND"){
+        attributesRefBuilder->get_widget("GetPatternTimeDependRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      } 
+      else{
+        attributesRefBuilder->get_widget("GetPatternProbabilityRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      } 
+      
+      
+
       argumentsIter++;
-      value =&(*argumentsIter); // first argument is a function
+      value =&(*argumentsIter); // second argument is an integer
+
+      attributesRefBuilder->get_widget("GetPatternOffsetEntry",entry);
+      entry->set_text(getFunctionString(value,functionReturnInt)); 
+
+      argumentsIter++;
+      value =&(*argumentsIter); // third argument is a function
 
       
       attributesRefBuilder->get_widget("GetPatternEntry",entry);
@@ -2247,12 +2304,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       list<FileValue> arguments = value->getFtnArgs();  //makepattern has 2 arguments
       
       argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is an int
-      attributesRefBuilder->get_widget("MakePatternOriginEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // second argument is a list
+      value =&(*argumentsIter); // first argument is a list
       string listString = getFunctionString(value,functionReturnInt);
       attributesRefBuilder->get_widget("MakePatternIntervalsEntry",entry);
       entry->set_text(listString);
@@ -3047,10 +3099,7 @@ void FunctionGenerator::function_list_combo_changed(){
         attributesRefBuilder->get_widget("MakePatternVBox", vbox);
         alignment->add (*vbox); //add random vbox in
         //reset all data
-        attributesRefBuilder->get_widget(
-          "MakePatternOriginEntry", entry);
-        entry->set_text("");
-  
+       
 
         attributesRefBuilder->get_widget(
           "MakePatternIntervalsEntry", entry);
@@ -4168,6 +4217,20 @@ void FunctionGenerator::chooseLEntryChanged(){
 
 
 
+void FunctionGenerator::getPatternOffsetFunButtonClicked(){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget(
+    "GetPatternOffsetEntry", entry);
+    
+  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  generator->run(); 
+   
+  if (generator->getResultString() !=""){
+    entry->set_text(generator->getResultString());
+  }
+  delete generator;
+
+}
 
 void FunctionGenerator::getPatternFunButtonClicked(){
   Gtk::Entry* entry; 
@@ -4188,9 +4251,49 @@ void FunctionGenerator::getPatternEntryChanged(){
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
   Gtk::Entry* entry; 
+  Gtk::RadioButton* radiobutton;
+  attributesRefBuilder->get_widget(
+    "GetPatternOffsetEntry", entry);
+  std::string stringbuffer = "GetPattern(";
+    
+  
+  attributesRefBuilder->get_widget(
+    "GetPatternInOrderRadioButton", radiobutton);
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "\"IN_ORDER\", ";
+  }
+  
+  attributesRefBuilder->get_widget(
+    "GetPatternOtherRadioButton", radiobutton);
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "\"OTHER\", ";
+  }
+   
+  attributesRefBuilder->get_widget(
+    "GetPatternTypeClustersRadioButton", radiobutton);
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "\"TYPE_CLUSTERS\", ";
+  }
+  attributesRefBuilder->get_widget(
+    "GetPatternTimeDependRadioButton", radiobutton);
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "\"TIME_DEPEND\", ";
+  }
+  attributesRefBuilder->get_widget(
+    "GetPatternProbabilityRadioButton", radiobutton);
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "\"PROBABILITY\", ";
+  }
+  
+  
+  stringbuffer = stringbuffer + entry->get_text() + ", ";
   attributesRefBuilder->get_widget(
     "GetPatternEntry", entry);
-  std::string stringbuffer = "GetPattern( \"IN_ORDER\", " + entry->get_text() +  ")";
+    
+  stringbuffer = stringbuffer + entry->get_text() + " ) ";
+  
+  
+  
   textview->get_buffer()->set_text(stringbuffer);
 }
 
@@ -4762,20 +4865,6 @@ void FunctionGenerator::makeEnvelopeYValueFunButtonClicked(){
 
 }
 
-void FunctionGenerator::makePatternOriginFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "MakePatternOriginEntry", entry);
-    
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
-
-}
 
 void FunctionGenerator::makePatternIntervalsFunButtonClicked(){
   Gtk::Entry* entry; 
@@ -4798,11 +4887,8 @@ void FunctionGenerator::makePatternTextChanged(){
   attributesRefBuilder->get_widget("resultStringTextView", textview);
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
-    "MakePatternOriginEntry", entry);
-  std::string stringbuffer = "MakePattern( " + entry->get_text() +  ", ";
-  attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
-  stringbuffer =stringbuffer + entry->get_text() + ")";
+  std::string stringbuffer = "MakePattern( " + entry->get_text() + " )";
   textview->get_buffer()->set_text(stringbuffer);
   
 }

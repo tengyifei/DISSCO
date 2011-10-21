@@ -79,11 +79,18 @@ private:
   list<FileValue> ftnArgs;  // arguments for a function
   static int segmentNum;  // static segment for making envelopes
 
+  
+  string patterMethod;
+  int patterOrigin;
+  
+
   /* return data */
   string s;
   double n;
   list<FileValue> l;
   void * obj;
+  
+  
 
   Event* evptr; // pointer to event evaluating this filevalue
 
@@ -161,13 +168,13 @@ public:
    *  Evaluate any functions and return an int
    **/
   const int getInt(Event* ev) { Evaluate(ev); return (int)n; }
-  const int getInt() const { return (int)n; }
+  const int getInt() const { return (int) (getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n); }
 
   /**
    *  Evaluate any functions and return an int
    **/
   const float getFloat(Event* ev) { Evaluate(ev); return (float)n; }
-  const float getFloat() const { return (float)n; }
+  const float getFloat() const { return (float)( getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n); }
 
   /**
    *  Evaluate any functions and return a list of FileValues

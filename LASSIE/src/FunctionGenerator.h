@@ -319,7 +319,8 @@ private:
   void chooseLEntryChanged();
   
   
-  //chooseL
+  //GetPattern
+  void getPatternOffsetFunButtonClicked();
   void getPatternFunButtonClicked();
   void getPatternEntryChanged();
   
@@ -424,7 +425,7 @@ private:
   
   
   //makePattern
-  void makePatternOriginFunButtonClicked();
+  
   void makePatternIntervalsFunButtonClicked();
   void makePatternTextChanged(); 
   
