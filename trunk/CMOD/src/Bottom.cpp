@@ -115,9 +115,10 @@ void Bottom::initNoteVars(FileValue* notePitchClass, FileValue* noteDynamicMark,
 //----------------------------------------------------------------------------//
 
 void Bottom::constructChild(TimeSpan tsChild, int type, string name,
-  Tempo tempo) {
+  Tempo tempo, bool usePattern, float patternFreqValue) {
   /*First parse the child file. If a child factory does not exist, creating one
-  will trigger the parser. If it already exists, then the child is already
+  will trigger the parser. If it already exists, 
+  then the child is already
   parsed and available through the global factory library.*/
   EventFactory* childFactory = factory_lib[name];
   if(!childFactory)
@@ -137,8 +138,11 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
       childFactory->getSpectrum());
       
     //Build the sound.
-    buildSound(tsChild, type, name);
     
+
+    buildSound(tsChild, type, name, usePattern, patternFreqValue);
+
+
     //Increment static sound counter.
     sndcount++;
     
@@ -161,7 +165,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
 
 //----------------------------------------------------------------------------//
 
-void Bottom::buildSound(TimeSpan tsChild, int type, string name) {
+void Bottom::buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue) {
   //Create a new sound object.
   Sound* newSound = new Sound();
   
@@ -178,7 +182,7 @@ void Bottom::buildSound(TimeSpan tsChild, int type, string name) {
   newSound->setParam(DURATION, tsChild.duration);
 
   //Set the frequency.
-  float baseFrequency = computeBaseFreq();
+  float baseFrequency = computeBaseFreq( usePattern, patternFreqValue);
   Output::addProperty("Base Frequency", baseFrequency, "Hz");
 
   //Set the loudness.
@@ -233,7 +237,6 @@ void Bottom::buildSound(TimeSpan tsChild, int type, string name) {
 
   //Add the sound to the LASS score.
   score.add(*newSound);
-  
   //The sound to the child sounds list.
   childSounds.push_back(newSound);
 }
@@ -256,7 +259,7 @@ void Bottom::buildNote(TimeSpan tsChild, int type, string name) {
   Output::addProperty("EDU Duration", tsChild.durationEDU, "EDU");
 
   //Set the pitch.
-  float baseFrequency = computeBaseFreq();
+  float baseFrequency = computeBaseFreq(false, 0 ); //false because currently pattern doesn't suppart note 
   
   if(wellTempPitch <= 0) {
     //We did not compute the well tempered pitch, so frequency is only in Hertz.
@@ -309,7 +312,7 @@ list<Note> Bottom::getNotes() {
 
 //----------------------------------------------------------------------------//
 
-float Bottom::computeBaseFreq() {
+float Bottom::computeBaseFreq( bool usePattern, float patternFreqValue) {
 
   float baseFreqResult;
 
@@ -326,11 +329,15 @@ float Bottom::computeBaseFreq() {
     iter++;
 
     if (cont_method == "HERTZ") {
-      baseFreqResult = iter->getFloat(this);
+      baseFreqResult = usePattern? patternFreqValue:iter->getFloat(this);        
       /* 3rd arg is a float (baseFreq in Hz) */
-    } else if (cont_method == "POW2") {
+    }
+      
+    else if (cont_method == "POW2") {
       /* 3rd arg is a float (power of 2) */
-      float step = iter->getFloat(this);
+      
+      
+      float step = usePattern ? patternFreqValue : iter->getFloat(this);
       double range = log10(CEILING / MINFREQ) / log10(2.); // change log base
       baseFreqResult = pow(2, step * range) * MINFREQ;  // equal chance for all 8vs
     }
@@ -338,18 +345,19 @@ float Bottom::computeBaseFreq() {
   } else if (freq_method == "WELL_TEMPERED") {
     /* 2nd arg is an int */
 
-    wellTempPitch = iter->getInt(this);
+    wellTempPitch = usePattern? (int) patternFreqValue: iter->getInt(this);
 //  cout << "Bottom: computeBaseFreq - wellTempPitch=" << wellTempPitch << endl;
     baseFreqResult = C0 * pow(WELL_TEMP_INCR, wellTempPitch);
 
   } else if (freq_method == "FUNDAMENTAL") {
     /* 2nd arg is (float)fundamental_freq, 3rd arg is (int)overtone_num */
-    float fund_freq = iter->getFloat(this);
+    float fund_freq = usePattern? patternFreqValue:iter->getFloat(this);
     iter++;
     int overtone_step = iter->getInt(this);
     baseFreqResult = fund_freq * overtone_step;
   }
 
+  cout <<"base Freq = "<< baseFreqResult<<endl;
   return baseFreqResult;
 }
 
@@ -958,5 +966,121 @@ vector<string> Bottom::applyNoteModifiers() {
   }
 
   return result;
+}
+
+
+void Bottom::buildChildEvents() {
+  
+  //Begin this sub-level in the output and write out its properties.
+  Output::beginSubLevel(name);
+  outputProperties();
+
+  //Build the event's children.
+  cout << "Building event: " << name << endl;
+  
+  //Create the event definition iterator.
+  list<FileValue>::iterator iter = childEventDef->getListPtr(this)->begin();
+  string method = iter++->getString(this);
+  
+  //Set the number of possible restarts (for buildDiscrete)
+  restartsRemaining = restartsNormallyAllowed;
+
+  //Make sure that the temporary child events array is clear.
+  if(temporaryChildEvents.size() > 0) {
+    cerr << "WARNING: temporaryChildEvents should not contain data." << endl;
+    cerr << "There may be a bug in the code. Please report." << endl;
+    exit(1);
+  }
+  
+  //Make sure the childType indexes correctly.
+  if (childType >= typeVect.size() || typeVect[childType] == "") {
+    cerr << "There is a mismatch between childType and typeVect." << endl;
+    exit(1);
+  }
+
+  //Create the child events.
+  for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
+    if (method == "CONTINUUM")
+      checkEvent(buildContinuum(iter));
+    else if (method == "SWEEP")
+      checkEvent(buildSweep(iter));
+    else if (method == "DISCRETE")
+      checkEvent(buildDiscrete(iter));
+    else {
+      cerr << "Unknown build method: " << method << endl << "Aborting." << endl;
+      exit(1);
+    }
+  }
+
+
+  bool freqUsePattern = false;
+  FileValue* freqPattern = NULL;
+  Patter* freqPatter = NULL;
+  list<FileValue>* defList = frequencyFV->getListPtr(this);
+  iter = defList->begin();
+
+  /* 1st arg is method we don't care about method now. just want to see if it's pattern*/
+  string freq_method = iter->getString(this);
+  iter++;
+
+  if (freq_method == "CONTINUUM") {
+  /* 2nd arg is a string (HERTZ or POW2) */
+    iter++;
+    if (iter->getFtnString() == "GetPattern"){
+      freqUsePattern = true; 
+
+    }
+  }
+  else if (freq_method == "WELL_TEMPERED"&&iter->getFtnString() =="GetPattern"){    
+    freqUsePattern = true;
+
+  } 
+  else if (freq_method == "FUNDAMENTAL"&&iter->getFtnString() =="GetPattern") {
+      freqUsePattern = true;
+  
+  }
+
+  if (freqUsePattern){
+    freqPattern = &(*iter);  
+    freqPattern->Evaluate();
+  }
+
+
+  //Using the temporary events that were created, construct the actual children.
+  for (int i = 0; i < temporaryChildEvents.size(); i++) {
+    //cout for implementing pattern 
+    //cout<<"this for loop has run "<< i<< " times by "<<this<<endl; 
+    
+    //Increment the static current child number.
+    currChildNum = i;
+    
+    //Get current event.
+    Event *e = temporaryChildEvents[currChildNum];
+    
+    //Construct the child (overloaded in Bottom)
+    if(freqUsePattern){
+      float k = freqPattern->getFloat();
+      cout<< "use pattern, next pattern value: "<<k<<endl;
+      constructChild(e->ts, e->type, e->name, e->tempo, true, k);
+
+    }
+    else {
+      constructChild(e->ts, e->type, e->name, e->tempo,false, 0); // 0 is just a dummy
+    }
+    
+    
+    //Delete the temporary child event.
+    delete e;
+  }
+  //Clear the temporary event list.
+  temporaryChildEvents.clear();
+
+  //For each child that was created, build its children.
+  for(int i = 0; i < childEvents.size(); i++)
+    childEvents[i]->buildChildEvents();
+  
+  //End this output sublevel.
+  Output::addProperty("Updated Tempo Start Time", tempo.getStartTime());
+  Output::endSubLevel();
 }
 

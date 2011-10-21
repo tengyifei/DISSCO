@@ -76,7 +76,7 @@ protected:
     //Previous start time
     TimeSpan tsPrevious;
 
-  private:
+
   
     //-------------------------- Layers and Types ----------------------------//
 
@@ -231,8 +231,9 @@ protected:
     *   performs the same operations on related files (ENV, PATT, etc.)
     *   if they exist.  If the subEvent is a BOTTOM event it is treated in
     *   a different way.
+    *  This function is overloaded in Bottom
     **/
-    void buildChildEvents();
+    virtual void buildChildEvents();
 
     /**
      *  Helper method to build a child event.  Overridden by bottom
@@ -255,9 +256,10 @@ protected:
      * \param noteVect a reference to a vector of notes
      **/
     virtual list<Note> getNotes();
+    
 
   //------------- Private helper functions  ------------//
-  private:
+  protected:
     /**
     *  Method for determining the EDU-wise exactness of the duration. Returns
     *  "Yes", "No", or "Almost". "Almost" occurs when the EDU duration is

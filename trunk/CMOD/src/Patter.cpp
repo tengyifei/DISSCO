@@ -84,6 +84,8 @@ void Patter::moveOrigin( int newOrigin ) {
 
 int Patter::GetNextValue(string method, int newOrigin) {
   int returnValue;
+  cout<<"method: "<<method<<", origin: " <<newOrigin<<endl;  
+
 
   if (origin == 0) {
     // haven't set origin yet -- move it now
@@ -94,7 +96,7 @@ int Patter::GetNextValue(string method, int newOrigin) {
     returnValue = patty[nextIndex];
     nextIndex = (nextIndex + 1) % patty.size();
     cout << "Patter::GetNextValue - returnValue=" << returnValue <<
-	" nextIndex=" << nextIndex << endl;
+	" nextIndex=" << nextIndex <<", this is "<<this<< endl;
 
   } else if (method == "OTHER") {
     //    ValuePick; 
