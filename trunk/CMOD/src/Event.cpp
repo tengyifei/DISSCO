@@ -764,13 +764,13 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
 
   if (startType == "EDU" || startType == "UNITS") {
     tsChild.start = rawChildStartTime * 
-      tempo.getEDUDurationInSeconds().To<float>();
-    tsChild.startEDU = Ratio((int)rawChildStartTime, 1);
+      tempo.getEDUDurationInSeconds().To<float>() + tsPrevious.start;
+    tsChild.startEDU = Ratio((int)rawChildStartTime, 1) + tsPrevious.startEDU;
   } else if (startType == "SECONDS") {
-    tsChild.start = rawChildStartTime; // no conversion needed
+    tsChild.start = rawChildStartTime + tsPrevious.start; // no conversion needed
     tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   } else if (startType == "PERCENTAGE") {
-    tsChild.start = rawChildStartTime * ts.duration; // convert to seconds
+    tsChild.start = rawChildStartTime * ts.duration + tsPrevious.start; // convert to seconds
     tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   }
 
@@ -859,8 +859,8 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   }
   
   
-  tsPrevious.start = tsChild.start + tsChild.duration;
-  tsPrevious.startEDU = tsChild.startEDU + tsChild.durationEDU;
+  tsPrevious.start = tsChild.start; //+ tsChild.duration;
+  tsPrevious.startEDU = tsChild.startEDU; //+ tsChild.durationEDU;
 
   //Output parameters in the different units available.
   Output::beginSubLevel("Sweep");
