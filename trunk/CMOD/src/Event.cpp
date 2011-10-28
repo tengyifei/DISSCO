@@ -41,7 +41,9 @@ Event::Event(TimeSpan ts, int type, string name) :
   numChildren(0),
   restartsRemaining(0),
   currChildNum(0), childType(0),
-  discreteMat(0) {}
+  discreteMat(0),
+  childDurationPattern(NULL), childTypePattern(NULL)
+   {}
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -228,6 +230,35 @@ void Event::buildChildEvents() {
   if (childType >= typeVect.size() || typeVect[childType] == "") {
     cerr << "There is a mismatch between childType and typeVect." << endl;
     exit(1);
+  }
+
+
+
+  //check if duration use pattern
+  list<FileValue>::iterator iter2 = iter;
+  iter2 ++;
+  iter2 ++;
+  
+  //check if child Type use pattern
+  if (iter2->getFtnString() == "GetPattern"){
+    cout<<"Use Pattern for Child Type"<<endl;
+    childTypePattern = &(*iter2);
+    childTypePattern->Evaluate();
+  }  
+  
+  
+  
+  
+  
+  
+  //check if duration use pattern
+  iter2 ++;
+
+  if (iter2->getFtnString() == "GetPattern"){
+    cout<<"Use Pattern for Child Duration"<<endl;
+    childDurationPattern = &(*iter2);
+    childDurationPattern->Evaluate();
+
   }
 
   //Create the child events.
@@ -588,7 +619,7 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
 
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
-  
+
   // how to process start time: EDU, SECONDS or PERCENTAGE
   string startType = iter++->getString(this);
 
@@ -614,11 +645,27 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   checkPoint = (double)tsChild.start / ts.duration;
 
   // get the type
-  childType = iter++->getInt(this);
+  if ( childTypePattern != NULL){
+    childType = childTypePattern->getInt();
+    iter++;
+        //cout<<"This Duration is "<<rawChildDuration<<endl;
+  }
+  else {
+    childType = iter++->getInt(this);
+  }
   string childName = typeVect[childType];
   
   // get the duration
-  float rawChildDuration = iter++->getFloat(this);
+  float rawChildDuration;
+  //check if duration use pattern
+  if ( childDurationPattern != NULL){
+    rawChildDuration = childDurationPattern->getInt();
+    cout<<"This Duration is "<<rawChildDuration<<endl;
+    iter++;
+  }
+  else {
+    rawChildDuration = iter++->getFloat(this);
+  }
   
   // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
@@ -687,6 +734,7 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
     tsPrevious.startEDU = 0;
   }
 
+
   // Set checkpoint to the endpoint of the last event
   checkPoint = tsPrevious.start / ts.duration;
 
@@ -704,6 +752,9 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
 
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
+
+
+  
   
   // how to process start time: EDU, SECONDS or PERCENTAGE
   string startType = iter++->getString(this);
@@ -723,10 +774,15 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
     tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   }
 
+
+
+
   if (tsChild.start < tsPrevious.start) {
     tsChild.start = tsPrevious.start;
     tsChild.startEDU = tsPrevious.startEDU;
   }
+
+
 
   if (currChildNum == 0) {
     tsChild.start = 0;
@@ -747,11 +803,32 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   }
 
   // get the type
-  childType = iter++->getInt(this);
+  
+  if ( childTypePattern != NULL){
+    childType = childTypePattern->getInt();
+    iter++;
+        //cout<<"This Duration is "<<rawChildDuration<<endl;
+  }
+  else {
+    childType = iter++->getInt(this);
+  }
+
   string childName = typeVect[childType];
   
   // get the duration
-  float rawChildDuration = iter++->getFloat(this);
+  float rawChildDuration;
+  
+    //check if duration use pattern
+  if ( childDurationPattern != NULL){
+    rawChildDuration = childDurationPattern->getInt();
+    iter++;
+        //cout<<"This Duration is "<<rawChildDuration<<endl;
+  }
+  else {
+    rawChildDuration = iter++->getFloat(this);
+  }
+  
+  
   
   // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
@@ -780,11 +857,13 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
       tsChild.duration = maxChildDur; // enforce limit
     tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
   }
+  
+  
   tsPrevious.start = tsChild.start + tsChild.duration;
   tsPrevious.startEDU = tsChild.startEDU + tsChild.durationEDU;
 
   //Output parameters in the different units available.
-  Output::beginSubLevel("Discrete");
+  Output::beginSubLevel("Sweep");
   Output::addProperty("Name", childName);
   Output::beginSubLevel("Parameters");
     Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
