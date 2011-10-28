@@ -1076,12 +1076,13 @@ void Bottom::buildChildEvents() {
   bool loudnessUsePattern = false;
   FileValue* loudnessPattern = NULL;
   
-  defList = loudnessFV->getListPtr(this);
-  iter = defList->begin();
+  //defList = loudnessFV->getListPtr(this);
+  //defList = loudnessFV;
+  //iter = defList->begin();
 
   /* 1st arg is method we don't care about method now. just want to see if it's pattern*/
   
-  if (iter->getFtnString() == "GetPattern"){
+  if (loudnessFV->getFtnString() == "GetPattern"){
     loudnessUsePattern = true;
     cout<<"loudness Use Pattern"<<endl;
   }
