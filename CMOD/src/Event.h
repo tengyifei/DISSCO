@@ -75,8 +75,14 @@ protected:
     
     //Previous start time
     TimeSpan tsPrevious;
+    
+    //Pattern for Child Duration
+    FileValue* childDurationPattern;
 
-
+    //Pattern for Child Type
+    FileValue* childTypePattern;
+    
+    
   
     //-------------------------- Layers and Types ----------------------------//
 

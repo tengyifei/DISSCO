@@ -2581,7 +2581,7 @@ void EventAttributesViewController::continuumButtonClicked(){
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
         radioButton->set_sensitive(true);
-        radioButton->set_active();
+        //radioButton->set_active();
         
         attributesRefBuilder->get_widget(
           "attributesStartTypeUnitsButton", radioButton);
@@ -2593,7 +2593,7 @@ void EventAttributesViewController::continuumButtonClicked(){
         attributesRefBuilder->get_widget(
           "attributesDurationTypePercentageButton", radioButton);
         radioButton->set_sensitive(true);
-        radioButton->set_active();
+        //radioButton->set_active();
         attributesRefBuilder->get_widget(
           "attributesDurationTypeUnitsButton", radioButton);
         radioButton->set_sensitive(true);
@@ -2677,7 +2677,7 @@ void EventAttributesViewController::sweepButtonClicked(){
         attributesRefBuilder->get_widget(
           "attributesStartTypePercentageButton", radioButton);
         radioButton->set_sensitive(true);
-        radioButton->set_active();
+        //radioButton->set_active();
         
         attributesRefBuilder->get_widget(
           "attributesStartTypeUnitsButton", radioButton);
@@ -2689,7 +2689,7 @@ void EventAttributesViewController::sweepButtonClicked(){
         attributesRefBuilder->get_widget(
           "attributesDurationTypePercentageButton", radioButton);
         radioButton->set_sensitive(true);
-        radioButton->set_active();
+        //radioButton->set_active();
         attributesRefBuilder->get_widget(
           "attributesDurationTypeUnitsButton", radioButton);
         radioButton->set_sensitive(true);
@@ -2754,15 +2754,15 @@ void EventAttributesViewController::discreteButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("attributesChildEventDefEntry1", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   attributesRefBuilder->get_widget("attributesChildEventDefEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text("");  
+  //entry->set_text("");  
   
   attributesRefBuilder->get_widget("attributesChildEventDefEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text("");  
+  //entry->set_text("");  
   
   
   
@@ -2825,7 +2825,7 @@ void EventAttributesViewController::densityButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(true);
-  entry->set_text("");
+  //entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2873,7 +2873,7 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(true);
-  entry->set_text("");
+  //entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2884,7 +2884,7 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenLabel3", label);
@@ -2894,7 +2894,7 @@ void EventAttributesViewController::fixedButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   //disable "bylayer entry in all layers
   std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
@@ -2921,7 +2921,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry1", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   
   attributesRefBuilder->get_widget(
@@ -2932,7 +2932,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry2", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenLabel3", label);
@@ -2942,7 +2942,7 @@ void EventAttributesViewController::byLayerButtonClicked(){
   attributesRefBuilder->get_widget(
     "attributesStandardNumChildrenEntry3", entry);
   entry->set_sensitive(false);
-  entry->set_text("");
+  //entry->set_text("");
   
   // enable and shows "bylayer entry in all layers
   std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();

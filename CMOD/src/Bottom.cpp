@@ -357,7 +357,7 @@ float Bottom::computeBaseFreq( bool usePattern, float patternFreqValue) {
     baseFreqResult = fund_freq * overtone_step;
   }
 
-  cout <<"base Freq = "<< baseFreqResult<<endl;
+  //cout <<"base Freq = "<< baseFreqResult<<endl;
   return baseFreqResult;
 }
 
@@ -998,6 +998,32 @@ void Bottom::buildChildEvents() {
     exit(1);
   }
 
+
+  list<FileValue>::iterator iter2 = iter;
+  iter2 ++;
+  iter2 ++;
+  
+  //check if child Type use pattern
+  if (iter2->getFtnString() == "GetPattern"){
+    cout<<"Use Pattern for Child Type"<<endl;
+    childTypePattern = &(*iter2);
+    childTypePattern->Evaluate();
+  }
+  
+  //check if duration use pattern
+  iter2 ++;
+
+  if (iter2->getFtnString() == "GetPattern"){
+    cout<<"Use Pattern for Child Duration"<<endl;
+    childDurationPattern = &(*iter2);
+    childDurationPattern->Evaluate();
+  }
+
+
+
+
+
+
   //Create the child events.
   for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
     if (method == "CONTINUUM")
@@ -1015,7 +1041,7 @@ void Bottom::buildChildEvents() {
 
   bool freqUsePattern = false;
   FileValue* freqPattern = NULL;
-  Patter* freqPatter = NULL;
+  
   list<FileValue>* defList = frequencyFV->getListPtr(this);
   iter = defList->begin();
 
@@ -1060,7 +1086,7 @@ void Bottom::buildChildEvents() {
     //Construct the child (overloaded in Bottom)
     if(freqUsePattern){
       float k = freqPattern->getFloat();
-      cout<< "use pattern, next pattern value: "<<k<<endl;
+      //cout<< "use pattern, next pattern value: "<<k<<endl;
       constructChild(e->ts, e->type, e->name, e->tempo, true, k);
 
     }

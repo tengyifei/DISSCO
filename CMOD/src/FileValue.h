@@ -167,13 +167,13 @@ public:
   /**
    *  Evaluate any functions and return an int
    **/
-  const int getInt(Event* ev) { Evaluate(ev); return (int)n; }
+  const int getInt(Event* ev) { Evaluate(ev); return(int) (getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n); }
   const int getInt() const { return (int) (getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n); }
 
   /**
    *  Evaluate any functions and return an int
    **/
-  const float getFloat(Event* ev) { Evaluate(ev); return (float)n; }
+  const float getFloat(Event* ev) { Evaluate(ev); return (float)( getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n);}
   const float getFloat() const { return (float)( getFtnString()=="GetPattern"?((Patter*)obj)->GetNextValue( patterMethod, patterOrigin):n); }
 
   /**
