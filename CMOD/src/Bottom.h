@@ -131,7 +131,7 @@ class Bottom : public Event {
      *  method in Event, allowing the creation of Sounds, Notes,
      *  and Visuals instead of child Events.
      **/
-    void constructChild(TimeSpan ts, int type, string name, Tempo tempo, bool usePattern, float patternFreqValue);
+    void constructChild(TimeSpan ts, int type, string name, Tempo tempo, bool freqUsePattern, float patternFreqValue, bool loudnessUsePattern, float patternLoudnessValue);
 
     /**
      *  Returns the number of current partial -- overrides Event
@@ -142,7 +142,7 @@ class Bottom : public Event {
     /**
      * Creates a sound and adds the sound to the Score.
      **/
-    void buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue);
+    void buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue, bool loudnessUsePattern, float patternLoudnessValue);
 
     /**
      *  Creates a note (traditional notation) with all its attributes.
@@ -194,7 +194,7 @@ class Bottom : public Event {
     /**
      *  Computes a loudness value for the bottom event
      **/
-    float computeLoudness();
+    float computeLoudness( bool usePattern, float patternLoudnessValue);
 
     /**
      *  Computes the number of partials to create

@@ -115,7 +115,7 @@ void Bottom::initNoteVars(FileValue* notePitchClass, FileValue* noteDynamicMark,
 //----------------------------------------------------------------------------//
 
 void Bottom::constructChild(TimeSpan tsChild, int type, string name,
-  Tempo tempo, bool usePattern, float patternFreqValue) {
+  Tempo tempo, bool freqUsePattern, float patternFreqValue,bool loudnessUsePattern, float patternLoudnessValue) {
   /*First parse the child file. If a child factory does not exist, creating one
   will trigger the parser. If it already exists, 
   then the child is already
@@ -140,7 +140,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
     //Build the sound.
     
 
-    buildSound(tsChild, type, name, usePattern, patternFreqValue);
+    buildSound(tsChild, type, name, freqUsePattern, patternFreqValue, loudnessUsePattern, patternLoudnessValue);
 
 
     //Increment static sound counter.
@@ -165,7 +165,7 @@ void Bottom::constructChild(TimeSpan tsChild, int type, string name,
 
 //----------------------------------------------------------------------------//
 
-void Bottom::buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue) {
+void Bottom::buildSound(TimeSpan tsChild, int type, string name, bool freqUsePattern, float patternFreqValue, bool loudnessUsePattern, float patternLoudnessValue) {
   //Create a new sound object.
   Sound* newSound = new Sound();
   
@@ -182,11 +182,11 @@ void Bottom::buildSound(TimeSpan tsChild, int type, string name, bool usePattern
   newSound->setParam(DURATION, tsChild.duration);
 
   //Set the frequency.
-  float baseFrequency = computeBaseFreq( usePattern, patternFreqValue);
+  float baseFrequency = computeBaseFreq( freqUsePattern, patternFreqValue);
   Output::addProperty("Base Frequency", baseFrequency, "Hz");
 
   //Set the loudness.
-  float loudSones = computeLoudness();
+  float loudSones = computeLoudness(loudnessUsePattern, patternLoudnessValue);
   newSound->setParam(LOUDNESS, loudSones);
   Output::addProperty("Loudness", loudSones, "sones");
 
@@ -277,7 +277,7 @@ void Bottom::buildNote(TimeSpan tsChild, int type, string name) {
   }
 
   //Set the loudness.
-  float loudfloat = computeLoudness();
+  float loudfloat = computeLoudness(false, 0); //false because current pattern doesn't support
   int loudIndex = (int)loudfloat;
   list<FileValue>* loudList = noteDynamicMarkFV->getListPtr(this);
   if(loudIndex < loudList->size()) {
@@ -363,8 +363,8 @@ float Bottom::computeBaseFreq( bool usePattern, float patternFreqValue) {
 
 //----------------------------------------------------------------------------//
 
-float Bottom::computeLoudness() {
-  return loudnessFV->getFloat(this);
+float Bottom::computeLoudness( bool usePattern, float patternLoudnessValue) {
+  return usePattern?patternLoudnessValue:loudnessFV->getFloat(this);
 }
 
 //----------------------------------------------------------------------------//
@@ -1072,6 +1072,28 @@ void Bottom::buildChildEvents() {
   }
 
 
+
+  bool loudnessUsePattern = false;
+  FileValue* loudnessPattern = NULL;
+  
+  defList = loudnessFV->getListPtr(this);
+  iter = defList->begin();
+
+  /* 1st arg is method we don't care about method now. just want to see if it's pattern*/
+  
+  if (iter->getFtnString() == "GetPattern"){
+    loudnessUsePattern = true;
+    cout<<"loudness Use Pattern"<<endl;
+  }
+  
+
+  if (loudnessUsePattern){
+    loudnessPattern = &(*iter);  
+    loudnessPattern->Evaluate();
+  }
+
+
+
   //Using the temporary events that were created, construct the actual children.
   for (int i = 0; i < temporaryChildEvents.size(); i++) {
     //cout for implementing pattern 
@@ -1085,14 +1107,26 @@ void Bottom::buildChildEvents() {
     
     //Construct the child (overloaded in Bottom)
     if(freqUsePattern){
-      float k = freqPattern->getFloat();
-      //cout<< "use pattern, next pattern value: "<<k<<endl;
-      constructChild(e->ts, e->type, e->name, e->tempo, true, k);
-
+      float k = freqPattern->getFloat();      
+      if (loudnessUsePattern){
+        float loudness = loudnessPattern->getFloat();
+        constructChild(e->ts, e->type, e->name, e->tempo, true, k, true, loudness);
+      }
+      else {
+        //cout<< "use pattern, next pattern value: "<<k<<endl;
+        constructChild(e->ts, e->type, e->name, e->tempo, true, k, false, 0);
+      }
     }
-    else {
-      constructChild(e->ts, e->type, e->name, e->tempo,false, 0); // 0 is just a dummy
-    }
+    else { // frequency not pattern
+      if (loudnessUsePattern){
+        float loudness = loudnessPattern->getFloat();
+        constructChild(e->ts, e->type, e->name, e->tempo, false, 0, true, loudness);
+      }
+      else {
+        //cout<< "use pattern, next pattern value: "<<k<<endl;
+        constructChild(e->ts, e->type, e->name, e->tempo, false, 0, false, 0);
+      }   
+     }
     
     
     //Delete the temporary child event.
