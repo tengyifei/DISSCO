@@ -910,6 +910,19 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   //ExpandPattern
   
   attributesRefBuilder->get_widget(
+    "ExpandPatternEquivalenceRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "ExpandPatternSymmetriesRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "ExpandPatternDistortRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));    
+  
+  
+  attributesRefBuilder->get_widget(
     "ExpandPatternModuloFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::expandPatternModuloFunButtonClicked));  
   
@@ -2333,9 +2346,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value = file_data["LASSIEFUNCTION"];
       list<FileValue> arguments = value->getFtnArgs();  //expandpattern has 5 arguments
       
-      argumentsIter = arguments.begin();
+      argumentsIter = arguments.begin(); 
       
-      argumentsIter ++; //the first argument is fixed.
+      value =&(*argumentsIter); //first argument is the method
+
+      if (value->getString() == "EQUIVALENCE"){
+        attributesRefBuilder->get_widget("ExpandPatternEquivalenceRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+      else if (value->getString() == "SYMMETRIES"){
+        attributesRefBuilder->get_widget("ExpandPatternSymmetriesRadioButton",radiobutton);
+        radiobutton->set_active();       
+      }
+      
+      else {  //Distort
+        attributesRefBuilder->get_widget("ExpandPatternDistortRadioButton",radiobutton);
+        radiobutton->set_active(); 
+      
+      }
+
+      
+      argumentsIter ++; 
       value =&(*argumentsIter); // second argument is an int
       attributesRefBuilder->get_widget("ExpandPatternModuloEntry",entry);
       entry->set_text(getFunctionString(value,functionReturnInt));      
@@ -3025,7 +3057,7 @@ void FunctionGenerator::function_list_combo_changed(){
         entry->set_text("");          
         attributesRefBuilder->get_widget(
           "ExpandPatternPatternEntry", entry);
-        entry->set_text("PAT");
+        entry->set_text("");
         
         expandPatternTextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
@@ -3556,7 +3588,6 @@ void FunctionGenerator::decayIndexFunButtonClicked(){
 }
 
 void FunctionGenerator::decayTypeRadioButtonClicked(){
-
   decayTextChange();
 }
 void FunctionGenerator::decayEntryChanged(){
@@ -4894,6 +4925,13 @@ void FunctionGenerator::makePatternTextChanged(){
 }
 
 
+
+void FunctionGenerator::expandPatternRadioButtonClicked(){
+  expandPatternTextChanged();
+}
+
+
+
 void FunctionGenerator::expandPatternModuloFunButtonClicked(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
@@ -4959,9 +4997,31 @@ void FunctionGenerator::expandPatternTextChanged(){
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
   Gtk::Entry* entry; 
+  Gtk::RadioButton* radiobutton;
+  Gtk::RadioButton* radiobutton2;
+  
+  std::string stringbuffer = "ExpandPattern("; 
+    
+  attributesRefBuilder->get_widget(
+    "ExpandPatternEquivalenceRadioButton", radiobutton);
+  attributesRefBuilder->get_widget(
+    "ExpandPatternSymmetriesRadioButton", radiobutton2);
+  
+  if (radiobutton->get_active()){ //if equivalence
+    stringbuffer = stringbuffer + "\"EQUIVALENCE\", ";
+  }
+  else if (radiobutton2->get_active()){ // symmetries
+    stringbuffer = stringbuffer + "\"SYMMETRIES\", ";
+  }
+  else{
+    stringbuffer = stringbuffer + "\"DISTORT\", ";
+  }
+  
+ 
+  
   attributesRefBuilder->get_widget(
     "ExpandPatternModuloEntry", entry);
-  std::string stringbuffer = "ExpandPattern( \"IN_ORDER\", " + entry->get_text() +  ", ";
+  stringbuffer = stringbuffer + entry->get_text() +  ", ";
   attributesRefBuilder->get_widget(
     "ExpandPatternLowEntry", entry);
   stringbuffer =stringbuffer + entry->get_text() + ", ";
