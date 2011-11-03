@@ -102,7 +102,9 @@ class EventDiscretePackage{
 
   public:
     IEvent* event;
-    EventType eventType; // this one and eventName is used to store info to in order to link
+    
+    // this one and eventName is used to store info to in order to link
+    EventType eventType; 
     std::string eventName;
     std::string weight;
     std::string attackEnv;
@@ -111,7 +113,9 @@ class EventDiscretePackage{
     std::string durationEnvScale;
     EventDiscretePackage(IEvent* _event){
      event = _event;
-     eventName = ""; //this is used to store file name of the event for linking after open
+     
+     //this is used to store file name of the event for linking after open
+     eventName = ""; 
      weight = "";
      attackEnv = "";
      attackEnvScale = "";
@@ -146,13 +150,13 @@ class EventLayer {
     std::string getLASSIEMetaDataString();
     std::list<EventDiscretePackage*> children;
     void link (ProjectViewController* _projectView, IEvent* _thisEvent);  
-    //XXX
+    
+    //Warning!
     //again it's bad putting this as public.
     //make eventattribute easier to build layer box.
     //should revise it later
 
 //private:
-  //std::list<IEvent*> children;
   
     std::string byLayer;
     IEvent* thisIEvent;
@@ -196,7 +200,9 @@ public:
    *
    ****************************************************************************/
   IEvent();
-  IEvent(std::string _filePath, std::string _fileName, EventType _type);//when open project
+  
+  //when open project
+  IEvent(std::string _filePath, std::string _fileName, EventType _type);
   IEvent(IEvent* _original, string _newName);
 
   ~IEvent();
@@ -256,7 +262,8 @@ public:
    ****************************************************************************/
   std::string getUnitsPerSecond();
   
-  void link(ProjectViewController* _projectView);  //after open project and constructing all the event, has to link them properly
+  //after open project and constructing all the event, has to link them properly
+  void link(ProjectViewController* _projectView);  
   
   
   
@@ -470,7 +477,8 @@ public:
     virtual int getChildTypeFlag(){ return -1;} 
     
     //note extra info 
-    virtual std::list<std::string> getNoteModifiers(){std::list<std::string> dummy;return dummy;}
+    virtual std::list<std::string> getNoteModifiers()
+      {std::list<std::string> dummy;return dummy;}
     virtual void clearNoteModifiers(){}
     virtual void addNoteModifiers(std::string _modifier){}
     
@@ -533,7 +541,8 @@ public:
      // Envelope
   class EnvelopeExtraInfo : public EventExtraInfo {
   public:
-  	EnvelopeExtraInfo(EnvelopeExtraInfo* _original){ envelopeBuilder = _original->envelopeBuilder;}
+  	EnvelopeExtraInfo(EnvelopeExtraInfo* _original){
+  	  envelopeBuilder = _original->envelopeBuilder;}
     EnvelopeExtraInfo(){envelopeBuilder = "";}
     ~EnvelopeExtraInfo(){}
     std::string getEnvelopeBuilder();
@@ -547,7 +556,8 @@ public:
      // Pattern
   class PatternExtraInfo : public EventExtraInfo {
   public:
-  	PatternExtraInfo(PatternExtraInfo* _original){patternBuilder = _original->patternBuilder;}
+  	PatternExtraInfo(PatternExtraInfo* _original){
+  	  patternBuilder = _original->patternBuilder;}
     PatternExtraInfo(){patternBuilder = "";}
     ~PatternExtraInfo(){}
     std::string getPatternBuilder();
@@ -561,7 +571,8 @@ public:
      // Spatialization
   class SpatializationExtraInfo : public EventExtraInfo {
   public:
-  	SpatializationExtraInfo(SpatializationExtraInfo* _original){spatializationBuilder = _original->spatializationBuilder;}
+  	SpatializationExtraInfo(SpatializationExtraInfo* _original){
+  	  spatializationBuilder = _original->spatializationBuilder;}
     SpatializationExtraInfo(){spatializationBuilder = "";}
     ~SpatializationExtraInfo(){}
     std::string getSpatializationBuilder();
@@ -574,7 +585,8 @@ public:
      // Sieve
   class SieveExtraInfo : public EventExtraInfo {
   public:
-  	SieveExtraInfo(SieveExtraInfo* _original){sieveBuilder = _original->sieveBuilder;}
+  	SieveExtraInfo(SieveExtraInfo* _original){
+  	  sieveBuilder = _original->sieveBuilder;}
     SieveExtraInfo(){sieveBuilder = "";}
     ~SieveExtraInfo(){}
     std::string getSieveBuilder();

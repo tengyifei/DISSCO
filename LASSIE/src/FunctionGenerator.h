@@ -108,17 +108,25 @@ public:
   FunctionGenerator(FunctionReturnType _returnType,std::string _originalString);
   ~FunctionGenerator();
   std::string getResultString();
-  std::string static getFunctionString(FileValue* _value,FunctionReturnType _returnType);
-  list<std::string> static fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType);
+  std::string static getFunctionString(
+    FileValue* _value,
+    FunctionReturnType _returnType);
+  list<std::string> static fileValueListToStringList(
+    list<FileValue> _valueList,
+    FunctionReturnType _returnType);
   std::string static stringListToString(list<std::string> _list);
-  std::string static fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType);
+  std::string static fileValueListToString(
+    list<FileValue> _valueList,
+    FunctionReturnType _returnType);
   
   
   
  class SPAChannelAlignment;
   class SPAPartialAlignment: public Gtk::Alignment{
   public:
-    SPAPartialAlignment(FunctionGenerator* _parent, SPAChannelAlignment* _parentChannel);
+    SPAPartialAlignment(
+      FunctionGenerator* _parent, 
+      SPAChannelAlignment* _parentChannel);
     ~SPAPartialAlignment();
     void setNumber(int _number);
     void clearPartialsInSameChannel();
@@ -418,7 +426,7 @@ private:
   int makeEnvelopeNumOfNodes;
   void makeEnvelopeTextChanged();
   void makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insertAfter);
-  void makeEnvelopeRemoveNode(MakeEnvelopeSubAlignment* _remove);//cant remove last one!
+  void makeEnvelopeRemoveNode(MakeEnvelopeSubAlignment* _remove);
 	void makeEnvelopeScalingFactorFunButtonClicked();
 	void makeEnvelopeXValueFunButtonClicked();
 	void makeEnvelopeYValueFunButtonClicked();  
@@ -485,21 +493,6 @@ private:
     
   
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

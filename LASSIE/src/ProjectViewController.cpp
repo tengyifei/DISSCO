@@ -169,8 +169,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   listTargets.push_back( Gtk::TargetEntry("STRING") );
   listTargets.push_back( Gtk::TargetEntry("text/plain") );
 
-  //listTargets.push_back( Gtk::TargetEntry("EMPTY TARGET CONNECTING PALETTE AND PROJECT-TREE DRAG AND DROP") );
-  //listTargets.push_back( Gtk::TargetEntry("text/plain") );
+
   //////////////////////////////////////////////////////////////////////////
 
   std::string topName = "";
@@ -376,9 +375,7 @@ void ProjectViewController::cleanUpContents(){
     sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
   
-  
-  //std::cout << "ProjectViewController cleanUpContents is called." << std::endl;
-  //projectTreeView = new ProjectTreeViewController(sharedPointers);
+
   eventAttributesView = new EventAttributesViewController(sharedPointers);
   paletteView = new PaletteViewController(sharedPointers);
   
@@ -473,14 +470,7 @@ void ProjectViewController::showContents(){
   paletteView->insertEvent(event);
   events.push_back(event);
 
-  //event = new IEvent();
-  //event->setEventType(eventTop);
-  //event->setEventName("T0");
-  //events.push_back(event);
-  //paletteView->insertEvent(event,"Top");
 
-  //should skip this part because one project can possibly have more than 1 top event. so let user decide.
-  //projectTreeView->insertEvent(event);
 }
 
 
@@ -494,8 +484,7 @@ void ProjectViewController::insertObject(){
   Glib::ustring selectedPaletteFolder = paletteView->folderSelected();
   //make sure a folder is selected in palette.
   if (selectedPaletteFolder == "None"){
-    //prompt error (no row selected in the palette)
-    //std::cout << "the row selected is not a folder" << std::endl;
+
     Gtk::MessageDialog dialog(
       "Please select a folder to store the new object.",
       false /* use_markup */,
@@ -625,7 +614,8 @@ void ProjectViewController::insertObject(){
     else if (selectedPaletteFolder == "Bottom"&& first!="s"&&first!= "n"){
     
       Gtk::MessageDialog dialog(
-        "The name of a Bottom event should start with 's' (sound) or 'n' (note).",
+        "The name of a Bottom event should start with 's'"
+        " (sound) or 'n' (note).",
         false /* use_markup */,
         Gtk::MESSAGE_QUESTION,
         Gtk::BUTTONS_OK);
@@ -633,9 +623,7 @@ void ProjectViewController::insertObject(){
       dialog.run();
       dialog.hide();
       result = newObjectDialog->run();    
-    
-    
-    
+
     }
     else {
       break;
@@ -722,7 +710,9 @@ void ProjectViewController::insertObject(){
       flagForFolderMatching = "Folder";
     }
 
-    int decision =2; //if mismatch, what does the user want. 0 = change folder. 1 = change type 2 = keep this way
+    //if mismatch, what does the user want. 
+    //0 = change folder. 1 = change type 2 = keep it this way
+    int decision =2;
 
 
     if (selectedPaletteFolder != flagForFolderMatching){
@@ -731,7 +721,8 @@ void ProjectViewController::insertObject(){
       Glib::RefPtr<Gtk::Builder> refBuilder1 = Gtk::Builder::create();
       #ifdef GLIBMM_EXCEPTIONS_ENABLED
         try{
-          refBuilder1->add_from_file("./LASSIE/src/UI/PaletteInsertTypeMismatch.ui");
+          refBuilder1->add_from_file(
+            "./LASSIE/src/UI/PaletteInsertTypeMismatch.ui");
         }
         catch(const Glib::FileError& ex){
           std::cerr << "FileError: " << ex.what() << std::endl;
@@ -741,7 +732,8 @@ void ProjectViewController::insertObject(){
         }
       #else
         std::auto_ptr<Glib::Error> error;
-        if (!refBuilder1->add_from_file("./LASSIE/src/UI/FileNewObject.ui", error)){
+        if (!refBuilder1->add_from_file(
+          "./LASSIE/src/UI/FileNewObject.ui", error)){
           std::cerr << error->what() << std::endl;
         }
       #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
@@ -914,7 +906,8 @@ void ProjectViewController::insertObject(){
         newEvent->setEventName(nameEntry->get_text());
         newEvent->setEventType(type);
         
-        int order = paletteView->getCurrentMaxObjectNumber( newEvent->getEventFolderName());
+        int order = paletteView->getCurrentMaxObjectNumber( 
+          newEvent->getEventFolderName());
         order += 10;
         newEvent->setEventOrderInPalette(order);
         
@@ -1037,7 +1030,8 @@ void ProjectViewController::setProperties (){
   refBuilder->get_widget("button3", button3);  
   button3->signal_clicked().connect(
       sigc::mem_fun(
-        *this,&ProjectViewController::projectPropertiesDialogFunctionButtonClicked) );
+        *this,
+        &ProjectViewController::projectPropertiesDialogFunctionButtonClicked) );
 
   if (okButton){
     okButton->signal_clicked().connect(
@@ -1110,9 +1104,7 @@ void ProjectViewController::setProperties (){
     topEvent = entry->get_text();
 
     synthesis = button->get_active();
-    
-
-     
+ 
     
   }
 
@@ -1220,8 +1212,7 @@ void ProjectViewController::refreshProjectDotDat(){
   
   /* metadata */
   
-  //stringbuffer = "\n\n\n/*====================LASSIE METADATA===============*/\n\n\n";
-  //fputs(stringbuffer.c_str(),dat);  
+
   
   std::string buffer2;
   buffer2 = (projectTitle == "")? "": projectTitle;
@@ -1447,9 +1438,7 @@ ProjectViewController::ProjectViewController(
 	MainWindow* _mainWindow,
  	std::string _datPathAndName, 
  	std::string _libPathAndName){
-  //std::string datFile =  _pathAndName + "/"+
-    //                    FileOperations::stringToFileName(_pathAndName)
-      //                  + ".dat"; 	
+
  	
   modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
@@ -1461,11 +1450,7 @@ ProjectViewController::ProjectViewController(
   pathAndName = _pathAndName;
   
 
-  //cout<<"the dat is this one: "<<datPathAndName<<endl;
-  //using CMOD class to parse file and read necessary data for the .dat file
-  //Piece* piece = new Piece();
-  //parseFile(_datPathAndName, NULL, piece);
-  //cout<<"LASSIE done parsing"<<endl;
+
 
 
 
@@ -1605,9 +1590,11 @@ ProjectViewController::ProjectViewController(
     value = file_data["LASSIENOTEDEFAULTMODIFIER"];
     std::list<FileValue> valueList = value->getList();
     std::list<FileValue>::iterator valueListIter = valueList.begin();
-    std::map<string, bool>::iterator modifierMapIter = defaultNoteModifiers.begin();
+    std::map<string, bool>::iterator 
+      modifierMapIter = defaultNoteModifiers.begin();
     
-    while( valueListIter != valueList.end() && modifierMapIter != defaultNoteModifiers.end()){
+    while( valueListIter != valueList.end() && 
+      modifierMapIter != defaultNoteModifiers.end()){
       (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
       modifierMapIter ++;
       valueListIter ++;
@@ -1670,9 +1657,11 @@ ProjectViewController::ProjectViewController(
   std::string libFile = _libPathAndName;
 
   char libCharArray [libFile.length()+ 2];                      
-  strcpy(libCharArray, libFile.c_str());  //this is the file path and name of the lib file
+    //this is the file path and name of the lib file
+  strcpy(libCharArray, libFile.c_str());  
+
   
-  //std::cout<<libCharArray<<std::endl;                         
+                       
 	
   //read envelope out one by one and convert to LASSIE::envelopelibraryentry
   EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
@@ -1682,7 +1671,8 @@ ProjectViewController::ProjectViewController(
   
   for (int i = 1; i <= envelopeLibrary->size(); i ++){
     thisEnvelope = envelopeLibrary->getEnvelope(i);
-    EnvelopeLibraryEntry* thisEntry =convertToLASSIEEnvLibEntry(thisEnvelope, i);
+    EnvelopeLibraryEntry* thisEntry =
+      convertToLASSIEEnvLibEntry(thisEnvelope, i);
     delete thisEnvelope; 
 
     if (previousEntry ==NULL){
@@ -1696,25 +1686,6 @@ ProjectViewController::ProjectViewController(
     } 
     previousEntry = thisEntry;
   }
-
-
-  //construct all the IEvents by reading all the files under the dir
-
-
-  /*   This is the template of iterating all files
-    DIR *dp;
-    struct dirent *dirp;
-    if((dp  = opendir(_pathAndName.c_str())) == NULL) {
-        std::cout << "Error(" << ") opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      //std::cout<<(string(dirp->d_name));
-      std::cout<<"====="<<dirp->d_name<<std::endl;
-    }
-    closedir(dp);
-
-  */
 
 
   
@@ -1833,7 +1804,8 @@ ProjectViewController::ProjectViewController(
   //make note event
  directory = _pathAndName+ "/N";
   if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << directory <<", directory doesn't exist."<< std::endl;
+     std::cout << "Error opening " << directory 
+      <<", directory doesn't exist."<< std::endl;
      std::cout<<"Creating " <<directory <<endl;
      string temp = "mkdir "+ directory;
      system(temp.c_str());
@@ -1972,7 +1944,8 @@ EnvelopeLibraryEntry* ProjectViewController::
   return new EnvelopeLibraryEntry (_envelope, index);  
 }
 
-IEvent* ProjectViewController::findIEvent(EventType _type, std::string _eventName){
+IEvent* ProjectViewController::findIEvent(
+  EventType _type, std::string _eventName){
   IEvent* toReturn = NULL;
   
 
@@ -1988,7 +1961,8 @@ IEvent* ProjectViewController::findIEvent(EventType _type, std::string _eventNam
   }    
 
   if (toReturn ==NULL){
-    std::cout<<"Find event fail :-(    EventName:"<<_eventName<<"  type:" << (int) _type<< std::endl;
+    std::cout<<"Find event fail :-(    EventName:"
+      <<_eventName<<"  type:" << (int) _type<< std::endl;
   }
   return toReturn;
 }
@@ -2026,7 +2000,8 @@ bool ProjectViewController::getEmptyProject(){
 
 
 void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat, duration);
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat, duration);
     generator->run();
 
   if (generator->getResultString() !=""){
@@ -2076,11 +2051,13 @@ void ProjectViewController::showAttributesView(bool _show){
 
 void ProjectViewController::configureNoteModifiers(){
   //Load the GtkBuilder file and instantiate its widgets:
-  Glib::RefPtr<Gtk::Builder> noteModifiersConfigurationDialogRefBuilder = Gtk::Builder::create();
+  Glib::RefPtr<Gtk::Builder> noteModifiersConfigurationDialogRefBuilder = 
+    Gtk::Builder::create();
 
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
     try{
-      noteModifiersConfigurationDialogRefBuilder->add_from_file("./LASSIE/src/UI/NoteModifiersConfiguration.ui");
+      noteModifiersConfigurationDialogRefBuilder->add_from_file(
+        "./LASSIE/src/UI/NoteModifiersConfiguration.ui");
     }
     catch(const Glib::FileError& ex){
       std::cerr << "FileError: " << ex.what() << std::endl;
@@ -2091,7 +2068,8 @@ void ProjectViewController::configureNoteModifiers(){
   #else
     std::auto_ptr<Glib::Error> error;
 
-    if (!noteModifiersConfigurationDialogRefBuilder->add_from_file("./LASSIE/src/UI/NoteModifiersConfiguration.ui", error)){
+    if (!noteModifiersConfigurationDialogRefBuilder->add_from_file(
+      "./LASSIE/src/UI/NoteModifiersConfiguration.ui", error)){
       std::cerr << error->what() << std::endl;
     }
   #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
@@ -2332,7 +2310,8 @@ void ProjectViewController::configureNoteModifiers(){
 	  defaultNoteModifiers["vibrato"] = checkButton->get_active();      
 
 
-    std::vector<CustomNoteModifierHBox*>::iterator iter =customNotModifierHBoxes.begin();
+    std::vector<CustomNoteModifierHBox*>::iterator iter =
+      customNotModifierHBoxes.begin();
     customNoteModifiers.clear();
     string modifierText;
     for (iter; iter!= customNotModifierHBoxes.end(); iter++){
@@ -2350,7 +2329,8 @@ void ProjectViewController::configureNoteModifiers(){
   noteModifiersConfigurationDialog = NULL;
   noteModifiersConfigurationCustomVBox = NULL;
 
-  std::vector<CustomNoteModifierHBox*>::iterator iter2 =customNotModifierHBoxes.begin();
+  std::vector<CustomNoteModifierHBox*>::iterator iter2 =
+    customNotModifierHBoxes.begin();
   for (iter2; iter2!= customNotModifierHBoxes.end(); iter2++){
     delete (*iter2);
   }  
@@ -2366,7 +2346,8 @@ void ProjectViewController::ConfigureNoteModifiersAddButtonClicked(){
 }
 
 
-CustomNoteModifierHBox::CustomNoteModifierHBox(ProjectViewController* _projectView){
+CustomNoteModifierHBox::CustomNoteModifierHBox(
+  ProjectViewController* _projectView){
   projectView = _projectView;
   label.set_text("Modifier Name: ");
   removeButton.set_label("Remove Modifier");
@@ -2378,7 +2359,8 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(ProjectViewController* _projectVi
     (*this, &CustomNoteModifierHBox::removeButtonClicked));  
 }
 
-CustomNoteModifierHBox::CustomNoteModifierHBox(ProjectViewController* _projectView, string _string){
+CustomNoteModifierHBox::CustomNoteModifierHBox(
+  ProjectViewController* _projectView, string _string){
   entry.set_text(_string);
   
   projectView = _projectView;
@@ -2406,8 +2388,10 @@ void CustomNoteModifierHBox::removeButtonClicked(){
   projectView->removeCustomNoteModifier(this);
 }
 
-void ProjectViewController::removeCustomNoteModifier(CustomNoteModifierHBox* _hbox){
-  std::vector<CustomNoteModifierHBox*>::iterator iter = customNotModifierHBoxes.begin();
+void ProjectViewController::removeCustomNoteModifier(
+  CustomNoteModifierHBox* _hbox){
+  std::vector<CustomNoteModifierHBox*>::iterator iter = 
+    customNotModifierHBoxes.begin();
   while(*iter != _hbox && iter != customNotModifierHBoxes.end()){
     iter++;
   } 
@@ -2527,8 +2511,7 @@ void ProjectViewController::deleteObject(IEvent* _toDelete){
   }
   
   
-  //cout<<"This event is now in deleted events pool: "<< (*iter)->getEventName()<<endl;
-  
+ 
   events.erase(iter);
   
   deletedEvents.push_back( _toDelete);
@@ -2622,7 +2605,8 @@ std::string ProjectViewController::searchPossibleParents(string _fileName){
   std::vector<IEvent*>::iterator iter= events.begin();
   for( iter; iter!= events.end(); iter++){
     if ((*iter)->haveString(_fileName)){
-      result = result + (*iter)->getEventFolderName() + "/" +(*iter)->getEventName() + ", ";
+      result = result + (*iter)->getEventFolderName() + "/" +
+        (*iter)->getEventName() + ", ";
     
     }
   }

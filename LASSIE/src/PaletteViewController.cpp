@@ -236,7 +236,8 @@ void PaletteViewController::insertEvent(IEvent* _event){
     childrow = *(refTreeModel->append());
   
   }else{
-    Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+    Gtk::TreeModel::Children::iterator iter = 
+      palette.get_selection()->get_selected();
     Gtk::TreeModel::Row parent = *iter;
     childrow = *(refTreeModel->append(parent.children()));
 
@@ -279,12 +280,11 @@ void PaletteViewController::insertEvent(IEvent* _event){
 
   }
 
-  //Gtk::TreeModel::Row childrow = *(refTreeModel->append(selectedRow.children()));
   childrow[columns.columnObjectType] = _event->getEventTypeString();
   childrow[columns.columnObjectName] = _event->getEventName();
-  //childrow[columns.columnButton].set_text(_event->getEventName());
+
   childrow[columns.columnEntry] =_event;
-  //_event->setRowInPalette(&childrow);
+
   childrow[columns.columnObjectOrder] =_event->getEventOrderInPalette();
 
   if (windowToRefresh != NULL){
@@ -337,20 +337,15 @@ void PaletteViewController::on_button_drag_data_get(
   Gtk::SelectionData& selection_data,
   guint info,
   guint time){
-   //keep this statement alive. removing it causes the recieving site not responding :(
-   //selection_data.set(selection_data.get_target(), 8 /* 8 bits format */,
-     //    (const guchar*)"I'm Data!",
-       //9 /* the length of I'm Data! in bytes */);
+   
 
-  //std::cout<<"187  "<<palette.get_selection()->get_model()->get_string(palette.get_selection()->get_selected())<<std::endl;
-  //std::cout<<"188 "<<palette.get_selection()->get_model()->get_path(palette.get_selection()->get_selected())<<std::endl;
-
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
 
 
   //right here set up a pointer to the right event object
-  //std::cout<<"Copy Signal sent. Object: "<<row[columns.columnObjectName]<<std::endl;
+
   Glib::ustring name = row[columns.columnObjectName];
 
   selection_data.set(
@@ -361,11 +356,13 @@ void PaletteViewController::on_button_drag_data_get(
 }
 
 
-//originally want to show the attributes whenever the cursor move, but it's dangerous so skipped. leave the function body for future usage.
+//originally want to show the attributes whenever the cursor move, 
+//but it's dangerous so skipped. leave the function body for future usage.
 void PaletteViewController::on_cursor_changed(){
 //TODO
   //std::cout<<"cursor changed!!"<<std::endl;
-  //Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  //Gtk::TreeModel::Children::iterator iter = 
+    //palette.get_selection()->get_selected();
   //Gtk::TreeModel::Row row = *iter;
   //std::cout<<row[columns.columnObjectName]<<std::endl;
 
@@ -374,7 +371,8 @@ void PaletteViewController::on_cursor_changed(){
 
 
 void PaletteViewController::AddToProjectTree(){
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   //projectView->addObjectFromPaletteToProjectTree(row[columns.columnEntry]);
 }
@@ -407,11 +405,12 @@ bool PaletteViewController::onRightClick(GdkEventButton* event){
                               y );
     palette.set_cursor(path);
 
-
-  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ // test if right click
+  // test if right click
+  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ 
   
   
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   if (*iter==NULL){
 	  m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false);
@@ -441,7 +440,8 @@ bool PaletteViewController::onRightClick(GdkEventButton* event){
 Glib::ustring PaletteViewController::folderSelected(){
   if (palette.get_selection()->get_selected() ==0) return "None";
 
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   if (row[columns.columnObjectType]!="Folder") return "None";
   return row[columns.columnObjectName];
@@ -451,7 +451,8 @@ Glib::ustring PaletteViewController::folderSelected(){
 
 IEvent* PaletteViewController::getCurrentSelectedEvent(){
   //std::cout<<"cursor changed!!"<<std::endl;
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   return row[columns.columnEntry];
 }
@@ -469,14 +470,15 @@ void PaletteViewController::showEnvelopeLibrary(){
 
 void PaletteViewController::deleteKeyPressed(){
   //std::cout<<"cursor changed!!"<<std::endl;
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   
   if (iter != NULL){
   Gtk::TreeModel::Row row = *iter;
     if (row){
       deleteObject();
     }
-  //std::cout<<"palette delet key pressed"<<std::endl;
+
   }
 }
 
@@ -484,7 +486,8 @@ void PaletteViewController::deleteKeyPressed(){
 
 
 void PaletteViewController::deleteObject(){
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   IEvent* toDelete = row[columns.columnEntry];
   
@@ -531,7 +534,9 @@ void PaletteViewController::deleteObject(){
   string result = projectView->searchPossibleParents(fileName);
   
   if (result != ""){
-    string prompt = "The object you are deleting is used by: " + result +". Do you really want to delete it? CMOD might not run properly if you delete this object.";
+    string prompt = "The object you are deleting is used by: " + result +
+    ". Do you really want to delete it? "
+    "CMOD might not run properly if you delete this object.";
   
   
   
@@ -545,17 +550,13 @@ void PaletteViewController::deleteObject(){
     }
   }
   
-  
-  //projectView->addObjectFromPaletteToProjectTree(row[columns.columnEntry]);
+
   refTreeModel->erase(*iter);
-  
-  
-  //std::cout<<"remove this thing"<<row[columns.columnObjectName]<<endl;
+
   refreshObjectOrder(toDelete->getEventFolderName());
   
   switchBackToPreviousCursor(toDelete);
-  
-  
+
   projectView->deleteObject(toDelete);
   
 }
@@ -565,7 +566,8 @@ void PaletteViewController::duplicateObject(){
 
 
 
-  Gtk::TreeModel::Children::iterator iter = palette.get_selection()->get_selected();
+  Gtk::TreeModel::Children::iterator iter = 
+    palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
 	IEvent* originalEvent = row[columns.columnEntry];
   
@@ -586,7 +588,8 @@ void PaletteViewController::duplicateObject(){
   #else
     std::auto_ptr<Glib::Error> error;
 
-    if (!refBuilder->add_from_file("./LASSIE/src/UI/DuplicateObjectDialog.ui", error)){
+    if (!refBuilder->add_from_file(
+      "./LASSIE/src/UI/DuplicateObjectDialog.ui", error)){
       std::cerr << error->what() << std::endl;
     }
   #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
@@ -596,8 +599,10 @@ void PaletteViewController::duplicateObject(){
   //Get the GtkBuilder-instantiated Dialog:
   Gtk::Dialog* duplicateObjectDialog;
   refBuilder->get_widget("duplicateObjectDialog", duplicateObjectDialog);
-  string prompt = "You are about to duplicate this object:\n\n" + originalEvent->getEventTypeString()
-   + "/"+ originalEvent->getEventName() + "\n\nPlease name the newly created copy object";
+  string prompt = "You are about to duplicate this object:\n\n" + 
+    originalEvent->getEventTypeString()
+    + "/"+ originalEvent->getEventName() + 
+    "\n\nPlease name the newly created copy object";
    
    Gtk::Label* promptLabel;
    refBuilder->get_widget("PromptLabel", promptLabel);
@@ -616,7 +621,7 @@ void PaletteViewController::duplicateObject(){
    if (response ==1 && nameEntry->get_text() == ""){
 
     //prompt error (no row selected in the palette)
-    //std::cout << "the row selected is not a folder" << std::endl;
+
     Gtk::MessageDialog dialog(
       "Please name your new object",
       false /* use_markup */,
@@ -630,7 +635,8 @@ void PaletteViewController::duplicateObject(){
   	return;
   } 
   else {
-  	if (sharedPointers->projectView->checkNameExists(nameEntry->get_text(), originalEvent->getEventType())){
+  	if (sharedPointers->projectView->checkNameExists(
+  	  nameEntry->get_text(), originalEvent->getEventType())){
     	Gtk::MessageDialog dialog(
       	"Object with the same name exists.",
       	false /* use_markup */,
@@ -644,7 +650,9 @@ void PaletteViewController::duplicateObject(){
 	
 	  string firstLetter = nameEntry->get_text().substr(0,1);
 
-	  if ( originalEvent->getEventType() == eventBottom && !(firstLetter== "n"||firstLetter=="s")){
+	  if ( originalEvent->getEventType() == eventBottom && 
+	    !(firstLetter== "n"||
+	    firstLetter=="s")){
       Gtk::MessageDialog dialog(
         "A Bottom event should start with lowercase letter 's' or 'n'",
         false /* use_markup */,
@@ -678,17 +686,14 @@ void PaletteViewController::duplicateObject(){
     }
     
   
-    
-      newIEvent->setEventOrderInPalette( originalEvent->getEventOrderInPalette() + 5);//put this event right below the original one
-      insertEvent(newIEvent, typeString);
-      projectView->modified();
-      projectView->events.push_back(newIEvent);
-      refreshObjectOrder(typeString);
-    }
-  
-  
-  
-  
+      //put this event right below the original one
+    newIEvent->setEventOrderInPalette( 
+      originalEvent->getEventOrderInPalette() + 5);
+    insertEvent(newIEvent, typeString);
+    projectView->modified();
+    projectView->events.push_back(newIEvent);
+    refreshObjectOrder(typeString);
+  }
 }
 
 
@@ -697,9 +702,11 @@ void PaletteViewController::on_selection_changed(){
 }
 
 
-void PaletteViewController::switchBackToPreviousCursor(IEvent* _ifDeleteOnCursor){
+void PaletteViewController::switchBackToPreviousCursor(
+  IEvent* _ifDeleteOnCursor){
 
-  if (currentCursorPosition ==NULL ||_ifDeleteOnCursor == currentCursorPosition){
+  if (currentCursorPosition ==NULL ||
+    _ifDeleteOnCursor == currentCursorPosition){
     currentCursorPosition = NULL;
     return;
   }
@@ -834,7 +841,8 @@ void PaletteViewController::refreshObjectOrder( string _folderName){
 
 
 
-ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(string _typeString){
+ObjectWindowObjectPackage* PaletteViewController::getObjectsLinkedList(
+  string _typeString){
   ObjectWindowObjectPackage* result = NULL;
   
  typedef Gtk::TreeModel::Children type_children; //minimize code length.

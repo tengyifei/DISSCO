@@ -51,7 +51,9 @@ class ProjectViewController;
 class CustomNoteModifierHBox:public Gtk::HBox{
 public:
   CustomNoteModifierHBox(ProjectViewController* _projectView);
-  CustomNoteModifierHBox(ProjectViewController* _projectView, std::string _string);
+  CustomNoteModifierHBox(
+    ProjectViewController* _projectView, 
+    std::string _string);
   ~CustomNoteModifierHBox();
   std::string getText();
   
@@ -128,8 +130,11 @@ public:
   std::list<Gtk::TargetEntry> listTargets;
   
   //////////////////////////////////////////////////////////////////
-  std::vector <IEvent*> events;//so that palette can push new event back to ievent
-  std::vector <IEvent*> deletedEvents; //to be delete (and also the files) when "Save" is clicked
+  //so that palette can push new event back to ievent
+  std::vector <IEvent*> events;
+  
+  //to be delete (and also the files) when "Save" is clicked
+  std::vector <IEvent*> deletedEvents; 
 
   ObjectWindow* topWindow;
   ObjectWindow* highWindow;
@@ -181,7 +186,8 @@ private:
   
   IEvent* top;
   bool modifiedButNotSaved;
-  EnvelopeLibraryEntry* envelopeLibraryEntries; //this thing is a double-linked list
+  //this thing is a double-linked list
+  EnvelopeLibraryEntry* envelopeLibraryEntries; 
   Gtk::Dialog* newObjectDialog;
   Gtk::Dialog* noteModifiersConfigurationDialog;
   Gtk::VBox* noteModifiersConfigurationCustomVBox;
@@ -195,7 +201,9 @@ private:
   void saveEnvelopeLibrary();
   void saveNoteModifierConfiguration();
   void refreshProjectDotDat();
-  EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry( Envelope* _envelope, int index);
+  EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry( 
+    Envelope* _envelope, 
+    int index);
 
   std::string topEvent;
   std::string projectTitle;

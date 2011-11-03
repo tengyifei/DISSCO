@@ -6,7 +6,8 @@
  *  Organization  : Music School, University of Illinois at Urbana Champaign
  *  Description   : This file contains the class "EnvelopeLibraryEntry" of 
  *                  LASSIE. Each EnvelopeLibraryEntry holds the information of
-                    a premade envelope in the envelope library.
+                    a premade envelope in the envelope library.It is also a 
+ *                  doubly-linked list.                  
  *
  *==============================================================================
  *
@@ -46,6 +47,7 @@ typedef enum {
 } envSegmentProperty;
 
 
+
 //this is a class hold a doublelinked list of envelope segments
 
 class EnvLibEntryNode;
@@ -57,8 +59,8 @@ public:
 
   envSegmentType segmentType;
   envSegmentProperty segmentProperty;
-  //int count(){return (next==NULL)?2:1+ next->count();}
-  EnvLibEntrySeg(){leftNode = NULL; rightNode = NULL; segmentType = envSegmentTypeLinear; segmentProperty = envSegmentPropertyFlexible;}
+
+  EnvLibEntrySeg();
   ~EnvLibEntrySeg(){}
 
 
@@ -71,8 +73,8 @@ public:
   double y;
   EnvLibEntrySeg* leftSeg;
   EnvLibEntrySeg* rightSeg;
-  EnvLibEntryNode(double _x, double _y){leftSeg = NULL; rightSeg=NULL;x = _x; y = _y;}
-  int countNumOfNodes(){return (rightSeg==NULL)?1:1+rightSeg->rightNode->countNumOfNodes();}
+  EnvLibEntryNode(double _x, double _y);
+  int countNumOfNodes();
   ~EnvLibEntryNode(){}
   
 };
@@ -85,7 +87,6 @@ public:
   EnvelopeLibraryEntry(int _number);
   EnvelopeLibraryEntry(Envelope* _envelope, int _number);
   ~EnvelopeLibraryEntry();
-  void print();
   int count();
   EnvelopeLibraryEntry* createNewEnvelope();
   Glib::ustring getNumberString();

@@ -33,15 +33,17 @@
 #include "EnvelopeLibraryWindow.h"
 #include "EnvelopeLibraryEntry.h"
 #include "ProjectViewController.h"
-EnvLibDrawingArea::EnvLibDrawingArea(EnvelopeLibraryWindow* _envelopeLibraryWindow)
-{
+EnvLibDrawingArea::EnvLibDrawingArea(
+  EnvelopeLibraryWindow* _envelopeLibraryWindow){
   
   
   envelopeLibraryWindow = _envelopeLibraryWindow;
   activeSegment = NULL;
   activeNode = NULL;
-  //headChosen = false;
-	add_events (Gdk::POINTER_MOTION_MASK | Gdk::ENTER_NOTIFY_MASK | Gdk::BUTTON_PRESS_MASK |Gdk::BUTTON_RELEASE_MASK);
+	add_events (Gdk::POINTER_MOTION_MASK | 
+	            Gdk::ENTER_NOTIFY_MASK | 
+	            Gdk::BUTTON_PRESS_MASK |
+	            Gdk::BUTTON_RELEASE_MASK);
 
 
 	signal_motion_notify_event().connect(sigc::mem_fun(*this,&EnvLibDrawingArea::mouseMoving));
@@ -153,27 +155,12 @@ EnvLibDrawingArea::~EnvLibDrawingArea()
 
 bool EnvLibDrawingArea::on_expose_event(GdkEventExpose* event)
 {
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
   
   if (activeEnvelope!=NULL){
     showGraph(activeEnvelope);
   }  
-  
-  /*
-  // This is where we draw on the window
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  if(window)
-  {
-    
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
-
-
-
-    Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
-  }
-  */
   return true;
 }
 
@@ -185,7 +172,9 @@ bool EnvLibDrawingArea::mouseMoving (GdkEventMotion* event){
     const int height = allocation.get_height();
 
  double x = event->x * (width + 1) /( width* width);
- double y = 1.0 - (event->y * (height + 1) / (height* height)); // adjust pixals off by one
+ 
+ // adjust pixals off by one
+ double y = 1.0 - (event->y * (height + 1) / (height* height)); 
  
  //get rid of floating digits
  int xalias = x* 1000;
@@ -236,13 +225,14 @@ bool EnvLibDrawingArea::mouseMoving (GdkEventMotion* event){
 }
 
 bool EnvLibDrawingArea::mouseButtonPressed (GdkEventButton* event){
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
   if (activeEnvelope ==NULL){
     return false;
   }
   
   activeSegment =NULL; //reset activeSegment
-  	  //headChosen = false;//reset headChosen
+  	  
 
   mouseX = event->x;
   mouseY = event->y;
@@ -270,7 +260,10 @@ bool EnvLibDrawingArea::mouseButtonPressed (GdkEventButton* event){
 
     
     
-    if (mouseX>=(nodeX-5)&&mouseX<=(nodeX+5)&&mouseY>=(nodeY-5)&&mouseY<=(nodeY+5)){
+    if (mouseX>=(nodeX-5)&&
+        mouseX<=(nodeX+5)&&
+        mouseY>=(nodeY-5)&&
+        mouseY<=(nodeY+5)){
       activeNode = candidateNode;
       nodeActivated = true;
       break;
@@ -307,8 +300,8 @@ bool EnvLibDrawingArea::mouseButtonPressed (GdkEventButton* event){
   showGraph(activeEnvelope);
   
   
-  
-  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ // test if right click
+  // test if right click
+  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ 
     mouseX = event->x;
     mouseY = event->y;
     if (activeNode ==NULL){
@@ -321,69 +314,16 @@ bool EnvLibDrawingArea::mouseButtonPressed (GdkEventButton* event){
   }
   if( (event->type == GDK_BUTTON_PRESS) && (event->button == 1)){
   	
-    mouseLeftButtonPressedDown = true;
-  	/*
-  	activeSegment =NULL; //reset activeSegment
-  	  //headChosen = false;//reset headChosen
-    mouseLeftButtonPressedDown = true;
-    mouseX = event->x;
-    mouseY = event->y;
-    
-    
-    Glib::RefPtr<Gdk::Window> window = get_window();
-    int width = 0;
-    int height = 0;
-    if(window)
-    {
-      Gtk::Allocation allocation = get_allocation();
-      width = allocation.get_width();
-      height = allocation.get_height();
-    }
-    mouseX = event->x;
-    mouseY = height - event->y;    
-    
-    EnvLibEntryNode* candidateNode = activeEnvelope->head;
-    double nodeX = candidateNode->x * width * width / (width +1);
-    double nodeY = candidateNode->y * height * height / (height + 1);  
-      
-    bool nodeActivated = false;  
-
-    while(true){
-
-    
-    
-      if (mouseX>=(nodeX-5)&&mouseX<=(nodeX+5)&&mouseY>=(nodeY-5)&&mouseY<=(nodeY+5)){
-        activeNode = candidateNode;
-        nodeActivated = true;
-
-        break;
-      }
-      if (candidateNode->rightSeg ==NULL){
-        break;
-      }
-      candidateNode = candidateNode->rightSeg->rightNode;
-      nodeX = candidateNode->x * width * width / (width +1);
-      nodeY = candidateNode->y * height * height / (height + 1); 
-    }
-
-    if (nodeActivated == false){
-      activeNode =NULL;
-
-    }*/
-
-    //showGraph(activeEnvelope);
-    
-	}
-	//startX = event->x;
-	//startY = event->y;  
+    mouseLeftButtonPressedDown = true; 
+  }
   return true;
-
 }
+
 bool EnvLibDrawingArea::mouseButtonReleased(GdkEventButton* event){
   if( event->button == 1){
 		mouseLeftButtonPressedDown = false;
 		activeSegment = NULL;
-		//headChosen = false;
+		
 		
 	}
 		
@@ -449,7 +389,7 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
       
       double endx = segment->rightNode->x *width * width / (width+1);
       
-      double endy = height - ( segment->rightNode->y * height *height / (height + 1));  
+      double endy = height-(segment->rightNode->y*height*height / (height + 1));  
      
      //set color here
       if (segment->segmentType == envSegmentTypeLinear){
@@ -475,13 +415,8 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
 
       cr->move_to(startx, starty);
       cr->line_to(endx, endy);
-      //cr->line_to(0, height);
-      //cr->move_to(xc, yc);
-      //cr->line_to(width, yc);
       cr->stroke();
-      
-      
-      
+
       cr->set_source_rgb(0.8, 0.5, 0.4);
       cr->arc(startx, starty, 5, 0, 2 * 3.141592654);
       cr->fill();
@@ -503,8 +438,6 @@ void EnvLibDrawingArea::showGraph(EnvelopeLibraryEntry* _envelope){
     
     
     }
-    
-    
 
   }
 
@@ -521,8 +454,8 @@ void EnvLibDrawingArea::insertEnvelopeSegment(){
     const int height = allocation.get_height();
 
 
-  
-  double insertx = mouseX * ( width +1) / (width* width)  ;  //get rid of ugly floating digits
+  //get rid of ugly floating digits
+  double insertx = mouseX * ( width +1) / (width* width)  ;  
   double inserty = 1 - mouseY * ( height+1) / (height * height) ;
   
   int aliasx = insertx* 1000;
@@ -563,13 +496,14 @@ void EnvLibDrawingArea::insertEnvelopeSegment(){
 
 
 void EnvLibDrawingArea::setFixed(){
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
-    if (activeEnvelope ==NULL) return;
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
+  if (activeEnvelope ==NULL) return;
   envelopeLibraryWindow->activeProject->modified();
 
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  const int height = allocation.get_height();
 
 
   
@@ -580,25 +514,25 @@ void EnvLibDrawingArea::setFixed(){
   EnvLibEntryNode* leftNode = activeEnvelope ->head;
   EnvLibEntryNode* rightNode = leftNode->rightSeg->rightNode;
   
-    while (leftNode->x <insertx&& rightNode->x< insertx){
+  while (leftNode->x <insertx&& rightNode->x< insertx){
     leftNode = rightNode;
     rightNode = rightNode->rightSeg->rightNode;  
   }
 
   leftNode->rightSeg->segmentProperty = envSegmentPropertyFixed;
- 
   showGraph(activeEnvelope);
 
 
 }
 void EnvLibDrawingArea::setFlexible(){
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
-    if (activeEnvelope ==NULL) return;
+  EnvelopeLibraryEntry* activeEnvelope = 
+  envelopeLibraryWindow->getActiveEnvelope();
+  if (activeEnvelope ==NULL) return;
   envelopeLibraryWindow->activeProject->modified();
 
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  const int height = allocation.get_height();
 
 
   
@@ -609,7 +543,7 @@ void EnvLibDrawingArea::setFlexible(){
   EnvLibEntryNode* leftNode = activeEnvelope ->head;
   EnvLibEntryNode* rightNode = leftNode->rightSeg->rightNode;
   
-    while (leftNode->x <insertx&& rightNode->x< insertx){
+  while (leftNode->x <insertx&& rightNode->x< insertx){
     leftNode = rightNode;
     rightNode = rightNode->rightSeg->rightNode;  
   }
@@ -623,13 +557,14 @@ void EnvLibDrawingArea::setFlexible(){
 
 
 void EnvLibDrawingArea::setLinear(){  
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
-    if (activeEnvelope ==NULL) return;
+  EnvelopeLibraryEntry* activeEnvelope = 
+  envelopeLibraryWindow->getActiveEnvelope();
+  if (activeEnvelope ==NULL) return;
   envelopeLibraryWindow->activeProject->modified();
 
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  const int height = allocation.get_height();
 
 
   
@@ -640,13 +575,11 @@ void EnvLibDrawingArea::setLinear(){
   EnvLibEntryNode* leftNode = activeEnvelope ->head;
   EnvLibEntryNode* rightNode = leftNode->rightSeg->rightNode;
   
-    while (leftNode->x <insertx&& rightNode->x< insertx){
+  while (leftNode->x <insertx&& rightNode->x< insertx){
     leftNode = rightNode;
     rightNode = rightNode->rightSeg->rightNode;  
   }
 
-
-  
 
   leftNode->rightSeg->segmentType = envSegmentTypeLinear;
  
@@ -658,13 +591,14 @@ void EnvLibDrawingArea::setLinear(){
 
 void EnvLibDrawingArea::setSpline(){
 
-    EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
-    if (activeEnvelope ==NULL) return;
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
+  if (activeEnvelope ==NULL) return;
   envelopeLibraryWindow->activeProject->modified();
 
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  const int height = allocation.get_height();
 
 
   
@@ -675,7 +609,7 @@ void EnvLibDrawingArea::setSpline(){
   EnvLibEntryNode* leftNode = activeEnvelope ->head;
   EnvLibEntryNode* rightNode = leftNode->rightSeg->rightNode;
   
-    while (leftNode->x <insertx&& rightNode->x< insertx){
+  while (leftNode->x <insertx&& rightNode->x< insertx){
     leftNode = rightNode;
     rightNode = rightNode->rightSeg->rightNode;  
   }
@@ -693,13 +627,14 @@ void EnvLibDrawingArea::setSpline(){
 
 void EnvLibDrawingArea::setExponential(){
 
-   EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
-    if (activeEnvelope ==NULL) return;
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
+  if (activeEnvelope ==NULL) return;
   envelopeLibraryWindow->activeProject->modified();
 
-    Gtk::Allocation allocation = get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  const int height = allocation.get_height();
 
 
   
@@ -710,7 +645,7 @@ void EnvLibDrawingArea::setExponential(){
   EnvLibEntryNode* leftNode = activeEnvelope ->head;
   EnvLibEntryNode* rightNode = leftNode->rightSeg->rightNode;
   
-    while (leftNode->x <insertx&& rightNode->x< insertx){
+  while (leftNode->x <insertx&& rightNode->x< insertx){
     leftNode = rightNode;
     rightNode = rightNode->rightSeg->rightNode;  
   }
@@ -739,7 +674,7 @@ void EnvLibDrawingArea::removeNode(){
   delete activeNode;
   activeNode = NULL;
 
-   EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
+  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
   showGraph(activeEnvelope);
 
 }
@@ -814,7 +749,8 @@ void EnvLibDrawingArea::resetFields(){
 
 
 void EnvLibDrawingArea::setActiveNodeCoordinate(string _x, string _y){
-  EnvelopeLibraryEntry* activeEnvelope = envelopeLibraryWindow->getActiveEnvelope();
+  EnvelopeLibraryEntry* activeEnvelope = 
+    envelopeLibraryWindow->getActiveEnvelope();
   if (activeEnvelope == NULL){
     return;
   }

@@ -134,7 +134,9 @@ extern map<const char*, FileValue*, ltstr> file_data;
 
 
 
-FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string _originalString){
+FunctionGenerator::FunctionGenerator(
+  FunctionReturnType _returnType,
+  std::string _originalString){
 
   set_title("Function Generator");
     set_border_width(3);
@@ -166,7 +168,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunctionGenerator.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunctionGenerator.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -499,7 +502,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   combobox->pack_start(functionListColumns.m_col_name);
   
-  combobox->signal_changed().connect( sigc::mem_fun(*this,    &FunctionGenerator::function_list_combo_changed) );
+  combobox->signal_changed().connect( 
+    sigc::mem_fun(*this,&FunctionGenerator::function_list_combo_changed) );
 
    add_button( "gtk-ok", 0);  
    add_button("gtk-cancel", 1);
@@ -514,15 +518,18 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
    // Random
   attributesRefBuilder->get_widget(
     "RandomLowBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomLowBoundFunButtonClicked));
+  button->signal_clicked().connect(
+    sigc::mem_fun(*this, & FunctionGenerator::randomLowBoundFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "RandomHighBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomHighBoundFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomHighBoundFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "RandomLowBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomEntryChanged));   
 
   attributesRefBuilder->get_widget(
     "RandomHighBoundEntry", entry);
@@ -534,38 +541,46 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
 
   attributesRefBuilder->get_widget(
     "RandomIntLowBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomIntLowBoundFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomIntLowBoundFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "RandomIntHighBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomIntHighBoundFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomIntHighBoundFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "RandomIntLowBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomIntEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomIntEntryChanged));   
 
   attributesRefBuilder->get_widget(
     "RandomIntHighBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomIntEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomIntEntryChanged)); 
   
   
   //Randomizer
 
   attributesRefBuilder->get_widget(
     "RandomizerBaseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomizerBaseFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomizerBaseFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "RandomizerDeviationFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::randomizerDeviationFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomizerDeviationFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "RandomizerBaseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomizerEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomizerEntryChanged));   
 
   attributesRefBuilder->get_widget(
     "RandomizerDeviationEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomizerEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::randomizerEntryChanged)); 
   
 
 
@@ -573,35 +588,43 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
 
   attributesRefBuilder->get_widget(
     "DecayBaseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::decayBaseFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayBaseFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "DecayRateFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::decayRateFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayRateFunButtonClicked));  
 
   attributesRefBuilder->get_widget(
     "DecayIndexFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::decayIndexFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayIndexFunButtonClicked));
   
   attributesRefBuilder->get_widget(
     "DecayTypeExponentialRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::decayTypeRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayTypeRadioButtonClicked));
 
   attributesRefBuilder->get_widget(
     "DecayTypeLinearRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::decayTypeRadioButtonClicked));    
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayTypeRadioButtonClicked));    
    
   attributesRefBuilder->get_widget(
     "DecayBaseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::decayEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayEntryChanged));   
 
   attributesRefBuilder->get_widget(
     "DecayRateEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::decayEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayEntryChanged)); 
     
   attributesRefBuilder->get_widget(
     "DecayIndexEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::decayEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::decayEntryChanged)); 
  
  
 
@@ -609,11 +632,13 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
  
   attributesRefBuilder->get_widget(
     "InverseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::inverseFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::inverseFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "InverseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::inverseEntryChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::inverseEntryChanged));  
  
 
 
@@ -621,30 +646,36 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
  
   attributesRefBuilder->get_widget(
     "LNFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::LNFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::LNFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "LNEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::LNEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::LNEntryChanged)); 
   
   
   //select 
   
   attributesRefBuilder->get_widget(
     "SelectListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::selectListFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectListFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "SelectIndexFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::selectIndexFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectIndexFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "SelectListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::selectEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectEntryChanged));   
 
   attributesRefBuilder->get_widget(
     "SelectIndexEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::selectEntryChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectEntryChanged));   
   
 
 
@@ -653,25 +684,30 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   attributesRefBuilder->get_widget(
     "StochosRangeDistribRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
 
   attributesRefBuilder->get_widget(
     "StochosFunctionsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
 
   attributesRefBuilder->get_widget(
     "StochosOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosTextChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::stochosTextChanged)); 
   
   
   attributesRefBuilder->get_widget(
     "StochosAddNodeButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosAddNodeButtonClicked)); 
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::stochosAddNodeButtonClicked)); 
 	
   attributesRefBuilder->get_widget(
     "StochosInsertFunctionButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::stochosFunButtonClicked));
-  //button->can_focus(false);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::stochosFunButtonClicked));
+
   
   
 
@@ -682,82 +718,101 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   attributesRefBuilder->get_widget(
     "ValuePickElementsMeaningfulRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
 
   attributesRefBuilder->get_widget(
     "ValuePickElementsModsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
 
   attributesRefBuilder->get_widget(
     "ValuePickElementsFakeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickWeightsPeriodicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickWeightsHierarchicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickWeightsIncludeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickTypeVariableRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickTypeConstantRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));  
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));  
   
   
   attributesRefBuilder->get_widget(
     "ValuePickAbsRangeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickDistEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickElementsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
 
   attributesRefBuilder->get_widget(
     "ValuePickOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
   
   attributesRefBuilder->get_widget(
     "ValuePickWeightsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickTextChanged));
 
 
 
   attributesRefBuilder->get_widget(
     "ValuePickAbsRangeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickAbsRangeFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickAbsRangeFunButtonClicked));
   
   attributesRefBuilder->get_widget(
     "ValuePickLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickLowFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickLowFunButtonClicked));  
 
   attributesRefBuilder->get_widget(
     "ValuePickHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickHighFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickHighFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "ValuePickDistFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::valuePickDistFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::valuePickDistFunButtonClicked));
 
 
 
@@ -765,127 +820,153 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
  
   attributesRefBuilder->get_widget(
     "ChooseLFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::chooseLFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::chooseLFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "ChooseLEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::chooseLEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::chooseLEntryChanged)); 
 
 
   //GetPattern
  
   attributesRefBuilder->get_widget(
     "GetPatternInOrderRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
 
   attributesRefBuilder->get_widget(
     "GetPatternOtherRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
    
   attributesRefBuilder->get_widget(
     "GetPatternTypeClustersRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
   
   attributesRefBuilder->get_widget(
     "GetPatternTimeDependRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
   
   attributesRefBuilder->get_widget(
     "GetPatternProbabilityRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
 
   attributesRefBuilder->get_widget(
     "GetPatternOffsetFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternOffsetFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternOffsetFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "GetPatternOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged));
 
 
   attributesRefBuilder->get_widget(
     "GetPatternFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternFunButtonClicked));
 
 
   attributesRefBuilder->get_widget(
     "GetPatternEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::getPatternEntryChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::getPatternEntryChanged)); 
   
   
   //MakeList
   
   attributesRefBuilder->get_widget(
     "MakeListFunctionFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeListFunctionFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeListFunctionFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "MakeListSizeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeListSizeFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeListSizeFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "MakeListFunctionEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeListTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeListTextChanged));   
 
   attributesRefBuilder->get_widget(
     "MakeListSizeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeListTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeListTextChanged));   
   
   //EnvLib
   
   attributesRefBuilder->get_widget(
     "EnvLibEnvelopeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::envLibEnvelopeFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::envLibEnvelopeFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "EnvLibScalingFactorFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::envLibScalingFactorFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::envLibScalingFactorFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "EnvLibEnvelopeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::envLibTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::envLibTextChanged));   
 
   attributesRefBuilder->get_widget(
     "EnvLibScalingFactorEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::envLibTextChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::envLibTextChanged)); 
    
    
   //ReadENVFile 
    
   attributesRefBuilder->get_widget(
     "ReadENVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readENVFileTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readENVFileTextChanged));
      
    
 	//MakeEnvelope
 	   
   attributesRefBuilder->get_widget(
     "MakeEnvelopeScalingFactorFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makeEnvelopeScalingFactorFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeEnvelopeScalingFactorFunButtonClicked));   
    
   attributesRefBuilder->get_widget(
     "MakeEnvelopeXValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makeEnvelopeXValueFunButtonClicked));    
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeEnvelopeXValueFunButtonClicked));    
    
   attributesRefBuilder->get_widget(
     "MakeEnvelopeYValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makeEnvelopeYValueFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeEnvelopeYValueFunButtonClicked));   
   
   
   attributesRefBuilder->get_widget(
     "MakeEnvelopeScalingFactorEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeEnvelopeTextChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeEnvelopeTextChanged)); 
 
   attributesRefBuilder->get_widget(
     "MakeEnvelopeXValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeEnvelopeTextChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeEnvelopeTextChanged)); 
   //entry->set_text("1.0");
   //entry->set_editable(false);
      
    
   attributesRefBuilder->get_widget(
     "MakeEnvelopeYValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeEnvelopeTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeEnvelopeTextChanged));
   
   makeEnvelopeSubAlignments = new MakeEnvelopeSubAlignment(this);
   makeEnvelopeNumOfNodes = 1;
@@ -899,171 +980,209 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
     attributesRefBuilder->get_widget(
     "MakePatternIntervalsFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::makePatternIntervalsFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makePatternIntervalsFunButtonClicked));  
 
  
 
   attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makePatternTextChanged));    
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makePatternTextChanged));    
   
   //ExpandPattern
   
   attributesRefBuilder->get_widget(
     "ExpandPatternEquivalenceRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternRadioButtonClicked));
   
   attributesRefBuilder->get_widget(
     "ExpandPatternSymmetriesRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternRadioButtonClicked));
   
   attributesRefBuilder->get_widget(
     "ExpandPatternDistortRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternRadioButtonClicked));    
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternRadioButtonClicked));    
   
   
   attributesRefBuilder->get_widget(
     "ExpandPatternModuloFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::expandPatternModuloFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::expandPatternModuloFunButtonClicked));  
   
   attributesRefBuilder->get_widget(
     "ExpandPatternLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::expandPatternLowFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::expandPatternLowFunButtonClicked));   
   attributesRefBuilder->get_widget(
     "ExpandPatternHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::expandPatternHighFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::expandPatternHighFunButtonClicked));
   attributesRefBuilder->get_widget(
     "ExpandPatternPatternFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::expandPatternPatternFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::expandPatternPatternFunButtonClicked));
   
   attributesRefBuilder->get_widget(
     "ExpandPatternModuloEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternTextChanged));  
   
   attributesRefBuilder->get_widget(
     "ExpandPatternLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternTextChanged));  
   
   attributesRefBuilder->get_widget(
     "ExpandPatternHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternTextChanged));  
   
   attributesRefBuilder->get_widget(
     "ExpandPatternPatternEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::expandPatternTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::expandPatternTextChanged));  
   
   
   //ReadPATFile 
     attributesRefBuilder->get_widget(
     "ReadPATFileOriginFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::readPATFileOriginFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::readPATFileOriginFunButtonClicked));  
   
   attributesRefBuilder->get_widget(
     "ReadPATFileNameEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readPATFileTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readPATFileTextChanged));   
   
   attributesRefBuilder->get_widget(
     "ReadPATFileOriginEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readPATFileTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readPATFileTextChanged));  
   
 
   //ReadREVFile 
    
   attributesRefBuilder->get_widget(
     "ReadREVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readREVFileTextChanged));  
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readREVFileTextChanged));  
   
   //REV_Simple
     attributesRefBuilder->get_widget(
     "REV_SimpleEntryFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_SimpleEntryFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_SimpleEntryFunButtonClicked));   
 
   attributesRefBuilder->get_widget(
     "REV_SimpleEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_SimpleEntryTextChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_SimpleEntryTextChanged)); 
   
   //REV_Medium
   
   attributesRefBuilder->get_widget(
     "REV_MediumReverbPercentFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_MediumReverbPercentFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_MediumReverbPercentFunButtonClicked));   
 
   
   attributesRefBuilder->get_widget(
     "REV_MediumHilowSpreadFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_MediumHilowSpreadFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_MediumHilowSpreadFunButtonClicked));   
 
   
   attributesRefBuilder->get_widget(
     "REV_MediumGainAllPassFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_MediumGainAllPassFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_MediumGainAllPassFunButtonClicked));   
 
   
   attributesRefBuilder->get_widget(
     "REV_MediumDelayFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_MediumDelayFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_MediumDelayFunButtonClicked));   
   
   attributesRefBuilder->get_widget(
     "REV_MediumReverbPercentEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_MediumTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_MediumTextChanged));   
   
   attributesRefBuilder->get_widget(
     "REV_MediumHilowSpreadEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_MediumTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_MediumTextChanged));   
    
   attributesRefBuilder->get_widget(
     "REV_MediumGainAllPassEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_MediumTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_MediumTextChanged));   
   attributesRefBuilder->get_widget(
     "REV_MediumDelayEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_MediumTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_MediumTextChanged));   
   
   //REV_Advanced
   attributesRefBuilder->get_widget(
     "REV_AdvancedReverbPercentFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_AdvancedReverbPercentFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_AdvancedReverbPercentFunButtonClicked));   
 
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedCombGainListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_AdvancedCombGainListFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_AdvancedCombGainListFunButtonClicked));   
 
   attributesRefBuilder->get_widget(
     "REV_LPGainListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_AdvancedLPGainListFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_AdvancedLPGainListFunButtonClicked));   
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedGainAllPassFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_AdvancedGainAllPassFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_AdvancedGainAllPassFunButtonClicked));   
 
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedDelayFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::REV_AdvancedDelayFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::REV_AdvancedDelayFunButtonClicked));   
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedReverbPercentEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_AdvancedTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
   
   attributesRefBuilder->get_widget(
     "REV_AdvancedCombGainListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_AdvancedTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
 
   attributesRefBuilder->get_widget(
     "REV_LPGainListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_AdvancedTextChanged));     
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_AdvancedTextChanged));     
   attributesRefBuilder->get_widget(
     "REV_AdvancedGainAllPassEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_AdvancedTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
   attributesRefBuilder->get_widget(
     "REV_AdvancedDelayEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::REV_AdvancedTextChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
     
   //ReadSIVFile 
    
   attributesRefBuilder->get_widget(
     "ReadSIVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readSIVFileTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readSIVFileTextChanged));
 
 
 
@@ -1072,27 +1191,33 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   attributesRefBuilder->get_widget(
     "MakeSieveElementsMeaningfulRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
 
   attributesRefBuilder->get_widget(
     "MakeSieveElementsModsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
 
   attributesRefBuilder->get_widget(
     "MakeSieveElementsFakeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsPeriodicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsHierarchicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsIncludeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
 
   
@@ -1100,33 +1225,40 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
   
   attributesRefBuilder->get_widget(
     "MakeSieveLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
     "MakeSieveHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
 
   
   attributesRefBuilder->get_widget(
     "MakeSieveElementsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
 
   attributesRefBuilder->get_widget(
     "MakeSieveOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
   
   attributesRefBuilder->get_widget(
     "MakeSieveWeightsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveTextChanged));
 
   
   attributesRefBuilder->get_widget(
     "MakeSieveLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveLowFunButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveLowFunButtonClicked));  
 
   attributesRefBuilder->get_widget(
     "MakeSieveHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::makeSieveHighFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeSieveHighFunButtonClicked));
 
 
   
@@ -1135,28 +1267,34 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
    
   attributesRefBuilder->get_widget(
     "ReadSPAFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::readSPAFileTextChanged));
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readSPAFileTextChanged));
   
   
   
   //SPA
   attributesRefBuilder->get_widget(
     "SPAStereoRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAMethodRadioButtonClicked));
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));
   attributesRefBuilder->get_widget(
     "SPAMulti_PanRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
   attributesRefBuilder->get_widget(
     "SPAPolarRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
   
   attributesRefBuilder->get_widget(
     "SPAPartialRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAApplyByRadioButtonClicked));    
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAApplyByRadioButtonClicked));    
   
   attributesRefBuilder->get_widget(
     "SPASoundRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAApplyByRadioButtonClicked));  
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAApplyByRadioButtonClicked));  
   
   //Stereo as default, apply by sound
 
@@ -1202,7 +1340,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 2 arguments
+      
+      //RandomInt has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument
@@ -1240,12 +1380,12 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //Stochos has 3 arguments (string, list of envelopes, int)
+      //Stochos has 3 arguments (string, list of envelopes, int)
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument
-      //attributesRefBuilder->get_widget("RandomIntLowBoundEntry",entry);
-      //entry->set_text(getFunctionString(value,functionReturnInt));
+ 
 
       string method = getFunctionString(value,functionReturnString);
       
@@ -1262,8 +1402,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
 
       argumentsIter++;
       value =&(*argumentsIter);
-      list<std::string> envelopeStringList = fileValueListToStringList (value->getList(), functionReturnEnvelopeList); 
-      //entry->set_text(getFunctionString(value,functionReturnInt));      
+      list<std::string> envelopeStringList = 
+        fileValueListToStringList (value->getList(), functionReturnEnvelopeList); 
+            
       list<std::string>::iterator stringIter = envelopeStringList.begin();
 
 
@@ -1272,7 +1413,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
 
 
         while (stringIter!= envelopeStringList.end()){
-          StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, 1);
+          StochosSubAlignment* newSubAlignment = 
+            new StochosSubAlignment(this, 1);
           if ( stochosSubAlignments ==NULL){
             stochosSubAlignments = newSubAlignment;
           }
@@ -1294,7 +1436,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       else {
 
         while (stringIter!= envelopeStringList.end()){
-          StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, 0);
+          StochosSubAlignment* newSubAlignment = 
+            new StochosSubAlignment(this, 0);
           if ( stochosSubAlignments ==NULL){
             stochosSubAlignments = newSubAlignment;
           }
@@ -1351,7 +1494,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //RandomInt has 2 arguments
+      //RandomInt has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a list
@@ -1471,7 +1615,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ValuePick has 10 arguments. Old version has 9 arguments (no offset, the last argument)
+      //ValuePick has 10 arguments. 
+      //Old version has 9 arguments (no offset, the last argument)
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a float (absolute range
@@ -1499,24 +1645,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 5th argument is a string  (Elements)
 
       if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget("ValuePickElementsMeaningfulRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickElementsMeaningfulRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
       else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget("ValuePickElementsModsRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickElementsModsRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //FAKE
-        attributesRefBuilder->get_widget("ValuePickElementsFakeRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickElementsFakeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
 
       argumentsIter++;
       value =&(*argumentsIter); // 6th argument is a list without bracket
-      string listString = fileValueListToString( value->getList(),functionReturnFloat);
+      string listString = 
+        fileValueListToString( value->getList(),functionReturnFloat);
       
       listString = listString.substr(1, listString.length()-2);
       
@@ -1528,17 +1678,20 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 7th argument is a string  (weight)
 
       if (value->getString() == "PERIODIC"){
-        attributesRefBuilder->get_widget("ValuePickWeightsPeriodicRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickWeightsPeriodicRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
       else if (value->getString() == "HIERARCHIC"){
-        attributesRefBuilder->get_widget("ValuePickWeightsHierarchicRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickWeightsHierarchicRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //Include
-        attributesRefBuilder->get_widget("ValuePickWeightsIncludeRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickWeightsIncludeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
@@ -1556,14 +1709,16 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 9th argument is a string  (Elements)
 
       if (value->getString() == "VARIABLE"){
-        attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickTypeVariableRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
 
       
       else {  //constant
-        attributesRefBuilder->get_widget("ValuePickTypeConstantRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ValuePickTypeConstantRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }   
@@ -1575,7 +1730,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         value =&(*argumentsIter); //offset is a list of integer
         
               
-      string listString = fileValueListToString( value->getList(),functionReturnFloat);
+      string listString = fileValueListToString(
+        value->getList(),functionReturnFloat);
       
       listString = listString.substr(1, listString.length()-2);
       
@@ -1583,7 +1739,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         
       }
       else {
-        attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
+        attributesRefBuilder->get_widget(
+          "ValuePickOffsetEntry",entry);
         entry->set_text(makeSieveNValuePickZeros(listLength));      
       
       }
@@ -1613,7 +1770,7 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //chooseL has 1 argument
+      list<FileValue> arguments = value->getFtnArgs(); //chooseL has 1 argument
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a function
@@ -1645,13 +1802,15 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //getpattern has 3 argument
+      //getpattern has 3 argument
+      list<FileValue> arguments = value->getFtnArgs();
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter);  //first argument is a string (method)
       
       if (value->getString() == "IN_ORDER"){
-        attributesRefBuilder->get_widget("GetPatternInOrderRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "GetPatternInOrderRadioButton",radiobutton);
         radiobutton->set_active(); 
       }
       else if (value->getString() == "OTHER"){
@@ -1659,15 +1818,18 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         radiobutton->set_active(); 
       }
       else if (value->getString() == "TYPE_CLUSTERS"){
-        attributesRefBuilder->get_widget("GetPatternTypeClustersRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "GetPatternTypeClustersRadioButton",radiobutton);
         radiobutton->set_active(); 
       } 
       else if (value->getString() == "TIME_DEPEND"){
-        attributesRefBuilder->get_widget("GetPatternTimeDependRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "GetPatternTimeDependRadioButton",radiobutton);
         radiobutton->set_active(); 
       } 
       else{
-        attributesRefBuilder->get_widget("GetPatternProbabilityRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "GetPatternProbabilityRadioButton",radiobutton);
         radiobutton->set_active(); 
       } 
       
@@ -1751,7 +1913,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //randomizer has 2 arguments
+      //randomizer has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a float
@@ -1864,11 +2027,13 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 2nd argument is a string
       
       if (value->getString() == "EXPONENTIAL"){
-        attributesRefBuilder->get_widget("DecayTypeExponentialRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "DecayTypeExponentialRadioButton",radiobutton);
         radiobutton->set_active(); 
       }
       else{
-        attributesRefBuilder->get_widget("DecayTypeLinearRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "DecayTypeLinearRadioButton",radiobutton);
         radiobutton->set_active();      
       }
      
@@ -1941,8 +2106,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //MakeEnvelope has 5 arguments (string, list of envelopes, int)
+      //MakeEnvelope has 5 arguments (string, list of envelopes, int)
       
+      list<FileValue> arguments = value->getFtnArgs(); 
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a float list
 
@@ -2073,7 +2239,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadEnvFile has 1 arguments
+      //ReadEnvFile has 1 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2106,7 +2273,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadEnvFile has 2 arguments
+      //ReadEnvFile has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2163,7 +2331,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getList();  //SPA is actually a list with 3 elements
+      //SPA is actually a list with 3 elements
+      list<FileValue> arguments = value->getList();  
+      
          
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2205,7 +2375,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       if ( SPAMethodFlag ==0){ //stereo
         SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
         
-        list<string> listOfString = fileValueListToStringList(value->getList(),functionReturnFloat);
+        list<string> listOfString = 
+          fileValueListToStringList(value->getList(),functionReturnFloat);
         list<string>::iterator stringIter = listOfString.begin();
         
         currentPartial->setText(*stringIter);
@@ -2247,7 +2418,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
         for (channelIter; channelIter!= channelsList.end(); channelIter++){
           currentPartial = currentChannel->partials;           
           value =&(*channelIter);
-          list<string> listOfString = fileValueListToStringList(value->getList(),functionReturnFloat);
+          list<string> listOfString = 
+            fileValueListToStringList(value->getList(),functionReturnFloat);
           list<string>::iterator stringIter = listOfString.begin();
           for (stringIter; stringIter!= listOfString.end(); stringIter++){
             currentPartial->setText(*stringIter);
@@ -2255,8 +2427,10 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
           }          
           currentChannel = currentChannel->next;
         }     
-      } 
-      SPAApplyByRadioButtonClicked(); //if parse fail(or empty), the label of the first entry should still be "Envelope"        
+      }
+      //if parse fail(or empty), 
+      //the label of the first entry should still be "Envelope"        
+      SPAApplyByRadioButtonClicked(); 
              
     }
     
@@ -2281,7 +2455,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadSPAFile has 1 arguments
+      //ReadSPAFile has 1 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2314,7 +2489,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //makepattern has 2 arguments
+      
+      //makepattern has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a list
@@ -2344,24 +2521,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //expandpattern has 5 arguments
+      //expandpattern has 5 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin(); 
       
       value =&(*argumentsIter); //first argument is the method
 
       if (value->getString() == "EQUIVALENCE"){
-        attributesRefBuilder->get_widget("ExpandPatternEquivalenceRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ExpandPatternEquivalenceRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
       else if (value->getString() == "SYMMETRIES"){
-        attributesRefBuilder->get_widget("ExpandPatternSymmetriesRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ExpandPatternSymmetriesRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //Distort
-        attributesRefBuilder->get_widget("ExpandPatternDistortRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "ExpandPatternDistortRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
@@ -2410,7 +2591,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadPATFile has 2 arguments
+      //ReadPATFile has 2 arguments
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2447,7 +2629,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getList();  //Rev_Simple has 2 elements in the list
+      //Rev_Simple has 2 elements in the list
+      list<FileValue> arguments = value->getList();  
       
       argumentsIter = arguments.begin();
       argumentsIter ++;
@@ -2477,7 +2660,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getList();  //Rev_medium has 5 elements in the list
+      //Rev_medium has 5 elements in the list
+      list<FileValue> arguments = value->getList();  
       
       argumentsIter = arguments.begin();
       argumentsIter ++;
@@ -2524,7 +2708,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getList();  //Rev_advanced has 6 elements in the list
+      //Rev_advanced has 6 elements in the list
+      list<FileValue> arguments = value->getList();  
       
       argumentsIter = arguments.begin();
       argumentsIter ++;
@@ -2577,7 +2762,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadREVFile has 1 argument
+      //ReadREVFile has 1 argument
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2608,7 +2794,9 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //makesieve has 7 arguments. old version has 6 arguments (no offset, which is the last argument)
+      //makesieve has 7 arguments. 
+      //Old version has 6 arguments (no offset, which is the last argument)
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is an int (low bound)
@@ -2627,24 +2815,28 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 3rd argument is a string  (Elements)
 
       if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget("MakeSieveElementsMeaningfulRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveElementsMeaningfulRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
       else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget("MakeSieveElementsModsRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveElementsModsRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //FAKE
-        attributesRefBuilder->get_widget("MakeSieveElementsFakeRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveElementsFakeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
 
       argumentsIter++;
       value =&(*argumentsIter); // 4th argument is a list without bracket
-      string listString = fileValueListToString( value->getList(),functionReturnInt);
+      string listString = 
+        fileValueListToString( value->getList(),functionReturnInt);
       
       listString = listString.substr(1, listString.length()-2);
       
@@ -2656,17 +2848,20 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       value =&(*argumentsIter); // 5th argument is a string  (weight)
 
       if (value->getString() == "PERIODIC"){
-        attributesRefBuilder->get_widget("MakeSieveWeightsPeriodicRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveWeightsPeriodicRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
       else if (value->getString() == "HIERARCHIC"){
-        attributesRefBuilder->get_widget("MakeSieveWeightsHierarchicRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveWeightsHierarchicRadioButton",radiobutton);
         radiobutton->set_active();       
       }
       
       else {  //FAKE
-        attributesRefBuilder->get_widget("MakeSieveWeightsIncludeRadioButton",radiobutton);
+        attributesRefBuilder->get_widget(
+          "MakeSieveWeightsIncludeRadioButton",radiobutton);
         radiobutton->set_active(); 
       
       }
@@ -2683,7 +2878,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
       argumentsIter++;
       if (argumentsIter != arguments.end() ){ // the 7th argument exists
         value =&(*argumentsIter); // 4th argument is a list without bracket
-        string listString = fileValueListToString( value->getList(),functionReturnInt);
+        string listString = 
+          fileValueListToString( value->getList(),functionReturnInt);
       
         listString = listString.substr(1, listString.length()-2);
       
@@ -2719,7 +2915,8 @@ FunctionGenerator::FunctionGenerator(FunctionReturnType _returnType,std::string 
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //ReadSIVFile has 1 argument
+      //ReadSIVFile has 1 argument
+      list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
       value =&(*argumentsIter); // first argument is a string
@@ -2892,7 +3089,8 @@ void FunctionGenerator::function_list_combo_changed(){
         alignment->add (*vbox); //add random vbox in
         //reset all data
         
-        textview->get_buffer()->set_text("Decay( FLOAT, \"EXPONENTIAL\", FLOAT, CURRENT_PARTIAL_NUM)");
+        textview->get_buffer()->set_text(
+          "Decay( FLOAT, \"EXPONENTIAL\", FLOAT, CURRENT_PARTIAL_NUM)");
         attributesRefBuilder->get_widget(
           "DecayBaseEntry", entry);
         entry->set_text("");
@@ -2918,7 +3116,8 @@ void FunctionGenerator::function_list_combo_changed(){
         alignment->add (*vbox); //add vbox in
         //reset all data
         
-        textview->get_buffer()->set_text("Stochos( \"RANGE_DISTRIB\", <MinEnv, MaxEnv, DistEnv>, INT>");
+        textview->get_buffer()->set_text(
+          "Stochos( \"RANGE_DISTRIB\", <MinEnv, MaxEnv, DistEnv>, INT>");
         attributesRefBuilder->get_widget(
           "StochosOffsetEntry", entry);
         entry->set_text("");
@@ -2954,13 +3153,15 @@ void FunctionGenerator::function_list_combo_changed(){
         alignment->add (*vbox); //add random vbox in
         //reset all data
         if (returnType == functionReturnInt){
-          textview->get_buffer()->set_text("Select( < INT1, INT2, INT3....>, INT)");
+          textview->get_buffer()->set_text(
+            "Select( < INT1, INT2, INT3....>, INT)");
           attributesRefBuilder->get_widget(
             "SelectListEntry", entry);
           entry->set_text("< INT1, INT2, INT3....>");
         }
         else { //need to return a float
-          textview->get_buffer()->set_text("Select( < FLOAT1, FLOAT2, FLOAT3....>, INT)");
+          textview->get_buffer()->set_text(
+            "Select( < FLOAT1, FLOAT2, FLOAT3....>, INT)");
           attributesRefBuilder->get_widget(
             "SelectListEntry", entry);
           entry->set_text("< FLOAT1, FLOAT2, FLOAT3....>");
@@ -3300,7 +3501,9 @@ void FunctionGenerator::function_list_combo_changed(){
 
         alignment->remove(); //remove the current parameter box
         attributesRefBuilder->get_widget("SPAVBox", vbox);
-        SPAApplyByRadioButtonClicked(); //if parse fail(or empty), the label of the first entry should still be "Envelope"  
+        //if parse fail(or empty), 
+        //the label of the first entry should still be "Envelope" 
+        SPAApplyByRadioButtonClicked();  
         alignment->add (*vbox); //add vbox in
         SPATextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
@@ -3380,7 +3583,8 @@ void FunctionGenerator::randomLowBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomLowBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat, entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat, entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3396,7 +3600,8 @@ void FunctionGenerator::randomHighBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomHighBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3434,7 +3639,8 @@ void FunctionGenerator::randomIntLowBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomIntLowBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3450,7 +3656,8 @@ void FunctionGenerator::randomIntHighBoundFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomIntHighBoundEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3487,7 +3694,8 @@ void FunctionGenerator::randomizerBaseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomizerBaseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3503,7 +3711,8 @@ void FunctionGenerator::randomizerDeviationFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "RandomizerDeviationEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3544,7 +3753,8 @@ void FunctionGenerator::decayBaseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayBaseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3560,7 +3770,8 @@ void FunctionGenerator::decayRateFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayRateEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3576,7 +3787,8 @@ void FunctionGenerator::decayIndexFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "DecayIndexEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3635,7 +3847,8 @@ void FunctionGenerator::inverseFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "InverseEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3662,7 +3875,8 @@ void FunctionGenerator::LNFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "LNEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3693,11 +3907,11 @@ void FunctionGenerator::selectListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SelectListEntry", entry);
   if (returnType == functionReturnInt){
-    generator = new FunctionGenerator(functionReturnList,entry->get_text());//was functionReturnIntList
+    generator = new FunctionGenerator(functionReturnList,entry->get_text());
     generator->run(); 
   } 
   else {  //return float
-    generator = new FunctionGenerator(functionReturnList,entry->get_text()); //was functionReturnFloatList
+    generator = new FunctionGenerator(functionReturnList,entry->get_text()); 
     generator->run();   
   }
   if (generator->getResultString() !=""){
@@ -3713,7 +3927,8 @@ void FunctionGenerator::selectIndexFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SelectIndexEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -3744,7 +3959,8 @@ void FunctionGenerator::selectEntryChanged(){
 
 
 void FunctionGenerator::stochosAddNodeButtonClicked(){
-  StochosSubAlignment* newSubAlignment = new StochosSubAlignment(this, stochosMethodFlag);
+  StochosSubAlignment* newSubAlignment = 
+    new StochosSubAlignment(this, stochosMethodFlag);
   if ( stochosSubAlignments ==NULL){
     stochosSubAlignments = newSubAlignment;
   }
@@ -3767,11 +3983,15 @@ void FunctionGenerator::stochosTextChanged(){
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
   Gtk::RadioButton* radiobutton;
-  attributesRefBuilder->get_widget("StochosRangeDistribRadioButton", radiobutton);
+  attributesRefBuilder->get_widget(
+    "StochosRangeDistribRadioButton", radiobutton);
 
   Gtk::Entry* entry; 
   
-  std::string stringbuffer = (radiobutton->get_active())?"Stochos( \"RANGE_DISTRIB\", < ":"Stochos( \"FUNCTIONS\", < ";
+  std::string stringbuffer = 
+    (radiobutton->get_active())?
+      "Stochos( \"RANGE_DISTRIB\", < ":
+      "Stochos( \"FUNCTIONS\", < ";
   StochosSubAlignment* current = stochosSubAlignments;
   while (current != NULL){
     stringbuffer = stringbuffer + current->toString(stochosMethodFlag);
@@ -3856,8 +4076,6 @@ void FunctionGenerator::stochosRemoveNode(StochosSubAlignment* _remove){
 
 void FunctionGenerator::stochosFunButtonClicked(){
   
-  //Gtk::Entry* entry = (Gtk::Entry*)get_focus();
-  //cout<<focus ->get_text()<<endl;
   
   Gtk::Entry* entry = dynamic_cast< Gtk::Entry * >(get_focus() );
   if( entry ){
@@ -3865,7 +4083,10 @@ void FunctionGenerator::stochosFunButtonClicked(){
     attributesRefBuilder->get_widget(
       "StochosOffsetEntry", offset);   
     
-    FunctionGenerator* generator = new FunctionGenerator((entry==offset)?functionReturnInt:functionReturnENV, entry->get_text());
+    FunctionGenerator* generator = 
+      new FunctionGenerator((entry==offset)?
+        functionReturnInt:
+        functionReturnENV, entry->get_text());
     int result = generator->run();
     if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -3882,14 +4103,16 @@ void FunctionGenerator::stochosFunButtonClicked(){
 }
 
 
-FunctionGenerator::StochosSubAlignment::StochosSubAlignment(FunctionGenerator* _parent, int _methodFlag){
+FunctionGenerator::StochosSubAlignment::StochosSubAlignment(
+  FunctionGenerator* _parent, int _methodFlag){
   parent = _parent;
   next = NULL;
   prev = NULL;
   attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenStochosSubAlignment.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/FunGenStochosSubAlignment.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -3900,7 +4123,8 @@ FunctionGenerator::StochosSubAlignment::StochosSubAlignment(FunctionGenerator* _
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenStochosSubAlignment.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunGenStochosSubAlignment.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -3925,32 +4149,38 @@ FunctionGenerator::StochosSubAlignment::StochosSubAlignment(FunctionGenerator* _
   
   attributesRefBuilder->get_widget(
     "removeNodeButton1", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::removeButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::removeButtonClicked));
   
   attributesRefBuilder->get_widget(
     "removeNodeButton2", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::removeButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::removeButtonClicked));  
   
   
   attributesRefBuilder->get_widget(
     "FunctionsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
   entry->set_text("ENV");
 
 
   attributesRefBuilder->get_widget(
     "MinEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
   entry->set_text("ENV");
   
   attributesRefBuilder->get_widget(
     "MaxEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
   entry->set_text("ENV");
   
   attributesRefBuilder->get_widget(
     "DistEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::StochosSubAlignment::textChanged)); 
   entry->set_text("ENV");
 
 }
@@ -3977,7 +4207,8 @@ void FunctionGenerator::StochosSubAlignment::switchTo(int _methodFlag){
   }
 }
 
-void FunctionGenerator::StochosSubAlignment::appendNewNode(StochosSubAlignment* _newNode){
+void FunctionGenerator::StochosSubAlignment::appendNewNode(
+  StochosSubAlignment* _newNode){
   if (next == NULL){
     next = _newNode;
     _newNode->prev = this;
@@ -4009,7 +4240,8 @@ std::string FunctionGenerator::StochosSubAlignment::toString( int _methodFlag){
   }
 }
 
-void FunctionGenerator::StochosSubAlignment::setFunctionsEntry(std::string _string){
+void FunctionGenerator::StochosSubAlignment::setFunctionsEntry(
+  std::string _string){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("FunctionsEntry", entry);
   entry->set_text(_string);
@@ -4063,7 +4295,8 @@ void FunctionGenerator::valuePickAbsRangeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickAbsRangeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4078,7 +4311,8 @@ void FunctionGenerator::valuePickLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator =
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4094,7 +4328,8 @@ void FunctionGenerator::valuePickHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4110,7 +4345,8 @@ void FunctionGenerator::valuePickDistFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ValuePickDistEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4160,9 +4396,11 @@ void FunctionGenerator::valuePickTextChanged(){
     "ValuePickDistEntry", entry);
   stringbuffer = stringbuffer + entry->get_text()+ ", ";
   
-  attributesRefBuilder->get_widget("ValuePickElementsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget(
+    "ValuePickElementsMeaningfulRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("ValuePickElementsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget(
+    "ValuePickElementsModsRadioButton", radiobutton2); 
   
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
@@ -4181,9 +4419,11 @@ void FunctionGenerator::valuePickTextChanged(){
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";
   
 
-  attributesRefBuilder->get_widget("ValuePickWeightsPeriodicRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget(
+    "ValuePickWeightsPeriodicRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("ValuePickWeightsHierarchicRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget(
+    "ValuePickWeightsHierarchicRadioButton", radiobutton2); 
 
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"PERIODIC\", <";
@@ -4200,7 +4440,8 @@ void FunctionGenerator::valuePickTextChanged(){
     "ValuePickWeightsEntry", entry);
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";  
   
-  attributesRefBuilder->get_widget("ValuePickTypeVariableRadioButton", radiobutton1);   
+  attributesRefBuilder->get_widget(
+    "ValuePickTypeVariableRadioButton", radiobutton1);   
 
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"VARIABLE\", <";
@@ -4225,7 +4466,8 @@ void FunctionGenerator::chooseLFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ChooseLEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnSIV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4253,7 +4495,8 @@ void FunctionGenerator::getPatternOffsetFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "GetPatternOffsetEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4268,7 +4511,8 @@ void FunctionGenerator::getPatternFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "GetPatternEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnPAT,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4337,7 +4581,8 @@ void FunctionGenerator::makeListFunctionFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeListFunctionEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnMakeListFun,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnMakeListFun,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4352,7 +4597,8 @@ void FunctionGenerator::makeListSizeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeListSizeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4417,7 +4663,8 @@ void FunctionGenerator::envLibEnvelopeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "EnvLibEnvelopeEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4432,7 +4679,8 @@ void FunctionGenerator::envLibScalingFactorFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "EnvLibScalingFactorEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4480,7 +4728,8 @@ void FunctionGenerator::readENVFileTextChanged(){
 }
 
 
-FunctionGenerator::MakeEnvelopeSubAlignment::MakeEnvelopeSubAlignment(FunctionGenerator* _parent){
+FunctionGenerator::MakeEnvelopeSubAlignment::MakeEnvelopeSubAlignment(
+  FunctionGenerator* _parent){
 	parent = _parent;
 	prev = NULL;
 	next = NULL;
@@ -4488,7 +4737,8 @@ FunctionGenerator::MakeEnvelopeSubAlignment::MakeEnvelopeSubAlignment(FunctionGe
 	  attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenMakeEnvelopeSubAlignment.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/FunGenMakeEnvelopeSubAlignment.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -4499,7 +4749,8 @@ FunctionGenerator::MakeEnvelopeSubAlignment::MakeEnvelopeSubAlignment(FunctionGe
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenMakeEnvelopeSubAlignment.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunGenMakeEnvelopeSubAlignment.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -4527,7 +4778,8 @@ FunctionGenerator::MakeEnvelopeSubAlignment::MakeEnvelopeSubAlignment(FunctionGe
   row[typeColumns.m_col_type] = envSegmentTypeSpline;
   row[typeColumns.m_col_name] = "SPLINE"; 	
   
-  combobox->signal_changed().connect( sigc::mem_fun(*this,&FunctionGenerator::MakeEnvelopeSubAlignment::textChanged) );
+  combobox->signal_changed().connect( sigc::mem_fun(
+    *this,&FunctionGenerator::MakeEnvelopeSubAlignment::textChanged) );
 combobox->set_active(0);
     combobox->pack_start(typeColumns.m_col_name);
   
@@ -4545,7 +4797,8 @@ combobox->set_active(0);
   row[propertyColumns.m_col_property] = envSegmentPropertyFixed;
   row[propertyColumns.m_col_name] = "FIXED";  
   
-  combobox->signal_changed().connect( sigc::mem_fun(*this,&FunctionGenerator::MakeEnvelopeSubAlignment::textChanged) );  
+  combobox->signal_changed().connect( sigc::mem_fun(
+    *this,&FunctionGenerator::MakeEnvelopeSubAlignment::textChanged) );  
 	combobox->set_active(0);  
     combobox->pack_start(propertyColumns.m_col_name);	
 	
@@ -4553,30 +4806,39 @@ combobox->set_active(0);
 
   attributesRefBuilder->get_widget(
     "XValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::xValueFunButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, 
+    &FunctionGenerator::MakeEnvelopeSubAlignment::xValueFunButtonClicked));
 
   attributesRefBuilder->get_widget(
     "YValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::yValueFunButtonClicked));   
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, 
+    &FunctionGenerator::MakeEnvelopeSubAlignment::yValueFunButtonClicked));   
   
   attributesRefBuilder->get_widget(
     "InsertNodeButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::insertNodeButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, 
+    &FunctionGenerator::MakeEnvelopeSubAlignment::insertNodeButtonClicked));
 
   attributesRefBuilder->get_widget(
     "RemoveNodeButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::removeButtonClicked)); 
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::MakeEnvelopeSubAlignment::removeButtonClicked)); 
   
 	Gtk::Entry* entry;
    
   attributesRefBuilder->get_widget(
     "XValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
   entry->set_text("");  
 
   attributesRefBuilder->get_widget(
     "YValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::MakeEnvelopeSubAlignment::textChanged)); 
   entry->set_text("");
    
    	
@@ -4595,7 +4857,8 @@ std::string FunctionGenerator::MakeEnvelopeSubAlignment::getXValueString(){
 	return entry->get_text();
 }
 
-void FunctionGenerator::MakeEnvelopeSubAlignment::setXValueString(std::string _string){
+void FunctionGenerator::MakeEnvelopeSubAlignment::setXValueString(
+  std::string _string){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget("XValueEntry", entry);
 	return entry->set_text(_string);
@@ -4608,7 +4871,8 @@ std::string FunctionGenerator::MakeEnvelopeSubAlignment::getYValueString(){
 	return entry->get_text();
 }
 
-void FunctionGenerator::MakeEnvelopeSubAlignment::setYValueString(std::string _string){
+void FunctionGenerator::MakeEnvelopeSubAlignment::setYValueString(
+  std::string _string){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget("YValueEntry", entry);
 	return entry->set_text(_string);
@@ -4629,7 +4893,8 @@ void FunctionGenerator::MakeEnvelopeSubAlignment::setEnvSegmentType(int _type){
   combobox->set_active(_type);
 }
 
-envSegmentProperty FunctionGenerator::MakeEnvelopeSubAlignment::getEnvSegmentProperty(){
+envSegmentProperty FunctionGenerator:: 
+                   MakeEnvelopeSubAlignment::getEnvSegmentProperty(){
   Gtk::ComboBox* combobox;
   attributesRefBuilder->get_widget("SegPropertyComboBox", combobox);
   Gtk::TreeModel::iterator iter = combobox->get_active();
@@ -4639,7 +4904,8 @@ envSegmentProperty FunctionGenerator::MakeEnvelopeSubAlignment::getEnvSegmentPro
 }
 
 
-void FunctionGenerator::MakeEnvelopeSubAlignment::setEnvSegmentProperty(int _property){
+void FunctionGenerator::MakeEnvelopeSubAlignment::setEnvSegmentProperty(
+  int _property){
   Gtk::ComboBox* combobox;
   attributesRefBuilder->get_widget("SegPropertyComboBox", combobox);
   combobox->set_active(_property);
@@ -4661,7 +4927,8 @@ void FunctionGenerator::MakeEnvelopeSubAlignment::xValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "XValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4677,7 +4944,8 @@ void FunctionGenerator::MakeEnvelopeSubAlignment::yValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "YValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4776,7 +5044,8 @@ void FunctionGenerator::makeEnvelopeTextChanged(){
 
 }
 
-void FunctionGenerator::makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insertAfter){
+void FunctionGenerator::makeEnvelopeInsertNode(
+  MakeEnvelopeSubAlignment* _insertAfter){
 	MakeEnvelopeSubAlignment* newNode = new MakeEnvelopeSubAlignment(this);
 	newNode->next = _insertAfter->next;
 	newNode->prev = _insertAfter;
@@ -4809,7 +5078,8 @@ void FunctionGenerator::makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insert
 	show_all_children();
 }
 
-void FunctionGenerator::makeEnvelopeRemoveNode(MakeEnvelopeSubAlignment* _remove){
+void FunctionGenerator::makeEnvelopeRemoveNode(
+  MakeEnvelopeSubAlignment* _remove){
   if (makeEnvelopeNumOfNodes ==1) {
     return; //not allow to remove the last node
   }
@@ -4850,7 +5120,8 @@ void FunctionGenerator::makeEnvelopeScalingFactorFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeScalingFactorEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4870,7 +5141,8 @@ void FunctionGenerator::makeEnvelopeXValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeXValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4886,7 +5158,8 @@ void FunctionGenerator::makeEnvelopeYValueFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeEnvelopeYValueEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4902,7 +5175,8 @@ void FunctionGenerator::makePatternIntervalsFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakePatternIntervalsEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4937,7 +5211,8 @@ void FunctionGenerator::expandPatternModuloFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternModuloEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4952,7 +5227,8 @@ void FunctionGenerator::expandPatternLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4967,7 +5243,8 @@ void FunctionGenerator::expandPatternHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -4982,7 +5259,8 @@ void FunctionGenerator::expandPatternPatternFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ExpandPatternPatternEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnPAT,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5044,7 +5322,8 @@ void FunctionGenerator::readPATFileOriginFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ReadPATFileOriginEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5061,7 +5340,7 @@ void FunctionGenerator::readPATFileTextChanged(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
     "ReadPATFileNameEntry", entry);
-  std::string stringbuffer = "ReadPATFile( \"PAT/" + entry->get_text() +  "\", ";
+  std::string stringbuffer ="ReadPATFile( \"PAT/" + entry->get_text() +  "\", ";
   attributesRefBuilder->get_widget(
     "ReadPATFileOriginEntry", entry);
   stringbuffer =stringbuffer + entry->get_text() + ")";
@@ -5092,7 +5371,8 @@ void FunctionGenerator::REV_SimpleEntryFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_SimpleEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5123,7 +5403,8 @@ void FunctionGenerator::REV_MediumReverbPercentFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumReverbPercentEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5137,7 +5418,8 @@ void FunctionGenerator::REV_MediumHilowSpreadFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumHilowSpreadEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5151,7 +5433,8 @@ void FunctionGenerator::REV_MediumGainAllPassFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumGainAllPassEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5165,7 +5448,8 @@ void FunctionGenerator::REV_MediumDelayFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_MediumDelayEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5208,7 +5492,8 @@ void FunctionGenerator::REV_AdvancedReverbPercentFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedReverbPercentEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5222,7 +5507,8 @@ void FunctionGenerator::REV_AdvancedCombGainListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedCombGainListEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5236,7 +5522,8 @@ void FunctionGenerator::REV_AdvancedLPGainListFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_LPGainListEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnList,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnList,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5252,7 +5539,8 @@ void FunctionGenerator::REV_AdvancedGainAllPassFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedGainAllPassEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5266,7 +5554,8 @@ void FunctionGenerator::REV_AdvancedDelayFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "REV_AdvancedDelayEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5332,7 +5621,8 @@ void FunctionGenerator::makeSieveLowFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeSieveLowEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator =
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5348,7 +5638,8 @@ void FunctionGenerator::makeSieveHighFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "MakeSieveHighEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5381,9 +5672,11 @@ void FunctionGenerator::makeSieveTextChanged(){
   stringbuffer = stringbuffer + entry->get_text()+ ", ";
   
   
-  attributesRefBuilder->get_widget("MakeSieveElementsMeaningfulRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget(
+    "MakeSieveElementsMeaningfulRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("MakeSieveElementsModsRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget(
+    "MakeSieveElementsModsRadioButton", radiobutton2); 
   
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"MEANINGFUL\", <";
@@ -5402,9 +5695,11 @@ void FunctionGenerator::makeSieveTextChanged(){
   stringbuffer = stringbuffer + entry->get_text()+ ">, ";
   
 
-  attributesRefBuilder->get_widget("MakeSieveWeightsPeriodicRadioButton", radiobutton1);  
+  attributesRefBuilder->get_widget(
+    "MakeSieveWeightsPeriodicRadioButton", radiobutton1);  
   
-  attributesRefBuilder->get_widget("MakeSieveWeightsHierarchicRadioButton", radiobutton2); 
+  attributesRefBuilder->get_widget(
+    "MakeSieveWeightsHierarchicRadioButton", radiobutton2); 
 
   if (radiobutton1->get_active()){
     stringbuffer = stringbuffer + "\"PERIODIC\", <";
@@ -5447,7 +5742,8 @@ void FunctionGenerator::readSPAFileTextChanged(){
   textview->get_buffer()->set_text(stringbuffer);
 }
 
-FunctionGenerator::SPAPartialAlignment::SPAPartialAlignment( FunctionGenerator* _parent, SPAChannelAlignment* _parentChannel){
+FunctionGenerator::SPAPartialAlignment::SPAPartialAlignment(
+  FunctionGenerator* _parent, SPAChannelAlignment* _parentChannel){
   parent = _parent;
   parentChannel = _parentChannel;
   prev = NULL;
@@ -5457,7 +5753,8 @@ FunctionGenerator::SPAPartialAlignment::SPAPartialAlignment( FunctionGenerator* 
 	attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenSPAPartialAlignment.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/FunGenSPAPartialAlignment.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -5468,7 +5765,8 @@ FunctionGenerator::SPAPartialAlignment::SPAPartialAlignment( FunctionGenerator* 
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenSPAPartialAlignment.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunGenSPAPartialAlignment.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -5480,18 +5778,24 @@ FunctionGenerator::SPAPartialAlignment::SPAPartialAlignment( FunctionGenerator* 
   
   Gtk::Button* button;
   attributesRefBuilder->get_widget( "RemoveButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::SPAPartialAlignment::removePartialButtonClicked));  
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, 
+    &FunctionGenerator::SPAPartialAlignment::removePartialButtonClicked));  
 
   attributesRefBuilder->get_widget( "InsertButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::SPAPartialAlignment::insertPartialButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, 
+    &FunctionGenerator::SPAPartialAlignment::insertPartialButtonClicked));
 
   attributesRefBuilder->get_widget( "FunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(*this, &FunctionGenerator::SPAPartialAlignment::funButtonClicked));
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::SPAPartialAlignment::funButtonClicked));
   
   
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget( "entry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::SPAPartialAlignment::textChanged));   
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SPAPartialAlignment::textChanged));   
 }
 
 FunctionGenerator::SPAPartialAlignment::~SPAPartialAlignment(){
@@ -5549,7 +5853,8 @@ void FunctionGenerator::SPAPartialAlignment::funButtonClicked(){
     return;
   }
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   generator->run(); 
    
   if (generator->getResultString() !=""){
@@ -5580,7 +5885,8 @@ void FunctionGenerator::SPAPartialAlignment::entryEditSwitch(int _flag){
 
 
 
-FunctionGenerator::SPAChannelAlignment::SPAChannelAlignment( FunctionGenerator* _parent, int _numOfPartial, int _flagButtonsShown){
+FunctionGenerator::SPAChannelAlignment::SPAChannelAlignment( 
+  FunctionGenerator* _parent, int _numOfPartial, int _flagButtonsShown){
   parent = _parent;
   prev = NULL;
   next = NULL;
@@ -5590,7 +5896,8 @@ FunctionGenerator::SPAChannelAlignment::SPAChannelAlignment( FunctionGenerator* 
   attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenSPAChannelAlignment.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/FunGenSPAChannelAlignment.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -5601,7 +5908,8 @@ FunctionGenerator::SPAChannelAlignment::SPAChannelAlignment( FunctionGenerator* 
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunGenSPAChannelAlignment.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunGenSPAChannelAlignment.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -5647,7 +5955,8 @@ FunctionGenerator::SPAChannelAlignment::~SPAChannelAlignment(){
   }
 }
 
-void FunctionGenerator::SPAChannelAlignment::setChannelTitle(std::string _title){
+void FunctionGenerator::SPAChannelAlignment::setChannelTitle(
+  std::string _title){
   Gtk::Label* label;
   attributesRefBuilder->get_widget( "TitleLabel", label);
   label ->set_text (_title);  
@@ -5820,7 +6129,10 @@ void FunctionGenerator::SPAInsertChannel(SPAChannelAlignment* _insertAfter){
 
 
   SPANumOfChannels ++;
-  SPAChannelAlignment* newChannel = new SPAChannelAlignment(this, SPANumOfPartials, _insertAfter->getButtonsShownStatus());
+  SPAChannelAlignment* newChannel = 
+    new SPAChannelAlignment(this, 
+                            SPANumOfPartials, 
+                            _insertAfter->getButtonsShownStatus());
 
   newChannel->prev = _insertAfter;
   newChannel->next = _insertAfter->next;
@@ -6142,7 +6454,8 @@ void FunctionGenerator::SPATextChanged(){
   
   if (method ==0){
     if (apply == 0){
-      stringbuffer = stringbuffer + "<" + SPAChannelAlignments->partials->getText()+ ">>";
+      stringbuffer = 
+        stringbuffer + "<" + SPAChannelAlignments->partials->getText()+ ">>";
     }
     else {
       stringbuffer = stringbuffer + "<" + SPAChannelAlignments->getText()+ ">>";
@@ -6191,7 +6504,8 @@ void FunctionGenerator::SPATextChanged(){
   
   
   
-std::string FunctionGenerator::getFunctionString(FileValue* _value,FunctionReturnType _returnType){
+std::string FunctionGenerator::getFunctionString(
+  FileValue* _value,FunctionReturnType _returnType){
   std::string stringbuffer;
   char charbuffer[20];
   if (_value->isFunction()){
@@ -6251,49 +6565,14 @@ std::string FunctionGenerator::getFunctionString(FileValue* _value,FunctionRetur
   
   
   }
-  /*
-  else {
-    if (_returnType == functionReturnInt){    
-      int intNumber = _value->getInt();
-      sprintf( charbuffer, "%d", intNumber);
-      stringbuffer = string(charbuffer);
-    }
-    else if (_returnType == functionReturnFloat){
-      float floatNumber = _value->getFloat();
-      sprintf( charbuffer, "%.5f", floatNumber);
-      stringbuffer = string(charbuffer);    
-    }
-    else if (_returnType == functionReturnString){
-      stringbuffer = _value->getString();
-    }
-    // else if (_returnType == functionReturnEnvelopeList){
-      //stringbuffer = listToString(_value->getList(),functionReturnENV);
-    //}
-    else if (_returnType == functionReturnENV){
-      if (_value->isInt()){
-
-      
-      }
-      else if (_value->isFloat()){
-      float floatNumber = _value->getFloat();
-      sprintf( charbuffer, "%.5f", floatNumber);
-      stringbuffer = string(charbuffer);
-      
-      }
-      else if (_value->isString()){
-      
-      }
-          
-    }
-    
-  }
-  */
+ 
   return stringbuffer;
 }  
   
 
 
-list<std::string> FunctionGenerator::fileValueListToStringList(list<FileValue> _valueList,FunctionReturnType _returnType){
+list<std::string> FunctionGenerator::fileValueListToStringList(
+  list<FileValue> _valueList,FunctionReturnType _returnType){
   list<string> stringList;
   
   list<FileValue>::iterator iter = _valueList.begin();
@@ -6324,7 +6603,8 @@ std::string FunctionGenerator::stringListToString(list<std::string> _list){
 
 }
 
-std::string FunctionGenerator::fileValueListToString(list<FileValue> _valueList,FunctionReturnType _returnType){
+std::string FunctionGenerator::fileValueListToString(
+  list<FileValue> _valueList,FunctionReturnType _returnType){
   return stringListToString(fileValueListToStringList( _valueList, _returnType));
 }
   

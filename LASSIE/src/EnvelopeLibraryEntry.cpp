@@ -44,46 +44,15 @@ EnvelopeLibraryEntry::EnvelopeLibraryEntry(int _number){
   head->rightSeg->rightNode = new EnvLibEntryNode(1,0);
   head->rightSeg->rightNode->leftSeg = head->rightSeg;
   
-
 }
+
+
 EnvelopeLibraryEntry::~EnvelopeLibraryEntry(){//delete segments!}
-}
-
-
-
-void EnvelopeLibraryEntry::print(){
-
-  EnvLibEntrySeg* currentSeg = head->rightSeg;
-  EnvLibEntrySeg* prevSeg = NULL;
-  
-  while (currentSeg != NULL){
-  	cout<<"x: "<<currentSeg->leftNode->x<<", y: "<<currentSeg->leftNode->y<<", ";
-  	if (currentSeg->segmentType == envSegmentTypeLinear){
-  		cout<<"LINEAR, ";
-  	}
-  	else if (currentSeg->segmentType == envSegmentTypeSpline){
-  		cout<<"SPLINE, ";
-  	}
-  	else {
-  		cout<<"EXPONENTIAL, ";
-  	}
-  	
-  	if (currentSeg->segmentProperty ==envSegmentPropertyFlexible){
-  		cout<<"FLEXIBLE"<<endl;
-  	}
-  	else{
-  		cout<<"FIXED"<<endl;
-  	}	
-  
-		prevSeg = currentSeg;
-		currentSeg = currentSeg->rightNode->rightSeg;
-
-  }
-  	cout<<"x: "<<prevSeg->rightNode->x<<", y: "<<prevSeg->rightNode->y<<endl;
-  
-
+//TODO: lassie doesn't support deleting envelope so far so no worry about it.
 
 }
+
+
 
 int EnvelopeLibraryEntry::count(){
   if (next == NULL) return 1;
@@ -169,22 +138,31 @@ EnvelopeLibraryEntry::EnvelopeLibraryEntry(Envelope* _envelope,int _number){
     else {
       currentSeg->segmentType = envSegmentTypeLinear;
     }
-    
-    //thisLassSegment = &(lassSegments->get(1));
-    //head->rightSeg->rightNode->y = thisLassSegment->y;   
-  
+     
   }// end of for loop
 
-	currentSeg->rightNode = new EnvLibEntryNode(segments->get(i).x, segments->get(i).y);
-	//cout<<"test1"<<endl;
+	currentSeg->rightNode = new EnvLibEntryNode(segments->get(i).x, 
+	                                            segments->get(i).y);
+
 	currentSeg->rightNode->leftSeg = currentSeg;
-	//cout<<"test2"<<endl;
-	//cout<<_envelope->getSegmentInterpolationType(i)<<", "<<_envelope->getSegmentLengthType(i)<<endl; //right things to call
-		
-	
 
 }
 
+
+EnvLibEntrySeg::EnvLibEntrySeg():
+  leftNode(NULL),
+  rightNode(NULL),
+  segmentType(envSegmentTypeLinear),
+  segmentProperty(envSegmentPropertyFlexible){}
+
+
+
+
+EnvLibEntryNode::EnvLibEntryNode(double _x, double _y):
+  leftSeg(NULL),rightSeg(NULL),x(_x),y(_y){}
+  
+int EnvLibEntryNode::countNumOfNodes(){
+  return (rightSeg==NULL)?1:1+rightSeg->rightNode->countNumOfNodes();}
 
 
 
