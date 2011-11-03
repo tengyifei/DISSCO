@@ -39,7 +39,8 @@
 #define COLUMN_WIDTH 200
 
 
-ObjectWindow::ObjectWindow(EventType _type, ProjectViewController* _projectView){
+ObjectWindow::ObjectWindow(
+  EventType _type, ProjectViewController* _projectView){
   resize(500, COLUMN_WIDTH);
   type = _type;
   activeProject = _projectView;
@@ -71,11 +72,13 @@ ObjectWindow::ObjectWindow(EventType _type, ProjectViewController* _projectView)
       }
       break;
     case 5: {title = "Spectra";
-          objects = activeProject->getPalette()->getObjectsLinkedList("Spectrum");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Spectrum");
       }
       break;
     case 6: {title = "Envelopes";
-          objects = activeProject->getPalette()->getObjectsLinkedList("Envelope");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Envelope");
       }
       break;
     case 7: {title = "Sieves";
@@ -83,11 +86,13 @@ ObjectWindow::ObjectWindow(EventType _type, ProjectViewController* _projectView)
       }
       break;
     case 8: {title = "Spatializations";
-          objects = activeProject->getPalette()->getObjectsLinkedList("Spatialization");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Spatialization");
       }
       break;
     case 9: {title = "Patterns";
-          objects = activeProject->getPalette()->getObjectsLinkedList("Pattern");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Pattern");
       }
       break;
     case 10: {title = "Reverberations";
@@ -122,7 +127,8 @@ ObjectWindow::ObjectWindow(EventType _type, ProjectViewController* _projectView)
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/ObjectWindow.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/ObjectWindow.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -200,11 +206,13 @@ void ObjectWindow::refresh(){
       }
       break;
     case 5: {
-          objects = activeProject->getPalette()->getObjectsLinkedList("Spectrum");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Spectrum");
       }
       break;
     case 6: {
-          objects = activeProject->getPalette()->getObjectsLinkedList("Envelope");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Envelope");
       }
       break;
     case 7: {
@@ -212,11 +220,13 @@ void ObjectWindow::refresh(){
       }
       break;
     case 8: {
-          objects = activeProject->getPalette()->getObjectsLinkedList("Spatialization");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Spatialization");
       }
       break;
     case 9: {
-          objects = activeProject->getPalette()->getObjectsLinkedList("Pattern");
+          objects = activeProject->getPalette()->
+            getObjectsLinkedList("Pattern");
       }
       break;
     case 10: {
@@ -231,23 +241,7 @@ void ObjectWindow::refresh(){
   
   numOfObjectsChange();  
 
-  /*int count = 0;
   
-  vector<IEvent*>::iterator iter = activeProject->events.begin();
-  //first figure out how many events will be put in the table
-  for (iter; iter!= activeProject->events.end(); iter++){
-    if ((*iter)->getEventType() ==type){
-      count++;
-    }
-  }
-  int width;
-  int height;
-  get_size(width, height);
-  
-  int newNumOfColumns = width / 200;
-  
-  cout<<"we have "<<count<<" objects. Width: "<<width<<", height: "<<height<<", numOfColumns = "<<numOfColumns<<endl;  
-  */
 }
 
 
@@ -307,9 +301,9 @@ void ObjectWindow::sizeChange(int _newNumOfColumns){
   int columnIndex = 0;
   
   while (currentPackage != NULL){
-    //table->attach(*currentPackage,columnIndex, columnIndex+1, rowIndex, rowIndex+1,Gtk::EXPAND, Gtk::EXPAND, 0,0);
-    //table->add(*currentPackage);
-    table->attach(*currentPackage,columnIndex, columnIndex+1, rowIndex, rowIndex+1);
+    
+    table->attach(
+      *currentPackage,columnIndex, columnIndex+1, rowIndex, rowIndex+1);
 
     columnIndex ++;
     currentPackage= currentPackage->next;
@@ -327,7 +321,8 @@ void ObjectWindow::sizeChange(int _newNumOfColumns){
 }
   
   
-ObjectWindowObjectPackage::ObjectWindowObjectPackage(ProjectViewController* _projectView){
+ObjectWindowObjectPackage::ObjectWindowObjectPackage(
+  ProjectViewController* _projectView){
   projectView = _projectView;
   this->signal_pressed().connect(
     sigc::mem_fun(
@@ -393,8 +388,7 @@ void ObjectWindow::numOfObjectsChange(){
   int columnIndex = 0;
   
   while (currentPackage != NULL){
-    //table->attach(*currentPackage,columnIndex, columnIndex+1, rowIndex, rowIndex+1,Gtk::EXPAND, Gtk::EXPAND, 0,0);
-    //table->add(*currentPackage);
+
     table->attach(*currentPackage,columnIndex, columnIndex+1, rowIndex, rowIndex+1);
 
     columnIndex ++;

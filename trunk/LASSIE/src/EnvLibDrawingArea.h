@@ -52,7 +52,6 @@ private:
 
   EnvLibEntrySeg* activeSegment;
   EnvLibEntryNode* activeNode;
-  //bool headChosen;// flag to indicate if the head is chosen by the user to modify
   
   double moveLeftBound;
   double moveRightBound;

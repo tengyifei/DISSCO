@@ -183,26 +183,41 @@ MainWindow::MainWindow(){
 
   // File|New sub menu:
   menuRefActionGroup->add(
-    Gtk::Action::create("FileNewProject",Gtk::Stock::NEW,"Create a new project"),
+    Gtk::Action::create(
+      "FileNewProject",
+      Gtk::Stock::NEW,
+      "Create a new project"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewProject));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileNewObject",Gtk::Stock::ADD,"_Create a new Object", "Create a new object"),
-		Gtk::AccelKey("<alt>N"),
+    Gtk::Action::create(
+      "FileNewObject",
+      Gtk::Stock::ADD,
+      "_Create a new Object", 
+      "Create a new object"),
+		  Gtk::AccelKey("<alt>N"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewObject));
 
 
   // File and its sub-menu
   menuRefActionGroup->add(Gtk::Action::create("FileMenu", "File"));
 
-  //menuRefActionGroup->add(Gtk::Action::create("FileNew", "New"));
+
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileOpen",Gtk::Stock::OPEN, "_Open an existing project","Open an existing project"),
+    Gtk::Action::create(
+      "FileOpen",
+      Gtk::Stock::OPEN, 
+      "_Open an existing project",
+      "Open an existing project"),
     sigc::mem_fun(*this, &MainWindow::menuFileOpen));
 
   menuRefActionGroup->add(
-    Gtk::Action::create("FileSave",Gtk::Stock::SAVE,"_Save the project","Save the project"),
+    Gtk::Action::create(
+      "FileSave",
+      Gtk::Stock::SAVE,
+      "_Save the project",
+      "Save the project"),
     sigc::mem_fun(*this, &MainWindow::menuFileSave));
 
   menuRefActionGroup->add(
@@ -290,7 +305,8 @@ MainWindow::MainWindow(){
   menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(false);
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
-  menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(false);  
+  menuRefActionGroup->get_action(
+    "ConfigureNoteModifiers")->set_sensitive(false);  
 
 
 
@@ -399,8 +415,6 @@ MainWindow::MainWindow(){
   ((Gtk::Toolbar*)pointerToToolbarWidget)->set_toolbar_style(Gtk::TOOLBAR_BOTH);
 
 
-  //Gtk::MenuItem* newObject = (Gtk::MenuItem*)menuRefUIManager->get_widget("/FileNewObject");
-	//newObject->add_accel_label("N");
 
 
 
@@ -425,7 +439,8 @@ MainWindow::MainWindow(){
 
   
 
-  Gtk::Main::signal_key_snooper().connect(sigc::mem_fun(*this,&MainWindow::captureKeyStroke));
+  Gtk::Main::signal_key_snooper().connect(
+    sigc::mem_fun(*this,&MainWindow::captureKeyStroke));
   
  
   show_all_children();
@@ -456,7 +471,8 @@ void MainWindow::menuFileNewProject(){
     menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
-    menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);     
+    menuRefActionGroup->get_action(
+      "ConfigureNoteModifiers")->set_sensitive(true);     
     disableNewAndOpenProject();
 
     projects.push_back(newProject);
@@ -485,7 +501,8 @@ void MainWindow::menuFileOpen(){
     menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
-    menuRefActionGroup->get_action("ConfigureNoteModifiers")->set_sensitive(true);      
+    menuRefActionGroup->get_action(
+      "ConfigureNoteModifiers")->set_sensitive(true);      
     disableNewAndOpenProject();
       
     projects.push_back(openProject);
@@ -615,7 +632,8 @@ void MainWindow::includeUi_info(Glib::ustring pathAndName,
 
     pointerToToolbarWidget = menuRefUIManager->get_widget("/ToolBar");
     if(pointerToToolbarWidget){ // add tool
-      ((Gtk::Toolbar*)pointerToToolbarWidget)->set_toolbar_style(Gtk::TOOLBAR_BOTH);
+      ((Gtk::Toolbar*)pointerToToolbarWidget)->
+        set_toolbar_style(Gtk::TOOLBAR_BOTH);
       mainBox.pack_start(*pointerToToolbarWidget, Gtk::PACK_SHRINK);
     }
   }else if(ctrl == "delete"){}//TODO
@@ -638,9 +656,11 @@ void MainWindow::showEnvelopeLibraryWindow(){
 }
 
 
-int MainWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
+int MainWindow::captureKeyStroke(
+  Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
 
-  if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 65535){ //delete key stroke
+  //delete key stroke
+  if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 65535){
     if (projectView != NULL&& projectView->getPathAndName() != " "){
       projectView->deleteKeyPressed(get_focus());
     }
@@ -682,11 +702,13 @@ void MainWindow::menuProjectSynthesize(){
 
   
   //Load the GtkBuilder file and instantiate its widgets:
-  Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = Gtk::Builder::create();
+  Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = 
+    Gtk::Builder::create();
 
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
     try{
-      synthesizeDialogRefBuilder->add_from_file("./LASSIE/src/UI/SynthesizeDialog.ui");
+      synthesizeDialogRefBuilder->add_from_file(
+        "./LASSIE/src/UI/SynthesizeDialog.ui");
     }
     catch(const Glib::FileError& ex){
       std::cerr << "FileError: " << ex.what() << std::endl;
@@ -697,7 +719,8 @@ void MainWindow::menuProjectSynthesize(){
   #else
     std::auto_ptr<Glib::Error> error;
 
-    if (!synthesizeDialogRefBuilder->add_from_file("./LASSIE/src/UI/SynthesizeDialog.ui", error)){
+    if (!synthesizeDialogRefBuilder->add_from_file(
+      "./LASSIE/src/UI/SynthesizeDialog.ui", error)){
       std::cerr << error->what() << std::endl;
     }
   #endif // !GLIBMM_EXCEPTIONS_ENABLED 
@@ -710,7 +733,8 @@ void MainWindow::menuProjectSynthesize(){
 
 
   Gtk::Entry* randomSeedEntry;
-  synthesizeDialogRefBuilder->get_widget("SynthesizeDialogRandomSeedEntry", randomSeedEntry);
+  synthesizeDialogRefBuilder->get_widget(
+    "SynthesizeDialogRandomSeedEntry", randomSeedEntry);
 	randomSeedEntry->grab_focus();
 
   int result = synthesizeDialog->run();
@@ -729,11 +753,10 @@ void MainWindow::menuProjectSynthesize(){
     //FILE* newBufferFile = fopen (dat.c_str(), "r");
     yyin = fopen (dat.c_str(), "r");
     
-    //cout<<"LASSIE::MainWindow::synthesize: Synthesizing, filename is: "<< dat<<endl;
+    
     // create a new buffer for parser
     YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
-    //YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( newBufferFile,YY_BUF_SIZE);
-    //cout<<"LASSIE::MainWindow::synthesize: create new yy_buffer_state done"<<endl;
+
     
     yy_switch_to_buffer (newParserBuffer);
     
@@ -746,7 +769,8 @@ void MainWindow::menuProjectSynthesize(){
       
     if(soundFilename == "")
       cout << "A new soundfile name could not be reserved." << endl;
-      //TODO: Make message box to warn user. (But this error should probably not happen!)
+      //TODO: Make message box to warn user. 
+      //(But this error should  not happen!)
     else {
       
       
@@ -758,27 +782,15 @@ void MainWindow::menuProjectSynthesize(){
       system(command.c_str()); 
       command = "touch " + projectPath + randomSeedEntry->get_text()+".seed"; 
       system(command.c_str()) ;
-      //gnome-terminal -e "bash -c \"./cmod /home/percle/Software/dissco/branches/ming/xtestcmodresponse; exec bash\""
       command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath;     
       command = command + " ; exec bash\\\"\""; 
       system(command.c_str()) ;
-      //}
-      //else {
-        //cout<<"This is the parent"<<endl;
-    	  yy_delete_buffer(newParserBuffer);      
-      //}
-      
-      
-      //PieceHelper::createPiece(projectPath, projectName, randomSeedEntry->get_text(), soundFilename);
-	
-	  //yy_delete_buffer(newParserBuffer);
-	  
-	  //fclose(newBufferFile);
+  	  yy_delete_buffer(newParserBuffer);      
+
 	  }
 	  
 	}
-	
-	
+		
 }
 
 

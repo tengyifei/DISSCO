@@ -52,7 +52,6 @@ public:
 
 
   Glib::ustring folderSelected(); // check if any row is selected;
-  //Event* getCurrentSelectedEvent();
   Gtk::Label* mouseCoordinate;
   ProjectViewController* activeProject;  
 protected:
@@ -78,13 +77,9 @@ protected:
   public:
     Columns(){
       add(columnObjectNumber);
-     // add(columnObjectName);
-    /*add (columnButton)*/;
       add(columnEntry);
     }
     Gtk::TreeModelColumn<Glib::ustring> columnObjectNumber;
-    //Gtk::TreeModelColumn<Glib::ustring> columnObjectName;
-    
     Gtk::TreeModelColumn<EnvelopeLibraryEntry*> columnEntry;
   };
   
@@ -93,10 +88,6 @@ protected:
   Gtk::ScrolledWindow scrolledWindow;
   Gtk::TreeView envelopeLibrary;
   Glib::RefPtr<Gtk::TreeStore> refTreeModel;
-
-  
- 	
-
   Gtk::TreeModel::Row selectedRow;
 
 private:

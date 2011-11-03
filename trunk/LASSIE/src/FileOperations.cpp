@@ -32,7 +32,7 @@
 #include "MainWindow.h"
 
 ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
-  //_mainWindow->set_title("LASSIE");
+  
 
   // setup the new project dialog window 
   Gtk::FileChooserDialog dialog("New Project", Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -42,7 +42,7 @@ ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
     dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
-  //dialog.set_do_overwrite_confirmation(true); 
+
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
@@ -77,7 +77,7 @@ ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
 
 std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
 
- //_mainWindow->set_title("LASSIE");
+
 
   // setup the new project dialog window 
   Gtk::FileChooserDialog dialog("Save As...", Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -87,7 +87,7 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
   dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
-  //dialog.set_do_overwrite_confirmation(true); 
+ 
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
@@ -147,36 +147,7 @@ void FileOperations::createDirectories(std::string _pathAndName){
 
 
 void FileOperations::close(MainWindow* _mainWindow){
-//TODO
-  /*
-   create a dialog message to ask the user if they want to save the file
-   Gtk::MessageDialog dialog(*this, 
-   "Save current project before creating a new one?",
-   false /* use_markup *//*, Gtk::MESSAGE_QUESTION,
-                          Gtk::BUTTONS_OK,Gtk::BUTTONS_CLOSE);
-                          dialog.set_secondary_text("You will lose your unsaved change in the current"
-                          " project if you create a new project without saving the current one.\n"
-                          "\n\n"
-                          "Press Yes to save your current project.\n"
-                          "Press No to create a new project without saving the current one.\n"
-                          "Press Cancel to cancel creating a new project.");
-                          dialog.add_button(Gtk::Stock::NO, Gtk::RESPONSE_NO);
-                          dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-                          int result = dialog.run();
-                          
-                          //determine action based on the result
-                          if (result == Gtk::RESPONSE_OK){ 
-                          menuFileSave();
-                          menuFileClose();
-                          createNewProject();
-                          }
-                          else if ( result == Gtk::RESPONSE_NO){ // discard current project
-                          menuFileClose();
-                          createNewProject();
-                          }
-                          else { // cancel, leave the dialog
-                          }
-                          */
+
   
 }
 
@@ -282,8 +253,8 @@ void fileNameExist::duplicateProjectName(){
   Gtk::MessageDialog dialog(*this, "Folder with the same name exists");
   dialog.set_secondary_text(
           "When creating a new project, LASSIE creats a directory with the"
-          " new project name in the specified path. However, the directory with " 
-          "the same name as the new project being created has already existed." 
+          " new project name in the specified path. However, the directory with" 
+          " the same name as the new project being created has already existed." 
           " Please give your new project a different name or rename the"
           " existing directory." );
 
@@ -296,8 +267,9 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   //_mainWindow->set_title("LASSIE");
   
   // setup the open project dialog window 
-  //Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_OPEN);
-  Gtk::FileChooserDialog dialog("Open existing project", Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+  
+  Gtk::FileChooserDialog dialog("Open existing project",
+                                Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
   
   
   dialog.set_transient_for(*_mainWindow);
@@ -305,7 +277,7 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   // Add response buttons the the dialog:
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-  //dialog.set_do_overwrite_confirmation(true); 
+
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
@@ -396,7 +368,9 @@ std::string FileOperations::pickDatFile(MainWindow* _mainWindow){
 
 
 
-std::string FileOperations::pickLibFile(MainWindow* _mainWindow,std::string _defaultPath){
+std::string FileOperations::pickLibFile(
+  MainWindow* _mainWindow,
+  std::string _defaultPath){
  std::string libFile =  _defaultPath + "/"+
                         FileOperations::stringToFileName(_defaultPath)
                         + ".lib"; 

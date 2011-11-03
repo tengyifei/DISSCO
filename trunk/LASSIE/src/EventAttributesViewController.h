@@ -64,11 +64,14 @@ class ProjectViewController;
 class SharedPointers;
 class EventAttributesViewController;
 
-class BottomEventModifierAlignment: public Gtk::Alignment{ //implement as doubly linked list for convenience
+//implement as doubly linked list for convenience
+class BottomEventModifierAlignment: public Gtk::Alignment{ 
 public:
   BottomEventModifierAlignment* prev;
   BottomEventModifierAlignment* next;
-  BottomEventModifierAlignment(EventBottomModifier* _modifier,EventAttributesViewController* _attributesView);
+  BottomEventModifierAlignment(
+    EventBottomModifier* _modifier,
+    EventAttributesViewController* _attributesView);
   ~BottomEventModifierAlignment();
   EventBottomModifier* modifier;
   void saveToEvent();

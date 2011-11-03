@@ -66,7 +66,8 @@ EventAttributesViewController::EventAttributesViewController(
     std::cerr << "BuilderError: " << ex.what() << std::endl;
   }
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/BottomSubAttributes.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/BottomSubAttributes.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -76,7 +77,8 @@ EventAttributesViewController::EventAttributesViewController(
   }
   
   try{
-    attributesRefBuilderSound->add_from_file("./LASSIE/src/UI/SoundAttributes.ui");
+    attributesRefBuilderSound->add_from_file(
+      "./LASSIE/src/UI/SoundAttributes.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -86,7 +88,8 @@ EventAttributesViewController::EventAttributesViewController(
   }
 #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/Attributes.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/Attributes.ui", error)){
     std::cerr << error->what() << std::endl;
   }
   
@@ -334,21 +337,6 @@ EventAttributesViewController::EventAttributesViewController(
   
 
   bottomSubAttributesShown = false;
-  /*
-   //connect 2 sieve entries with focus_out signal to check if the entered name is a legit sieve
-   
-   attributesRefBuilder->get_widget("attributesChildEventDefAttackSieveEntry", entry);
-   entry->add_events(Gdk::FOCUS_CHANGE_MASK);
-   entry->signal_focus_out_event().connect(
-   sigc::mem_fun(*this,&EventAttributesViewController::checkAttackSieve) );
-   
-   
-   attributesRefBuilder->get_widget("attributesChildEventDefDurationSieveEntry", entry);
-   entry->add_events(Gdk::FOCUS_CHANGE_MASK);
-   entry->signal_focus_out_event().connect(
-   sigc::mem_fun(*this,&EventAttributesViewController::checkDurationSieve) );
-   
-   */
    
   Gtk::Button* button;
 
@@ -469,7 +457,8 @@ EventAttributesViewController::EventAttributesViewController(
     
   
   
-  // this section connect entrychange to modified in order to show '*' at the title
+  // this section connect entrychange to modified 
+  //in order to show '*' at the title
   attributesRefBuilder->get_widget(
     "attributesStandardMaxChildDurEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
@@ -644,7 +633,7 @@ void EventAttributesViewController::modified(){
 }
 
 
-bool EventAttributesViewController::checkAttackSieve(/*GdkEventFocus *focus*/){
+bool EventAttributesViewController::checkAttackSieve(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "attributesChildEventDefAttackSieveEntry", entry);
@@ -658,7 +647,7 @@ bool EventAttributesViewController::checkAttackSieve(/*GdkEventFocus *focus*/){
 }
 
 
-bool EventAttributesViewController::checkDurationSieve(/*GdkEventFocus *focus*/){
+bool EventAttributesViewController::checkDurationSieve(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "attributesChildEventDefDurationSieveEntry", entry);
@@ -808,11 +797,11 @@ void EventAttributesViewController::saveCurrentShownEventData(){
         "attributesStandardTempoAsFractionEntry1", entry);
       currentlyShownEvent->setTempoFractionEntry1(entry->get_text());   
 
-
-
+  
+      //save the value here in order to restore data when showing attributes  
     	attributesRefBuilder->get_widget(
-      	"attributesStandardTempoValueEntry", entry);
-    	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());   //save the value here in order to restore data when showing attributes 
+      	"attributesStandardTempoValueEntry", entry);      	
+    	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());   
 
 
       Gtk::ComboBox* combobox;
@@ -903,9 +892,7 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
     
     
-    
-    
-    
+        
     
     
     // set childEventDef here
@@ -1044,37 +1031,41 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     } // descrete
     
 
-       
-    if (currentlyShownEvent->getEventType()==eventBottom){ //save BottomExtraInfo
+    //save BottomExtraInfo   
+    if (currentlyShownEvent->getEventType()==eventBottom){ 
       attributesRefBuilder->get_widget(
         "BottomSubAttributesWellTemperedButton", radioButton); 
       if (radioButton->get_active()){
-        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(0);//0 = well tempered
+        //well tempered
+        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(0);
         
         attributesRefBuilder->get_widget(
           "BottomSubAttributesWellTemperedEntry", entry);
-        currentlyShownEvent->getEventExtraInfo()->setFrequencyEntry1(entry->get_text());
+        currentlyShownEvent->getEventExtraInfo()->
+          setFrequencyEntry1(entry->get_text());
         
       }   
+   
       attributesRefBuilder->get_widget(
-        "BottomSubAttributesFundamentalButton", radioButton); 
-        
-        
+        "BottomSubAttributesFundamentalButton", radioButton);      
       if (radioButton->get_active()){
-        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(1);//1 = fundamental
+        //1 = fundamental
+        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(1);
         attributesRefBuilder->get_widget(
           "BottomSubAttributesFunFreqEntry1", entry);
         currentlyShownEvent->getEventExtraInfo()->setFrequencyEntry1(entry->get_text());        
 
         attributesRefBuilder->get_widget(
           "BottomSubAttributesFunFreqEntry2", entry);
-        currentlyShownEvent->getEventExtraInfo()->setFrequencyEntry2(entry->get_text());          
+        currentlyShownEvent->getEventExtraInfo()->
+          setFrequencyEntry2(entry->get_text());          
         
       }   
       attributesRefBuilder->get_widget(
         "BottomSubAttributesContinuumButton", radioButton); 
       if (radioButton->get_active()){
-        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(2);//2 = continuum
+        //2 = continuum
+        currentlyShownEvent->getEventExtraInfo()->setFrequencyFlag(2);
           attributesRefBuilder->get_widget(
             "BottomSubAttributesContinuumEntry", entry);
           currentlyShownEvent->getEventExtraInfo()->setFrequencyEntry1(entry->get_text());   
@@ -1082,11 +1073,13 @@ void EventAttributesViewController::saveCurrentShownEventData(){
         attributesRefBuilder->get_widget(
           "BottomSubAttributesHertzButton", radioButton);    
         if (radioButton->get_active()){  //hertz
-          currentlyShownEvent->getEventExtraInfo()->setFrequencyContinuumFlag(0);        
+          currentlyShownEvent->getEventExtraInfo()->
+            setFrequencyContinuumFlag(0);        
         
         }       
         else {// power of 2
-          currentlyShownEvent->getEventExtraInfo()->setFrequencyContinuumFlag(1);         
+          currentlyShownEvent->getEventExtraInfo()->
+            setFrequencyContinuumFlag(1);         
         }  
       } 
       
@@ -1103,7 +1096,6 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
     if (modifiers!=NULL){
       modifiers->saveToEvent();
-    
     }
     
     
@@ -1114,24 +1106,20 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
   }//end if normal events
   else if (currentlyShownEvent->getEventType() ==eventSound){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     
     Gtk::Entry* entry;
 
-    //attributesRefBuilderSound->get_widget(
-      //"SoundAttributesNumPartialEntry", entry);
-    //extraInfo->setNumPartials(entry->get_text());
     
     attributesRefBuilderSound->get_widget(
       "SoundAttributesDeviationEntry", entry);
     extraInfo->setDeviation(entry->get_text());
+  }  
     
-    //attributesRefBuilderSound->get_widget(
-      //"SoundAttributesSpectrumEntry", entry);
-    //extraInfo->setSpectrum(entry->get_text());
-  }
   else if (currentlyShownEvent->getEventType() ==eventEnv){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     attributesRefBuilder->get_widget(
       "envelopeAttributesBuilderEntry", entry);
     extraInfo->setEnvelopeBuilder(entry->get_text());
@@ -1139,28 +1127,32 @@ void EventAttributesViewController::saveCurrentShownEventData(){
 
   }  
   else if (currentlyShownEvent->getEventType() ==eventSiv){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     attributesRefBuilder->get_widget(
       "SieveAttributesBuilderEntry", entry);
     extraInfo->setSieveBuilder(entry->get_text());
 
   }    
   else if (currentlyShownEvent->getEventType() ==eventSpa){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     attributesRefBuilder->get_widget(
       "SpatializationAttributesBuilderEntry", entry);
     extraInfo->setSpatializationBuilder(entry->get_text());  
   }    
   
   else if (currentlyShownEvent->getEventType() ==eventPat){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     attributesRefBuilder->get_widget(
       "PatternAttributesBuilderEntry", entry);
     extraInfo->setPatternBuilder(entry->get_text());  
 
   }    
   else if (currentlyShownEvent->getEventType() ==eventRev){
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     attributesRefBuilder->get_widget(
       "ReverbAttributesBuilderEntry", entry);
     extraInfo->setReverbBuilder(entry->get_text());  
@@ -1168,9 +1160,11 @@ void EventAttributesViewController::saveCurrentShownEventData(){
   }  
   else if (currentlyShownEvent->getEventType() ==eventNote){
     currentlyShownEvent->setChangedButNotSaved(true);
-    IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
     extraInfo->clearNoteModifiers();
-    std::vector<Gtk::CheckButton*>::iterator iter2 = noteModifierCheckButtons.begin();
+    std::vector<Gtk::CheckButton*>::iterator iter2 = 
+      noteModifierCheckButtons.begin();
     for (iter2; iter2 != noteModifierCheckButtons.end();iter2++){
       if ((*iter2)->get_active()){
         extraInfo->addNoteModifiers((*iter2)->get_label());
@@ -1178,10 +1172,9 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     }
   } 
    
-  else if (currentlyShownEvent->getEventType() ==eventFolder){ // disable everything if it is a folder
+  // disable everything if it is a folder 
+  else if (currentlyShownEvent->getEventType() ==eventFolder){ 
 
-    
-    
     attributesRefBuilder->get_widget(
       "attributesStandardMaxChildDurEntry", entry);
     entry->set_sensitive(false);
@@ -1255,7 +1248,7 @@ void EventAttributesViewController::showCurrentEventData(){
     soundPartialHboxes = NULL;
 
   }
-  //scrolledWindow.remove(); //remove the child from the main scrolled window
+
   Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
   if (temp){
     temp->remove();
@@ -1265,8 +1258,7 @@ void EventAttributesViewController::showCurrentEventData(){
   Gtk::Label*        label;
   Gtk::RadioButton*  radioButton;
   std::string        stringBuffer; // to set/get attributes
-  //Gtk::VBox* layerBox;
-  //Gtk::Button* button;
+
   
   // show type
   attributesRefBuilder->get_widget("attributesStandardType", label);
@@ -1401,12 +1393,8 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempoNoteCombobox", combobox);        
         combobox->set_active(currentlyShownEvent->getTempoNoteValue());        
         
-        /*
-        attributesRefBuilder->get_widget(
-          "attributesStandardTempoAsFractionEntry1", entry);  
-        entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
-				*/
-				tempoEntryAsNoteValueModifiedFlag = true; // so that when switch, it'll generate the proper string
+        //when switching, it'll generate the proper string
+				tempoEntryAsNoteValueModifiedFlag = true; 
    
 
 
@@ -1425,7 +1413,9 @@ void EventAttributesViewController::showCurrentEventData(){
         	
         	char charBuffer[20];
         	
-        	int value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str());
+        	int value = atoi ( 
+        	  (originalValue.substr(
+        	  foundSlash + 1, originalValue.length())).c_str());
         	
             	
         	value = value * 60;
@@ -1434,36 +1424,16 @@ void EventAttributesViewController::showCurrentEventData(){
         	string ratioString = entry1 + "/" + charBuffer;
         	
         	Ratio ratio = Ratio(ratioString);
-        	
-        	
-        	
+
         	attributesRefBuilder->get_widget(
           	"attributesStandardTempoAsFractionEntry1", entry); 
           	
           sprintf (charBuffer, "%d", ratio.Num());	
-          	
-          	 
-        	entry->set_text(string(charBuffer));	
-        	
-        	
-      		sprintf (charBuffer, "%d", ratio.Den());	
-  	
-        	
-               	
-
-					originalTempoValueForFraction = string (charBuffer);
-					
-					
-			
+          entry->set_text(string(charBuffer));	
+        	sprintf (charBuffer, "%d", ratio.Den());	
+  	      originalTempoValueForFraction = string (charBuffer);
 					tempoEntryAsNoteValueModifiedFlag = false;
-					
-					
-					
-					
-					
-					
-					
-				
+
 				}
 
 
@@ -1475,14 +1445,6 @@ void EventAttributesViewController::showCurrentEventData(){
       entry->set_text(currentlyShownEvent->getTempoValueEntry());
 
 
-
-
-
-
-
-						
-
-      
       }
       else { //tempo as fraction
         attributesRefBuilder->get_widget(
@@ -1502,21 +1464,14 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempoAsFractionEntry1", entry);  
         entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
 
-				      attributesRefBuilder->get_widget(
-        "attributesStandardTempoValueEntry", entry);  
-      entry->set_text(currentlyShownEvent->getTempoValueEntry());
-				 
-					tempoEntryAsNoteValueModifiedFlag = true; // so that when switch, it'll generate the proper string
+				attributesRefBuilder->get_widget(
+          "attributesStandardTempoValueEntry", entry);  
+        entry->set_text(currentlyShownEvent->getTempoValueEntry());
+			  // so that when switch, it'll generate the proper string
+				tempoEntryAsNoteValueModifiedFlag = true; 
    
-
-     
       }
     
-    
-    
-		
-    
-
       // show numOfChildren
       if (currentlyShownEvent->getFlagNumChildren() == 0){ // fixed
         attributesRefBuilder->get_widget(
@@ -1947,7 +1902,12 @@ void EventAttributesViewController::showCurrentEventData(){
 
       j = currentlyShownEvent->layers.begin();
       for (j; j != currentlyShownEvent->layers.end();++j){
-        LayerBox* newbox = new LayerBox( this, projectView,*j,(currentlyShownEvent->getFlagChildEventDef() ==2? true:false));
+        LayerBox* newbox = new LayerBox(
+          this, 
+          projectView,
+          *j,
+          (currentlyShownEvent->getFlagChildEventDef() ==2? true:false));
+          
         layerBoxes->pack_start((Gtk::Widget&)*newbox, Gtk::PACK_SHRINK);
         layerBoxesStorage.push_back(newbox);
         if (currentlyShownEvent->getFlagNumChildren() ==2){ //if bylayer
@@ -1989,8 +1949,10 @@ void EventAttributesViewController::showCurrentEventData(){
       
       refreshChildTypeInLayer();      
       
-      if (currentlyShownEvent->getEventType() == eventBottom){ // show bottom extra info
-        IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+      // show bottom extra info
+      if (currentlyShownEvent->getEventType() == eventBottom){ 
+        IEvent::EventExtraInfo* extraInfo = 
+          currentlyShownEvent->getEventExtraInfo();
         if (extraInfo->getFrequencyFlag() == 0){//well_tempered
           freqWellTemperedButtonClicked();
           attributesRefBuilder->get_widget(
@@ -2117,8 +2079,10 @@ void EventAttributesViewController::showCurrentEventData(){
           	"BottomSubAttributesNewModifierButton", button);
           	
           	
-        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", vbox2);
-        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
+        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", 
+        	                                 vbox2);
+        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", 
+        	                                 vbox);
         	
         	if (button->get_parent() ==NULL){        	
         	  attributesRefBuilder->get_widget(
@@ -2130,7 +2094,8 @@ void EventAttributesViewController::showCurrentEventData(){
         	
         	
         	
-        	EventBottomModifier* EBmodifiers = currentlyShownEvent->getEventExtraInfo()->getModifiers();
+        	EventBottomModifier* EBmodifiers = 
+        	  currentlyShownEvent->getEventExtraInfo()->getModifiers();
         
 
 	        BottomEventModifierAlignment* nextModifierAlignment;       
@@ -2148,7 +2113,8 @@ void EventAttributesViewController::showCurrentEventData(){
   	        } 
   	        else { //rest of the modifiers
 
-  	        	nextModifierAlignment->next = new BottomEventModifierAlignment(EBmodifiers, this);
+  	        	nextModifierAlignment->next = 
+  	        	  new BottomEventModifierAlignment(EBmodifiers, this);
   	        	nextModifierAlignment->next->prev = nextModifierAlignment;
   	        	nextModifierAlignment = nextModifierAlignment->next;
   	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
@@ -2166,8 +2132,10 @@ void EventAttributesViewController::showCurrentEventData(){
           	"BottomSubAttributesNewModifierButton", button);
           	
           	
-        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", vbox2);
-        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
+        	attributesRefBuilder->get_widget("BottomSubAttributesVBox", 
+        	                                 vbox2);
+        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", 
+        	                                 vbox);
         	if (button->get_parent() !=NULL){
         		attributesRefBuilder->get_widget(
           		"ModifierLabel", label);
@@ -2247,11 +2215,7 @@ void EventAttributesViewController::switchToSoundAttributes(){
 
   attributesRefBuilderSound->get_widget("SoundAttributesDeviationEntry", entry);
   entry->set_text(extraInfo->getDeviation());
-  /*
-  attributesRefBuilderSound->get_widget("SoundAttributesSpectrumEntry", entry);
-  entry->set_text(extraInfo->getSpectrum());
-  
-  */
+
   
 
   SpectrumPartial* partials = extraInfo->getSpectrumPartials();
@@ -2439,7 +2403,8 @@ void EventAttributesViewController::switchToNoteAttributes(){
   
   // clear all checkbutton
   
-  std::vector<Gtk::CheckButton*>::iterator iter = noteModifierCheckButtons.begin();
+  std::vector<Gtk::CheckButton*>::iterator iter = 
+    noteModifierCheckButtons.begin();
   for (iter; iter!= noteModifierCheckButtons.end(); iter++){
     (*iter)->set_active(false);
   }
@@ -3023,7 +2988,8 @@ EventAttributesViewController::LayerBox::LayerBox(
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
   m_TreeView.set_model(m_refTreeModel);
   
-  std::list<EventDiscretePackage*>::iterator i = _childrenInThisLayer->children.begin();
+  std::list<EventDiscretePackage*>::iterator i = 
+    _childrenInThisLayer->children.begin();
   
   int index = 1;
   for (i; i != _childrenInThisLayer->children.end(); i ++){
@@ -3050,7 +3016,9 @@ EventAttributesViewController::LayerBox::LayerBox(
   //method (false)
 
   m_TreeView.signal_button_press_event().connect(
-    sigc::mem_fun(*this,&EventAttributesViewController::LayerBox::onRightClick), false);
+    sigc::mem_fun(*this,
+                  &EventAttributesViewController::LayerBox::onRightClick), 
+                  false);
 
 
 
@@ -3069,7 +3037,8 @@ EventAttributesViewController::LayerBox::LayerBox(
     //sigc::mem_fun(*this, &PaletteViewController::AddToProjectTree));
   m_refActionGroup->add(
     Gtk::Action::create("ContextDelete", "Delete"),
-    sigc::mem_fun(*this, &EventAttributesViewController::LayerBox::deleteObject));
+    sigc::mem_fun(*this, 
+      &EventAttributesViewController::LayerBox::deleteObject));
 
 
   //TODO:
@@ -3126,7 +3095,8 @@ EventAttributesViewController::LayerBox::LayerBox(
   m_TreeView.append_column("Name", m_Columns.columnObjectName);
   
   
-  //================================================================editable modification
+  //================================================================
+  //editable modification
   //m_TreeView.append_column_editable("Weight", m_Columns.columnObjectWeight);
 
 
@@ -3237,7 +3207,7 @@ EventAttributesViewController::LayerBox::LayerBox(
   //If this was a CellRendererSpin then you would have to set the adjustment:
   //weightText.property_adjustment() = &m_spin_adjustment;
   
-  //===============================================================================
+  //=============================================================================
   //Make m_Label_Drop a DnD drop destination:
   
   //using enable_model_drag_dest insted of drag_dest_set here!!
@@ -3256,9 +3226,6 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
   if (   currentlyShownEvent == NULL
       || currentlyShownEvent->getEventType() >= 5){
     //if not a legal event, return;
-    //std::cout << "EventAttributesViewController returned ";
-    //std::cout << "because currently shown object is not an event.";
-    //std::cout << std::endl;
     return;
   }
   
@@ -3278,7 +3245,7 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
   LayerBox* newbox = new LayerBox(
                            this,projectView,currentlyShownEvent->addLayer(), showDiscretePackage);
   
-  //layerBoxes->pack_start((Gtk::Widget&)*newbox, Gtk::PACK_EXPAND_WIDGET);
+  
   layerBoxes->pack_start((Gtk::Widget&)*newbox, Gtk::PACK_SHRINK);
   
   layerBoxesStorage.push_back(newbox);
@@ -3289,10 +3256,12 @@ void EventAttributesViewController::addNewLayerButtonClicked(){
   }
 
   
-  showAttributesOfEvent(currentlyShownEvent);  //so that the right click of delete event works 
+  //so that the right click of delete event works
+  showAttributesOfEvent(currentlyShownEvent);  
+     
   Gtk::Adjustment* adjustment = scrolledWindow.get_vadjustment();
-  adjustment->set_value(adjustment->get_value() + 200); //200 is the height of a layer box
-   
+  //200 is the height of a layer box 
+  adjustment->set_value(adjustment->get_value() + 200); 
   
 }
 
@@ -3401,7 +3370,7 @@ void EventAttributesViewController::LayerBox::saveWeight(
   Gtk::TreePath path(path_string);
   
   //Convert the inputed text to an integer, as needed by our model column:
-  //char* pchEnd = 0;
+
   
   
   //Get the row from the path:
@@ -3425,7 +3394,7 @@ void EventAttributesViewController::LayerBox::saveAttackEnv(
   Gtk::TreePath path(path_string);
   
   //Convert the inputed text to an integer, as needed by our model column:
-  //char* pchEnd = 0;
+
   
   
   //Get the row from the path:
@@ -3447,7 +3416,7 @@ void EventAttributesViewController::LayerBox::saveAttackEnvScale(
   Gtk::TreePath path(path_string);
   
   //Convert the inputed text to an integer, as needed by our model column:
-  //char* pchEnd = 0;
+
   
   
   //Get the row from the path:
@@ -3471,7 +3440,7 @@ void EventAttributesViewController::LayerBox::saveDurationEnv(
   Gtk::TreePath path(path_string);
   
   //Convert the inputed text to an integer, as needed by our model column:
-  //char* pchEnd = 0;
+
   
   
   //Get the row from the path:
@@ -3493,7 +3462,7 @@ void EventAttributesViewController::LayerBox::saveDurationEnvScale(
   Gtk::TreePath path(path_string);
   
   //Convert the inputed text to an integer, as needed by our model column:
-  //char* pchEnd = 0;
+
   
   
   //Get the row from the path:
@@ -3563,7 +3532,9 @@ void EventAttributesViewController::freqWellTemperedButtonClicked(){
 
 
 
-BottomEventModifierAlignment::BottomEventModifierAlignment(EventBottomModifier* _modifier ,EventAttributesViewController* _attributesView ){
+BottomEventModifierAlignment::BottomEventModifierAlignment(
+  EventBottomModifier* _modifier ,
+  EventAttributesViewController* _attributesView ){
   modifier = _modifier;
   attributesView = _attributesView;
   prev = NULL;
@@ -3589,7 +3560,8 @@ BottomEventModifierAlignment::BottomEventModifierAlignment(EventBottomModifier* 
  
 #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/Modifier.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/Modifier.ui", error)){
     std::cerr << error->what() << std::endl;
   }
   
@@ -3777,8 +3749,6 @@ void BottomEventModifierAlignment::modified(){
 BottomEventModifierAlignment::~BottomEventModifierAlignment(){
 }
 
-
-
 void BottomEventModifierAlignment::on_applyHow_combo_changed(){
   attributesView->modified();
   Gtk::ComboBox* combobox;
@@ -3791,13 +3761,10 @@ void BottomEventModifierAlignment::on_applyHow_combo_changed(){
     if(row)
     {
       modifier->setApplyHowFlag(row[applyHowColumns.m_col_id]);
-      //      Glib::ustring name = row[applyHowColumns.m_col_name];
 
-      //std::cout << " ID=" << id << ", name=" << name << std::endl;
     }
   }
-  //else
-    //std::cout << "invalid iter" << std::endl;
+ 
 }
 
 
@@ -3844,8 +3811,7 @@ void BottomEventModifierAlignment::on_type_combo_changed(){
     
 
   } //end if iter
-  //else
-    //std::cout << "invalid iter" << std::endl;
+  
 }
 
 
@@ -3853,11 +3819,13 @@ void EventAttributesViewController::addModifierButtonClicked(){
   if (entryChangedByShowCurrentEvent ==false){
     modified();
   }
-  EventBottomModifier* newModifier = currentlyShownEvent->getEventExtraInfo()->addModifier();
+  EventBottomModifier* newModifier = 
+    currentlyShownEvent->getEventExtraInfo()->addModifier();
   
   
   
-  BottomEventModifierAlignment* newModifierAlignment = new BottomEventModifierAlignment(newModifier, this);
+  BottomEventModifierAlignment* newModifierAlignment = 
+    new BottomEventModifierAlignment(newModifier, this);
   if (modifiers ==NULL){
     newModifierAlignment->prev = NULL;
     modifiers = newModifierAlignment;
@@ -3936,11 +3904,13 @@ void BottomEventModifierAlignment::removeModifierButtonClicked(){
 
 }
 
-void EventAttributesViewController::removeModifierAlignment(BottomEventModifierAlignment* _alignment){
+void EventAttributesViewController::removeModifierAlignment(
+  BottomEventModifierAlignment* _alignment){
   Gtk::VBox* vbox;
   attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
   vbox->remove(*_alignment);
-  currentlyShownEvent->getEventExtraInfo()->removeModifier(_alignment->modifier);
+  currentlyShownEvent->getEventExtraInfo()->
+    removeModifier(_alignment->modifier);
   BottomEventModifierAlignment* search = modifiers;
   if (modifiers == _alignment){
     modifiers = modifiers->next;
@@ -3967,20 +3937,39 @@ void EventAttributesViewController::maxChildDurFunButtonClicked(){
   insertFunctionString(maxChildDurFunButton);
 }
 
-void EventAttributesViewController::unitsPerSecondFunButtonClicked(){insertFunctionString(unitsPerSecondFunButton);}
+void EventAttributesViewController::unitsPerSecondFunButtonClicked(){
+  insertFunctionString(unitsPerSecondFunButton);
+}
 
-void EventAttributesViewController::numOfChildFunButton1Clicked(){insertFunctionString(numOfChildFunButton1);}
-void EventAttributesViewController::numOfChildFunButton2Clicked(){insertFunctionString(numOfChildFunButton2);}
-void EventAttributesViewController::numOfChildFunButton3Clicked(){insertFunctionString(numOfChildFunButton3);}
-void EventAttributesViewController::childEventDefStartTimeFunButtonClicked(){insertFunctionString(childEventDefStartTimeFunButton);}
-void EventAttributesViewController::childEventDefChildTypeFunButtonClicked(){insertFunctionString(childEventDefChildTypeFunButton);}
-void EventAttributesViewController::childEventDefDurationFunButtonClicked(){insertFunctionString(childEventDefDurationFunButton);}
-void EventAttributesViewController::childEventAttackSieveButtonClicked(){insertFunctionString(childEventDefAttackSieveFunButton);} 
-void EventAttributesViewController::childEventDurationSieveButtonClicked(){insertFunctionString(childEventDefDurationSieveFunButton);} 
+void EventAttributesViewController::numOfChildFunButton1Clicked()
+  {insertFunctionString(numOfChildFunButton1);
+}
+void EventAttributesViewController::numOfChildFunButton2Clicked(){
+  insertFunctionString(numOfChildFunButton2);
+}
+void EventAttributesViewController::numOfChildFunButton3Clicked(){
+  insertFunctionString(numOfChildFunButton3);
+}
+void EventAttributesViewController::childEventDefStartTimeFunButtonClicked(){
+  insertFunctionString(childEventDefStartTimeFunButton);
+}
+void EventAttributesViewController::childEventDefChildTypeFunButtonClicked(){
+  insertFunctionString(childEventDefChildTypeFunButton);
+}
+void EventAttributesViewController::childEventDefDurationFunButtonClicked(){
+  insertFunctionString(childEventDefDurationFunButton);
+}
+void EventAttributesViewController::childEventAttackSieveButtonClicked(){
+  insertFunctionString(childEventDefAttackSieveFunButton);
+} 
+void EventAttributesViewController::childEventDurationSieveButtonClicked(){
+  insertFunctionString(childEventDefDurationSieveFunButton);
+} 
 
 
 
-void EventAttributesViewController::insertFunctionString (FunctionButton _button){
+void EventAttributesViewController::insertFunctionString(
+  FunctionButton _button){
   Gtk::Entry* entry;
   FunctionGenerator* generator = NULL;
 
@@ -4174,7 +4163,8 @@ void EventAttributesViewController::BSLoudnessButtonClicked(){
   
   attributesRefBuilder->get_widget(
     "BottomSubAttributesLoudnessEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4191,7 +4181,8 @@ void EventAttributesViewController::BSSpatializationButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesSpatializationEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnSPA,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnSPA,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4205,7 +4196,8 @@ void EventAttributesViewController::BSReverbButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesReverbEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnREV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnREV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4216,7 +4208,8 @@ void EventAttributesViewController::BSWellTemperedButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesWellTemperedEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4227,7 +4220,8 @@ void EventAttributesViewController::BSFunFreqButton1Clicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesFunFreqEntry1", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4238,7 +4232,8 @@ void EventAttributesViewController::BSFunFreqButton2Clicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesFunFreqEntry2", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnInt,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnInt,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4249,7 +4244,8 @@ void EventAttributesViewController::BSContinuumButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesContinuumEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4264,7 +4260,8 @@ void BottomEventModifierAlignment::probablityEnvelopeButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "probablityEnvelopeEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4277,7 +4274,8 @@ void BottomEventModifierAlignment::ampValueEnvelopeButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "ampValueEnvelopeEntry", entry);
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4292,7 +4290,8 @@ void BottomEventModifierAlignment::rateValueEnvelopeButtonClicked(){
     "rateValueEnvelopeEntry", entry);
     
   if (entry->get_sensitive()){
-    FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+    FunctionGenerator* generator = 
+      new FunctionGenerator(functionReturnENV,entry->get_text());
     int result = generator->run();
     if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4308,7 +4307,8 @@ void BottomEventModifierAlignment::widthEnvelopeButtonClicked(){
     "widthEnvelopeEntry", entry);
     
   if (entry->get_sensitive()){
-    FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+    FunctionGenerator* generator = 
+      new FunctionGenerator(functionReturnENV,entry->get_text());
     int result = generator->run();
     if (generator->getResultString() !=""&& result ==0){
       entry->set_text(generator->getResultString());
@@ -4324,7 +4324,8 @@ void EventAttributesViewController::envelopeFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "envelopeAttributesBuilderEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
@@ -4339,7 +4340,8 @@ void EventAttributesViewController::sieveFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SieveAttributesBuilderEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnSIV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnSIV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
@@ -4353,7 +4355,8 @@ void EventAttributesViewController::patternFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "PatternAttributesBuilderEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnPAT,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnPAT,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
@@ -4367,7 +4370,8 @@ void EventAttributesViewController::reverbFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "ReverbAttributesBuilderEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnREV,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnREV,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
@@ -4381,7 +4385,8 @@ void EventAttributesViewController::spatializationFunButtonClicked(){
   attributesRefBuilder->get_widget(
     "SpatializationAttributesBuilderEntry", entry);
     
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnSPA,entry->get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnSPA,entry->get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     entry->set_text(generator->getResultString());
@@ -4389,9 +4394,6 @@ void EventAttributesViewController::spatializationFunButtonClicked(){
   delete generator;
 
 }
-
-
-
 
 void EventAttributesViewController::tempoAsNoteValueButtonClicked(){
   if (currentlyShownEvent ==NULL){
@@ -4512,7 +4514,9 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
 		if (foundSlash != string::npos){ //it is fraction
 			entry1 = originalValue.substr(0,foundSlash);
 				
-      value = atoi ( (originalValue.substr(foundSlash + 1, originalValue.length())).c_str()) * 60;
+      value = atoi ( 
+        (originalValue.substr
+        (foundSlash + 1, originalValue.length())).c_str()) * 60;
      	sprintf (charBuffer, "%d", value);	        	
      	ratioString = entry1 + "/" + charBuffer;
     }
@@ -4524,45 +4528,19 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
         	
         	
     ratio = Ratio(ratioString);
-        	
-
-        		
+        	  		
     attributesRefBuilder->get_widget(
      	"attributesStandardTempoAsFractionEntry1", entry); 
           	
           sprintf (charBuffer, "%d", ratio.Num());	
-          	
-          	 
+         	 
         	entry->set_text(string(charBuffer));	
-        		//entry->set_text(ratio.Num());
-        		
-        		
 
 					attributesRefBuilder->get_widget(
       			"attributesStandardTempoValueEntry", entry); 
       			
       	sprintf (charBuffer, "%d", ratio.Den());	
       		entry->set_text(string(charBuffer));	
-					
-					//entry->set_text(string(charBuffer));
-						//entry->set_text(ratio.Den());
-		
-  
-   /*
-  	else{// integer
-  
-  
-  
-      attributesRefBuilder->get_widget(
-      	"attributesStandardTempoValueEntry", entry); 
-   	 	entry->set_text("60");
-
-   	 	attributesRefBuilder->get_widget(
-      	"attributesStandardTempoAsFractionEntry1", entry);
-   	 	entry->set_text(originalTempoValueForNoteValue);
-    
-		}
-		*/
 
   }
  
@@ -4624,7 +4602,7 @@ bool EventAttributesViewController::LayerBox::onRightClick(GdkEventButton* event
 void EventAttributesViewController::LayerBox::deleteObject(){
     Gtk::TreeModel::Children::iterator iter = m_TreeView.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
-  //projectView->addObjectFromPaletteToProjectTree(row[columns.columnEntry]);
+  
 
   if (iter != NULL){
     EventDiscretePackage* removedEventPackage = row[m_Columns.columnEntry];
@@ -4667,7 +4645,7 @@ bool EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
 
   std::vector<LayerBox*>::iterator layerBoxesIter = layerBoxesStorage.begin();
   
-  for (layerBoxesIter; layerBoxesIter!=layerBoxesStorage.end(); layerBoxesIter++){
+  for (layerBoxesIter;layerBoxesIter!=layerBoxesStorage.end();layerBoxesIter++){
     layerBoxes->remove(**layerBoxesIter);
   }  
 
@@ -4680,7 +4658,9 @@ bool EventAttributesViewController::deleteLayer(LayerBox* _deleteBox){
   layerBoxesStorage.erase(layerBoxesIter);
   delete _deleteBox;
   //restore layerboxes  
-  for (layerBoxesIter = layerBoxesStorage.begin(); layerBoxesIter!=layerBoxesStorage.end(); layerBoxesIter++){
+  for (layerBoxesIter = layerBoxesStorage.begin(); 
+       layerBoxesIter!=layerBoxesStorage.end(); 
+       layerBoxesIter++){
     layerBoxes->pack_start(**layerBoxesIter,Gtk::PACK_SHRINK);
   }
   return true;
@@ -4692,7 +4672,9 @@ void EventAttributesViewController::addPartialButtonClicked(){
     currentlyShownEvent->setChangedButNotSaved(true);
 
 
-  SoundPartialHBox* newBox = new SoundPartialHBox(currentlyShownEvent->getEventExtraInfo()->addPartial(), this);
+  SoundPartialHBox* newBox = 
+    new SoundPartialHBox(currentlyShownEvent->getEventExtraInfo()->addPartial(), 
+                         this);
   SoundPartialHBox* end = soundPartialHboxes;
   
   if (soundPartialHboxes ==NULL){
@@ -4726,7 +4708,8 @@ void EventAttributesViewController::addPartialButtonClicked(){
 
 
 
-SoundPartialHBox::SoundPartialHBox(SpectrumPartial* _partial,EventAttributesViewController* _attributes){
+SoundPartialHBox::SoundPartialHBox(
+  SpectrumPartial* _partial,EventAttributesViewController* _attributes){
   attributes = _attributes;
   prev = NULL;
   next = NULL;
@@ -4744,11 +4727,14 @@ SoundPartialHBox::SoundPartialHBox(SpectrumPartial* _partial,EventAttributesView
   pack_start (removeButton, Gtk::PACK_SHRINK);
   
   
-  removeButton.signal_clicked().connect(sigc::mem_fun(*this, &SoundPartialHBox::removeButtonClicked));
+  removeButton.signal_clicked().connect(
+    sigc::mem_fun(*this, &SoundPartialHBox::removeButtonClicked));
   
-  functionButton.signal_clicked().connect(sigc::mem_fun(*this, &SoundPartialHBox::functionButtonClicked));  
+  functionButton.signal_clicked().connect(
+    sigc::mem_fun(*this, &SoundPartialHBox::functionButtonClicked));  
   
-  envelopeEntry.signal_changed().connect(sigc::mem_fun(*this, & SoundPartialHBox::modified));
+  envelopeEntry.signal_changed().connect(
+    sigc::mem_fun(*this, & SoundPartialHBox::modified));
 
 }
 
@@ -4764,7 +4750,8 @@ SoundPartialHBox::~SoundPartialHBox(){}
   
 
 void SoundPartialHBox::functionButtonClicked(){  
-  FunctionGenerator* generator = new FunctionGenerator(functionReturnENV,envelopeEntry.get_text());
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnENV,envelopeEntry.get_text());
   int result = generator->run();
   if (generator->getResultString() !=""&& result ==0){
     envelopeEntry.set_text(generator->getResultString());
@@ -4791,7 +4778,8 @@ void SoundPartialHBox::removeButtonClicked(){
   attributes->modified();
 }  
  
-void EventAttributesViewController::removeSoundPartial(SoundPartialHBox* _remove){
+void EventAttributesViewController::removeSoundPartial(
+  SoundPartialHBox* _remove){
   if (currentlyShownEvent->getEventExtraInfo()->getNumPartials() == "1"){
     return;
   }
@@ -4858,7 +4846,9 @@ void SoundPartialHBox::saveString(){
 void EventAttributesViewController::refreshChildTypeInLayer(){
   int index = 0;
   std::vector<LayerBox*>::iterator layerBoxesIter = layerBoxesStorage.begin();
-  for (layerBoxesIter; layerBoxesIter!= layerBoxesStorage.end(); layerBoxesIter++){
+  for (layerBoxesIter; 
+       layerBoxesIter!= layerBoxesStorage.end(); 
+       layerBoxesIter++){
     index = (*layerBoxesIter)->refreshChildTypeIndex(index);
   }
 
@@ -4868,15 +4858,13 @@ void EventAttributesViewController::refreshChildTypeInLayer(){
 int EventAttributesViewController::LayerBox::refreshChildTypeIndex(int _index){
   int index = _index;
   Gtk::TreeIter iter = m_refTreeModel->children().begin();
-  //Gtk::TreeModel::Row row = *(m_refTreeModel->children().begin());
+
   for (iter; iter != m_refTreeModel->children().end(); iter++){
     Gtk::TreeModel::Row row = *iter;
     if (row){
       row[m_Columns.columnObjectChildTypeIndex] = index;
       index ++;
     }
-    //row[m_Columns.columnObjectName] = insertEvent->getEventName();
-    //row[m_Columns.columnEntry] = layerInEvent->addChild(insertEvent);
   }
   return index;
 
@@ -4884,7 +4872,8 @@ int EventAttributesViewController::LayerBox::refreshChildTypeIndex(int _index){
 
 
 void EventAttributesViewController::buildNoteModifiersList(){
-  if (currentlyShownEvent!= NULL &&currentlyShownEvent->getEventType() == eventNote){
+  if (currentlyShownEvent!= NULL &&
+      currentlyShownEvent->getEventType() == eventNote){
     saveCurrentShownEventData();
   }
 
@@ -4892,10 +4881,11 @@ void EventAttributesViewController::buildNoteModifiersList(){
   Gtk::Table* table;
   attributesRefBuilder->get_widget(
         "NoteAttributesModifiersTable", table);
-  //table->remove(); // remove things from the view
+
 
    //clean current noteModifierCheckButtons
-  std::vector<Gtk::CheckButton*>::iterator iter = noteModifierCheckButtons.begin();    
+  std::vector<Gtk::CheckButton*>::iterator iter = 
+    noteModifierCheckButtons.begin();    
   for (iter; iter!= noteModifierCheckButtons.end(); iter++){
     table->remove(**iter);
     delete (*iter);
@@ -4907,13 +4897,14 @@ void EventAttributesViewController::buildNoteModifiersList(){
   int y = 0;
 
   Gtk::CheckButton* button;
-  std::map<std::string, bool> defaultModifiers = projectView->getDefaultNoteModifiers(); 
+  std::map<std::string, bool> defaultModifiers = 
+    projectView->getDefaultNoteModifiers(); 
   std::map<std::string, bool>::iterator modifierIter = defaultModifiers.begin();
   for (modifierIter; modifierIter != defaultModifiers.end(); modifierIter++){
     if ((*modifierIter).second){
-      //button = new Gtk::CheckButton::CheckButton((*modifierIter).first, false); //ubuntu 10.10
-      button = new Gtk::CheckButton((*modifierIter).first, false);//ubuntu 11.04
-      button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
+      button = new Gtk::CheckButton((*modifierIter).first, false);
+      button->signal_pressed().connect(
+        sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
       noteModifierCheckButtons.push_back(button);
       table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
       x ++;
@@ -4925,12 +4916,17 @@ void EventAttributesViewController::buildNoteModifiersList(){
     
   }
   
-  std::vector<std::string> customNoteModifiers =  projectView->getCustomNoteModifiers();
-  std::vector<std::string>::iterator modifierIter2 = customNoteModifiers.begin(); 
-  for (modifierIter2; modifierIter2 != customNoteModifiers.end(); modifierIter2++){
-    //button = new Gtk::CheckButton::CheckButton(*modifierIter2, false); //ubuntu 10.10
+  std::vector<std::string> customNoteModifiers =  
+    projectView->getCustomNoteModifiers();
+  std::vector<std::string>::iterator modifierIter2 = 
+    customNoteModifiers.begin(); 
+  for (modifierIter2; 
+       modifierIter2 != customNoteModifiers.end(); 
+       modifierIter2++){
+    
     button = new Gtk::CheckButton(*modifierIter2, false); //ubuntu 11.04
-    button->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) );
+    button->signal_pressed().connect(
+      sigc::mem_fun(*this,&EventAttributesViewController::modified) );
     noteModifierCheckButtons.push_back(button);
     table->attach(*button, x, x+1, y, y+1,Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
     x ++;
@@ -4943,7 +4939,8 @@ void EventAttributesViewController::buildNoteModifiersList(){
  
   show_all_children();
   
-  if (currentlyShownEvent!= NULL &&currentlyShownEvent->getEventType() == eventNote){
+  if (currentlyShownEvent!= NULL &&
+      currentlyShownEvent->getEventType() == eventNote){
     showCurrentEventData();
   }
 }

@@ -44,7 +44,8 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/EnvelopeLibraryWindow.ui");
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/EnvelopeLibraryWindow.ui");
   }
   catch (const Glib::FileError& ex){
     std::cerr << "FileError: " << ex.what() << std::endl;
@@ -55,7 +56,8 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
    
    #else
   std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file("./LASSIE/src/UI/EnvelopeLibraryWindow.ui", error)){
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/EnvelopeLibraryWindow.ui", error)){
     std::cerr << error->what() << std::endl;
   }
    
@@ -112,7 +114,8 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
 
 
   // Add the TreeView's view columns:
-  envelopeLibrary.append_column("Number of Library", columns.columnObjectNumber);
+  envelopeLibrary.append_column(
+    "Number of Library", columns.columnObjectNumber);
   //palette.append_column("Name", columns.columnObjectName);
   // Connect signal:
   envelopeLibrary.signal_row_activated().connect(
@@ -239,7 +242,9 @@ EnvelopeLibraryWindow::~EnvelopeLibraryWindow(){
 
 
 bool EnvelopeLibraryWindow::onRightClick(GdkEventButton* event){
-  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){ // test if right click
+
+  // test if right click
+  if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) ){
     if(m_pMenuPopup) m_pMenuPopup->popup(event->button, event->time);
 
     return true; // It has been handled.
@@ -253,10 +258,8 @@ void EnvelopeLibraryWindow::createNewEnvelope(){
   activeProject->modified();
   Gtk::TreeModel::Row childrow= *(refTreeModel->append());
 
-  //Gtk::TreeModel::Row childrow = *(refTreeModel->append(selectedRow.children()));
   childrow[columns.columnObjectNumber] = newEnvelope->getNumberString();
 
-  //childrow[columns.columnButton].set_text(_event->getEventName());
   childrow[columns.columnEntry] =newEnvelope;
 
 
@@ -274,9 +277,6 @@ void EnvelopeLibraryWindow::refreshEnvelopeList(){
 	//remove the current refTreeModel and make a new one
 	refTreeModel = Gtk::TreeStore::create(columns);
   envelopeLibrary.set_model(refTreeModel);
-	
-
-
 
 }
 
@@ -292,25 +292,23 @@ void EnvelopeLibraryWindow::objectActivated(
   if(iter){
     Gtk::TreeModel::Row row = *iter;
     selectedRow = *iter;
-    //std::cout<<"some object is activated in EnvelopeLibraryWindow::objectActivated()"<<std::endl;
-    //projectView->showAttributes(row[columns.columnEntry]);
+
   }
 }
 
 
-//originally want to show the attributes whenever the cursor move, but it's dangerous so skipped. leave the function body for future usage.
+
 void EnvelopeLibraryWindow::on_cursor_changed(){
 //TODO
-  //std::cout<<"cursor changed!! show graph of envelope #";
+  
   Gtk::TreeModel::Children::iterator iter = envelopeLibrary.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
-  //std::cout<<row[columns.columnObjectNumber]<<std::endl;
-
+  
   activeEnvelope = row[columns.columnEntry];
   drawingArea->resetFields();
   drawingArea->showGraph(row[columns.columnEntry]);
 
-  //projectView->showAttributes(row[columns.columnEntry]);
+  
 }
 
 
@@ -351,9 +349,12 @@ EnvelopeLibraryEntry* EnvelopeLibraryWindow::getActiveEnvelope(){
 
 
 
-int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
+int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,
+                                            GdkEventKey* _gdkEventKey){
   
-  if (_gdkEventKey->type ==8 &&_gdkEventKey->keyval == 115 && _gdkEventKey->state ==20){ //ctrl-s pressed
+  if (_gdkEventKey->type ==8 && 
+      _gdkEventKey->keyval == 115 && 
+      _gdkEventKey->state ==20){ //ctrl-s pressed
     activeProject->save();
   }
   
@@ -362,14 +363,6 @@ int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,GdkEventKey* _g
 
   return 0;
 }
-
-
-
-
-
-
-
-
 
 
 void EnvelopeLibraryWindow::valueEntriesChanged(){

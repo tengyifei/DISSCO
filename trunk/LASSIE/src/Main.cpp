@@ -7,7 +7,7 @@
  *  Description   : This is the main file of LASSIE, a gtkmm implemented 
  *                  interface for CMOD.
  *
- *===============================================================================
+ *==============================================================================
  *
  *  This file is part of LASSIE.
  *  Copyright 2010 Ming-ching Chiu, Sever Tipei
