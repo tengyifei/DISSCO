@@ -430,6 +430,7 @@ private:
   void makePatternTextChanged(); 
   
   //expandPattern
+  void expandPatternRadioButtonClicked();
   void expandPatternModuloFunButtonClicked();
   void expandPatternLowFunButtonClicked();
   void expandPatternHighFunButtonClicked();
