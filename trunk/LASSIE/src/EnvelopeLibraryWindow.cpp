@@ -178,8 +178,12 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   m_refActionGroup->add(Gtk::Action::create("ContextMenu", "Context Menu"));
 
    m_refActionGroup->add(
-    Gtk::Action::create("ContextAdd", "Create New Envelope"),
-    sigc::mem_fun(*this, &EnvelopeLibraryWindow::createNewEnvelope));
+     Gtk::Action::create("ContextAdd", "Create New Envelope"),
+     sigc::mem_fun(*this, &EnvelopeLibraryWindow::createNewEnvelope));
+
+  m_refActionGroup->add(
+    Gtk::Action::create("ContextDuplicate", "Duplicate Envelope"),
+    sigc::mem_fun(*this, &EnvelopeLibraryWindow::duplicateEnvelope));
 
   //TODO:
   /*
@@ -200,6 +204,7 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
     "<ui>"
     "  <popup name='PopupMenu'>"
     "    <menuitem action='ContextAdd'/>"
+    "    <menuitem action='ContextDuplicate'/>"
     "  </popup>"
     "</ui>";
 
@@ -255,6 +260,7 @@ bool EnvelopeLibraryWindow::onRightClick(GdkEventButton* event){
 
 void EnvelopeLibraryWindow::createNewEnvelope(){
   EnvelopeLibraryEntry* newEnvelope = activeProject->createNewEnvelope();
+  
   activeProject->modified();
   Gtk::TreeModel::Row childrow= *(refTreeModel->append());
 
@@ -387,5 +393,29 @@ void EnvelopeLibraryWindow::setEntries(string _x, string _y){
 }
 
 
+
+void EnvelopeLibraryWindow::duplicateEnvelope(){
+
+  Gtk::TreeModel::Children::iterator iter = 
+    envelopeLibrary.get_selection()->get_selected();
+  if (iter == NULL){
+    cout<<" no envelope selected"<<endl;
+    return;
+  }
+  
+  Gtk::TreeModel::Row row = *iter;
+  
+  
+	EnvelopeLibraryEntry* originalEnvelope = row[columns.columnEntry];
+	
+	EnvelopeLibraryEntry* newEnvelope = 
+	  activeProject->duplicateEnvelope(originalEnvelope);
+  activeProject->modified();
+  Gtk::TreeModel::Row childrow= *(refTreeModel->append());
+
+  childrow[columns.columnObjectNumber] = newEnvelope->getNumberString();
+
+  childrow[columns.columnEntry] =newEnvelope;
+}
   
 

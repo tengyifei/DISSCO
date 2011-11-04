@@ -47,6 +47,51 @@ EnvelopeLibraryEntry::EnvelopeLibraryEntry(int _number){
 }
 
 
+EnvelopeLibraryEntry::EnvelopeLibraryEntry(EnvelopeLibraryEntry* _originalEnvelope, int _number){
+  number =_number;
+  prev = NULL;
+  next = NULL;
+  
+  EnvLibEntryNode* originalEnvelopeCurrentNode = _originalEnvelope->head;
+  EnvLibEntryNode* duplicationCurrentNode; 
+  
+  
+  head = new EnvLibEntryNode(originalEnvelopeCurrentNode->x,
+                             originalEnvelopeCurrentNode->y);
+  duplicationCurrentNode = head;     
+                             
+  while (originalEnvelopeCurrentNode->rightSeg !=NULL){
+    EnvLibEntrySeg* newSegment = new EnvLibEntrySeg();
+    newSegment->segmentType = 
+      originalEnvelopeCurrentNode->rightSeg->segmentType;
+    newSegment->segmentProperty = 
+      originalEnvelopeCurrentNode->rightSeg->segmentProperty;
+    
+    duplicationCurrentNode->rightSeg = newSegment;
+    newSegment->leftNode = duplicationCurrentNode;
+    
+    EnvLibEntryNode* newNode = 
+      new EnvLibEntryNode(originalEnvelopeCurrentNode->rightSeg->rightNode->x,
+                          originalEnvelopeCurrentNode->rightSeg->rightNode->y);
+                          
+    newSegment->rightNode = newNode;
+    newNode->leftSeg = newSegment;
+    
+    originalEnvelopeCurrentNode = 
+      originalEnvelopeCurrentNode->rightSeg->rightNode;
+    
+    duplicationCurrentNode = newNode;
+  
+  }                          
+                             
+                           
+  
+}
+
+
+
+
+
 EnvelopeLibraryEntry::~EnvelopeLibraryEntry(){//delete segments!}
 //TODO: lassie doesn't support deleting envelope so far so no worry about it.
 
@@ -68,6 +113,26 @@ EnvelopeLibraryEntry* EnvelopeLibraryEntry::createNewEnvelope(){
     return next;
   }
 }
+
+
+EnvelopeLibraryEntry* EnvelopeLibraryEntry::duplicateEnvelope(
+  EnvelopeLibraryEntry* _originalEnvelope){
+    if (next != NULL) return next->duplicateEnvelope(_originalEnvelope);
+  else {
+  
+    next = new EnvelopeLibraryEntry (_originalEnvelope, number + 1 );
+    next->prev = this;
+    return next;
+    
+  }  
+    
+    
+}
+
+
+
+
+
 
 
 Glib::ustring EnvelopeLibraryEntry::getNumberString(){

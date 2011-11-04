@@ -46,6 +46,7 @@ public:
   
   void setActiveProject(ProjectViewController* _project);
   void createNewEnvelope();
+  void duplicateEnvelope();
   void setEntries(string _x, string _y);
   EnvelopeLibraryEntry* getActiveEnvelope();
 
