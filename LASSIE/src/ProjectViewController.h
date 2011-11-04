@@ -94,6 +94,8 @@ public:
   
   
   EnvelopeLibraryEntry* createNewEnvelope();
+  EnvelopeLibraryEntry* duplicateEnvelope(
+    EnvelopeLibraryEntry* _originalEnvelope);
   void showContents();
   void hideContents();
   void insertObject();

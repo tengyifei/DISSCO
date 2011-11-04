@@ -1321,9 +1321,16 @@ EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
   else {
     return envelopeLibraryEntries->createNewEnvelope();
   }
-
-
 }
+
+EnvelopeLibraryEntry* ProjectViewController:: duplicateEnvelope(
+    EnvelopeLibraryEntry* _originalEnvelope){
+  
+  
+    return envelopeLibraryEntries->duplicateEnvelope(_originalEnvelope);
+  
+}
+
 
 
 void ProjectViewController::saveEnvelopeLibrary(){ 

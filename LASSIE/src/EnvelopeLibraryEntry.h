@@ -86,9 +86,13 @@ class EnvelopeLibraryEntry{
 public:
   EnvelopeLibraryEntry(int _number);
   EnvelopeLibraryEntry(Envelope* _envelope, int _number);
+  EnvelopeLibraryEntry(EnvelopeLibraryEntry* _originalEnvelope, int _number);
   ~EnvelopeLibraryEntry();
   int count();
+  
   EnvelopeLibraryEntry* createNewEnvelope();
+  EnvelopeLibraryEntry* duplicateEnvelope(
+    EnvelopeLibraryEntry* _originalEnvelope);
   Glib::ustring getNumberString();
   EnvLibEntryNode* head;
   
