@@ -55,7 +55,8 @@ typedef enum {
   childEventDefChildTypeFunButton,
   childEventDefDurationFunButton,
   childEventDefAttackSieveFunButton,
-  childEventDefDurationSieveFunButton
+  childEventDefDurationSieveFunButton,
+  spectrumDeviationFunButton
   
 }FunctionButton;
 
@@ -248,6 +249,7 @@ public:
   void BSFunFreqButton2Clicked();
   void BSContinuumButtonClicked();
   void addPartialButtonClicked();
+  void deviationFunButtonClicked();
   void modified();
   IEvent* getCurrentlyShownEvent();
   
