@@ -449,13 +449,14 @@ EventAttributesViewController::EventAttributesViewController(
     "PatternAttributesFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, &   EventAttributesViewController::patternFunButtonClicked)); 
   
-  //Sound
+  //Spectrum, used to be Sound
   attributesRefBuilderSound->get_widget(
     "SoundAttributesAddPartialButton", button);
-    
   button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::addPartialButtonClicked));
-    
   
+  attributesRefBuilderSound->get_widget(
+    "SoundAttributesDeviationFunButton", button);  
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::deviationFunButtonClicked));
   
   // this section connect entrychange to modified 
   //in order to show '*' at the title
@@ -3966,6 +3967,9 @@ void EventAttributesViewController::childEventDurationSieveButtonClicked(){
   insertFunctionString(childEventDefDurationSieveFunButton);
 } 
 
+void EventAttributesViewController::deviationFunButtonClicked(){
+  insertFunctionString(spectrumDeviationFunButton);
+}
 
 
 void EventAttributesViewController::insertFunctionString(
@@ -4114,14 +4118,19 @@ void EventAttributesViewController::insertFunctionString(
     if (generator->getResultString() !=""&& result ==0){  
       entry->set_text(generator->getResultString());
     }  
-  
+  }
+  else if (_button == spectrumDeviationFunButton){
+    attributesRefBuilderSound->get_widget(
+      "SoundAttributesDeviationEntry", entry);
+    generator = new FunctionGenerator(functionReturnFloat,entry->get_text());
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }    
   
   }
   
-  
-  
-  
-  
+
   
   if (generator!= NULL) {
     delete generator;
