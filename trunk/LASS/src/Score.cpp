@@ -518,7 +518,8 @@ void Score::channelAnticlip(MultiTrack* mt)
     if(maxAmplitude < 0.99)
     {
       cout << "Peak at " << maxAmplitude << endl;
-      cout << "Normalizing to achieve better signal-to-noise ratio.";
+      //cout << "Normalizing to achieve better signal-to-noise ratio.";
+      maxAmplitude = 0.99; //Disabling normalization for quiet pieces.
     }
     else
     {
