@@ -281,7 +281,7 @@ MultiTrack* Sound::render(
 		MultiTrack* mt = spatializer_->spatialize(*reverbedTrack, numChannels);
 
 		// delete the temporary track object that held the unspatialized reverbed sound
-		delete&reverbedTrack;
+		delete reverbedTrack;
 
 		return mt;
 	}

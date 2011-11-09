@@ -85,12 +85,14 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     // figure out how long the score will run:
     Iterator<Sound> it = iterator();
     m_time_type scoreEndTime = 0.0;
+    int numSounds = 0;
     while (it.hasNext())
     {
         Sound& snd = it.next();
         m_time_type soundEndTime = snd.getParam(START_TIME) +
                                    snd.getTotalDuration();
         if (soundEndTime > scoreEndTime) scoreEndTime = soundEndTime;
+        numSounds++;
     }
 
     // figure in the reverb die-out period
@@ -152,7 +154,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     {
 
         num++;
-        cout << "Sound #" << num << ":" << endl;
+        cout << "Sound #" << num << " of " << numSounds << ":" << endl;
 
         // render the sound:
         Sound& snd = it.next();
@@ -546,9 +548,9 @@ void Score::channelAnticlip(MultiTrack* mt)
     }
     else
     {
-      cout << "Warning: peak is " << maxAmplitude << " at " <<
+      cout << "Warning: peak is " << todB(maxAmplitude) << " dB at " <<
         ((double)peakPlace / (double)mt->get(0)->getWave().getSamplingRate()) <<
-        " seconds. Normalizing to avoid waveform clip.";
+        " seconds. Compressing [-6, " << todB(maxAmplitude) << ") to [-6, 0) dB";
       maxAmplitude /= 0.99; //Never actually allow it to hit 0dB.
       //m_sample_type normalizeValue = maxAmplitude;
       for (int t=0; t<mt->size(); t++)
@@ -562,6 +564,8 @@ void Score::channelAnticlip(MultiTrack* mt)
           {
               amp[s] = 1.0;
               wave[s] = compressSound(wave[s], maxAmplitude, -6.0);
+              //Test showing compression curve used:
+              //wave[s] = compressSound((float)s / (float)numSamples * 2.f, 2.f, -6.0);
           }
       }
     }
