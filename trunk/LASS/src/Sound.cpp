@@ -30,6 +30,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Sound.h"
 #include "Score.h"
 #include "Loudness.h"
+#define PRIM_THREADS_USE_PTHREAD
+#include "Threads.h"
+using namespace prim;
+
+Mutex SoundLock;
 
 //----------------------------------------------------------------------------//
 Sound::Sound()
@@ -159,7 +164,10 @@ MultiTrack* Sound::render(
     // loudness is not to be calculated for this sound.
     if (getParam(LOUDNESS) >= 0)
     {
+        {
+        ScopedLock sl(SoundLock);
         cout << "\t Calculating Loudness..." << endl;
+        }
         //m_rate_type loudnessRate = m_rate_type(getParam(LOUDNESS_RATE));
         //Loudness::calculate(*this, loudnessRate);
         Loudness::calculate(*this);
@@ -170,23 +178,26 @@ MultiTrack* Sound::render(
     //------------------
     if (size() != 0)
     {
+        {
+        ScopedLock sl(SoundLock);
         cout << "\t Creating Envelopes..." << endl;
+        }
         Iterator<Partial> iter = iterator();
 
-	// create the detuning envelope for this partial
-	ExponentialInterpolator detuning_env;
-	setup_detuning_env(&detuning_env);
-	if(getParam(DETUNE_FUNDAMENTAL) > 0.0)
+        // create the detuning envelope for this partial
+        ExponentialInterpolator detuning_env;
+        setup_detuning_env(&detuning_env);
+        if(getParam(DETUNE_FUNDAMENTAL) > 0.0)
           iter.next().setParam(DETUNING_ENV,detuning_env);
         else //NOTE: this else was not here before (Andrew)
           iter.next();
         
         while(iter.hasNext())
         {
-	    // create the detuning envelope for this partial
-	    ExponentialInterpolator detuning_env;
-	    setup_detuning_env(&detuning_env);
-            iter.next().setParam(DETUNING_ENV,detuning_env);
+          // create the detuning envelope for this partial
+          ExponentialInterpolator detuning_env;
+          setup_detuning_env(&detuning_env);
+          iter.next().setParam(DETUNING_ENV,detuning_env);
         }
     }
     
@@ -195,8 +206,11 @@ MultiTrack* Sound::render(
     // render each partial, and composite into a single track.
     //------------------
 
+    {
+    ScopedLock sl(SoundLock);
     cout << "\t Rendering..." << endl;
-
+    }
+    
     /*
      * duration gets tricky when you've got partials and sounds, either or both
      * of which can have different reverb applied.  'duration' refers to the
@@ -228,12 +242,17 @@ MultiTrack* Sound::render(
     else
     {
         Iterator<Partial> iter = iterator();
+        {
+        //ScopedLock sl(SoundLock);
         composite = iter.next().render(sampleCount, duration, samplingRate);
-
+        }
         Track* tempTrack;
         while(iter.hasNext())
         {
+            {
+            //ScopedLock sl(SoundLock);
             tempTrack = iter.next().render(sampleCount, duration, samplingRate);
+            }
             composite->composite(*tempTrack);
             delete tempTrack;
         }
@@ -242,19 +261,27 @@ MultiTrack* Sound::render(
 	// do the reverb
 	if(reverbObj != NULL)
 	{
+	  Track* reverbedTrack;
+	  {
+	  ScopedLock sl(SoundLock);
 		cout << "\t Applying Reverb..." << endl;
-		Track &reverbedTrack = reverbObj->do_reverb_Track(*composite);
+		}
+		reverbedTrack = &reverbObj->do_reverb_Track(*composite);
+		
 		delete composite;
 
 		//------------------
 		// spatialize the sound into a MultiTrack object
 		//------------------
 
+    {
+    ScopedLock sl(SoundLock);
 		cout << "\t Spatializing..." << endl;
-		MultiTrack* mt = spatializer_->spatialize(reverbedTrack, numChannels);
+		}
+		MultiTrack* mt = spatializer_->spatialize(*reverbedTrack, numChannels);
 
 		// delete the temporary track object that held the unspatialized reverbed sound
-		delete &reverbedTrack;
+		delete&reverbedTrack;
 
 		return mt;
 	}
@@ -264,7 +291,10 @@ MultiTrack* Sound::render(
 		// spatialize the sound into a MultiTrack object
 		//------------------
 
+    {
+    ScopedLock sl(SoundLock);
 		cout << "\t Spatializing..." << endl;
+		}
 		MultiTrack* mt = spatializer_->spatialize(*composite, numChannels);
 		delete composite;
 		return mt;
