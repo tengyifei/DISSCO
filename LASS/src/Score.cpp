@@ -484,6 +484,30 @@ void Score::anticlip(MultiTrack* mt)
 }
 
 //----------------------------------------------------------------------------//
+m_sample_type todB(m_sample_type x)
+{
+  return (m_sample_type)(log10((double)x) * 20.0);
+}
+
+m_sample_type fromdB(m_sample_type x)
+{
+  return (m_sample_type)pow(10.0, ((double)x * 0.05));
+}
+
+m_sample_type compressSound(m_sample_type x, m_sample_type peak,
+  m_sample_type dBCompressionPoint)
+{
+  m_sample_type xdB = todB(x);
+  m_sample_type cdB = dBCompressionPoint;
+  m_sample_type pdB = todB(peak);
+  
+  if(x < fromdB(dBCompressionPoint))
+    return x;
+
+  return fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
+    ((cdB - pdB) * (cdB - pdB)));
+}
+
 void Score::channelAnticlip(MultiTrack* mt)
 {
     cout << "Performing CHANNEL_ANTICLIP" << endl;
@@ -519,16 +543,14 @@ void Score::channelAnticlip(MultiTrack* mt)
     {
       cout << "Peak at " << maxAmplitude << endl;
       //cout << "Normalizing to achieve better signal-to-noise ratio.";
-      maxAmplitude = 0.99; //Disabling normalization for quiet pieces.
     }
     else
     {
       cout << "Warning: peak is " << maxAmplitude << " at " <<
         ((double)peakPlace / (double)mt->get(0)->getWave().getSamplingRate()) <<
         " seconds. Normalizing to avoid waveform clip.";
-    }
-    {
-      m_sample_type normalizeValue = 0.99 / maxAmplitude;
+      maxAmplitude /= 0.99; //Never actually allow it to hit 0dB.
+      //m_sample_type normalizeValue = maxAmplitude;
       for (int t=0; t<mt->size(); t++)
       {
           SoundSample& wave = mt->get(t)->getWave();
@@ -539,7 +561,7 @@ void Score::channelAnticlip(MultiTrack* mt)
           for (m_sample_count_type s=0; s<numSamples; s++)
           {
               amp[s] = 1.0;
-              wave[s] *= normalizeValue;
+              wave[s] = compressSound(wave[s], maxAmplitude, -6.0);
           }
       }
     }

@@ -412,7 +412,7 @@ bool PaletteViewController::onRightClick(GdkEventButton* event){
   Gtk::TreeModel::Children::iterator iter = 
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
-  if (*iter==NULL){
+  if (!*iter){
 	  m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false);
 	  m_refActionGroup->get_action("ContextDelete")->set_sensitive(false);    
 	}  
@@ -473,7 +473,7 @@ void PaletteViewController::deleteKeyPressed(){
   Gtk::TreeModel::Children::iterator iter = 
     palette.get_selection()->get_selected();
   
-  if (iter != NULL){
+  if (iter){
   Gtk::TreeModel::Row row = *iter;
     if (row){
       deleteObject();

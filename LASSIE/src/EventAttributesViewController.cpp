@@ -4613,7 +4613,7 @@ void EventAttributesViewController::LayerBox::deleteObject(){
   Gtk::TreeModel::Row row = *iter;
   
 
-  if (iter != NULL){
+  if (iter){
     EventDiscretePackage* removedEventPackage = row[m_Columns.columnEntry];
     IEvent* removedEvent = removedEventPackage->event;
     //remove removeEvent's parent

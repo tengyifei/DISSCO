@@ -340,6 +340,7 @@ namespace prim
       Running = false;
     }
   }
-#endif
 }
 #endif
+#endif
+
