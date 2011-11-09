@@ -42,7 +42,7 @@ Event::Event(TimeSpan ts, int type, string name) :
   restartsRemaining(0),
   currChildNum(0), childType(0),
   discreteMat(0),
-  childDurationPattern(NULL), childTypePattern(NULL)
+  childDurationPattern(NULL), childTypePattern(NULL), childStartTimePattern(NULL)
    {}
 
 //----------------------------------------------------------------------------//
@@ -234,14 +234,26 @@ void Event::buildChildEvents() {
 
 
 
-  //check if duration use pattern
+  
   list<FileValue>::iterator iter2 = iter;
+  
+  
+  //check if childStartTime use Pattern
+
+  if (iter2->getFtnString() == "GetPattern"){
+    //cout<<"Use Pattern for Child StartTime"<<endl;
+    childStartTimePattern = &(*iter2);
+    childStartTimePattern->Evaluate();
+
+  }
+  
+  
   iter2 ++;
   iter2 ++;
   
   //check if child Type use pattern
   if (iter2->getFtnString() == "GetPattern"){
-    cout<<"Use Pattern for Child Type"<<endl;
+    //cout<<"Use Pattern for Child Type"<<endl;
     childTypePattern = &(*iter2);
     childTypePattern->Evaluate();
   }  
@@ -255,7 +267,7 @@ void Event::buildChildEvents() {
   iter2 ++;
 
   if (iter2->getFtnString() == "GetPattern"){
-    cout<<"Use Pattern for Child Duration"<<endl;
+    //cout<<"Use Pattern for Child Duration"<<endl;
     childDurationPattern = &(*iter2);
     childDurationPattern->Evaluate();
 
@@ -751,9 +763,23 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
   }
 
   // get the start time
-  float rawChildStartTime = iter++->getFloat(this);
+  float rawChildStartTime; // = iter++->getFloat(this);
 
 
+    //check if duration use pattern
+  if ( childStartTimePattern != NULL){
+    rawChildStartTime = childStartTimePattern->getInt();
+    iter++;
+    //cout<<"childStartTime Use Pattern, this Start Time is :"<<rawChildStartTime<<endl;
+        //cout<<"This Duration is "<<rawChildDuration<<endl;
+  }
+  else {
+    rawChildStartTime = iter++->getFloat(this);
+  }
+  
+  
+  
+  
   
   
   // how to process start time: EDU, SECONDS or PERCENTAGE

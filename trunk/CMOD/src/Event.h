@@ -76,6 +76,10 @@ protected:
     //Previous start time
     TimeSpan tsPrevious;
     
+    //Pattern for Child Start Time, only works with Sweep
+    FileValue* childStartTimePattern;
+  
+    
     //Pattern for Child Duration
     FileValue* childDurationPattern;
 
@@ -83,7 +87,6 @@ protected:
     FileValue* childTypePattern;
     
     
-  
     //-------------------------- Layers and Types ----------------------------//
 
     //Names of the layers (i.e. from < <"T/1">, <"T/1","T/3">, <"T/2"> > )
