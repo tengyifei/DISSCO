@@ -398,7 +398,7 @@ void EnvelopeLibraryWindow::duplicateEnvelope(){
 
   Gtk::TreeModel::Children::iterator iter = 
     envelopeLibrary.get_selection()->get_selected();
-  if (iter == NULL){
+  if(!iter){
     cout<<" no envelope selected"<<endl;
     return;
   }
