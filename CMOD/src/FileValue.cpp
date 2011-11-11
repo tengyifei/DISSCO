@@ -728,6 +728,7 @@ void FileValue::ftn_GetPattern() {
   vector<FileValue*> args = EvaluateArgs(3, FVAL_STRING, FVAL_NUMBER, FVAL_PATTERN);
   patterMethod = args[0]->getString(evptr);
   patterOrigin = args[1]->getInt(evptr);
+  cout<<"origin = "<<patterOrigin<<endl;
   Patter* patPtr = args[2]->getPattern(evptr);
   obj = patPtr;
   //n = patPtr->GetNextValue( patterMethod, patterOrigin );
