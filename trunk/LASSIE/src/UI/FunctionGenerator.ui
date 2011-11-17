@@ -837,12 +837,12 @@
           <object class="GtkLabel" id="label66">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">offset(?)</property>
+            <property name="label" translatable="yes">Origin: </property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="padding">5</property>
+            <property name="padding">7</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -2913,6 +2913,7 @@ It must contain exactly 6 very small numbers </property>
         <property name="position">0</property>
       </packing>
     </child>
+    <!--
     <child>
       <object class="GtkHBox" id="hbox44">
         <property name="visible">True</property>
@@ -2967,6 +2968,7 @@ It must contain exactly 6 very small numbers </property>
         <property name="position">1</property>
       </packing>
     </child>
+    -->
   </object>
   <object class="GtkVBox" id="ReadREVFileVBox">
     <property name="visible">True</property>

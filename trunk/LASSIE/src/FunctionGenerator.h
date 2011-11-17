@@ -447,7 +447,7 @@ private:
   
   //ReadPATFile
   void readPATFileTextChanged();
-  void readPATFileOriginFunButtonClicked();
+
   
   //ReadREVFile
   void readREVFileTextChanged();

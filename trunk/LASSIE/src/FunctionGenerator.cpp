@@ -1048,20 +1048,14 @@ FunctionGenerator::FunctionGenerator(
   
   
   //ReadPATFile 
-    attributesRefBuilder->get_widget(
-    "ReadPATFileOriginFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::readPATFileOriginFunButtonClicked));  
+
   
   attributesRefBuilder->get_widget(
     "ReadPATFileNameEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(
     *this, & FunctionGenerator::readPATFileTextChanged));   
   
-  attributesRefBuilder->get_widget(
-    "ReadPATFileOriginEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readPATFileTextChanged));  
+
   
 
   //ReadREVFile 
@@ -2591,7 +2585,7 @@ FunctionGenerator::FunctionGenerator(
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      //ReadPATFile has 2 arguments
+      //ReadPATFile has 1 argument
       list<FileValue> arguments = value->getFtnArgs();  
       
       argumentsIter = arguments.begin();
@@ -2601,12 +2595,7 @@ FunctionGenerator::FunctionGenerator(
       string functionString = getFunctionString(value,functionReturnInt);
       functionString = functionString.substr(5, functionString.length()-6);
       entry->set_text(functionString); 
-
-      argumentsIter ++;
-      value =&(*argumentsIter); // first argument is a string      
-      
-      attributesRefBuilder->get_widget("ReadPATFileOriginEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));        
+    
                    
     }
     
@@ -3398,9 +3387,7 @@ void FunctionGenerator::function_list_combo_changed(){
           "ReadPATFileNameEntry", entry);
         entry->set_text("");
         entry->grab_focus();
-        attributesRefBuilder->get_widget(
-          "ReadPATFileOriginEntry", entry);
-        entry->set_text("");
+
         readPATFileTextChanged();
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
         resize(400,300);
@@ -5317,21 +5304,7 @@ void FunctionGenerator::expandPatternTextChanged(){
   
 }
 
-void FunctionGenerator::readPATFileOriginFunButtonClicked(){
-  Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "ReadPATFileOriginEntry", entry);
-    
-  FunctionGenerator* generator = 
-    new FunctionGenerator(functionReturnInt,entry->get_text());
-  generator->run(); 
-   
-  if (generator->getResultString() !=""){
-    entry->set_text(generator->getResultString());
-  }
-  delete generator;
 
-}
 
 
 void FunctionGenerator::readPATFileTextChanged(){
@@ -5340,10 +5313,8 @@ void FunctionGenerator::readPATFileTextChanged(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
     "ReadPATFileNameEntry", entry);
-  std::string stringbuffer ="ReadPATFile( \"PAT/" + entry->get_text() +  "\", ";
-  attributesRefBuilder->get_widget(
-    "ReadPATFileOriginEntry", entry);
-  stringbuffer =stringbuffer + entry->get_text() + ")";
+  std::string stringbuffer ="ReadPATFile( \"PAT/" + entry->get_text() +  "\")";
+
   textview->get_buffer()->set_text(stringbuffer);
   
 }
