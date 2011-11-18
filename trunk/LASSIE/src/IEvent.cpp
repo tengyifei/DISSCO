@@ -2950,6 +2950,7 @@ void IEvent::link(ProjectViewController* _projectView){
   std::list<EventLayer*>::iterator i = layers.begin();
   for (i ; i != layers.end(); i ++){
     (*i)->link(_projectView, this); //link each layer
+    
   }
   
   
@@ -2958,18 +2959,37 @@ void IEvent::link(ProjectViewController* _projectView){
  
 }
 
+
 void EventLayer::link(ProjectViewController* _projectView, IEvent* _thisEvent){
   std::list<EventDiscretePackage*>::iterator i = children.begin();
   for (i ; i != children.end(); i ++){
-    (*i)->link(_projectView, _thisEvent); //link each layer
+    if (!(*i)->link(_projectView, _thisEvent)){ //link each layer
+      cout<<"Linking with parent failed, removing "<< (*i)->eventName<<" from"
+      " its parent."<<endl;
+      children.remove(*i--);
+      //delete *i;
+    
+    }
+    
+    
+    
+    
   }
 
 }
 
-void EventDiscretePackage::link(
+bool EventDiscretePackage::link(
   ProjectViewController* _projectView, IEvent* _thisEvent){
     event = _projectView->getEventByTypeAndName(eventType,eventName);
+    
+    if (event==NULL){
+      cout<<"Warning! event: "<<eventName<<" is not found, It is included in "<<
+        _thisEvent->getEventName()<<" , but the file is not presented."<<endl;
+    //cout<<"_thisEvent is: "<< _thisEvent->getEventName()<<", eventName is: "<<eventName<<endl;
+      return false;
+    }
     event->addParent(_thisEvent);
+    return true;
 }
 
 

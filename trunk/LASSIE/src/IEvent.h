@@ -125,7 +125,7 @@ class EventDiscretePackage{
 		EventDiscretePackage(EventDiscretePackage* _originalPackage);
     EventDiscretePackage( FileValue* _thisPackageFileValue);
     std::string getLASSIEMetadataString();
-    void link(ProjectViewController* _projectView, IEvent* _thisEvent); 
+    bool link(ProjectViewController* _projectView, IEvent* _thisEvent); 
 
     ~EventDiscretePackage(){}
 };

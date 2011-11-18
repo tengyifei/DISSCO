@@ -31,7 +31,6 @@
 
 #include "ProjectViewController.h"
 #include "FileOperations.h"
-#include "EditOperations.h"
 #include "HelpOperations.h"
 #include "EnvelopeLibraryWindow.h"
 
