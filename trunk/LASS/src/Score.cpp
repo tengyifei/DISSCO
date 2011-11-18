@@ -499,15 +499,21 @@ m_sample_type fromdB(m_sample_type x)
 m_sample_type compressSound(m_sample_type x, m_sample_type peak,
   m_sample_type dBCompressionPoint)
 {
+  m_sample_type xSign = 1.0;
+  if(x < 0.0)
+  {
+    x = -x;
+    xSign = -1.0;
+  }
   m_sample_type xdB = todB(x);
   m_sample_type cdB = dBCompressionPoint;
   m_sample_type pdB = todB(peak);
   
   if(x < fromdB(dBCompressionPoint))
-    return x;
+    return x * xSign;
 
   return fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
-    ((cdB - pdB) * (cdB - pdB)));
+    ((cdB - pdB) * (cdB - pdB))) * xSign;
 }
 
 void Score::channelAnticlip(MultiTrack* mt)
