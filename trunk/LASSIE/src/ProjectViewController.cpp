@@ -2608,9 +2608,11 @@ void ProjectViewController::clearDeletedEvents(){
 
 
 std::string ProjectViewController::searchPossibleParents(string _fileName){
+  //cout<<"_fileName is :"<<_fileName<<endl;
   string result = "";
   std::vector<IEvent*>::iterator iter= events.begin();
   for( iter; iter!= events.end(); iter++){
+    
     if ((*iter)->haveString(_fileName)){
       result = result + (*iter)->getEventFolderName() + "/" +
         (*iter)->getEventName() + ", ";
