@@ -3561,7 +3561,7 @@ bool IEvent::haveString(string _string){
   }    
 
   if (extraInfo!= NULL){
-    return extraInfo->haveString(_string);  
+    //return extraInfo->haveString(_string);   this line crashes the program when removing bottom event, so oh well
   }   
   return false;
 
