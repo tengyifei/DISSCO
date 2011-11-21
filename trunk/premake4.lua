@@ -54,18 +54,22 @@ project "cmod"
   buildoptions {"-Wno-deprecated", "-gstabs"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
+  configuration "macosx"
+    targetdir "bin"
   
 project "lassie"
   language "C++"
   kind "ConsoleApp"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
-  buildoptions {"`pkg-config --libs --cflags gtkmm-2.4`",
+  buildoptions {"`pkg-config --cflags gtkmm-2.4`",
     "-Wno-deprecated", "-gstabs"}
   linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
+  configuration "macosx"
+    targetdir "bin"
   
 --------------------------------------------------------------------------------
 --                       The LASS Examples Directory
