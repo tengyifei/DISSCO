@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct PieceHelper {
   ///Main function to initiate creating the piece.
   static void createPiece(string path, string projectName, string seed,
-    string soundFilename);
+    string soundFilename, int processCount, int processOffset);
   
   ///Lists contents of directory.
   static int getDirectoryList(string dir, vector<string> &files);

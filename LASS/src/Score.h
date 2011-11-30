@@ -146,7 +146,8 @@ public:
     **/
     MultiTrack* render(
         int numChannels,
-        m_rate_type samplingRate = DEFAULT_SAMPLING_RATE);
+        m_rate_type samplingRate,
+        int processCount, int processOffset);
 
     /**
     *	This function:
