@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "EventFactory.h"
 #include "Output.h"
 #include "Sieve.h"
+#include "Random.h"
 
 //Global -- eventually this should be moved into a class.
 extern map<string, EventFactory*> factory_lib;
@@ -628,7 +629,10 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
   if (currChildNum == 0) {
     checkPoint = 0;
   }
-
+  else {
+    checkPoint = Random::Rand();
+  }
+  
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
 
