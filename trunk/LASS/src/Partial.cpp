@@ -37,8 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Threads.h"
 using namespace prim;
 
-Mutex PartialLock;
-
+extern Mutex renderLock;
 
 //----------------------------------------------------------------------------//
 Partial::Partial()
@@ -83,7 +82,7 @@ Track* Partial::render(m_sample_count_type sampleCount,
     //And one to store amplitude data:
     SoundSample* ampSample = new SoundSample(sampleCount, samplingRate);
 
-    PartialLock.Lock();
+    renderLock.Lock();
     DynamicVariable* copy_FREQUENCY = getParam(FREQUENCY).clone();
     DynamicVariable* copy_WAVE_SHAPE = getParam(WAVE_SHAPE).clone();
     DynamicVariable* copy_TREMOLO_AMP = getParam(TREMOLO_AMP).clone();
@@ -146,7 +145,6 @@ Track* Partial::render(m_sample_count_type sampleCount,
     // grab iterators for each DynamicVariable:
     typedef Iterator<m_value_type> ValIter;
 
-    // ValIter freq_it = getParam(FREQUENCY).valueIterator();
     ValIter frequency_it = copy_FREQUENCY->valueIterator();
     ValIter wave_shape_it = copy_WAVE_SHAPE->valueIterator();
     ValIter tremolo_amp_it = copy_TREMOLO_AMP->valueIterator();
@@ -154,7 +152,7 @@ Track* Partial::render(m_sample_count_type sampleCount,
     ValIter vibrato_amp_it = copy_VIBRATO_AMP->valueIterator();
     ValIter vibrato_rate_it = copy_VIBRATO_RATE->valueIterator();
     ValIter phase_it = copy_PHASE->valueIterator();
-    ValIter loudnes_scalar_it = copy_LOUDNESS_SCALAR->valueIterator();
+    ValIter loudness_scalar_it = copy_LOUDNESS_SCALAR->valueIterator();
     ValIter amptrans_width_it = copy_AMPTRANS_WIDTH->valueIterator();
     ValIter freqtrans_width_it = copy_FREQTRANS_WIDTH->valueIterator();
     //ValIter freq_deviation_it = copy_FREQUENCY_DEVIATION->valueIterator();
@@ -165,6 +163,68 @@ Track* Partial::render(m_sample_count_type sampleCount,
     ValIter amptrans_rate_it = copy_AMPTRANS_RATE_ENV->valueIterator();
     ValIter freqtrans_amp_it = copy_FREQTRANS_AMP_ENV->valueIterator();
     ValIter freqtrans_rate_it = copy_FREQTRANS_RATE_ENV->valueIterator();
+    renderLock.Unlock();
+    
+    m_value_type* frequency_it_ptr = new m_value_type[numSamplesToRender],
+      *frequency_it_start = frequency_it_ptr;
+    m_value_type* wave_shape_it_ptr = new m_value_type[numSamplesToRender],
+      *wave_shape_it_start = wave_shape_it_ptr;
+    m_value_type* tremolo_amp_it_ptr = new m_value_type[numSamplesToRender],
+      *tremolo_amp_it_start = tremolo_amp_it_ptr;
+    m_value_type* tremolo_rate_it_ptr = new m_value_type[numSamplesToRender],
+      *tremolo_rate_it_start = tremolo_rate_it_ptr;
+    m_value_type* vibrato_amp_it_ptr = new m_value_type[numSamplesToRender],
+      *vibrato_amp_it_start = vibrato_amp_it_ptr;
+    m_value_type* vibrato_rate_it_ptr = new m_value_type[numSamplesToRender],
+      *vibrato_rate_it_start = vibrato_rate_it_ptr;
+    m_value_type* phase_it_ptr = new m_value_type[numSamplesToRender],
+      *phase_it_start = phase_it_ptr;
+    m_value_type* loudness_scalar_it_ptr = new m_value_type[numSamplesToRender],
+      *loudness_scalar_it_start = loudness_scalar_it_ptr;
+    m_value_type* amptrans_width_it_ptr = new m_value_type[numSamplesToRender],
+      *amptrans_width_it_start = amptrans_width_it_ptr;
+    m_value_type* freqtrans_width_it_ptr = new m_value_type[numSamplesToRender],
+      *freqtrans_width_it_start = freqtrans_width_it_ptr;
+    //m_value_type* freq_deviation_it_ptr = new m_value_type[numSamplesToRender],
+    //  *freq_deviation_it_start = freq_deviation_it_ptr;
+    //m_value_type* gliss_it_ptr = new m_value_type[numSamplesToRender],
+    //  *gliss_it_start = gliss_it_ptr;
+    m_value_type* freq_it_ptr = new m_value_type[numSamplesToRender],
+      *freq_it_start = freq_it_ptr;
+    //m_value_type* detuning_it_ptr = new m_value_type[numSamplesToRender],
+    //  *detuning_it_start = detuning_it_ptr;
+    m_value_type* amptrans_amp_it_ptr = new m_value_type[numSamplesToRender],
+      *amptrans_amp_it_start = amptrans_amp_it_ptr;
+    m_value_type* amptrans_rate_it_ptr = new m_value_type[numSamplesToRender],
+      *amptrans_rate_it_start = amptrans_rate_it_ptr;
+    m_value_type* freqtrans_amp_it_ptr = new m_value_type[numSamplesToRender],
+      *freqtrans_amp_it_start = freqtrans_amp_it_ptr;
+    m_value_type* freqtrans_rate_it_ptr = new m_value_type[numSamplesToRender],
+      *freqtrans_rate_it_start = freqtrans_rate_it_ptr;
+    
+    renderLock.Lock();
+    for(m_sample_count_type s = 0; s < numSamplesToRender; s++)
+    {
+      frequency_it_ptr[s] = frequency_it.next();
+      wave_shape_it_ptr[s] = wave_shape_it.next();
+      tremolo_amp_it_ptr[s] = tremolo_amp_it.next();
+      tremolo_rate_it_ptr[s] = tremolo_rate_it.next();
+      vibrato_amp_it_ptr[s] = vibrato_amp_it.next();
+      vibrato_rate_it_ptr[s] = vibrato_rate_it.next();
+      phase_it_ptr[s] = phase_it.next();
+      loudness_scalar_it_ptr[s] = loudness_scalar_it.next();
+      amptrans_width_it_ptr[s] = amptrans_width_it.next();
+      freqtrans_width_it_ptr[s] = freqtrans_width_it.next();
+      //freq_deviation_it_ptr[s] = freq_deviation_it.next();
+      //gliss_it_ptr[s] = gliss_it.next();
+      freq_it_ptr[s] = freq_it.next();
+      //detuning_it_ptr[s] = detuning_it.next();
+      amptrans_amp_it_ptr[s] = amptrans_amp_it.next();
+      amptrans_rate_it_ptr[s] = amptrans_rate_it.next();
+      freqtrans_amp_it_ptr[s] = freqtrans_amp_it.next();
+      freqtrans_rate_it_ptr[s] = freqtrans_rate_it.next();
+    }
+    renderLock.Unlock();
 
     // randomize the frequency deviation:
     //
@@ -202,8 +262,8 @@ Track* Partial::render(m_sample_count_type sampleCount,
     m_value_type freqtrans_width = 0.0;
     m_time_type amptransprob;
     m_time_type freqtransprob;
-
-    srand(time(0));
+    
+    //srand(time(0));
 
     //flags to tell if we are in a transient
     int amptransflag = 0;
@@ -222,23 +282,23 @@ Track* Partial::render(m_sample_count_type sampleCount,
     m_value_type amplifier = 0.0, trans_amplifier = 0;
     
     //Loop over every sample:
-    for(m_sample_count_type s=0; s < numSamplesToRender; s++)
+    for(m_sample_count_type s = 0; s < numSamplesToRender; s++)
     {  
       //---------//
       //AMPLITUDE//
       //---------//
       
       //Advance transient related iterators
-      amptrans_width = amptrans_width_it.next();
-      trans_amplifier = amptrans_amp_it.next();
-      amptransprob = amptrans_rate_it.next();
+      amptrans_width = *amptrans_width_it_ptr++;
+      trans_amplifier = *amptrans_amp_it_ptr++;
+      amptransprob = *amptrans_rate_it_ptr++;
       
       //Grab the tremolo value
-      tremolo = tremolo_amp_it.next() * sin(2.0 * M_PI * tremolo_phase);
+      tremolo = *tremolo_amp_it_ptr++ * sin(2.0 * M_PI * tremolo_phase);
       
       //Increment the tremolo phase
       tremolo_phase = pmod(tremolo_phase +
-        (tremolo_rate_it.next() / samplingRate));
+        (*tremolo_rate_it_ptr++ / samplingRate));
         
 	    //Once counter reaches 0, check for transient
 	    if(amptranscheck <= 0 && s + amptrans_width < numSamplesToRender)
@@ -277,7 +337,7 @@ Track* Partial::render(m_sample_count_type sampleCount,
 	
       //Decrease the check counter.
       amptranscheck--;
-      amplitude = loudnes_scalar_it.next() * wave_shape_it.next() *
+      amplitude = *loudness_scalar_it_ptr++ * *wave_shape_it_ptr++ *
         (1.0 + tremolo);
 
       //Apply transient modifier to amplitude
@@ -288,9 +348,9 @@ Track* Partial::render(m_sample_count_type sampleCount,
       //---------//
 
       //Advance frequency transient related iterators.
-      freqtrans_width = freqtrans_width_it.next();
-      trans_freqmod = freqtrans_amp_it.next();
-      freqtransprob = freqtrans_rate_it.next();
+      freqtrans_width = *freqtrans_width_it_ptr++;
+      trans_freqmod = *freqtrans_amp_it_ptr++;
+      freqtransprob = *freqtrans_rate_it_ptr++;
 	
       //If we should check, check.
       if(freqtranscheck <= 0 && s+freqtrans_width < numSamplesToRender)
@@ -327,17 +387,17 @@ Track* Partial::render(m_sample_count_type sampleCount,
       //Perhaps the vibrato should be keyed to PartialNumber.
 
       //Grab the vibrato value.
-      vibrato =  vibrato_amp_it.next() * sin(2.0 * M_PI * vibrato_phase);
+      vibrato =  *vibrato_amp_it_ptr++ * sin(2.0 * M_PI * vibrato_phase);
       
       //Increment the vibrato phase.
       vibrato_phase = pmod(
-        vibrato_phase + (vibrato_rate_it.next() / samplingRate));
+        vibrato_phase + (*vibrato_rate_it_ptr++ / samplingRate));
 
       //Augment the frequency value by the freq-deviation and vibrato and
       //detuning and freq_env and transients.
-      frequency  = frequency_it.next() * freq_it.next(); // * detuning_it.next()
+      frequency  = *frequency_it_ptr++ * *freq_it_ptr++; // * *detuning_it_ptr++
       
-      //frequency += freq_deviation_it.next();
+      //frequency += *freq_deviation_it_ptr++;
       frequency *= 1.0 + vibrato;
 
       //Apply frequency transient adjustments.
@@ -348,7 +408,7 @@ Track* Partial::render(m_sample_count_type sampleCount,
         
       //Calculate the actual phase, augmenting freq_phase with they dynamic
       //variable phase (phase offset).
-      phase = freq_phase + phase_it.next();
+      phase = freq_phase + *phase_it_ptr++;
 
       //------//
       //SAMPLE//
@@ -374,6 +434,7 @@ Track* Partial::render(m_sample_count_type sampleCount,
     Track *returnTrack = new Track(waveSample, ampSample);
 
     //Calculate reverb if necessary.
+    renderLock.Lock();
     if(reverbObj != NULL)
     {
       Track &tmp = reverbObj->do_reverb_Track(*returnTrack);
@@ -383,7 +444,28 @@ Track* Partial::render(m_sample_count_type sampleCount,
       //Delete the temporary track object.
       delete &tmp;
     }
-    PartialLock.Unlock();
+    renderLock.Unlock();
+    
+    //Delete the envelope calculations.
+    delete [] frequency_it_start;
+    delete [] wave_shape_it_start;
+    delete [] tremolo_amp_it_start;
+    delete [] tremolo_rate_it_start;
+    delete [] vibrato_amp_it_start;
+    delete [] vibrato_rate_it_start;
+    delete [] phase_it_start;
+    delete [] loudness_scalar_it_start;
+    delete [] amptrans_width_it_start;
+    delete [] freqtrans_width_it_start;
+    //delete [] freq_deviation_it_start;
+    //delete [] gliss_it_start;
+    delete [] freq_it_start;
+    //delete [] detuning_it_start;
+    delete [] amptrans_amp_it_start;
+    delete [] amptrans_rate_it_start;
+    delete [] freqtrans_amp_it_start;
+    delete [] freqtrans_rate_it_start;
+    
     return returnTrack;
 }
 

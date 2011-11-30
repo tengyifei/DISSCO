@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Threads.h"
 using namespace prim;
 
-Mutex SoundLock;
+extern Mutex renderLock;
 
 //----------------------------------------------------------------------------//
 Sound::Sound()
@@ -165,7 +165,7 @@ MultiTrack* Sound::render(
     if (getParam(LOUDNESS) >= 0)
     {
         {
-        ScopedLock sl(SoundLock);
+        ScopedLock sl(renderLock);
         cout << "\t Calculating Loudness..." << endl;
         }
         //m_rate_type loudnessRate = m_rate_type(getParam(LOUDNESS_RATE));
@@ -179,7 +179,7 @@ MultiTrack* Sound::render(
     if (size() != 0)
     {
         {
-        ScopedLock sl(SoundLock);
+        ScopedLock sl(renderLock);
         cout << "\t Creating Envelopes..." << endl;
         }
         Iterator<Partial> iter = iterator();
@@ -207,7 +207,7 @@ MultiTrack* Sound::render(
     //------------------
 
     {
-    ScopedLock sl(SoundLock);
+    ScopedLock sl(renderLock);
     cout << "\t Rendering..." << endl;
     }
     
@@ -243,14 +243,14 @@ MultiTrack* Sound::render(
     {
         Iterator<Partial> iter = iterator();
         {
-        //ScopedLock sl(SoundLock);
+        //ScopedLock sl(renderLock);
         composite = iter.next().render(sampleCount, duration, samplingRate);
         }
         Track* tempTrack;
         while(iter.hasNext())
         {
             {
-            //ScopedLock sl(SoundLock);
+            //ScopedLock sl(renderLock);
             tempTrack = iter.next().render(sampleCount, duration, samplingRate);
             }
             composite->composite(*tempTrack);
@@ -258,12 +258,14 @@ MultiTrack* Sound::render(
         }
     }
 
+  {
+  //ScopedLock sl(renderLock);
 	// do the reverb
 	if(reverbObj != NULL)
 	{
 	  Track* reverbedTrack;
 	  {
-	  ScopedLock sl(SoundLock);
+	  ScopedLock sl(renderLock);
 		cout << "\t Applying Reverb..." << endl;
 		}
 		reverbedTrack = &reverbObj->do_reverb_Track(*composite);
@@ -274,11 +276,12 @@ MultiTrack* Sound::render(
 		// spatialize the sound into a MultiTrack object
 		//------------------
 
+    MultiTrack* mt;
     {
-    ScopedLock sl(SoundLock);
+    ScopedLock sl(renderLock);
 		cout << "\t Spatializing..." << endl;
+		mt = spatializer_->spatialize(*reverbedTrack, numChannels);
 		}
-		MultiTrack* mt = spatializer_->spatialize(*reverbedTrack, numChannels);
 
 		// delete the temporary track object that held the unspatialized reverbed sound
 		delete reverbedTrack;
@@ -292,12 +295,13 @@ MultiTrack* Sound::render(
 		//------------------
 
     {
-    ScopedLock sl(SoundLock);
+    //ScopedLock sl(renderLock);
 		cout << "\t Spatializing..." << endl;
 		}
 		MultiTrack* mt = spatializer_->spatialize(*composite, numChannels);
 		delete composite;
 		return mt;
+	}
 	}
 }
 

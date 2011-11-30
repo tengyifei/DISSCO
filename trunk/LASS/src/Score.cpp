@@ -35,6 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Score.h"
 #include "Types.h"
 
+prim::Mutex renderLock;
+
 struct SoundRender : public prim::Thread
 {
   Sound* snd;
@@ -109,8 +111,8 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     // for each sound in this score:
     int num=0;
     it = iterator();
-    #if 0
-    const int ThreadCount = 8;
+    #if 1
+    const int ThreadCount = 2;
     while(true)
     {
         Sound* Sounds[ThreadCount];
@@ -125,7 +127,7 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
           if(!it.hasNext())
             break;
           num++;
-          cout << "Sound #" << num << ":" << endl;
+          cout << "Sound #" << num << " of " << numSounds << ":" << endl;
           Sounds[i] = &it.next();
           Tracks[i] = 0;
           Renderers[i].snd = Sounds[i];
