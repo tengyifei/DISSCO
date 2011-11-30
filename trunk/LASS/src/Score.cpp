@@ -62,7 +62,8 @@ Score::Score()
 }
 
 //----------------------------------------------------------------------------//
-MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
+MultiTrack* Score::render(int numChannels, m_rate_type samplingRate,
+  int processCount, int processOffset)
 {
 
     // figure out how long the score will run:
@@ -94,7 +95,12 @@ MultiTrack* Score::render(int numChannels, m_rate_type samplingRate)
     it = iterator();
     while (it.hasNext())
     {
-
+        if(num % processCount != processOffset)
+        {
+          it.next();
+          num++;
+          continue;
+        }
         num++;
         cout << "Sound #" << num << " of " << numSounds << ":" << endl;
 

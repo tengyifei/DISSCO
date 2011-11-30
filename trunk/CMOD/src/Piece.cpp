@@ -46,7 +46,7 @@ Piece ThePiece;
 //----------------------------------------------------------------------------//
 
 void PieceHelper::createPiece(string path, string projectName, string seed,
-  string soundFilename) {
+  string soundFilename, int processCount, int processOffset) {
   
   //Change working directory.
   chdir(path.c_str());
@@ -127,7 +127,8 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
 
     //Note: multithread isn't working quite right yet, so run in single thread.
     MultiTrack* renderedScore = 
-      score.render(ThePiece.numChannels, ThePiece.sampleRate);
+      score.render(ThePiece.numChannels, ThePiece.sampleRate, processCount,
+        processOffset);
 
     //Write to file.
     AuWriter::write(*renderedScore, soundFilename);

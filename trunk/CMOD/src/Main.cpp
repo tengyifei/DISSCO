@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 // 
-//  main.ccp
+//  Main.cpp
 // 
 //  This is the main program for CMOD, the computer-assisted
 //  composition software part of the EMCS.
@@ -51,11 +51,20 @@ int main(int parameterCount, char **parameterList) {
   if(path == "--help" || path == "-help" || path == "help") {
     cout << "Usage: cmod          Runs CMOD in the current directory." << endl;
     cout << "       cmod <path>   Runs CMOD in the <path> directory." << endl;
+    cout << "       cmod <path> <process-offset=0> <process-count=1>" << endl;
+    cout << "                     Renders a specific mask of sounds." << endl;
     cout << "       cmod help   Displays this help." << endl;
     return 0;
   }
   path = PieceHelper::getFixedPath(path);
   cout << "Working in path: " << path << endl;
+  
+  int processCount = 1, processOffset = 0;
+  if(parameterCount >= 4)
+  {
+    processOffset = (int)atol(parameterList[2]);
+    processCount = (int)atol(parameterList[3]);
+  }
   
   //Determine the project name.
   string projectName = PieceHelper::getProjectName(path);
@@ -71,7 +80,17 @@ int main(int parameterCount, char **parameterList) {
   //Determine project sound file output.
   PieceHelper::createSoundFilesDirectory(path);
   PieceHelper::createScoreFilesDirectory(path);
-  string soundFilename = PieceHelper::getNextSoundFile(path, projectName);
+  string soundFilename;
+  soundFilename = PieceHelper::getNextSoundFile(path, projectName);
+  if(processCount > 1) {
+    soundFilename = path + "SoundFiles/";
+    soundFilename = soundFilename + projectName;
+    soundFilename = soundFilename + "_multi_";
+    stringstream oss;
+    oss << processOffset << "_" << processCount << ".aiff";
+    soundFilename = soundFilename + oss.str();
+  }
+  
   if(soundFilename == "") {
     cout << "A new soundfile name could not be reserved." << endl;
     return 0;
@@ -81,7 +100,9 @@ int main(int parameterCount, char **parameterList) {
   cout << endl;  
   
   //Create the piece!
-  PieceHelper::createPiece(path, projectName, seed, soundFilename);
+
+  PieceHelper::createPiece(path, projectName, seed, soundFilename,
+    processCount, processOffset);
   
   return 0;
 }
