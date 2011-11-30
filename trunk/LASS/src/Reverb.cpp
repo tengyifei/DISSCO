@@ -29,10 +29,6 @@
 #include "Reverb.h"
 #include "Types.h"
 
-#include "Threads.h"
-
-extern prim::Mutex renderLock;
-
 //----------------------------------------------------------------------------//
 
 
@@ -268,10 +264,8 @@ m_sample_type Reverb::do_reverb(m_sample_type x_t, float x_value)
 m_sample_type Reverb::do_reverb(m_sample_type x_t, float x_value, Envelope *percentReverbinput)
 {
   m_sample_type y;
-  renderLock.Lock();
   Envelope* temp = new Envelope(*percentReverbinput);
   delete percentReverb;
-  renderLock.Unlock();
   percentReverb = temp;
 
   // run the sample through various comb filters (for effeciency
@@ -288,11 +282,9 @@ m_sample_type Reverb::do_reverb(m_sample_type x_t, float x_value, Envelope *perc
   // after adding up the results, run it through an allpass filter
   y = apfilter->do_filter(y);
   // Mix it with the input sound
-  renderLock.Lock();
   float durationofEnv = percentReverb->getDuration();
   float EnvelopeValueAtx = percentReverb->getValue(x_value,durationofEnv);
   y = (EnvelopeValueAtx*y) + ((1 - EnvelopeValueAtx)*x_t);
-  renderLock.Unlock();
   return y;
 }
 
@@ -328,11 +320,10 @@ MultiTrack &Reverb::do_reverb_MultiTrack(MultiTrack &inWave, Envelope *percentRe
   SoundSample *newWave, *newAmp;
 
   // create the new MultiTrack
-  renderLock.Lock();
   newMultiTrack = new MultiTrack();
+
   Envelope* temp = new Envelope(*percentReverbinput);
   delete percentReverb;
-  renderLock.Unlock();
   percentReverb = temp;
   // iterate over all individual tracks
   // for each track:
@@ -350,9 +341,7 @@ MultiTrack &Reverb::do_reverb_MultiTrack(MultiTrack &inWave, Envelope *percentRe
       reset();
       newAmp  = constructAmp(newWave); 
       reset();
-      renderLock.Lock();
       newMultiTrack->add(new Track(newWave, newAmp));
-      renderLock.Unlock();
     }
 
   return *newMultiTrack;
@@ -371,10 +360,9 @@ Track &Reverb::do_reverb_Track(Track &inWave, Envelope *percentReverbinput)
   SoundSample *newWave, *newAmp;
   // delete percentReverb;
   // percentReverb = new Envelope(*percentReverbinput);
-  renderLock.Lock();
+
   Envelope* temp = new Envelope(*percentReverbinput);
   delete percentReverb;
-  renderLock.Unlock();
   percentReverb = temp;
   // grab the SoundSample from inside the Track
   // filter the SoundSample, which returns a NEW SoundSample
@@ -382,9 +370,8 @@ Track &Reverb::do_reverb_Track(Track &inWave, Envelope *percentReverbinput)
   newWave = do_reverb_SoundSample(&inWave.getWave(), percentReverb);
   reset();
   newAmp  = constructAmp(newWave); 
-  renderLock.Lock();
   newTrack = new Track(newWave, newAmp);
-  renderLock.Unlock();
+
   return *newTrack;
 }
 
@@ -401,10 +388,9 @@ SoundSample *Reverb::do_reverb_SoundSample(SoundSample *inWave, Envelope *percen
   SoundSample *outWave;
   // delete percentReverb;
   // percentReverb = new Envelope(*percentReverbinput);
-  renderLock.Lock();
+
   Envelope* temp = new Envelope(*percentReverbinput);
   delete percentReverb;
-  renderLock.Unlock();
   percentReverb = temp;
   // create new SoundSample
   outWave = new SoundSample(inWave->getSampleCount(),
