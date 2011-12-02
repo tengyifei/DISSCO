@@ -76,6 +76,9 @@ protected:
     //Previous start time
     TimeSpan tsPrevious;
     
+    //Previous child duration
+    double previousChildDuration;
+    
     //Pattern for Child Start Time, only works with Sweep
     FileValue* childStartTimePattern;
   
@@ -206,9 +209,17 @@ protected:
     int getCurrentLayer();
 
     /**
-    *   Returns the current childs type
+    *   Returns the current child type
     **/
     int getCurrentChildType() {return childType;};
+ 
+    /**
+    *   Returns the previous child duration
+    **/    
+    
+    double getPreviousChildDuration(){ return previousChildDuration;}
+    
+    
 
     /**
      *  Returns the number of current partial -- will call to bottom in most cases

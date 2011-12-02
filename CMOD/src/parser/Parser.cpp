@@ -388,11 +388,11 @@ typedef short int yytype_int16;
 # if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
-#   define YY_(msgid) dgettext ("bison-runtime", (char*)msgid)
+#   define YY_(msgid) dgettext ("bison-runtime", msgid)
 #  endif
 # endif
 # ifndef YY_
-#  define YY_(msgid) (char*)msgid
+#  define YY_(msgid) msgid
 # endif
 #endif
 
@@ -2029,11 +2029,7 @@ int main()
 
 int yyerror (char *msg)
 {
-	//this line is disabled to avoid printing too much 
-	//unnecessary warnings while saving incomplete file
-	//in lassie.
-	
-	//return printf("Error encountered, line %d: %s\n", yylloc.first_line, msg);
+	return printf("Error encountered, line %d: %s\n", yylloc.first_line, msg);
 }
 
 int yywrap()

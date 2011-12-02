@@ -80,6 +80,7 @@ typedef enum {
   function_staticCURRENT_SEGMENT,
   function_staticAVAILABLE_EDU,
   function_staticCURRENT_LAYER,
+  function_staticPREVIOUS_CHILD_DURATION,
   
   NOT_A_FUNCTION
 

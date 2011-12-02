@@ -240,6 +240,10 @@ FunctionGenerator::FunctionGenerator(
     row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
 
     row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
+    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";
+
+    row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
     row[functionListColumns.m_col_name] = "CURRENT_LAYER";  
   
@@ -316,6 +320,10 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
     row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
+
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
+    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -406,6 +414,10 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
     row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
+    
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
+    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";    
 
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
@@ -1579,6 +1591,21 @@ FunctionGenerator::FunctionGenerator(
     combobox->set_active(iter);
 
   }  
+
+  //check if PREVIOUS_CHILD_DURATION
+  locationOfKeyword =_originalString.find("PREVIOUS_CHILD_DURATION");
+  if (int(locationOfKeyword)==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "PREVIOUS_CHILD_DURATION"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+
+  } 
+
+
  
   //check if CURRENT_LAYER
   locationOfKeyword =_originalString.find("CURRENT_LAYER");
@@ -3539,6 +3566,13 @@ void FunctionGenerator::function_list_combo_changed(){
         resize(400,200);
   
       }
+      else if (function == function_staticPREVIOUS_CHILD_DURATION){
+        alignment->remove();
+        textview->get_buffer()->set_text("PREVIOUS_CHILD_DURATION");
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,200);
+  
+      }
       else if (function == function_staticCURRENT_LAYER){
         alignment->remove();
         textview->get_buffer()->set_text("CURRENT_LAYER");
@@ -3546,6 +3580,7 @@ void FunctionGenerator::function_list_combo_changed(){
         resize(400,200);
   
       }
+     
       else {  //not a function
         alignment->remove();
         textview->get_buffer()->set_text("");
@@ -6483,7 +6518,9 @@ std::string FunctionGenerator::getFunctionString(
     stringbuffer= _value->getFtnString();
     
     bool isNotStatic = (stringbuffer.find("CURRENT") == string::npos &&
-        stringbuffer.find("AVAILA") == string::npos);
+        stringbuffer.find("AVAILA") == string::npos &&
+        stringbuffer.find("PREVIOUS_CHILD_DURATION") == string::npos 
+        );
         
     if (isNotStatic){
       stringbuffer = stringbuffer + "(";
