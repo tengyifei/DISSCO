@@ -148,7 +148,8 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
     bripng.replace(bripng.find("aiff"), 4, "png");
     bri.append(bripng);
     bri.append(" > /dev/null &");
-    system(bri.c_str());
+    if(processCount == 1)
+      system(bri.c_str());
 
     cout << endl;
     cout << "-----------------------------------------------------------" <<
