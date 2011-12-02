@@ -353,8 +353,9 @@ float Bottom::computeBaseFreq( bool usePattern, float patternFreqValue) {
     /* 2nd arg is (float)fundamental_freq, 3rd arg is (int)overtone_num */
     float fund_freq = usePattern? patternFreqValue:iter->getFloat(this);
     iter++;
-    int overtone_step = iter->getInt(this);
+    int overtone_step = iter->getInt(this); 
     baseFreqResult = fund_freq * overtone_step;
+
   }
 
   //cout <<"base Freq = "<< baseFreqResult<<endl;

@@ -7,7 +7,6 @@ echo ""
 echo "hostname;killall cmod; exit" | ssh -T ben
 echo "hostname;killall cmod; exit" | ssh -T edgard
 echo "hostname;killall cmod; exit" | ssh -T herbert
-echo "hostname;killall cmod; exit" | ssh -T iannis
 echo "hostname;killall cmod; exit" | ssh -T james
 echo "hostname;killall cmod; exit" | ssh -T john
 echo "hostname;killall cmod; exit" | ssh -T luigi
