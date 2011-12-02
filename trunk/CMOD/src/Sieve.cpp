@@ -60,13 +60,14 @@ void Sieve::Build(int minVal, int maxVal,
   Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVector);
   Sieve::Weights(wMethod, wArgVect);
 
-     //cout for debugging
+  /* cout for debugging
   list<int>::iterator i = eList.begin();
   cout<<"Elements list: ";
   for ( i ; i != eList.end(); i ++){
     cout<< *i<<", "; 
   }
   cout<<endl;
+*/
 
   list<double>::iterator j = wList.begin();
   cout<<"weight list: ";
