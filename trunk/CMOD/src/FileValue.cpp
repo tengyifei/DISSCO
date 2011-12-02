@@ -313,6 +313,8 @@ void FileValue::Evaluate() {
     static_ftn_DURATION_EDU();              //Deprecated--use AVAILABLE_EDU
   } else if (ftnString == "AVAILABLE_EDU") {
     static_ftn_AVAILABLE_EDU();
+  } else if (ftnString == "PREVIOUS_CHILD_DURATION"){
+    static_ftn_PREVIOUS_CHILD_DURATION();
   } else if (ftnString == "CURRENT_LAYER") {
     static_ftn_CURRENT_LAYER();
   } else {
@@ -1170,4 +1172,17 @@ void FileValue::static_ftn_CURRENT_LAYER() {
   return_type = FVAL_NUMBER;
   n = evptr->getCurrentLayer();
 }
+
+void FileValue::static_ftn_PREVIOUS_CHILD_DURATION() {
+  if (evptr == NULL) {
+    cerr << "FileValue Error: PREVIOUS_CHILD_DURATION used outside of Event context" 
+        << endl;
+    exit(1);
+  }
+  return_type = FVAL_NUMBER;
+  n = evptr->getPreviousChildDuration();
+}
+
+
+
 

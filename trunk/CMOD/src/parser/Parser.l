@@ -182,6 +182,7 @@ Decay				|
 Randomizer			|
 RandomInt			|
 RandomSeed			|
+MathExpr |
 Random				{ 
 						#ifdef PARSER_DEBUG
 						printf("saw %s\n", yytext); 
@@ -199,6 +200,7 @@ CURRENT_LAYER			|
 CURRENT_SEGMENT			|
 CURRENT_TYPE			|
 CURRENT_CHILD_NUM		|
+PREVIOUS_CHILD_DURATION |
 CURRENT_PARTIAL_NUM		|
 CURRENT_DENSITY			{ 
 							#ifdef PARSER_DEBUG

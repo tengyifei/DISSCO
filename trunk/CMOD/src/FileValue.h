@@ -389,6 +389,7 @@ private:
   void static_ftn_DURATION_EDU(); //Deprecated--use AVAILABLE_EDU
   void static_ftn_AVAILABLE_EDU();
   void static_ftn_CURRENT_LAYER();
+  void static_ftn_PREVIOUS_CHILD_DURATION();
 
   //----------------------------------------------------------------------------//
 };

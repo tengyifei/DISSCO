@@ -43,8 +43,10 @@ Event::Event(TimeSpan ts, int type, string name) :
   restartsRemaining(0),
   currChildNum(0), childType(0),
   discreteMat(0),
-  childDurationPattern(NULL), childTypePattern(NULL), childStartTimePattern(NULL)
-   {}
+  childDurationPattern(NULL), 
+  childTypePattern(NULL), 
+  childStartTimePattern(NULL),
+  previousChildDuration(0){}
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -216,6 +218,8 @@ void Event::buildChildEvents() {
   //Create the event definition iterator.
   list<FileValue>::iterator iter = childEventDef->getListPtr(this)->begin();
   string method = iter++->getString(this);
+  
+  
   
   //Set the number of possible restarts (for buildDiscrete)
   restartsRemaining = restartsNormallyAllowed;
@@ -683,6 +687,10 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
     rawChildDuration = iter++->getFloat(this);
   }
   
+  
+  //assign previousChild Duration here so that the next child can use it 
+  previousChildDuration = rawChildDuration; 
+  
   // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
   int maxChildDurInt = (int)maxChildDur;
@@ -858,7 +866,8 @@ bool Event::buildSweep(list<FileValue>::iterator iter) {
     rawChildDuration = iter++->getFloat(this);
   }
   
-  
+  //assign previousChild Duration here so that the next child can use it 
+  previousChildDuration = rawChildDuration;  
   
   // pre-quantize the duration in case "EDU" is used
   int rawChildDurationInt = (int)rawChildDuration;
