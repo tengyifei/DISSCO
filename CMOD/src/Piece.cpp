@@ -48,6 +48,13 @@ Piece ThePiece;
 void PieceHelper::createPiece(string path, string projectName, string seed,
   string soundFilename, int processCount, int processOffset) {
   
+  string multiname = "_multi_";
+  stringstream oss;
+  oss << processOffset << "_" << processCount;
+  multiname = multiname + oss.str();
+  if(processCount == 1)
+    multiname = "";
+
   //Change working directory.
   chdir(path.c_str());
   
@@ -67,7 +74,7 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   free(tempString);
 
   //Initialize the output class.
-  string particelFilename = projectName + ".particel";
+  string particelFilename = projectName + multiname + ".particel";
   Output::initialize(particelFilename);
   Output::beginSubLevel("Piece");
   
@@ -106,7 +113,7 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   cout.flush();
   
   //Write the XML output.
-  string xmlFilename = projectName + ".xml";
+  string xmlFilename = projectName + multiname + ".xml";
   Output::exportToXML(xmlFilename);
   string fir = "firefox ";
   fir.append(xmlFilename);
@@ -153,9 +160,13 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
       endl;
     cout.flush();
 
+    if(processCount == 1)
+    {
+
     string aud = "nohup audacity \""; //nohup prevent audacity
     aud.append(soundFilename);
     aud.append("\"");
+    
     cout << "Would you like to open up the soundfile in Audacity (y/n)? ";
     char response;
     cin >> response;
@@ -182,6 +193,7 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
       }
       cout << endl;
       system(brifox.c_str());
+    }
     }
         
     //Clean up.
