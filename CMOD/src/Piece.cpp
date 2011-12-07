@@ -55,8 +55,18 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   if(processCount == 1)
     multiname = "";
 
+  string lockname = soundFilename;
+  lockname.replace(lockname.find("aiff"), 4, "lock");
+  string lockcreate = "touch ";
+  lockcreate += lockname; lockcreate += " &";
+  string lockremove = "rm ";
+  lockremove += lockname; lockremove += " &";
+
   //Change working directory.
   chdir(path.c_str());
+
+  if(processCount > 1)
+    system(lockcreate.c_str());
   
   //Convert seed string to seed number.
   int seedNumber = getSeedNumber(seed);
@@ -217,6 +227,9 @@ void PieceHelper::createPiece(string path, string projectName, string seed,
   
   cout << "Finished with CMOD." << endl;
   cout.flush();
+
+  if(processCount > 1)
+    system(lockremove.c_str());
 }
 
 //----------------------------------------------------------------------------//

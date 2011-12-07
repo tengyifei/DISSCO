@@ -13,11 +13,7 @@ echo ""
 exit
 fi
 
-echo "Mixing..."
-sox --norm -m $location/SoundFiles/*multi*.aiff $location/SoundFiles/nodemix.aiff
-
-echo "Done"
-
-echo "Opening in Audacity..."
-audacity $location/SoundFiles/nodemix.aiff &
+echo "Audio files remaining to be computed: "
+cd $location/SoundFiles
+ls *.lock
 
