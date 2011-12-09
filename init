@@ -18,7 +18,6 @@ echo ""
 echo "exit" | ssh -T ben
 echo "exit" | ssh -T edgard
 echo "exit" | ssh -T herbert
-echo "exit" | ssh -T james
 echo "exit" | ssh -T john
 echo "exit" | ssh -T luigi
 echo "exit" | ssh -T pierre
@@ -30,7 +29,6 @@ echo "Available nodes:"
 echo "hostname;exit" | ssh -T ben
 echo "hostname;exit" | ssh -T edgard
 echo "hostname;exit" | ssh -T herbert
-echo "hostname;exit" | ssh -T james
 echo "hostname;exit" | ssh -T john
 echo "hostname;exit" | ssh -T luigi
 echo "hostname;exit" | ssh -T pierre
