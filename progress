@@ -22,6 +22,7 @@ echo ""
 echo ""
 date
 cd $location/SoundFiles
+tail $location/multi.log
 ls *.lock
 sleep 1
 done
