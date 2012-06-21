@@ -6467,7 +6467,7 @@ void FunctionGenerator::SPATextChanged(){
       stringbuffer = stringbuffer + "<" + SPAChannelAlignments->getText()+ ">>";
     }
   }//end method = 0
-  else if (method ==1||method ==2){
+  else if (method ==1){
     if (apply ==0){
       stringbuffer = stringbuffer + "<<";
       SPAChannelAlignment* temp = SPAChannelAlignments;
@@ -6498,8 +6498,32 @@ void FunctionGenerator::SPATextChanged(){
   
   }//end method = 1
   
-  else {
-  
+  else { //method = 2
+  if (apply ==0){
+      stringbuffer = stringbuffer + "<";
+      SPAChannelAlignment* temp = SPAChannelAlignments;
+      while (temp != NULL){
+        stringbuffer = stringbuffer + temp->partials->getText();
+        if (temp->next!=NULL){
+          stringbuffer = stringbuffer + ">, <";
+        }
+        temp = temp->next;
+      }
+      stringbuffer = stringbuffer + ">>";
+    }
+    else {
+      stringbuffer = stringbuffer + "<";
+      SPAChannelAlignment* temp = SPAChannelAlignments;
+      while (temp != NULL){
+        stringbuffer = stringbuffer + temp->getText();
+        if (temp->next!=NULL){
+          stringbuffer = stringbuffer + ">, <";
+        }
+        temp = temp->next;
+      }
+      stringbuffer = stringbuffer + ">>";    
+    
+    }
   
   } 
   
