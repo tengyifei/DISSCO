@@ -447,7 +447,13 @@ FunctionGenerator::FunctionGenerator(
     
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionEnvLib;
-    row[functionListColumns.m_col_name] = "EnvLib";     
+    row[functionListColumns.m_col_name] = "EnvLib";    
+    
+    // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select";  
+ 
           
   }
   
@@ -2352,7 +2358,7 @@ FunctionGenerator::FunctionGenerator(
     int parsingResult = yyparse();
     if (parsingResult ==0){
       value = file_data["LASSIEFUNCTION"];
-      //SPA is actually a list with 3 elements
+      //SPA is a list with 3 elements (4 elements if the method is polar)
       list<FileValue> arguments = value->getList();  
       
          
@@ -2410,7 +2416,7 @@ FunctionGenerator::FunctionGenerator(
     
       }
       
-      else {//multi-pan     and polar  
+      else if (SPAMethodFlag ==1) {//multi-pan     
         SPAChannelAlignment* currentChannel = SPAChannelAlignments;
         SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
         
@@ -2449,6 +2455,48 @@ FunctionGenerator::FunctionGenerator(
           currentChannel = currentChannel->next;
         }     
       }
+      
+      else {//polar   Note! This is WRONG! I copy and paste this chunk from "multi pan", but turns out Radius and Theta are two seperate lists, not 2 lists with in a list. (i.e, spa with polar has 4 elements, NOT 3. need to fix this. but for now, on well (Jun.21, 2012)
+        SPAChannelAlignment* currentChannel = SPAChannelAlignments;
+        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
+        
+        
+        
+        //these two for loops construct the cells
+        list<FileValue> channelsList = value->getList();
+        int numChannels = channelsList.size();
+        for (int i = 0; i < numChannels-1; i ++){
+          currentChannel->insertChannelButtonClicked();
+          currentChannel = currentChannel->next;
+        }
+        
+        int numPartials = channelsList.begin()->getList().size();
+        
+        for (int i = 0; i < numPartials-1; i ++){
+          currentPartial->insertPartialButtonClicked();
+          currentPartial = currentPartial->next;
+        }        
+        
+        currentChannel = SPAChannelAlignments;
+  
+        
+        
+        list<FileValue>::iterator channelIter = channelsList.begin();
+        for (channelIter; channelIter!= channelsList.end(); channelIter++){
+          currentPartial = currentChannel->partials;           
+          value =&(*channelIter);
+          list<string> listOfString = 
+            fileValueListToStringList(value->getList(),functionReturnFloat);
+          list<string>::iterator stringIter = listOfString.begin();
+          for (stringIter; stringIter!= listOfString.end(); stringIter++){
+            currentPartial->setText(*stringIter);
+            currentPartial = currentPartial->next;
+          }          
+          currentChannel = currentChannel->next;
+        }     
+      }
+      
+      
       //if parse fail(or empty), 
       //the label of the first entry should still be "Envelope"        
       SPAApplyByRadioButtonClicked(); 
