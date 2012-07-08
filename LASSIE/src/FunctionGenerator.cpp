@@ -465,6 +465,12 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionReadSPAFile;
     row[functionListColumns.m_col_name] = "ReadSPAFile"; 
+    
+    // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select"; 
+    
         
   }
   
@@ -480,6 +486,11 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionReadPATFile;
     row[functionListColumns.m_col_name] = "ReadPATFile"; 
+    
+    // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select"; 
         
   }  
   
@@ -499,6 +510,11 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionReadREVFile;
     row[functionListColumns.m_col_name] = "ReadREVFile"; 
+    
+        // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select"; 
         
   }   
   
@@ -511,6 +527,11 @@ FunctionGenerator::FunctionGenerator(
     row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionReadSIVFile;
     row[functionListColumns.m_col_name] = "ReadSIVFile"; 
+    
+        // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select"; 
         
   } 
 
