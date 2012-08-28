@@ -213,6 +213,8 @@ public:
    *         This make sure the currently shown event is saved to the disk.
    *
    ****************************************************************************/
+  void makeSuperColliderCodeButtonClicked();
+  
   void saveCurrentShownEventData();
   void refresh();
   

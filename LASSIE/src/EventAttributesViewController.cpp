@@ -117,6 +117,11 @@ EventAttributesViewController::EventAttributesViewController(
   addLayerButton->signal_pressed().connect(
     sigc::mem_fun(
       *this,&EventAttributesViewController::addNewLayerButtonClicked) );
+      
+      
+      
+      
+
 
 
   // disable event name editing
@@ -339,6 +344,17 @@ EventAttributesViewController::EventAttributesViewController(
   bottomSubAttributesShown = false;
    
   Gtk::Button* button;
+
+
+      
+  // connect make super collider code button    
+
+  attributesRefBuilder->get_widget(
+    "attributesMakeSuperColliderCodeButton", button);  
+   
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::makeSuperColliderCodeButtonClicked));
+
+
 
   //connecting signal handlers
   attributesRefBuilder->get_widget(
@@ -2468,6 +2484,9 @@ void EventAttributesViewController::LayerBox::on_label_drop_drag_data_received(
   attributesView->refreshChildTypeInLayer();
   projectView->modified();
   
+  set_size_request(-1, layerInEvent->size()*25 + 140);
+  
+  
   Gtk::Adjustment* adjustment = m_ScrolledWindow2.get_vadjustment();
   adjustment->set_value(adjustment->get_upper());  
 }
@@ -2946,7 +2965,7 @@ EventAttributesViewController::LayerBox::LayerBox(
   
   pack_start(m_ScrolledWindow2, Gtk::PACK_EXPAND_WIDGET);
   
-  set_size_request(200,200);
+  set_size_request(-1,layerInEvent->size()*25 + 140);
   //innerVBox.set_size_request(140,85);
 
 
@@ -4631,7 +4650,7 @@ void EventAttributesViewController::LayerBox::deleteObject(){
     //erase row from view
     m_refTreeModel->erase(*iter);
   }
-  
+  set_size_request(-1, layerInEvent->size()*25 +140);
   attributesView->refreshChildTypeInLayer();
           projectView->modified(); 
 }
@@ -5131,6 +5150,15 @@ string EventAttributesViewController::generateTempoStringByFraction(){
 void EventAttributesViewController::tempoAsNoteValueEntryChanged(){
   tempoEntryAsNoteValueModifiedFlag = true;
 
+
+}
+
+
+void EventAttributesViewController::makeSuperColliderCodeButtonClicked(){
+  if (currentlyShownEvent){
+    currentlyShownEvent->makeSuperColliderCode();
+  
+  }
 
 }
 
