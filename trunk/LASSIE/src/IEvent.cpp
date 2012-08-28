@@ -3675,3 +3675,24 @@ bool IEvent::BottomEventExtraInfo::haveString(string _string){
   return false;
 }
 
+
+
+void IEvent::makeSuperColliderCode(){
+  /*TODO::
+    1. collect the string off all the necessary global settings (such as envelope library, etc)
+       so we probably want to go to EnvelopeLibraryWindow and make a function like:
+       string outputSCEnvelopeCode(){
+          //go through every envelope entry
+       
+       }
+       and in EnvelopeLibraryEntry class, make a function to actually generate the SC code.
+      
+    2. attach the string of the setting of this event to the global settings, and then output it to a file 
+       (maybe take a look of IEvent::saveAsTHMLB()  )
+    
+    
+   
+  */
+  cout<<"Not implemented yet, the code is at line 3686 of IEvent.cpp"<<endl;
+}
+

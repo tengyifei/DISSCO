@@ -303,7 +303,7 @@ public:
   bool haveString(string _string);
   
   
-  
+  void makeSuperColliderCode();
   
   
 
