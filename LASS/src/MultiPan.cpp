@@ -331,6 +331,7 @@ void MultiPan::addEntryHelperFn(int envIdx, float t, float amp)
 
 	Collection<xy_point> c1 = Collection<xy_point>(*xyCollectionsList[envIdx]);
 	Collection<envelope_segment> c2 = Collection<envelope_segment>(*segCollectionsList[envIdx]);
+	delete EnvList[envIdx];
 	(EnvList[envIdx]) = new Envelope(*xyCollectionsList[envIdx],
 							*segCollectionsList[envIdx]);
         //cout << "CREATED ENV" << endl;
