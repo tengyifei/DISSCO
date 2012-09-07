@@ -668,13 +668,13 @@ void Bottom::spatializationPolar(Sound *s,
 
     (thetaList->front()).Evaluate(this);
     thetaEnv = (thetaList->front()).getEnvelope(this);
-    cout << "POLAR -- thetaEnv" << endl;
-    thetaEnv->print();
+    //cout << "POLAR -- thetaEnv" << endl;
+    //thetaEnv->print();
 
     (radiusList->front()).Evaluate(this);
     radiusEnv = (radiusList->front()).getEnvelope(this);
-    cout << "POLAR -- radiusEnv" << endl;
-    radiusEnv->print();
+    //cout << "POLAR -- radiusEnv" << endl;
+    //radiusEnv->print();
 
     MultiPan multipan(numChan);
     float time, theta, radius;
