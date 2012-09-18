@@ -103,6 +103,8 @@ int main(int parameterCount, char **parameterList) {
 
   PieceHelper::createPiece(path, projectName, seed, soundFilename,
     processCount, processOffset);
+
+  MemoryLeak::Report();
   
   return 0;
 }
