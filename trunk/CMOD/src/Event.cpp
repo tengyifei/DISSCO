@@ -101,11 +101,12 @@ void Event::initChildNames(FileValue* childNames) {
   //Get iterator for the childNames list
   list<FileValue>* layersList = childNames->getListPtr(this);
   list<FileValue>::iterator iter = layersList->begin();
-  int counter = 0;
+
   //Initialize layerVect and typeVect
   while (iter != layersList->end()) {
     list<FileValue>* currLayer = iter++->getListPtr(this);
     list<FileValue>::iterator currLayerIter = currLayer->begin();
+
     vector<string> currLayerVect;
     while (currLayerIter != currLayer->end()) {
       currLayerVect.push_back(currLayerIter++->getString(this));
@@ -168,12 +169,6 @@ void Event::initNumChildren(FileValue* numChildrenFV) {
         typeVect.push_back(currLayerStr);
       }
     }
-    
-    vector<string>::iterator it= typeVect.begin();
-    for (; it!= typeVect.end(); it++){
-      cout<<*it<<endl;
-    }
-    
     
     //Get the number of children.
     numChildren = typeVect.size();
