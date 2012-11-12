@@ -630,7 +630,6 @@ string Event::unitTypeToUnits(string type) {
 //----------------------------------------------------------------------------//
 
 bool Event::buildContinuum(list<FileValue>::iterator iter) {
- 
   if (currChildNum == 0) {
     checkPoint = 0;
   }
@@ -638,7 +637,6 @@ bool Event::buildContinuum(list<FileValue>::iterator iter) {
     checkPoint = Random::Rand();
   }
   
-
   // get the start time
   float rawChildStartTime = iter++->getFloat(this);
 
