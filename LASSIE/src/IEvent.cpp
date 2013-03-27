@@ -3083,6 +3083,7 @@ void IEvent::parseNonEvent(){
     extraInfo->setPatternBuilder((value == NULL)? "": value->getString());
 
   }  
+  
   else if (eventType == eventRev){
     extraInfo = (EventExtraInfo*) new ReverbExtraInfo();
     value = file_data["LASSIEREV"];
