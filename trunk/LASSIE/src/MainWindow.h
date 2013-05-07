@@ -121,6 +121,7 @@ class MainWindow : public Gtk::Window {
     void menuFileNewProject();   // File -> New -> Project
     void menuFileNewObject();    // File -> New -> Object
     void menuFileOpen();         // File -> Open
+    void menuFileOpenXML();      // File -> Open XML Project
     void menuFileSave();         // File -> Save
     void menuFileSaveAs();       // File -> Save As
     void menuFileClose();        // File -> Close
@@ -148,6 +149,7 @@ class MainWindow : public Gtk::Window {
     void changeCurrentProjectViewTo(ProjectViewController* _newProject);
     void menuProjectProperties();
     void menuProjectSynthesize();
+    void menuProjectGenerateSCFile();
     void menuProjectConfigureNoteModifiers();
 
     void includeUi_info(Glib::ustring pathAndName,Glib::ustring ctrl);

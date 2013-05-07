@@ -669,6 +669,7 @@ void PaletteViewController::duplicateObject(){
     IEvent* newIEvent = new IEvent( originalEvent, nameEntry->get_text());
   
     string typeString;
+    /*
     if (newIEvent->getEventTypeString() =="Env."){
   	  typeString = "Envelope";
     }
@@ -681,9 +682,9 @@ void PaletteViewController::duplicateObject(){
     else   if (newIEvent->getEventTypeString() =="Pat."){
     	typeString = "Pattern";
     }
-    else {
+    else {*/
     	typeString = newIEvent->getEventTypeString();
-    }
+    //}
     
   
       //put this event right below the original one

@@ -83,9 +83,11 @@ public:
    ***************************************************************************/
   ProjectViewController(MainWindow* _mainWindow);
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow);
+  ProjectViewController( MainWindow* _mainWindow, std::string _pathAndName, 
+  std::string _projectTitle);  	
+  //this one is for the old format
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
-  std::string _datPathAndName, std::string _libPathAndName); 
-  	
+  std::string _datPathAndName, std::string _libPathAndName);
   
   /*! \brief The destructor of ProjectViewController
    *
@@ -116,11 +118,13 @@ public:
   void removeCustomNoteModifier(CustomNoteModifierHBox* _hbox);
   bool checkNameExists(string _name, EventType _type);
   void deleteObject(IEvent* _toDelete);
+  void setSeed(string _seed){seed = _seed;}
   
   std::map<std::string, bool> getDefaultNoteModifiers();
   std::vector<std::string> getCustomNoteModifiers();
   
   IEvent* findIEvent(EventType _type, std::string _eventName);
+  IEvent* getTop(){return top;}
 
   PaletteViewController* getPalette();
   EnvelopeLibraryEntry* getEnvelopeLibraryEntries();
@@ -217,13 +221,17 @@ private:
   std::string numOfThreads;
   std::string datPathAndName;
   std::string libPathAndName;
+  std::string seed;
   bool synthesis;
+  bool outputParticel;
   bool emptyProject;
   std::vector<std::string> customNoteModifiers;
   std::map<std::string, bool> defaultNoteModifiers;
   std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes; 
   SharedPointers* sharedPointers;
   void clearDeletedEvents();
+  
+  DOMDocument *xmlDocument;
   
   
 

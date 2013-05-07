@@ -209,8 +209,8 @@ MainWindow::MainWindow(){
       Gtk::Stock::OPEN, 
       "_Open an existing project",
       "Open an existing project"),
-    sigc::mem_fun(*this, &MainWindow::menuFileOpen));
-
+    //sigc::mem_fun(*this, &MainWindow::menuFileOpen));
+    sigc::mem_fun(*this, &MainWindow::menuFileOpenXML));
   menuRefActionGroup->add(
     Gtk::Action::create(
       "FileSave",
@@ -218,6 +218,10 @@ MainWindow::MainWindow(){
       "_Save the project",
       "Save the project"),
     sigc::mem_fun(*this, &MainWindow::menuFileSave));
+
+  menuRefActionGroup->add(
+    Gtk::Action::create("OpenProjectOldFormat", "Open Project in Old Format"),
+    sigc::mem_fun(*this, &MainWindow::menuFileOpen));
 
   menuRefActionGroup->add(
     Gtk::Action::create("FileSaveAs",Gtk::Stock::SAVE_AS),
@@ -279,6 +283,11 @@ MainWindow::MainWindow(){
   menuRefActionGroup->add(
     Gtk::Action::create("Synthesize", "Synthesize"),
     sigc::mem_fun(*this, &MainWindow::menuProjectSynthesize));
+    
+  menuRefActionGroup->add(
+    Gtk::Action::create("GenerateSCFile", "Generate SuperCollider File"),
+    sigc::mem_fun(*this, &MainWindow::menuProjectGenerateSCFile));  
+    
 
   menuRefActionGroup->add(
     Gtk::Action::create("ConfigureNoteModifiers", "Configure Note Modifiers"),
@@ -304,6 +313,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(false);
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
+  menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(false);
   menuRefActionGroup->get_action(
     "ConfigureNoteModifiers")->set_sensitive(false);  
 
@@ -330,6 +340,7 @@ MainWindow::MainWindow(){
         "      <menuitem action='FileNewProject'/>"
 
         "      <menuitem action='FileOpen'/>"
+        "      <menuitem action='OpenProjectOldFormat'/>"
         "      <menuitem action='FileSave'/>"
         "      <menuitem action='FileSaveAs'/>"
 //        "      <menuitem action='FileClose'/>"
@@ -355,6 +366,7 @@ MainWindow::MainWindow(){
         "      <menuitem action='FileNewObject'/>"
         "      <menuitem action='ProjectProperties'/>"
         "      <menuitem action = 'Synthesize'/>"
+        "      <menuitem action = 'GenerateSCFile' />"
         "      <menuitem action = 'ConfigureNoteModifiers'/>"        
         "    </menu>"
         "    <menu action='HelpMenu'>"
@@ -470,6 +482,9 @@ void MainWindow::menuFileNewProject(){
     menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+    menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
+    
+    
     menuRefActionGroup->get_action(
       "ConfigureNoteModifiers")->set_sensitive(true);     
     disableNewAndOpenProject();
@@ -516,8 +531,38 @@ void MainWindow::menuFileOpen(){
     
     
   }
-  
 }
+
+void MainWindow::menuFileOpenXML(){
+  ProjectViewController* openProject = FileOperations::openXMLProject(this);
+  
+  
+  
+  if(openProject!= NULL){
+    menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
+    menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
+    menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
+    menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+    menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
+    menuRefActionGroup->get_action(
+      "ConfigureNoteModifiers")->set_sensitive(true);      
+    disableNewAndOpenProject();
+    
+    projects.push_back(openProject);
+    
+    MainWindow::includeUi_info(openProject->getPathAndName(),"add");
+    changeCurrentProjectViewTo(openProject);
+    std::string title = " - LASSIE";
+    title = openProject->getPathAndName() + title;
+    set_title(title);
+    openProject->setProperties();    
+  
+  
+  }
+}
+
+
 
 void MainWindow::menuFileSave(){
   if (projectView->getEmptyProject()== false){
@@ -745,22 +790,25 @@ void MainWindow::menuProjectSynthesize(){
     string pathAndName = projectView->getPathAndName();
     string projectPath = pathAndName + "/";
     string projectName = FileOperations::stringToFileName(pathAndName);
-    string dat = projectPath + projectName + ".dat";
+    //string dat = projectPath + projectName + ".dat";
+    projectView->setSeed(randomSeedEntry->get_text());
+    projectView->save();
     
-    
-    
+    cout<<"projectPath"<<projectPath<<endl;
     //FILE* newBufferFile = fopen (dat.c_str(), "r");
-    yyin = fopen (dat.c_str(), "r");
+    //yyin = fopen (dat.c_str(), "r");
     
     
     // create a new buffer for parser
-    YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
+    //YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
 
     
-    yy_switch_to_buffer (newParserBuffer);
+    //yy_switch_to_buffer (newParserBuffer);
     
     //Determine project sound file output.
     PieceHelper::createSoundFilesDirectory(projectPath);
+    
+    /*
     string soundFilename =
       PieceHelper::getNextSoundFile(projectPath, projectName);
       
@@ -772,22 +820,18 @@ void MainWindow::menuProjectSynthesize(){
       //(But this error should  not happen!)
     else {
       
-      
+      */
       
       //if (fork() == 0){
       //cout<<"this is the child. execute cmod"<<endl;
       
-      string command = "rm "+ projectPath + "*.seed";
-      system(command.c_str()); 
-      command = "touch " + projectPath + randomSeedEntry->get_text()+".seed"; 
-      system(command.c_str()) ;
-      command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath;     
+      string command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath + projectName + ".dissco";     
       command = command + " ; exec bash\\\"\""; 
       system(command.c_str()) ;
-  	  yy_delete_buffer(newParserBuffer);      
+  	  //yy_delete_buffer(newParserBuffer);      
 
-	  }
 	  
+	  projectView->setSeed(""); //reset seed
 	}
 		
 }
@@ -816,5 +860,10 @@ void MainWindow::menuProjectConfigureNoteModifiers(){
   if (projectView!= NULL &&projectView->getEmptyProject() == false){
     projectView->configureNoteModifiers();
   }  
+}
+
+void MainWindow::menuProjectGenerateSCFile(){
+  projectView->getTop()->makeSuperColliderCode();
+
 }
 

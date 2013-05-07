@@ -42,6 +42,7 @@
 
 EventAttributesViewController::EventAttributesViewController(
   SharedPointers* _sharedPointers){
+ 
   soundPartialHboxes =NULL;
   tempoEntryAsNoteValueModifiedFlag = false;
   tempo = new Tempo();
@@ -638,8 +639,9 @@ EventAttributesViewController::EventAttributesViewController(
     "SpatializationAttributesBuilderEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
 
+  
   buildNoteModifiersList();
-
+  
 }
 
 
@@ -785,6 +787,12 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       "attributesStandardTempleMethodNoteValueRadioButton", radioButton);
     if (radioButton->get_active()){  //save as note value
       currentlyShownEvent->setTempoMethodFlag(0);
+    }
+    else { //save as fraction
+      currentlyShownEvent->setTempoMethodFlag(1);  
+    }  
+    
+    
       Gtk::ComboBox* combobox;
       attributesRefBuilder->get_widget(
         "attributesStandardTempoNotePrefixCombobox", combobox);    
@@ -806,10 +814,8 @@ void EventAttributesViewController::saveCurrentShownEventData(){
             row[tempoNoteValueColumns.m_col_type]);
         }    
       }      
-    }
-
-    else { //save as fraction
-      currentlyShownEvent->setTempoMethodFlag(1);   
+    
+     
       attributesRefBuilder->get_widget(
         "attributesStandardTempoAsFractionEntry1", entry);
       currentlyShownEvent->setTempoFractionEntry1(entry->get_text());   
@@ -820,7 +826,7 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       	"attributesStandardTempoValueEntry", entry);      	
     	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());   
 
-
+      /*
       Gtk::ComboBox* combobox;
       attributesRefBuilder->get_widget(
         "attributesStandardTempoNotePrefixCombobox", combobox);    
@@ -841,8 +847,8 @@ void EventAttributesViewController::saveCurrentShownEventData(){
           currentlyShownEvent->setTempoNoteValue(
             row[tempoNoteValueColumns.m_col_type]);
         }    
-      }      
-    }
+      }*/     
+    
 
 
     attributesRefBuilder->get_widget(
@@ -1300,6 +1306,7 @@ void EventAttributesViewController::showCurrentEventData(){
   } 
   else {
     selectTheEventAction = currentlyShownEvent->getEventType();
+
 
   } 
 
@@ -2404,7 +2411,7 @@ void EventAttributesViewController::switchToNoteAttributes(){
   Gtk::Frame* frame;
   IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
   
-  
+
   attributesRefBuilder->get_widget("NoteAttributesFrame", frame);
   scrolledWindow.add(*frame);
   Gtk::Entry* entry;
@@ -4905,7 +4912,6 @@ void EventAttributesViewController::buildNoteModifiersList(){
     saveCurrentShownEventData();
   }
 
-
   Gtk::Table* table;
   attributesRefBuilder->get_widget(
         "NoteAttributesModifiersTable", table);
@@ -4929,8 +4935,11 @@ void EventAttributesViewController::buildNoteModifiersList(){
     projectView->getDefaultNoteModifiers(); 
   std::map<std::string, bool>::iterator modifierIter = defaultModifiers.begin();
   for (modifierIter; modifierIter != defaultModifiers.end(); modifierIter++){
+
+    
     if ((*modifierIter).second){
       button = new Gtk::CheckButton((*modifierIter).first, false);
+
       button->signal_pressed().connect(
         sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
       noteModifierCheckButtons.push_back(button);
@@ -4943,7 +4952,7 @@ void EventAttributesViewController::buildNoteModifiersList(){
     }
     
   }
-  
+
   std::vector<std::string> customNoteModifiers =  
     projectView->getCustomNoteModifiers();
   std::vector<std::string>::iterator modifierIter2 = 
