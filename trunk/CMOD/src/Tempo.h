@@ -81,7 +81,9 @@ class Tempo {
   
   void setTimeSignature(string newTimeSignature);
   
-  void setEDUPerTimeSignatureBeat(string newEDUPerTimeSignatureBeat);
+  // in order to remove the errer in valgrind...
+  //void setEDUPerTimeSignatureBeat(string newEDUPerTimeSignatureBeat);
+  void setEDUPerTimeSignatureBeat(Ratio newEDUPerTimeSignatureBeat);
   
   Ratio getTimeSignatureBeatsPerBar(void);
   

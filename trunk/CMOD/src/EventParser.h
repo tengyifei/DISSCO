@@ -1,6 +1,16 @@
 /*
 CMOD (composition module)
    Copyright (C) 2007  Sever Tipei (s-tipei@uiuc.edu)
+   
+   
+   Update:
+   This class is no longer in used by XML version of CMOD. It's here only
+   for people who need to upgrade their DISSCO projects from the old format
+   to the new format (See LASSIE/src/UpgradeProjectFormat.h ).
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
@@ -48,7 +58,7 @@ class EventFactory; // forward declare to avoid cyclic dependency
     *  \param ef Pointer to an event factory
     *  \param piece Pointer to the piece being created with CMOD
     **/
-    int parseFile(std::string filename, EventFactory *ef, Piece *piece);
+    //int parseFile(std::string filename, EventFactory *ef, Piece *piece);
 
     /**
     *  Sets the parser to read from 'filenam'

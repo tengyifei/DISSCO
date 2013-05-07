@@ -1,6 +1,7 @@
 /*
 LASS (additive sound synthesis library)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,28 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Reverb.h"
 #include "XmlReader.h"
 
-//----------------------------------------------------------------------------//
-
-// This struct passes data between the main thread and the worker threads
-struct threadlist_entry
-{
-	// The sound object to render
-	Sound *snd;
-	// A pointer to the result of the rendering
-	MultiTrack *resultTrack;
-	// A flag to indicate we are finished
-	int done;
-	// A pointer to the worker thread
-	pthread_t *thread;
-	// A pointer to the mutex to use
-	pthread_mutex_t *listMutex;
-	// A pointer to the condition to signal when done
-	pthread_cond_t *finishCondition;
-
-	// Rendering parameters
-	int numChannels;
-	m_rate_type samplingRate;
-};
+class Utilities;
 
 //----------------------------------------------------------------------------//
 
@@ -67,17 +47,44 @@ struct threadlist_entry
 *	In addition to this, it provides functionality for 
 *	managing clipping in a piece.
 *	\author Braden Kowitz
+*
+* Update May 2013 by Ming-ching:
+* Score is now responsible for lauching multi-threaded rendering and the final
+* mix down.
 **/
-class Score : public Collection<Sound>
-{
+
+class Score{
 public:
 
     /**
     *	This is the default constructor.  It sets the ClippingManagementMode 
     *	to NONE.
     **/
-    Score();
-
+    Score(int _numThreads,  int _numChannels, int _samplingRate );
+    
+    /**
+    * Sound objects created by CMOD is added to the score via this function.
+    **/
+    void add(Sound* _sound);
+    
+    /**
+    * This function is called by the working threads to test if CMOD
+    * has finished adding sounds to the score. If vector<Sound*> sounds has 
+    * size 0 and doneGettingSoundObjects is true, the working thread returns.
+    **/
+    bool isDoneGettingSoundObjects(){return doneGettingSoundObjects;}
+    
+    /**
+    * The final mix down and clean up after all the sound objects are rendered.
+    **/
+    MultiTrack* joinThreadsAndMix();
+    
+    /**
+    * Called by the working threads to determine if they need to update the
+    * duration of the MultiTrack objects currently in use.
+    **/
+    m_time_type getScoreEndTime(){return scoreEndTime;}
+    
     /**
     *	\enum ClippingManagementMode
     *	This sets the clipping management mode for this score.
@@ -144,10 +151,11 @@ public:
     *		DEFAULT_SAMPLING_RATE
     *	\return A MultiTrack object
     **/
-    MultiTrack* render(
-        int numChannels,
-        m_rate_type samplingRate,
-        int processCount, int processOffset);
+    
+//    MultiTrack* render(
+//        int numChannels,
+//        m_rate_type samplingRate,
+//        int processCount, int processOffset);
 
     /**
     *	This function:
@@ -163,10 +171,10 @@ public:
     *	\param nThreads The number of threads to use when rendering
     *	\return a MultiTrack object
     **/
-    MultiTrack* render(
-        int numChannels,
-        m_rate_type samplingRate,
-	int nThreads);
+//    MultiTrack* render(
+//        int numChannels,
+//        m_rate_type samplingRate,
+//	int nThreads);
 
     /**
     *	This function sets the ClippingManagementMode for this score.
@@ -194,26 +202,33 @@ public:
     *   This function performs reverb in the render() method.
     *	\param newReverbObj The Reverb object
     **/
-	void use_reverb(Reverb *newReverbObj);
-
-    /** 
-    *	\deprecated
-    *	This outputs an XML representation of the object to STDOUT
-    *
-    **/
-    void xml_print( );
-    /**
-    *	\deprecated
-    **/
-    void xml_print( ofstream& xmlOutput );
-    /**
-    *	\deprecated
-    **/
-    void xml_print( const char * xmlOutputPath );
-    /**
-    *	\deprecated
-    **/
-    void xml_read( XmlReader::xmltag *scoretag);
+	  void use_reverb(Reverb *newReverbObj);
+	
+	
+	  /**
+	  * returns the final rendered score.
+	  **/
+	  MultiTrack* doneAddingSounds();
+  
+    
+//    /** 
+//    *	\deprecated
+//    *	This outputs an XML representation of the object to STDOUT
+//    *
+//    **/
+//    void xml_print( );
+//    /**
+//    *	\deprecated
+//    **/
+//    void xml_print( ofstream& xmlOutput );
+//    /**
+//    *	\deprecated
+//    **/
+//    void xml_print( const char * xmlOutputPath );
+//    /**
+//    *	\deprecated
+//    **/
+//    void xml_read( XmlReader::xmltag *scoretag);
     
     DISSCO_HASHMAP<long, Reverb *>* reverbHash;
     DISSCO_HASHMAP<long, DynamicVariable *>* dvHash;
@@ -252,6 +267,66 @@ private:
     * \param mt The MultiTrack to unclip
     **/
     static void channelAnticlip(MultiTrack* mt);
+    
+  
+   
+  
+    /**
+    * stores the Sound objects to be rendered.
+    **/
+    std::vector<Sound*> sounds;
+    
+    /**
+    * The max end time seen among the added sound objects
+    **/
+    m_time_type scoreEndTime;
+    
+    /**
+    * Number of threads
+    **/
+    int numThreads;
+    
+    /**
+    * An array to hold thread objects
+    **/
+    pthread_t* threads;
+    
+    /**
+    * counter: # of sounds rendered.
+    **/
+    int soundsRendered;
+    
+    /**
+    * counter: # of sound Objects passing in so far.
+    **/
+    int soundObjectsCreated;
+    
+    /**
+    * A flag to indicate that the Score object has done receiving all the 
+    * sound objects.
+    **/
+    bool doneGettingSoundObjects;
+  
+    /**
+    * mutex to protect vector<Sound*> sounds
+    **/
+    pthread_mutex_t mutexSoundVector;
+    
+    /**
+    * cond to brocast to worker threads the status of vector<Sound*> sounds
+    **/
+    pthread_cond_t conditionSoundVector;
+    
+    /**
+    * Number of channels
+    **/
+    int numChannels;
+    
+    /**
+    * Sampling rate
+    **/
+    int samplingRate;
+    
 };
 
 

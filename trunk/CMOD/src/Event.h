@@ -1,6 +1,7 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
                                                                                 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,17 +31,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENT_H
 
 #include "Libraries.h"
-
 #include "Define.h"
-#include "FileValue.h"
 #include "Matrix.h"
 #include "Note.h"
 #include "Rational.h"
 #include "Tempo.h"
 #include "TimeSpan.h"
+#include "Utilities.h"
+#include "Patter.h"
+
+
+/**
+* This class is to store the created patterns and its XML representation as key
+**/
+class PatternPair{
+
+protected:  
+  string key;
+  Patter* pattern;
+public:
+  PatternPair(string _key, Patter* _pat):key(_key),pattern(_pat){}
+  ~PatternPair();
+  string getKey(){return key;}
+  Patter* getPattern (){return pattern;}
+  
+};
+
+
+//this class is used for bottom to construct its children
+class SoundAndNoteWrapper{
+public:
+  Tempo tempo;
+  TimeSpan ts;
+  int type;
+  // this is the element of the spectrum if the bottom event is a sound 
+  DOMElement* element; 
+  
+  SoundAndNoteWrapper(DOMElement* _element,
+                      TimeSpan _ts, 
+                      int _type, 
+                      Tempo _tempo ):
+    ts(_ts),
+    type(_type),
+    element(_element),
+    tempo (_tempo){}
+
+};
+
 
 class Event {
-
 public:
     //---------------------------- Information -------------------------------//
     
@@ -55,17 +94,34 @@ public:
     
     //Tempo of the event
     Tempo tempo;
+    
+    //stores the pattern needed for the Event and its XML representation
+    std::vector<PatternPair*> patternStorage;
+    
+    //Utilities needs these
+    DOMElement* AttackSieveElement;
+    DOMElement* DurationSieveElement;
+    
+    // Storage for temporary parsers. For evaluating objects, XML parsers are
+    // sometimes created by the utilities object. The event has the ownership
+    // of these temporary parsers and is responsible to clean up.
+    vector<XercesDOMParser*> temporaryXMLParsers;
 
 protected:   
     //------------------------------ Children --------------------------------//
     
     //File value to the event definitions of children
-    FileValue* childEventDef;
+    
 
     //Children of the event
     vector<Event*> childEvents;
     
+    //this is only used for bottom to stored its children
+    vector<SoundAndNoteWrapper*> childSoundsAndNotes;
     //------------------------------ Building --------------------------------//
+    
+    //Child Event Def
+    DOMElement* childEventDefElement;
     
     //Maximum allowed duration for a child
     float maxChildDur;
@@ -79,25 +135,17 @@ protected:
     //Previous child duration
     double previousChildDuration;
     
-    //Pattern for Child Start Time, only works with Sweep
-    FileValue* childStartTimePattern;
-  
-    
-    //Pattern for Child Duration
-    FileValue* childDurationPattern;
-
-    //Pattern for Child Type
-    FileValue* childTypePattern;
-    
     
     //-------------------------- Layers and Types ----------------------------//
 
-    //Names of the layers (i.e. from < <"T/1">, <"T/1","T/3">, <"T/2"> > )
+    //Names of the layers 
     vector< vector<string> > layerVect;
+    vector<DOMElement*> layerElements;
+    
     
     //Names of the children by type.
     vector<string> typeVect;
-
+    vector<DOMElement*> childTypeElements; //discretepackage
     //Number of children to create (all layers)
     int numChildren;
     
@@ -142,55 +190,55 @@ protected:
     /*This stores the intermediate child timespan before it has been implemented
     an actual Event.*/
     TimeSpan tsChild;
+    
+    Utilities* utilities;
+    DOMElement* childStartTimeElement ;
+    DOMElement* childTypeElement;
+    DOMElement* childDurationElement; 
+    DOMElement* methodFlagElement;
+    DOMElement* childStartTypeFlag;
+    DOMElement* childDurationTypeFlag;
+    
+    // This thing sorta works, but killing a thread waiting for cin causes 
+    // memory leak..   -- Ming-ching May 06, 2013
+    pthread_t discreteWaitForInputIfFailedThread;
+    string discreteFailedResponse;
+    
 
   public:
 
+    
     /**
-    *  Default constructor for an Event.
-    **/
-    Event(){}
-
+    * This is the constructor for new CMOD model
+    *
+    */
+    
+    Event(DOMElement* _element,
+          TimeSpan _timeSpan, 
+          int _type, 
+          Tempo _tempo, 
+          Utilities* _utilities);
+    
     /**
-    *	Normal constructor for an Event.
-    *	\param type Type of the event
-    *	\param name Name of the event
-    *   \param level The number of parent events to this event
+    *   buildChildren. Builds sub-events from parsed information and 
+    *   information already set for this event.
+    *   Contains a loop whthin which objects arec created one at a time.  
+    *   Each object has at least three parameters: start time, duration, 
+    *   and type.  They are selected using one of the following methods: 
+    *     CONTINUUM for continuous probability, non-sequential order
+    *     DISCRETE  for discrete values, using a Matrix object, non-sequential
+    *     SWEEP for reading values from a file provided by the user, 
+    *   sequential order
+    *
+    *  This function is overloaded in Bottom
     **/
-    Event(TimeSpan ts, int type, string name);
-
+    virtual void buildChildren();
+    
     /**
     *	Event destructor.
     **/
     virtual ~Event();
 
-    //----------------- Initialization functions  --------------------//
-    /**
-     *	Initialize the "bar" division info to be used when generating discrete children
-     **/
-    void initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
-      int newEDUPerBeat, float newMaxChildDur);
-
-    /**
-     *	Initialize the list of files containing possible children (layers of the event)
-     *  \param childNames A filevalue containing a list of lists-of-filenames, where each inner
-     *                    list represents a layer and the number of types in it.
-     **/
-    void initChildNames( FileValue* childNames );
-
-    /**
-     *	Initialize the number of child objects to be created
-     *  \param numChildren A filevalue containing a list to describe the number of child
-     *                     objects to be created.
-     **/
-    void initNumChildren( FileValue* numChildrenFV );
-
-    /**
-     *	Initialize the child event definition
-     *  \param childrenDef A filevalue containing definition of how to create child events
-     **/
-    void initChildDef(FileValue* childrenDef) {
-      childEventDef = new FileValue(*childrenDef);
-    }
 
     //------------- Used by FileValue static functions  ------------//
     /**
@@ -218,8 +266,6 @@ protected:
     **/    
     
     double getPreviousChildDuration(){ return previousChildDuration;}
-    
-    
 
     /**
      *  Returns the number of current partial -- will call to bottom in most cases
@@ -237,31 +283,7 @@ protected:
     **/
     double getCheckPoint() {return checkPoint;};
 
-    /**
-    *   BuildSubEvents. Builds sub-events from parsed information and 
-    *   information already set for this event.
-    *   Contains a loop whthin which objects arec created one at a time.  
-    *   Each object has at least three parameters: start time, duration, 
-    *   and type.  They are selected using one of the following methods: 
-    *     CONTINUUM for continuous probability, non-sequential order
-    *     DISCRETE  for discrete values, using a Matrix object, non-sequential
-    *     SWEEP for reading values from a file provided by the user, 
-    *   sequential order
-    *   It also parses the subEvent file, creates a NextFactory, and 
-    *   performs the same operations on related files (ENV, PATT, etc.)
-    *   if they exist.  If the subEvent is a BOTTOM event it is treated in
-    *   a different way.
-    *  This function is overloaded in Bottom
-    **/
-    virtual void buildChildEvents();
-
-    /**
-     *  Helper method to build a child event.  Overridden by bottom
-     *   to allow the creation of note/sound/visual instead of the
-     *   usual child events
-     **/
-    virtual void constructChild(TimeSpan ts, int type, string name,
-      Tempo tempo);
+ 
 
     ///Checks the event to see if it was built successfully.
     void checkEvent(bool buildResult);
@@ -277,6 +299,21 @@ protected:
      **/
     virtual list<Note> getNotes();
     
+    /**
+     * gives the ownership of the temporary XML parser to the event.
+     **/
+    void addTemporaryXMLParser(XercesDOMParser* _parser);
+    
+    /**
+     * gives the ownership of the pattern to the event.
+     **/
+    void addPattern(std::string _string, Patter* _pat);
+    
+    /**
+     * todo: incomplete function
+     **/
+    void setDiscreteFailedResponse(string _input)
+      { discreteFailedResponse = _input;}
 
   //------------- Private helper functions  ------------//
   protected:
@@ -297,7 +334,7 @@ protected:
     *   Follows aq slightly different procedure than Sweep and Discrete.  Why?
     *  \param iter FileValues to pass in for new objects
     **/
-    bool buildContinuum(list<FileValue>::iterator iter);
+    bool buildContinuum();
 
     /**
      *  Method for assigning stimeSec and durSec values in sequential order - 
@@ -307,17 +344,23 @@ protected:
      *  integer values method is used for it.
      *  \param iter FileValues to pass in for new objects
      **/
-    bool buildSweep(list<FileValue>::iterator iter);
+    bool buildSweep();
 
     /**
     *   Wrapper for assigning values for stimeMatrix, type and durMatrix
     *   using a matrix.  Calls ObjCoordinates, Adjustments, and TimeConvert.
     *   \param iter FileValues to pass in for new objects
     **/
-    bool buildDiscrete(list<FileValue>::iterator iter);
+    bool buildDiscrete();
     
     ///Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
     string unitTypeToUnits(string type);
+    
+    //helper functions
+    string getTempoStringFromDOMElement(DOMElement* _element);
+    string getTimeSignatureStringFromDOMElement(DOMElement* _element);
+    
+      
 };
 #endif
 

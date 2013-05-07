@@ -20,7 +20,7 @@ project "lass"
   kind "StaticLib"
   targetdir "lib"
   buildoptions {"-Wno-deprecated -Wall -Wextra", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) defines("USE_MANUAL_MEMORY_LEAK_CHECK")
+  configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   
 project "parser"
@@ -32,6 +32,15 @@ project "parser"
   buildoptions {"-gstabs"}
   configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
+  
+project "muparser"
+  language "C++"
+  flags{"StaticRuntime"} 
+  files {"CMOD/src/muParser/**.cpp", "CMOD/src/muParser/**.h"}
+  kind "StaticLib"
+  targetdir "lib" 
+  configuration "Debug" flags(DebugFlags)
+  configuration "Release" flags(ReleaseFlags)
 
 project "lcmod"
   language "C++"
@@ -41,7 +50,7 @@ project "lcmod"
   kind "StaticLib"
   targetdir "lib"
   buildoptions {"-Wno-deprecated", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) defines("USE_MANUAL_MEMORY_LEAK_CHECK")
+  configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
 
 project "cmod"
@@ -50,23 +59,39 @@ project "cmod"
   files {"CMOD/src/Main.*"}
   kind "ConsoleApp"
   libdirs {"lib", "/usr/local/lib"}
-  links {"lcmod", "lass", "parser", "pthread", "sndfile"}
+  links {"lcmod", "lass", "parser","muparser", "pthread", "sndfile"}
+  linkoptions{"-lxerces-c"}
   buildoptions {"-Wno-deprecated", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) defines("USE_MANUAL_MEMORY_LEAK_CHECK")
+  configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   configuration "macosx"
     targetdir "bin"
+    
+project "UpgradeProjectFormat"
+  language "C++"
+  flags {"StaticRuntime"}
+  files {"LASSIE/src/UpgradeProjectFormat.*"}
+  kind "ConsoleApp"
+  libdirs {"lib", "/usr/local/lib"}
+  links {"lcmod", "lass", "parser","muparser", "pthread", "sndfile"}
+  linkoptions{"-lxerces-c"}
+  buildoptions {"-Wno-deprecated", "-gstabs"}
+  configuration "Debug" flags(DebugFlags) 
+  configuration "Release" flags(ReleaseFlags)
+  configuration "macosx"
+    targetdir "bin"    
   
 project "lassie"
   language "C++"
   kind "ConsoleApp"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
+  excludes {"LASSIE/src/UpgradeProjectFormat.*"}
   buildoptions {"`pkg-config --cflags gtkmm-2.4`",
     "-Wno-deprecated", "-gstabs"}
-  linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated"}
+  linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated", "-lxerces-c"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
-  configuration "Debug" flags(DebugFlags) defines("USE_MANUAL_MEMORY_LEAK_CHECK")
+  configuration "Debug" flags(DebugFlags) 
   configuration "Release" flags(ReleaseFlags)
   configuration "macosx"
     targetdir "bin"

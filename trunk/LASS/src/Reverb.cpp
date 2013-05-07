@@ -127,6 +127,7 @@ Reverb::Reverb(Envelope *percentReverbinput, float hilow_spread, float gainAllPa
     }
   ConstructorCommon(percentReverb, &comb_gain_list[0], &lp_gain_list[0], 
 		    gainAllPass, delay, samplingRate);
+  delete temp;
 }
 
 /**
@@ -244,7 +245,7 @@ void Reverb::ConstructorCommon(Envelope *percentReverbinput, float *comb_gain_li
  **/
 Reverb::~Reverb()
 {
-  cout << "&&&&&&&&&&&&&&&&&&&&& REVERB DESTRUCTOR CALLED!" << endl;
+  //cout << "&&&&&&&&&&&&&&&&&&&&& REVERB DESTRUCTOR CALLED!" << endl;
   int i;
 	
   for(i=0;i<REVERB_NUM_COMB_FILTERS;i++)

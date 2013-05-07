@@ -57,7 +57,9 @@ class Patter {
     int expLow;
     int expHigh;
 
+
   public:
+        
     /**
      *  Constructor for empty object.  This will be used by eventfactory system
      *  for evaluating patter objects.

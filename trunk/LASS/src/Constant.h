@@ -55,6 +55,7 @@ public:
     *   \return pointer to the copy
     **/
     Constant* clone();
+    ~Constant(){/*cout<<"constant destructor get called"<<endl;*/}
     
     /**
     *	Sets the value of this constant.

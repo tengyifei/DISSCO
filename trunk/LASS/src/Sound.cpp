@@ -45,15 +45,14 @@ Sound::Sound()
     setParam(DETUNE_FUNDAMENTAL, -1.0);
 
     reverbObj = NULL;
-
     spatializer_ = new Spatializer();
 }
   
 //----------------------------------------------------------------------------//
 Sound::Sound(int numPartials, m_value_type baseFreq)
 {
+    
     spatializer_ = new Spatializer();
-
     if (numPartials < 1)
     {
         cerr << "ERROR: Sound: Creation with less than 1 partial." << endl;
@@ -388,6 +387,7 @@ void Sound::xml_print( ofstream& xmlOutput, list<Reverb*>& revObjs, list<Dynamic
 	xmlOutput << "\t</sound>" << endl;
 }
 
+//----------------------------------------------------------------------------//
 void Sound::xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>* reverbHash, DISSCO_HASHMAP<long, DynamicVariable *>* dvHash)
 {
 	if(strcmp("sound",soundtag->name))
@@ -427,6 +427,14 @@ void Sound::xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>
 		add(p);
 	}
 }
+
+//----------------------------------------------------------------------------//
+Sound::~Sound(){
+  if(reverbObj)delete reverbObj;
+  if(spatializer_) delete spatializer_;
+  
+}
+
 
 //----------------------------------------------------------------------------//
 #endif //__SOUND_H

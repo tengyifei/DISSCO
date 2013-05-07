@@ -1,6 +1,16 @@
 /*
 CMOD (composition module)
    Copyright (C) 2007  Sever Tipei (s-tipei@uiuc.edu)
+      
+   
+   Update:
+   This class is no longer in used by XML version of CMOD. It's here only
+   for people who need to upgrade their DISSCO projects from the old format
+   to the new format (See LASSIE/src/UpgradeProjectFormat.h ).
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
@@ -24,15 +34,13 @@ CMOD (composition module)
 //----------------------------------------------------------------------------//
 
 #include "FileValue.h"
-#include "EventFactory.h"
 #include "Random.h"
 #include "Event.h"
 
 //----------------------------------------------------------------------------//
 
-extern EnvelopeLibrary envlib_cmod;
-extern map<string, EventFactory*> factory_lib;
 
+EnvelopeLibrary envlib_cmod;
 int FileValue::segmentNum = 0;
 
 //----------------------------------------------------------------------------//
@@ -986,7 +994,7 @@ void FileValue::ftn_ReadENVFile() {
   return_type = FVAL_ENVELOPE;
   vector<FileValue*> args = EvaluateArgs(1, FVAL_STRING);
   string fileName = args[0]->getString();
-
+  /*
   EventFactory* tmpFact = factory_lib[fileName];
   if (tmpFact == NULL) {
     tmpFact = new EventFactory(fileName);
@@ -994,6 +1002,7 @@ void FileValue::ftn_ReadENVFile() {
   FileValue* tmpfv = tmpFact->getEnvelopeBuilder();
 
   setEnvelope( tmpfv->getEnvelope(evptr) );
+  */
 }
 
 //----------------------------------------------------------------------------//
@@ -1002,7 +1011,7 @@ void FileValue::ftn_ReadSIVFile() {
   return_type = FVAL_SIEVE;
   vector<FileValue*> args = EvaluateArgs(1, FVAL_STRING);
   string fileName = args[0]->getString();
-
+  /*
   EventFactory* tmpFact = factory_lib[fileName];
   if (tmpFact == NULL) {
     tmpFact = new EventFactory(fileName);
@@ -1010,7 +1019,8 @@ void FileValue::ftn_ReadSIVFile() {
   FileValue* tmpfv = tmpFact->getSieveBuilder();
 /*  FileValue* tmpfv = tmpFact->getSieveBuild ??(); 		*/
 
-  setSieve( tmpfv->getSieve(evptr) );
+  //setSieve( tmpfv->getSieve(evptr) );
+  
 }
 
 //----------------------------------------------------------------------------//
@@ -1021,7 +1031,7 @@ void FileValue::ftn_ReadPATFile() {
   list<FileValue>::iterator iter = ftnArgs.begin();
   string fileName = iter->getString();
   iter++;
-
+  /*
   EventFactory* tmpFact = factory_lib[fileName];
   if (tmpFact == NULL) {
     tmpFact = new EventFactory(fileName);
@@ -1035,6 +1045,7 @@ void FileValue::ftn_ReadPATFile() {
   }
 
   setPattern( myPat );
+  */
 }
 
 //----------------------------------------------------------------------------//
@@ -1043,7 +1054,7 @@ void FileValue::ftn_ReadSPAFile() {
   return_type = FVAL_LIST;
   vector<FileValue*> args = EvaluateArgs(1, FVAL_STRING);
   string fileName = args[0]->getString();
-
+  /*
   EventFactory* tmpFact = factory_lib[fileName];
   if (tmpFact == NULL) {
     tmpFact = new EventFactory(fileName);
@@ -1052,6 +1063,7 @@ void FileValue::ftn_ReadSPAFile() {
 
   list<FileValue>* spaList = tmpfv->getListPtr(evptr);
   setList( *spaList );
+  */
 }
 
 //----------------------------------------------------------------------------//
@@ -1060,7 +1072,7 @@ void FileValue::ftn_ReadREVFile() {
   return_type = FVAL_LIST;
   vector<FileValue*> args = EvaluateArgs(1, FVAL_STRING);
   string fileName = args[0]->getString();
-
+  /*
   EventFactory* tmpFact = factory_lib[fileName];
   if (tmpFact == NULL) {
     tmpFact = new EventFactory(fileName);
@@ -1069,6 +1081,7 @@ void FileValue::ftn_ReadREVFile() {
 
   list<FileValue>* revList = tmpfv->getListPtr(evptr);
   setList( *revList );
+  */
 }
 
 //----------------------------------------------------------------------------//

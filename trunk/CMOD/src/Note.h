@@ -1,6 +1,14 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+   
+   
+   Update:
+   This class is not yet implemented in the XML version of CMOD. 
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

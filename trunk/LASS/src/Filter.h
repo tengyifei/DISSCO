@@ -182,7 +182,7 @@ public:
 		 **/
 		~hist_queue()
 		{
-			delete [] array;
+  		delete [] array;	
 		}
 
 		/**

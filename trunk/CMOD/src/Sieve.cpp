@@ -60,22 +60,6 @@ void Sieve::Build(int minVal, int maxVal,
   Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVector);
   Sieve::Weights(wMethod, wArgVect);
 
-  /* cout for debugging
-  list<int>::iterator i = eList.begin();
-  cout<<"Elements list: ";
-  for ( i ; i != eList.end(); i ++){
-    cout<< *i<<", "; 
-  }
-  cout<<endl;
-*/
-
-  list<double>::iterator j = wList.begin();
-  cout<<"weight list: ";
-  for ( j ; j != wList.end(); j ++){
-    cout<< *j<<", "; 
-  }
-  cout<<endl;
-  
 }      
 
 
@@ -179,8 +163,8 @@ void Sieve::Elements(int minVal, int maxVal,
 
 void Sieve::Weights(const char *method, 
                     vector<int> wArgVect) {
-
   if(strcmp(method, "PERIODIC") == 0) {
+  
     Sieve::PeriodicWeights(wArgVect);
   } else if(strcmp(method, "HIERARCHIC") == 0) {
     Sieve::HierarchicWeights(wArgVect);
@@ -199,9 +183,7 @@ void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, std::vector
   skip = 0;
 
   for (int i = 0; i < eArgVect.size(); i++) {
-    if( (eArgVect[i]+ offsetVector[i]) >= minVal && (eArgVect[i] + offsetVector[i]) <= maxVal) {
-      //if eList.Includes(eArgVect[i])
-      
+    if( (eArgVect[i]+ offsetVector[i]) >= minVal && (eArgVect[i] + offsetVector[i]) <= maxVal) {      
       eList.push_back( eArgVect[i] + offsetVector[i] );
     }
 

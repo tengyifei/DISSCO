@@ -34,6 +34,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 
+Spatializer::~Spatializer(){
+  // nothing to do
+}
+
 MultiTrack* Spatializer::spatialize(Track& t, int numTracks)
 {
 

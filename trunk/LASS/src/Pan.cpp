@@ -35,8 +35,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 Pan::Pan(DynamicVariable& v)
-    :panVar_(v.clone()) {}
-    
+    :panVar_(v.clone()){}
+Pan::~Pan(){
+  delete panVar_;
+  //cout<<"pan descructor called"<<endl;
+}    
 void Pan::set(DynamicVariable& v)
 {
     delete panVar_;
@@ -44,7 +47,7 @@ void Pan::set(DynamicVariable& v)
 }
 
 Pan* Pan::clone()
-{
+{   
     return new Pan(*panVar_);
 }
 

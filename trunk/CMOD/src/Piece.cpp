@@ -1,6 +1,7 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,212 +26,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Piece.h"
 
+#include "Libraries.h"
 #include "Define.h"
-#include "EventFactory.h"
-#include "EventParser.h"
 #include "FileValue.h"
 #include "Note.h"
 #include "Output.h"
 #include "Random.h"
+#include "Utilities.h"
 
-//----------------------------------------------------------------------------//
 
-/*These are the global variables in the program. Eventually this should be
-reworked to be more C++ friendly.*/
-map<string, EventFactory*> factory_lib;
-EnvelopeLibrary envlib_cmod;
-Score score;
-int numChan;
-Piece ThePiece;
-
-//----------------------------------------------------------------------------//
-
-void PieceHelper::createPiece(string path, string projectName, string seed,
-  string soundFilename, int processCount, int processOffset) {
-  
-  string multiname = "_multi_";
-  stringstream oss;
-  oss << processOffset << "_" << processCount;
-  multiname = multiname + oss.str();
-  if(processCount == 1)
-    multiname = "";
-
-  string lockname = soundFilename;
-  lockname.replace(lockname.find("aiff"), 4, "lock");
-  string lockcreate = "touch ";
-  lockcreate += lockname; lockcreate += " &";
-  string lockremove = "rm ";
-  lockremove += lockname; lockremove += " &";
-
-  //Change working directory.
-  chdir(path.c_str());
-
-  if(processCount > 1)
-    system(lockcreate.c_str());
-  
-  //Convert seed string to seed number.
-  int seedNumber = getSeedNumber(seed);
-  
-  EventFactory *mainFactory;
-  Event *mainEvent;
-
-  //Get main project file.
-  string mainFile = projectName + ".dat";
-
-  //Load library of envelopes
-  string libraryFile = projectName + ".lib";
-  char *tempString = strdup(libraryFile.c_str());
-  envlib_cmod.loadLibrary(tempString);
-  free(tempString);
-
-  //Initialize the output class.
-  string particelFilename = projectName + multiname + ".particel";
-  Output::initialize(particelFilename);
-  Output::beginSubLevel("Piece");
-  
-  //Seed the random number generator.
-  Random::Seed((unsigned int)seedNumber);
-  
-  //Parse main file.
-  cout << "\tMain - Parsing " << mainFile << endl;
-  parseFile(mainFile, NULL, &ThePiece);
-
-  //Print out initial description.
-  ThePiece.Print();
-  
-  //Set global variables.
-  numChan = ThePiece.numChannels;
-  cout << "\t\tMain - Creating main event from " << ThePiece.fileList << endl;
-  mainFactory = new EventFactory(ThePiece.fileList);
-
-  //Create the main event.
-  Tempo mainTempo; //Though we supply this, "Top" will provide its own tempo.
-  TimeSpan pieceSpan;
-  pieceSpan.start = ThePiece.pieceStartTime;
-  pieceSpan.duration = ThePiece.pieceDuration;
-  mainEvent = mainFactory->Build(pieceSpan, 0, mainTempo);
-  mainEvent->buildChildEvents();
-  
-  //Finish particel output and free up the Output class members.
-  Output::endSubLevel();
-  
-  cout << endl;
-  cout << "-----------------------------------------------------------" <<
-    endl;
-  cout << "Build complete." << endl;
-  cout << "-----------------------------------------------------------" <<
-    endl << endl;
-  cout.flush();
-  
-  //Write the XML output.
-  string xmlFilename = projectName + multiname + ".xml";
-  Output::exportToXML(xmlFilename);
-  string fir = "firefox ";
-  fir.append(xmlFilename);
-  fir.append(" &");
-  //system(fir.c_str());
-
-  //Write the FOMUS output.
-  string fomusFilename = "ScoreFiles/";
-  fomusFilename += projectName;
-  fomusFilename += "_";
-  Output::exportToFOMUS(fomusFilename);
-  Output::free();
-  
-  //Render sound.
-  if(ThePiece.soundSynthesis) {
-    //Set clipping mode.
-    score.setClippingManagementMode(Score::CHANNEL_ANTICLIP);
-
-    //Note: multithread isn't working quite right yet, so run in single thread.
-    MultiTrack* renderedScore = 
-      score.render(ThePiece.numChannels, ThePiece.sampleRate, processCount,
-        processOffset);
-
-    //Write to file.
-    AuWriter::write(*renderedScore, soundFilename);
-    
-    //Creating spectrogram of rendered file.
-    string bri = "brick ";
-    bri.append(soundFilename);
-    bri.append(" ");
-    string bripng = soundFilename;
-    bripng.replace(bripng.find("aiff"), 4, "png");
-    bri.append(bripng);
-    bri.append(" > /dev/null &");
-    if(processCount == 1)
-      system(bri.c_str());
-
-    cout << endl;
-    cout << "-----------------------------------------------------------" <<
-      endl;
-    cout << "Wrote: " << soundFilename << endl;
-    cout << "       " << bripng << endl;
-    cout << endl;
-    cout << "-----------------------------------------------------------" <<
-      endl;
-    cout.flush();
-
-    if(processCount == 1)
-    {
-
-    string aud = "nohup audacity \""; //nohup prevent audacity
-    aud.append(soundFilename);
-    aud.append("\"");
-    
-    cout << "Would you like to open up the soundfile in Audacity (y/n)? ";
-    char response;
-    cin >> response;
-    if(response == 'y' || response == 'Y')
-      system(aud.c_str());
-
-    string brifox = "nohup firefox \""; //nohup prevent audacity
-    brifox.append(bripng);
-    brifox.append("\"");
-    cout << "Would you like to open up the spectrogram in Firefox (y/n)? ";
-    char response2;
-    cin >> response2;
-    if(response2 == 'y' || response2 == 'Y')
-    {
-      //Wait for spectrogram to finish.
-      string bripngfile = bripng;
-      bripngfile.replace(bripngfile.find("SoundFiles/"), 11, "");
-      cout << "Waiting for spectrogram to finish.";
-      while(!PieceHelper::doesFileExist("SoundFiles/", bripngfile))
-      {
-        cout.flush();
-        sleep(1);
-        cout << ".";
-      }
-      cout << endl;
-      system(brifox.c_str());
-    }
-    }
-        
-    //Clean up.
-    delete renderedScore;
-  }
-
-  system("rm -f ScoreFiles/*.ps ScoreFiles/*.ly");
-  {
-    cout << "Would you like to open up the score files in Firefox (y/n)? ";
-    char response;
-    cin >> response;
-    if(response == 'y' || response == 'Y')
-      system("firefox ScoreFiles/*.svg &");
-    cout << endl;
-  }
-
-  //Clean up.
-  delete mainEvent;
-  delete mainFactory;
-  
-  cout << "Finished with CMOD." << endl;
-  cout.flush();
-
-  if(processCount > 1)
-    system(lockremove.c_str());
-}
 
 //----------------------------------------------------------------------------//
 
@@ -247,6 +51,7 @@ int PieceHelper::getDirectoryList(string dir, vector<string> &files) {
   }
   closedir(dp);
   return 0;
+  
 }
 
 //----------------------------------------------------------------------------//
@@ -288,42 +93,9 @@ string PieceHelper::getProjectName(string path) {
   }
   
   return g;
+  
 }
 
-//----------------------------------------------------------------------------//
-
-string PieceHelper::getSeedFile(string path) {
-  string dir = string(path);
-  vector<string> files = vector<string>();
-  getDirectoryList(dir, files);
-  string g = "";
-  for(unsigned int i = 0; i < files.size(); i++) {
-    string f = files[i];
-    if(f.length() >= 6 && f.substr(f.length() - 4, 4) == "seed") {
-      g = f.erase(f.length() - 5);
-      break;
-    }
-  }
-  return g;
-}
-
-//----------------------------------------------------------------------------//
-
-string PieceHelper::getSeed(string path) {
-  string preexistingSeed = getSeedFile(path);
-  if(preexistingSeed != "")
-    return preexistingSeed;
-  cout << endl;
-  cout << "-----------------------------------------------------------" << endl;
-  cout << "Seed generation note: to bypass seed entry, create a file " << endl;
-  cout << "in the project directory called '<seed>.seed' where <seed> " << endl;
-  cout << "is your seed word or seed number." << endl;
-  cout << "-----------------------------------------------------------" << endl;
-  cout << endl;
-  cout << "Enter a seed word or number: ";
-  string s; cin >> s;
-  return s;
-}
 
 //----------------------------------------------------------------------------//
 
@@ -361,11 +133,13 @@ void PieceHelper::createSoundFilesDirectory(string path) {
   
   string h = "mkdir " + path + "SoundFiles";
   system(h.c_str());
+
 }
 
 //----------------------------------------------------------------------------//
 
 void PieceHelper::createScoreFilesDirectory(string path) {
+
   string dir = string(path);
   vector<string> files = vector<string>();
   getDirectoryList(dir, files);
@@ -383,6 +157,7 @@ void PieceHelper::createScoreFilesDirectory(string path) {
     system(h.c_str());
   h = "rm -f " + path + "ScoreFiles/*.fms";
   system(h.c_str());
+
 }
 
 //----------------------------------------------------------------------------//
@@ -401,12 +176,14 @@ bool PieceHelper::doesFileExist(string path, string filename) {
 
 //----------------------------------------------------------------------------//
 
-string PieceHelper::getNextSoundFile(string path, string projectName) {
-  path = path + "SoundFiles/";
-  for(int i = 1; i < 10000; i++) {
+string Piece::getNextSoundFile() {
+
+  string soundPath =  "SoundFiles/";
+  //cout<<"sound Path:"<<soundPath<<endl;
+  for(int i = 1; i < 1000000; i++) {
     stringstream oss;
     oss << projectName << i << ".aiff";
-    if(doesFileExist(path, oss.str()))
+    if(PieceHelper::doesFileExist(soundPath, oss.str()))
       continue;
     else
       return "SoundFiles/" + oss.str();
@@ -414,96 +191,9 @@ string PieceHelper::getNextSoundFile(string path, string projectName) {
   return "";
 }
 
-//----------------------------------------------------------------------------//
 
-void Piece::setTitle(FileValue *fv) {
-  fv->Evaluate();
-  if (!fv->isString()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setTitle expects String." << endl;
-  title = fv->getString();
-  cout << "Piece - setTitle: " << title << endl;
-}
 
-//----------------------------------------------------------------------------//
 
-void Piece::setFileFlags(FileValue *fv) {
-  fv->Evaluate();
-  if (!fv->isString()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setFileFlags expects String." << endl;
-  fileFlags = fv->getString(); 
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setFileList(FileValue *fv) { 
-  fv->Evaluate();
-  if (!fv->isString()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setFileList expects String." << endl;
-  fileList = fv->getString();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setSoundSynthesis(FileValue *fv) { 
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setSoundSynthesis expects Number." << endl;
-  soundSynthesis = (bool)fv->getFloat();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setNumChannels(FileValue *fv) { 
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setNumChannels expects Number." << endl;
-  numChannels = fv->getInt();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setSampleRate(FileValue *fv) { 
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setSampleRate expects Number." << endl;
-  sampleRate = fv->getInt();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setSampleSize(FileValue *fv) { 
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setSampleSize expects Number." << endl;
-  sampleSize = fv->getInt();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setNumThreads(FileValue *fv) {
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setNumThreads expects Number." << endl;
-  numThreads = fv->getInt();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setPieceStartTime(FileValue *fv) {
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setStartTime expects Number." << endl;
-  pieceStartTime = fv->getInt();
-}
-
-//----------------------------------------------------------------------------//
-
-void Piece::setPieceDuration(FileValue *fv) {
-  fv->Evaluate();
-  if (!fv->isNumber()) cout << "Error: Type is " << fv->TypeToString() << 
-        ".  setDuration expects Number." << endl;
-  pieceDuration = fv->getFloat();
-}
 
 //----------------------------------------------------------------------------//
 
@@ -529,3 +219,125 @@ void Piece::Print() {
   Output::endSubLevel();
 }
 
+
+
+Piece::Piece(string _workingPath, string _projectTitle){
+  path = _workingPath;
+  projectName = _projectTitle;
+  //Change working directory.
+  chdir(_workingPath.c_str());
+
+  //Parse .dissco File
+  XMLPlatformUtils::Initialize();
+  XercesDOMParser* parser = new XercesDOMParser();
+  string disscoFile = _projectTitle+ ".dissco";
+  parser->parse(disscoFile.c_str());
+  
+  //get the parsed DOM Document and read the configuration
+  DOMDocument* xmlDocument = parser->getDocument();
+  DOMElement* root = xmlDocument->getDocumentElement();
+  DOMElement* configurations = root->GFEC();
+  DOMElement* element = configurations->GFEC();
+  
+  title = XMLTC(element);
+  element = element->GNES();
+  fileFlags = XMLTC(element);
+  element = element->GNES();
+  fileList = XMLTC(element);
+  element = element->GNES();
+  pieceStartTime = XMLTC(element);
+  element = element->GNES();
+  pieceDuration = XMLTC(element);
+  element = element->GNES();
+  soundSynthesis = (XMLTC(element).compare("True")==0)?true:false;
+  element = element->GNES();
+  numChannels = atoi(XMLTC(element).c_str());
+  element = element->GNES();
+  sampleRate = atoi(XMLTC(element).c_str());
+  element = element->GNES();
+  sampleSize = atoi(XMLTC(element).c_str());
+  element = element->GNES();
+  numThreads = atoi(XMLTC(element).c_str());
+  element = element->GNES();
+  bool outputParticel = (XMLTC(element).compare("True")==0)?true:false;
+  
+  //check if seed exists
+  string seed;
+  element = element->GNES();
+  if(element->getFirstChild()){
+    seed = XMLTC(element);
+  }
+  else{
+    cout<<"Please key in the Random Seed:"<<endl;
+    cin>>seed;
+  }
+  
+  //Convert seed string to seed number and seed the random number generator
+  int seedNumber = PieceHelper::getSeedNumber(seed);  
+  Random::Seed((unsigned int)seedNumber);
+  
+  //construct the utilities object
+  utilities = new Utilities(root, 
+                            _workingPath, 
+                            soundSynthesis, 
+                            outputParticel,
+                            numThreads,
+                            numChannels, 
+                            sampleRate, 
+                            this);
+  
+  // setup TimeSpan and Tempo
+  TimeSpan pieceSpan;
+  pieceSpan.start = utilities->evaluate(pieceStartTime, NULL);
+  pieceSpan.duration = utilities->evaluate(pieceDuration, NULL);
+  Tempo mainTempo; //Though we supply this, "Top" will provide its own tempo.
+  
+  //Initialize the output class.
+  if (utilities->getOutputParticel()){
+    string particelFilename = _projectTitle + ".particel";
+    Output::initialize(particelFilename);
+    Output::beginSubLevel("Piece"); 
+    Print();
+  }
+  
+ 
+  //Create the Top event and recursively build its children.
+  DOMElement* topElement =utilities->getEventElement(eventTop, fileList);
+  Event* topEvent = new Event(topElement, pieceSpan,0, mainTempo, utilities);
+  topEvent->buildChildren();
+  
+  //get the final MultiTrack object and write it to disk
+  if (soundSynthesis){
+    MultiTrack* renderedScore = utilities->doneCMOD();
+    string soundFilename = getNextSoundFile();
+    //Write to file.
+    AuWriter::write(*renderedScore, soundFilename);
+    delete renderedScore;
+  }
+  
+  
+  if (outputParticel){
+    //Finish particel output and free up the Output class members.
+    Output::endSubLevel();
+    Output::free();
+  }
+  cout << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl;
+  cout << "Build complete." << endl;
+  cout << "-----------------------------------------------------------" <<
+    endl << endl;
+  cout.flush();
+  
+  
+  //clean up
+  delete utilities;
+  delete parser;
+  delete topEvent; //wait till the thread join
+  XMLPlatformUtils::Terminate();
+ 
+}
+
+Piece::~Piece(){
+  //do nothing
+}

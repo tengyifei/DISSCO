@@ -1,6 +1,16 @@
 /*
 CMOD (composition module)
 Copyright (C) 2007  Sever Tipei (s-tipei@uiuc.edu)
+   
+   
+   Update:
+   This class is no longer in used by XML version of CMOD. It's here only
+   for people who need to upgrade their DISSCO projects from the old format
+   to the new format (See LASSIE/src/UpgradeProjectFormat.h ).
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
  
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -40,7 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Define.h"
 #include "Patter.h"
 #include "Sieve.h"
-
 class Event; // forward declared to avoid cyclic dependency
 
 //----------------------------------------------------------------------------//
