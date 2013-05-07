@@ -1,6 +1,16 @@
 /*
 CMOD (composition module)
    Copyright (C) 2007  Sever Tipei (s-tipei@uiuc.edu)
+      
+   
+   Update:
+   This class is no longer in used by XML version of CMOD. It's here only
+   for people who need to upgrade their DISSCO projects from the old format
+   to the new format (See LASSIE/src/UpgradeProjectFormat.h ).
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
@@ -22,7 +32,9 @@ CMOD (composition module)
 #include "EventParser.h"
 
 #include "FileValue.h"
-#include "EventFactory.h"
+#include "Piece.h"
+#include "CMOD.h"
+
 
 //----------------------------------------------------------------------------//
 
@@ -62,7 +74,7 @@ typedef struct GbKeyEval_s {
        **************************************************************/
 
 //global keys - referring to the entire piece (in main.cpp)
-GbKeyEval gbkeys[] = { 
+GbKeyEval gbkeys[] = { /*
   {"title", &Piece::setTitle},
   {"fileFlags", &Piece::setFileFlags},
   {"fileList", &Piece::setFileList},
@@ -73,13 +85,14 @@ GbKeyEval gbkeys[] = {
   {"sampleRate", &Piece::setSampleRate},
   {"sampleSize", &Piece::setSampleSize},
   {"numThreads", &Piece::setNumThreads},
-
+*/
   /* Insert more keyword/function pairs above this line. */
   {"", NULL}
 };
 
 //event keys - referring to various events
 EvKeyEval evkeys[] = {
+/*
   // All Events
   {"childNames", &EventFactory::setChildNames},
   {"numChildren", &EventFactory::setNumChildren},
@@ -110,13 +123,13 @@ EvKeyEval evkeys[] = {
   {"envelopeBuilder", &EventFactory::setEnvelopeBuilder},
   {"sieveBuilder", &EventFactory::setSieveBuilder},
   {"patternBuilder", &EventFactory::setPatternBuilder},
-
+*/
   /* Insert more keyword/function pairs above this line. */
   {"", NULL}
 };
 
 //----------------------------------------------------------------------------//
-
+/*
 int parseFile(string filename, EventFactory* ef, Piece *piece) {
   setFile(filename);
   yyparse();
@@ -162,7 +175,7 @@ int parseFile(string filename, EventFactory* ef, Piece *piece) {
   file_data.clear();
   return 1;
 }
-
+*/
 
 //----------------------------------------------------------------------------//
 

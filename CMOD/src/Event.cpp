@@ -1,6 +1,7 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
                                                                                 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,55 +25,59 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 #include "Event.h"
-#include "EventFactory.h"
 #include "Output.h"
 #include "Sieve.h"
 #include "Random.h"
-
-//Global -- eventually this should be moved into a class.
-extern map<string, EventFactory*> factory_lib;
+#include "Bottom.h"
 
 //----------------------------------------------------------------------------//
 //Checked
 
-Event::Event(TimeSpan ts, int type, string name) :
-  name(name), type(type), ts(ts),
-  childEventDef(0),
+Event::Event(DOMElement* _element, 
+             TimeSpan _timeSpan, 
+             int _type, 
+             Tempo _tempo,
+             Utilities* _utilities):
   maxChildDur(0), checkPoint(0),
   numChildren(0),
   restartsRemaining(0),
   currChildNum(0), childType(0),
   discreteMat(0),
-  childDurationPattern(NULL), 
-  childTypePattern(NULL), 
-  childStartTimePattern(NULL),
-  previousChildDuration(0){}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-Event::~Event() {
-  delete childEventDef;
-  delete discreteMat;
-  for (int i = 0; i < childEvents.size(); i++)
-    delete childEvents[i];
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
-  int newEDUPerBeat, float newMaxChildDur) {
-  /*Only set the tempo to what was indicated in the file if the event does not
-  already have a tempo that was derived from a parent. This is very important,
-  so that tempos are not nested.*/
+  type(_type),
+  previousChildDuration(0),
+  discreteFailedResponse(""),
+  utilities( _utilities){
+  
+  //Initialize parameters
+  DOMElement* thisEventElement = _element->GFEC();
+  string typeString =XMLTC(thisEventElement); 
+  type = atoi(typeString.c_str());
+  
+  thisEventElement = thisEventElement->GNES();
+  name = XMLTC(thisEventElement);  
+  ts = _timeSpan;
+  tempo = _tempo;
+  
+  thisEventElement = thisEventElement->GNES();
+  maxChildDur = (float)utilities->evaluate(XMLTC(thisEventElement), (void*)this);
+  
+  thisEventElement = thisEventElement->GNES();
+  int newEDUPerBeat = (int) utilities->evaluate(XMLTC(thisEventElement),(void*)this);
+  Ratio k(newEDUPerBeat,1);
   Tempo fvTempo;
-  fvTempo.setTempo(newTempo);
-  fvTempo.setTimeSignature(newTimeSignature);
-  fvTempo.setEDUPerTimeSignatureBeat((std::string)Ratio(newEDUPerBeat, 1));
+  fvTempo.setEDUPerTimeSignatureBeat(k);
+  
+  thisEventElement = thisEventElement->GNES();
+  fvTempo.setTimeSignature(getTimeSignatureStringFromDOMElement(thisEventElement));
+  
+  thisEventElement = thisEventElement->GNES();
+  fvTempo.setTempo(getTempoStringFromDOMElement(thisEventElement));
   fvTempo.setStartTime(tempo.getStartTime());
-  if(tempo.getStartTime() == 0)
+  
+  
+  if(tempo.getStartTime() == 0){
     tempo = fvTempo;
+  }
   else if(!tempo.isTempoSameAs(fvTempo)) { //Warn if different tempi
     cout << endl << "WARNING: the tempo of this exact event differs from" << endl
       << "that of its exact parent." << endl;
@@ -91,135 +96,239 @@ void Event::initDiscreteInfo(std::string newTempo, std::string newTimeSignature,
     cout << "  " << fvTempo.getEDUPerTimeSignatureBeat() << endl;
     cout << "  " << fvTempo.getStartTime() << endl;
   }
-  maxChildDur = newMaxChildDur;
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::initChildNames(FileValue* childNames) {
-  //Get iterator for the childNames list
-  list<FileValue>* layersList = childNames->getListPtr(this);
-  list<FileValue>::iterator iter = layersList->begin();
-
-  //Initialize layerVect and typeVect
-  while (iter != layersList->end()) {
-    list<FileValue>* currLayer = iter++->getListPtr(this);
-    list<FileValue>::iterator currLayerIter = currLayer->begin();
-
-    vector<string> currLayerVect;
-    while (currLayerIter != currLayer->end()) {
-      currLayerVect.push_back(currLayerIter++->getString(this));
-
-      typeVect.push_back(currLayerVect.back());
-    }
-    layerVect.push_back(currLayerVect);
-  }
-}
-
-//----------------------------------------------------------------------------//
-
-void Event::initNumChildren(FileValue* numChildrenFV) {
-  if(!layerVect.size()) {
-    cerr << "Error: ChildNames not initialized!" << endl; exit(1);
-  }
-
-  list<FileValue>* numChildrenArgs = numChildrenFV->getListPtr(this);
-  list<FileValue>::iterator iter = numChildrenArgs->begin();
-
-  string method = iter++->getString(this);
-
-  if(method == "FIXED") {
-    //Do for each layer.
-    if (iter == numChildrenArgs->end())
-      //No additional arguments, so create same number of children as types.
-      numChildren = typeVect.size();
-    else
-      //Last argument is number of children to create.
-      numChildren = iter->getInt(this);
-      
-  } else if(method == "BY_LAYER") {
-    list<FileValue>* numPerLayer = iter->getListPtr(this);
-    list<FileValue>::iterator numPerLayerIt = numPerLayer->begin();
-
-    //Check for errors.
-    if(numPerLayer->size() != layerVect.size()) {
-      cerr << "Event::initNumChildren error in file " << name << endl;
-      cerr << "    BY_LAYER list isn't the same size as the layerVect" << endl;
-      exit(1);
-    }
-    
-    for(int i = 0; i < layerVect.size(); i++) {
-      if (layerVect[i].size() != 1) {
-        cerr << "Event::initNumChildren error in file " << name << endl;
-        cerr << "    BY_LAYER requires each layer to have only 1 file in it!!"
-          << endl;
-        exit(1);
-      }
-    }
-
-    //Re-initialize the type and layer vectors.
-    typeVect.clear();
-    for(int i = 0; i < layerVect.size(); i++) {
-      int numToAdd = numPerLayerIt++->getInt(this);
-      string currLayerStr = layerVect[i][0];
-      layerVect[i].clear();
-      for(int count = 0; count < numToAdd; count++) {
-        layerVect[i].push_back(currLayerStr);
-        typeVect.push_back(currLayerStr);
-      }
-    }
-    
-    //Get the number of children.
-    numChildren = typeVect.size();
-
-  } else if(method == "DENSITY") {
-    FileValue densityFV = *iter; iter++;
-    FileValue areaFV = *iter; iter++;
-    FileValue underOneFV = *iter;
-
-    //Do for each layer.
-    for(int i = 0; i < layerVect.size(); i++) {
-      float density = densityFV.getFloat(this);
-      int area = areaFV.getInt(this);
-      int underOne = underOneFV.getInt(this);
-      float soundsPsec = pow(2, density * area - underOne);
-      layerDensity.push_back(soundsPsec);
-      layerNumChildren.push_back(
-        (int)floor(layerDensity[i] * ts.duration + 0.5));
-    }
-
-    //Initialize the remaining-children-to-create to be all of them.
-    layerRemainingChildren = layerNumChildren;
-    
-    //Count the total number of children.
-    numChildren = 0;
-    for(int i = 0; i < layerNumChildren.size(); i++)
-      numChildren += layerNumChildren[i];
-      
-  } else {
-    cerr << "Event::NumChildren method " << method << " doesn't exist" << endl;
-    exit(1);
-  }
-}
-
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::buildChildEvents() {
   
-  //Begin this sub-level in the output and write out its properties.
-  Output::beginSubLevel(name);
-  outputProperties();
+  //This part initializes childnum and childnames
+  
+  DOMElement* numChildrenElement = thisEventElement->GNES();
+  
+  //store the pointer to be used in buildChildren()
+  childEventDefElement = numChildrenElement->GNES();
+  childStartTimeElement = childEventDefElement->GFEC();
+  childTypeElement = childStartTimeElement->GNES();
+  childDurationElement = childTypeElement->GNES();
+  AttackSieveElement = childDurationElement->GNES();
+  DurationSieveElement = AttackSieveElement->GNES();
+  methodFlagElement = DurationSieveElement->GNES();
+  childStartTypeFlag = methodFlagElement->GNES();
+  childDurationTypeFlag = childStartTypeFlag->GNES();
+  
+  //layers, initialize child names
+  thisEventElement = childEventDefElement->GNES();
+  DOMElement* layerElement = thisEventElement->GFEC();
+  while (layerElement){
+    
+    layerElements.push_back(layerElement);
+    DOMElement* childPackage = layerElement->GFEC()->GNES()->GFEC();
+    
+    while(childPackage){
+      childTypeElements.push_back(childPackage);
+      childPackage = childPackage->GNES();
+    }
+    layerElement = layerElement->GNES();
+  }
+  
 
+  DOMElement* flagElement = numChildrenElement->GFEC();
+  if (XMLTC(flagElement) =="0"){ // Continuum
+    DOMElement* entry1Element = flagElement->GNES();
+    if (XMLTC(entry1Element)==""){
+      
+      numChildren = childTypeElements.size();
+    }
+    else {
+      numChildren =(int) utilities->evaluate(XMLTC(entry1Element), (void*)this);
+    }
+  }
+  else if (XMLTC(flagElement) == "1"){ // Densitiy
+    DOMElement* densityElement = numChildrenElement->GFEC()->GNES();
+    DOMElement* areaElement = densityElement->GNES();
+    DOMElement* underOneElement = areaElement->GNES();
+    double density = utilities->evaluate( XMLTC(densityElement),(void*)this);
+    double area = utilities->evaluate( XMLTC(areaElement),(void*)this);
+    double underOne = utilities->evaluate( XMLTC(underOneElement),(void*)this);
+    double soundsPsec = pow(2, density * area - underOne); //this can't be right..
+    //cout<<"density:"<< density<<", area:"<<area<<", underOne:"<<underOne<<endl;  
+      
+    //not sure which version is the correct one. ask sever  
+    numChildren = (int)(soundsPsec * ts.duration + 0.5);
+    //numChildren = (int)(soundsPsec * layerElements * ts.duration + 0.5);
+    
+  }
+  else {// by layer
+  numChildren = 0;
+    for (int i = 0; i < layerElements.size(); i ++){
+      numChildren +=utilities->evaluate(XMLTC(layerElements[i]->GFEC()),(void*)this);
+    } 
+  }
+  
+}
+
+string Event::getTempoStringFromDOMElement(DOMElement* _element){
+  
+  /*
+  <Tempo>
+        <MethodFlag>0</MethodFlag>
+        <Prefix>0</Prefix>
+        <NoteValue>2</NoteValue>
+        <FractionEntry1></FractionEntry1>
+        <FractionEntry2></FractionEntry2>
+        <ValueEntry>60</ValueEntry>
+      </Tempo>
+  */
+  DOMElement* thisElement = _element->GFEC();
+  string stringbuffer = "";
+  string methodFlag = XMLTC(thisElement); //it's either 0 or 1
+  
+  thisElement = thisElement->GNES();
+  string prefix =  XMLTC(thisElement);
+  
+  thisElement = thisElement->GNES();
+  string noteValue = XMLTC(thisElement);
+  
+  thisElement = thisElement->GNES();
+  double fractionEntry1 = utilities->evaluate(XMLTC(thisElement),(void*)this);
+  
+  thisElement = thisElement->GNES();
+  double fractionEntry2 = utilities->evaluate(XMLTC(thisElement),(void*)this);
+  
+  thisElement = thisElement->GNES();
+  double valueEntry = utilities->evaluate(XMLTC(thisElement),(void*)this);
+  
+  
+  if (prefix == "1"){
+      stringbuffer = stringbuffer + "dotted ";
+    }
+    else if (prefix == "2" ){
+      stringbuffer = stringbuffer + "double dotted ";
+    }     
+    else if (prefix =="3"){
+      stringbuffer = stringbuffer + "triple ";
+    }          
+    else if (prefix =="4"){
+      stringbuffer = stringbuffer + "quintuple ";
+    }     
+    else if (prefix =="5"){
+      stringbuffer = stringbuffer + "sextuple ";
+    }     
+    else if (prefix =="6"){
+      stringbuffer = stringbuffer + "septuple ";
+    }     
+
+    if (noteValue == "0"){
+      stringbuffer = stringbuffer + "whole = ";
+    }
+    else if (noteValue == "1"){
+      stringbuffer = stringbuffer + "half = ";
+    }
+    else if (noteValue == "2"){
+      stringbuffer = stringbuffer + "quarter = ";
+    }
+    else if (noteValue == "3"){
+      stringbuffer = stringbuffer + "eighth = ";
+    }
+    else if (noteValue == "4"){
+      stringbuffer = stringbuffer + "sixteenth = ";
+    }
+    else if (noteValue == "5"){
+      stringbuffer = stringbuffer + "thirtysecond = ";
+    }
+ 
+  if (methodFlag == "0") {// tempo as note value 
+  
+    char tempobuffer[20];
+    sprintf(tempobuffer, "%f", valueEntry);
+    stringbuffer = stringbuffer + string(tempobuffer);
+  }
+  
+  else { // tempo as fraction
+    //"entry1" notes in "value" seconds
+    //entry : value = actual number : 60
+    //entry1 * 60 / value = actual number
+    
+    
+    double entry1 = fractionEntry1 * 60;
+    double den = valueEntry;
+    
+    char tempobuffer [20];
+    sprintf(tempobuffer, "%f", entry1);
+    string numString = string(tempobuffer);
+    
+    sprintf (tempobuffer,"%f", den);
+    string denString = string(tempobuffer);
+    
+    string ratioNumber = numString + "/" + denString;
+    Ratio ratio = Ratio(ratioNumber);
+    
+    sprintf(tempobuffer, "%d", ratio.Num());
+    
+    if (ratio.Den() ==1){
+     	stringbuffer = stringbuffer + string(tempobuffer) ;   
+    }
+    else{
+    	stringbuffer = stringbuffer + string(tempobuffer) + "/";
+    	sprintf(tempobuffer, "%d", ratio.Den());
+    	stringbuffer = stringbuffer + string(tempobuffer);
+    }
+  }
+  return stringbuffer;
+}
+
+
+
+string Event::getTimeSignatureStringFromDOMElement(DOMElement* _element){
+/*
+<TimeSignature>
+        <Entry1>4</Entry1>
+        <Entry2>4</Entry2>
+      </TimeSignature>
+  */    
+
+  DOMElement* thisElement = _element->GFEC();
+  int entry1 = utilities->evaluate(XMLTC(thisElement),(void*)this);
+  
+  char charbuffer[20];
+  sprintf(charbuffer, "%d", entry1);
+  string stringbuffer =  string(charbuffer);
+    
+  thisElement = thisElement->GNES();
+  int entry2 = utilities->evaluate(XMLTC(thisElement),(void*)this);
+  sprintf(charbuffer, "%d", entry2);
+  string returnString = stringbuffer + "/"+ string(charbuffer);
+  
+  return returnString;
+}
+
+void Event::buildChildren(){
+  if (utilities->getOutputParticel()){
+  cout<<"outputsubllevel"<<endl;
+  //Begin this sub-level in the output and write out its properties.
+    Output::beginSubLevel(name);
+    outputProperties();
+  }
+  
+  string eventclass;
+  switch (type){
+    case 0: eventclass = "T         : ";break;
+    case 1: eventclass = "--H       : ";break;
+    case 2: eventclass = "----M     : ";break;
+    case 3: eventclass = "------L   : ";break;
+  }
   //Build the event's children.
-  cout << "Building event: " << name << endl;
+  cout << "Building event: " << eventclass<<  name << endl;
   
   //Create the event definition iterator.
-  list<FileValue>::iterator iter = childEventDef->getListPtr(this)->begin();
-  string method = iter++->getString(this);
-  
-  
+        /*
+        <Entry1>1</Entry1>
+        <Entry2>2</Entry2>
+        <Entry3>3</Entry3>
+        <AttackSieve>4</AttackSieve>
+        <DurationSieve>5</DurationSieve>
+        <DefinitionFlag>1</DefinitionFlag>
+        <StartTypeFlag>2</StartTypeFlag>
+        <DurationTypeFlag>2</DurationTypeFlag>
+        */
+  string method = XMLTC(methodFlagElement);
+
   
   //Set the number of possible restarts (for buildDiscrete)
   restartsRemaining = restartsNormallyAllowed;
@@ -231,100 +340,334 @@ void Event::buildChildEvents() {
     exit(1);
   }
   
+  /*  old code. --Ming-ching May 06, 2013
   //Make sure the childType indexes correctly.
   if (childType >= typeVect.size() || typeVect[childType] == "") {
     cerr << "There is a mismatch between childType and typeVect." << endl;
     exit(1);
   }
-
-
-
-  
-  list<FileValue>::iterator iter2 = iter;
-  
-  
-  //check if childStartTime use Pattern
-
-  if (iter2->getFtnString() == "GetPattern"){
-    //cout<<"Use Pattern for Child StartTime"<<endl;
-    childStartTimePattern = &(*iter2);
-    childStartTimePattern->Evaluate();
-
-  }
-  
-  
-  iter2 ++;
-  iter2 ++;
-  
-  //check if child Type use pattern
-  if (iter2->getFtnString() == "GetPattern"){
-    //cout<<"Use Pattern for Child Type"<<endl;
-    childTypePattern = &(*iter2);
-    childTypePattern->Evaluate();
-  }  
-  
-  
-  
-  
-  
-  
-  //check if duration use pattern
-  iter2 ++;
-
-  if (iter2->getFtnString() == "GetPattern"){
-    //cout<<"Use Pattern for Child Duration"<<endl;
-    childDurationPattern = &(*iter2);
-    childDurationPattern->Evaluate();
-
-  }
-
+  */
+ 
   //Create the child events.
   for (currChildNum = 0; currChildNum < numChildren; currChildNum++) {
-    if (method == "CONTINUUM")
-      checkEvent(buildContinuum(iter));
-    else if (method == "SWEEP")
-      checkEvent(buildSweep(iter));
-    else if (method == "DISCRETE")
-      checkEvent(buildDiscrete(iter));
+    if (method == "0")
+      checkEvent(buildContinuum());
+    else if (method == "1")
+      checkEvent(buildSweep());
+    else if (method == "2")
+      checkEvent(buildDiscrete());
     else {
       cerr << "Unknown build method: " << method << endl << "Aborting." << endl;
       exit(1);
     }
   }
-
+  
   //Using the temporary events that were created, construct the actual children.
   for (int i = 0; i < temporaryChildEvents.size(); i++) {
      
     //Increment the static current child number.
     currChildNum = i;
-    
-    //Get current event.
+  
+    //build child.
     Event *e = temporaryChildEvents[currChildNum];
-    
-    //Construct the child (overloaded in Bottom)
-    
-   
-    
-    constructChild(e->ts, e->type, e->name, e->tempo);
-    
-    //Delete the temporary child event.
-    delete e;
+    childEvents.push_back(e);
   }
+  
   //Clear the temporary event list.
   temporaryChildEvents.clear();
-
-  //For each child that was created, build its children.
-  for(int i = 0; i < childEvents.size(); i++)
-    childEvents[i]->buildChildEvents();
   
+  //For each child that was created, build its children.
+  for(int i = 0; i < childEvents.size(); i++){
+    //overload in bottom
+    childEvents[i]->buildChildren();
+    delete childEvents[i];
+  }
+  
+  if (utilities->getOutputParticel()){
   //End this output sublevel.
-  Output::addProperty("Updated Tempo Start Time", tempo.getStartTime());
-  Output::endSubLevel();
+    Output::addProperty("Updated Tempo Start Time", tempo.getStartTime());
+    Output::endSubLevel();
+  }
 }
 
 
+bool Event::buildContinuum() {
+
+  if (currChildNum == 0) {
+    checkPoint = 0;
+  }
+  else {
+    checkPoint = Random::Rand();
+  }
+  
+  // get the start time
+  float rawChildStartTime = 
+    utilities->evaluate(XMLTC(childStartTimeElement),(void*)this);
+
+  // how to process start time: EDU, SECONDS or PERCENTAGE
+  string startType = XMLTC(childStartTypeFlag);
+
+  if (startType == "1" ) { //"EDU"
+    tsChild.start = rawChildStartTime *
+      tempo.getEDUDurationInSeconds().To<float>();
+    tsChild.startEDU = Ratio((int)rawChildStartTime, 1);
+  } else if (startType == "2") { //second
+    tsChild.start = rawChildStartTime; // no conversion needed
+    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
+  } else if (startType == "0") { //fraction
+    tsChild.start = rawChildStartTime * ts.duration; // convert to seconds
+    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
+  } else {
+    cerr << "Event::buildContinuum -- invalid or missing start type!" << endl;
+    cerr << "      startType = " << startType << endl;
+    cerr << "      in file " << name << endl;
+    exit(1);
+  }
+  checkPoint = (double)tsChild.start / ts.duration;
+
+  // get the type
+
+  childType = utilities->evaluate(XMLTC(childTypeElement),(void*)this);
+  string childName = XMLTC(childTypeElements[childType]->GFEC());
+  
+  // get the duration
+  float rawChildDuration;
+  rawChildDuration = utilities->evaluate(XMLTC(childDurationElement),(void*)this);
+  
+  //assign previousChild Duration here so that the next child can use it 
+  previousChildDuration = rawChildDuration; 
+  
+  // pre-quantize the duration in case "EDU" is used
+  int rawChildDurationInt = (int)rawChildDuration;
+  int maxChildDurInt = (int)maxChildDur;
+  if(rawChildDurationInt > maxChildDurInt)
+      rawChildDurationInt = maxChildDurInt;
+  
+  // how to process duration: EDU, SECONDS or PERCENTAGE
+  string durType = XMLTC(childDurationTypeFlag);
+  
+  if (durType == "1") {//EDU
+    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
+    tsChild.duration = // convert to seconds
+      (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
+  } else if (durType == "2") {//seconds
+    tsChild.duration = rawChildDuration;
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  } else if (durType == "0") {//fraction
+    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  } else {
+    cerr << "Event::buildContinuum -- invalid or missing duration type!" << endl;
+    cerr << "      durtype = " << durType << endl;
+    cerr << "      in file " << name << endl;
+    exit(1);
+  }
+  
+  if (utilities->getOutputParticel()){
+  //Output parameters in the different units available.
+    Output::beginSubLevel("Continuum");
+    Output::addProperty("Name", childName);
+    Output::beginSubLevel("Parameters");
+      Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
+      Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
+      if(unitTypeToUnits(startType) == "EDU")
+        Output::addProperty("Max Duration", maxChildDur, "EDU");
+      else
+        Output::addProperty("Max Duration", maxChildDur, "sec.");
+    Output::endSubLevel();
+    Output::beginSubLevel("Seconds");
+      Output::addProperty("Start", tsChild.start, "sec.");
+      Output::addProperty("Duration", tsChild.duration, "sec.");
+    Output::endSubLevel();
+    Output::beginSubLevel("EDU");
+      Output::addProperty("Start", tsChild.startEDU, "EDU");
+      Output::addProperty("Duration", tsChild.durationEDU, "EDU");
+    Output::endSubLevel();
+    Output::addProperty("Checkpoint", checkPoint, "of parent");
+    Output::endSubLevel();
+  }
+  return true; //success!
+}
+
+bool Event::buildSweep() {
+  // find start time and dur of last child
+  if (currChildNum == 0) {
+    tsPrevious.start = 0;
+    tsPrevious.startEDU = 0;
+  }
+
+
+  // Set checkpoint to the endpoint of the last event
+  checkPoint = tsPrevious.start / ts.duration;
+
+  if (checkPoint > 1) {
+    cerr << "Event::Sweep -- Error1: tsChild.start outside range of " 
+        << "parent duration." << endl;
+    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
+        << ts.duration << endl;
+    cerr << "      in file: " << name << ", childNum=" 
+        << currChildNum << endl;
+    cerr << "currChildNum=" << currChildNum << " tsPrevious.start=" 
+        << tsPrevious.start << " checkPoint=" << checkPoint << endl;
+    exit(1);
+  }
+
+  // get the start time
+  float rawChildStartTime = 
+    utilities->evaluate(XMLTC(childStartTimeElement),(void*)this);
+
+  // how to process start time: EDU, SECONDS or PERCENTAGE
+  string startType =XMLTC(childStartTypeFlag);
+
+
+  if (startType == "1" ) {
+    tsChild.start = rawChildStartTime * 
+      tempo.getEDUDurationInSeconds().To<float>() + tsPrevious.start;
+    tsChild.startEDU = Ratio((int)rawChildStartTime, 1) + tsPrevious.startEDU;
+  } else if (startType == "2") {
+    tsChild.start = rawChildStartTime + tsPrevious.start; // no conversion needed
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  } else if (startType == "0") {
+    tsChild.start = rawChildStartTime * ts.duration + tsPrevious.start; // convert to seconds
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  }
+
+  if (tsChild.start < tsPrevious.start) {
+    tsChild.start = tsPrevious.start;
+    tsChild.startEDU = tsPrevious.startEDU;
+  }
+
+  if (currChildNum == 0) {
+    tsChild.start = 0;
+    tsChild.startEDU = 0;
+  }
+
+  // set checkpoint to the start of this child event
+  checkPoint = tsChild.start / ts.duration;
+
+  if (checkPoint > 1) {
+    cerr << "Event::Sweep -- Error2: tsChild.start outside range of " 
+        << "parent duration." << endl;
+    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
+        << ts.duration << endl;
+    cerr << "      in file: " << name << ", childNum=" 
+        << currChildNum << endl;
+    exit(1);
+  }
+
+  // get the type
+  childType = utilities->evaluate(XMLTC(childTypeElement),(void*)this);
+  string childName = XMLTC(childTypeElements[childType]->GFEC());
+  
+  // get the duration
+  float rawChildDuration = 
+    utilities->evaluate(XMLTC(childDurationElement),(void*)this);
+  
+  
+  //assign previousChild Duration here so that the next child can use it 
+  previousChildDuration = rawChildDuration;  
+  
+  // pre-quantize the duration in case "EDU" is used
+  int rawChildDurationInt = (int)rawChildDuration;
+  int maxChildDurInt = (int)maxChildDur;
+  if(rawChildDurationInt > maxChildDurInt)
+      rawChildDurationInt = maxChildDurInt;
+  
+  // how to process duration: EDU, SECONDS or PERCENTAGE
+  string durType = XMLTC(childDurationTypeFlag);
+
+ 
+
+  if (durType == "1") {
+    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
+    tsChild.duration = // convert to seconds
+      (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
+  } else if (durType == "2") {
+    tsChild.duration = rawChildDuration;
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  } else if (durType == "0") {
+    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
+    if(tsChild.duration > maxChildDur)
+      tsChild.duration = maxChildDur; // enforce limit
+    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
+  }
+  
+  
+  tsPrevious.start = tsChild.start; //+ tsChild.duration;
+  tsPrevious.startEDU = tsChild.startEDU; //+ tsChild.durationEDU;
+  if (utilities->getOutputParticel()){
+    //Output parameters in the different units available.
+    Output::beginSubLevel("Sweep");
+    Output::addProperty("Name", childName);
+    Output::beginSubLevel("Parameters");
+      Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
+      Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
+      if(unitTypeToUnits(startType) == "EDU")
+        Output::addProperty("Max Duration", maxChildDur, "EDU");
+      else
+        Output::addProperty("Max Duration", maxChildDur, "sec.");
+    Output::endSubLevel();
+    Output::beginSubLevel("Seconds");
+      Output::addProperty("Start", tsChild.start, "sec.");
+      Output::addProperty("Duration", tsChild.duration, "sec.");
+      Output::addProperty("Previous", tsPrevious.start, "sec.");
+    Output::endSubLevel();
+    Output::beginSubLevel("EDU");
+      Output::addProperty("Start", tsChild.startEDU, "EDU");
+      Output::addProperty("Duration", tsChild.durationEDU, "EDU");
+      Output::addProperty("Previous", tsPrevious.startEDU, "EDU");
+    Output::endSubLevel();
+    Output::addProperty("Checkpoint", checkPoint, "of parent");
+    Output::endSubLevel();
+  }
+  return true; // success!
+}
+
+
+void Event::addTemporaryXMLParser(XercesDOMParser* _parser){
+  temporaryXMLParsers.push_back( _parser);
+}
+
+PatternPair::~PatternPair(){
+  if (pattern)delete pattern;
+}
+
+void Event::addPattern(std::string _string, Patter* _pat){
+  PatternPair* n = new PatternPair(_string, _pat);
+  patternStorage.push_back(n);  
+}
+
+Event::~Event() {
+  
+  for (int i = 0; i < temporaryXMLParsers.size(); i++){
+    delete temporaryXMLParsers[i];
+  }
+  
+  vector<PatternPair*>::iterator iter = patternStorage.begin();
+  
+  for (; iter != patternStorage.end(); iter ++){
+    delete *iter;  
+  }
+    
+  if ( discreteMat != NULL) delete discreteMat;  
+}
+
 //----------------------------------------------------------------------------//
 //Checked
+
+void* waitForDiscreteResponse(void* _event){
+  Event* event = (Event*) _event;
+  string response = "";
+  cin >>response;
+  event->setDiscreteFailedResponse(response);
+  return NULL;
+}
 
 void Event::tryToRestart(void) {
   //Decrement restarts, or if there are none left, ask for fewer children.
@@ -335,8 +678,37 @@ void Event::tryToRestart(void) {
       << " tries remaining." << endl;
   } else {
     //Ask for permission to build with less children.
-    cerr << "No tries remain. Try building with one less child? (y/n)" << endl;
-    string answer; cin >> answer; if (answer != "y") exit(1);
+    cerr << "No tries remain. Try building with one less child? (Y/n)" << endl;
+    
+    bool inputAccepted = false;
+    string answer = "";
+    while (!inputAccepted){
+      discreteFailedResponse = "";
+      pthread_create(&discreteWaitForInputIfFailedThread, NULL, waitForDiscreteResponse, (void*) this);
+    
+      int counter = 30;
+    
+      while (counter != 0){
+        if (discreteFailedResponse !=""){
+          break;
+        }
+        cout<<" Seconds before default action: "<< counter<<"\r"<< flush;
+        sleep(1);
+        counter --;
+      }
+      
+      //warning! memory leak here! There is a problem killing thread waiting for cin. need to figure this out. 
+      // --Ming-ching May 06, 2013)
+      pthread_cancel(discreteWaitForInputIfFailedThread);
+      
+      answer = (counter ==0)? "y" : discreteFailedResponse;
+      if (answer == "y" || answer == "Y" || answer =="n" || answer == "N") inputAccepted = true; 
+      else {
+        cout<<"Please enter 'y' or 'n'."<<endl;
+      }
+     
+    }
+    if (answer == "n"|| answer == "N") exit(1);
     
     //Build with one less child.
     numChildren--; cerr << "Changed numChildren to " << numChildren << endl;
@@ -350,18 +722,21 @@ void Event::tryToRestart(void) {
   for (int i = 0; i < childEvents.size(); i++)
     delete temporaryChildEvents[i];
   temporaryChildEvents.clear();
+  
+  patternStorage.clear();
 }
 
 //----------------------------------------------------------------------------//
 //Checked
 
 void Event::checkEvent(bool buildResult) {
+  
   //If the build failed, restart if necessary.
   if (!buildResult) {
     tryToRestart();
     return;
   }
-  
+
   /*Up to now the child start time is an *offset*, that is, it has no context
   yet within the piece. The following section uses the start time/tempo rules to
   determine the correct exact and inexact start times, in some cases leading to
@@ -433,7 +808,7 @@ void Event::checkEvent(bool buildResult) {
   if(ts.startEDU.isDeterminate() && !tsChild.startEDU.isDeterminate()) {
     //Nothing to do here.
   }
-  
+
   /*3) Parent exact, child exact (Events 2-3)
   Since the both are exact, the child inherits the tempo of the parent. Its
   exact offset is calculated by adding the exact parent start time offset.
@@ -478,34 +853,44 @@ void Event::checkEvent(bool buildResult) {
   }
  
   //Make sure the childType indexes correctly.
-  if (childType >= typeVect.size() || typeVect[childType] == "") {
+  if (childType >= childTypeElements.size() ) {
     cerr << "There is a mismatch between childType and typeVect." << endl;
     exit(1);
   }
 
   //Create new event.
-  Event* e = new Event(tsChild, childType, typeVect[childType]);
+  DOMElement* discretePackage = childTypeElements[childType];
+  EventType childEventType = (EventType) utilities->evaluate(XMLTC(discretePackage->GFEC()->GNES()),(void*)this);
   
-  //Force the child to have the parent tempo if the child is exact.
-  if(tsChild.startEDU.isDeterminate())
-    e->tempo = tempo;
+  string childEventName = XMLTC(discretePackage->GFEC());  
+  DOMElement* childElement = utilities->getEventElement(childEventType, childEventName);
+
+  Event* e;
+  if (childEventType==eventBottom){
+    e = (Event*)   new Bottom(childElement, tsChild, childType, tempo, utilities);
+    if(tsChild.startEDU.isDeterminate()){
+    //cout<<"Child start EDU is determinate."<<endl;
+      e->tempo = tempo;
+    }
+  }
+  
+  else if (childEventType==eventSound){
+    childSoundsAndNotes.push_back(new SoundAndNoteWrapper(childElement,tsChild, childType, tempo));
+  }
+  
+  else {
+    e = new Event( childElement, tsChild, childType, tempo, utilities);
+    if(tsChild.startEDU.isDeterminate()){
+      //cout<<"Child start EDU is determinate."<<endl;
+      e->tempo = tempo;
+    }
+  }
   
   //Add the event to the temporary event list.
   temporaryChildEvents.push_back(e);
+  
 }
 
-//----------------------------------------------------------------------------//
-//Checked
-
-void Event::constructChild(TimeSpan ts, int type, string name, Tempo tempo) {
-  //Create the event factory.
-  EventFactory* childFactory = factory_lib[name];
-  if(!childFactory)
-    childFactory = new EventFactory(name);
-
-  //Construct the child for the event.
-  childEvents.push_back(childFactory->Build(ts, type, tempo));
-}
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -629,315 +1014,14 @@ string Event::unitTypeToUnits(string type) {
 
 //----------------------------------------------------------------------------//
 
-bool Event::buildContinuum(list<FileValue>::iterator iter) {
-  if (currChildNum == 0) {
-    checkPoint = 0;
-  }
-  else {
-    checkPoint = Random::Rand();
-  }
+bool Event::buildDiscrete() {
   
-  // get the start time
-  float rawChildStartTime = iter++->getFloat(this);
-
-  // how to process start time: EDU, SECONDS or PERCENTAGE
-  string startType = iter++->getString(this);
-
-  if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
-
-  if (startType == "EDU" || startType == "UNITS") {
-    tsChild.start = rawChildStartTime *
-      tempo.getEDUDurationInSeconds().To<float>();
-    tsChild.startEDU = Ratio((int)rawChildStartTime, 1);
-  } else if (startType == "SECONDS") {
-    tsChild.start = rawChildStartTime; // no conversion needed
-    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
-  } else if (startType == "PERCENTAGE") {
-    tsChild.start = rawChildStartTime * ts.duration; // convert to seconds
-    tsChild.startEDU = Ratio(0, 0);  // floating point is not exact: NaN
-  } else {
-    cerr << "Event::buildContinuum -- invalid or missing start type!" << endl;
-    cerr << "      startType = " << startType << endl;
-    cerr << "      in file " << name << endl;
-    exit(1);
-  }
-  checkPoint = (double)tsChild.start / ts.duration;
-
-  // get the type
-  if ( childTypePattern != NULL){
-    childType = childTypePattern->getInt();
-    iter++;
-        //cout<<"This Duration is "<<rawChildDuration<<endl;
-  }
-  else {
-    childType = iter++->getInt(this);
-  }
-  string childName = typeVect[childType];
-  
-  // get the duration
-  float rawChildDuration;
-  //check if duration use pattern
-  if ( childDurationPattern != NULL){
-    rawChildDuration = childDurationPattern->getInt();
-    cout<<"This Duration is "<<rawChildDuration<<endl;
-    iter++;
-  }
-  else {
-    rawChildDuration = iter++->getFloat(this);
-  }
-  
-  
-  //assign previousChild Duration here so that the next child can use it 
-  previousChildDuration = rawChildDuration; 
-  
-  // pre-quantize the duration in case "EDU" is used
-  int rawChildDurationInt = (int)rawChildDuration;
-  int maxChildDurInt = (int)maxChildDur;
-  if(rawChildDurationInt > maxChildDurInt)
-      rawChildDurationInt = maxChildDurInt;
-  
-  // how to process duration: EDU, SECONDS or PERCENTAGE
-  string durType = iter++->getString(this);
-
-  if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
-
-  if (durType == "EDU" || durType == "UNITS") {
-    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
-    tsChild.duration = // convert to seconds
-      (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
-  } else if (durType == "SECONDS") {
-    tsChild.duration = rawChildDuration;
-    if(tsChild.duration > maxChildDur)
-      tsChild.duration = maxChildDur; // enforce limit
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  } else if (durType == "PERCENTAGE") {
-    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
-    if(tsChild.duration > maxChildDur)
-      tsChild.duration = maxChildDur; // enforce limit
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  } else {
-    cerr << "Event::buildContinuum -- invalid or missing duration type!" << endl;
-    cerr << "      durtype = " << durType << endl;
-    cerr << "      in file " << name << endl;
-    exit(1);
-  }
-
-  //Output parameters in the different units available.
-  Output::beginSubLevel("Continuum");
-  Output::addProperty("Name", childName);
-  Output::beginSubLevel("Parameters");
-    Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
-    Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
-    if(unitTypeToUnits(startType) == "EDU")
-      Output::addProperty("Max Duration", maxChildDur, "EDU");
-    else
-      Output::addProperty("Max Duration", maxChildDur, "sec.");
-  Output::endSubLevel();
-  Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", tsChild.start, "sec.");
-    Output::addProperty("Duration", tsChild.duration, "sec.");
-  Output::endSubLevel();
-  Output::beginSubLevel("EDU");
-    Output::addProperty("Start", tsChild.startEDU, "EDU");
-    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
-  Output::endSubLevel();
-  Output::addProperty("Checkpoint", checkPoint, "of parent");
-  Output::endSubLevel();
-  
-  return true; //success!
-}
-
-//----------------------------------------------------------------------------//
-
-bool Event::buildSweep(list<FileValue>::iterator iter) {
-  // find start time and dur of last child
-  if (currChildNum == 0) {
-    tsPrevious.start = 0;
-    tsPrevious.startEDU = 0;
-  }
-
-
-  // Set checkpoint to the endpoint of the last event
-  checkPoint = tsPrevious.start / ts.duration;
-
-  if (checkPoint > 1) {
-    cerr << "Event::Sweep -- Error1: tsChild.start outside range of " 
-        << "parent duration." << endl;
-    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
-        << ts.duration << endl;
-    cerr << "      in file: " << name << ", childNum=" 
-        << currChildNum << endl;
-    cerr << "currChildNum=" << currChildNum << " tsPrevious.start=" << tsPrevious.start <<
-	" checkPoint=" << checkPoint << endl;
-    exit(1);
-  }
-
-  // get the start time
-  float rawChildStartTime; // = iter++->getFloat(this);
-
-
-    //check if duration use pattern
-  if ( childStartTimePattern != NULL){
-    rawChildStartTime = childStartTimePattern->getInt();
-    iter++;
-    //cout<<"childStartTime Use Pattern, this Start Time is :"<<rawChildStartTime<<endl;
-        //cout<<"This Duration is "<<rawChildDuration<<endl;
-  }
-  else {
-    rawChildStartTime = iter++->getFloat(this);
-  }
-  
-  
-  
-  
-  
-  
-  // how to process start time: EDU, SECONDS or PERCENTAGE
-  string startType = iter++->getString(this);
-
-  if (startType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
-
-  if (startType == "EDU" || startType == "UNITS") {
-    tsChild.start = rawChildStartTime * 
-      tempo.getEDUDurationInSeconds().To<float>() + tsPrevious.start;
-    tsChild.startEDU = Ratio((int)rawChildStartTime, 1) + tsPrevious.startEDU;
-  } else if (startType == "SECONDS") {
-    tsChild.start = rawChildStartTime + tsPrevious.start; // no conversion needed
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  } else if (startType == "PERCENTAGE") {
-    tsChild.start = rawChildStartTime * ts.duration + tsPrevious.start; // convert to seconds
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  }
-
-
-
-
-  if (tsChild.start < tsPrevious.start) {
-    tsChild.start = tsPrevious.start;
-    tsChild.startEDU = tsPrevious.startEDU;
-  }
-
-
-
-  if (currChildNum == 0) {
-    tsChild.start = 0;
-    tsChild.startEDU = 0;
-  }
-
-  // set checkpoint to the start of this child event
-  checkPoint = tsChild.start / ts.duration;
-
-  if (checkPoint > 1) {
-    cerr << "Event::Sweep -- Error2: tsChild.start outside range of " 
-        << "parent duration." << endl;
-    cerr << "      childStime=" << tsChild.start << ", parentDur=" 
-        << ts.duration << endl;
-    cerr << "      in file: " << name << ", childNum=" 
-        << currChildNum << endl;
-    exit(1);
-  }
-
-  // get the type
-  
-  if ( childTypePattern != NULL){
-    childType = childTypePattern->getInt();
-    iter++;
-        //cout<<"This Duration is "<<rawChildDuration<<endl;
-  }
-  else {
-    childType = iter++->getInt(this);
-  }
-
-  string childName = typeVect[childType];
-  
-  // get the duration
-  float rawChildDuration;
-  
-    //check if duration use pattern
-  if ( childDurationPattern != NULL){
-    rawChildDuration = childDurationPattern->getInt();
-    iter++;
-        //cout<<"This Duration is "<<rawChildDuration<<endl;
-  }
-  else {
-    rawChildDuration = iter++->getFloat(this);
-  }
-  
-  //assign previousChild Duration here so that the next child can use it 
-  previousChildDuration = rawChildDuration;  
-  
-  // pre-quantize the duration in case "EDU" is used
-  int rawChildDurationInt = (int)rawChildDuration;
-  int maxChildDurInt = (int)maxChildDur;
-  if(rawChildDurationInt > maxChildDurInt)
-      rawChildDurationInt = maxChildDurInt;
-  
-  // how to process duration: EDU, SECONDS or PERCENTAGE
-  string durType = iter++->getString(this);
-
-  if (durType == "UNITS") //Deprecated 'UNITS' is now 'EDU'
-    cout << "WARNING: 'UNITS' type is now 'EDU'" << endl;
-
-  if (durType == "EDU" || durType == "UNITS") {
-    tsChild.durationEDU = Ratio(rawChildDurationInt, 1);
-    tsChild.duration = // convert to seconds
-      (float)rawChildDurationInt * tempo.getEDUDurationInSeconds().To<float>();
-  } else if (durType == "SECONDS") {
-    tsChild.duration = rawChildDuration;
-    if(tsChild.duration > maxChildDur)
-      tsChild.duration = maxChildDur; // enforce limit
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  } else if (durType == "PERCENTAGE") {
-    tsChild.duration = rawChildDuration * ts.duration; // convert to seconds
-    if(tsChild.duration > maxChildDur)
-      tsChild.duration = maxChildDur; // enforce limit
-    tsChild.durationEDU = Ratio(0, 0); // floating point is not exact: NaN
-  }
-  
-  
-  tsPrevious.start = tsChild.start; //+ tsChild.duration;
-  tsPrevious.startEDU = tsChild.startEDU; //+ tsChild.durationEDU;
-
-  //Output parameters in the different units available.
-  Output::beginSubLevel("Sweep");
-  Output::addProperty("Name", childName);
-  Output::beginSubLevel("Parameters");
-    Output::addProperty("Start", rawChildStartTime, unitTypeToUnits(startType));
-    Output::addProperty("Duration", rawChildDuration, unitTypeToUnits(durType));
-    if(unitTypeToUnits(startType) == "EDU")
-      Output::addProperty("Max Duration", maxChildDur, "EDU");
-    else
-      Output::addProperty("Max Duration", maxChildDur, "sec.");
-  Output::endSubLevel();
-  Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", tsChild.start, "sec.");
-    Output::addProperty("Duration", tsChild.duration, "sec.");
-    Output::addProperty("Previous", tsPrevious.start, "sec.");
-  Output::endSubLevel();
-  Output::beginSubLevel("EDU");
-    Output::addProperty("Start", tsChild.startEDU, "EDU");
-    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
-    Output::addProperty("Previous", tsPrevious.startEDU, "EDU");
-  Output::endSubLevel();
-  Output::addProperty("Checkpoint", checkPoint, "of parent");
-  Output::endSubLevel();
-
-  return true; // success!
-}
-
-//----------------------------------------------------------------------------//
-
-bool Event::buildDiscrete(list<FileValue>::iterator iter) {
-  int sever;
-
   if (currChildNum == 0) {
     checkPoint = 0;
   }
   MatPoint childPt;
-
+    
+    
   if (discreteMat == NULL) {
     // first time called --- create the matrix!
     Sieve* attackSiv;
@@ -947,46 +1031,90 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     vector<Envelope*> durEnvs;
     vector<int> numTypesInLayers;
 
-    attackSiv = iter++->getSieve(this);
-
-    durSiv = iter++->getSieve(this);
-
-    list<FileValue>* tmpList = iter++->getListPtr(this);
-    list<FileValue>::iterator tmpIter = tmpList->begin();
-    while (tmpIter != tmpList->end()) {
-      typeProbs.push_back(tmpIter++->getFloat(this));
+    attackSiv = (Sieve*) utilities->evaluateObject(
+                  XMLTC(AttackSieveElement),
+                  (void*) this, eventSiv);
+                      
+    durSiv = (Sieve*) utilities->evaluateObject(
+                  XMLTC(DurationSieveElement),
+                  (void*) this, eventSiv);
+                  
+    double weightSum = 0;
+    for (int i = 0; i < childTypeElements.size(); i ++){
+      double prob = utilities->evaluate(XMLTC(childTypeElements[i]->GFEC()->GNES()->GNES()), (void*) this);
+      typeProbs.push_back(prob);
+      weightSum += prob;
     }
-
-    tmpList = iter++->getListPtr(this);
-    tmpIter = tmpList->begin();
-    while( tmpIter != tmpList->end()) {
-      attackEnvs.push_back(tmpIter++->getEnvelope(this));
+    for (int i = 0; i < typeProbs.size(); i ++){
+      typeProbs[i] = typeProbs[i] / weightSum;
+      
+    } 
+    for (int i = 0; i < childTypeElements.size(); i ++){
+      DOMElement* elementIter = childTypeElements[i]->GFEC()->GNES()->GNES()->GNES(); //attack env
+      
+      string attackEnvString = XMLTC(elementIter);
+      elementIter = elementIter ->GNES();
+      string attackEnvScaleString = XMLTC(elementIter);
+      
+      string attackFunctionString = 
+              "<Fun><Name>EnvLib</Name><Env>" +
+              attackEnvString + 
+              "</Env><Scale>" +
+              attackEnvScaleString +
+              "</Scale></Fun>";
+      
+      elementIter = elementIter ->GNES();
+      string durationEnvString = XMLTC(elementIter);
+      
+      elementIter = elementIter ->GNES();
+      string durationEnvScaleString = XMLTC(elementIter);
+      
+      string durationFunctionString = 
+              "<Fun><Name>EnvLib</Name><Env>" +
+              durationEnvString + 
+              "</Env><Scale>" +
+              durationEnvScaleString +
+              "</Scale></Fun>";
+      
+      attackEnvs.push_back((Envelope*)
+        utilities->evaluateObject(attackFunctionString, this, eventEnv));
+      
+      durEnvs.push_back((Envelope*)
+        utilities->evaluateObject(durationFunctionString, this, eventEnv));
+      
     }
-
-    tmpList = iter++->getListPtr(this);
-    
-    tmpIter = tmpList->begin();
-    while( tmpIter != tmpList->end()) {
-      durEnvs.push_back(tmpIter++->getEnvelope(this));
+   
+    for (int i = 0; i < layerElements.size(); i ++){
+      int numOfDiscretePackages = 0;
+      DOMElement* elementIter = layerElements[i]->GFEC()->GNES()->GFEC();
+      while (elementIter!= NULL){
+        numOfDiscretePackages++;
+        elementIter = elementIter ->GNES();
+      }
+      numTypesInLayers.push_back (numOfDiscretePackages);
     }
-
-    for (int i = 0; i < layerVect.size(); i++) {
-      numTypesInLayers.push_back( layerVect[i].size() );
-    }
-
+   
     //FINALLY, create the matrix
-    discreteMat = new Matrix(typeVect.size(), attackSiv->GetNumItems(), 
+    discreteMat = new Matrix(childTypeElements.size(), attackSiv->GetNumItems(), 
                            durSiv->GetNumItems(), 0.0, numTypesInLayers);
-
-    
-
     discreteMat->setAttacks(attackSiv, attackEnvs);
-
     discreteMat->setDurations(durSiv, durEnvs);
-
     discreteMat->setTypeProbs(typeProbs);
-  }
 
+    delete attackSiv;
+    delete durSiv;
+
+    for (int i = 0 ; i< attackEnvs.size(); i++){
+      delete attackEnvs[i];
+    }
+    attackEnvs.clear();
+    for (int i = 0 ; i< durEnvs.size(); i++){
+      delete durEnvs[i];
+    }
+    durEnvs.clear();
+  }
+  
+ 
   // get something out of the matrix
   childPt  = discreteMat->chooseM(numChildren - currChildNum - 1);
 
@@ -996,11 +1124,12 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
     discreteMat = NULL;
     return false; // failure!
   }
+  
 
   int stimeEDU = childPt.stime;
   int durEDU = childPt.dur;
   childType = childPt.type;
-  string childName = typeVect[childType];
+  string childName = XMLTC(childTypeElements[childType]->GFEC());
   
   if(durEDU > (int)maxChildDur)
     durEDU = maxChildDur;
@@ -1015,22 +1144,23 @@ bool Event::buildDiscrete(list<FileValue>::iterator iter) {
   // using edu
   checkPoint = (double)tsChild.start / ts.duration;
   
-  
+  if (utilities->getOutputParticel()){
   //Output parameters in the different units available.
-  Output::beginSubLevel("Discrete");
-  Output::addProperty("Name", childName);
-  Output::beginSubLevel("Parameters");
-    Output::addProperty("Max Duration", maxChildDur, "EDU");
-  Output::endSubLevel();
-  Output::beginSubLevel("Seconds");
-    Output::addProperty("Start", tsChild.start, "sec.");
-    Output::addProperty("Duration", tsChild.duration, "sec.");
-  Output::endSubLevel();
-  Output::beginSubLevel("EDU");
-    Output::addProperty("Start", tsChild.startEDU, "EDU");
-    Output::addProperty("Duration", tsChild.durationEDU, "EDU");
-  Output::endSubLevel();
-  Output::endSubLevel();
+    Output::beginSubLevel("Discrete");
+    Output::addProperty("Name", childName);
+    Output::beginSubLevel("Parameters");
+      Output::addProperty("Max Duration", maxChildDur, "EDU");
+    Output::endSubLevel();
+    Output::beginSubLevel("Seconds");
+      Output::addProperty("Start", tsChild.start, "sec.");
+      Output::addProperty("Duration", tsChild.duration, "sec.");
+    Output::endSubLevel();
+    Output::beginSubLevel("EDU");
+      Output::addProperty("Start", tsChild.startEDU, "EDU");
+      Output::addProperty("Duration", tsChild.durationEDU, "EDU");
+    Output::endSubLevel();
+    Output::endSubLevel();
+  }
 
   //Return success.
   return true;

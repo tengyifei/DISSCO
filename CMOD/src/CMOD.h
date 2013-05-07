@@ -20,14 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __CMOD_H
 #define __CMOD_H
 
+
+
+
 #include "Libraries.h"
 
+#include "FileValue.h"
 #include "Bottom.h"
 #include "Define.h"
 #include "Event.h"
-#include "EventFactory.h"
-#include "EventParser.h"
-#include "FileValue.h"
 #include "Matrix.h"
 #include "Modifier.h"
 #include "Note.h"
@@ -37,6 +38,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Rational.h"
 #include "Sieve.h"
 #include "Tempo.h"
+#include "EventParser.h"
+
+
+
+
 
 #endif
 

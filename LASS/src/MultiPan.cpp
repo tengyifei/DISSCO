@@ -46,9 +46,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  **/
 MultiPan::MultiPan(int nChans)
 {
+
 	int i;
 
 	n_channels = nChans;
+
 	for(i=0;i<n_channels;i++)
 	{
 		EnvList.push_back(NULL);
@@ -74,6 +76,7 @@ MultiPan::MultiPan(int nChans)
  **/
 MultiPan::MultiPan(int nChans, vector<Envelope*> &List)
 {
+
 	int i;
 
 	n_channels = nChans;
@@ -81,20 +84,28 @@ MultiPan::MultiPan(int nChans, vector<Envelope*> &List)
 		EnvList.push_back((List[i])->clone());
 	useEnvDirectly = true;
 }
+
+/** Empty Constructor
+ *  This constructor is only called by MultiPan::clone()
+ */
+MultiPan::MultiPan(){}
    
 /**
  * Destructor	
  **/
 MultiPan::~MultiPan()
 {
+
 	while(!EnvList.empty())
 	{
+	  
 		Envelope *l;
 
 		l = EnvList.back();
 		EnvList.pop_back();
 		delete l;
 	}
+
 
 	while(!xyCollectionsList.empty())
 	{
@@ -122,11 +133,68 @@ MultiPan::~MultiPan()
  **/
 MultiPan* MultiPan::clone()
 {
-	// FIXME: THIS IS BROKEN!!!!!!
+	// FIXME: THIS IS BROKEN!!!!!! Fixed by Ming-ching. May 06, 2013
+	//return new MultiPan(n_channels, EnvList); 
+	// new code is below with the added empty constructor;
+	
+	
+	MultiPan* copy = new MultiPan();
+	copy->useEnvDirectly = useEnvDirectly; 
+  copy-> n_channels = n_channels;
+  
+  //if multipan
+  if (useEnvDirectly){
+	  for(int i=0;i<n_channels;i++){
+		  copy->EnvList.push_back((EnvList[i])->clone());
+    }
+  }
+  
+  
+  // polar
+	else{
+	  for(int i=0;i<n_channels;i++)
+	  {
+		  copy->EnvList.push_back(EnvList[i]->clone());
+		  
+		  // This part below is not really needed because when "clone()" is called, 
+		  // the envelopes are already constructed, and the collections are not 
+		  // needed anymore. 
+		  
+	    /*	  
+		  Collection<xy_point>* xyCollection = new Collection<xy_point>();
+		  
+		  for (int j = 0; j < xyCollectionsList[i]->size(); j ++){
+		    xyCollection->add(xyCollectionsList[i]->get(j));
+		  }
+		  copy->xyCollectionsList.push_back(xyCollection);
+		  
+		  
+		  Collection<envelope_segment>* segmentCollection = new Collection <envelope_segment>();
+		  
+		  for (int j = 0; j < segCollectionsList[i]->size(); j ++){
+		    segmentCollection->add(segCollectionsList[i]->get(j));
+		  }
+		  copy->segCollectionsList.push_back(segmentCollection);
+      */
+	  } 
+	  
+  }
 
-	return new MultiPan(n_channels, EnvList);
+
+	return copy;
 }
-   
+
+
+/**
+ * Print some information for debugging purpose
+ **/
+void MultiPan::print(){
+  cout<<"MultiPan:"<<endl;
+  cout<<"EnvList size = "<<EnvList.size()<<endl;
+  cout<<"xyCollectionsList size = "<< xyCollectionsList.size()<<endl;
+	cout<<"segCollectionsList size = "<< segCollectionsList.size()<<endl;
+}
+
 /** Add another spatialization point (using percents)
  * 
  * Add another point to the dynamic variables (using
@@ -199,7 +267,7 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
 		cout << "Warning: called MultiPan::addEntry on a MultiPan object" << endl;
 		cout << " that is using ENVs directly" << endl;
 	}
-
+ 
 	// create an array of speakers
 	SpeakerList = new Speaker *[n_channels];
 //	cout << "Speaker Locations:" << endl;;
@@ -241,14 +309,19 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
 //	cout << "Speaker Relative Amplitudes:" << endl;
 	for(i=0;i<n_channels;i++)
 	{
+
 		addEntryHelperFn(i, t, SpeakerList[i]->dist/total_dist);
 		//cout << "\t" << SpeakerList[i]->dist/total_dist << endl;
 	}
 
 	// kill the speakers
+	
+	
 	for(i=0;i<n_channels;i++)
 		delete SpeakerList[i];
-	delete SpeakerList;
+	delete[] SpeakerList; 
+	//the line below is the old code. it's wrong -- Ming-ching
+	//delete SpeakerList;
 }
 
 /** Spatialize a track
@@ -328,16 +401,47 @@ void MultiPan::addEntryHelperFn(int envIdx, float t, float amp)
 		seg.timeValue = 1.0;
 		(segCollectionsList[envIdx])->add(seg);	
 	}
-
+  /*
 	Collection<xy_point> c1 = Collection<xy_point>(*xyCollectionsList[envIdx]);
 	Collection<envelope_segment> c2 = Collection<envelope_segment>(*segCollectionsList[envIdx]);
-	delete EnvList[envIdx];
+	//cout<<"this new is excuted"<<endl;
+	if (EnvList[envIdx]!=NULL) delete EnvList[envIdx];
 	(EnvList[envIdx]) = new Envelope(*xyCollectionsList[envIdx],
 							*segCollectionsList[envIdx]);
         //cout << "CREATED ENV" << endl;
         //EnvList[envIdx]->print();
         //cout << "    END CREATE" << endl;
+        */
 }
+
+
+/**
+ * This funcioned should be called after all the location entries are added,
+ * in other word, it's called right after the caller finishes calling 
+ * MultiPan::addEntryLocation.
+ *
+ * This function constructs the actual envelopes needed for spatialization 
+ * according to the location entries added.
+ **/
+void MultiPan::doneAddEntryLocation(){
+
+  for (int i = 0; i < n_channels; i ++){
+  
+  //Collection<xy_point> c1 = Collection<xy_point>(*xyCollectionsList[envIdx]);
+	//Collection<envelope_segment> c2 = Collection<envelope_segment>(*segCollectionsList[envIdx]);
+	//cout<<"this new is excuted"<<endl;
+	  if (EnvList[i]!=NULL) delete EnvList[i];
+	  (EnvList[i]) = new Envelope(*xyCollectionsList[i],
+							*segCollectionsList[i]);
+        //cout << "CREATED ENV" << endl;
+        //EnvList[envIdx]->print();
+        //cout << "    END CREATE" << endl;
+  }
+
+
+
+}
+
 
 void MultiPan::xml_print( ofstream& xmlOutput )
 {

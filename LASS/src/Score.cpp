@@ -1,6 +1,7 @@
 /*
 LASS (additive sound synthesis library)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,218 +34,226 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //----------------------------------------------------------------------------//
 
-// This function is the worker function for the rendering threads
-void* multithreaded_render_worker(void *vtle)
-{
-	// Cast the argument to correct type
-	threadlist_entry *tle=(threadlist_entry*)vtle;
+// This struct passes data between the main thread and the worker threads
+struct ThreadEntry{
+  //pointer to the score
+  Score* score;
+  int threadID;
+  //pointer to the vector<Sound*> sounds of the score
+  vector<Sound*, std::allocator<Sound*> >*  sounds;
+  int numChannels;
+  int samplingRate;
+  pthread_mutex_t* mutexSoundVector;
+  pthread_cond_t* conditionSoundVector;
+  int* soundsRendered;
+  int* soundObjectsCreated;
+  
+  // The multi track object with all the sounds rendered and composited by
+  // This thread. It resides in the heap and is obtained and mixed with 
+  // the renderedThreadScore of other worker threads by the main thread.
+  MultiTrack* renderedThreadScore;
+  
+};
 
-	// Do the rendering
-	MultiTrack* renderedSound = tle->snd->render(tle->numChannels, tle->samplingRate);
 
-	// Obtain the lock so we can modify the list entry
-	pthread_mutex_lock(tle->listMutex);
-		tle->resultTrack=renderedSound;
-		tle->done=1;
-	pthread_mutex_unlock(tle->listMutex);
+//------------------------------------------------------------------------------
+void Score::add(Sound* _sound){
+  
+  // To prevent unnecessary memory use, this function is temporarily blocked
+  // when there are too many sounds objects waiting to be rendered.
+  // 200 is just an arbitrary number. 
+  // This loop can be upgraded to a fancier way to block the main thread, but
+  // for now this is enough.
+  //                                           --Ming-ching May 06, 2013 
+  while (sounds.size()>200){
+    sleep(10);
+  }
 
-	// Signal that we are done
-	pthread_cond_signal(tle->finishCondition);
+  // Lock the sounds vector  
+  pthread_mutex_lock( &mutexSoundVector );
+  sounds.push_back(_sound);
+  soundObjectsCreated ++;
 
-	return NULL;
-}
-
-//----------------------------------------------------------------------------//
-Score::Score()
-    : cmm_(NONE)
-{
-    reverbObj = NULL;
-}
-
-//----------------------------------------------------------------------------//
-MultiTrack* Score::render(int numChannels, m_rate_type samplingRate,
-  int processCount, int processOffset)
-{
-
-    // figure out how long the score will run:
-    Iterator<Sound> it = iterator();
-    m_time_type scoreEndTime = 0.0;
-    int numSounds = 0;
-    while (it.hasNext())
-    {
-        Sound& snd = it.next();
-        m_time_type soundEndTime = snd.getParam(START_TIME) +
-                                   snd.getTotalDuration();
-        if (soundEndTime > scoreEndTime) scoreEndTime = soundEndTime;
-        numSounds++;
-    }
-
+  //update scoreEndTime
+  m_time_type soundEndTime = _sound->getParam(START_TIME) +
+                                   _sound->getTotalDuration();
+  if (soundEndTime > scoreEndTime) {
+    scoreEndTime = soundEndTime;
+    cout<<"Score End Time Updated: "<< scoreEndTime << "seconds"<<endl;
+  }
     // figure in the reverb die-out period
-    if(reverbObj != NULL)
-        scoreEndTime += reverbObj->getDecay();
+  if(reverbObj != NULL)
+  scoreEndTime += reverbObj->getDecay();
+  
+  // tell the worker threads to start working
+  pthread_cond_broadcast(&conditionSoundVector);
+  // Unlock the sounds vector
+  pthread_mutex_unlock( &mutexSoundVector );
 
-    // how many samples we will need:
-    m_sample_count_type numSamples =
-        (m_sample_count_type) (scoreEndTime * float(samplingRate));
+}
 
-    // now, create an empty multi-track object of the proper length and channels:
-    MultiTrack* score = new MultiTrack(numChannels, numSamples, samplingRate);
+//------------------------------------------------------------------------------
+/**
+* This function is the entry of the worker threads.
+* It gets the Sound objects from the score, renders them, and put all the
+* rendered sounds in renderedThreadScore.
+**/
+void *render(void *_threadEntry){
+  ThreadEntry threadEntry = *((ThreadEntry*) _threadEntry);
+  
+  m_time_type scoreEndTime = threadEntry.score->getScoreEndTime();
+  m_time_type currentRenderedThreadScoreEndTime = scoreEndTime;
+  
+  // how many samples we need:
+  // this number is the #of the samples in the current renderedThreadScore
+  m_sample_count_type numSamples =
+        (m_sample_count_type) (scoreEndTime * float(threadEntry.samplingRate));
 
-    // for each sound in this score:
-    int num=0;
-    it = iterator();
-    while (it.hasNext())
-    {
-        if(num % processCount != processOffset)
-        {
-          it.next();
-          num++;
-          continue;
-        }
-        num++;
-        cout << "Sound #" << num << " of " << numSounds << ":" << endl;
+ // now, create an empty multi-track object of the proper length and channels:
+    MultiTrack* renderedThreadScore = 
+      new MultiTrack(
+        threadEntry.numChannels,
+        numSamples, 
+        threadEntry.samplingRate);
 
-        // render the sound:
-        Sound& snd = it.next();
-        MultiTrack* renderedSound = snd.render(numChannels, samplingRate);
-
-        // composite the rendered sound:
-        score->composite(*renderedSound, snd.getParam(START_TIME));
-        
-        // delete the rendered sound:
-        delete renderedSound;
+  while(true){
+    //Lock the sounds vector
+    pthread_mutex_lock( threadEntry.mutexSoundVector );
+    while(threadEntry.sounds->size()==0){
+      // No more sound object to render, unlock the mutex and return.
+      if (threadEntry.score->isDoneGettingSoundObjects()){
+        pthread_mutex_unlock( threadEntry.mutexSoundVector );
+        ((ThreadEntry*) _threadEntry)->renderedThreadScore =renderedThreadScore;
+        return _threadEntry;
+         
+      }
+      //Wait for new sound objects to come in
+      pthread_cond_wait(
+        threadEntry.conditionSoundVector,
+        threadEntry.mutexSoundVector);
     }
+   
+    *(threadEntry.soundsRendered) = *(threadEntry.soundsRendered) + 1;
+    cout<<"Thread #"<<threadEntry.threadID<<": Rendering sound #"<<
+          *(threadEntry.soundsRendered)<<" of "<< 
+          *(threadEntry.soundObjectsCreated)<<endl;
+          
+    //get an sound object to render
+    Sound* sound = threadEntry.sounds->back();
+    threadEntry.sounds->pop_back();
     
-    // do the reverb
-    if(reverbObj != NULL)
-    {
-        cout << "Applying reverb to the score..." << endl;
-        MultiTrack *tmp = & reverbObj->do_reverb_MultiTrack(*score);
-        delete score;
-        score = tmp;
-    }
+    //update scoreEndTime
+    scoreEndTime = threadEntry.score->getScoreEndTime();
+    
+    //Unlock the sounds vector
+    pthread_mutex_unlock( threadEntry.mutexSoundVector );
+    
+    
+    //need a new multitrack if this score is too short
+    if (sound->getParam(START_TIME)+ 
+      sound->getTotalDuration() > currentRenderedThreadScoreEndTime){ 
+      currentRenderedThreadScoreEndTime = scoreEndTime; //update this number
+      m_sample_count_type newNumSamples =
+        (m_sample_count_type) (scoreEndTime * float(threadEntry.samplingRate));
+      MultiTrack* newRenderedThreadScore = new MultiTrack
+        (threadEntry.numChannels,newNumSamples, threadEntry.samplingRate);
+      
+      newRenderedThreadScore->composite(*renderedThreadScore, 0);
+      delete renderedThreadScore;
+      renderedThreadScore = newRenderedThreadScore;
+      cout<<"Thread #"<<threadEntry.threadID<<
+      ": Get a longer score with length = " << scoreEndTime << " seconds"<<endl;
+    }    
+    
+    // render the sound:
+    MultiTrack* renderedSound = sound->render(threadEntry.numChannels, 
+                                              threadEntry.samplingRate);
 
-    // perform Clipping management on the composite:
-    cout << "Managing Clipping for the score..." << endl;
-    manageClipping(score, cmm_);
+    // composite the rendered sound:
+    renderedThreadScore->composite(*renderedSound, sound->getParam(START_TIME));
+      
+    // clean up
+    delete renderedSound;
+    delete sound;
     
-    // return the composite:
-    return score;
+  }// end of main while loop
+ 
+  
+
 }
 
 //----------------------------------------------------------------------------//
-
-// This is the multithreaded version of render
-MultiTrack* Score::render(int numChannels, m_rate_type samplingRate, int nThreads)
+Score::Score(int _numThreads, int _numChannels, int _samplingRate )
+    : cmm_(NONE),
+    soundsRendered(0),
+    soundObjectsCreated(0),
+    doneGettingSoundObjects(false),
+    numChannels(_numChannels),
+    samplingRate(_samplingRate)
 {
-    // figure out how long the score will run:
-    Iterator<Sound> it = iterator();
-    m_time_type scoreEndTime = 0.0;
-    while (it.hasNext())
-    {
-        Sound& snd = it.next();
-        m_time_type soundEndTime = snd.getParam(START_TIME) +
-                                   snd.getTotalDuration();
-        if (soundEndTime > scoreEndTime) scoreEndTime = soundEndTime;
-    }
+  scoreEndTime = 1; //start with a small number
+  reverbObj = NULL;
+  numThreads = _numThreads;  
+  
+  //create threads for sound rendering
+  threads = new pthread_t[_numThreads];
+  pthread_mutex_init(&mutexSoundVector, NULL);
+  pthread_cond_init(&conditionSoundVector, NULL);
+  
+  for (int i = 0; i < _numThreads; i ++){
+    ThreadEntry* threadEntry = new ThreadEntry;
+    threadEntry->score = this;
+    threadEntry->threadID = i;
+    threadEntry->sounds = &sounds;
+    threadEntry->numChannels = _numChannels;
+    threadEntry->samplingRate = _samplingRate;
+    threadEntry->mutexSoundVector=&mutexSoundVector;
+    threadEntry->conditionSoundVector = &conditionSoundVector;
+    threadEntry->soundsRendered = &soundsRendered;
+    threadEntry->soundObjectsCreated = &soundObjectsCreated;
+    threadEntry->renderedThreadScore =NULL;
+    pthread_create(&threads[i], NULL, render, (void*) threadEntry);
+  }
+    
+   
+}
 
-    // figure in the reverb die-out period
-    if(reverbObj != NULL)
-        scoreEndTime += reverbObj->getDecay();
+//------------------------------------------------------------------------------
+MultiTrack* Score::joinThreadsAndMix(){
 
-    // how many samples we will need:
-    m_sample_count_type numSamples =
+  // Create the final MultiTrack object with the final length
+  m_sample_count_type numSamples =
         (m_sample_count_type) (scoreEndTime * float(samplingRate));
+  MultiTrack* score = new MultiTrack(numChannels, numSamples, samplingRate);
 
-    // now, create an empty multi-track object of the proper length and channels:
-    MultiTrack* score = new MultiTrack(numChannels, numSamples, samplingRate);
+  //Join the threads
+  for (int i = 0; i < numThreads; i ++){  
+    void* threadEntry; 
+    pthread_join(threads[i], &threadEntry);
+    cout<< "thread Joined: Thread #"<<
+      ((ThreadEntry*) threadEntry)-> threadID<<endl;
+      
+    score->composite(*(((ThreadEntry*)threadEntry)->renderedThreadScore),0);
+    delete ((ThreadEntry*)threadEntry)->renderedThreadScore;
+    delete (ThreadEntry*)threadEntry;
+  }
+  cout<<"=======================Threads all joined.==================="<<endl;
+  delete [] threads;
+  
+  // do the reverb
+  if(reverbObj != NULL)
+  {
+    cout << "Applying reverb to the score..." << endl;
+    MultiTrack *tmp = & reverbObj->do_reverb_MultiTrack(*score);
+    delete score;
+    score = tmp;
+  }
 
-    // for each sound in this score:
-    int num=0;
-    it = iterator();
-
-    //Set up for multithreading the rendering
-    pthread_cond_t finishCondition=PTHREAD_COND_INITIALIZER;
-    pthread_mutex_t listMutex=PTHREAD_MUTEX_INITIALIZER;
-
-    //Begin owning the list Mutex
-    pthread_mutex_lock(&listMutex);
-
-	// This is a list of the data passed to and from the threads
-    Collection<threadlist_entry*> threadList;
-
-	// Populate the list with some initial data
-    for(int th=0;(th<nThreads)&&(it.hasNext());th++)
-    {
-	   threadlist_entry *tle=new threadlist_entry;
-	   tle->snd=&(it.next());
-	   tle->done=0;
-	   tle->thread=new pthread_t;
-	   tle->listMutex=&listMutex;
-	   tle->finishCondition=&finishCondition;
-	   tle->numChannels=numChannels;
-	   tle->samplingRate=samplingRate;
-
-	   // Add to the collection
-	   threadList.add(tle);
-
-	   num++;
-       cout << "Sound #" << num << ":" << endl;
-
-	   // Begin the thread to render this sound
-	   pthread_create(tle->thread,NULL,multithreaded_render_worker,(void*)tle);
-    }
-
-    //MultiTrack *thisTrack;
-    int finishedCount=0;
-    while (finishedCount<size())
-    {
-		// Look thru the list to find done threads
-	    for(int lm=0;lm<nThreads;lm++)
-	    {
-		    threadlist_entry *tle=threadList.get(lm);
-		    if(tle->done)
-		    {
-				// Do the composite into the final result
-				score->composite(*(tle->resultTrack), tle->snd->getParam(START_TIME));
-				delete tle->resultTrack;
-
-				// Reset values in the thread list
-				tle->resultTrack=NULL;
-				tle->done=0;
-				finishedCount++;
-			
-				// If there is another sound still to render, lets do it
-				if(it.hasNext())
-				{
-					num++;
-        			cout << "Sound #" << num << ":" << endl;
-					tle->snd=&(it.next());
-	   				pthread_create(tle->thread,NULL,multithreaded_render_worker,(void*)tle);
-				}
-		    }
-	    }
-
-		// If we haven't rendered everything yet, lets wait for a thread to signal us.
-	    if(finishedCount!=size())
-	    	pthread_cond_wait(&finishCondition,&listMutex);
-    }
-    
-    // do the reverb
-    if(reverbObj != NULL)
-    {
-        cout << "Applying reverb to the score..." << endl;
-        MultiTrack *tmp = & reverbObj->do_reverb_MultiTrack(*score);
-        delete score;
-        score = tmp;
-    }
-
-    // perform Clipping management on the composite:
-    cout << "Managing Clipping for the score..." << endl;
-    manageClipping(score, cmm_);
-    
-    // return the composite:
-    return score;
+  // perform Clipping management on the composite:
+  cout << "Managing Clipping for the score..." << endl;
+  manageClipping(score, cmm_);
+  // return the composite:
+  return score;
 }
 
 //----------------------------------------------------------------------------//
@@ -446,20 +455,14 @@ m_sample_type fromdB(m_sample_type x)
 m_sample_type compressSound(m_sample_type x, m_sample_type peak,
   m_sample_type dBCompressionPoint)
 {
-  m_sample_type sign_x = 1.0f;
-  if(x < 0.0f)
-  {
-    sign_x = -1.0f;
-    x = -x;
-  }
   m_sample_type xdB = todB(x);
   m_sample_type cdB = dBCompressionPoint;
   m_sample_type pdB = todB(peak);
   
   if(x < fromdB(dBCompressionPoint))
-    return x * sign_x;
+    return x;
 
-  return sign_x * fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
+  return fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
     ((cdB - pdB) * (cdB - pdB)));
 }
 
@@ -524,142 +527,18 @@ void Score::channelAnticlip(MultiTrack* mt)
     }
 }
 
-//XML FUNCTIONS---------------------------------------------------------------//
-//----------------------------------------------------------------------------//
-void Score::xml_read(XmlReader::xmltag *scoretag)
-{
-	
-	// Sanity Check
-	if(strcmp("score",scoretag->name))
-	{
-		printf("Not a score tag!  This is a %s tag!\n",scoretag->name);
-		return;
-	}
-	
-	
-	
 
-	// Perhaps that an error should be thrown if the following  are *not*
-	// found...  But i'm just coding now for sake of demonstration.
-	XmlReader::xmltag *childtag;
-	char *value;
-	reverbHash = new DISSCO_HASHMAP<long, Reverb *>;
-	dvHash = new DISSCO_HASHMAP<long, DynamicVariable *>;
-	
-	while((childtag = scoretag->children->find("reverb")) != 0)
-	{
-		if((value = childtag->getParamValue("id")) != 0)
-		{
-			int id = atoi(value);
-			Reverb* tempRev = new Reverb(0);
-			tempRev->xml_read(childtag);
-			(*reverbHash)[id] = tempRev;
-		}
-	}
-	
-	while((childtag = scoretag->children->find("dv")) != 0)
-	{
-		if((value = childtag->getParamValue("id")) != 0)
-		{
-			int id = atoi(value);
-			DynamicVariable* tempDV = DynamicVariable::create_dv_from_xml(childtag);
-			(*dvHash)[id] = tempDV;
-		}
-	}
-	
-	if((value = scoretag->findChildParamValue("reverb_ptr","id")) != 0)
-	{
-		long id = atoi(value);
-		Reverb * temp;
-		temp = (*reverbHash)[id];
-		
-		if(temp != NULL)
-			use_reverb(temp);
-	}
 
-	if((value = scoretag->findChildParamValue("cmm_","value")) != 0)
-		setClippingManagementMode((Score::ClippingManagementMode)atoi(value));
-	
-	while((childtag = scoretag->children->find("sound")) != 0)
-	{
-		Sound s;
-		s.xml_read(childtag, reverbHash, dvHash);
-		add(s);	
-	}
+MultiTrack* Score::doneAddingSounds(){
+
+  pthread_mutex_lock( &mutexSoundVector );
+  doneGettingSoundObjects= true;
+  pthread_cond_broadcast(&conditionSoundVector);
+  pthread_mutex_unlock( &mutexSoundVector );
+  
+  return joinThreadsAndMix();
+
 }
-
-
-//----------------------------------------------------------------------------//
-void Score::xml_print( ofstream& xmlOutput )
-{
-	// revObjs is a list of the distinct reverb objects in this
-	// score and its associated sounds, partials, etc.
-	//  Inline in the score's xml, reverb objects are denoted by unique
-	//  id's (their pointers), then these objects are displayed fully at
-	//  the end of the file
-	list<Reverb*> revObjs;
-	revObjs.push_back( reverbObj );
-	
-	// dynObjs is a list of Dynamic Variables, used for the same kind of
-	//  thing as reverb
-	list<DynamicVariable*> dynObjs;
-	xmlOutput << "<score>" << endl;
-	xmlOutput << "\t<cmm_ value=\"" << getClippingManagementMode() << "\" />" << endl;
-	xmlOutput << "\t<reverb_ptr id=\"" << (long)reverbObj << "\" />" << endl;
-		// XML for this score's sounds
-	Iterator<Sound> it = iterator();
-	while (it.hasNext())
-	{
-		Sound& snd = it.next();
-		snd.xml_print( xmlOutput, revObjs, dynObjs );
-	}
-	
-	// XML for this score's reverb objects
-	list<Reverb*>::const_iterator revit;
-	for( revit=revObjs.begin(); revit != revObjs.end(); revit++ )
-	{
-	    if( (*revit) != NULL )
-		(*revit)->xml_print( xmlOutput );
-	}
-		// XML for this score's dynamic variables
-	list<DynamicVariable*>::const_iterator dynit;
-	for( dynit=dynObjs.begin(); dynit != dynObjs.end(); dynit++ )
-	{
-	    if( (*dynit) != NULL )
-		(*dynit)->xml_print( xmlOutput );
-	}
-
-	xmlOutput << "</score>" << endl;
-	xmlOutput.close();
-}
-
-void Score::xml_print(const char * xmlOutputPath)
-{
-	ofstream xmlOutput(xmlOutputPath);
-	if(!xmlOutput)
-	{
-		cout << "Error Opening file for XML output!" << endl;
-	}
-	else
-	{
-		xml_print(xmlOutput);
-	}
-}
-
-void Score::xml_print()
-{
-	ofstream xmlOutput("lass-output.xml");
-	if(!xmlOutput)
-	{
-		cout << "Error Opening file for XML output!" << endl;
-	}
-	else
-	{
-		xml_print(xmlOutput);
-	}
-}
-
-
 
 //----------------------------------------------------------------------------//
 #endif //__SCORE_CPP

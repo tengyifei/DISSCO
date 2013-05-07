@@ -165,6 +165,12 @@ public:
     **/
     Sound(int numPartials, m_value_type baseFreq);
     
+    
+    /**
+    * Destructor
+    *
+    */
+    ~Sound();
     /**
     *	This function iterates through the partials, calling setParam on them.
     *	\param p The PartialStaticParam to set

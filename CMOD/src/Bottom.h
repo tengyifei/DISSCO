@@ -1,6 +1,7 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,9 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // CMOD includes
 #include "Libraries.h"
-
 #include "Define.h"
-#include "FileValue.h"
 #include "Modifier.h"
 #include "Event.h"
 #include "Note.h"
@@ -48,21 +47,12 @@ class Bottom : public Event {
 
     /*FileValues are held here because these variables need to be recomputed for
     every sound and note since there could be some randomness built in. */
-    FileValue* frequencyFV;
-    FileValue* loudnessFV;
-    FileValue* spatializationFV;
-    FileValue* reverberationFV;
-    FileValue* modifiersFV;
-
-    //Sound event
-    FileValue* numPartialsFV;
-    FileValue* deviationFV;
-    FileValue* spectrumFV;
-
-    //Note event
-    FileValue* notePitchClassFV;
-    FileValue* noteDynamicMarkFV;
-    FileValue* noteModifiersFV;
+   
+    DOMElement* frequencyElement;
+    DOMElement* loudnessElement;
+    DOMElement* spatializationElement;
+    DOMElement* reverberationElement;
+    DOMElement* modifiersElement;
 
     //Current partial during the processing of the event
     int currPartialNum;
@@ -78,52 +68,21 @@ class Bottom : public Event {
     vector<Sound*> childSounds;
     vector<Note*> childNotes;
 
-    //A count of the total number of sounds produced for a piece.
-    static int sndcount; 
-
 //----------------------------------------------------------------------------//
 
   public:
-
+    
     /**
-    * Default constructor for a bottom event
-    **/
-    Bottom() {}
-
-    /**
-    *   Normal Bottom constructor
-    *   \param astartTime The start time of the event
-    *   \param aDuration The duration of the event
-    *   \param aType The type of the event
-    *   \param aName A name for the event
-    *   \param level The number of parents to this event
-    **/ 
-    Bottom(TimeSpan ts, int type, string name);
-
+    * This is the constructor for new CMOD model
+    *
+    */
+    
+    Bottom(DOMElement* _element, TimeSpan _timeSpan, int _type, Tempo _tempo, Utilities* _utilities);
     /**
     *   Destructor.
     **/
-    virtual ~Bottom();
+    ~Bottom();
 
-    //--------------------- Initialization functions  -----------------------//
-    /**
-     *  Initialize the Bottom event variables
-     **/
-    void initBottomVars(FileValue* frequency, FileValue* loudness,
-                         FileValue* spatialization, FileValue* reverberation,
-                         FileValue* modifiers);
-
-    /**
-     *  Initialize variables for a sound
-     **/
-    void initSoundVars(FileValue* numPartials, FileValue* deviation,
-                        FileValue* spectrum);
-
-    /**
-     *  Initialize variables for a note
-     **/
-    void initNoteVars(FileValue* note_pitchClass, FileValue* note_dynamicMark,
-                        FileValue* note_modifiers);
 
     //--------------------- Build Methods  -----------------------//
     /**
@@ -131,18 +90,24 @@ class Bottom : public Event {
      *  method in Event, allowing the creation of Sounds, Notes,
      *  and Visuals instead of child Events.
      **/
-    void constructChild(TimeSpan ts, int type, string name, Tempo tempo, bool freqUsePattern, float patternFreqValue, bool loudnessUsePattern, float patternLoudnessValue);
+    void constructChild(SoundAndNoteWrapper* _SoundNoteWrapper);
+    
+    /**
+     *  The build method
+     *
+     **/
+    void buildChildren();
+
 
     /**
      *  Returns the number of current partial -- overrides Event
      **/
     int getCurrPartialNum() {return currPartialNum;};
 
-
     /**
      * Creates a sound and adds the sound to the Score.
      **/
-    void buildSound(TimeSpan tsChild, int type, string name, bool usePattern, float patternFreqValue, bool loudnessUsePattern, float patternLoudnessValue);
+    void buildSound(SoundAndNoteWrapper* _soundNoteWrapper);
 
     /**
      *  Creates a note (traditional notation) with all its attributes.
@@ -181,30 +146,45 @@ class Bottom : public Event {
     **/
     list<Note> getNotes();
     
-    
+    /**
+     * building the notes / sounds. However in the new version building notes
+     * is not implemented yet.
+     **/
     void buildChildEvents();
+    
+    /**
+     * construct each child.
+     **/
+    void constructChild(TimeSpan ts, int type, string name, Tempo tempo);
+    
+    //getters
+    DOMElement* getSPAElement(){return spatializationElement;}
+    DOMElement* getREVElement(){return reverberationElement;}
+    
+    
+
 
     //--------------------- Private helper methods  -----------------------//
   private:
     /**
      *  Computes a base frequency for the bottom event
      **/
-    float computeBaseFreq( bool usePattern, float patternFreqValue);
+    float computeBaseFreq();
 
     /**
      *  Computes a loudness value for the bottom event
      **/
-    float computeLoudness( bool usePattern, float patternLoudnessValue);
+    float computeLoudness();
 
     /**
      *  Computes the number of partials to create
      **/
-    int computeNumPartials(float baseFreq);
+    int computeNumPartials(float baseFreq, DOMElement* _spectrum);
 
     /**
      *  Computes a deviation value for the bottom event
      **/
-    float computeDeviation();
+    float computeDeviation( DOMElement* _spectrum);
 
     /**
      *   Assigns a frequency to a partial according to baseFrequency and the
@@ -225,7 +205,7 @@ class Bottom : public Event {
      * \param part reference to a partial
      * \param partNum the number of the partial
      **/
-    void setPartialSpectrum(Partial& part, int partNum);
+    void setPartialSpectrum(Partial& part, int partNum, DOMElement* _element);
 
     /**
      *  Assigns values to the array of ampscales based on a randomly selected rule
@@ -252,7 +232,7 @@ class Bottom : public Event {
      *  \param numParts the number of partials in this sound
      **/
     void spatializationStereo(Sound *s, 
-                              list<FileValue>* envList, 
+                              DOMElement* _channels, 
                               string applyHow,
                               int numParts);
 
@@ -266,7 +246,7 @@ class Bottom : public Event {
      *  \param numParts the number of partials in this sound
      **/
     void spatializationMultiPan(Sound *s, 
-                                list<FileValue>* outerList, 
+                                DOMElement* _channels,  
                                 string applyHow,
                                 int numParts);
 
@@ -275,15 +255,14 @@ class Bottom : public Event {
      *     forming a circle and uses polar coordinates to spread 
      *     the sound between them. (see LASS).
      *  \param s pointer to a sound
-     *  \param thetaList List of theta FileValues (envelopes)
-     *  \param radiusList List of radius FileValues (envelopes)
+     *  \param channels are actually theta and radius 
+
      *  \param applyHow string containing info if it applies to sound or 
      *     individual partials 
      *  \param numParts the number of partials in this sound
      **/
     void spatializationPolar(Sound *s, 
-                             list<FileValue>* thetaList,
-                             list<FileValue>* radiusList, 
+                             DOMElement* _channels,  
                              string applyHow,
                              int numParts);
 

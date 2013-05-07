@@ -56,6 +56,11 @@ public:
     Pan(DynamicVariable& v);
     
     /**
+     * Destructor
+    **/
+    
+    ~Pan();
+    /**
     *	This returns an exact duplicate of this Pan object.
     *	\return The new Pan object
     **/

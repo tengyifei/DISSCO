@@ -86,7 +86,10 @@ m_value_type& LinearInterpolatorIterator::next()
     else if (!queue_.empty())
     {
         // pop the top entry
-        Entry& e = queue_.front();
+        
+        Entry e = queue_.front();
+        //the line below is substituted by the line above -- Ming-ching
+        //Entry& e = queue_.front();
         queue_.pop_front();
 
         // set up for the iterator:
@@ -230,8 +233,10 @@ m_value_type& CubicSplineInterpolatorIterator::next()
 {
 
     if( queue_.empty() ) return value_;
-
-    Entry& e = queue_.front();
+    
+    Entry e = queue_.front();
+    // the line below is substituted by the line above --Ming-ching
+    //Entry& e = queue_.front();
     queue_.pop_front();
     int chk = 0;
     if( queue_.empty() ) { chk = 1; }

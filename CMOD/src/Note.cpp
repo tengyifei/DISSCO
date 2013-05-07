@@ -1,6 +1,14 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+   
+   
+   Update:
+   This class is not yet implemented in XML version of CMOD.
+   
+                                            --Ming-ching Chiu May 06 2013
+                                            
+                                            
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,7 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //----------------------------------------------------------------------------//
 
 #include "Note.h"
-
 #include "Event.h"
 #include "Output.h"
 

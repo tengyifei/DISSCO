@@ -71,10 +71,10 @@ Track* Partial::render(m_sample_count_type sampleCount,
 
     // create two SoundSample objects to write to:
     // one for the actuial sound:
-//    SoundSample* waveSample = new SoundSample(numSamplesTotal, samplingRate);
+    //    SoundSample* waveSample = new SoundSample(numSamplesTotal, samplingRate);
     SoundSample* waveSample = new SoundSample(sampleCount, samplingRate);
     // and one to store amplitude data:
-//    SoundSample* ampSample = new SoundSample(numSamplesTotal, samplingRate);
+    //    SoundSample* ampSample = new SoundSample(numSamplesTotal, samplingRate);
     SoundSample* ampSample = new SoundSample(sampleCount, samplingRate);
 
     // tell each dynamic variable what the DURATION will be:
@@ -375,6 +375,17 @@ Track* Partial::render(m_sample_count_type sampleCount,
         delete &tmp;
 
     }
+    
+    
+    // this section is added by Ming-ching on Dec.10 2012 to prevent memory leak
+    delete frequency_env;
+    delete freq_env;
+    delete amptrans_amp_env;
+    delete amptrans_rate_env;
+    delete freqtrans_amp_env;
+    delete freqtrans_rate_env;
+
+    
     return returnTrack;
 }
 

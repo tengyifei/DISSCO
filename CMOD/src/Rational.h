@@ -307,6 +307,7 @@ public:
   {
     n = other.n;
     d = other.d;
+    
     return *this;
   }
 
@@ -542,7 +543,8 @@ public:
     {
       os << "/" << d;
     }
-
+    
+    
     return os.str();
   }
 
@@ -585,6 +587,7 @@ public:
     return Rational<T>(numerator, denominator);
   }
 
+  
   operator const char *(void)
   {
     return toPrettyString().c_str();

@@ -1,6 +1,8 @@
 /*
 CMOD (composition module)
 Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+Modified by Ming-ching Chiu 2013
+
                                                                                 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -22,18 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //  Main.cpp
 // 
 //  This is the main program for CMOD, the computer-assisted
-//  composition software part of the EMCS.
-//  It seeds the random number generator, loads the envelope
-//  library and calls first the constructor, then the "build"
-//  function for the class Top.
+//  composition software. It creates the Piece object which reads the .dissco
+//  file (in XML format).
 //---------------------------------------------------------------------------//
 
-/**
-*  This is the main program for CMOD, the computer-assisted composition 
-*  software part of the EMCS.  It seeds the random number generator, loads 
-*  the envelope library and calls first the constructor, then the "build"
-*  function for the class Top.  
+/** 
 *  1/29/07: Justin King added doxygen commenting
+*  10/29/12: Ming-ching Chiu revised the code to remove filevalue
 **/
 
 #include "Piece.h"
@@ -51,61 +48,37 @@ int main(int parameterCount, char **parameterList) {
   if(path == "--help" || path == "-help" || path == "help") {
     cout << "Usage: cmod          Runs CMOD in the current directory." << endl;
     cout << "       cmod <path>   Runs CMOD in the <path> directory." << endl;
-    cout << "       cmod <path> <process-offset=0> <process-count=1>" << endl;
-    cout << "                     Renders a specific mask of sounds." << endl;
+    //cout << "       cmod <path> <process-offset=0> <process-count=1>" << endl;
+    //cout << "                     Renders a specific mask of sounds." << endl;
     cout << "       cmod help   Displays this help." << endl;
     return 0;
   }
-  path = PieceHelper::getFixedPath(path);
-  cout << "Working in path: " << path << endl;
   
-  int processCount = 1, processOffset = 0;
-  if(parameterCount >= 4)
-  {
-    processOffset = (int)atol(parameterList[2]);
-    processCount = (int)atol(parameterList[3]);
-  }
+  size_t lastSlash = path.find_last_of('/');
+  string workingPath = path.substr(0, lastSlash+1);
+  cout << "Working in path: " << workingPath << endl;
   
   //Determine the project name.
-  string projectName = PieceHelper::getProjectName(path);
-  if(projectName == "")
-    return 0;
-  cout << "Project name: " << projectName << endl;
-  
-  //Determine the project seed.
-  string seed = PieceHelper::getSeed(path);
-  int seedNumber = PieceHelper::getSeedNumber(seed);
-  cout << "Seed: " << seedNumber << endl;
+  //remove extension .dissco
+  path = path.substr(0, path.length() - 7);
+  string projectName;
+   
+  if (lastSlash!=string::npos){
+    projectName = path.substr(lastSlash+1);
+  }
+  else {
+    projectName = path;
+  }
   
   //Determine project sound file output.
-  PieceHelper::createSoundFilesDirectory(path);
-  PieceHelper::createScoreFilesDirectory(path);
-  string soundFilename;
-  soundFilename = PieceHelper::getNextSoundFile(path, projectName);
-  if(processCount > 1) {
-    soundFilename = path + "SoundFiles/";
-    soundFilename = soundFilename + projectName;
-    soundFilename = soundFilename + "_multi_";
-    stringstream oss;
-    oss << processOffset << "_" << processCount << ".aiff";
-    soundFilename = soundFilename + oss.str();
-  }
-  
-  if(soundFilename == "") {
-    cout << "A new soundfile name could not be reserved." << endl;
-    return 0;
-  }
-  cout << "New soundfile name: " << soundFilename << endl;
-  cout << "===========================================================" << endl;
-  cout << endl;  
+  PieceHelper::createSoundFilesDirectory(workingPath);
+  PieceHelper::createScoreFilesDirectory(workingPath);
   
   //Create the piece!
-
-  PieceHelper::createPiece(path, projectName, seed, soundFilename,
-    processCount, processOffset);
-
-  MemoryLeak::Report();
+  Piece* piece = new Piece(workingPath, projectName);
+  delete piece;
   
   return 0;
+  
 }
 

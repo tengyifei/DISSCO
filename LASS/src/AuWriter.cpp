@@ -188,6 +188,8 @@ bool AuWriter::write(vector<SoundSample*>& channels, string filename,
       sf_writef_float(s, chunk, (sf_count_t)framesToWrite);
     }
     sf_close(s);
+    
+    delete[] chunk; //added by ming-ching to prevent memory leak. Dec.10 2012
     return true;
 }
 

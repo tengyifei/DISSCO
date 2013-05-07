@@ -39,7 +39,7 @@ Modifier::Modifier() {
 
 Modifier::Modifier(string modType, Envelope* prob, string modApplyHow) {
   type = modType;
-  probEnv = prob;
+  probEnv = new Envelope(*prob);
   applyHow = modApplyHow;
   checkPt = 0;
 }

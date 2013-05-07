@@ -123,6 +123,7 @@ public:
 	 **/
 	void addEntryLocation(float t, float theta, float radius);
 
+  void doneAddEntryLocation();
 	/**
 	 * This spatializes a track and returns a new MultiTrack 
 	 * object with numTracks. The track will be panned accross 
@@ -140,6 +141,9 @@ public:
 	* \deprecated
 	**/
 	void xml_print( ofstream& xmlOutput );
+	
+	
+	void print();
 
 private:
 	/**
@@ -147,12 +151,18 @@ private:
 	 * add a point to an env.
 	 **/
 	void addEntryHelperFn(int envIdx, float t, float amp);
+	
+	/** Empty Constructor
+	 * This constructor is only called by MultiPan::clone()
+	 **/
+	MultiPan();
 
 	bool useEnvDirectly;
 	vector<Envelope*> EnvList;
 	vector<Collection<xy_point>*> xyCollectionsList;
 	vector<Collection<envelope_segment>*> segCollectionsList;
-	vector<int> nPoints;
+	//not in used elsewhere in the program so I commented it out. --Ming-ching May 06, 2013
+	//vector<int> nPoints;
 	int n_channels;
 };
 

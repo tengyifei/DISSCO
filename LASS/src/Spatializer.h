@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class Spatializer
 {
 public:
-
+    virtual ~Spatializer();
     /**
     *	This will take a single Track object, and spatialize it
     *	to a MultiTrack object with numTracks tracks.
@@ -64,11 +64,18 @@ public:
     *	This function creates an exact duplicate of this Spatializer.
     **/
     virtual Spatializer* clone();
+    
+    /**
+    * This function prints some simple information for debugging purposes.
+    **/
+    virtual void print(){} //for debugging/verifying multipan clone function. --ming-ching May 6 2013
 
     /**
     *	\deprecated
     **/
     virtual void xml_print( ofstream& xmlOutput );
+    
+    
 
 };
 

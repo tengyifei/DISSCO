@@ -53,9 +53,6 @@ will be used here for now.*/
   #define DISSCO_HASHMAP unordered_map
 */
 
-//Memory leak checker (see header for details)
-#include "MemoryLeakCheck.h"
-
 //Also need pthreads from the POSIX library (link with -lpthread)
 #include <pthread.h>
 

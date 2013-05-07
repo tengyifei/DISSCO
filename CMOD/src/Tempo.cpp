@@ -176,9 +176,14 @@ void Tempo::setTimeSignature(string newTimeSignature) {
 
 //----------------------------------------------------------------------------//
 
-void Tempo::setEDUPerTimeSignatureBeat(string newEDUPerTimeSignatureBeat) {
-  EDUPerTimeSignatureBeat = Ratio(newEDUPerTimeSignatureBeat);
+
+void Tempo::setEDUPerTimeSignatureBeat(Ratio newEDUPerTimeSignatureBeat) {
+  EDUPerTimeSignatureBeat = newEDUPerTimeSignatureBeat;
 }
+//in order to clean up the error message in Valgrind.
+//void Tempo::setEDUPerTimeSignatureBeat(string newEDUPerTimeSignatureBeat) {
+//  EDUPerTimeSignatureBeat = Ratio(newEDUPerTimeSignatureBeat);
+//}
 
 //----------------------------------------------------------------------------//
 

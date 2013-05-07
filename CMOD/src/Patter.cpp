@@ -83,19 +83,14 @@ void Patter::moveOrigin( int newOrigin ) {
 //----------------------------------------------------------------------------//
 
 int Patter::GetNextValue(string method, int newOrigin) {
-  int returnValue;
-  //cout<<"method: "<<method<<", origin: " <<newOrigin<<endl;  
-
-
-  if (origin == 0) {
-    // haven't set origin yet -- move it now
+  int returnValue;    
+  if (origin != newOrigin) {
     moveOrigin(newOrigin);
   }
-
+  
   if (method == "IN_ORDER") {
     returnValue = patty[nextIndex];
     nextIndex = (nextIndex + 1) % patty.size();
-    //cout << "Patter::GetNextValue - returnValue=" << returnValue << " nextIndex=" << nextIndex <<", this is "<<this<< endl;
 
   } else if (method == "OTHER") {
     //    ValuePick; 
@@ -119,19 +114,17 @@ int Patter::GetNextValue(string method, int newOrigin) {
 }
 
 //----------------------------------------------------------------------------//
-
 void Patter::SimplePat() {
+  
   patty.push_back(origin);
-  //cout << "Patter::SimplePat - origin=" << origin << endl;
-
+  
   for(int i = 0; i < intervals.size(); i++) {
     int lastNum = patty.back();
+    int thisNum = lastNum + intervals[i];    
     patty.push_back( lastNum + intervals[i] );
-//cout << "Patty::SimplePat - patty[" << i << "]=" << patty[i]
-//<< " origin=" << origin << endl;
   }
-}
 
+}
 //---------------------------------------------------------------------------//
 
 void Patter::Expand(string method, int modulo, int low, int high) {
