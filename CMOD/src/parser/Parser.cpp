@@ -85,7 +85,6 @@ typedef char * cstr;
 
 #include "../Libraries.h"
 #include "../FileValue.h"
-#include "../EventFactory.h"
 
 //---------------------------------------------------------------------------//
 
@@ -253,7 +252,7 @@ struct ltstr
   }
 };
 
-EventFactory * ef;
+//EventFactory * ef;
 extern map<const char*, FileValue*, ltstr> file_data;
 int yyerror(char *msg);
 
