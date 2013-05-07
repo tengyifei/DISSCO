@@ -65,8 +65,8 @@ IEvent::IEvent(){
   tempoMethodFlag = 0; //0 = as note value, 1 = as fraction
   tempoPrefix = tempoPrefixNone;
   tempoNoteValue = tempoNoteValueQuarter;
-  tempoFractionEntry1 = "";
-  tempoFractionEntry2 = "";
+  tempoFractionEntry1 = "1";
+  tempoFractionEntry2 = "1";
   tempoValueEntry = "60";  
   
   
@@ -102,7 +102,7 @@ IEvent::IEvent(){
 IEvent::IEvent(std::string _filePath, std::string _fileName, EventType _type){
 		eventName = _fileName;
   eventType = _type;
-    IEventParseFile(_filePath+"/"+_fileName);
+    //IEventParseFile(_filePath+"/"+_fileName);
     
     eventType = _type;
   
@@ -223,15 +223,19 @@ std::string IEvent::getEventTypeString(){
     case 5:
       return "Spectrum";
     case 6:
-      return "Env.";
+      //return "Env.";
+      return "Envelope";
     case 7:
       return "Sieve";
     case 8:
-      return "Spat.";
+      //return "Spat.";
+      return "Spatialization";
     case 9:
-      return "Pat.";
+      //return "Pat.";
+      return "Pattern";
     case 10:
-      return "Rev.";
+      return "Reverb";
+      //return "Rev.";
     case 11:
       return "Folder";
     case 12:
@@ -496,7 +500,7 @@ void IEvent::setModifiedButNotSaved(){
 }
 
 void IEvent::saveToDisk(std::string _pathOfProject){
-	saveToDiskHelper(_pathOfProject, false);
+	//saveToDiskHelper(_pathOfProject, false);
 }
 
 
@@ -505,7 +509,7 @@ void IEvent::saveAsToDisk(std::string _pathOfProject){ //save everything
 }
 
 
-void IEvent::saveToDiskHelper(std::string _pathOfProject, bool _forced){
+void IEvent::saveToDiskHelper(std::string _pathOfProject, bool _forced){/*
   if(changedButNotSaved == false && _forced==false) return;
   changedButNotSaved = false;
   
@@ -548,724 +552,8 @@ void IEvent::saveToDiskHelper(std::string _pathOfProject, bool _forced){
     case 12:
       saveAsNote(_pathOfProject);  
   }
+  */
 }
-
-void IEvent::saveAsTHMLB(std::string _pathOfProject){
-  std::string fileName;
-  std::string header;
-
-  switch (eventType){
-    case 0:
-      fileName = _pathOfProject + "/T/" + eventName;
-      header = "/*  Top Event: T/"+eventName+"  */\n\n";
-      break;
-    case 1:
-      fileName = _pathOfProject + "/H/" + eventName;
-      header = "/*  High Event: H/"+eventName+"  */\n\n";
-      break;
-    case 2:
-      fileName = _pathOfProject + "/M/" + eventName;
-      header = "/*  Mid Event: M/"+eventName+"  */\n\n";
-      break;
-    case 3:
-      fileName = _pathOfProject + "/L/" + eventName;
-      header = "/*  Low Event: L/"+eventName+"  */\n\n";
-      break;
-    case 4:
-      fileName = _pathOfProject + "/B/" + eventName;
-      header = "/*  Bottom Event: B/"+eventName+"  */\n\n";      
-      break;      
-  }
-  
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-  
-  fputs(header.c_str(),file);
-  
-  
-  
-  
-  stringbuffer = "\n\nmaxChildDur = "+ maxChildDur +";\n";
-  
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal maxChildDur value!"<<endl;
-  }
-  
-  
-  
-  stringbuffer = "timeSignature = \""
-                 + timeSignatureEntry1
-                 + "/" 
-                 + timeSignatureEntry2
-                 +"\";\n";   
-  
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-    else {
-    cout<<"illegal Time Signature value!"<<endl;
-  }
-  
-  stringbuffer = "EDUPerBeat = "+ unitsPerSecond+";\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-
-  }
-
-  
-  stringbuffer = "tempo = \"";
-  if (tempoPrefix == tempoPrefixDotted){
-      stringbuffer = stringbuffer + "dotted ";
-    }
-    else if (tempoPrefix == tempoPrefixDoubleDotted){
-      stringbuffer = stringbuffer + "double dotted ";
-    }     
-    else if (tempoPrefix ==tempoPrefixTriple){
-      stringbuffer = stringbuffer + "triple ";
-    }          
-    else if (tempoPrefix ==tempoPrefixQuintuple){
-      stringbuffer = stringbuffer + "quintuple ";
-    }     
-    else if (tempoPrefix ==tempoPrefixSextuple){
-      stringbuffer = stringbuffer + "sextuple ";
-    }     
-    else if (tempoPrefix ==tempoPrefixSeptuple){
-      stringbuffer = stringbuffer + "septuple ";
-    }     
-
-    if (tempoNoteValue == tempoNoteValueWhole){
-      stringbuffer = stringbuffer + "whole = ";
-    }
-    else if (tempoNoteValue == tempoNoteValueHalf){
-      stringbuffer = stringbuffer + "half = ";
-    }
-    else if (tempoNoteValue == tempoNoteValueQuarter){
-      stringbuffer = stringbuffer + "quarter = ";
-    }
-    else if (tempoNoteValue == tempoNoteValueEighth){
-      stringbuffer = stringbuffer + "eighth = ";
-    }
-    else if (tempoNoteValue == tempoNoteValueSixteenth){
-      stringbuffer = stringbuffer + "sixteenth = ";
-    }
-    else if (tempoNoteValue == tempoNoteValueThirtySecond){
-      stringbuffer = stringbuffer + "thirtysecond = ";
-    }
-  
-  
-  
-  if (tempoMethodFlag == 0) {// tempo as note value 
-    
-    
-    stringbuffer = stringbuffer + tempoValueEntry+ "\";\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }   
-    else {
-      cout<<"illegal tempo value!"<<endl;
-    }
-
-  
-  }
-   else { // tempo as fraction
-    //enty1 notes in value seconds
-    //entry : value = actual number : 60
-    //entry1 * 60 / value = actual number
-    
-    
-    int entry1 = atoi (tempoFractionEntry1.c_str()) * 60;
-    int den = atoi (tempoValueEntry.c_str());
-    
-    char tempobuffer [20];
-    sprintf(tempobuffer, "%d", entry1);
-    string numString = string(tempobuffer);
-    
-    sprintf (tempobuffer,"%d", den);
-    string denString = string(tempobuffer);
-    
-    string ratioNumber = numString + "/" + denString;
-    Ratio ratio = Ratio(ratioNumber);
-    
-    
-    
-    sprintf(tempobuffer, "%d", ratio.Num());
-    
-    
-    if (ratio.Den() ==1){
-    
-    	stringbuffer = stringbuffer + string(tempobuffer) + "\";\n";
-    
-    }
-    else{
-    
-    	stringbuffer = stringbuffer + string(tempobuffer) + "/";
-    
-    	sprintf(tempobuffer, "%d", ratio.Den());
-    
-    	stringbuffer = stringbuffer + string(tempobuffer) + "\";\n";
-    
-    }
-                 
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal tempo value!"<<endl;
-    }
-  
-  
-  }
-  
-  
-
-  if (flagNumChildren ==0){ //fixed num children
-
-    //num children not specified
-    if (numChildrenEntry1 ==""|| numChildrenEntry1 ==""){  
-      stringbuffer = "numChildren = <\"FIXED\">;\n\n";
-    }
-    else{  //num children is specified
-       stringbuffer = "numChildren = <\"FIXED\", " +
-                      numChildrenEntry1 +
-                      ">;\n\n";
-    }
-
-  }
-  else if (flagNumChildren ==1){  //density numChildren
-     stringbuffer = "numChildren = <\"DENSITY\", " +
-                    numChildrenEntry1 +
-                       ", "+
-                    numChildrenEntry2+
-                       ", "+
-                    numChildrenEntry3+
-                    ">;\n\n";
-
-  }
-  else{    //by layer
-    stringbuffer = "numChildren =<\"BY_LAYER\", <";
-    std::string thisLayer;
-    std::list<EventLayer*>::iterator i = layers.begin();
-    bool firstNumberExisted = false;
-
-    while(i != layers.end()){
-      thisLayer = (*i)->outputChildrenNameString();
-
-      if(thisLayer != ""){  //check if this layer has children
-        stringbuffer = stringbuffer + (*i)->byLayer;
-        firstNumberExisted = true;
-      }
-
-      i++;
-      if(i == layers.end())break;
-
-      thisLayer = (*i)->outputChildrenNameString();
-      if(thisLayer != "" && firstNumberExisted){
-        stringbuffer = stringbuffer + ", ";
-      }
-      
-    }
-    stringbuffer = stringbuffer + "> >;\n";
-  }
-
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal numChildren value!"<<endl;
-  }
-
-
-
-  stringbuffer = "childNames = <\n";
-
-  std::string thisLayer;
-  std::list<EventLayer*>::iterator i = layers.begin();
-  bool firstLayerExisted = false;
-
-  while(i != layers.end()){
-    thisLayer = (*i)->outputChildrenNameString();
-    if (thisLayer != ""){  //check if this layer has children
-      stringbuffer = stringbuffer + thisLayer;
-      firstLayerExisted = true;
-    }
-    i++;
-    if (i ==layers.end())break;
-
-    thisLayer = (*i)->outputChildrenNameString();
-    if (thisLayer != ""&&firstLayerExisted){
-      stringbuffer = stringbuffer + ",\n";
-    }
-  }
-
-  stringbuffer = stringbuffer + "\n             >;\n\n";
-  
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  
-  stringbuffer = "childEventDef = < ";
-
-  switch (flagChildEventDef){
-    case 0:
-      stringbuffer += "\"CONTINUUM\",\n\t\t  ";
-      break;
-    case 1:
-      stringbuffer += "\"SWEEP\",\n\t\t  ";
-      break;
-    case 2:
-      stringbuffer += "\"DISCRETE\",\n\t\t  ";
-      
-      break;
-  }
-  
-  if(flagChildEventDef ==0 || flagChildEventDef ==1){  // contiuum or sweep
-    stringbuffer += childEventDefEntry1;
-    stringbuffer += ",\n\t\t  ";
-
-    switch (flagChildEventDefStartType){
-      case 0:
-        stringbuffer += "\"PERCENTAGE\",\n\t\t  ";
-        break;
-      case 1:
-        stringbuffer += "\"EDU\",\n\t\t  ";
-        break;
-      case 2:
-        stringbuffer += "\"SECONDS\",\n\t\t  ";
-        break;
-    }
-
-    stringbuffer += childEventDefEntry2;
-    stringbuffer += ",\n\t\t  ";
-    
-    stringbuffer += childEventDefEntry3;
-    stringbuffer += ",\n\t\t  ";
-    
-    switch (flagChildEventDefDurationType){
-      case 0:
-        stringbuffer += "\"PERCENTAGE\"\n\t\t>;\n\n";
-        break;
-      case 1:
-        stringbuffer += "\"EDU\"\n\t\t>;\n\n";
-        break;
-      case 2:
-        stringbuffer += "\"SECONDS\"\n\t\t>;\n\n";
-        break;
-    }
-    
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    
-    else {
-              cout<<"illegal childEventDef value!"<<endl;
-    }    
-  }
-  else {// discrete
-    stringbuffer += childEventDefAttackSieve;
-    stringbuffer += ",\n\t\t  ";
-    stringbuffer += childEventDefDurationSieve;
-    stringbuffer += ",\n\t\t  < ";   
-
-
-    double weightSum = 0;
-    
-    std::list<EventLayer*>::iterator i =layers.begin();
-    for (i ; i != layers.end(); i ++){
-      //numTotalChildren += (*i)->size();
-      weightSum += (*i)->getChildrenWeightSum();
-      
-    }
-    
-    //double unit = ((double) weightSum) / numTotalChildren; 
-    double unit = 1.0 / weightSum; 
-
-    
-    i = layers.begin();
-    
-    
-    // a temporary list makes it easy to print numbers out
-    class llist {
-    public: 
-      llist(){ package =NULL; next = NULL;}
-      ~llist(){}
-      EventDiscretePackage* package;
-      llist* next;
-    };
-    
-    //the first node is a empty node
-    llist* head =  new llist();
-    llist* current = head;
-    
-    
-    for (i ; i != layers.end(); i ++){
-      std::list<EventDiscretePackage*>::iterator j = (*i)->children.begin();
-        for ( j ; j !=(*i)->children.end(); j ++){
-          current->next = new llist();
-          current->next->package = *j;
-          current = current->next;
-        }
-    }
-    
-    current = head;
-    double temp;
-    char charbuffer[10]; 
-    
-    if (current->next == NULL){ //no node at all 
-      stringbuffer += ">,<>,<>\n\t\t>;\n\n";
-    }
-    else { //normal case
-      current = head -> next;//cuz the first node is empty
-
-      while (current != NULL){
-      
-        
-        temp = ((double) atof (current->package->weight.c_str())) * unit;
-        
-        sprintf (charbuffer," %.3f", temp);
-        
-        stringbuffer += string (charbuffer);
-        //fputs(charbuffer,file); save to string buffer instead
-        
-        if (current->next!=NULL){
-          stringbuffer += ", ";
-          //fputs(", ", file);
-        }
-        current = current ->next; 
-      } //end while
-      
-      stringbuffer += ">,\n\t\t  <\n";
-      //fputs(">,\n\t\t  <\n", file);
-      current = head->next;
-
-      while (current != NULL){
-        stringbuffer += "\t\t    EnvLib("+ 
-          current->package->attackEnv+", " + 
-          current->package->attackEnvScale+")";
-
-        if (current->next!=NULL){
-          stringbuffer += ",\n";
-        }
-        current = current ->next; 
-      } //end while
-      
-      stringbuffer +="\n\t\t  >,\n\t\t  <\n";      
-      current = head->next;
-     
-      while (current != NULL){
-        stringbuffer += "\t\t    EnvLib("+ 
-          current->package->durationEnv+", " + 
-          current->package->durationEnvScale+")";
-
-        if (current->next!=NULL){
-          stringbuffer+=",\n";
-        }
-        current = current ->next; 
-      } //end while 
-      stringbuffer+="\n\t\t  >\n\t\t>;\n\n";
-      
-    }// end normal case
-    
-    //clean up llist
- 
-    while (head!=NULL){
-      current = head->next;
-      delete head;
-      head = current;
-    }
-
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    
-    else {
-              cout<<"illegal childEventDef value!"<<endl;
-    }
-    
-  }//end descrete
-  
-  
-  if (eventType == eventBottom){ // save BottomExtra Info
-    stringbuffer = "frequency = <\"";
-    if (extraInfo->getFrequencyFlag() == 0){// well_tempered
-      stringbuffer = stringbuffer + "WELL_TEMPERED\", " + 
-        extraInfo->getFrequencyEntry1()+ " >;\n\n";
-    }
-    else if (extraInfo->getFrequencyFlag() == 1){//fundamental
-      stringbuffer = stringbuffer + "FUNDAMENTAL\", " + 
-        extraInfo->getFrequencyEntry1()+ ", "+ 
-        extraInfo->getFrequencyEntry2()+ " >;\n\n";    
-    
-    }
-    else { //continuum
-      stringbuffer = stringbuffer + "CONTINUUM\", \"" +
-        ((extraInfo->getFrequencyContinuumFlag() == 0)?
-          "HERTZ":"POW2") + "\", " + 
-          extraInfo->getFrequencyEntry1()+  " >;\n\n";    
-    
-    }
-    
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal frequency value!"<<endl;
-    }
-    
-    stringbuffer = "loudness = " + extraInfo->getLoudness() + ";\n\n" ;
-    yy_scan_string( stringbuffer.c_str());
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal loudness value!"<<endl;
-    }
-    
-    //save spatialization and reverb only when childtype is sound
-    if (extraInfo->getChildTypeFlag() ==0){ 
-     	stringbuffer = 
-     	  "spatialization = " + extraInfo->getSpatialization() + ";\n\n" ;
-      yy_scan_string( stringbuffer.c_str());
-   		if (yyparse()==0){
-      	fputs(stringbuffer.c_str(),file);
-    	}
-    	else {
-      	cout<<"illegal spatialization value!"<<endl;
-    	}
-     
-     	stringbuffer = "reverberation = " + extraInfo->getReverb() + ";\n\n";
-    	yy_scan_string( stringbuffer.c_str());
-    	if (yyparse()==0){
-      	fputs(stringbuffer.c_str(),file);
-    	}
-    	else {
-      	cout<<"illegal reverberation value!"<<endl;
-    	}
-		}
-
-    //save modifier information
-    
-    EventBottomModifier* mod = extraInfo->getModifiers();
-    if (mod!= NULL){
-    
-    stringbuffer = "modifiers = <\n";
-    
-
-    
-      while (mod != NULL){
-        stringbuffer = stringbuffer + mod->getSaveToDiskString();
-      
-        if (mod->next!=NULL){
-          stringbuffer = stringbuffer + ",\n";
-        }
-        mod = mod->next;
-      }
-
-      stringbuffer = stringbuffer + "\n            >;\n\n";
-    yy_scan_string( stringbuffer.c_str());  
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal modifiers value!"<<endl;
-    }
-
-    }
-  }//end handling bottom info
-
-
-
-
-  // LASSIE metadata
-  char charBuffer[10];
-
-  
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-  "=============================LASSIE METADATA=========================*/"
-  "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = "LASSIEeventName = <`" + 
-    eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  stringbuffer = "LASSIEmaxChildDur = `" + maxChildDur + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  stringbuffer = "LASSIEEDUPerBeat = `" + unitsPerSecond + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  stringbuffer = "LASSIEtimeSignatureEntry1 = `" + timeSignatureEntry1 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  stringbuffer = "LASSIEtimeSignatureEntry2 = `" + timeSignatureEntry2 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  sprintf(charBuffer, "%d", tempoMethodFlag);
-  stringbuffer = "LASSIEtempoMethodFlag = " + string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  sprintf(charBuffer, "%d", tempoPrefix);
-  stringbuffer = "LASSIEtempoPrefix = " + string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  sprintf(charBuffer, "%d", tempoNoteValue);  
-  stringbuffer = "LASSIEtempoNoteValue = " + string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file); 
-
-  stringbuffer = "LASSIEtempoFractionEntry1 = `" + tempoFractionEntry1 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEtempoFractionEntry2 = `" + tempoFractionEntry2 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEtempoValueEntry = `" + tempoValueEntry + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEnumChildrenEntry1 = `" + numChildrenEntry1 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEnumChildrenEntry2 = `" + numChildrenEntry2 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEnumChildrenEntry3 = `" + numChildrenEntry3 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEchildEventDefEntry1 = `" + childEventDefEntry1 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEchildEventDefEntry2 = `" + childEventDefEntry2 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEchildEventDefEntry3 = `" + childEventDefEntry3 + "`;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEchildEventDefAttackSieve = `" + 
-    childEventDefAttackSieve + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-   
-  stringbuffer = "LASSIEchildEventDefDurationSieve = `" + 
-    childEventDefDurationSieve + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-   
-
-  sprintf(charBuffer, "%d", flagNumChildren);
-  stringbuffer = "LASSIEflagNumChildren = " + string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file);
-
-  sprintf(charBuffer, "%d", flagChildEventDef);  
-  stringbuffer = "LASSIEflagChildEventDef = " + string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file);
-
-  sprintf(charBuffer, "%d", flagChildEventDefStartType);  
-  stringbuffer = "LASSIEflagChildEventDefStartType = " + 
-    string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file);
-
-  sprintf(charBuffer, "%d",flagChildEventDefDurationType);  
-  stringbuffer = "LASSIEflagChildEventDefDurationType = " + 
-    string(charBuffer) + ";\n";
-  fputs (stringbuffer.c_str(), file);
-
-
-
-  stringbuffer = "LASSIEeventLayers = <"; //
-
-  std::list<EventLayer*>::iterator layersIter = layers.begin();
-
-  while(layersIter != layers.end()){
-    stringbuffer = stringbuffer + (*layersIter)->getLASSIEMetaDataString();
-    
-    layersIter++;
-    
-    if (layersIter != layers.end()){
-      stringbuffer = stringbuffer + ",";
-    }
-  } 
-  
-
-  stringbuffer = stringbuffer + ">;\n";
-  fputs (stringbuffer.c_str(),file);
-
-
-
-
-
-  if (eventType == eventBottom){
-    sprintf(charBuffer, "%d", extraInfo->getFrequencyFlag());
-    stringbuffer = "LASSIEBOTTOMfrequencyFlag = " + 
-      string (charBuffer) + ";\n";
-    fputs(stringbuffer.c_str(), file);
-    
-    sprintf(charBuffer, "%d", extraInfo->getFrequencyContinuumFlag());    
-    stringbuffer = "LASSIEBOTTOMfrequencyContinuumFlag = " + 
-      string(charBuffer) + ";\n";
-
-    fputs(stringbuffer.c_str(), file);
-    
-    
-    
-    stringbuffer = "LASSIEBOTTOMfrequencyEntry1 = `" + 
-      extraInfo->getFrequencyEntry1() + "`;\n" +
-      "LASSIEBOTTOMfrequencyEntry2 = `" + extraInfo->getFrequencyEntry2() + 
-      "`;\n" + "LASSIEBOTTOMloudness = `" + extraInfo->getLoudness() + 
-      "`;\n" + "LASSIEBOTTOMspatialization = `" + 
-      extraInfo->getSpatialization() + "`;\n" +
-      "LASSIEBOTTOMreverberation = `" + extraInfo->getReverb() + "`;\n";
-    fputs (stringbuffer.c_str(), file);
-
-
-
-
-
-
-    //save modifier information
-    
-    EventBottomModifier* mod = extraInfo->getModifiers();
-    if (mod!= NULL){
-    
-    stringbuffer = "LASSIEBOTTOMmodifiers = <\n";
-    
-
-      while (mod != NULL){
-        stringbuffer = stringbuffer + mod->getSaveLASSIEMetaDataString();
-      
-        if (mod->next!=NULL){
-          stringbuffer = stringbuffer + ",\n";
-        }
-        mod = mod->next;
-      }
-
-      stringbuffer = stringbuffer + "\n            >;\n\n";
-      fputs(stringbuffer.c_str(), file);
-
-    }
-
-
-  }
-
-  fclose(file);
-
-}
-
 
 int IEvent::getNumberOfLayers(){
   return layers.size();
@@ -1280,395 +568,6 @@ EventLayer* IEvent::addLayer(){
 }
 
 
-
-void IEvent::saveAsSound(std::string _pathOfProject){
-  std::string fileName;
- 
-  fileName = _pathOfProject + "/S/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-  
-  std::string header = "/*  Spectrum: S/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-  
-  stringbuffer = "numPartials = " + extraInfo->getNumPartials()+";\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal numPartials value!"<<endl;
-    }
-
-  stringbuffer = "deviation = "+ extraInfo->getDeviation()+";\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal deviation value!"<<endl;
-    }
-
-  
-  stringbuffer = "spectrum = << " + 
-    extraInfo->getSoundSpectrumEnvelopesString()+"> >;\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-    if (yyparse()==0){
-      fputs(stringbuffer.c_str(),file);
-    }
-    else {
-      cout<<"illegal spectrum value!"<<endl;
-    }
-
-  
-
-
-
-  // LASSIE metadata
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = "LASSIEeventName = <`" + 
-    eventName + "`," + charBuffer + ">;\n";
-  
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-  "=============================LASSIE METADATA=========================*/"
-  "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-
-
-  
-  stringbuffer = "LASSIEeventName = <`" + eventName + "`," + 
-    charBuffer + ">;\n";
-  
-
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIESOUNDnumPartials = `" + 
-    extraInfo->getNumPartials() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-
-  stringbuffer = "LASSIESOUNDdeviation = `" + 
-    extraInfo->getDeviation() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-
-  
-  stringbuffer = "LASSIESOUNDspectrum = <"+ 
-    extraInfo->getSpectrumMetaData() + ">;\n";
-  fputs (stringbuffer.c_str(), file);
-
-  fclose(file);
-  
-}
-
-
-std::string IEvent::SoundExtraInfo::getSpectrumMetaData(){
-  std::string returnString = "";
-  SpectrumPartial* thisPartial = spectrumPartials;
-  
-  while (thisPartial!= NULL){
-    std::string tempstring = thisPartial->envString;
-    if (tempstring == ""){
-      tempstring = "";
-    }
-  
-  
-  
-    returnString = returnString +"`"+ tempstring + "`";
-    thisPartial = thisPartial->next;
-    if (thisPartial!= NULL){
-      returnString = returnString + ",";
-    }
-  }
-  
-  return returnString;
-  
-}
-
-
-std::string IEvent::SoundExtraInfo::getSoundSpectrumEnvelopesString(){
-  std::string returnString = "";
-  SpectrumPartial* thisPartial = spectrumPartials;
-  
-  while (thisPartial!= NULL){
-    returnString = returnString + thisPartial->envString;
-    thisPartial = thisPartial->next;
-    if (thisPartial!= NULL){
-      returnString = returnString + ",";
-    }
-  }
-  
-  return returnString;
-}
-
-
-
-void IEvent::saveAsEnv(std::string _pathOfProject){
-  std::string fileName;
-  fileName = _pathOfProject + "/ENV/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-
-  std::string header = "/*  Envelope: ENV/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-
-  stringbuffer = "envelopeBuilder = " + extraInfo->getEnvelopeBuilder()+";\n";
-    yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal builder value!"<<endl;
-  }
-  
-  
-  
-   stringbuffer = "\n\n\n\n\n\n\n\n\n/"
-    "*=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEENV = `" + extraInfo->getEnvelopeBuilder() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  
-
-  fclose(file);
-}
-
-
-void IEvent::saveAsSiv(std::string _pathOfProject){
-  std::string fileName;
-  fileName = _pathOfProject + "/SIV/"+ eventName;
-
-
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-
-  std::string header = "/*  Sieve: SIV/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-  stringbuffer = "sieveBuilder = " + extraInfo->getSieveBuilder()+";\n";
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal builder value!"<<endl;
-  }
-
-   stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-    "=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIESIV = `" + extraInfo->getSieveBuilder() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-  fclose(file);
-}
-
-
-void IEvent::saveAsSpa(std::string _pathOfProject){
-
-
-  std::string fileName;
-  fileName = _pathOfProject + "/SPA/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-  std::string header = "/*  Spatialization: SPA/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-  stringbuffer = 
-    "spatialization = " + extraInfo->getSpatializationBuilder()+";\n";
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal builder value!"<<endl;
-  }
-  
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-    "=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = 
-    "LASSIESPA = `" + extraInfo->getSpatializationBuilder() + "`;\n";
-  fputs (stringbuffer.c_str(), file);  
-
-  fclose(file);
-}
-
-
-void IEvent::saveAsPat(std::string _pathOfProject){
-  std::string fileName;
-  fileName = _pathOfProject + "/PAT/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-
-  std::string header = "/*  Pattern: PAT/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-  stringbuffer = "patternBuilder = " + extraInfo->getPatternBuilder()+";\n";
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal builder value!"<<endl;
-  }
-  
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-    "=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = 
-    "LASSIEPAT = `" + extraInfo->getPatternBuilder() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-  
-
-  fclose(file);
-}
-
-
-void IEvent::saveAsRev(std::string _pathOfProject){
-  std::string fileName;
-  fileName = _pathOfProject + "/REV/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-
-  std::string header = "/*  Reverberation: REV/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-  stringbuffer = "reverberation = " + extraInfo->getReverbBuilder()+";\n";
-  yy_scan_string( stringbuffer.c_str());//set parser buffer
-  if (yyparse()==0){
-    fputs(stringbuffer.c_str(),file);
-  }
-  else {
-    cout<<"illegal builder value!"<<endl;
-  }
-
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-    "=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  stringbuffer = "LASSIEREV = `" + extraInfo->getReverbBuilder() + "`;\n";
-  fputs (stringbuffer.c_str(), file);
-
-  fclose(file);
-}
-
-
-
-void IEvent::saveAsNote(std::string _pathOfProject){
-
-
-  std::string fileName;
-  fileName = _pathOfProject + "/N/"+ eventName;
-
-  std::cout<<"Saving "<<fileName<<" ..."<<std::endl;
-  std::string stringbuffer;
-  FILE* file  = fopen(fileName.c_str(), "w");
-  std::string header = "/*  Note: N/"+eventName+"  */\n\n";  
-  fputs(header.c_str(),file);
-
-  stringbuffer =
-    "notePitchClass = < \"C\", \"C#\", \"D\", \"Eb\", \"E\", \"F\", \"F#\","
-    " \"G\", \"Ab\", \"A\", \"Bb\", \"B\" >;\n\n"
-    "noteDynamicMark = < \"ppp\", \"pp\", \"p\", \"mp\", \"mf\", \"f\", "
-    "\"ff\", \"fff\" >;\n\n";
-  fputs(stringbuffer.c_str(),file);
-
-
-
-
-  std::list<std::string> modifiers = extraInfo->getNoteModifiers();
-  if (modifiers.size()!= 0){
-    stringbuffer = "noteModifiers = < ";
-    std::list<std::string>::iterator iter = modifiers.begin();
-  
-    while (iter!= modifiers.end()){
-      stringbuffer = stringbuffer + "\""+*iter + "\"";
-      iter ++;
-      if (iter!= modifiers.end()){
-        stringbuffer = stringbuffer + ", ";
-      }
-    }    
-  
-    stringbuffer = stringbuffer + " >;\n";
-    fputs(stringbuffer.c_str(),file);
-  }
-  
-
-  stringbuffer = "\n\n\n\n\n\n\n\n\n/*"
-    "=============================LASSIE METADATA=========================*/"
-    "\n\n\n";
-  fputs (stringbuffer.c_str(), file);
-  
-  char charBuffer[10];
-  sprintf (charBuffer," %d", eventOrderInPalette);
-  
-  stringbuffer = 
-    "LASSIEeventName = <`" + eventName + "`," + charBuffer + ">;\n";
-  fputs (stringbuffer.c_str(), file); 
-  
-  
-  
-  fclose(file);
-}
 
 
 
@@ -2240,15 +1139,27 @@ std::string EventBottomModifier::getSaveLASSIEMetaDataString(){
 
 }
 
+std::string EventBottomModifier::getXMLString(){
+  
+  char temp1[10];
+  char temp2[10];
+  
+  sprintf(temp1, "%d",(int) type);
+  sprintf(temp2, "%d", applyHowFlag);  
+  
+  std::string stringbuffer = 
+    "            <Modifier>\n"
+    "              <Type>" + string(temp1) + "</Type>\n"
+    "              <ApplyHow>" + string(temp2) + "</ApplyHow>\n"
+    "              <Probability>" + probability + "</Probability>\n" 
+    "              <Amplitude>" + ampValue + "</Amplitude>\n"
+    "              <Rate>" + rateValue +"</Rate>\n"
+    "              <Width>"+ width + "</Width>\n"
+    "              <GroupName>" + groupName + "</GroupName>\n"
+    "            </Modifier>\n";
+  return stringbuffer;
 
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -2297,7 +1208,7 @@ std::string IEvent::PatternExtraInfo::getPatternBuilder(){
 }
 
 
-
+/*
 IEvent::EventExtraInfo* IEvent::openExtraInfo(EventFactory* _event ,EventType _eventType){ 
   //this function is not in used anymore
 
@@ -2447,7 +1358,7 @@ IEvent::EventExtraInfo* IEvent::openExtraInfo(EventFactory* _event ,EventType _e
     bla bla bla 
  
     newInfo->setSpectrum(string(charBuffer));  
-    */
+    
    
   
   }
@@ -2471,10 +1382,10 @@ IEvent::EventExtraInfo* IEvent::openExtraInfo(EventFactory* _event ,EventType _e
 
 
 }
+*/
 
 
-
-
+/*
 void IEvent::IEventParseFile(std::string _fileName){
   YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
  FILE *yytmp;
@@ -2748,7 +1659,7 @@ void IEvent::IEventParseFile(std::string _fileName){
 
 }
 
-
+*/
 
 
 IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag){
@@ -2925,6 +1836,32 @@ std::string EventLayer::getLASSIEMetaDataString(){
 
 
 
+std::string EventLayer::getXMLString(){
+
+  std::list<EventDiscretePackage*>::iterator discretePackagesIter = 
+    children.begin();
+    
+  string packageBuffer = "";
+  
+  while (discretePackagesIter != children.end()){
+    packageBuffer = packageBuffer + (*discretePackagesIter)->getXMLString();
+    discretePackagesIter++;
+  }   
+
+  string stringBuffer = 
+    "        <Layer>\n";
+  stringBuffer = stringBuffer +
+    "          <ByLayer>" + byLayer + "</ByLayer>\n"
+    "          <DiscretePackages>\n" + packageBuffer + 
+    "          </DiscretePackages>\n"
+    "        </Layer>\n";                             
+    
+  return stringBuffer;
+
+}
+
+
+
 std::string EventDiscretePackage::getLASSIEMetadataString(){
 
   char charBuffer[5];
@@ -2943,7 +1880,26 @@ std::string EventDiscretePackage::getLASSIEMetadataString(){
 }
 
 
-
+std::string EventDiscretePackage::getXMLString(){
+  //string a = "";
+  
+  char charBuffer[5];
+  sprintf (charBuffer, "%d", (int) event->getEventType());
+  
+  std::string a = 
+    "            <Package>\n" 
+    "              <EventName>" + event->getEventName() + "</EventName>\n" 
+    "              <EventType>" + string(charBuffer) +"</EventType>\n" //this is eventType
+    "              <Weight>" + weight + "</Weight>\n" 
+    "              <AttackEnvelope>"+ attackEnv + "</AttackEnvelope>\n"
+    "              <AttackEnvelopeScale>"+ attackEnvScale + "</AttackEnvelopeScale>\n"
+    "              <DurationEnvelope>"+ durationEnv + "</DurationEnvelope>\n"
+    "              <DurationEnvelopeScale>"+ durationEnvScale + "</DurationEnvelopeScale>\n"
+    "            </Package>\n";
+              
+  return a;
+                
+}
 
 
 void IEvent::link(ProjectViewController* _projectView){  
@@ -3083,7 +2039,6 @@ void IEvent::parseNonEvent(){
     extraInfo->setPatternBuilder((value == NULL)? "": value->getString());
 
   }  
-  
   else if (eventType == eventRev){
     extraInfo = (EventExtraInfo*) new ReverbExtraInfo();
     value = file_data["LASSIEREV"];
@@ -3294,6 +2249,7 @@ IEvent::IEvent(IEvent* _original, string _newName){
   
   
 }
+
 
 
 
@@ -3680,7 +2636,7 @@ bool IEvent::BottomEventExtraInfo::haveString(string _string){
 
 void IEvent::makeSuperColliderCode(){
   /*TODO::
-    1. collect the string off all the necessary global settings (such as envelope library, etc)
+    1. collect the string of all the necessary global settings (such as envelope library, etc)
        so we probably want to go to EnvelopeLibraryWindow and make a function like:
        string outputSCEnvelopeCode(){
           //go through every envelope entry
@@ -3694,6 +2650,816 @@ void IEvent::makeSuperColliderCode(){
     
    
   */
-  cout<<"Not implemented yet, the code is at line 3686 of IEvent.cpp"<<endl;
+  cout<<"under construction, see line 3696 of IEvent.cpp"<<endl;
 }
+
+
+string IEvent::getXMLString(){
+switch(eventType){
+    case 0:
+      return getXMLTHMLB();
+      break;
+    case 1:
+      return getXMLTHMLB();
+      break;
+    case 2:
+      return getXMLTHMLB();
+      break;
+    case 3:
+      return getXMLTHMLB();
+      break;
+    case 4:
+      return getXMLTHMLB();
+      break;
+    case 5:
+      return getXMLSound();
+      break;
+    case 6:
+      return getXMLEnv();
+      break;
+    case 7:
+      return getXMLSiv();
+      break;
+    case 8:
+      return getXMLSpa();
+      break;
+    case 9:
+      return getXMLPat();
+      break;
+    case 10:
+      return getXMLRev();
+      break;
+    case 11: //no need to save folder
+      break;
+    case 12:
+      return getXMLNote();  
+  }
+
+}
+
+
+string IEvent::getXMLTHMLB(){
+
+  char typeBuffer[10];
+  sprintf(typeBuffer, "%d", eventType);
+  char charBuffer[10];
+  
+  sprintf (charBuffer," %d", eventOrderInPalette);
+  
+  char tempoMethodFlagChar[10];
+  sprintf(tempoMethodFlagChar, "%d", tempoMethodFlag);
+  
+  char tempoPrefixChar[10];
+  sprintf(tempoPrefixChar, "%d", tempoPrefix);
+
+  char tempoNoteValueChar[10];
+  sprintf(tempoNoteValueChar, "%d", tempoNoteValue); 
+  
+  
+  char flagNumChildrenChar[10];
+  sprintf(flagNumChildrenChar, "%d", flagNumChildren);
+
+
+  char flagChildEventDefChar[10];
+  sprintf(flagChildEventDefChar, "%d", flagChildEventDef);  
+
+  char flagChildEventDefStartTypeChar[10];
+  sprintf(flagChildEventDefStartTypeChar, "%d", flagChildEventDefStartType);  
+  
+  char flagChildEventDefDuratonTypeChar[10];
+  sprintf(flagChildEventDefDuratonTypeChar, "%d",flagChildEventDefDurationType);  
+
+  
+  string layerbuffer = ""; 
+
+  std::list<EventLayer*>::iterator layersIter = layers.begin();
+
+  while(layersIter != layers.end()){
+    layerbuffer = layerbuffer + (*layersIter)->getXMLString();
+    layersIter++;
+  } 
+  
+   
+  
+  
+  string stringbuffer = "    <Event orderInPalette='" + string(charBuffer)+"'>\n" 
+    "      <EventType>" + string(typeBuffer) + "</EventType>\n"
+    "      <Name>" + eventName + "</Name>\n"
+    "      <MaxChildDuration>" + maxChildDur + "</MaxChildDuration>\n"
+    "      <EDUPerBeat>" + unitsPerSecond + "</EDUPerBeat>\n"
+    "      <TimeSignature>\n"       
+    "        <Entry1>"+ timeSignatureEntry1 + "</Entry1>\n"
+    "        <Entry2>"+ timeSignatureEntry2 + "</Entry2>\n"
+    "      </TimeSignature>\n"      
+    "      <Tempo>\n"
+    "        <MethodFlag>" + tempoMethodFlagChar + "</MethodFlag>\n"
+    "        <Prefix>" + tempoPrefixChar + "</Prefix>\n"
+    "        <NoteValue>" + tempoNoteValueChar + "</NoteValue>\n"
+    "        <FractionEntry1>" + tempoFractionEntry1 + "</FractionEntry1>\n"  
+    "        <FractionEntry2>" + tempoFractionEntry2 + "</FractionEntry2>\n" 
+    "        <ValueEntry>" + tempoValueEntry + "</ValueEntry>\n"
+    "      </Tempo>\n"      
+    "      <NumberOfChildren>\n"
+    "        <MethodFlag>"+flagNumChildrenChar +"</MethodFlag>\n"
+    "        <Entry1>" + numChildrenEntry1 + "</Entry1>\n"
+    "        <Entry2>" + numChildrenEntry2 + "</Entry2>\n"
+    "        <Entry3>" + numChildrenEntry3 + "</Entry3>\n"
+    "      </NumberOfChildren>\n"
+    "      <ChildEventDefinition>\n"
+    "        <Entry1>"+ childEventDefEntry1 + "</Entry1>\n"   
+    "        <Entry2>"+ childEventDefEntry2 + "</Entry2>\n"  
+    "        <Entry3>"+ childEventDefEntry3 + "</Entry3>\n"  
+    "        <AttackSieve>"+ childEventDefAttackSieve + "</AttackSieve>\n"
+    "        <DurationSieve>" + childEventDefDurationSieve + "</DurationSieve>\n"
+    "        <DefinitionFlag>" + flagChildEventDefChar + "</DefinitionFlag>\n"
+    "        <StartTypeFlag>" + flagChildEventDefStartTypeChar + "</StartTypeFlag>\n"
+    "        <DurationTypeFlag>" + flagChildEventDefDuratonTypeChar + "</DurationTypeFlag>\n" 
+    "      </ChildEventDefinition>\n"
+    "      <Layers>\n" + layerbuffer + "      </Layers>\n";
+    
+    
+    if (eventType == eventBottom){
+    
+      
+    
+      char frequencyFlagChar[10];
+      sprintf(frequencyFlagChar, "%d", extraInfo->getFrequencyFlag());
+      char frequencyContinuumFlagChar[10];
+      sprintf(frequencyContinuumFlagChar, "%d", extraInfo->getFrequencyContinuumFlag());
+    
+      string modifiersbuffer = "        <Modifiers>\n";
+      EventBottomModifier* mod = extraInfo->getModifiers();
+
+      while (mod != NULL){
+        modifiersbuffer = modifiersbuffer + mod->getXMLString();
+        mod = mod->next;
+      }
+      modifiersbuffer = modifiersbuffer +"        </Modifiers>\n";
+      
+  
+
+      
+    
+    
+      string bottomBuffer = "";
+      bottomBuffer = bottomBuffer + 
+        "      <ExtraInfo>\n"
+        "        <FrequencyInfo>\n"
+        "          <FrequencyFlag>" + frequencyFlagChar + "</FrequencyFlag>\n"
+        "          <FrequencyContinuumFlag>" + frequencyContinuumFlagChar + "</FrequencyContinuumFlag>\n"
+        "          <FrequencyEntry1>" + extraInfo->getFrequencyEntry1() + "</FrequencyEntry1>\n"
+        "          <FrequencyEntry2>" + extraInfo->getFrequencyEntry2() + "</FrequencyEntry2>\n"
+        "        </FrequencyInfo>\n"
+        "        <Loudness>" + extraInfo->getLoudness() + "</Loudness>\n"
+        "        <Spatialization>" + extraInfo->getSpatialization() + "</Spatialization>\n"
+        "        <Reverb>" + extraInfo->getReverb() + "</Reverb>\n"
+          + modifiersbuffer +
+        "      </ExtraInfo>\n";
+      stringbuffer = stringbuffer + bottomBuffer;  
+                              
+    }
+
+    
+   
+  stringbuffer = stringbuffer + "    </Event>\n";
+  return stringbuffer;
+
+}
+
+
+string IEvent::getXMLSound(){
+  
+  char orderInPaletteChar[10];
+  sprintf (orderInPaletteChar," %d", eventOrderInPalette);
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(orderInPaletteChar) +"'>\n"
+    "      <EventType>5</EventType>\n" //5 is sound
+    "      <Name>" + eventName + "</Name>\n"
+    "      <NumberOfPartials>" + extraInfo->getNumPartials() + "</NumberOfPartials>\n"
+    "      <Deviation>" + extraInfo->getDeviation() + "</Deviation>\n"
+    "      <Spectrum>\n" + extraInfo->getSpectrumXMLString() + 
+    "      </Spectrum>\n"    
+    "    </Event>\n";  
+  
+  
+  return buffer;
+}
+
+
+string IEvent::getXMLEnv(){
+
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>6</EventType>\n" //6 is envelope
+    "      <Name>" + eventName + "</Name>\n"
+    "      <EnvelopeBuilder>" + extraInfo->getEnvelopeBuilder() + "</EnvelopeBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+}
+
+
+
+string IEvent::getXMLSiv(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>7</EventType>\n" //7 is siv
+    "      <Name>" + eventName + "</Name>\n"
+    "      <SieveBuilder>" + extraInfo->getSieveBuilder() + "</SieveBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+
+}
+
+
+
+
+
+string IEvent::getXMLSpa(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>8</EventType>\n" //8 is spa
+    "      <Name>" + eventName + "</Name>\n"
+    "      <SpatializationBuilder>" + extraInfo->getSpatializationBuilder() + "</SpatializationBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+
+}
+string IEvent::getXMLPat(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>9</EventType>\n" // is pattern
+    "      <Name>" + eventName + "</Name>\n"
+    "      <PatternBuilder>" + extraInfo->getPatternBuilder() + "</PatternBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+
+}
+string IEvent::getXMLRev(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>10</EventType>\n" //10 is Reverb
+    "      <Name>" + eventName + "</Name>\n"
+    "      <ReverbBuilder>" + extraInfo->getReverbBuilder() + "</ReverbBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+
+}
+
+
+string IEvent::getXMLNote(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string modifiersBuffer = "      <Modifiers>\n";
+  
+  std::list<std::string> modifiers = extraInfo->getNoteModifiers();
+
+  std::list<std::string>::iterator iter = modifiers.begin();
+  
+  while (iter!= modifiers.end()){
+    modifiersBuffer = modifiersBuffer + "        <Modifier>"+*iter + "</Modifier>\n";
+    iter ++;
+  }   
+
+  modifiersBuffer = modifiersBuffer + "      </Modifiers>\n";
+  
+  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>12</EventType>\n" //12 is Note
+    "      <Name>" + eventName + "</Name>\n" + modifiersBuffer +
+    "    </Event>\n";
+    
+    return buffer;     
+
+
+}
+
+
+
+
+
+void IEvent::buildNonEventFromDOM(DOMElement* _element){
+  DOMCharacterData* textData;
+  char* charBuffer;
+  if (eventType == eventSound){
+    extraInfo = (EventExtraInfo*) new SoundExtraInfo();
+    extraInfo->setNumPartials(getFunctionString(_element)); 
+
+    
+    DOMElement* deviationElement = _element->getNextElementSibling();
+    extraInfo->setDeviation(getFunctionString(deviationElement)); 
+    
+    DOMElement* spectrumElement = deviationElement->getNextElementSibling();
+    DOMElement* thisPartialElement = spectrumElement->getFirstElementChild();
+  
+    SpectrumPartial* thisPartial = NULL;
+    if (thisPartialElement){
+    	thisPartial = extraInfo->getSpectrumPartials();
+      thisPartial->envString = getFunctionString(thisPartialElement); 
+      thisPartialElement = thisPartialElement->getNextElementSibling();
+    }
+    
+    while( thisPartialElement){
+      thisPartial = extraInfo->addPartial();
+      thisPartial->envString = getFunctionString(thisPartialElement);   
+      thisPartialElement = thisPartialElement->getNextElementSibling();
+    }  
+    
+  }
+    
+  else if (eventType == eventEnv){
+    extraInfo = (EventExtraInfo*) new EnvelopeExtraInfo();  
+    extraInfo->setEnvelopeBuilder(getFunctionString(_element)); 
+  }
+
+  else if (eventType == eventSiv){
+    extraInfo = (EventExtraInfo*) new SieveExtraInfo();
+    extraInfo->setSieveBuilder(getFunctionString(_element)); 
+  }
+
+  else if (eventType == eventSpa){
+    extraInfo = (EventExtraInfo*) new SpatializationExtraInfo();    
+    extraInfo->setSpatializationBuilder(getFunctionString(_element)); 
+  }
+  
+  else if (eventType == eventPat){
+    extraInfo = (EventExtraInfo*) new PatternExtraInfo();
+    extraInfo->setPatternBuilder(getFunctionString(_element)); 
+  }
+  else if (eventType == eventRev){
+    extraInfo = (EventExtraInfo*) new ReverbExtraInfo();   
+    extraInfo->setReverbBuilder(getFunctionString(_element)); 
+  }
+
+  else if (eventType == eventNote){
+    extraInfo = (EventExtraInfo*) new NoteExtraInfo();
+    DOMElement* thisModifier = _element->getFirstElementChild();
+    
+    while (thisModifier){
+      extraInfo->addNoteModifiers(getFunctionString(thisModifier));   
+      thisModifier = thisModifier -> getNextElementSibling();
+    }
+  }  
+}
+
+IEvent::IEvent(DOMElement* _domElement){
+
+  XMLCh* orderInPaletteXMLCh = XMLString::transcode ("orderInPalette");
+  string orderInPalette = XMLString::transcode(_domElement->getAttribute(orderInPaletteXMLCh));
+  eventOrderInPalette = atoi(orderInPalette.c_str());
+  
+  
+  DOMElement* eventTypeElement = _domElement->getFirstElementChild();
+  DOMCharacterData* textData = ( DOMCharacterData*) eventTypeElement->getFirstChild();
+  char* charBuffer = XMLString::transcode(textData->getData());
+  eventType = (EventType) atoi (charBuffer); 
+  XMLString::release(&charBuffer);
+
+  DOMElement* eventNameElement = eventTypeElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) eventNameElement->getFirstChild();
+  charBuffer= XMLString::transcode(textData->getData());
+  eventName = charBuffer;
+  XMLString::release(&charBuffer);
+
+  if (eventType >= 5){ 
+    buildNonEventFromDOM( eventNameElement->getNextElementSibling());
+    return;
+  }
+
+  //maxChildDur
+  DOMElement* thisElement = eventNameElement->getNextElementSibling();
+  maxChildDur = getFunctionString(thisElement);
+  
+  //EDUPerBeat
+  thisElement = thisElement->getNextElementSibling();
+  unitsPerSecond = getFunctionString(thisElement);
+    
+  
+  // TimeSignature
+  thisElement = thisElement->getNextElementSibling();
+  DOMElement* secondLevelElement = thisElement->getFirstElementChild();
+  timeSignatureEntry1 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  timeSignatureEntry2 = getFunctionString(secondLevelElement);
+
+
+  //Tempo
+  
+  thisElement = thisElement->getNextElementSibling();
+  secondLevelElement = thisElement->getFirstElementChild(); 
+  charBuffer = (char*)getFunctionString(secondLevelElement).c_str();
+  tempoMethodFlag = atoi(charBuffer);
+    
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  charBuffer= XMLString::transcode(textData->getData());
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  
+  tempoPrefix = (TempoPrefix) atoi(charBuffer);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  tempoNoteValue = (TempoNoteValue)atoi(charBuffer);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  tempoFractionEntry1 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  tempoFractionEntry2 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  tempoValueEntry = getFunctionString(secondLevelElement);
+   
+  
+  
+  //NumberOfChildren
+  
+  thisElement = thisElement->getNextElementSibling();
+  secondLevelElement = thisElement->getFirstElementChild();
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  flagNumChildren = atoi(charBuffer);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  numChildrenEntry1 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  numChildrenEntry2 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  numChildrenEntry3 = getFunctionString(secondLevelElement);
+  
+  //childEventDef
+  
+  thisElement = thisElement->getNextElementSibling();
+  secondLevelElement = thisElement->getFirstElementChild();
+  childEventDefEntry1 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  childEventDefEntry2 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  childEventDefEntry3 = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  childEventDefAttackSieve = getFunctionString(secondLevelElement);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  childEventDefDurationSieve = getFunctionString(secondLevelElement);
+
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  flagChildEventDef = atoi(charBuffer);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  flagChildEventDefStartType = atoi(charBuffer);
+  
+  secondLevelElement = secondLevelElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(secondLevelElement).c_str();
+  flagChildEventDefDurationType = atoi( charBuffer);
+  
+
+  //layers
+  thisElement = thisElement->getNextElementSibling();
+  secondLevelElement = thisElement->getFirstElementChild();
+  while (secondLevelElement){
+    layers.push_back (new EventLayer(secondLevelElement, this));
+    secondLevelElement = secondLevelElement->getNextElementSibling();
+  }
+  
+
+  if (eventType == eventBottom){
+  
+  
+    string firstChar = eventName.substr(0,1);
+    int childTypeFlag = -1;
+    if (firstChar =="s"){
+    	childTypeFlag = 0;
+    }
+    else if (firstChar =="n"){
+    	childTypeFlag = 1;
+    }
+    else {
+    	childTypeFlag = 2;
+   	}
+    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag, thisElement->getNextElementSibling()); //line 2789
+  
+    
+  }
+  
+  
+
+
+}
+
+
+IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag, DOMElement* _thisElement){
+  childTypeFlag = _childTypeFlag;
+  
+  DOMElement* thisElement = _thisElement->getFirstElementChild()->getFirstElementChild();
+  
+  char* charBuffer;
+  charBuffer =  (char*)getFunctionString(thisElement).c_str();
+  frequencyFlag = atoi(charBuffer); 
+  
+  
+  thisElement = thisElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(thisElement).c_str();
+  frequencyContinuumFlag = atoi( charBuffer); 
+ 
+  thisElement = thisElement->getNextElementSibling();
+  frequencyEntry1 = getFunctionString(thisElement);
+    
+
+  thisElement = thisElement->getNextElementSibling();
+  frequencyEntry2 = getFunctionString(thisElement); 
+  
+  
+  
+  thisElement = _thisElement->getFirstElementChild()->getNextElementSibling();
+  //thisElement = thisElement->getNextElementSibling();
+  loudness = getFunctionString(thisElement); 
+   
+  thisElement = thisElement->getNextElementSibling();
+  spatialization = getFunctionString(thisElement);; 
+    
+  thisElement = thisElement->getNextElementSibling();
+  reverb = getFunctionString(thisElement); 
+    
+  modifiers = buildModifiersFromDOMElement(thisElement->getNextElementSibling()->getFirstElementChild());
+  
+}
+
+
+EventBottomModifier* IEvent::BottomEventExtraInfo::buildModifiersFromDOMElement(DOMElement* _thisModifierElement){
+  if (_thisModifierElement == NULL){
+    return NULL;
+  }
+  
+
+  EventBottomModifier* currentModifier = new EventBottomModifier();
+
+  
+  DOMElement* thisElement = _thisModifierElement->getFirstElementChild();
+  char* charBuffer;
+  charBuffer =  (char*)getFunctionString(thisElement).c_str();
+  currentModifier->setModifierType((ModifierType) atoi(charBuffer)); 
+  
+  thisElement = thisElement->getNextElementSibling();
+  charBuffer =  (char*)getFunctionString(thisElement).c_str();
+  currentModifier->setApplyHowFlag( atoi( charBuffer)); 
+ 
+  thisElement = thisElement->getNextElementSibling();
+  currentModifier->setProbability(getFunctionString(thisElement)); 
+    
+
+
+
+
+  thisElement = thisElement->getNextElementSibling();
+  currentModifier->setAmpValue(getFunctionString(thisElement)); 
+    
+  
+  thisElement = thisElement->getNextElementSibling();
+  currentModifier->setRateValue(getFunctionString(thisElement)); 
+    
+  
+  thisElement = thisElement->getNextElementSibling();
+  currentModifier->setWidth(getFunctionString(thisElement)); 
+      
+
+  thisElement = thisElement->getNextElementSibling();
+  currentModifier->setGroupName(getFunctionString(thisElement)); 
+
+  currentModifier->next = buildModifiersFromDOMElement(_thisModifierElement->getNextElementSibling());
+  return currentModifier;
+
+}
+
+
+
+
+
+EventDiscretePackage::EventDiscretePackage(DOMElement* _thisPackageElement){
+
+  DOMElement* thisElement = _thisPackageElement->getFirstElementChild();
+  char* charBuffer;
+  DOMCharacterData* textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    eventName = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else eventName = "";
+  
+  thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    eventType = (EventType) atoi( charBuffer); 
+    XMLString::release(&charBuffer);
+  } else eventType = (EventType)0;
+  
+  thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    weight = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else weight = "";
+  
+    thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    attackEnv = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else attackEnv = "";
+  
+    thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    attackEnvScale = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else attackEnvScale = "";
+  
+    thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    durationEnv = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else durationEnv = "";
+  
+    thisElement = thisElement->getNextElementSibling();
+  textData = ( DOMCharacterData*) thisElement->getFirstChild();
+  if (textData){
+    charBuffer = XMLString::transcode(textData->getData());
+    durationEnvScale = charBuffer; 
+    XMLString::release(&charBuffer);
+  } else durationEnvScale = "";
+ 
+}
+
+EventLayer::EventLayer(DOMElement* _thisLayerElement, IEvent* _thisEvent){
+  thisIEvent = _thisEvent;
+
+
+  //byLayer
+  DOMElement* thisElement = _thisLayerElement->getFirstElementChild();
+  byLayer = IEvent::getFunctionString(thisElement);
+   
+  
+  //discrete packages
+  thisElement = thisElement->getNextElementSibling()->getFirstElementChild();
+  while(thisElement){
+    children.push_back(new EventDiscretePackage(thisElement));
+    thisElement = thisElement->getNextElementSibling();
+  }
+
+}
+
+
+  
+std::string IEvent::getFunctionString(DOMElement* _thisFunctionElement){
+
+  char* charBuffer;
+  DOMCharacterData* textData;
+  string returnString;
+  DOMNode* child = _thisFunctionElement->getFirstChild();  
+  if (child ==NULL){ //not containing any child, return string
+  
+    
+    return "";
+  }
+
+
+  /*
+
+  char* charBuffer;
+  DOMCharacterData* textData;
+  string returnString;
+  DOMElement* child = _thisFunctionElement->getFirstElementChild();  
+  if (child ==NULL){ //not containing any child, return string
+  
+    textData = ( DOMCharacterData*) _thisFunctionElement->getFirstChild();
+    if (textData){ 
+      charBuffer = XMLString::transcode(textData->getData());
+      returnString = string(charBuffer);
+      XMLString::release(&charBuffer);
+    } else returnString = "";
+
+    return returnString;
+  }
+  
+  //contain function!
+  XMLCh tempStr[3] = {chLatin_L, chLatin_S, chNull};
+  DOMImplementation *impl          = DOMImplementationRegistry::getDOMImplementation(tempStr);
+  DOMLSSerializer   *theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+  XMLCh* bla = theSerializer->writeToString (child);
+  returnString = XMLString::transcode(bla);
+  XMLString::release(&bla);
+  delete theSerializer; 
+  return returnString;
+  */
+  
+  XMLCh tempStr[3] = {chLatin_L, chLatin_S, chNull};
+  DOMImplementation *impl          = DOMImplementationRegistry::getDOMImplementation(tempStr);
+  DOMLSSerializer   *theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+  XMLCh* bla = theSerializer->writeToString (_thisFunctionElement);
+  char* toTranscode = XMLString::transcode(bla);
+  returnString = string (toTranscode);
+  XMLString::release(&toTranscode); 
+  XMLString::release(&bla);
+  
+  int tagLength = (int) XMLString::stringLen(_thisFunctionElement->getTagName());
+  
+  delete theSerializer; 
+  returnString = returnString.substr(tagLength+2, returnString.size() - tagLength * 2 - 5);
+  return returnString;
+}  
+
+
+
+std::string IEvent::SoundExtraInfo::getSpectrumMetaData(){
+  std::string returnString = "";
+  SpectrumPartial* thisPartial = spectrumPartials;
+  
+  while (thisPartial!= NULL){
+    std::string tempstring = thisPartial->envString;
+    if (tempstring == ""){
+      tempstring = "";
+    }
+  
+  
+  
+    returnString = returnString +"`"+ tempstring + "`";
+    thisPartial = thisPartial->next;
+    if (thisPartial!= NULL){
+      returnString = returnString + ",";
+    }
+  }
+  
+  return returnString;
+  
+}
+
+
+std::string IEvent::SoundExtraInfo::getSpectrumXMLString(){
+  std::string returnString = "";
+  SpectrumPartial* thisPartial = spectrumPartials;
+  
+  while (thisPartial!= NULL){
+    std::string tempstring = thisPartial->envString;
+    returnString = returnString +"        <Partial>"+ tempstring + "</Partial>\n";
+    thisPartial = thisPartial->next;
+  }
+  
+  return returnString;
+  
+}
+
+
+
+
+
+
+std::string IEvent::SoundExtraInfo::getSoundSpectrumEnvelopesString(){
+  std::string returnString = "";
+  SpectrumPartial* thisPartial = spectrumPartials;
+  
+  while (thisPartial!= NULL){
+    returnString = returnString + thisPartial->envString;
+    thisPartial = thisPartial->next;
+    if (thisPartial!= NULL){
+      returnString = returnString + ",";
+    }
+  }
+  
+  return returnString;
+}
+
 

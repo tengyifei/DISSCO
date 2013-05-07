@@ -63,7 +63,7 @@ ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
            return newProject(_mainWindow);
          }else{
            std::string pathAndName = dialog.get_filename();
-           createDirectories(pathAndName);
+           //createDirectories(pathAndName);
            return new ProjectViewController(pathAndName, _mainWindow);
          }
       }
@@ -108,7 +108,7 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
            return saveAs(_mainWindow);
          }else{
            std::string pathAndName = dialog.get_filename();
-           createDirectories(pathAndName);           
+           //createDirectories(pathAndName);           
            return pathAndName;
          }
       }
@@ -328,6 +328,72 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   
   return NULL;
 }
+
+
+
+
+
+ProjectViewController* FileOperations::openXMLProject(MainWindow* _mainWindow){
+  //_mainWindow->set_title("LASSIE");
+  
+  // setup the open project dialog window 
+  
+  Gtk::FileChooserDialog dialog("Open existing .dissco project",
+                                Gtk::FILE_CHOOSER_ACTION_OPEN);
+  
+  
+  dialog.set_transient_for(*_mainWindow);
+  
+  // Add response buttons the the dialog:
+  dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+  dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+
+
+  // Show the dialog and wait for a user response:
+  int result = dialog.run();
+  
+  // Handle the response:
+  
+  if(result == Gtk::RESPONSE_OK){
+    /*
+    std::string datFile =  dialog.get_filename() + "/"+
+                        FileOperations::stringToFileName(dialog.get_filename())
+                        + ".dat"; 
+    */
+    //cout <<dialog.get_filename()<<endl;
+    
+    
+    
+    
+    // here we create strings for .lib and .dat, but eventually when we get rid
+    // of the old parser, we can remove this chunk of code 
+    
+    
+    
+    
+    
+    
+
+    
+    std::string filePath = dialog.get_filename();
+    
+    size_t lastSlash = filePath.find_last_of('/');
+  
+    
+    filePath = filePath.substr(0, lastSlash);
+    string name = FileOperations::stringToFileName(filePath);
+    
+    //std::string datFile =filePath + "/" + name +".dat";
+    //std::string libFile =filePath  + "/" + name +".lib";
+    
+    return new ProjectViewController(_mainWindow, filePath, name);
+  }
+  return NULL;
+}
+
+
+
+
 
 std::string FileOperations::pickDatFile(MainWindow* _mainWindow){
   Gtk::FileChooserDialog dialog("Select dat File",

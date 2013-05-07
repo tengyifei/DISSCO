@@ -50,6 +50,7 @@
 
 
 
+
 // these definitions are for calling yyparse(). They are copied from lex.yy.c
 #ifndef YY_TYPEDEF_YY_SIZE_T
 #define YY_TYPEDEF_YY_SIZE_T
@@ -164,6 +165,7 @@ extern map<const char*, FileValue*, ltstr> file_data;
 *******************************************************************************/
 ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   emptyProject = true;
+  xmlDocument=NULL;
 
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
@@ -227,9 +229,10 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
 *******************************************************************************/
 ProjectViewController::ProjectViewController(
   std::string _pathAndName, MainWindow* _mainWindow){
+  xmlDocument = NULL;
   emptyProject = false;
   modifiedButNotSaved = true;
-  
+  seed="";
 
   
   
@@ -248,6 +251,7 @@ ProjectViewController::ProjectViewController(
   numOfThreads  = "1";
   topEvent      = "0";
   synthesis     = true;
+  outputParticel= false;
   
   
   
@@ -281,8 +285,8 @@ ProjectViewController::ProjectViewController(
 
   //no title when initializing the window
   pathAndName = _pathAndName;
-  datPathAndName = pathAndName+ "/"+projectTitle+".dat";
-  libPathAndName = pathAndName+ "/"+projectTitle+".lib";
+  //datPathAndName = pathAndName+ "/"+projectTitle+".dat";
+  //libPathAndName = pathAndName+ "/"+projectTitle+".lib";
   sharedPointers = new SharedPointers();
   sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
@@ -343,10 +347,6 @@ ProjectViewController::ProjectViewController(
   
   
   show_all_children();
-
-
-
-
 
 
 
@@ -1075,6 +1075,11 @@ void ProjectViewController::setProperties (){
   refBuilder->get_widget("synthesisCheckBox", button);
 
   button->set_active(synthesis);
+  
+  refBuilder->get_widget("generateParticelCheckBox", button);
+
+  button->set_active(outputParticel);
+  
 
   int result = projectPropertiesDialog->run();
 
@@ -1103,7 +1108,18 @@ void ProjectViewController::setProperties (){
     refBuilder->get_widget("topEventEntry", entry);
     topEvent = entry->get_text();
 
+    refBuilder->get_widget("synthesisCheckBox", button);
+
     synthesis = button->get_active();
+    
+    refBuilder->get_widget("generateParticelCheckBox", button);
+
+    outputParticel =button->get_active();
+  
+ 
+    
+    
+    
  
     
   }
@@ -1274,16 +1290,236 @@ void ProjectViewController::save(){
   
   
   eventAttributesView->saveCurrentShownEventData();
+  /*
   for (std::vector<IEvent*>::iterator iter = events.begin();
        iter != events.end();
        ++iter){
     (*iter)->saveToDisk(pathAndName);
   }
-  
+  */
   clearDeletedEvents();
-  saveEnvelopeLibrary();
-  saveNoteModifierConfiguration();
-  refreshProjectDotDat();
+  //saveEnvelopeLibrary();
+  //saveNoteModifierConfiguration();
+  //refreshProjectDotDat();
+  
+  // The code below is used to save XML file
+  
+  string fileName = pathAndName + "/" +projectTitle+".dissco";
+  
+  FILE* file  = fopen(fileName.c_str(), "w");
+  
+  fputs("<?xml version='1.0'?>\n",file); 
+  fputs("<ProjectRoot>\n", file);
+  
+  
+  string stringBuffer;
+  
+  
+  fputs("  <ProjectConfiguration>\n", file);
+  
+  
+  stringBuffer = "    <Title>"+ projectTitle + "</Title>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <FileFlag>"+ fileFlag + "</FileFlag>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <TopEvent>"+ topEvent + "</TopEvent>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <PieceStartTime>0</PieceStartTime>\n";
+  fputs(stringBuffer.c_str(),file);
+
+
+  stringBuffer = "    <Duration>"+ duration + "</Duration>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = synthesis? "    <Synthesis>True</Synthesis>\n":"    <Synthesis>False</Synthesis>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <NumberOfChannels>"+ numOfChannels + "</NumberOfChannels>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <SampleRate>"+ sampleRate + "</SampleRate>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <SampleSize>"+ sampleSize + "</SampleSize>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <NumberOfThreads>"+ numOfThreads + "</NumberOfThreads>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = outputParticel? "    <OutputParticel>True</OutputParticel>\n":"    <OutputParticel>False</OutputParticel>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  stringBuffer = "    <Seed>" + seed + "</Seed>\n";
+  fputs(stringBuffer.c_str(),file);
+  
+  fputs("  </ProjectConfiguration>\n", file);
+  
+  fputs("  <NoteModifiers>\n", file);
+  fputs("    <DefaultModifiers>",file);
+  
+  stringBuffer = "";
+  std::map<string, bool>::iterator iter = defaultNoteModifiers.begin();
+  
+  while (iter != defaultNoteModifiers.end()){
+    //cout <<(*iter).second;
+    string buffer2 = ((*iter).second)? "1":"0";
+    stringBuffer = stringBuffer + buffer2;
+    iter++;
+    if (iter!= defaultNoteModifiers.end()){
+      stringBuffer = stringBuffer + ", ";
+    }
+  } 
+  fputs(stringBuffer.c_str(),file);
+  fputs("</DefaultModifiers>\n",file);
+  
+  fputs("    <CustomModifiers>\n",file);
+  if (customNoteModifiers.size() !=0){
+    
+    std::vector<string>::iterator iter2 = customNoteModifiers.begin();
+    
+    while (iter2 != customNoteModifiers.end()){
+      stringBuffer ="      <Modifier>"+  *iter2 + "</Modifier>\n" ;
+      iter2 ++;
+      fputs(stringBuffer.c_str(),file);
+    }
+  }
+  
+  fputs("    </CustomModifiers>\n",file);
+  fputs("  </NoteModifiers>\n", file);
+  
+  
+  
+  //save Envelopes
+  
+  fputs("  <EnvelopeLibrary>\n",file);
+  
+
+  char charbuffer[60];
+ 
+  if (envelopeLibraryEntries !=NULL){ //safety check
+    
+  
+  
+    EnvelopeLibraryEntry* envLib = envelopeLibraryEntries;
+    int count = envLib->count();
+  
+    //put the first number in to the file
+    //std::cout<<count<<std::endl;
+    sprintf(charbuffer,"%d\n",count);
+    fputs(charbuffer,file);
+  
+  
+  
+    count = 1;//use count as a index counter
+
+
+    while (envLib!=NULL){
+      sprintf (charbuffer, "Envelope %d\n", count);
+          fputs(charbuffer,file);  
+      //envLib->print();
+ 
+ 
+  
+      int lineNumber = envLib->head->countNumOfNodes();
+      sprintf(charbuffer,"%d\n",lineNumber);
+      fputs(charbuffer,file); 
+    
+      EnvLibEntryNode* currentNode;
+      EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
+      while (libSeg!=NULL){
+        currentNode = libSeg->leftNode;
+      
+    
+    
+    
+        sprintf(charbuffer,"%.3f", currentNode->x);   
+        stringBuffer = charbuffer;
+        stringBuffer = stringBuffer + "     ";
+        //stringBuffer =  charbuffer+ "\t";
+           
+      
+        sprintf(charbuffer,"%.3f", currentNode->y);
+        
+        stringBuffer = stringBuffer + charbuffer +"     ";
+      
+        if (libSeg->segmentType == envSegmentTypeLinear){
+          stringBuffer = stringBuffer + "LINEAR              ";
+        }
+        else if (libSeg->segmentType ==envSegmentTypeExponential){
+          stringBuffer = stringBuffer + "EXPONENTIAL         ";
+        }
+        else {
+          stringBuffer = stringBuffer + "CUBIC_SPLINE        ";
+        }         
+      
+        
+        if (libSeg->segmentProperty == envSegmentPropertyFlexible){
+          stringBuffer = stringBuffer + "FLEXIBLE    ";
+        }
+        else {
+          stringBuffer = stringBuffer + "FIXED       ";
+        } 
+        
+        
+        sprintf (charbuffer,"%.3f\n", libSeg->rightNode->x - currentNode->x);
+        stringBuffer = stringBuffer+charbuffer;
+         
+        
+        fputs(stringBuffer.c_str(),file);        
+        libSeg = libSeg->rightNode->rightSeg;
+      
+      
+  
+      } 
+    
+      currentNode = currentNode->rightSeg->rightNode;
+    
+        
+      sprintf(charbuffer,"%.3f", currentNode->x);   
+      stringBuffer = charbuffer;
+      stringBuffer = stringBuffer + "     ";
+        
+      sprintf(charbuffer,"%.3f", currentNode->y);
+      stringBuffer = stringBuffer + charbuffer+ "\n";
+      fputs(stringBuffer.c_str(),file);
+    
+    
+      //end print one envelope
+ 
+      count++;
+      envLib = envLib->next;
+    }
+  
+  } // end if envelope library is not null
+  
+  
+  fputs("  </EnvelopeLibrary>\n",file); 
+  
+  fputs("  <Events>\n", file);
+  for (std::vector<IEvent*>::iterator iter = events.begin();
+       iter != events.end();
+       iter++){
+    if ((*iter)->getEventType()!=eventFolder){
+      
+      stringBuffer = (*iter)->getXMLString();
+      fputs(stringBuffer.c_str(), file);
+    }
+  }
+  fputs("  </Events>\n",file);
+  
+  
+  fputs("</ProjectRoot>",file);
+  fclose(file);
+  
+  
+  
+  
+  
+  
+  
 }
 
 
@@ -1439,117 +1675,91 @@ void ProjectViewController::saveEnvelopeLibrary(){
 
 
 
+/*! \brief Constructor for opening XML file
+
+
+*/
 
 ProjectViewController::ProjectViewController(
-	std::string _pathAndName, 
-	MainWindow* _mainWindow,
- 	std::string _datPathAndName, 
- 	std::string _libPathAndName){
+      MainWindow* _mainWindow,
+      std::string _pathAndName,
+      std::string _projectTitle
+){
 
- 	
+ 	seed = "";
   modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
   //listTargets.push_back( Gtk::TargetEntry("text/plain") );
   //////////////////////////////////////////////////////////////////////////
-  datPathAndName = _datPathAndName;
-  libPathAndName = _libPathAndName;
+  //datPathAndName = _datPathAndName;
+  //libPathAndName = _libPathAndName;
   pathAndName = _pathAndName;
+    
+  sharedPointers = new SharedPointers();
+  sharedPointers->mainWindow = _mainWindow;
+  sharedPointers->projectView = this;
+
   
+  //Start Parsing File
+  XMLPlatformUtils::Initialize();
+  XercesDOMParser* parser = new XercesDOMParser();
+  
+  string disscoFile = pathAndName +"/"+_projectTitle+ ".dissco";
+  
+  parser->parse(disscoFile.c_str());
+  xmlDocument = parser->getDocument();
+  DOMElement* root = xmlDocument->getDocumentElement();
 
+  char* charBuffer;
+  DOMCharacterData* textData;
 
-
-
-
-
-  //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
-  FILE *yytmp;
-  extern FILE *yyin;
-  yytmp = fopen(_datPathAndName.c_str(), "r");
-
-  if (yytmp == NULL) {
-    cout << "ERROR: File " << _datPathAndName << " does not exist!" << endl;
-    //exit(1);
+  //Configurations
+  DOMElement* configuration = root->getFirstElementChild();  
+  //title
+  DOMElement* element = configuration ->getFirstElementChild();
+  projectTitle = IEvent::getFunctionString( element);
+  
+  //fileFlag
+  element = element->getNextElementSibling();
+  fileFlag = IEvent::getFunctionString(element);
+  
+  //topEvent 
+  element = element->getNextElementSibling();
+  topEvent = IEvent::getFunctionString(element);
+  
+  //piece start time is skipped (it's zero, hardcoded) 
+  element = element->getNextElementSibling();
+  //duration
+  element = element->getNextElementSibling();
+  duration = IEvent::getFunctionString(element);
+  //synthesis
+  element = element->getNextElementSibling();
+  synthesis = (IEvent::getFunctionString(element)=="True")?true:false;
+  
+    //numOfChannels
+  element = element->getNextElementSibling();
+  numOfChannels = IEvent::getFunctionString(element);
+  
+  //sampleRate
+  element = element->getNextElementSibling();
+  sampleRate = IEvent::getFunctionString(element);
+ 
+  //sampleSize
+  element = element->getNextElementSibling();
+  sampleSize = IEvent::getFunctionString(element);
+  
+  //numOfThreads
+  element = element->getNextElementSibling();
+  numOfThreads = IEvent::getFunctionString(element);
+  
+  
+  // Output Particel
+  element = element->getNextElementSibling();
+  if (element){
+    outputParticel = (IEvent::getFunctionString(element)=="True")?true:false;
   }
-  else {
-    yyin = yytmp; 
-    //extern map<const char*, FileValue*, ltstr> file_data;
-    yyparse(); 
-    fclose(yyin);
-
-    FileValue* value;
-    std::string buffer2;
-
-    //std::string topName = piece->fileList;
-    value = file_data["LASSIETITLE"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-  
-    //projectTitle = FileOperations::stringToFileName(_pathAndName);
-    projectTitle = buffer2;
-    //fileFlag      = piece->fileFlags;
-    value = file_data["LASSIEFILEFLAGS"];
-    buffer2 = value->getString();
-    
-    buffer2 = (buffer2 =="")?"":buffer2;
-    fileFlag = buffer2;
-  
-  
-    //sprintf(buffer,"%f", piece->pieceDuration); 
-    //duration = buffer; 
-    value = file_data["LASSIEPIECEDURATION"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    duration = buffer2;  
-    
-    
-    
-    //sprintf(buffer,"%d", piece->numChannels); 
-    //numOfChannels = buffer;
-    value = file_data["LASSIENUMCHANNELS"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    numOfChannels = buffer2;
-  
-  
-    //sprintf(buffer,"%d", piece->sampleRate); 
-    //sampleRate    = buffer;
-    value = file_data["LASSIESAMPLERITE"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    sampleRate = buffer2;
-    
-    
-    
-    //sprintf(buffer,"%d", piece->sampleSize); 
-    //sampleSize    = buffer;
-    value = file_data["LASSIESAMPLESIZE"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    sampleSize = buffer2;
-    
-    
-    
-    
-    //sprintf(buffer,"%d", piece->numThreads); 
-    //numOfThreads  = buffer;
-    
-    value = file_data["LASSIENUMTHREADS"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    numOfThreads = buffer2;
-  
-    //topEvent      = piece->fileList
-    value = file_data["LASSIEFILELIST"];
-    buffer2 = value->getString();
-    buffer2 = (buffer2 =="")?"":buffer2;
-    topEvent = buffer2;  
-  
-    value = file_data["LASSIESOUNDSYNTHESIS"];
-    buffer2 = value->getString();
-    synthesis = (buffer2 =="TRUE")?true:false;
-  }
-
+  else outputParticel=false;
   //restore notemodifiers
   
   defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
@@ -1572,61 +1782,35 @@ ProjectViewController::ProjectViewController(
   defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
   defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
   defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
-
-   //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
-  //FILE *yytmp;
-  //extern FILE *yyin;
-  std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
-  yytmp = fopen(stringbuffer.c_str(), "r");
-
-  if (yytmp == NULL) {
-    cout << "ERROR: File " << stringbuffer << " does not exist!" << endl;
-    //exit(1);
-  }
-
-  else{
-    yyin = yytmp; 
-    //extern map<const char*, FileValue*, ltstr> file_data;
-    yyparse(); 
-    fclose (yyin);
-
-    FileValue* value;
-    //std::string buffer2;
+ 
+  DOMElement* noteModifiers = configuration->getNextElementSibling();
+  element = noteModifiers->getFirstElementChild(); //default modifiers
+  textData = ( DOMCharacterData*) element->getFirstChild();
+  charBuffer = XMLString::transcode(textData->getData());
   
-    //std::string topName = piece->fileList;
-    value = file_data["LASSIENOTEDEFAULTMODIFIER"];
-    std::list<FileValue> valueList = value->getList();
-    std::list<FileValue>::iterator valueListIter = valueList.begin();
-    std::map<string, bool>::iterator 
+  std::map<string, bool>::iterator 
       modifierMapIter = defaultNoteModifiers.begin();
-    
-    while( valueListIter != valueList.end() && 
-      modifierMapIter != defaultNoteModifiers.end()){
-      (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
-      modifierMapIter ++;
-      valueListIter ++;
-    }
-     
-    value = file_data["LASSIENOTECUSTOMMODIFIER"];
-    if (value){
-      valueList = value->getList();
-      valueListIter = valueList.begin();
-      for (valueListIter;valueListIter != valueList.end(); valueListIter++){
-        customNoteModifiers.push_back((*valueListIter).getString());
-      } 
-    
-    }
+  int index = 0;  
+  while( modifierMapIter != defaultNoteModifiers.end()){
+    (*modifierMapIter).second = (charBuffer[index]=='1')?true:false; 
+    modifierMapIter ++;
+    index = index + 3;
   }
-  //add the Paned widget "leftTwoPlusAttributes" as a child
-  add(leftTwoPlusAttributes);
-
-
-  pathAndName = _pathAndName;
-
-  sharedPointers = new SharedPointers();
-  sharedPointers->mainWindow = _mainWindow;
-  sharedPointers->projectView = this;
-
+  XMLString::release(&charBuffer);
+  
+  element = element->getNextElementSibling(); //custom modifiers
+  DOMElement* modifier = element->getFirstElementChild();
+  
+  while (modifier != NULL){
+    textData = ( DOMCharacterData*) modifier->getFirstChild();
+    charBuffer = XMLString::transcode(textData->getData());
+    customNoteModifiers.push_back(string(charBuffer));
+    XMLString::release(&charBuffer);
+    modifier = modifier->getNextElementSibling();
+  }
+  
+  
+  //construct new eventAttributesView after constructing the note modifiers
   //create three new children widgets
   //projectTreeView = new ProjectTreeViewController(sharedPointers);
   eventAttributesView = new EventAttributesViewController(sharedPointers);
@@ -1638,41 +1822,42 @@ ProjectViewController::ProjectViewController(
   leftTwoPlusAttributes.pack1(*paletteView,true,false);
   leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
 
-  //paletteAndTree.set_position(150);
-  //paletteAndTree.pack1(*paletteView,true,false);
-  //paletteAndTree.pack2(*projectTreeView,true,false);
-
+  add(leftTwoPlusAttributes);
   showContents();
  
-  //make a new shared pointers object so all object can find each other easily
-  //without calling layers of layers of parents/ children
 
-  //sharedPointers->projectTreeView = projectTreeView;
   sharedPointers->eventAttributesView = eventAttributesView;
   sharedPointers->paletteView = paletteView;  
   
   
   
   
-
   
-  //Reconstruct Envelope Entries
-  envelopeLibraryEntries = NULL;
-  //std::string libFile =  _pathAndName + "/"+
-    //                    FileOperations::stringToFileName(_pathAndName)
-      //                  + ".lib";
-  std::string libFile = _libPathAndName;
-
-  char libCharArray [libFile.length()+ 2];                      
-    //this is the file path and name of the lib file
-  strcpy(libCharArray, libFile.c_str());  
-
   
-                       
-	
-  //read envelope out one by one and convert to LASSIE::envelopelibraryentry
+  
+  
+  
+  
+  
+  
+  //Envelope Library
+  
+  envelopeLibraryEntries =NULL;
+  DOMElement* envelopeLibraryElement = noteModifiers->getNextElementSibling();
+  textData = ( DOMCharacterData*) envelopeLibraryElement->getFirstChild();
+  
+  charBuffer = XMLString::transcode(textData->getData());
+  string fileString = pathAndName + ".lib.temp";
+  FILE* file  = fopen(fileString.c_str(), "w");
+  fputs (charBuffer, file);
+  XMLString::release(&charBuffer);
+  fclose(file);
+  
   EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
-  envelopeLibrary->loadLibraryNewFormat(libCharArray);
+  envelopeLibrary->loadLibraryNewFormat((char*)fileString.c_str());
+  string deleteCommand = "rm " + fileString;
+  system(deleteCommand.c_str());
+  
   EnvelopeLibraryEntry* previousEntry = NULL;
   Envelope* thisEnvelope;
   
@@ -1693,236 +1878,36 @@ ProjectViewController::ProjectViewController(
     } 
     previousEntry = thisEntry;
   }
+  
+  delete envelopeLibrary;
 
-
+  
+  
+  
   
   //  constructs all events
-  std::string directory;
-  DIR *dp;
-  struct dirent *dirp;
-  IEvent* newEvent;
+
+  DOMElement* domEvents =  envelopeLibraryElement->getNextElementSibling();
+  DOMElement* eventElement = domEvents->getFirstElementChild();
   
-
-  // make Top Events
-  directory = _pathAndName+ "/T";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventTop);
-        
-        paletteView->insertEvent(newEvent, "Top");
-        events.push_back(newEvent);
-      }
-    }
-    
-    paletteView->refreshObjectOrder("Top");
-
-    
-    closedir(dp);
-
-
-  //  make High Events
- directory = _pathAndName+ "/H";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventHigh);
-
-        paletteView->insertEvent(newEvent, "High");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("High");
-    closedir(dp);
   
-    
-  //  make Mid Events
- directory = _pathAndName+ "/M";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
+  while (eventElement != NULL){
+    IEvent* newEvent = new IEvent( eventElement);
+    paletteView->insertEvent(newEvent, newEvent->getEventTypeString());
+    events.push_back(newEvent);
+    eventElement =eventElement->getNextElementSibling();  
+  } 
 
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventMid);
-
-        paletteView->insertEvent(newEvent,"Mid");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Mid");
-    closedir(dp);
-  //  make Low Events
- directory = _pathAndName+ "/L";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventLow);
-
-        paletteView->insertEvent(newEvent,"Low");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Low");
-    closedir(dp);
-  //  make Bottom Events
- directory = _pathAndName+ "/B";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventBottom);
-        paletteView->insertEvent(newEvent,"Bottom");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Bottom");
-    closedir(dp);
-
-  //  make Sound Events
   
-
- directory = _pathAndName+ "/S";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventSound);
-        paletteView->insertEvent(newEvent,"Spectrum");
-				events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Spectrum");
-    closedir(dp);
-
-  //make note event
- directory = _pathAndName+ "/N";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << directory 
-      <<", directory doesn't exist."<< std::endl;
-     std::cout<<"Creating " <<directory <<endl;
-     string temp = "mkdir "+ directory;
-     system(temp.c_str());
-  }
-  else{
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventNote);
-        
-        paletteView->insertEvent(newEvent,"Note");
-        events.push_back(newEvent);
-      }
-    }  
-    paletteView->refreshObjectOrder("Note");
-    closedir(dp);
-  }
-
-
-  //  make Env Events
- directory = _pathAndName+ "/ENV";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventEnv);
-        
-        paletteView->insertEvent(newEvent,"Envelope");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Envelope");
-    closedir(dp);
-  //  make Siv Events
- directory = _pathAndName+ "/SIV";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventSiv);
-        
-        paletteView->insertEvent(newEvent,"Sieve");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Sieve");
-    closedir(dp);
-  //  make Pat Events
- directory = _pathAndName+ "/PAT";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventPat);
-        
-        paletteView->insertEvent(newEvent,"Pattern");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Pattern");
-    closedir(dp);
-
-  //  make Spa Events
- directory = _pathAndName+ "/SPA";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventSpa);
-        
-        paletteView->insertEvent(newEvent,"Spatialization");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Spatialization");
-    closedir(dp);
-  //  make Rev Events
- directory = _pathAndName+ "/REV";
-  if((dp  = opendir(directory.c_str())) == NULL) {
-     std::cout << "Error opening " << _pathAndName << std::endl;
-    }
-
-    while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_name[0]!= '.'){
-        newEvent = new IEvent( directory ,string(dirp->d_name), eventRev);
-        
-        paletteView->insertEvent(newEvent,"Reverb");
-        events.push_back(newEvent);
-      }
-    }
-    paletteView->refreshObjectOrder("Reverb");
-    closedir(dp);
-
-
   std::vector<IEvent*>::iterator eventsIter = events.begin();
   
   for (eventsIter; eventsIter != events.end(); eventsIter++){
     (*eventsIter)->link(this);
   }     
 
-
   
-  delete envelopeLibrary;
+  
+  
 
   topWindow = new ObjectWindow(eventTop,this);
   highWindow = new ObjectWindow(eventHigh,this);
@@ -1936,9 +1921,17 @@ ProjectViewController::ProjectViewController(
   patWindow = new ObjectWindow(eventPat,this);
   revWindow = new ObjectWindow(eventRev,this);
   noteWindow = new ObjectWindow(eventNote,this);
+  
+  
+  
+  
+  show_all_children(); 	
 
-show_all_children(); 	
+ 
 }
+
+
+
 
 EnvelopeLibraryEntry* ProjectViewController::getEnvelopeLibraryEntries(){
 	return envelopeLibraryEntries;
@@ -2628,6 +2621,507 @@ std::string ProjectViewController::searchPossibleParents(string _fileName){
 
 
 
+
+
+ProjectViewController::ProjectViewController(
+	std::string _pathAndName, 
+	MainWindow* _mainWindow,
+ 	std::string _datPathAndName, 
+ 	std::string _libPathAndName){
+
+ 	
+  modifiedButNotSaved = false;
+  ///////////////////////////////////////////////drag and drop//////////////
+  listTargets.push_back( Gtk::TargetEntry("STRING") );
+  //listTargets.push_back( Gtk::TargetEntry("text/plain") );
+  //////////////////////////////////////////////////////////////////////////
+  datPathAndName = _datPathAndName;
+  libPathAndName = _libPathAndName;
+  pathAndName = _pathAndName;
+  
+
+
+
+
+
+
+  //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
+  FILE *yytmp;
+  extern FILE *yyin;
+  yytmp = fopen(_datPathAndName.c_str(), "r");
+
+  if (yytmp == NULL) {
+    cout << "ERROR: File " << _datPathAndName << " does not exist!" << endl;
+    //exit(1);
+  }
+  else {
+    yyin = yytmp; 
+    //extern map<const char*, FileValue*, ltstr> file_data;
+    yyparse(); 
+    fclose(yyin);
+
+    FileValue* value;
+    std::string buffer2;
+
+    //std::string topName = piece->fileList;
+    value = file_data["LASSIETITLE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+  
+    //projectTitle = FileOperations::stringToFileName(_pathAndName);
+    projectTitle = buffer2;
+    //fileFlag      = piece->fileFlags;
+    value = file_data["LASSIEFILEFLAGS"];
+    buffer2 = value->getString();
+    
+    buffer2 = (buffer2 =="")?"":buffer2;
+    fileFlag = buffer2;
+  
+  
+    //sprintf(buffer,"%f", piece->pieceDuration); 
+    //duration = buffer; 
+    value = file_data["LASSIEPIECEDURATION"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    duration = buffer2;  
+    
+    
+    
+    //sprintf(buffer,"%d", piece->numChannels); 
+    //numOfChannels = buffer;
+    value = file_data["LASSIENUMCHANNELS"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    numOfChannels = buffer2;
+  
+  
+    //sprintf(buffer,"%d", piece->sampleRate); 
+    //sampleRate    = buffer;
+    value = file_data["LASSIESAMPLERITE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    sampleRate = buffer2;
+    
+    
+    
+    //sprintf(buffer,"%d", piece->sampleSize); 
+    //sampleSize    = buffer;
+    value = file_data["LASSIESAMPLESIZE"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    sampleSize = buffer2;
+    
+    
+    
+    
+    //sprintf(buffer,"%d", piece->numThreads); 
+    //numOfThreads  = buffer;
+    
+    value = file_data["LASSIENUMTHREADS"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    numOfThreads = buffer2;
+  
+    //topEvent      = piece->fileList
+    value = file_data["LASSIEFILELIST"];
+    buffer2 = value->getString();
+    buffer2 = (buffer2 =="")?"":buffer2;
+    topEvent = buffer2;  
+  
+    value = file_data["LASSIESOUNDSYNTHESIS"];
+    buffer2 = value->getString();
+    synthesis = (buffer2 =="TRUE")?true:false;
+  }
+
+  //restore notemodifiers
+  
+  defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("+8va",true));
+  defaultNoteModifiers.insert(pair<string,bool>("bend",true));
+  defaultNoteModifiers.insert(pair<string,bool>("dry",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissKeys",true));
+  defaultNoteModifiers.insert(pair<string,bool>("glissStringRes",true));
+  defaultNoteModifiers.insert(pair<string,bool>("graceTie",true));
+  defaultNoteModifiers.insert(pair<string,bool>("letVibrate",true));
+  defaultNoteModifiers.insert(pair<string,bool>("moltoVibrato",true));
+  defaultNoteModifiers.insert(pair<string,bool>("mute",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pluck",true));
+  defaultNoteModifiers.insert(pair<string,bool>("pressSilently",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resonance",true));
+  defaultNoteModifiers.insert(pair<string,bool>("resPedal",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sfz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("sffz",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
+  defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
+  defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
+
+   //YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
+  //FILE *yytmp;
+  //extern FILE *yyin;
+  std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
+  yytmp = fopen(stringbuffer.c_str(), "r");
+
+  if (yytmp == NULL) {
+    cout << "ERROR: File " << stringbuffer << " does not exist!" << endl;
+    //exit(1);
+  }
+
+  else{
+    yyin = yytmp; 
+    //extern map<const char*, FileValue*, ltstr> file_data;
+    yyparse(); 
+    fclose (yyin);
+
+    FileValue* value;
+    //std::string buffer2;
+  
+    //std::string topName = piece->fileList;
+    value = file_data["LASSIENOTEDEFAULTMODIFIER"];
+    std::list<FileValue> valueList = value->getList();
+    std::list<FileValue>::iterator valueListIter = valueList.begin();
+    std::map<string, bool>::iterator 
+      modifierMapIter = defaultNoteModifiers.begin();
+    
+    while( valueListIter != valueList.end() && 
+      modifierMapIter != defaultNoteModifiers.end()){
+      (*modifierMapIter).second = ((*valueListIter).getInt()==1)?true:false;
+      modifierMapIter ++;
+      valueListIter ++;
+    }
+     
+    value = file_data["LASSIENOTECUSTOMMODIFIER"];
+    if (value){
+      valueList = value->getList();
+      valueListIter = valueList.begin();
+      for (valueListIter;valueListIter != valueList.end(); valueListIter++){
+        customNoteModifiers.push_back((*valueListIter).getString());
+      } 
+    
+    }
+  }
+  //add the Paned widget "leftTwoPlusAttributes" as a child
+  add(leftTwoPlusAttributes);
+
+
+  pathAndName = _pathAndName;
+
+  sharedPointers = new SharedPointers();
+  sharedPointers->mainWindow = _mainWindow;
+  sharedPointers->projectView = this;
+
+  //create three new children widgets
+  //projectTreeView = new ProjectTreeViewController(sharedPointers);
+  eventAttributesView = new EventAttributesViewController(sharedPointers);
+  paletteView = new PaletteViewController(sharedPointers);
+
+
+  //set the attributes of two Paned widgets and add children view in them
+  leftTwoPlusAttributes.set_position(200);
+  leftTwoPlusAttributes.pack1(*paletteView,true,false);
+  leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
+
+  //paletteAndTree.set_position(150);
+  //paletteAndTree.pack1(*paletteView,true,false);
+  //paletteAndTree.pack2(*projectTreeView,true,false);
+
+  showContents();
+ 
+  //make a new shared pointers object so all object can find each other easily
+  //without calling layers of layers of parents/ children
+
+  //sharedPointers->projectTreeView = projectTreeView;
+  sharedPointers->eventAttributesView = eventAttributesView;
+  sharedPointers->paletteView = paletteView;  
+  
+  
+  
+  
+
+  
+  //Reconstruct Envelope Entries
+  envelopeLibraryEntries = NULL;
+  //std::string libFile =  _pathAndName + "/"+
+    //                    FileOperations::stringToFileName(_pathAndName)
+      //                  + ".lib";
+  std::string libFile = _libPathAndName;
+
+  char libCharArray [libFile.length()+ 2];                      
+    //this is the file path and name of the lib file
+  strcpy(libCharArray, libFile.c_str());  
+
+  
+                       
+	
+  //read envelope out one by one and convert to LASSIE::envelopelibraryentry
+  EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
+  envelopeLibrary->loadLibraryNewFormat(libCharArray);
+  EnvelopeLibraryEntry* previousEntry = NULL;
+  Envelope* thisEnvelope;
+  
+  for (int i = 1; i <= envelopeLibrary->size(); i ++){
+    thisEnvelope = envelopeLibrary->getEnvelope(i);
+    EnvelopeLibraryEntry* thisEntry =
+      convertToLASSIEEnvLibEntry(thisEnvelope, i);
+    delete thisEnvelope; 
+
+    if (previousEntry ==NULL){
+      envelopeLibraryEntries = thisEntry;
+      previousEntry = thisEntry;
+      thisEntry->prev = NULL;
+    }
+    else{
+      previousEntry->next = thisEntry;
+      thisEntry->prev = previousEntry;
+    } 
+    previousEntry = thisEntry;
+  }
+
+
+  
+  //  constructs all events
+  std::string directory;
+  DIR *dp;
+  struct dirent *dirp;
+  IEvent* newEvent;
+  
+
+  // make Top Events
+  directory = _pathAndName+ "/T";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventTop);
+        
+        paletteView->insertEvent(newEvent, "Top");
+        events.push_back(newEvent);
+      }
+    }
+    
+    paletteView->refreshObjectOrder("Top");
+
+    
+    closedir(dp);
+
+
+  //  make High Events
+ directory = _pathAndName+ "/H";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventHigh);
+
+        paletteView->insertEvent(newEvent, "High");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("High");
+    closedir(dp);
+  
+    
+  //  make Mid Events
+ directory = _pathAndName+ "/M";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventMid);
+
+        paletteView->insertEvent(newEvent,"Mid");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Mid");
+    closedir(dp);
+  //  make Low Events
+ directory = _pathAndName+ "/L";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventLow);
+
+        paletteView->insertEvent(newEvent,"Low");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Low");
+    closedir(dp);
+  //  make Bottom Events
+ directory = _pathAndName+ "/B";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventBottom);
+        paletteView->insertEvent(newEvent,"Bottom");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Bottom");
+    closedir(dp);
+
+  //  make Sound Events
+  
+
+ directory = _pathAndName+ "/S";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventSound);
+        paletteView->insertEvent(newEvent,"Spectrum");
+				events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Spectrum");
+    closedir(dp);
+
+  //make note event
+ directory = _pathAndName+ "/N";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << directory 
+      <<", directory doesn't exist."<< std::endl;
+     std::cout<<"Creating " <<directory <<endl;
+     string temp = "mkdir "+ directory;
+     system(temp.c_str());
+  }
+  else{
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventNote);
+        
+        paletteView->insertEvent(newEvent,"Note");
+        events.push_back(newEvent);
+      }
+    }  
+    paletteView->refreshObjectOrder("Note");
+    closedir(dp);
+  }
+
+
+  //  make Env Events
+ directory = _pathAndName+ "/ENV";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventEnv);
+        
+        paletteView->insertEvent(newEvent,"Envelope");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Envelope");
+    closedir(dp);
+  //  make Siv Events
+ directory = _pathAndName+ "/SIV";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventSiv);
+        
+        paletteView->insertEvent(newEvent,"Sieve");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Sieve");
+    closedir(dp);
+  //  make Pat Events
+ directory = _pathAndName+ "/PAT";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventPat);
+        
+        paletteView->insertEvent(newEvent,"Pattern");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Pattern");
+    closedir(dp);
+
+  //  make Spa Events
+ directory = _pathAndName+ "/SPA";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventSpa);
+        
+        paletteView->insertEvent(newEvent,"Spatialization");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Spatialization");
+    closedir(dp);
+  //  make Rev Events
+ directory = _pathAndName+ "/REV";
+  if((dp  = opendir(directory.c_str())) == NULL) {
+     std::cout << "Error opening " << _pathAndName << std::endl;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_name[0]!= '.'){
+        newEvent = new IEvent( directory ,string(dirp->d_name), eventRev);
+        
+        paletteView->insertEvent(newEvent,"Reverb");
+        events.push_back(newEvent);
+      }
+    }
+    paletteView->refreshObjectOrder("Reverb");
+    closedir(dp);
+
+
+  std::vector<IEvent*>::iterator eventsIter = events.begin();
+  
+  for (eventsIter; eventsIter != events.end(); eventsIter++){
+    (*eventsIter)->link(this);
+  }     
+
+
+  
+  delete envelopeLibrary;
+
+  topWindow = new ObjectWindow(eventTop,this);
+  highWindow = new ObjectWindow(eventHigh,this);
+  midWindow = new ObjectWindow(eventMid,this);
+  lowWindow = new ObjectWindow(eventLow,this);
+  bottomWindow = new ObjectWindow(eventBottom,this);
+  spectrumWindow = new ObjectWindow(eventSound,this);
+  envWindow = new ObjectWindow(eventEnv,this);
+  sivWindow = new ObjectWindow(eventSiv,this);
+  spaWindow = new ObjectWindow(eventSpa,this);
+  patWindow = new ObjectWindow(eventPat,this);
+  revWindow = new ObjectWindow(eventRev,this);
+  noteWindow = new ObjectWindow(eventNote,this);
+
+show_all_children(); 	
+}
 
 
 

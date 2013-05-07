@@ -107,11 +107,13 @@ class FunctionGenerator :public Gtk::Dialog{
 public:
 
   FunctionGenerator(FunctionReturnType _returnType,std::string _originalString);
+  void parseOldFormat(FunctionReturnType _returnType,std::string _originalString);
   ~FunctionGenerator();
   std::string getResultString();
   std::string static getFunctionString(
     FileValue* _value,
     FunctionReturnType _returnType);
+  std::string static getFunctionString(DOMElement* _thisFunctionElement);
   list<std::string> static fileValueListToStringList(
     list<FileValue> _valueList,
     FunctionReturnType _returnType);

@@ -80,6 +80,7 @@ public:
   
   std::string getSaveToDiskString();
   std::string getSaveLASSIEMetaDataString();
+  std::string getXMLString();
   
   
 private:
@@ -124,7 +125,9 @@ class EventDiscretePackage{
     }
 		EventDiscretePackage(EventDiscretePackage* _originalPackage);
     EventDiscretePackage( FileValue* _thisPackageFileValue);
+    EventDiscretePackage(DOMElement* _thisPackageElement);
     std::string getLASSIEMetadataString();
+    std::string getXMLString();
     bool link(ProjectViewController* _projectView, IEvent* _thisEvent); 
 
     ~EventDiscretePackage(){}
@@ -138,6 +141,7 @@ class EventLayer {
     EventLayer(IEvent* _thisEvent);
     EventLayer(IEvent* _thisEvent, EventLayer* _originalLayer);
     EventLayer(FileValue* _thisLayerFileValue,IEvent* _thisEvent);
+    EventLayer(DOMElement* _thisLayerElement, IEvent* _thisEvent);
     ~EventLayer();
     EventDiscretePackage* addChild(IEvent* _child);
     bool removeChild(EventDiscretePackage* _child);
@@ -148,6 +152,7 @@ class EventLayer {
     int size();
     std::string outputChildrenNameString();
     std::string getLASSIEMetaDataString();
+    std::string getXMLString();
     std::list<EventDiscretePackage*> children;
     void link (ProjectViewController* _projectView, IEvent* _thisEvent);  
     
@@ -204,6 +209,7 @@ public:
   //when open project
   IEvent(std::string _filePath, std::string _fileName, EventType _type);
   IEvent(IEvent* _original, string _newName);
+  IEvent(DOMElement* _domElement);
 
   ~IEvent();
 
@@ -304,6 +310,17 @@ public:
   
   
   void makeSuperColliderCode();
+  string getXMLString();
+  string getXMLTHMLB();
+  string getXMLSound();
+  string getXMLEnv();
+  string getXMLSiv();
+  string getXMLSpa();
+  string getXMLPat();
+  string getXMLRev();
+  string getXMLNote();
+  string static getFunctionString(DOMElement* _thisFunctionElement);
+  
   
   
 
@@ -437,7 +454,8 @@ public:
 
     virtual void setDeviation(std::string _deviation){}
     virtual std::string getDeviation(){return "";}
-    virtual std::string getSpectrumMetaData(){ return "";};
+    virtual std::string getSpectrumMetaData(){ return "";}
+    virtual std::string getSpectrumXMLString(){ return "";}
     virtual std::string getSoundSpectrumEnvelopesString(){return "";}
 
     virtual SpectrumPartial* getSpectrumPartials(){return NULL;}
@@ -499,7 +517,8 @@ public:
   public:
     BottomEventExtraInfo();
     BottomEventExtraInfo(BottomEventExtraInfo* _original);
-    BottomEventExtraInfo(int _ChildTypeFlag); //called when parsing files.
+    BottomEventExtraInfo(int _childTypeFlag); //called when parsing files.
+    BottomEventExtraInfo(int _childTypeFlag, DOMElement* _thisElement);
     ~BottomEventExtraInfo();
     int getFrequencyFlag(); // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
     void setFrequencyFlag(int _flag);
@@ -535,6 +554,7 @@ public:
     std::string spatialization;
     std::string reverb;
 
+    EventBottomModifier* buildModifiersFromDOMElement(DOMElement* _thisModifierElement);
   
   };
 
@@ -626,6 +646,7 @@ public:
     
     //void        setSpectrum(std::string _spectrum);
     std::string getSpectrumMetaData();
+    std::string getSpectrumXMLString();
     SpectrumPartial* getSpectrumPartials();
     SpectrumPartial* addPartial();
     bool deletePartial(SpectrumPartial* _partial);
@@ -711,16 +732,11 @@ private:
   
   
 
-  void IEventParseFile(std::string _fileName);
+  //void IEventParseFile(std::string _fileName);
   void parseNonEvent();
-  void saveAsTHMLB   (std::string _pathOfProject);
-  void saveAsSound   (std::string _pathOfProject);
-  void saveAsEnv     (std::string _pathOfProject);
-  void saveAsSiv     (std::string _pathOfProject);
-  void saveAsSpa     (std::string _pathOfProject);
-  void saveAsPat     (std::string _pathOfProject);
-  void saveAsRev     (std::string _pathOfProject);
-  void saveAsNote    (std::string _pathOfProject);
+  void buildNonEventFromDOM(DOMElement* _element);
+
+  
   EventExtraInfo* openExtraInfo(EventFactory* _event ,EventType _eventType);
   
 
