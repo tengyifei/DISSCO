@@ -34,8 +34,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 **/
 
 #include "Piece.h"
+#include <time.h>
 
 int main(int parameterCount, char **parameterList) {
+  time_t startTime;
+  time(&startTime);
   
   //Determine settings.
   cout << endl;
@@ -77,6 +80,16 @@ int main(int parameterCount, char **parameterList) {
   //Create the piece!
   Piece* piece = new Piece(workingPath, projectName);
   delete piece;
+  
+  time_t endTime;
+  time(&endTime);
+  
+  int seconds = difftime(endTime, startTime);
+  int hr = seconds / 3600;
+  int min = (seconds % 3600) / 60;
+  int sec = seconds % 60; 
+  printf("Computation Time: %02d:%02d:%02d.\n", hr, min, sec);
+  
   
   return 0;
   

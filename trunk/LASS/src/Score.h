@@ -138,43 +138,6 @@ public:
         ANTICLIP,
         CHANNEL_ANTICLIP
     };
-    
-    /**
-    *	This function: 
-    *	- Renders each sound in this Score.
-    *	- Composites the sounds into a MultiTrack object
-    *	- Post-Processes the sound for clipping management
-    *	
-    *	\note The caller must delete this object.
-    *	\param numChannels The number of channels to render
-    *	\param samplingRate The sampling rate which defaults to 
-    *		DEFAULT_SAMPLING_RATE
-    *	\return A MultiTrack object
-    **/
-    
-//    MultiTrack* render(
-//        int numChannels,
-//        m_rate_type samplingRate,
-//        int processCount, int processOffset);
-
-    /**
-    *	This function:
-    *	- Renders each sound in this Score using a specified
-    *		number of threads for parallel rendering
-    *	- Composites the sounds into a MultiTrack object
-    *	- Post-Processes the sound for clipping management
-    *
-    *	\note The caller must delete this object.  Also, the caller must
-    *		specify a value for samplingRate (unlike single-threaded render)
-    *	\param numChannels The number of channels to render
-    *	\param samplingRate The sampling rate
-    *	\param nThreads The number of threads to use when rendering
-    *	\return a MultiTrack object
-    **/
-//    MultiTrack* render(
-//        int numChannels,
-//        m_rate_type samplingRate,
-//	int nThreads);
 
     /**
     *	This function sets the ClippingManagementMode for this score.
@@ -209,6 +172,11 @@ public:
 	  * returns the final rendered score.
 	  **/
 	  MultiTrack* doneAddingSounds();
+	  
+	  /**
+	  * Increase the length of MultiTrack* score to fit sounds
+	  **/
+	  void checkScoreMultiTrackLength(); 
   
     
 //    /** 
@@ -277,9 +245,15 @@ private:
     std::vector<Sound*> sounds;
     
     /**
+    * The MultiTrack object which holds the actual score
+    **/
+    MultiTrack* scoreMultiTrack;
+    
+    /**
     * The max end time seen among the added sound objects
     **/
     m_time_type scoreEndTime;
+    m_time_type scoreMultiTrackLength;
     
     /**
     * Number of threads
@@ -311,6 +285,11 @@ private:
     * mutex to protect vector<Sound*> sounds
     **/
     pthread_mutex_t mutexSoundVector;
+    
+    /**
+    * mutex to protect MultiTrack* scoreMultiTrack
+    **/
+    pthread_mutex_t mutexScoreMultiTrack;
     
     /**
     * cond to brocast to worker threads the status of vector<Sound*> sounds
