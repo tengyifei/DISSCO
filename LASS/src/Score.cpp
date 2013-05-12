@@ -44,14 +44,12 @@ struct ThreadEntry{
   int numChannels;
   int samplingRate;
   pthread_mutex_t* mutexSoundVector;
+  pthread_mutex_t* mutexScoreMultiTrack;
   pthread_cond_t* conditionSoundVector;
   int* soundsRendered;
   int* soundObjectsCreated;
   
-  // The multi track object with all the sounds rendered and composited by
-  // This thread. It resides in the heap and is obtained and mixed with 
-  // the renderedThreadScore of other worker threads by the main thread.
-  MultiTrack* renderedThreadScore;
+  MultiTrack** scoreMultiTrack;
   
 };
 
@@ -79,7 +77,7 @@ void Score::add(Sound* _sound){
                                    _sound->getTotalDuration();
   if (soundEndTime > scoreEndTime) {
     scoreEndTime = soundEndTime;
-    cout<<"Score End Time Updated: "<< scoreEndTime << "seconds"<<endl;
+    //cout<<"Score End Time Updated: "<< scoreEndTime << "seconds"<<endl;
   }
     // figure in the reverb die-out period
   if(reverbObj != NULL)
@@ -100,22 +98,6 @@ void Score::add(Sound* _sound){
 **/
 void *render(void *_threadEntry){
   ThreadEntry threadEntry = *((ThreadEntry*) _threadEntry);
-  
-  m_time_type scoreEndTime = threadEntry.score->getScoreEndTime();
-  m_time_type currentRenderedThreadScoreEndTime = scoreEndTime;
-  
-  // how many samples we need:
-  // this number is the #of the samples in the current renderedThreadScore
-  m_sample_count_type numSamples =
-        (m_sample_count_type) (scoreEndTime * float(threadEntry.samplingRate));
-
- // now, create an empty multi-track object of the proper length and channels:
-    MultiTrack* renderedThreadScore = 
-      new MultiTrack(
-        threadEntry.numChannels,
-        numSamples, 
-        threadEntry.samplingRate);
-
   while(true){
     //Lock the sounds vector
     pthread_mutex_lock( threadEntry.mutexSoundVector );
@@ -123,7 +105,8 @@ void *render(void *_threadEntry){
       // No more sound object to render, unlock the mutex and return.
       if (threadEntry.score->isDoneGettingSoundObjects()){
         pthread_mutex_unlock( threadEntry.mutexSoundVector );
-        ((ThreadEntry*) _threadEntry)->renderedThreadScore =renderedThreadScore;
+        
+        //((ThreadEntry*) _threadEntry)->renderedThreadScore =renderedThreadScore;
         return _threadEntry;
          
       }
@@ -142,43 +125,26 @@ void *render(void *_threadEntry){
     Sound* sound = threadEntry.sounds->back();
     threadEntry.sounds->pop_back();
     
-    //update scoreEndTime
-    scoreEndTime = threadEntry.score->getScoreEndTime();
-    
     //Unlock the sounds vector
     pthread_mutex_unlock( threadEntry.mutexSoundVector );
-    
-    
-    //need a new multitrack if this score is too short
-    if (sound->getParam(START_TIME)+ 
-      sound->getTotalDuration() > currentRenderedThreadScoreEndTime){ 
-      currentRenderedThreadScoreEndTime = scoreEndTime; //update this number
-      m_sample_count_type newNumSamples =
-        (m_sample_count_type) (scoreEndTime * float(threadEntry.samplingRate));
-      MultiTrack* newRenderedThreadScore = new MultiTrack
-        (threadEntry.numChannels,newNumSamples, threadEntry.samplingRate);
-      
-      newRenderedThreadScore->composite(*renderedThreadScore, 0);
-      delete renderedThreadScore;
-      renderedThreadScore = newRenderedThreadScore;
-      cout<<"Thread #"<<threadEntry.threadID<<
-      ": Get a longer score with length = " << scoreEndTime << " seconds"<<endl;
-    }    
     
     // render the sound:
     MultiTrack* renderedSound = sound->render(threadEntry.numChannels, 
                                               threadEntry.samplingRate);
-
+    
+    //check he length of scoreMultiTrackLength
+    threadEntry.score->checkScoreMultiTrackLength();
+    
     // composite the rendered sound:
-    renderedThreadScore->composite(*renderedSound, sound->getParam(START_TIME));
-      
+    pthread_mutex_lock( threadEntry.mutexScoreMultiTrack );
+    (*threadEntry.scoreMultiTrack)->composite(*renderedSound, sound->getParam(START_TIME));
+    pthread_mutex_unlock( threadEntry.mutexScoreMultiTrack );  
+    
     // clean up
     delete renderedSound;
     delete sound;
     
   }// end of main while loop
- 
-  
 
 }
 
@@ -192,12 +158,20 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
     samplingRate(_samplingRate)
 {
   scoreEndTime = 1; //start with a small number
+  scoreMultiTrackLength = scoreEndTime;
+  m_sample_count_type newNumSamples =
+        (m_sample_count_type) (scoreMultiTrackLength * float(samplingRate));
+  scoreMultiTrack = new MultiTrack
+        (numChannels,newNumSamples,samplingRate);
+
+  
   reverbObj = NULL;
   numThreads = _numThreads;  
   
   //create threads for sound rendering
   threads = new pthread_t[_numThreads];
   pthread_mutex_init(&mutexSoundVector, NULL);
+  pthread_mutex_init(&mutexScoreMultiTrack, NULL);
   pthread_cond_init(&conditionSoundVector, NULL);
   
   for (int i = 0; i < _numThreads; i ++){
@@ -208,10 +182,11 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
     threadEntry->numChannels = _numChannels;
     threadEntry->samplingRate = _samplingRate;
     threadEntry->mutexSoundVector=&mutexSoundVector;
+    threadEntry->mutexScoreMultiTrack = &mutexScoreMultiTrack;
     threadEntry->conditionSoundVector = &conditionSoundVector;
     threadEntry->soundsRendered = &soundsRendered;
     threadEntry->soundObjectsCreated = &soundObjectsCreated;
-    threadEntry->renderedThreadScore =NULL;
+    threadEntry->scoreMultiTrack =&scoreMultiTrack;
     pthread_create(&threads[i], NULL, render, (void*) threadEntry);
   }
     
@@ -220,21 +195,13 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
 
 //------------------------------------------------------------------------------
 MultiTrack* Score::joinThreadsAndMix(){
-
-  // Create the final MultiTrack object with the final length
-  m_sample_count_type numSamples =
-        (m_sample_count_type) (scoreEndTime * float(samplingRate));
-  MultiTrack* score = new MultiTrack(numChannels, numSamples, samplingRate);
-
   //Join the threads
   for (int i = 0; i < numThreads; i ++){  
     void* threadEntry; 
     pthread_join(threads[i], &threadEntry);
     cout<< "thread Joined: Thread #"<<
       ((ThreadEntry*) threadEntry)-> threadID<<endl;
-      
-    score->composite(*(((ThreadEntry*)threadEntry)->renderedThreadScore),0);
-    delete ((ThreadEntry*)threadEntry)->renderedThreadScore;
+  
     delete (ThreadEntry*)threadEntry;
   }
   cout<<"=======================Threads all joined.==================="<<endl;
@@ -244,17 +211,44 @@ MultiTrack* Score::joinThreadsAndMix(){
   if(reverbObj != NULL)
   {
     cout << "Applying reverb to the score..." << endl;
-    MultiTrack *tmp = & reverbObj->do_reverb_MultiTrack(*score);
-    delete score;
-    score = tmp;
+    MultiTrack *tmp = & reverbObj->do_reverb_MultiTrack(*scoreMultiTrack);
+    delete scoreMultiTrack;
+    scoreMultiTrack = tmp;
   }
 
   // perform Clipping management on the composite:
   cout << "Managing Clipping for the score..." << endl;
-  manageClipping(score, cmm_);
+  manageClipping(scoreMultiTrack, cmm_);
   // return the composite:
-  return score;
+  return scoreMultiTrack;
 }
+
+
+
+void Score::checkScoreMultiTrackLength(){
+
+      pthread_mutex_lock( &mutexScoreMultiTrack );
+      
+  if ( scoreEndTime > scoreMultiTrackLength ){
+      scoreMultiTrackLength = scoreEndTime;
+      m_sample_count_type newNumSamples =
+        (m_sample_count_type) (scoreMultiTrackLength * float(samplingRate));
+      MultiTrack* newScoreMultiTrack = new MultiTrack
+        (numChannels,newNumSamples,samplingRate);
+      
+      newScoreMultiTrack->composite(*scoreMultiTrack, 0);
+      delete scoreMultiTrack;
+      scoreMultiTrack = newScoreMultiTrack;
+      
+      //pthread_mutex_unlock( &mutexScoreMultiTrack );
+      cout<<"Get a longer score with length = " << scoreEndTime << " seconds."<<endl;
+    
+  }
+  
+  pthread_mutex_unlock( &mutexScoreMultiTrack );
+}
+
+
 
 //----------------------------------------------------------------------------//
 void Score::setClippingManagementMode(ClippingManagementMode mode)
