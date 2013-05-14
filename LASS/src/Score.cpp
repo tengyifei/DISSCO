@@ -44,7 +44,6 @@ struct ThreadEntry{
   int numChannels;
   int samplingRate;
   pthread_mutex_t* mutexSoundVector;
-  pthread_mutex_t* mutexScoreMultiTrack;
   pthread_cond_t* conditionSoundVector;
   int* soundsRendered;
   int* soundObjectsCreated;
@@ -133,19 +132,26 @@ void *render(void *_threadEntry){
                                               threadEntry.samplingRate);
     
     //check he length of scoreMultiTrackLength
-    threadEntry.score->checkScoreMultiTrackLength();
+    //threadEntry.score->checkScoreMultiTrackLength();
     
-    // composite the rendered sound:
-    pthread_mutex_lock( threadEntry.mutexScoreMultiTrack );
-    (*threadEntry.scoreMultiTrack)->composite(*renderedSound, sound->getParam(START_TIME));
-    pthread_mutex_unlock( threadEntry.mutexScoreMultiTrack );  
+    
+    cout<<"Thread #"<<threadEntry.threadID<<": push rendered Sound #"<<
+          *(threadEntry.soundsRendered)<<" of "<< 
+          *(threadEntry.soundObjectsCreated)<<endl;
+    threadEntry.score->addRenderedSound(sound->getParam(START_TIME), renderedSound);
     
     // clean up
-    delete renderedSound;
+
     delete sound;
     
   }// end of main while loop
 
+}
+
+
+void *composite(void *_score){
+  ((Score*) _score)->compositeRenderedSounds();
+  return NULL;
 }
 
 //----------------------------------------------------------------------------//
@@ -154,6 +160,7 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
     soundsRendered(0),
     soundObjectsCreated(0),
     doneGettingSoundObjects(false),
+    workerThreadsAllJoined(false),
     numChannels(_numChannels),
     samplingRate(_samplingRate)
 {
@@ -171,7 +178,7 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
   //create threads for sound rendering
   threads = new pthread_t[_numThreads];
   pthread_mutex_init(&mutexSoundVector, NULL);
-  pthread_mutex_init(&mutexScoreMultiTrack, NULL);
+  pthread_mutex_init(&mutexVectorRenderedSound, NULL);
   pthread_cond_init(&conditionSoundVector, NULL);
   
   for (int i = 0; i < _numThreads; i ++){
@@ -182,17 +189,71 @@ Score::Score(int _numThreads, int _numChannels, int _samplingRate )
     threadEntry->numChannels = _numChannels;
     threadEntry->samplingRate = _samplingRate;
     threadEntry->mutexSoundVector=&mutexSoundVector;
-    threadEntry->mutexScoreMultiTrack = &mutexScoreMultiTrack;
     threadEntry->conditionSoundVector = &conditionSoundVector;
     threadEntry->soundsRendered = &soundsRendered;
     threadEntry->soundObjectsCreated = &soundObjectsCreated;
     threadEntry->scoreMultiTrack =&scoreMultiTrack;
     pthread_create(&threads[i], NULL, render, (void*) threadEntry);
   }
-    
+
+   //start the compositeThread
+   pthread_create(&compositeThread, NULL, composite, (void*) this);
    
 }
 
+
+
+
+
+void Score::addRenderedSound(m_time_type _startTime, MultiTrack* _renderedSound){
+
+  std::pair<m_time_type, MultiTrack*>* newPair = new pair<m_time_type, MultiTrack*>(_startTime, _renderedSound);
+  // active waiting for the vector size to be below 20 (if the main thread can't 
+  // composite the rendered sound as fast the speed of worker threads produce
+  // rendered sounds, there is no need for the worker threads to rush.
+  while (true){
+    pthread_mutex_lock( &mutexVectorRenderedSound );
+    if (renderedSounds.size()<20){
+      renderedSounds.push_back(newPair);
+      cout<<"AddrenderedSound: There are "<<renderedSounds.size()<< " rendered sounds waiting to be composited."<<endl;
+      pthread_mutex_unlock(&mutexVectorRenderedSound ); 
+      return;  
+    }
+    pthread_mutex_unlock(&mutexVectorRenderedSound );  
+    sleep(1);
+  }
+
+}
+
+
+void Score::compositeRenderedSounds(){
+  while (true){
+    if(workerThreadsAllJoined && renderedSounds.size()==0){
+      return;
+    }
+  
+    pthread_mutex_lock( &mutexVectorRenderedSound );
+    
+    if(renderedSounds.size()!=0){
+      pair<m_time_type,MultiTrack*>* thisPair = renderedSounds.back();
+      renderedSounds.pop_back();
+      cout<<"compositeRenderedSounds: There are "<<renderedSounds.size()<< " rendered sounds waiting to be composited after popping."<<endl;
+      pthread_mutex_unlock( &mutexVectorRenderedSound ); 
+      checkScoreMultiTrackLength();
+      scoreMultiTrack->composite(*(thisPair->second), thisPair->first);
+      delete thisPair->second;
+      delete thisPair;
+    }
+    else{
+      pthread_mutex_unlock( &mutexVectorRenderedSound ); 
+      sleep(1);
+    }
+    
+  }
+
+
+
+}
 //------------------------------------------------------------------------------
 MultiTrack* Score::joinThreadsAndMix(){
   //Join the threads
@@ -206,6 +267,11 @@ MultiTrack* Score::joinThreadsAndMix(){
   }
   cout<<"=======================Threads all joined.==================="<<endl;
   delete [] threads;
+  workerThreadsAllJoined = true;
+  
+  //join the composite thread
+  pthread_join(compositeThread, NULL);
+  
   
   // do the reverb
   if(reverbObj != NULL)
@@ -227,7 +293,7 @@ MultiTrack* Score::joinThreadsAndMix(){
 
 void Score::checkScoreMultiTrackLength(){
 
-      pthread_mutex_lock( &mutexScoreMultiTrack );
+
       
   if ( scoreEndTime > scoreMultiTrackLength ){
       scoreMultiTrackLength = scoreEndTime;
@@ -240,12 +306,12 @@ void Score::checkScoreMultiTrackLength(){
       delete scoreMultiTrack;
       scoreMultiTrack = newScoreMultiTrack;
       
-      //pthread_mutex_unlock( &mutexScoreMultiTrack );
+      //pthread_mutex_unlock( &mutexVectorRenderedSound );
       cout<<"Get a longer score with length = " << scoreEndTime << " seconds."<<endl;
     
   }
   
-  pthread_mutex_unlock( &mutexScoreMultiTrack );
+
 }
 
 
