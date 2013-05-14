@@ -68,11 +68,21 @@ public:
     void add(Sound* _sound);
     
     /**
+    * Worker threads give the renderedSound back to the main thread to compositie
+    **/
+    void addRenderedSound(m_time_type _startTime, MultiTrack* _renderedSound);
+    
+    /**
     * This function is called by the working threads to test if CMOD
     * has finished adding sounds to the score. If vector<Sound*> sounds has 
     * size 0 and doneGettingSoundObjects is true, the working thread returns.
     **/
     bool isDoneGettingSoundObjects(){return doneGettingSoundObjects;}
+    
+    /**
+    * This function is called by the compositeThread.
+    **/
+    void compositeRenderedSounds();
     
     /**
     * The final mix down and clean up after all the sound objects are rendered.
@@ -245,6 +255,11 @@ private:
     std::vector<Sound*> sounds;
     
     /**
+    * stores the rendered sounds for the main thread to composite them
+    **/
+    std::vector<std::pair<m_time_type, MultiTrack*>*> renderedSounds;
+    
+    /**
     * The MultiTrack object which holds the actual score
     **/
     MultiTrack* scoreMultiTrack;
@@ -264,6 +279,7 @@ private:
     * An array to hold thread objects
     **/
     pthread_t* threads;
+    pthread_t compositeThread;
     
     /**
     * counter: # of sounds rendered.
@@ -280,6 +296,7 @@ private:
     * sound objects.
     **/
     bool doneGettingSoundObjects;
+    bool workerThreadsAllJoined;
   
     /**
     * mutex to protect vector<Sound*> sounds
@@ -289,7 +306,7 @@ private:
     /**
     * mutex to protect MultiTrack* scoreMultiTrack
     **/
-    pthread_mutex_t mutexScoreMultiTrack;
+    pthread_mutex_t mutexVectorRenderedSound;
     
     /**
     * cond to brocast to worker threads the status of vector<Sound*> sounds
