@@ -43,7 +43,7 @@ Sound::Sound()
     setParam(DETUNE_DIRECTION, 0.0);
     setParam(DETUNE_VELOCITY, -0.5);
     setParam(DETUNE_FUNDAMENTAL, -1.0);
-
+    filterObj = NULL;
     reverbObj = NULL;
     spatializer_ = new Spatializer();
 }
@@ -237,7 +237,19 @@ MultiTrack* Sound::render(
             delete tempTrack;
         }
     }
-
+  
+  
+  
+  
+  // do the filter
+  if (filterObj != NULL){
+    cout << "\t Applying Filter..." << endl;
+    Track &filteredTrack = filterObj->do_filter_Track(*composite);
+		delete composite;
+		composite = &filteredTrack;
+  }
+    
+  
 	// do the reverb
 	if(reverbObj != NULL)
 	{
@@ -280,8 +292,20 @@ void Sound::setSpatializer(Spatializer& s)
 //----------------------------------------------------------------------------//
 void Sound::use_reverb(Reverb *newReverbObj)
 {
+  if (reverbObj != NULL){
+    delete reverbObj;
+  }
 	reverbObj = newReverbObj;
 }
+
+
+void Sound::use_filter(Filter *newFilterObj){
+  if (filterObj!= NULL){
+    delete filterObj;
+  }
+  filterObj = newFilterObj;
+}
+
 
 //----------------------------------------------------------------------------//
 void Sound::setup_detuning_env(ExponentialInterpolator *detuning_env)
@@ -431,6 +455,7 @@ void Sound::xml_read(XmlReader::xmltag* soundtag, DISSCO_HASHMAP<long, Reverb *>
 //----------------------------------------------------------------------------//
 Sound::~Sound(){
   if(reverbObj)delete reverbObj;
+  if(filterObj)delete filterObj;
   if(spatializer_) delete spatializer_;
   
 }

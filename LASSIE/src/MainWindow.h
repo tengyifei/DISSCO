@@ -9,7 +9,7 @@
 *===============================================================================
 *
 *  This file is part of LASSIE.
-*  Copyright 2010 Ming-ching Chiu, Sever Tipei
+*  2010 Ming-ching Chiu, Sever Tipei
 *
 *
 *  LASSIE is free software: you can redistribute it and/or modify

@@ -45,13 +45,14 @@ class Bottom : public Event {
 
   private:
 
-    /*FileValues are held here because these variables need to be recomputed for
+    /*DOMElements are held here because these variables need to be recomputed for
     every sound and note since there could be some randomness built in. */
    
     DOMElement* frequencyElement;
     DOMElement* loudnessElement;
     DOMElement* spatializationElement;
     DOMElement* reverberationElement;
+    DOMElement* filterElement;
     DOMElement* modifiersElement;
 
     //Current partial during the processing of the event
@@ -160,7 +161,7 @@ class Bottom : public Event {
     //getters
     DOMElement* getSPAElement(){return spatializationElement;}
     DOMElement* getREVElement(){return reverberationElement;}
-    
+    DOMElement* getFILElement(){return filterElement;}
     
 
 
@@ -216,6 +217,13 @@ class Bottom : public Event {
     void rules(int numPartials, float ampScale[]);
 
 //----------------------------------------------------------------------------//
+
+    /**
+     *  Applies filter to a sound
+     *  \param s a pointer to the sound being created
+     **/
+    void applyFilter(Sound* s);
+     
     /**
      *  Applies spatialization to a sound
      *  \param s a pointer to the sound being created

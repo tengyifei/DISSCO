@@ -9,7 +9,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -101,6 +101,10 @@ ObjectWindow::ObjectWindow(
       break;
     case 12: {title = "Notes";
           objects = activeProject->getPalette()->getObjectsLinkedList("Note");
+      }
+      break;
+    case 13: {title = "Filters";
+          objects = activeProject->getPalette()->getObjectsLinkedList("Filter");
       }
       break;
   }
@@ -235,6 +239,10 @@ void ObjectWindow::refresh(){
       break;
     case 12: {
           objects = activeProject->getPalette()->getObjectsLinkedList("Note");
+      }
+      break;
+    case 13: {
+          objects = activeProject->getPalette()->getObjectsLinkedList("Filter");
       }
       break;
   }

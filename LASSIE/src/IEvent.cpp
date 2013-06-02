@@ -12,7 +12,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -189,7 +189,12 @@ void IEvent::setEventType(EventType _type){
   else if(_type == eventRev){
     //EventExtraInfo* EnvelopeExtraInfo;
     extraInfo = (IEvent::EventExtraInfo*) new IEvent::ReverbExtraInfo();
-  }      
+  }  
+    else if(_type == eventFil){
+    //EventExtraInfo* EnvelopeExtraInfo;
+    extraInfo = (IEvent::EventExtraInfo*) new IEvent::FilterExtraInfo();
+  }  
+      
   else if(_type == eventNote){
     //EventExtraInfo* EnvelopeExtraInfo;
     extraInfo = (IEvent::EventExtraInfo*) new IEvent::NoteExtraInfo();
@@ -240,6 +245,8 @@ std::string IEvent::getEventTypeString(){
       return "Folder";
     case 12:
       return "Note";
+    case 13:
+      return "Filter";  
   }
 }
 
@@ -851,6 +858,13 @@ std::string  IEvent::BottomEventExtraInfo::getReverb(){
 void  IEvent::BottomEventExtraInfo::setReverb(std::string _string){
   reverb = _string;
 }
+ 
+std::string  IEvent::BottomEventExtraInfo::getFilter(){
+  return filter;
+}
+void  IEvent::BottomEventExtraInfo::setFilter(std::string _string){
+  filter = _string;
+} 
     
 void IEvent::BottomEventExtraInfo::setChildTypeFlag(int _type){
 	childTypeFlag = _type;
@@ -1190,6 +1204,14 @@ std::string IEvent::ReverbExtraInfo::getReverbBuilder(){
   return reverbBuilder;
 }
 
+void IEvent::FilterExtraInfo::setFilterBuilder(std::string _string){
+  filterBuilder = _string;
+}
+
+std::string IEvent::FilterExtraInfo::getFilterBuilder(){
+  return filterBuilder;
+}
+
 
 void IEvent::SieveExtraInfo::setSieveBuilder(std::string _string){
   sieveBuilder = _string;
@@ -1207,459 +1229,6 @@ std::string IEvent::PatternExtraInfo::getPatternBuilder(){
   return patternBuilder;
 }
 
-
-/*
-IEvent::EventExtraInfo* IEvent::openExtraInfo(EventFactory* _event ,EventType _eventType){ 
-  //this function is not in used anymore
-
-
-  char charBuffer[100];
-  EventExtraInfo* newInfo;
-  FileValue* value;
-  if (_eventType == eventBottom){
-    newInfo = (EventExtraInfo*) new BottomEventExtraInfo();
-    value = _event->getFrequency();
-    std::list<FileValue> frequencyList = value->getList();
-    std::list<FileValue>::iterator frequencyListIter =frequencyList.begin();
-    std::string frequencyType = frequencyListIter->getString();
-    size_t foundWell_Tempered = frequencyType.find("WELL");
-    size_t foundFundamental = frequencyType.find("FUN");
-    if (foundWell_Tempered!=string::npos ){ // WellTempered
-      newInfo->setFrequencyFlag(0);
-      frequencyListIter++;
-      int temp = frequencyListIter->getInt();
-      sprintf(charBuffer,"%d", temp);
-      newInfo->setFrequencyEntry1(string(charBuffer));
-    }
-    else if (foundFundamental != string::npos){ //fundamental
-      newInfo->setFrequencyFlag(1);
-      frequencyListIter++;
-      float temp = frequencyListIter->getFloat();
-      sprintf(charBuffer,"%.5f", temp);
-      newInfo->setFrequencyEntry1(string(charBuffer));    
-
-      frequencyListIter++;
-      int temp2 = frequencyListIter->getInt();
-      sprintf(charBuffer,"%d", temp2);
-      newInfo->setFrequencyEntry2(string(charBuffer)); 
-    }
-    
-    else { //continuum
-      newInfo->setFrequencyFlag(2);
-      frequencyListIter++;
-      
-      std:string freqMethod = frequencyListIter->getString();
-      size_t foundPOW = freqMethod.find("POW");
-      float temp;
-      frequencyListIter++;
-      if(foundPOW != string::npos){//pow2
-        newInfo->setFrequencyContinuumFlag(1);
-      }
-      else{
-        newInfo->setFrequencyContinuumFlag(0);
-      }  
-      temp = frequencyListIter->getFloat();
-      sprintf(charBuffer,"%.5f", temp);
-      newInfo->setFrequencyEntry1(string(charBuffer));      
-    }
-    value = _event->getLoudness();
-    int temp = value->getInt();
-    sprintf(charBuffer,"%d", temp);
-    newInfo->setLoudness(string(charBuffer));     
-    
-    
-    std::cout<<"BottomExtraInfo:\nFrequencyFlag: "<< newInfo->getFrequencyFlag()
-             <<"\n    Frequency Entry1 :"<<newInfo->getFrequencyEntry1()
-             <<"\n    Frequency Entry2 :"<<newInfo->getFrequencyEntry2()         
-             <<"\n    loudness :"<<newInfo->getLoudness()                
-             <<"\n\n\n\n"<<std::endl;
-    //TODO implement spatialization and reverb         
-             
-    
-
-    value = _event->getModifiers();           
-    std::list<FileValue> modifierList = value->getList();
-    std::list<FileValue>::iterator modifierListIter =modifierList.begin();
-    
-    
-    EventBottomModifier* currentModifier = NULL;
-    EventBottomModifier* previousModifier = NULL;
-    while (modifierListIter!= modifierList.end()){
-      currentModifier = new EventBottomModifier();
-      std::list<FileValue> thisModifierList = modifierListIter->getList(); 
-      std::list<FileValue>::iterator modifierIter =thisModifierList.begin();
-      std::string modifierType = modifierIter->getString();
-      //TODO correctly parse object file names
-      if (modifierType.find("TREM")!= string::npos){ //tremolo
-        currentModifier->setModifierType(modifierTremolo);
-      }
-      else if (modifierType.find("VIB")!= string::npos){ //Vibrato
-        currentModifier->setModifierType(modifierVibrato);
-      }      
-      else if (modifierType.find("GLIS")!= string::npos){ //Gliss
-        currentModifier->setModifierType(modifierGlissando);
-      }      
-      else if (modifierType.find("BEND")!= string::npos){ //Bend
-        currentModifier->setModifierType(modifierBend);
-      }
-      else if (modifierType.find("DETU")!= string::npos){ //Detune
-        currentModifier->setModifierType(modifierDetune);
-      }
-      else if (modifierType.find("AMP")!= string::npos){ //amptran
-        currentModifier->setModifierType(modifierAmptrans);
-      }
-      else if (modifierType.find("GLIS")!= string::npos){ //freq tran
-        currentModifier->setModifierType(modifierFreqtrans);
-      }      
-      else { //waveype
-        currentModifier->setModifierType(modifierWave_type);
-      }
-      
-      if (previousModifier ==NULL){
-        ((BottomEventExtraInfo*) newInfo)->modifiers = currentModifier;
-        previousModifier = currentModifier;
-      
-      }
-      else{
-        previousModifier->next = currentModifier;
-        previousModifier = currentModifier;
-      }
-      
-      modifierListIter++;   
-    
-    }//end while
-           
-  }//end bottomextraevent
-  
-  
-  
-  
-  else if (_eventType == eventSound){
- 
-    newInfo = (EventExtraInfo*) new SoundExtraInfo();
-    value = _event->getNumPartials();
-
-    int temp = value->getInt();
-
-    sprintf(charBuffer,"%d", temp);  
-    newInfo->setNumPartials(string(charBuffer));
-
-    value = _event->getDeviation();
-    float temp2 = value->getFloat();
-    sprintf(charBuffer,"%.5f", temp2);  
-    newInfo->setDeviation(string(charBuffer));
-    
-
-    //TODO  spectrum return a list. should parse it correctly
-    /*
-    value = _event->getSpectrum();
-    list<FileValue> spectrumList= value->getList();
-    
-    bla bla bla 
- 
-    newInfo->setSpectrum(string(charBuffer));  
-    
-   
-  
-  }
-  else if (_eventType == eventEnv){//TODO  implement these craps
-  
-  }
-  else if (_eventType == eventSiv){
-  
-  }
-  else if (_eventType == eventSpa){
-  
-  }
-  else if (_eventType == eventPat){
-  
-  }
-  else if (_eventType == eventRev){
-  
-  }
-
-  return newInfo;
-
-
-}
-*/
-
-
-/*
-void IEvent::IEventParseFile(std::string _fileName){
-  YY_FLUSH_BUFFER;//flush the buffer make sure the buffer is clean
- FILE *yytmp;
-  extern FILE *yyin;
-  yytmp = fopen(_fileName.c_str(), "r");
-
-  if (yytmp == NULL) {
-    cout << "ERROR: File " << _fileName << " does not exist!" << endl;
-    exit(1);
-  }
-
-  yyin = yytmp;
-  
-
-
-  
-  
-  extern map<const char*, FileValue*, ltstr> file_data;
-  yyparse(); 
-  if (eventType >= 5){
-    parseNonEvent();
-    return;
-  }
-
-
-
-  
-  FileValue* value;
-  
-  
-  value = file_data["LASSIEeventName"];
-  
-  std::list<FileValue> nameAndOrderList = value->getList();
-  
-  if (nameAndOrderList.size()==0){ //old file format
-    eventOrderInPalette = rand();
-  }
-  else {
-    std::list<FileValue>::iterator iter = nameAndOrderList.begin();
-  
-    iter++;
-    value = &(*iter);
-    eventOrderInPalette = value->getInt(); 
-  }
-  
-  
-  
-  value = file_data["LASSIEmaxChildDur"];
-  if (value!= NULL){
-    maxChildDur = value->getString();
-  }
-  else {
-    value = file_data["maxChildDur"];
-    maxChildDur = (value == NULL)?"": 
-      FunctionGenerator::getFunctionString(value, functionReturnFloat);
-  }
-  
-  
-  value = file_data["LASSIEEDUPerBeat"];
-  if (value!= NULL){
-    unitsPerSecond = value->getString();
-  }
-  else {
-    value = file_data["EDUPerBeat"];
-    unitsPerSecond =(value == NULL)? "":  
-      FunctionGenerator::getFunctionString(value, functionReturnFloat);
-  }
-  
-  
-  
-  value = file_data["LASSIEtimeSignatureEntry1"];
-  if (value!= NULL){
-    timeSignatureEntry1 = value->getString();
-    value = file_data["LASSIEtimeSignatureEntry2"];
-    timeSignatureEntry2 =(value == NULL)? "": value ->getString();  
-  }
-  else {
-    value = file_data["timeSignature"];
-    if (value ==NULL){
-      timeSignatureEntry1 =="";
-      timeSignatureEntry2 =="";      
-    }
-    else {
-      size_t whereIsSlash;
-      size_t whereIsEqualSign;
-      std::string stringbuffer = value->getString();
-      whereIsSlash = stringbuffer.find("/");
-
-      if (whereIsSlash==string::npos){
-        timeSignatureEntry1 =="";
-        timeSignatureEntry2 =="";
-      }
-      else {
-        timeSignatureEntry1 = value->getString().substr(0, int(whereIsSlash));
-        timeSignatureEntry2 = value->getString().substr(
-          int(whereIsSlash)+1, value->getString().length()-1);  
-      }
-    }
-  
-  }
-  
-
-  
-  value = file_data["LASSIEtempoMethodFlag"];
-  if (value != NULL){
-    tempoMethodFlag = value ->getInt(); //0 = as note value, 1 = as fraction
-    value = file_data["LASSIEtempoPrefix"];
-    tempoPrefix =(TempoPrefix) ((value == NULL)? 0: value ->getInt());    
-    value = file_data["LASSIEtempoNoteValue"];
-    tempoNoteValue =(TempoNoteValue)((value == NULL)? 0: value ->getInt());  
-    value =file_data["LASSIEtempoFractionEntry1"]; 
-    tempoFractionEntry1 = (value == NULL)? "": value->getString();
-    value = file_data["LASSIEtempoFractionEntry2"];
-    tempoFractionEntry2 = (value == NULL)? "": value->getString();
-    value = file_data["LASSIEtempoValueEntry"];
-    tempoValueEntry = (value == NULL)? "": value->getString();
-  }
-  else{
-    size_t whereIsSlash;
-    size_t whereIsEqualSign;
-    value = file_data["tempo"];
-    if (value == NULL){
-        timeSignatureEntry1 =="";
-        timeSignatureEntry2 =="";    
-    
-    
-    
-    }
-    
-    else {
-      std::string stringbuffer = value->getString();
-      whereIsSlash = stringbuffer.find("/");
-      whereIsEqualSign = stringbuffer.find("=");
-
-      if (whereIsSlash==string::npos){ // it's in "note value 
-        tempoMethodFlag = 0;
-        std::string firstHalf = 
-          value->getString().substr(0, int (whereIsSlash));
-       
-        if(firstHalf.find("thirt") != string::npos)
-            tempoNoteValue = tempoNoteValueThirtySecond;
-        else if(firstHalf.find("six") != string::npos)
-          tempoNoteValue = tempoNoteValueSixteenth;
-        else if(firstHalf.find("eig") != string::npos)
-          tempoNoteValue = tempoNoteValueEighth;
-        else if(firstHalf.find("quar") != string::npos)
-          tempoNoteValue = tempoNoteValueQuarter;
-        else if(firstHalf.find("hal") != string::npos)
-          tempoNoteValue = tempoNoteValueHalf;
-        else if(firstHalf.find("who") != string::npos)
-          tempoNoteValue = tempoNoteValueWhole;
-          
-        if(firstHalf.find("doub") != string::npos)
-              tempoPrefix = tempoPrefixDoubleDotted;
-        else if(firstHalf.find("dot") != string::npos)
-              tempoPrefix = tempoPrefixDotted;
-        else if(firstHalf.find("tripl") != string::npos)
-              tempoPrefix = tempoPrefixTriple;
-        else if(firstHalf.find("quin") != string::npos)
-          tempoPrefix = tempoPrefixQuintuple;
-        else if(firstHalf.find("sext") != string::npos)
-          tempoPrefix = tempoPrefixSextuple;
-        else if(firstHalf.find("sept") != string::npos)
-          tempoPrefix = tempoPrefixSeptuple;
-        else tempoPrefix = tempoPrefixNone;  
-    
-        timeSignatureEntry1 =="";
-        timeSignatureEntry2 =="";
-      }
-      else { //it's in fractional
-        tempoMethodFlag = 1;
-        tempoFractionEntry1 = value->getString().substr(0, int(whereIsSlash));
-        tempoFractionEntry2 = value->getString().substr(
-          int(whereIsSlash)+1, int(whereIsEqualSign) -1 - int(whereIsSlash)  );
-      }
-      tempoValueEntry =value->getString().substr(
-        int(whereIsEqualSign)+1, value->getString().length()-1); 
-    }
-  
-  }
-  
-
-  
-
-  value = file_data["LASSIEnumChildrenEntry1"];
-  if (value != NULL){
-    numChildrenEntry1 = value->getString();  
-    value = file_data["LASSIEnumChildrenEntry2"];
-    numChildrenEntry2 = (value == NULL)? "": value->getString();
-  
-    value = file_data["LASSIEnumChildrenEntry3"];
-    numChildrenEntry3 = (value == NULL)? "": value->getString();
-   // 0 = fixed, 1 = density, 2 = By layer
-  
-    value = file_data["LASSIEflagNumChildren"];
-    flagNumChildren = (value == NULL)? 0: value->getInt();  
-  
-  }
-  else {
-    //TODO implement this!
-  }
-
-  
-
-  value = file_data["LASSIEchildEventDefEntry1"];
-  childEventDefEntry1 = (value == NULL)? "": value->getString();
-  
-  value = file_data["LASSIEchildEventDefEntry2"];
-  childEventDefEntry2 = (value == NULL)? "": value->getString();
-  
-  value = file_data["LASSIEchildEventDefEntry3"];
-  childEventDefEntry3 = (value == NULL)? "": value->getString();
-  
-  value = file_data["LASSIEchildEventDefAttackSieve"];
-  childEventDefAttackSieve = (value == NULL)? "": value->getString();
-  
-  value = file_data["LASSIEchildEventDefDurationSieve"];
-  childEventDefDurationSieve = (value == NULL)? "": value->getString();
-
-
-
-   // 0 = continuum, 1 = sweep, 2 = discrete
-  
-  value = file_data["LASSIEflagChildEventDef"];
-  flagChildEventDef =(value == NULL)? 0: value ->getInt();
-
-   // 0 = percentage, 1 = units, 2 = seconds
-  
-  value = file_data["LASSIEflagChildEventDefStartType"];
-  flagChildEventDefStartType = (value == NULL)? 0: value->getInt();
-
-   // 0 = percentage, 1 = units, 2 = seconds
-
-  value = file_data["LASSIEflagChildEventDefDurationType"];
-  flagChildEventDefDurationType = (value == NULL)? 0: value->getInt();
-
-
-
-  value = file_data["LASSIEeventLayers"];
-  
-  std::list<FileValue> layersFileValue = value->getList();
-  std::list<FileValue>::iterator i = layersFileValue.begin();
-  
-  for (i ; i != layersFileValue.end(); i ++){
-    layers.push_back (new EventLayer(&(*i), this));
-  }
-  
-
-  if (eventType == eventBottom){
-  
-  
-    string firstChar = eventName.substr(0,1);
-    int childTypeFlag = -1;
-    if (firstChar =="s"){
-    	childTypeFlag = 0;
-    }
-    else if (firstChar =="n"){
-    	childTypeFlag = 1;
-    }
-    else {
-    	childTypeFlag = 2;
-   	}
-    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag); 
-  
-    
-  }
-  
-  file_data.clear();
-  fclose (yyin);
-  YY_FLUSH_BUFFER; //reset parser buffer so that next file would be parsed correctly even if the current one parse fail.
-
-}
-
-*/
 
 
 IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag){
@@ -2209,6 +1778,10 @@ IEvent::IEvent(IEvent* _original, string _newName){
   	extraInfo = (EventExtraInfo*) 
   	  new ReverbExtraInfo((ReverbExtraInfo*) _original->extraInfo);
   }
+    else if (eventType== eventFil){
+  	extraInfo = (EventExtraInfo*) 
+  	  new FilterExtraInfo((FilterExtraInfo*) _original->extraInfo);
+  }
   else if (eventType == eventSiv){
   	extraInfo = (EventExtraInfo*) 
   	  new SieveExtraInfo((SieveExtraInfo*) _original->extraInfo);
@@ -2256,6 +1829,11 @@ IEvent::IEvent(IEvent* _original, string _newName){
 IEvent::ReverbExtraInfo::ReverbExtraInfo(ReverbExtraInfo* _original){
 	reverbBuilder = _original->reverbBuilder;
 }
+IEvent::FilterExtraInfo::FilterExtraInfo(FilterExtraInfo* _original){
+	filterBuilder = _original->filterBuilder;
+}
+
+
 
 IEvent::NoteExtraInfo::NoteExtraInfo(NoteExtraInfo* _original){
 	 modifiers = _original->modifiers;
@@ -2423,6 +2001,8 @@ string IEvent::getEventFolderName(){
       return "Folder";
     case 12:
       return "Note";
+    case 13:
+      return "Filter";
   }
 }
 
@@ -2562,6 +2142,15 @@ bool IEvent::ReverbExtraInfo::haveString(string _string){
   return false;
 }
 
+bool IEvent::FilterExtraInfo::haveString(string _string){
+  size_t position = filterBuilder.find (_string, 0);
+  if (position != -1){
+    return true;
+  }
+  return false;
+}
+
+
 bool IEvent::NoteExtraInfo::haveString(string _string){
   return false;
 
@@ -2693,6 +2282,12 @@ switch(eventType){
       break;
     case 12:
       return getXMLNote();  
+      break;
+    case 13:
+      return getXMLFil();
+      break;
+  
+      
   }
 
 }
@@ -2813,6 +2408,7 @@ string IEvent::getXMLTHMLB(){
         "        <Loudness>" + extraInfo->getLoudness() + "</Loudness>\n"
         "        <Spatialization>" + extraInfo->getSpatialization() + "</Spatialization>\n"
         "        <Reverb>" + extraInfo->getReverb() + "</Reverb>\n"
+        "        <Filter>" + extraInfo->getFilter() + "</Filter>\n"
           + modifiersbuffer +
         "      </ExtraInfo>\n";
       stringbuffer = stringbuffer + bottomBuffer;  
@@ -2926,6 +2522,23 @@ string IEvent::getXMLRev(){
 
 }
 
+string IEvent::getXMLFil(){
+  char charBuffer[10];
+  sprintf (charBuffer," %d", eventOrderInPalette);  
+  
+  string buffer = 
+    "    <Event orderInPalette='" + string(charBuffer) +"'>\n"
+    "      <EventType>13</EventType>\n" //13 is filter
+    "      <Name>" + eventName + "</Name>\n"
+    "      <FilterBuilder>" + extraInfo->getFilterBuilder() + "</FilterBuilder>\n"
+    "    </Event>\n";
+ 
+  return buffer;
+
+}
+
+
+
 
 string IEvent::getXMLNote(){
   char charBuffer[10];
@@ -3012,6 +2625,12 @@ void IEvent::buildNonEventFromDOM(DOMElement* _element){
   else if (eventType == eventRev){
     extraInfo = (EventExtraInfo*) new ReverbExtraInfo();   
     extraInfo->setReverbBuilder(getFunctionString(_element)); 
+  }
+
+
+  else if (eventType == eventFil){
+    extraInfo = (EventExtraInfo*) new FilterExtraInfo();   
+    extraInfo->setFilterBuilder(getFunctionString(_element)); 
   }
 
   else if (eventType == eventNote){
@@ -3208,9 +2827,20 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag, DOMElemen
     
   thisElement = thisElement->getNextElementSibling();
   reverb = getFunctionString(thisElement); 
-    
-  modifiers = buildModifiersFromDOMElement(thisElement->getNextElementSibling()->getFirstElementChild());
   
+  thisElement = thisElement->getNextElementSibling();
+  DOMElement* temp = thisElement->getNextElementSibling();
+  
+  if (temp != NULL){ // in case there is no <Filter></Filter>
+    filter = getFunctionString(thisElement);  
+    
+    modifiers = buildModifiersFromDOMElement(thisElement->getNextElementSibling()->getFirstElementChild());
+  }
+  else {
+    filter = "";
+    modifiers = buildModifiersFromDOMElement(thisElement->getFirstElementChild());
+  }
+
 }
 
 

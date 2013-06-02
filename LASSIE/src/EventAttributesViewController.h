@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -246,6 +246,7 @@ public:
   void BSLoudnessButtonClicked();
   void BSSpatializationButtonClicked();
   void BSReverbButtonClicked();
+  void BSFilterButtonClicked();
   void BSWellTemperedButtonClicked();
   void BSFunFreqButton1Clicked();
   void BSFunFreqButton2Clicked();
@@ -288,7 +289,7 @@ private:
   void switchToPatAttributes();
   void switchToRevAttributes();
   void switchToNoteAttributes();
-
+  void switchToFilAttributes();
   
   
   Glib::RefPtr<Gtk::Builder> attributesRefBuilder;
@@ -485,6 +486,7 @@ private:
   void sieveFunButtonClicked();
   void patternFunButtonClicked();
   void reverbFunButtonClicked();
+  void filterFunButtonClicked();
   void spatializationFunButtonClicked(); 
   bool entryChangedByShowCurrentEvent;
   bool deleteLayer(LayerBox* _deleteBox);

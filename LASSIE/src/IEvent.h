@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 
 
 
-class EventFactory;
+
 class ProjectViewController;
 /*! \brief The event types including the types defined in CMOD
   *    (Top - Bottom) and types for LASSIE
@@ -318,6 +318,7 @@ public:
   string getXMLSpa();
   string getXMLPat();
   string getXMLRev();
+  string getXMLFil();
   string getXMLNote();
   string static getFunctionString(DOMElement* _thisFunctionElement);
   
@@ -478,6 +479,8 @@ public:
     virtual void  setSpatialization(std::string _string){}
     virtual std::string  getReverb(){return "";}
     virtual void  setReverb(std::string _string){}
+    virtual std::string  getFilter(){return "";}
+    virtual void  setFilter(std::string _string){}
     virtual EventBottomModifier*  getModifiers(){return NULL;}
     virtual EventBottomModifier* addModifier(){return NULL;}   
     virtual void  removeModifier(EventBottomModifier* _modifier){}
@@ -488,7 +491,9 @@ public:
     virtual std::string getSieveBuilder(){return "";}
     virtual void setSieveBuilder(std::string _string){}    
     virtual std::string getReverbBuilder(){return "";}
-    virtual void setReverbBuilder(std::string _string){}    
+    virtual void setReverbBuilder(std::string _string){}  
+    virtual std::string getFilterBuilder(){return "";}
+    virtual void setFilterBuilder(std::string _string){}    
     virtual std::string getSpatializationBuilder(){return "";}
     virtual void setSpatializationBuilder(std::string _string){}
     virtual void setChildTypeFlag(int _type){};
@@ -535,6 +540,8 @@ public:
     void  setSpatialization(std::string _string);
     std::string  getReverb();
     void  setReverb(std::string _string);
+    std::string  getFilter();
+    void  setFilter(std::string _string);
     EventBottomModifier* getModifiers();    
     EventBottomModifier* addModifier();  
     void removeModifier(EventBottomModifier* _modifier); 
@@ -553,6 +560,7 @@ public:
     std::string loudness;
     std::string spatialization;
     std::string reverb;
+    std::string filter;
 
     EventBottomModifier* buildModifiersFromDOMElement(DOMElement* _thisModifierElement);
   
@@ -628,6 +636,21 @@ public:
   private:
     std::string reverbBuilder;
   };
+
+
+    // Filter
+  class FilterExtraInfo : public EventExtraInfo {  
+  public:
+  	FilterExtraInfo(FilterExtraInfo* _original);
+    FilterExtraInfo(){filterBuilder = "";}
+    ~FilterExtraInfo(){}
+    std::string getFilterBuilder();
+    void setFilterBuilder(std::string _string);
+    bool haveString(string _string);
+  private:
+    std::string filterBuilder;
+  };
+
 
      // Sound
   class SoundExtraInfo: public EventExtraInfo {
@@ -737,7 +760,7 @@ private:
   void buildNonEventFromDOM(DOMElement* _element);
 
   
-  EventExtraInfo* openExtraInfo(EventFactory* _event ,EventType _eventType);
+  //EventExtraInfo* openExtraInfo(EventFactory* _event ,EventType _eventType);
   
 
   bool changedButNotSaved;

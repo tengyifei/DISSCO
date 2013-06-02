@@ -9,7 +9,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -277,7 +277,9 @@ void PaletteViewController::insertEvent(IEvent* _event){
     else if (parent[columns.columnObjectName] == "Note"){
       windowToRefresh = projectView->noteWindow;
     }
-
+     else if (parent[columns.columnObjectName] == "Filter"){
+      windowToRefresh = projectView->filWindow;
+    }
   }
 
   childrow[columns.columnObjectType] = _event->getEventTypeString();
@@ -689,7 +691,7 @@ void PaletteViewController::duplicateObject(){
   
       //put this event right below the original one
     newIEvent->setEventOrderInPalette( 
-      originalEvent->getEventOrderInPalette() + 5);
+    originalEvent->getEventOrderInPalette() + 5);
     insertEvent(newIEvent, typeString);
     projectView->modified();
     projectView->events.push_back(newIEvent);
@@ -784,8 +786,9 @@ void PaletteViewController::switchBackToPreviousCursor(
 
 
 int PaletteViewController::getCurrentMaxObjectNumber(string _folderName){
+
   
-  typedef Gtk::TreeModel::Children type_children; //minimise code length.
+  typedef Gtk::TreeModel::Children type_children; //minimize code length.
   type_children children = refTreeModel->children();
   type_children::iterator iter = children.begin();
   bool entryNotFoundYet = true;

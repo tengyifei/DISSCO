@@ -1,6 +1,7 @@
 /*
 CMOD (composition module)
-Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+2005  Sever Tipei (s-tipei@uiuc.edu)
+2013  Ming-ching Chiu
                                                                                 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -818,6 +819,7 @@ string convertEvent(string _eventPathAndName, EventType _type){
         "        <Loudness>" + loudness + "</Loudness>\n"
         "        <Spatialization>" + spatialization + "</Spatialization>\n"
         "        <Reverb>" + reverb + "</Reverb>\n"
+        "        <Filter />"
           + modifiersbuffer +
         "      </ExtraInfo>\n";
       stringbuffer = stringbuffer + bottomBuffer;  

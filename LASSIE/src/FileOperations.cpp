@@ -9,7 +9,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -267,7 +267,7 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   //_mainWindow->set_title("LASSIE");
   
   // setup the open project dialog window 
-  
+  /*
   Gtk::FileChooserDialog dialog("Open existing project",
                                 Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
   
@@ -326,7 +326,7 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
     }
   }
   
-  return NULL;
+  return NULL;*/
 }
 
 

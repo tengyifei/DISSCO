@@ -88,7 +88,7 @@ public:
   // Getters
   bool getOutputParticel(){return outputParticel;}
   int getNumberOfChannels(){return numChannels;}
-  
+  int getSamplingRate(){return samplingRate;}
   
   
   //----------------------------- Other tasks---------------------------------//
@@ -130,6 +130,10 @@ private:
   // Helpers for getting REV   
   DOMElement* getREVFunctionElement(void* _object);
   DOMElement* getREVFunctionElementHelper(void* _object, DOMElement* _REVFunction, bool _initialCall);
+  
+  // Helpers for getting FIL
+  DOMElement* getFILFunctionElement(void* _object);
+  DOMElement* getFILFunctionElementHelper(void* _object, DOMElement* _FILFunction, bool _initialCall);
   
   
   /**
@@ -194,6 +198,7 @@ private:
   std::map<string,DOMElement*> spatializationElements;
   std::map<string,DOMElement*> patternElements;
   std::map<string,DOMElement*> reverbElements;
+  std::map<string,DOMElement*> filterElements;
   std::map<string,DOMElement*> notesElements;
   
   // Storage of LASS Parsed/generated Envelopes
@@ -204,6 +209,7 @@ private:
   bool outputParticel;
   int numThreads;
   int numChannels;
+  int samplingRate;
   Piece* piece;
   Score* score;
   

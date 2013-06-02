@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -422,6 +422,9 @@ EventAttributesViewController::EventAttributesViewController(
     "BottomSubAttributesReverbButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::BSReverbButtonClicked)); 
   
+  attributesRefBuilder->get_widget(
+    "BottomSubAttributesFilterButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::BSFilterButtonClicked));
   
       attributesRefBuilder->get_widget(
     "BottomSubAttributesWellTemperedButto", button);
@@ -460,6 +463,12 @@ EventAttributesViewController::EventAttributesViewController(
   attributesRefBuilder->get_widget(
     "ReverbAttributesFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, &   EventAttributesViewController::reverbFunButtonClicked));
+  
+  //rev
+  attributesRefBuilder->get_widget(
+    "FilterAttributesFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, &   EventAttributesViewController::filterFunButtonClicked));
+  
   
   //Pattern
   attributesRefBuilder->get_widget(
@@ -604,6 +613,9 @@ EventAttributesViewController::EventAttributesViewController(
 
   attributesRefBuilder->get_widget(
     "BottomSubAttributesReverbEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
+  attributesRefBuilder->get_widget(
+    "BottomSubAttributesFilterEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
  
   attributesRefBuilderSound->get_widget(
@@ -1116,6 +1128,10 @@ void EventAttributesViewController::saveCurrentShownEventData(){
         "BottomSubAttributesReverbEntry", entry);
       currentlyShownEvent->getEventExtraInfo()->setReverb(entry->get_text());          
     
+      attributesRefBuilder->get_widget(
+        "BottomSubAttributesFilterEntry", entry);
+      currentlyShownEvent->getEventExtraInfo()->setFilter(entry->get_text()); 
+    
     
     if (modifiers!=NULL){
       modifiers->saveToEvent();
@@ -1179,6 +1195,14 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     attributesRefBuilder->get_widget(
       "ReverbAttributesBuilderEntry", entry);
     extraInfo->setReverbBuilder(entry->get_text());  
+
+  }  
+    else if (currentlyShownEvent->getEventType() ==eventFil){
+    IEvent::EventExtraInfo* extraInfo = 
+      currentlyShownEvent->getEventExtraInfo();
+    attributesRefBuilder->get_widget(
+      "FilterAttributesBuilderEntry", entry);
+    extraInfo->setFilterBuilder(entry->get_text());  
 
   }  
   else if (currentlyShownEvent->getEventType() ==eventNote){
@@ -2074,18 +2098,30 @@ void EventAttributesViewController::showCurrentEventData(){
           	"BottomSubAttributesReverbEntry", entry);
         	entry->set_text(extraInfo->getReverb());
         	entry->set_sensitive(true);
+        	
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesFilterEntry", entry);
+        	entry->set_text(extraInfo->getFilter());
+        	entry->set_sensitive(true);        
+        	
         }
         else {
+        
         	attributesRefBuilder->get_widget(
           	"BottomSubAttributesSpatializationEntry", entry);
-        	entry->set_text(extraInfo->getSpatialization()); 
+        	entry->set_text(""); 
         	entry->set_sensitive(false);
         
-        
-        	attributesRefBuilder->get_widget(
+                	attributesRefBuilder->get_widget(
           	"BottomSubAttributesReverbEntry", entry);
-        	entry->set_text(extraInfo->getReverb());
-        	entry->set_sensitive(false);        
+        	entry->set_text("");
+        	entry->set_sensitive(false);
+        	
+        	attributesRefBuilder->get_widget(
+          	"BottomSubAttributesFilterEntry", entry);
+        	entry->set_text("");
+        	entry->set_sensitive(false);  
+        	
         
         
         }
@@ -2206,7 +2242,9 @@ void EventAttributesViewController::showCurrentEventData(){
     case 12:
       switchToNoteAttributes();
       break;
-      
+        case 13:
+      switchToFilAttributes();
+      break;  
       
   }
   //  }
@@ -2401,6 +2439,31 @@ void EventAttributesViewController::switchToRevAttributes(){
     "ReverbAttributesBuilderEntry", entry);
   
   entry->set_text(extraInfo->getReverbBuilder());
+  
+}
+
+
+void EventAttributesViewController::switchToFilAttributes(){
+  Gtk::Frame* frame;
+  IEvent::EventExtraInfo* extraInfo = currentlyShownEvent->getEventExtraInfo();
+  
+  attributesRefBuilder->get_widget("FilterAttributesFrame", frame);
+  scrolledWindow.add(*frame);
+  Gtk::Entry* entry;
+  
+  
+  attributesRefBuilder->get_widget("FilterAttributesNameEntry", entry);
+  entry->set_text( currentlyShownEvent->getEventName());
+  entry->set_sensitive(false);
+  attributesRefBuilder->get_widget("FilterAttributesTypeEntry", entry);
+  entry->set_text( currentlyShownEvent->getEventTypeString()  );
+  entry->set_sensitive(false);
+
+
+  attributesRefBuilder->get_widget(
+    "FilterAttributesBuilderEntry", entry);
+  
+  entry->set_text(extraInfo->getFilterBuilder());
   
 }
 
@@ -4239,6 +4302,27 @@ void EventAttributesViewController::BSReverbButtonClicked(){
     }
   delete generator;
 }
+
+
+void EventAttributesViewController::BSFilterButtonClicked(){
+  
+  
+	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+		return;
+	}
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget(
+    "BottomSubAttributesFilterEntry", entry);
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFIL,entry->get_text());
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+  delete generator;
+  
+}
+
 void EventAttributesViewController::BSWellTemperedButtonClicked(){
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
@@ -4414,6 +4498,23 @@ void EventAttributesViewController::reverbFunButtonClicked(){
   delete generator;
 
 }
+
+void EventAttributesViewController::filterFunButtonClicked(){
+  
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget(
+    "FilterAttributesBuilderEntry", entry);
+    
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFIL,entry->get_text());
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
+    entry->set_text(generator->getResultString());
+  }
+  delete generator;
+  
+}
+
 
 void EventAttributesViewController::spatializationFunButtonClicked(){
   Gtk::Entry* entry; 
