@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -66,12 +66,15 @@ typedef enum {
   functionReadPATFile,
   functionReadSPAFile,
   functionReadREVFile,
+  functionReadFILFile,
   
   functionSPA,
   
   functionREV_Simple,
   functionREV_Medium,
   functionREV_Advanced,
+  
+  functionMakeFilter,
   
   function_staticCURRENT_TYPE,
   function_staticCURRENT_CHILD_NUM,
@@ -107,7 +110,7 @@ class FunctionGenerator :public Gtk::Dialog{
 public:
 
   FunctionGenerator(FunctionReturnType _returnType,std::string _originalString);
-  void parseOldFormat(FunctionReturnType _returnType,std::string _originalString);
+  
   ~FunctionGenerator();
   std::string getResultString();
   std::string static getFunctionString(
@@ -454,6 +457,15 @@ private:
   
   //ReadREVFile
   void readREVFileTextChanged();
+  
+  //ReadFILFile
+  void readFILFileTextChanged();
+  
+  //MakeFilter
+  void makeFilterTextChanged();
+  void makeFilterDBGainFunButtonClicked();
+  void makeFilterBandWidthFunButtonClicked();
+  void makeFilterFrequencyFunButtonClicked();
   
   //REV_Simple
   void REV_SimpleEntryTextChanged();  

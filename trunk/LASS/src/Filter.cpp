@@ -83,6 +83,8 @@ Track &Filter::do_filter_Track(Track &inWave)
 //----------------------------------------------------------------------------//
 SoundSample *Filter::do_filter_SoundSample(SoundSample *inWave)
 {
+  
+  
 	int i;
 	SoundSample *outWave;
 

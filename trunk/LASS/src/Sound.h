@@ -37,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "DynamicVariable.h"
 #include "Spatializer.h"
 #include "Reverb.h"
+#include "Filter.h"
 #include "InterpolatorTypes.h"
 
 //----------------------------------------------------------------------------//
@@ -218,6 +219,13 @@ public:
     *	\param s The Spatializer to use
     **/
     void setSpatializer(Spatializer& s);
+
+    /**
+    *   This function performs filter in the render() method
+    *	\param newFilterbObj The Filter object
+    **/
+    void use_filter(Filter *newFilterObj);
+
     
     /**
     *   This function performs reverb in the render() method
@@ -253,7 +261,12 @@ private:
     *	\param env The envelope
     **/
     void setup_detuning_env(ExponentialInterpolator *env);
-
+    
+    /**
+    *	Pointer to a filter object that will apply filter to this sound
+    **/
+    Filter *filterObj;
+    
     /**
     *	Pointer to a reverb object that will apply reverb to this sound
     **/

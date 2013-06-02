@@ -50,6 +50,7 @@ Utilities::Utilities(DOMElement* root,
   soundSynthesis(_soundSynthesis),
   outputParticel(_outputParticel),
   numThreads(_numThreads),
+  samplingRate(_samplingRate),
   piece(_piece),
   numChannels(_numChannels){
   
@@ -110,7 +111,8 @@ Utilities::Utilities(DOMElement* root,
               pair<string, DOMElement*>(eventName, thisEventElement));break;
       case 12:notesElements.insert(
               pair<string, DOMElement*>(eventName, thisEventElement));break;
-      
+      case 13:filterElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));break;
     }
     thisEventElement = thisEventElement->GNES();
   }   
@@ -139,6 +141,7 @@ DOMElement* Utilities::getEventElement(EventType _type, string _eventName){
     case 9:it=patternElements.find(_eventName);break;
     case 10:it=reverbElements.find(_eventName);break;
     case 12:it=notesElements.find(_eventName);break;
+    case 13:it=filterElements.find(_eventName);break;
   }
   return it->second;
 }
@@ -237,7 +240,10 @@ void* Utilities::evaluateObject(string _input,
     
     return (void*) getSieve( input, _object);
   }
+  else if (_returnType ==eventFil){
     
+    return (void*) getFILFunctionElement( _object);
+  }  
 }
 
 //----------------------------------------------------------------------------//
@@ -1325,6 +1331,114 @@ DOMElement* Utilities::getREVFunctionElementHelper(void* _object, DOMElement* _R
     return REVElement->getFirstElementChild();
   }
 }
+
+
+DOMElement* Utilities::getFILFunctionElement(void* _object){
+  getFILFunctionElementHelper(_object,NULL,true);
+}
+
+DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _FILFunction, bool _initialCall){
+  
+  DOMElement* FILElement; 
+
+  if (_initialCall ==true){
+    Bottom* thisBottom = (Bottom*)_object;
+    FILElement = thisBottom->getFILElement();
+  }
+  else {
+    FILElement = _FILFunction;
+  }
+  
+  DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
+  
+  if ( XMLTC(FILElement) ==""){
+    cout<<"no filter"<<endl;
+    return NULL;
+  }
+  
+  
+  if (XMLTranscode(functionNameElement).compare("ReadFILFile")==0){
+    string functionString = XMLTC(FILElement);
+    string fileName;
+    
+    size_t select = functionString.find("Select", 0);
+    if (select == string::npos){
+      fileName = XMLTranscode(functionNameElement->GNES());
+    }
+    else{ //see select inside readFIL
+      //cout<<functionString<<endl;
+      string selectedListElementString = "<root><Fun><Name>ReadFILFile</Name><File>" + function_SelectObject(FILElement->GFEC()->GFEC()->GNES()->GFEC(), _object) + "</File></Fun></root>";
+    // Here we need to push a temporary parser in the _object to stored the  
+    // parsed selectedListElementString...
+    
+      selectedListElementString = removeSpaces (selectedListElementString);
+      
+    
+      XercesDOMParser* parser = new XercesDOMParser();
+    
+      xercesc::MemBufInputSource myxml_buf  (
+        (const XMLByte*)selectedListElementString.c_str(),
+        selectedListElementString.size(), 
+        "function (in memory)");
+  
+      parser->parse(myxml_buf);
+
+      DOMDocument* xmlDocument = parser->getDocument();
+      DOMElement* root = xmlDocument->getDocumentElement();
+      ((Event*)_object)->addTemporaryXMLParser(parser); 
+      //after the statement above, the ownership of the parser is transfered to
+      // the _object. the _object is responsible to clean up the memory of the
+      // parser, which is done by the std::vector automatically.
+      return getFILFunctionElementHelper(_object, root, false); 
+      
+    }//end see select inside readSPA
+    
+    
+    fileName = removeSpaces (fileName);
+    
+    
+    DOMElement* k = getEventElement(eventFil, fileName);
+
+    return getFILFunctionElementHelper(_object, k->GFEC()->GNES()->GNES(), false); ; 
+  
+  }
+  else if (XMLTranscode(functionNameElement).compare("Select")==0){
+    string selectedListElementString = "<root>" + function_SelectObject(FILElement->GFEC(), _object) + "</root>";
+    
+    // Here we need to push a temporary parser in the _object to stored the  
+    // parsed selectedListElementString...
+    XercesDOMParser* parser = new XercesDOMParser();
+    
+    xercesc::MemBufInputSource myxml_buf  (
+      (const XMLByte*)selectedListElementString.c_str(),
+       selectedListElementString.size(), 
+       "function (in memory)");
+  
+    parser->parse(myxml_buf);
+
+    DOMDocument* xmlDocument = parser->getDocument();
+    DOMElement* root = xmlDocument->getDocumentElement();
+    
+    ((Event*)_object)->addTemporaryXMLParser(parser); 
+    //after the statement above, the ownership of the parser is transfered to
+    // the _object. the _object is responsible to clean up the memory of the
+    // parser, which is done by the std::vector automatically.
+    return getFILFunctionElementHelper(_object, root, false); 
+    
+  }
+  
+  else { 
+    return FILElement->getFirstElementChild();
+  }
+}
+
+
+
+
+
+
+
+
 
 Envelope* Utilities::getEnvelope(string _input, void* _object){
   

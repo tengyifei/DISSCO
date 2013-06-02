@@ -88,7 +88,8 @@ typedef enum {
   eventPat    = 9,
 	eventRev    = 10,
 	eventFolder = 11,
-	eventNote = 12
+	eventNote = 12,
+	eventFil = 13
 
 } EventType;
 

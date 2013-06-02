@@ -1,3 +1,31 @@
+/*
+CMOD (composition module)
+2005  Sever Tipei (s-tipei@uiuc.edu)
+2013  Ming-ching Chiu
+                                                                                
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+                                                                                
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+                                                                                
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+//----------------------------------------------------------------------------//
+// 
+//  UpgradeFileFormat.cpp
+// 
+//  This program convert the projects from the old FileValue format to the new
+//  XML Format. 
+//
+//---------------------------------------------------------------------------//
 
 
 // these definitions are for calling yyparse(). They are copied from lex.yy.c
@@ -94,14 +122,11 @@ extern map<const char*, FileValue*, ltstr> file_data;
 extern void yyrestart (FILE *input_file  );
 
 
-string convertFunction(string _input){return "Converting function directly from old CMOD entries is not implemented. please fill in the Lassie Meta Data. (Open the project with LASSIE, it will fill in the metadata for you.";}
+string convertFunction(string _input){return "Converting function directly from old CMOD entries is not implemented. please fill in the Lassie Meta Data. (Open the project with LASSIE; it will fill in the metadata for you.";}
 string convertFunctionFromLASSIEMetaData(string _input);
-
-
 string convertFunctionHelperForEvaluation(FileValue* _value);
 string fileValueListToStringForEvaluation(list<FileValue> _valueList);
 void morphNumericString (char *s);
-
 string convertEvent(string _eventPathAndName, EventType _type);
 string parseNonEvent(EventType _type);
 string convertEventLayer ( FileValue* _layerFileValue);

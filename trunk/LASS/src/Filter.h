@@ -54,6 +54,7 @@ class Filter
 {
 public:
 
+  virtual ~Filter(){}
     	/**
 	 *This method applies the filter to a MultiTrack source, track by track.
 	 * It does so by decomposing the wave into Track objects (organized as

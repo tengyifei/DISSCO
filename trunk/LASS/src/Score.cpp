@@ -59,7 +59,7 @@ void Score::add(Sound* _sound){
   // To prevent unnecessary memory use, this function is temporarily blocked
   // when there are too many sounds objects waiting to be rendered.
   // 200 is just an arbitrary number. 
-  // This loop can be upgraded to a fancier way to block the main thread, but
+  // This funcion can be upgraded to block the main thread in a fancier way, but
   // for now this is enough.
   //                                           --Ming-ching May 06, 2013 
   while (sounds.size()>200){
@@ -131,13 +131,7 @@ void *render(void *_threadEntry){
     MultiTrack* renderedSound = sound->render(threadEntry.numChannels, 
                                               threadEntry.samplingRate);
     
-    //check he length of scoreMultiTrackLength
-    //threadEntry.score->checkScoreMultiTrackLength();
     
-    
-    cout<<"Thread #"<<threadEntry.threadID<<": push rendered Sound #"<<
-          *(threadEntry.soundsRendered)<<" of "<< 
-          *(threadEntry.soundObjectsCreated)<<endl;
     threadEntry.score->addRenderedSound(sound->getParam(START_TIME), renderedSound);
     
     // clean up
@@ -215,7 +209,6 @@ void Score::addRenderedSound(m_time_type _startTime, MultiTrack* _renderedSound)
     pthread_mutex_lock( &mutexVectorRenderedSound );
     if (renderedSounds.size()<20){
       renderedSounds.push_back(newPair);
-      cout<<"AddrenderedSound: There are "<<renderedSounds.size()<< " rendered sounds waiting to be composited."<<endl;
       pthread_mutex_unlock(&mutexVectorRenderedSound ); 
       return;  
     }
@@ -237,7 +230,6 @@ void Score::compositeRenderedSounds(){
     if(renderedSounds.size()!=0){
       pair<m_time_type,MultiTrack*>* thisPair = renderedSounds.back();
       renderedSounds.pop_back();
-      cout<<"compositeRenderedSounds: There are "<<renderedSounds.size()<< " rendered sounds waiting to be composited after popping."<<endl;
       pthread_mutex_unlock( &mutexVectorRenderedSound ); 
       checkScoreMultiTrackLength();
       scoreMultiTrack->composite(*(thisPair->second), thisPair->first);
@@ -293,8 +285,6 @@ MultiTrack* Score::joinThreadsAndMix(){
 
 void Score::checkScoreMultiTrackLength(){
 
-
-      
   if ( scoreEndTime > scoreMultiTrackLength ){
       scoreMultiTrackLength = scoreEndTime;
       m_sample_count_type newNumSamples =

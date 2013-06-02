@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ FunctionGenerator::FunctionGenerator(
   std::string _originalString){
   
   //check new  format
-  
+  /*
   if (_originalString.size()!=0&&_originalString.at(0)=='<'){
   }
   else {
@@ -148,7 +148,7 @@ FunctionGenerator::FunctionGenerator(
     
     return;
   }
- 
+ */
   
   
 
@@ -488,6 +488,22 @@ FunctionGenerator::FunctionGenerator(
         
   }
   
+    else if (_returnType ==functionReturnFIL){
+    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionMakeFilter;
+    row[functionListColumns.m_col_name] = "MakeFilter";
+
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionReadFILFile;
+    row[functionListColumns.m_col_name] = "ReadFILFile"; 
+    
+    // this is based on Sever's request
+    row = *(functionListTreeModel->append());
+    row[functionListColumns.m_col_id] = functionSelect;
+    row[functionListColumns.m_col_name] = "Select"; 
+    
+        
+  }
   else if (_returnType ==functionReturnPAT){
     Gtk::TreeModel::Row row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionMakePattern;
@@ -1109,6 +1125,80 @@ FunctionGenerator::FunctionGenerator(
     *this, & FunctionGenerator::readPATFileTextChanged));   
   
 
+  //ReadFILFile
+  attributesRefBuilder->get_widget(
+    "ReadFILFileEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::readFILFileTextChanged)); 
+
+  
+  //MakeFilter
+  attributesRefBuilder->get_widget(
+    "MakeFilterFrequencyEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged)); 
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterBandWidthEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterDBGainEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterFrequencyFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeFilterFrequencyFunButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterBandWidthFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeFilterBandWidthFunButtonClicked));
+    
+  attributesRefBuilder->get_widget(
+    "MakeFilterDBGainFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, &FunctionGenerator::makeFilterDBGainFunButtonClicked));  
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterLPFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterHPFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+    
+    attributesRefBuilder->get_widget(
+    "MakeFilterBPFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+    
+    attributesRefBuilder->get_widget(
+    "MakeFilterLSFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+    
+    attributesRefBuilder->get_widget(
+    "MakeFilterHSFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+    
+    attributesRefBuilder->get_widget(
+    "MakeFilterNFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+    
+    attributesRefBuilder->get_widget(
+    "MakeFilterPBEQFRadioButton", radiobutton);
+  radiobutton->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::makeFilterTextChanged));
+  
+  
   
 
   //ReadREVFile 
@@ -2467,7 +2557,94 @@ FunctionGenerator::FunctionGenerator(
     //end parsing
   } 
   
+  //check if ReadFILFile
   
+  if(functionName.compare("ReadFILFile")==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "ReadFILFile"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    // start parsing 
+     // first argument is a string
+      
+    thisElement = functionNameElement->getNextElementSibling();    
+    attributesRefBuilder->get_widget("ReadFILFileEntry",entry);
+    entry->set_text(getFunctionString(thisElement));
+    
+    
+    //end parsing
+  } 
+  
+
+  //check if MakeFilter
+
+  if(functionName.compare("MakeFilter")==0){
+    iter = combobox->get_model()->get_iter("0");
+    row = *iter;
+    while(row[functionListColumns.m_col_name]!= "MakeFilter"){
+      iter++;
+      row = *iter;
+    }
+    combobox->set_active(iter);
+    // start parsing 
+    
+    thisElement = functionNameElement->getNextElementSibling(); 
+    string type = getFunctionString(thisElement);
+    
+    if (type =="LPF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterLPFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="HPF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterHPFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="BPF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterBPFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="LSF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterLSFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="HSF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterHSFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="NF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterNFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    else if (type =="PBEQF"){
+      attributesRefBuilder->get_widget(
+          "MakeFilterPBEQFRadioButton",radiobutton);
+        radiobutton->set_active(); 
+    }
+    
+      
+    thisElement = thisElement->getNextElementSibling();    
+    attributesRefBuilder->get_widget("MakeFilterFrequencyEntry",entry);
+    entry->set_text(getFunctionString(thisElement));
+    
+    thisElement = thisElement->getNextElementSibling();    
+    attributesRefBuilder->get_widget("MakeFilterBandWidthEntry",entry);
+    entry->set_text(getFunctionString(thisElement));
+    
+    thisElement = thisElement->getNextElementSibling();    
+    attributesRefBuilder->get_widget("MakeFilterDBGainEntry",entry);
+    entry->set_text(getFunctionString(thisElement));
+    
+    //end parsing
+  } 
 
   //check if MakeSieve
  if(functionName.compare("MakeSieve")==0){
@@ -2559,7 +2736,7 @@ FunctionGenerator::FunctionGenerator(
   
   
   
-  
+ 
   
   if(functionName.compare("ReadSIVFile")==0){
     iter = combobox->get_model()->get_iter("0");
@@ -3156,7 +3333,45 @@ void FunctionGenerator::function_list_combo_changed(){
         set_position(Gtk::WIN_POS_CENTER_ALWAYS);
         resize(400,300);
   
-      }       
+      }     
+      else if (function == functionReadFILFile){
+        alignment->remove(); //remove the current parameter box
+        attributesRefBuilder->get_widget("ReadFILFileVBox", vbox);
+        alignment->add (*vbox); //add random vbox in
+        //reset all data
+        attributesRefBuilder->get_widget(
+          "ReadFILFileEntry", entry);
+        entry->set_text("");
+        entry->grab_focus();
+        readFILFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
+  
+      }  
+      else if (function == functionMakeFilter){
+        alignment->remove(); //remove the current parameter box
+        attributesRefBuilder->get_widget("MakeFilterVBox", vbox);
+        alignment->add (*vbox); //add random vbox in
+        //reset all data
+        attributesRefBuilder->get_widget(
+          "MakeFilterDBGainEntry", entry);
+        entry->set_text("");
+        
+        attributesRefBuilder->get_widget(
+          "MakeFilterFrequencyEntry", entry);
+        entry->set_text("");
+        
+        attributesRefBuilder->get_widget(
+          "MakeFilterBandWidthEntry", entry);
+        entry->set_text("");
+        
+        entry->grab_focus();
+        readFILFileTextChanged();
+        set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+        resize(400,300);
+  
+      }  
+      
       else if (function == function_staticCURRENT_TYPE){
         alignment->remove();
         textview->get_buffer()->set_text("<Fun><Name>CURRENT_TYPE</Name></Fun>");
@@ -4972,6 +5187,175 @@ void FunctionGenerator::readPATFileTextChanged(){
 }
 
 
+void FunctionGenerator::readFILFileTextChanged(){
+  Gtk::TextView* textview;
+  attributesRefBuilder->get_widget("resultStringTextView", textview);
+  Gtk::Entry* entry; 
+  
+  
+  attributesRefBuilder->get_widget(
+    "ReadFILFileEntry", entry);
+   std::string stringbuffer ="<Fun><Name>ReadFILFile</Name><File>" + entry->get_text() +  "</File></Fun>";
+  
+  textview->get_buffer()->set_text(stringbuffer);
+  
+
+}
+
+
+void FunctionGenerator::makeFilterTextChanged(){
+  
+  Gtk::TextView* textview;
+  attributesRefBuilder->get_widget("resultStringTextView", textview);
+  Gtk::Entry* entry; 
+  Gtk::RadioButton* radiobutton;
+    
+   
+  std::string stringbuffer = "<Fun><Name>MakeFilter</Name><Type>";
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterLPFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "LPF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(false);
+      entry->set_text("");
+    
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterHPFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "HPF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(false);
+      entry->set_text("");
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterBPFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "BPF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(false);
+      entry->set_text("");
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterHSFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "HSF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(true);
+      
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterLSFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "LSF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(true);
+      
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterNFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "NF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(false);
+      entry->set_text("");
+      
+  }
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterPBEQFRadioButton", radiobutton); 
+  if (radiobutton->get_active()){
+    stringbuffer = stringbuffer + "PBEQF";
+    attributesRefBuilder->get_widget(
+      "MakeFilterDBGainEntry", entry);
+      entry->set_sensitive(true);
+      
+  }
+  
+  
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterFrequencyEntry", entry);
+ 
+  stringbuffer = stringbuffer +"</Type><Frequency>" +entry->get_text()+ "</Frequency>";
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterBandWidthEntry", entry);
+  
+  stringbuffer = stringbuffer +"<BandWidth>" +entry->get_text()+ "</BandWidth>";
+  
+  attributesRefBuilder->get_widget(
+    "MakeFilterDBGainEntry", entry);
+  
+  stringbuffer = stringbuffer +"<dBGain>" +entry->get_text()+ "</dBGain></Fun>";
+  
+  
+  textview->get_buffer()->set_text(stringbuffer);
+  
+
+}
+
+
+void FunctionGenerator::makeFilterFrequencyFunButtonClicked(){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget(
+    "MakeFilterFrequencyEntry", entry);
+    
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
+  generator->run(); 
+   
+  if (generator->getResultString() !=""){
+    entry->set_text(generator->getResultString());
+  }
+  delete generator;
+}
+
+void FunctionGenerator::makeFilterBandWidthFunButtonClicked(){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget(
+    "MakeFilterBandWidthEntry", entry);
+    
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
+  generator->run(); 
+   
+  if (generator->getResultString() !=""){
+    entry->set_text(generator->getResultString());
+  }
+  delete generator;
+}
+
+void FunctionGenerator::makeFilterDBGainFunButtonClicked(){
+  Gtk::Entry* entry; 
+  attributesRefBuilder->get_widget(
+    "MakeFilterDBGainEntry", entry);
+    
+  if (entry->get_sensitive()==false) return;  
+    
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFloat,entry->get_text());
+  generator->run(); 
+   
+  if (generator->getResultString() !=""){
+    entry->set_text(generator->getResultString());
+  }
+  delete generator;
+}
+
 void FunctionGenerator::readREVFileTextChanged(){
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
@@ -5280,10 +5664,7 @@ void FunctionGenerator::makeSieveTextChanged(){
   Gtk::Entry* entry; 
   Gtk::RadioButton* radiobutton1;
   Gtk::RadioButton* radiobutton2;  
-  
-  
-
-  
+    
   attributesRefBuilder->get_widget(
     "MakeSieveLowEntry", entry);
   std::string stringbuffer = "<Fun><Name>MakeSieve</Name><Low>"+ entry->get_text() + "</Low><High>";
@@ -6297,2895 +6678,5 @@ std::string FunctionGenerator::getFunctionString(DOMElement* _thisFunctionElemen
 
 
 
-
-
-void FunctionGenerator::parseOldFormat(
-  FunctionReturnType _returnType,
-  std::string _originalString){
-
-
-  set_title("Function Generator");
-  
-    set_border_width(3);
-    result = "";
-    returnType = _returnType;
-    stochosSubAlignments = NULL;
-    stochosNumOfNodes = 0;
-    stochosMethodFlag = 0;
-    makeEnvelopeSubAlignments = NULL;
-    makeEnvelopeNumOfNodes = 0;
-    SPANumOfChannels = 0;
-    SPANumOfPartials = 0;
-    SPAApplyFlag = 0; //junk here,
-    SPAChannelAlignments = NULL;
-    SPAMethodFlag = 0;//same here
-  
-  
-  attributesRefBuilder = Gtk::Builder::create();
-  #ifdef GLIBMM_EXCEPTIONS_ENABLED
-  try{
-    attributesRefBuilder->add_from_file("./LASSIE/src/UI/FunctionGenerator.ui");
-  }
-  catch (const Glib::FileError& ex){
-    std::cerr << "FileError: " << ex.what() << std::endl;
-  }
-  catch (const Gtk::BuilderError& ex){
-    std::cerr << "BuilderError: " << ex.what() << std::endl;
-  }
-   
-   #else
-  std::auto_ptr<Glib::Error> error;
-  if (!attributesRefBuilder->add_from_file(
-    "./LASSIE/src/UI/FunctionGenerator.ui", error)){
-    std::cerr << error->what() << std::endl;
-  }
-   
-   #endif
-
-  Gtk::VBox* vbox;
-  attributesRefBuilder->get_widget("mainVBox", vbox);
-  get_vbox()->pack_start(*vbox, Gtk::PACK_EXPAND_WIDGET);
-  
- 
-  
-  
-  
-  
-  Gtk::ComboBox* combobox;
-  attributesRefBuilder->get_widget("FunctionListComboBox", combobox);
-
-  functionListTreeModel = Gtk::ListStore::create(functionListColumns);
-  combobox->set_model(functionListTreeModel);
-  
-  if (_returnType ==functionReturnInt){
-  Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandomInt;
-    row[functionListColumns.m_col_name] = "RandomInt";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionStochos;
-    row[functionListColumns.m_col_name] = "Stochos";  
- 
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionValuePick;
-    row[functionListColumns.m_col_name] = "ValuePick";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionChooseL;
-    row[functionListColumns.m_col_name] = "ChooseL";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionGetPattern;
-    row[functionListColumns.m_col_name] = "GetPattern";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = NOT_A_FUNCTION;
-    row[functionListColumns.m_col_name] = "----------"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_TYPE;
-    row[functionListColumns.m_col_name] = "CURRENT_TYPE";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_CHILD_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_CHILD_NUM";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_PARTIAL_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_PARTIAL_NUM";   
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_SEGMENT;
-    row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
-    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
-    row[functionListColumns.m_col_name] = "CURRENT_LAYER";  
-  
-  }
-  else if (_returnType ==functionReturnFloat){
-  Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandom;
-    row[functionListColumns.m_col_name] = "Random";
-  
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandomInt;
-    row[functionListColumns.m_col_name] = "RandomInt";
-  
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandomizer;
-    row[functionListColumns.m_col_name] = "Randomizer";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionInverse;
-    row[functionListColumns.m_col_name] = "Inverse";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionLN;
-    row[functionListColumns.m_col_name] = "LN";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionDecay;
-    row[functionListColumns.m_col_name] = "Decay";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = NOT_A_FUNCTION;
-    row[functionListColumns.m_col_name] = "----------";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionStochos;
-    row[functionListColumns.m_col_name] = "Stochos";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionValuePick;
-    row[functionListColumns.m_col_name] = "ValuePick";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionChooseL;
-    row[functionListColumns.m_col_name] = "ChooseL";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionGetPattern;
-    row[functionListColumns.m_col_name] = "GetPattern";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = NOT_A_FUNCTION;
-    row[functionListColumns.m_col_name] = "----------"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_TYPE;
-    row[functionListColumns.m_col_name] = "CURRENT_TYPE";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_CHILD_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_CHILD_NUM";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_PARTIAL_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_PARTIAL_NUM";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_SEGMENT;
-    row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
-    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
-    row[functionListColumns.m_col_name] = "CURRENT_LAYER";  
-  
-  }
- else if (_returnType ==functionReturnMakeListFun){
-  Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandom;
-    row[functionListColumns.m_col_name] = "Random";
-  
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandomInt;
-    row[functionListColumns.m_col_name] = "RandomInt";
-  
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRandomizer;
-    row[functionListColumns.m_col_name] = "Randomizer";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionInverse;
-    row[functionListColumns.m_col_name] = "Inverse";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionLN;
-    row[functionListColumns.m_col_name] = "LN";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionDecay;
-    row[functionListColumns.m_col_name] = "Decay";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = NOT_A_FUNCTION;
-    row[functionListColumns.m_col_name] = "----------";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionStochos;
-    row[functionListColumns.m_col_name] = "Stochos";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionValuePick;
-    row[functionListColumns.m_col_name] = "ValuePick";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionChooseL;
-    row[functionListColumns.m_col_name] = "ChooseL";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionGetPattern;
-    row[functionListColumns.m_col_name] = "GetPattern";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionEnvLib;
-    row[functionListColumns.m_col_name] = "EnvLib"; 
-    
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionMakeEnvelope;
-    row[functionListColumns.m_col_name] = "MakeEnvelope"; 
-    
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadENVFile;
-    row[functionListColumns.m_col_name] = "ReadENVFile"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = NOT_A_FUNCTION;
-    row[functionListColumns.m_col_name] = "----------"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_TYPE;
-    row[functionListColumns.m_col_name] = "CURRENT_TYPE";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_CHILD_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_CHILD_NUM";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_PARTIAL_NUM;
-    row[functionListColumns.m_col_name] = "CURRENT_PARTIAL_NUM";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_SEGMENT;
-    row[functionListColumns.m_col_name] = "CURRENT_SEGMENT";  
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticAVAILABLE_EDU;
-    row[functionListColumns.m_col_name] = "AVAILABLE_EDU";  
-    
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticPREVIOUS_CHILD_DURATION;
-    row[functionListColumns.m_col_name] = "PREVIOUS_CHILD_DURATION";    
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = function_staticCURRENT_LAYER;
-    row[functionListColumns.m_col_name] = "CURRENT_LAYER";  
-  
-  }
-  
-  else if (_returnType ==functionReturnList){
-  Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionMakeList;
-    row[functionListColumns.m_col_name] = "MakeList"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionRawList;
-    row[functionListColumns.m_col_name] = "RawList";  
- 
-  }
-  
-  else if (_returnType ==functionReturnENV){
-    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionMakeEnvelope;
-    row[functionListColumns.m_col_name] = "MakeEnvelope";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadENVFile;
-    row[functionListColumns.m_col_name] = "ReadENVFile"; 
-    
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionEnvLib;
-    row[functionListColumns.m_col_name] = "EnvLib";    
-    
-    // this is based on Sever's request
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select";  
- 
-          
-  }
-  
-  else if (_returnType ==functionReturnSPA){
-    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSPA;
-    row[functionListColumns.m_col_name] = "SPA";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadSPAFile;
-    row[functionListColumns.m_col_name] = "ReadSPAFile"; 
-    
-    // this is based on Sever's request
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select"; 
-    
-        
-  }
-  
-  else if (_returnType ==functionReturnPAT){
-    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionMakePattern;
-    row[functionListColumns.m_col_name] = "MakePattern";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionExpandPattern;
-    row[functionListColumns.m_col_name] = "ExpandPattern"; 
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadPATFile;
-    row[functionListColumns.m_col_name] = "ReadPATFile"; 
-    
-    // this is based on Sever's request
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select"; 
-        
-  }  
-  
- 
-  else if (_returnType ==functionReturnREV){
-    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionREV_Simple;
-    row[functionListColumns.m_col_name] = "REV_Simple";
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionREV_Medium;
-    row[functionListColumns.m_col_name] = "REV_Medium"; 
-    
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionREV_Advanced;
-    row[functionListColumns.m_col_name] = "REV_Advanced"; 
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadREVFile;
-    row[functionListColumns.m_col_name] = "ReadREVFile"; 
-    
-        // this is based on Sever's request
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select"; 
-        
-  }   
-  
-  else if (_returnType ==functionReturnSIV){
-    Gtk::TreeModel::Row row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionMakeSieve;
-    row[functionListColumns.m_col_name] = "MakeSieve";
-
-
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionReadSIVFile;
-    row[functionListColumns.m_col_name] = "ReadSIVFile"; 
-    
-        // this is based on Sever's request
-    row = *(functionListTreeModel->append());
-    row[functionListColumns.m_col_id] = functionSelect;
-    row[functionListColumns.m_col_name] = "Select"; 
-        
-  } 
-
-
-    
-  
-  combobox->pack_start(functionListColumns.m_col_name);
-  
-  combobox->signal_changed().connect( 
-    sigc::mem_fun(*this,&FunctionGenerator::function_list_combo_changed) );
-
-   add_button( "gtk-ok", 0);  
-   add_button("gtk-cancel", 1);
-   
-   
-   
-   //connecting signals to functions
-  Gtk::Entry* entry;
-  Gtk::Button* button;
-  Gtk::RadioButton* radiobutton;
-   
-   // Random
-  attributesRefBuilder->get_widget(
-    "RandomLowBoundFunButton", button);
-  button->signal_clicked().connect(
-    sigc::mem_fun(*this, & FunctionGenerator::randomLowBoundFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "RandomHighBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomHighBoundFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "RandomLowBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomEntryChanged));   
-
-  attributesRefBuilder->get_widget(
-    "RandomHighBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(*this, & FunctionGenerator::randomEntryChanged)); 
-  
-  
-  
-  //RandomInt
-
-  attributesRefBuilder->get_widget(
-    "RandomIntLowBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomIntLowBoundFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "RandomIntHighBoundFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomIntHighBoundFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "RandomIntLowBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomIntEntryChanged));   
-
-  attributesRefBuilder->get_widget(
-    "RandomIntHighBoundEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomIntEntryChanged)); 
-  
-  
-  //Randomizer
-
-  attributesRefBuilder->get_widget(
-    "RandomizerBaseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomizerBaseFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "RandomizerDeviationFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomizerDeviationFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "RandomizerBaseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomizerEntryChanged));   
-
-  attributesRefBuilder->get_widget(
-    "RandomizerDeviationEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::randomizerEntryChanged)); 
-  
-
-
-  //Decay
-
-  attributesRefBuilder->get_widget(
-    "DecayBaseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayBaseFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "DecayRateFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayRateFunButtonClicked));  
-
-  attributesRefBuilder->get_widget(
-    "DecayIndexFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayIndexFunButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "DecayTypeExponentialRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayTypeRadioButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "DecayTypeLinearRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayTypeRadioButtonClicked));    
-   
-  attributesRefBuilder->get_widget(
-    "DecayBaseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayEntryChanged));   
-
-  attributesRefBuilder->get_widget(
-    "DecayRateEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayEntryChanged)); 
-    
-  attributesRefBuilder->get_widget(
-    "DecayIndexEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::decayEntryChanged)); 
- 
- 
-
-  //inverse
- 
-  attributesRefBuilder->get_widget(
-    "InverseFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::inverseFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "InverseEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::inverseEntryChanged));  
- 
-
-
-  //LN
- 
-  attributesRefBuilder->get_widget(
-    "LNFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::LNFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "LNEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::LNEntryChanged)); 
-  
-  
-  //select 
-  
-  attributesRefBuilder->get_widget(
-    "SelectListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::selectListFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "SelectIndexFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::selectIndexFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "SelectListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::selectEntryChanged));   
-
-  attributesRefBuilder->get_widget(
-    "SelectIndexEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::selectEntryChanged));   
-  
-
-
-  //stochos
-  
-  
-  attributesRefBuilder->get_widget(
-    "StochosRangeDistribRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "StochosFunctionsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator:: stochosMethodRadioButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "StochosOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::stochosTextChanged)); 
-  
-  
-  attributesRefBuilder->get_widget(
-    "StochosAddNodeButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::stochosAddNodeButtonClicked)); 
-	
-  attributesRefBuilder->get_widget(
-    "StochosInsertFunctionButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::stochosFunButtonClicked));
-
-  
-  
-
-
-
-
-  //ValuePick
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickElementsMeaningfulRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "ValuePickElementsModsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "ValuePickElementsFakeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickWeightsPeriodicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickWeightsHierarchicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickWeightsIncludeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickTypeVariableRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickTypeConstantRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));  
-  
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickAbsRangeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickDistEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickElementsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "ValuePickOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickWeightsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickTextChanged));
-
-
-
-  attributesRefBuilder->get_widget(
-    "ValuePickAbsRangeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickAbsRangeFunButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "ValuePickLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickLowFunButtonClicked));  
-
-  attributesRefBuilder->get_widget(
-    "ValuePickHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickHighFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "ValuePickDistFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::valuePickDistFunButtonClicked));
-
-
-
-  //ChooseL
- 
-  attributesRefBuilder->get_widget(
-    "ChooseLFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::chooseLFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "ChooseLEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::chooseLEntryChanged)); 
-
-
-  //GetPattern
- 
-  attributesRefBuilder->get_widget(
-    "GetPatternInOrderRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-
-  attributesRefBuilder->get_widget(
-    "GetPatternOtherRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-   
-  attributesRefBuilder->get_widget(
-    "GetPatternTypeClustersRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-  
-  attributesRefBuilder->get_widget(
-    "GetPatternTimeDependRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-  
-  attributesRefBuilder->get_widget(
-    "GetPatternProbabilityRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-
-  attributesRefBuilder->get_widget(
-    "GetPatternOffsetFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternOffsetFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "GetPatternOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged));
-
-
-  attributesRefBuilder->get_widget(
-    "GetPatternFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternFunButtonClicked));
-
-
-  attributesRefBuilder->get_widget(
-    "GetPatternEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::getPatternEntryChanged)); 
-  
-  
-  //MakeList
-  
-  attributesRefBuilder->get_widget(
-    "MakeListFunctionFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeListFunctionFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "MakeListSizeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeListSizeFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "MakeListFunctionEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeListTextChanged));   
-
-  attributesRefBuilder->get_widget(
-    "MakeListSizeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeListTextChanged));   
-  
-  //EnvLib
-  
-  attributesRefBuilder->get_widget(
-    "EnvLibEnvelopeFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::envLibEnvelopeFunButtonClicked));
-
-  attributesRefBuilder->get_widget(
-    "EnvLibScalingFactorFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::envLibScalingFactorFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "EnvLibEnvelopeEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::envLibTextChanged));   
-
-  attributesRefBuilder->get_widget(
-    "EnvLibScalingFactorEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::envLibTextChanged)); 
-   
-   
-  //ReadENVFile 
-   
-  attributesRefBuilder->get_widget(
-    "ReadENVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readENVFileTextChanged));
-     
-   
-	//MakeEnvelope
-	   
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeScalingFactorFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::makeEnvelopeScalingFactorFunButtonClicked));   
-   
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeXValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::makeEnvelopeXValueFunButtonClicked));    
-   
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeYValueFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::makeEnvelopeYValueFunButtonClicked));   
-  
-  
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeScalingFactorEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeEnvelopeTextChanged)); 
-
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeXValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeEnvelopeTextChanged)); 
-  //entry->set_text("1.0");
-  //entry->set_editable(false);
-     
-   
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeYValueEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeEnvelopeTextChanged));
-  
-  makeEnvelopeSubAlignments = new MakeEnvelopeSubAlignment(this);
-  makeEnvelopeNumOfNodes = 1;
-  
-
-  attributesRefBuilder->get_widget(
-    "MakeEnvelopeInnerVBox", vbox);
-  vbox->pack_start(*makeEnvelopeSubAlignments,Gtk::PACK_SHRINK);
-
-  //MakePattern
-  
-    attributesRefBuilder->get_widget(
-    "MakePatternIntervalsFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::makePatternIntervalsFunButtonClicked));  
-
- 
-
-  attributesRefBuilder->get_widget(
-    "MakePatternIntervalsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makePatternTextChanged));    
-  
-  //ExpandPattern
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternEquivalenceRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternRadioButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternSymmetriesRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternRadioButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternDistortRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternRadioButtonClicked));    
-  
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternModuloFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::expandPatternModuloFunButtonClicked));  
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::expandPatternLowFunButtonClicked));   
-  attributesRefBuilder->get_widget(
-    "ExpandPatternHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::expandPatternHighFunButtonClicked));
-  attributesRefBuilder->get_widget(
-    "ExpandPatternPatternFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::expandPatternPatternFunButtonClicked));
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternModuloEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternTextChanged));  
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternTextChanged));  
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternTextChanged));  
-  
-  attributesRefBuilder->get_widget(
-    "ExpandPatternPatternEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::expandPatternTextChanged));  
-  
-  
-  //ReadPATFile 
-
-  
-  attributesRefBuilder->get_widget(
-    "ReadPATFileNameEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readPATFileTextChanged));   
-  
-
-  
-
-  //ReadREVFile 
-   
-  attributesRefBuilder->get_widget(
-    "ReadREVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readREVFileTextChanged));  
-  
-  //REV_Simple
-    attributesRefBuilder->get_widget(
-    "REV_SimpleEntryFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_SimpleEntryFunButtonClicked));   
-
-  attributesRefBuilder->get_widget(
-    "REV_SimpleEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_SimpleEntryTextChanged)); 
-  
-  //REV_Medium
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumReverbPercentFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_MediumReverbPercentFunButtonClicked));   
-
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumHilowSpreadFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_MediumHilowSpreadFunButtonClicked));   
-
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumGainAllPassFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_MediumGainAllPassFunButtonClicked));   
-
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumDelayFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_MediumDelayFunButtonClicked));   
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumReverbPercentEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_MediumTextChanged));   
-  
-  attributesRefBuilder->get_widget(
-    "REV_MediumHilowSpreadEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_MediumTextChanged));   
-   
-  attributesRefBuilder->get_widget(
-    "REV_MediumGainAllPassEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_MediumTextChanged));   
-  attributesRefBuilder->get_widget(
-    "REV_MediumDelayEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_MediumTextChanged));   
-  
-  //REV_Advanced
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedReverbPercentFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_AdvancedReverbPercentFunButtonClicked));   
-
-  
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedCombGainListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_AdvancedCombGainListFunButtonClicked));   
-
-  attributesRefBuilder->get_widget(
-    "REV_LPGainListFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_AdvancedLPGainListFunButtonClicked));   
-  
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedGainAllPassFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_AdvancedGainAllPassFunButtonClicked));   
-
-  
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedDelayFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, &FunctionGenerator::REV_AdvancedDelayFunButtonClicked));   
-  
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedReverbPercentEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
-  
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedCombGainListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
-
-  attributesRefBuilder->get_widget(
-    "REV_LPGainListEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_AdvancedTextChanged));     
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedGainAllPassEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
-  attributesRefBuilder->get_widget(
-    "REV_AdvancedDelayEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::REV_AdvancedTextChanged));   
-    
-  //ReadSIVFile 
-   
-  attributesRefBuilder->get_widget(
-    "ReadSIVFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readSIVFileTextChanged));
-
-
-
-  //MakeSieve
-
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveElementsMeaningfulRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "MakeSieveElementsModsRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "MakeSieveElementsFakeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveWeightsPeriodicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveWeightsHierarchicRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveWeightsIncludeRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-
-  
-
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveLowEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveHighEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveElementsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-
-  attributesRefBuilder->get_widget(
-    "MakeSieveOffsetEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveWeightsEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveTextChanged));
-
-  
-  attributesRefBuilder->get_widget(
-    "MakeSieveLowFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveLowFunButtonClicked));  
-
-  attributesRefBuilder->get_widget(
-    "MakeSieveHighFunButton", button);
-  button->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::makeSieveHighFunButtonClicked));
-
-
-  
-
-  //ReadSPAFile 
-   
-  attributesRefBuilder->get_widget(
-    "ReadSPAFileEntry", entry);
-  entry->signal_changed().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::readSPAFileTextChanged));
-  
-  
-  
-  //SPA
-  attributesRefBuilder->get_widget(
-    "SPAStereoRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));
-  attributesRefBuilder->get_widget(
-    "SPAMulti_PanRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
-  attributesRefBuilder->get_widget(
-    "SPAPolarRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::SPAMethodRadioButtonClicked));  
-  
-  attributesRefBuilder->get_widget(
-    "SPAPartialRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::SPAApplyByRadioButtonClicked));    
-  
-  attributesRefBuilder->get_widget(
-    "SPASoundRadioButton", radiobutton);
-  radiobutton->signal_clicked().connect(sigc::mem_fun(
-    *this, & FunctionGenerator::SPAApplyByRadioButtonClicked));  
-  
-  //Stereo as default, apply by sound
-
-
-  Gtk::HBox* hbox;
-
-  
-  SPAChannelAlignments = new SPAChannelAlignment(this, 1, 1);
-  attributesRefBuilder->get_widget( "SPAMainHBox", hbox);  
-  hbox->pack_start(*SPAChannelAlignments, Gtk::PACK_SHRINK);
-  SPAChannelAlignments->hideButtons();
-  SPANumOfChannels = 1;
-  SPANumOfPartials = 1;
-  SPAApplyFlag = 0;
-  SPAMethodFlag = 0;
-           
-  
-  
-  
-  size_t locationOfKeyword;
-  Gtk::TreeModel::iterator iter;
-  Gtk::TreeModel::Row row; 
-  string parsingString;
-  FileValue* value;
-  list<FileValue>::iterator argumentsIter;
-    
-
-  //check if RandomInt
-  locationOfKeyword =_originalString.find("RandomInt");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-   
-    while(row[functionListColumns.m_col_name]!= "RandomInt"){
-      iter++;
-      row = *iter;     
-    }
-    combobox->set_active(iter);
-    
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      
-      //RandomInt has 2 arguments
-      list<FileValue> arguments = value->getFtnArgs();
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument
-      attributesRefBuilder->get_widget("RandomIntLowBoundEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));
-      
-      argumentsIter++;
-      
-      value =&(*argumentsIter); // second argument
-      attributesRefBuilder->get_widget("RandomIntHighBoundEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
-      
-
-    }
-  }   
-
-
-  
-
-  
-  //check if Stochos
-  locationOfKeyword =_originalString.find("Stochos");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Stochos"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //Stochos has 3 arguments (string, list of envelopes, int)
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument
- 
-
-      string method = getFunctionString(value,functionReturnString);
-      
-      if (method == "\"FUNCTIONS\""){
-        attributesRefBuilder->get_widget("StochosFunctionsRadioButton",radiobutton);
-        radiobutton->set_active();     
-      }
-      
-      else {  //RANGE_DISTRIB
-        attributesRefBuilder->get_widget("StochosRangeDistribRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-
-
-      argumentsIter++;
-      value =&(*argumentsIter);
-      list<std::string> envelopeStringList = 
-        fileValueListToStringList (value->getList(), functionReturnEnvelopeList); 
-            
-      list<std::string>::iterator stringIter = envelopeStringList.begin();
-
-
-      if (method =="\"FUNCTIONS\""){
-
-
-
-        while (stringIter!= envelopeStringList.end()){
-          StochosSubAlignment* newSubAlignment = 
-            new StochosSubAlignment(this, 1);
-          if ( stochosSubAlignments ==NULL){
-            stochosSubAlignments = newSubAlignment;
-          }
-          else {
-            stochosSubAlignments->appendNewNode(newSubAlignment);
-          }
-          Gtk::VBox* vbox;
-          attributesRefBuilder->get_widget(
-             "StochosInnerVBox", vbox);
-          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
-          newSubAlignment->setFunctionsEntry(*stringIter);
-          newSubAlignment->switchTo(1);
-          stringIter++;
-          stochosNumOfNodes ++;
-        }      
-        stochosTextChanged();      
-        
-      }
-      else {
-
-        while (stringIter!= envelopeStringList.end()){
-          StochosSubAlignment* newSubAlignment = 
-            new StochosSubAlignment(this, 0);
-          if ( stochosSubAlignments ==NULL){
-            stochosSubAlignments = newSubAlignment;
-          }
-          else {
-            stochosSubAlignments->appendNewNode(newSubAlignment);
-          }
-          Gtk::VBox* vbox;
-          attributesRefBuilder->get_widget(
-             "StochosInnerVBox", vbox);
-          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
-          newSubAlignment->setMinEntry(*stringIter);  
-          stringIter++;
-          newSubAlignment->setMaxEntry(*stringIter);  
-          stringIter++;
-          newSubAlignment->setDistEntry(*stringIter);  
-          stringIter++;                    
-          newSubAlignment->switchTo(0);
-          stochosNumOfNodes ++;
-        }      
-        stochosTextChanged();        
-
-      }
-      
-      
-
-      //third argument
-      argumentsIter++;
-      value =&(*argumentsIter);
-      attributesRefBuilder->get_widget("StochosOffsetEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
-      
-    }
-  }  
-  
-
-  
-
-
-  //check if Select
-  locationOfKeyword =_originalString.find("Select");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Select"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //RandomInt has 2 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a list
-      
-      if (returnType == functionReturnInt){ // return int
-        string listString = getFunctionString(value,functionReturnInt);
-        attributesRefBuilder->get_widget("SelectListEntry",entry);
-        entry->set_text(listString);
-      }
-      else { //return float
-        string listString = getFunctionString(value,functionReturnFloat);
-        attributesRefBuilder->get_widget("SelectListEntry",entry);
-        entry->set_text(listString);      
-      }
-      
-      argumentsIter++;
-      
-      value =&(*argumentsIter); // second argument is an int
-      attributesRefBuilder->get_widget("SelectIndexEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
-    }
-    
-    //end parsing
-  } 
- 
-  //check if CURRENT_TYPE
-  locationOfKeyword =_originalString.find("CURRENT_TYPE");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_TYPE"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  } 
-
-  //check if CURRENT_CHILD_NUM
-  locationOfKeyword =_originalString.find("CURRENT_CHILD_NUM");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_CHILD_NUM"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  } 
- 
-  //check if CURRENT_PARTIAL_NUM
-  locationOfKeyword =_originalString.find("CURRENT_PARTIAL_NUM");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_PARTIAL_NUM"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  } 
-
-  //check if CURRENT_SEGMENT
-  locationOfKeyword =_originalString.find("CURRENT_SEGMENT");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_SEGMENT"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  } 
-  
-  //check if AVAILABLE_EDU
-  locationOfKeyword =_originalString.find("AVAILABLE_EDU");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "AVAILABLE_EDU"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  }  
-
-  //check if PREVIOUS_CHILD_DURATION
-  locationOfKeyword =_originalString.find("PREVIOUS_CHILD_DURATION");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "PREVIOUS_CHILD_DURATION"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  } 
-
-
- 
-  //check if CURRENT_LAYER
-  locationOfKeyword =_originalString.find("CURRENT_LAYER");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "CURRENT_LAYER"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-
-  }
-  //check if ValuePick
-  locationOfKeyword =_originalString.find("ValuePick");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ValuePick"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-        // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ValuePick has 10 arguments. 
-      //Old version has 9 arguments (no offset, the last argument)
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float (absolute range
-      
-      attributesRefBuilder->get_widget("ValuePickAbsRangeEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));
-      
-      argumentsIter++;
-      
-      value =&(*argumentsIter); // second argument is an envelope (low)
-      attributesRefBuilder->get_widget("ValuePickLowEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // third argument is an envelope (high)
-      attributesRefBuilder->get_widget("ValuePickHighEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));      
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // fourth argument is an envelope (distribution)
-      attributesRefBuilder->get_widget("ValuePickDistEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));      
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 5th argument is a string  (Elements)
-
-      if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget(
-          "ValuePickElementsMeaningfulRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-      else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget(
-          "ValuePickElementsModsRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {  //FAKE
-        attributesRefBuilder->get_widget(
-          "ValuePickElementsFakeRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 6th argument is a list without bracket
-      string listString = 
-        fileValueListToString( value->getList(),functionReturnFloat);
-      
-      listString = listString.substr(1, listString.length()-2);
-      
-      attributesRefBuilder->get_widget("ValuePickElementsEntry",entry);
-      entry->set_text(listString);       
-      
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 7th argument is a string  (weight)
-
-      if (value->getString() == "PERIODIC"){
-        attributesRefBuilder->get_widget(
-          "ValuePickWeightsPeriodicRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-      else if (value->getString() == "HIERARCHIC"){
-        attributesRefBuilder->get_widget(
-          "ValuePickWeightsHierarchicRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {  //Include
-        attributesRefBuilder->get_widget(
-          "ValuePickWeightsIncludeRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 8th argument is a list without bracket
-      listString = fileValueListToString( value->getList(),functionReturnFloat);
-      
-      listString = listString.substr(1, listString.length()-2);
-      int listLength = value->getList().size();
-      attributesRefBuilder->get_widget("ValuePickWeightsEntry",entry);
-      entry->set_text(listString);        
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 9th argument is a string  (Elements)
-
-      if (value->getString() == "VARIABLE"){
-        attributesRefBuilder->get_widget(
-          "ValuePickTypeVariableRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      
-      else {  //constant
-        attributesRefBuilder->get_widget(
-          "ValuePickTypeConstantRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }   
-      
-      argumentsIter++;
-      if (argumentsIter != arguments.end()){ //the 10th argument, offset, exists
-      
-        attributesRefBuilder->get_widget("ValuePickOffsetEntry",entry);
-        value =&(*argumentsIter); //offset is a list of integer
-        
-              
-      string listString = fileValueListToString(
-        value->getList(),functionReturnFloat);
-      
-      listString = listString.substr(1, listString.length()-2);
-      
-      entry->set_text(listString);  
-        
-      }
-      else {
-        attributesRefBuilder->get_widget(
-          "ValuePickOffsetEntry",entry);
-        entry->set_text(makeSieveNValuePickZeros(listLength));      
-      
-      }
-      
-           
-    }
-    
-    //end parsing
-  } 
-
-
-  //check if ChooseL
-  locationOfKeyword =_originalString.find("ChooseL");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ChooseL"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs(); //chooseL has 1 argument
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a function
-
-      
-      attributesRefBuilder->get_widget("ChooseLEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));  
-    }
-    
-    //end parsing
-  } 
- 
-
-  //check if GetPattern
-  locationOfKeyword =_originalString.find("GetPattern");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "GetPattern"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //getpattern has 3 argument
-      list<FileValue> arguments = value->getFtnArgs();
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter);  //first argument is a string (method)
-      
-      if (value->getString() == "IN_ORDER"){
-        attributesRefBuilder->get_widget(
-          "GetPatternInOrderRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      }
-      else if (value->getString() == "OTHER"){
-        attributesRefBuilder->get_widget("GetPatternOtherRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      }
-      else if (value->getString() == "TYPE_CLUSTERS"){
-        attributesRefBuilder->get_widget(
-          "GetPatternTypeClustersRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      } 
-      else if (value->getString() == "TIME_DEPEND"){
-        attributesRefBuilder->get_widget(
-          "GetPatternTimeDependRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      } 
-      else{
-        attributesRefBuilder->get_widget(
-          "GetPatternProbabilityRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      } 
-      
-      
-
-      argumentsIter++;
-      value =&(*argumentsIter); // second argument is an integer
-
-      attributesRefBuilder->get_widget("GetPatternOffsetEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
-
-      argumentsIter++;
-      value =&(*argumentsIter); // third argument is a function
-
-      
-      attributesRefBuilder->get_widget("GetPatternEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));  
-    }
-    
-    //end parsing
-  } 
-
-  //check if Random
-  locationOfKeyword =_originalString.find("Random");
-  size_t checkNotRandomInt = _originalString.find("RandomInt");
-  size_t checkNotRandomize = _originalString.find("Randomizer");
-  size_t checkNotRandomSeed = _originalString.find("RandomSeed");  
-  if (int(locationOfKeyword)==0
-      &&int(checkNotRandomInt)!=0
-      &&int(checkNotRandomize)!=0
-      &&int(checkNotRandomSeed)!=0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Random"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //random has 2 arguments
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float
-
-      
-      attributesRefBuilder->get_widget("RandomLowBoundEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      argumentsIter ++;
-      value =&(*argumentsIter); // second argument is a float
-      attributesRefBuilder->get_widget("RandomHighBoundEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));
-      
-       
-    }
-    
-    //end parsing
-  }  
- 
-  //check if Randomizer
-  locationOfKeyword =_originalString.find("Randomizer");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Randomizer"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //randomizer has 2 arguments
-      list<FileValue> arguments = value->getFtnArgs();
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float
-
-      
-      attributesRefBuilder->get_widget("RandomizerBaseEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-      argumentsIter ++;
-      value =&(*argumentsIter); // second argument is a float
-      attributesRefBuilder->get_widget("RandomizerDeviationEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));
-      
-       
-    }
-    
-    //end parsing
-  }  
-  
-  //check if Inverse
-  locationOfKeyword =_originalString.find("Inverse");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Inverse"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //inverse has 1 argument
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float
-
-      
-      attributesRefBuilder->get_widget("InverseEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-       
-    }
-    
-    //end parsing
-  }  
-  
-  //check if LN
-  locationOfKeyword =_originalString.find("LN");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "LN"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //LN has 1 argument
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float
-
-      
-      attributesRefBuilder->get_widget("LNEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-       
-    }
-    
-    //end parsing
-  }  
-
-  //check if Decay
-  locationOfKeyword =_originalString.find("Decay");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "Decay"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //Decay has 4 argument
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float (base
-      
-      attributesRefBuilder->get_widget("DecayBaseEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 2nd argument is a string
-      
-      if (value->getString() == "EXPONENTIAL"){
-        attributesRefBuilder->get_widget(
-          "DecayTypeExponentialRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      }
-      else{
-        attributesRefBuilder->get_widget(
-          "DecayTypeLinearRadioButton",radiobutton);
-        radiobutton->set_active();      
-      }
-     
-      argumentsIter++;
-      value =&(*argumentsIter); // 3nd argument is a string   
-      attributesRefBuilder->get_widget("DecayRateEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));       
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 4nd argument is an int   
-      attributesRefBuilder->get_widget("DecayIndexEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));        
-       
-    }
-    
-    //end parsing
-  } 
-  
-  //check if EnvLib
-  locationOfKeyword =_originalString.find("EnvLib");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "EnvLib"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      list<FileValue> arguments = value->getFtnArgs();  //EnvLib has 2 arguments
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is an int
-      
-      attributesRefBuilder->get_widget("EnvLibEnvelopeEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
-            
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 2nd argument is an Float   
-      attributesRefBuilder->get_widget("EnvLibScalingFactorEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));        
-       
-    }
-    
-    //end parsing
-  } 
-  
-  //check if MakeEnvelope
-  locationOfKeyword =_originalString.find("MakeEnvelope");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "MakeEnvelope"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    //begin parsing
-
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //MakeEnvelope has 5 arguments (string, list of envelopes, int)
-      
-      list<FileValue> arguments = value->getFtnArgs(); 
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a float list
-
-
-
-      list<std::string> firstList =
-        fileValueListToStringList(value->getList(),functionReturnFloat);
-      
-      list<std::string>::iterator stringIter = firstList.begin();  
-
-      
-      makeEnvelopeSubAlignments->setXValueString(*stringIter);
-      stringIter++;
-      
-      //makeEnvelopeInsertNode(MakeEnvelopeSubAlignment* _insertAfter){
-      MakeEnvelopeSubAlignment* insertAfter = makeEnvelopeSubAlignments; 
-      
-      
-      list<std::string>::iterator SecondToTheLastIter = firstList.end();  
-      SecondToTheLastIter --;
-      for (stringIter; stringIter != SecondToTheLastIter; stringIter++){
-        makeEnvelopeInsertNode(insertAfter);
-        insertAfter = insertAfter->next;
-        insertAfter->setXValueString(*stringIter);
-      }
-       
-       
-      attributesRefBuilder->get_widget("MakeEnvelopeXValueEntry",entry);
-      entry->set_text(*stringIter);   
-      
-       
-       
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 2nd argument is a float list
-
-
-      list<std::string> secondList =
-        fileValueListToStringList(value->getList(),functionReturnFloat);
-      
-      stringIter = secondList.begin();  
-      SecondToTheLastIter = secondList.end();  
-      SecondToTheLastIter --;
-    
-      MakeEnvelopeSubAlignment* thisAlignment = makeEnvelopeSubAlignments;
-      for (stringIter; stringIter != SecondToTheLastIter; stringIter++){
-        thisAlignment->setYValueString(*stringIter);
-        thisAlignment = thisAlignment->next;
-      }    
-    
-    set_position(Gtk::WIN_POS_CENTER);
-      attributesRefBuilder->get_widget("MakeEnvelopeYValueEntry",entry);
-      entry->set_text(*stringIter);  
-    
-    
-    
-      argumentsIter++;
-      value =&(*argumentsIter); // 3rd argument is a string list
-
-
-      list<std::string> thirdList =
-        fileValueListToStringList(value->getList(),functionReturnString);
-      
-      stringIter = thirdList.begin();  
-      thisAlignment = makeEnvelopeSubAlignments;
-      for (stringIter; stringIter != thirdList.end(); stringIter++){
-      
-
-      
-        if (*stringIter == "\"LINEAR\""){
-          thisAlignment->setEnvSegmentType(0);
-        }
-        else if (*stringIter == "\"EXPONENTIAL\""){
-          thisAlignment->setEnvSegmentType(1);
-        }
-        else {
-          thisAlignment->setEnvSegmentType(2);        
-        }
-        thisAlignment = thisAlignment->next;
-      }    
-    
-    
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 4th argument is a string list
-
-
-      list<std::string> fourthList =
-        fileValueListToStringList(value->getList(),functionReturnString);
-      
-      stringIter = fourthList.begin();  
-      thisAlignment = makeEnvelopeSubAlignments;
-      for (stringIter; stringIter != fourthList.end(); stringIter++){
-        if (*stringIter == "\"FLEXIBLE\""){
-          thisAlignment->setEnvSegmentProperty(0);
-        }
-
-        else {
-          thisAlignment->setEnvSegmentProperty(1);        
-        }
-        thisAlignment = thisAlignment->next;
-      }     
-    
-      argumentsIter++;
-      value =&(*argumentsIter);  // 5th argument is a float  
-    
-      attributesRefBuilder->get_widget("MakeEnvelopeScalingFactorEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));     
-      
-    }
-    //end parsing
-  } 
-
-  //check if ReadENVFile
-  locationOfKeyword =_originalString.find("ReadENVFile");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ReadENVFile"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadEnvFile has 1 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("ReadENVFileEntry",entry);
-      string functionString = getFunctionString(value,functionReturnInt);
-      functionString = functionString.substr(5, functionString.length()-6);
-      
-      entry->set_text(functionString); 
-                   
-    }
-    
-    //end parsing
-  } 
-
-  //check if MakeList
-  locationOfKeyword =_originalString.find("MakeList");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "MakeList"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadEnvFile has 2 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("MakeListFunctionEntry",entry);      
-      entry->set_text(getFunctionString(value,functionReturnString)); 
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 2nd argument is an int      
-      attributesRefBuilder->get_widget("MakeListSizeEntry",entry);      
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
-      
-      
-                   
-    }
-    
-    //end parsing
-  } 
-
-  /*
-  // check if RawList
-  locationOfKeyword = _originalString.find("<");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "RawList"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-  //TODO parse list
-
-  }
-  */
-  //check if SPA
-  locationOfKeyword =_originalString.find("STEREO");
-  size_t lok2 = _originalString.find("MULTI_PAN");
-  size_t lok3 = _originalString.find("POLAR");
-  
-  
-  if (int(locationOfKeyword)==2||int(lok2) ==2 ||int(lok3) ==2){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "SPA"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-// start parsing 
-  
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //SPA is a list with 3 elements (4 elements if the method is polar)
-      list<FileValue> arguments = value->getList();  
-      
-         
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      if(value->getString()=="STEREO"){
-        attributesRefBuilder->get_widget("SPAStereoRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else if (value->getString() == "MULTI_PAN"){
-        attributesRefBuilder->get_widget("SPAMulti_PanRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {   //polar
-        attributesRefBuilder->get_widget("SPAPolarRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // second argument is a string      
-      if(value->getString()=="SOUND"){
-        attributesRefBuilder->get_widget("SPASoundRadioButton",radiobutton);
-        radiobutton->set_active();   
-  
-      }
-     
-      else {   //partial
-        attributesRefBuilder->get_widget("SPAPartialRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }      
-      
-
-      argumentsIter++;
-      value =&(*argumentsIter); // third argument is a list
-
-      
-      
-      if ( SPAMethodFlag ==0){ //stereo
-        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
-        
-        list<string> listOfString = 
-          fileValueListToStringList(value->getList(),functionReturnFloat);
-        list<string>::iterator stringIter = listOfString.begin();
-        
-        currentPartial->setText(*stringIter);
-        stringIter++;
-        for (stringIter; stringIter!= listOfString.end(); stringIter++){
-          currentPartial->insertPartialButtonClicked();
-          currentPartial = currentPartial->next;
-          currentPartial->setText(*stringIter);
-        }
-    
-      }
-      
-      else if (SPAMethodFlag ==1) {//multi-pan     
-        SPAChannelAlignment* currentChannel = SPAChannelAlignments;
-        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
-        
-        
-        
-        //these two for loops construct the cells
-        list<FileValue> channelsList = value->getList();
-        int numChannels = channelsList.size();
-        for (int i = 0; i < numChannels-1; i ++){
-          currentChannel->insertChannelButtonClicked();
-          currentChannel = currentChannel->next;
-        }
-        
-        int numPartials = channelsList.begin()->getList().size();
-        
-        for (int i = 0; i < numPartials-1; i ++){
-          currentPartial->insertPartialButtonClicked();
-          currentPartial = currentPartial->next;
-        }        
-        
-        currentChannel = SPAChannelAlignments;
-  
-        
-        
-        list<FileValue>::iterator channelIter = channelsList.begin();
-        for (channelIter; channelIter!= channelsList.end(); channelIter++){
-          currentPartial = currentChannel->partials;           
-          value =&(*channelIter);
-          list<string> listOfString = 
-            fileValueListToStringList(value->getList(),functionReturnFloat);
-          list<string>::iterator stringIter = listOfString.begin();
-          for (stringIter; stringIter!= listOfString.end(); stringIter++){
-            currentPartial->setText(*stringIter);
-            currentPartial = currentPartial->next;
-          }          
-          currentChannel = currentChannel->next;
-        }     
-      }
-      
-      else {//polar   Note! This is WRONG! I copy and paste this chunk from "multi pan", but turns out Radius and Theta are two seperate lists, not 2 lists with in a list. (i.e, spa with polar has 4 elements, NOT 3. need to fix this. but for now, on well (Jun.21, 2012)
-        SPAChannelAlignment* currentChannel = SPAChannelAlignments;
-        SPAPartialAlignment* currentPartial = SPAChannelAlignments->partials;
-        
-        
-        
-        //these two for loops construct the cells
-        list<FileValue> channelsList = value->getList();
-        int numChannels = channelsList.size();
-        for (int i = 0; i < numChannels-1; i ++){
-          currentChannel->insertChannelButtonClicked();
-          currentChannel = currentChannel->next;
-        }
-        
-        int numPartials = channelsList.begin()->getList().size();
-        
-        for (int i = 0; i < numPartials-1; i ++){
-          currentPartial->insertPartialButtonClicked();
-          currentPartial = currentPartial->next;
-        }        
-        
-        currentChannel = SPAChannelAlignments;
-  
-        
-        
-        list<FileValue>::iterator channelIter = channelsList.begin();
-        for (channelIter; channelIter!= channelsList.end(); channelIter++){
-          currentPartial = currentChannel->partials;           
-          value =&(*channelIter);
-          list<string> listOfString = 
-            fileValueListToStringList(value->getList(),functionReturnFloat);
-          list<string>::iterator stringIter = listOfString.begin();
-          for (stringIter; stringIter!= listOfString.end(); stringIter++){
-            currentPartial->setText(*stringIter);
-            currentPartial = currentPartial->next;
-          }          
-          currentChannel = currentChannel->next;
-        }     
-      }
-      
-      
-      //if parse fail(or empty), 
-      //the label of the first entry should still be "Envelope"        
-      SPAApplyByRadioButtonClicked(); 
-             
-    }
-    
-    set_position(Gtk::WIN_POS_CENTER);   
-    //end parsing
-  } 
-
-  //check if ReadSPAFile
-  locationOfKeyword =_originalString.find("ReadSPAFile");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ReadSPAFile"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadSPAFile has 1 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("ReadSPAFileEntry",entry);
-      string functionString = getFunctionString(value,functionReturnInt);
-      functionString = functionString.substr(5, functionString.length()-6);
-      
-      entry->set_text(functionString); 
-                   
-    }
-    
-    //end parsing
-  } 
-
-  //check if MakePattern
-  locationOfKeyword =_originalString.find("MakePattern");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "MakePattern"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      
-      //makepattern has 2 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a list
-      string listString = getFunctionString(value,functionReturnInt);
-      attributesRefBuilder->get_widget("MakePatternIntervalsEntry",entry);
-      entry->set_text(listString);
-      
-    }
-    
-    //end parsing
-  } 
-  
-  //check if ExpandPattern
-  locationOfKeyword =_originalString.find("ExpandPattern");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ExpandPattern"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //expandpattern has 5 arguments
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin(); 
-      
-      value =&(*argumentsIter); //first argument is the method
-
-      if (value->getString() == "EQUIVALENCE"){
-        attributesRefBuilder->get_widget(
-          "ExpandPatternEquivalenceRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-      else if (value->getString() == "SYMMETRIES"){
-        attributesRefBuilder->get_widget(
-          "ExpandPatternSymmetriesRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {  //Distort
-        attributesRefBuilder->get_widget(
-          "ExpandPatternDistortRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      
-      argumentsIter ++; 
-      value =&(*argumentsIter); // second argument is an int
-      attributesRefBuilder->get_widget("ExpandPatternModuloEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));      
-
-      argumentsIter ++; 
-      value =&(*argumentsIter); // 3rd argument is an int
-      attributesRefBuilder->get_widget("ExpandPatternLowEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));  
-      
-      argumentsIter ++; 
-      value =&(*argumentsIter); // 4th argument is an int
-      attributesRefBuilder->get_widget("ExpandPatternHighEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
-      
-      argumentsIter ++; 
-      value =&(*argumentsIter); // 5th argument is a function string
-      attributesRefBuilder->get_widget("ExpandPatternPatternEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));       
-
-            
-    }
-    
-    //end parsing
-  }   
-
-  //check if ReadPATFile
-  locationOfKeyword =_originalString.find("ReadPATFile");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ReadPATFile"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadPATFile has 1 argument
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("ReadPATFileNameEntry",entry);
-      string functionString = getFunctionString(value,functionReturnInt);
-      functionString = functionString.substr(5, functionString.length()-6);
-      entry->set_text(functionString); 
-    
-                   
-    }
-    
-    //end parsing
-  }  
-  //check if REV_Simple
-  locationOfKeyword =_originalString.find("<\"SIMPLE");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "REV_Simple"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //Rev_Simple has 2 elements in the list
-      list<FileValue> arguments = value->getList();  
-      
-      argumentsIter = arguments.begin();
-      argumentsIter ++;
-      value =&(*argumentsIter); // the only useful argument (2nd) is a float
-      
-      attributesRefBuilder->get_widget("REV_SimpleEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-                   
-    }
-    
-    //end parsing
-  }  
-  //check if REV_Medium
-  locationOfKeyword =_originalString.find("<\"MEDIUM");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "REV_Medium"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //Rev_medium has 5 elements in the list
-      list<FileValue> arguments = value->getList();  
-      
-      argumentsIter = arguments.begin();
-      argumentsIter ++;
-      value =&(*argumentsIter); // 2nd argument is an envelope
-      
-      attributesRefBuilder->get_widget("REV_MediumReverbPercentEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      argumentsIter ++;
-      value =&(*argumentsIter); // 3rd argument is an float
-      
-      attributesRefBuilder->get_widget("REV_MediumHilowSpreadEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      argumentsIter ++;
-      value =&(*argumentsIter); // 4th argument is an float
-      
-      attributesRefBuilder->get_widget("REV_MediumGainAllPassEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-      argumentsIter ++;
-      value =&(*argumentsIter); // 5th argument is an float
-      
-      attributesRefBuilder->get_widget("REV_MediumDelayEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));             
-                   
-    }
-    
-    //end parsing
-  }  
-  
-  //check if REV_Advanced
-  locationOfKeyword =_originalString.find("<\"ADVANCED");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "REV_Advanced"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //Rev_advanced has 6 elements in the list
-      list<FileValue> arguments = value->getList();  
-      
-      argumentsIter = arguments.begin();
-      argumentsIter ++;
-      value =&(*argumentsIter); // 2nd argument is an envelope
-      
-      attributesRefBuilder->get_widget("REV_AdvancedReverbPercentEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      argumentsIter ++;
-      value =&(*argumentsIter); // 3rd argument is an list
-      
-      attributesRefBuilder->get_widget("REV_AdvancedCombGainListEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      argumentsIter ++;
-      value =&(*argumentsIter); // 4th argument is an list
-      
-      attributesRefBuilder->get_widget("REV_LPGainListEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat)); 
-      
-      argumentsIter ++;
-      value =&(*argumentsIter); // 5th argument is an float
-      
-      attributesRefBuilder->get_widget("REV_AdvancedGainAllPassEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));    
-      
-      argumentsIter ++;
-      value =&(*argumentsIter); // 6th argument is an float
-      
-      attributesRefBuilder->get_widget("REV_AdvancedDelayEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnFloat));                  
-                   
-    }
-    
-    //end parsing
-  }  
-  
-  //check if ReadREVFile
-  locationOfKeyword =_originalString.find("ReadREVFile");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ReadREVFile"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadREVFile has 1 argument
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("ReadREVFileEntry",entry);
-      string functionString = getFunctionString(value,functionReturnInt);
-      functionString = functionString.substr(5, functionString.length()-6);
-      entry->set_text(functionString); 
-    }
-    
-    //end parsing
-  }  
-
-  //check if MakeSieve
-  locationOfKeyword =_originalString.find("MakeSieve");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "MakeSieve"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-// start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //makesieve has 7 arguments. 
-      //Old version has 6 arguments (no offset, which is the last argument)
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is an int (low bound)
-      
-      attributesRefBuilder->get_widget("MakeSieveLowEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt));
-      
-      argumentsIter++;
-      
-      value =&(*argumentsIter); // second argument is an int (high bound)
-      attributesRefBuilder->get_widget("MakeSieveHighEntry",entry);
-      entry->set_text(getFunctionString(value,functionReturnInt)); 
-         
-      
-      argumentsIter++;
-      value =&(*argumentsIter); // 3rd argument is a string  (Elements)
-
-      if (value->getString() == "MEANINGFUL"){
-        attributesRefBuilder->get_widget(
-          "MakeSieveElementsMeaningfulRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-      else if (value->getString() == "MODS"){
-        attributesRefBuilder->get_widget(
-          "MakeSieveElementsModsRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {  //FAKE
-        attributesRefBuilder->get_widget(
-          "MakeSieveElementsFakeRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 4th argument is a list without bracket
-      string listString = 
-        fileValueListToString( value->getList(),functionReturnInt);
-      
-      listString = listString.substr(1, listString.length()-2);
-      
-      attributesRefBuilder->get_widget("MakeSieveElementsEntry",entry);
-      entry->set_text(listString);       
-      
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 5th argument is a string  (weight)
-
-      if (value->getString() == "PERIODIC"){
-        attributesRefBuilder->get_widget(
-          "MakeSieveWeightsPeriodicRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-      else if (value->getString() == "HIERARCHIC"){
-        attributesRefBuilder->get_widget(
-          "MakeSieveWeightsHierarchicRadioButton",radiobutton);
-        radiobutton->set_active();       
-      }
-      
-      else {  //FAKE
-        attributesRefBuilder->get_widget(
-          "MakeSieveWeightsIncludeRadioButton",radiobutton);
-        radiobutton->set_active(); 
-      
-      }
-
-      argumentsIter++;
-      value =&(*argumentsIter); // 6th argument is a list without bracket
-      listString = fileValueListToString( value->getList(),functionReturnFloat);
-      int listLength = value->getList().size();
-      listString = listString.substr(1, listString.length()-2);
-      
-      attributesRefBuilder->get_widget("MakeSieveWeightsEntry",entry);
-      entry->set_text(listString);    
-      
-      argumentsIter++;
-      if (argumentsIter != arguments.end() ){ // the 7th argument exists
-        value =&(*argumentsIter); // 4th argument is a list without bracket
-        string listString = 
-          fileValueListToString( value->getList(),functionReturnInt);
-      
-        listString = listString.substr(1, listString.length()-2);
-      
-        attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
-        entry->set_text(listString);     
-      }
-      else { // the 7th argument doesn't exist.
-        attributesRefBuilder->get_widget("MakeSieveOffsetEntry",entry);
-        entry->set_text(makeSieveNValuePickZeros(listLength));
-        makeSieveTextChanged();
-      
-      }
-           
-    }
-    
-    //end parsing
-  }
-  
-  //check if ReadSIVFile
-  locationOfKeyword =_originalString.find("ReadSIVFile");
-  if (int(locationOfKeyword)==0){
-    iter = combobox->get_model()->get_iter("0");
-    row = *iter;
-    while(row[functionListColumns.m_col_name]!= "ReadSIVFile"){
-      iter++;
-      row = *iter;
-    }
-    combobox->set_active(iter);
-    // start parsing 
-    parsingString= "LASSIEFUNCTION = " + _originalString + ";" ;  
-    yy_scan_string(parsingString.c_str());//set parser buffer
-    
-    int parsingResult = yyparse();
-    if (parsingResult ==0){
-      value = file_data["LASSIEFUNCTION"];
-      //ReadSIVFile has 1 argument
-      list<FileValue> arguments = value->getFtnArgs();  
-      
-      argumentsIter = arguments.begin();
-      value =&(*argumentsIter); // first argument is a string
-      
-      attributesRefBuilder->get_widget("ReadSIVFileEntry",entry);
-      string functionString = getFunctionString(value,functionReturnInt);
-      functionString = functionString.substr(5, functionString.length()-6);
-      entry->set_text(functionString); 
-    }
-    
-    //end parsing
-  }
-  
-
-
-  Gtk::TextView* textview;
-  attributesRefBuilder->get_widget("resultStringTextView", textview);
-  textview->get_buffer()->set_text(_originalString);
-
-  show_all_children();
-  
-}
 
 

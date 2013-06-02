@@ -11,7 +11,7 @@
  *==============================================================================
  *
  *  This file is part of LASSIE.
- *  Copyright 2010 Ming-ching Chiu, Sever Tipei
+ *  2010 Ming-ching Chiu, Sever Tipei
  *
  *
  *  LASSIE is free software: you can redistribute it and/or modify
@@ -86,8 +86,8 @@ public:
   ProjectViewController( MainWindow* _mainWindow, std::string _pathAndName, 
   std::string _projectTitle);  	
   //this one is for the old format
-  ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
-  std::string _datPathAndName, std::string _libPathAndName);
+  //ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
+  //std::string _datPathAndName, std::string _libPathAndName);
   
   /*! \brief The destructor of ProjectViewController
    *
@@ -153,6 +153,7 @@ public:
   ObjectWindow* spaWindow;
   ObjectWindow* patWindow;
   ObjectWindow* revWindow;
+  ObjectWindow* filWindow;
   ObjectWindow* noteWindow;
   
 

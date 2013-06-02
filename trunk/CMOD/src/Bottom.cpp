@@ -53,6 +53,7 @@ Bottom::Bottom(DOMElement* _element,
     <Loudness>4</Loudness>
     <Spatialization>5</Spatialization>
     <Reverb>6</Reverb>
+    <Filter>f</Filter>
     <Modifiers>
     </Modifiers>
   </ExtraInfo>
@@ -62,7 +63,8 @@ Bottom::Bottom(DOMElement* _element,
   loudnessElement = frequencyElement->GNES();
   spatializationElement = loudnessElement->GNES();
   reverberationElement = spatializationElement->GNES();
-  modifiersElement = reverberationElement->GNES();
+  filterElement = reverberationElement->GNES();
+  modifiersElement = filterElement->GNES();
   
 }
 
@@ -219,9 +221,12 @@ void Bottom::buildSound(SoundAndNoteWrapper* _soundNoteWrapper) {
   
   //Apply the modifiers to the sound.
   applyModifiers(newSound, numPartials);
-  //Apply the spatialization to the sound.
   
+  //Apply the spatialization to the sound.
   applySpatialization(newSound, numPartials);
+  
+  //apply the filter to the sound
+  applyFilter(newSound);
   
   //Apply the reverberation to the sound.
   applyReverberation(newSound);
@@ -601,9 +606,75 @@ void Bottom::spatializationPolar(Sound *s,
 
 //----------------------------------------------------------------------------//
 
+void Bottom::applyFilter(Sound* s){
+  DOMElement* filterElement = (DOMElement*) utilities->evaluateObject("", (void*) this, eventFil);
+  if (filterElement == NULL) return; //no filter
+  
+//  <Fun>
+//    <Name>MakeFilter</Name>
+//    <Type>HPF</Type>
+//    <Frequency>2000</Frequency>
+//    <BandWidth>4.5</BandWidth>
+//    <dBGain/>
+//  </Fun>
+  DOMElement* it = filterElement->GFEC()->GNES();
+  string type = XMLTC(it);
+  it = it->GNES();
+  double frequency = utilities->evaluate(XMLTC(it), (void*)this);
+  it = it->GNES(); 
+  double bandWidth = utilities->evaluate(XMLTC(it), (void*)this);
+  it = it->GNES(); 
+  double gain = utilities->evaluate(XMLTC(it), (void*)this);
+  
+  int typeInt;
+  if (type =="LPF") typeInt = 0;
+  else if (type == "HPF") typeInt =1;
+  else if (type == "BPF") typeInt =2;
+  else if (type == "NF") typeInt =3;
+  else if (type == "PBEQF") typeInt =4;
+  else if (type == "LSF") typeInt =5;
+  else if (type == "HSF") typeInt =6;
+  else {
+    cout<<"Filter Type not recognized."<<endl;
+    return;
+  }
+   
+  /** 
+   *Usage:(From Mert Bay's BiQuadFilter.cpp)  
+  **/
+  /**
+   *	BiQuadFilter(int type, m_sample_type dbGain,  m_sample_type freq,  m_sample_type srate,   m_sample_type bandwidth); 
+   * Where arguments are 
+   * 1)Filter type: 0-6:  
+	*0-Low Pass Filter, 
+	*1-High Pass Filter
+	*2-Band Pass Filter 
+	*3-Notch Filter 
+	*4-Peaking Band EQ filter
+	*5-Low Shelf Filter
+	*6-High Shelf Filter
+   * 2) dbGain: Filters gain (dB) for peaking and shelving filters only
+   * 3) Cutoff Frequency (hz)
+   * 4) Sampling Rate (samples/sc)
+   * 5) Bandwidth  (in octaves)
+   * 
+  **/
+
+  BiQuadFilter *filterObj= new BiQuadFilter(
+        typeInt,
+        gain,
+        frequency,
+        utilities->getSamplingRate(),
+        bandWidth); 
+  
+  s->use_filter(filterObj);
+}
+//----------------------------------------------------------------------------//
+
+
 void Bottom::applyReverberation(Sound* s) {
 
-  DOMElement* reverbElement = (DOMElement*) utilities->evaluateObject("", (void*) this, eventRev); //this call will return a spa function, just in case users use "select" here. The string here is just a dummy since the callee will find the right spa element  within "this".
+  DOMElement* reverbElement = (DOMElement*) utilities->evaluateObject("", (void*) this, eventRev); //this call will return a rev function, just in case users use "select" here. The string here is just a dummy since the callee will find the right rev element  within "this".
   string rev_method =  XMLTC(reverbElement->GFEC());
   
   if (rev_method.compare("REV_Simple") == 0) {
