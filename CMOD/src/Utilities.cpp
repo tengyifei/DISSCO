@@ -1348,7 +1348,9 @@ DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _F
   else {
     FILElement = _FILFunction;
   }
-  
+  if (FILElement == NULL){
+    return NULL;
+  }
   DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
   
   if ( XMLTC(FILElement) ==""){
