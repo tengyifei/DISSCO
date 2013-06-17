@@ -63,11 +63,8 @@ Bottom::Bottom(DOMElement* _element,
   loudnessElement = frequencyElement->GNES();
   spatializationElement = loudnessElement->GNES();
   reverberationElement = spatializationElement->GNES();
-  
-    filterElement = reverberationElement->GNES();
-    modifiersElement = filterElement->GNES();
-  
-  
+  filterElement = reverberationElement->GNES();
+  modifiersElement = filterElement->GNES();
   
 }
 
