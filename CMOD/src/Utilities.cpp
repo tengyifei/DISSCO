@@ -1349,7 +1349,10 @@ DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _F
     FILElement = _FILFunction;
   }
   
-  DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
+  
+ 
+  if (FILElement->GFEC()==NULL || FILElement->GFEC()->GFEC()==NULL) return NULL;
+   DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
   
   if ( XMLTC(FILElement) ==""){
     cout<<"no filter"<<endl;
