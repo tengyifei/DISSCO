@@ -37,7 +37,10 @@ Event::Event(DOMElement* _element,
              TimeSpan _timeSpan, 
              int _type, 
              Tempo _tempo,
-             Utilities* _utilities):
+             Utilities* _utilities,
+             DOMElement* _ancestorSpa,
+             DOMElement* _ancestorRev,
+             DOMElement* _ancestorFil):
   maxChildDur(0), checkPoint(0),
   numChildren(0),
   restartsRemaining(0),
@@ -160,6 +163,46 @@ Event::Event(DOMElement* _element,
       numChildren +=utilities->evaluate(XMLTC(layerElements[i]->GFEC()),(void*)this);
     } 
   }
+  
+  if (type <=3){ //top, high, mid, low 
+    
+    thisEventElement = thisEventElement->GNES();
+    if (_ancestorSpa != NULL) {
+      spatializationElement = _ancestorSpa;
+    }
+    else if (Utilities::removeSpaces(XMLTC(thisEventElement)) ==""){
+        spatializationElement = NULL;    
+    }
+    else {
+      spatializationElement = thisEventElement;
+    }
+    
+    thisEventElement = thisEventElement->GNES();
+    if (_ancestorRev != NULL) {
+      reverberationElement = _ancestorRev;
+    }
+    else if (Utilities::removeSpaces(XMLTC(thisEventElement)) ==""){
+        reverberationElement = NULL;    
+    }
+    else {
+      reverberationElement = thisEventElement;
+    }
+    
+    thisEventElement = thisEventElement->GNES();
+    if (_ancestorFil != NULL) {
+      filterElement = _ancestorFil;
+    }
+    else if (Utilities::removeSpaces(XMLTC(thisEventElement)) ==""){
+        filterElement = NULL;    
+    }
+    else {
+      filterElement = thisEventElement;
+    }
+    
+   
+   
+  }
+  
   
 }
 
@@ -867,7 +910,10 @@ void Event::checkEvent(bool buildResult) {
 
   Event* e;
   if (childEventType==eventBottom){
-    e = (Event*)   new Bottom(childElement, tsChild, childType, tempo, utilities);
+    e = (Event*)   new Bottom(childElement, tsChild, childType, tempo, utilities,
+                spatializationElement, reverberationElement, filterElement);
+    
+    
     if(tsChild.startEDU.isDeterminate()){
     //cout<<"Child start EDU is determinate."<<endl;
       e->tempo = tempo;
@@ -879,7 +925,8 @@ void Event::checkEvent(bool buildResult) {
   }
   
   else {
-    e = new Event( childElement, tsChild, childType, tempo, utilities);
+    e = new Event( childElement, tsChild, childType, tempo, utilities,
+                  spatializationElement, reverberationElement, filterElement);
     if(tsChild.startEDU.isDeterminate()){
       //cout<<"Child start EDU is determinate."<<endl;
       e->tempo = tempo;

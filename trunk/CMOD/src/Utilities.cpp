@@ -1342,14 +1342,17 @@ DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _F
   DOMElement* FILElement; 
 
   if (_initialCall ==true){
-    Bottom* thisBottom = (Bottom*)_zobject;
+    Bottom* thisBottom = (Bottom*)_object;
     FILElement = thisBottom->getFILElement();
   }
   else {
     FILElement = _FILFunction;
   }
   
-  DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
+  
+ 
+  if (FILElement->GFEC()==NULL || FILElement->GFEC()->GFEC()==NULL) return NULL;
+   DOMElement* functionNameElement = FILElement->getFirstElementChild()->getFirstElementChild();
   
   if ( XMLTC(FILElement) ==""){
     cout<<"no filter"<<endl;

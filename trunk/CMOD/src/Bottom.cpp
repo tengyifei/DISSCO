@@ -34,8 +34,11 @@ Bottom::Bottom(DOMElement* _element,
                TimeSpan _timeSpan, 
                int _type, 
                Tempo _tempo, 
-               Utilities* _utilities):
-  Event(_element, _timeSpan,_type, _tempo, _utilities){
+               Utilities* _utilities,
+               DOMElement* _ancestorSpa, 
+               DOMElement* _ancestorRev,
+               DOMElement* _ancestorFil):
+  Event(_element, _timeSpan,_type, _tempo, _utilities, NULL,NULL,NULL ){
   
   XMLCh* extraInfoString = XMLString::transcode("ExtraInfo");
   DOMNodeList* extraInfoList = _element->getElementsByTagName(extraInfoString);
@@ -61,10 +64,29 @@ Bottom::Bottom(DOMElement* _element,
   
   frequencyElement = extraInfo->GFEC();
   loudnessElement = frequencyElement->GNES();
-  spatializationElement = loudnessElement->GNES();
-  reverberationElement = spatializationElement->GNES();
-  filterElement = reverberationElement->GNES();
-  modifiersElement = filterElement->GNES();
+  if (_ancestorSpa != NULL){
+    spatializationElement = _ancestorSpa;
+  }  
+  else {
+    spatializationElement = loudnessElement->GNES();
+  }
+ 
+  if (_ancestorRev != NULL){
+    reverberationElement = _ancestorRev;
+  }  
+  else {
+    reverberationElement = loudnessElement->GNES()->GNES();
+  }
+ 
+  if (_ancestorFil != NULL){
+    filterElement = _ancestorFil;
+  }  
+  else {
+    filterElement = loudnessElement->GNES()->GNES()->GNES();
+  }
+  
+ 
+  modifiersElement = loudnessElement->GNES()->GNES()->GNES()->GNES();
   
 }
 

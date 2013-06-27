@@ -102,6 +102,10 @@ public:
     DOMElement* AttackSieveElement;
     DOMElement* DurationSieveElement;
     
+    DOMElement* spatializationElement;
+    DOMElement* reverberationElement;
+    DOMElement* filterElement;
+    
     // Storage for temporary parsers. For evaluating objects, XML parsers are
     // sometimes created by the utilities object. The event has the ownership
     // of these temporary parsers and is responsible to clean up.
@@ -217,7 +221,10 @@ protected:
           TimeSpan _timeSpan, 
           int _type, 
           Tempo _tempo, 
-          Utilities* _utilities);
+          Utilities* _utilities,
+          DOMElement* _ancestorSpa,
+          DOMElement* _ancestorRev,
+          DOMElement* _ancestorFil);
     
     /**
     *   buildChildren. Builds sub-events from parsed information and 

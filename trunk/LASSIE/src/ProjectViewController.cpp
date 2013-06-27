@@ -2496,6 +2496,8 @@ std::vector<std::string> ProjectViewController::getCustomNoteModifiers(){
 
 
 void ProjectViewController::saveAs(std::string _newPathAndName){
+  cout<<"'save as' is deprecated."<<endl;
+  /*
 	pathAndName = _newPathAndName;
 	projectTitle  = FileOperations::stringToFileName(pathAndName);
 	datPathAndName = pathAndName+ "/"+projectTitle+".dat";
@@ -2511,7 +2513,7 @@ void ProjectViewController::saveAs(std::string _newPathAndName){
        ++iter){
     (*iter)->saveAsToDisk(pathAndName);
   }
-	
+	*/
 
 }
 

@@ -207,7 +207,7 @@ public:
   IEvent();
   
   //when open project
-  IEvent(std::string _filePath, std::string _fileName, EventType _type);
+  
   IEvent(IEvent* _original, string _newName);
   IEvent(DOMElement* _domElement);
 
@@ -262,11 +262,61 @@ public:
    ****************************************************************************/
   void setUnitsPerSecond(std::string _unitsPerSecond);
 
+
   /*! \brief get unitsPerSecond of the event
    *
    *  @return unitsPerSecond
    ****************************************************************************/
   std::string getUnitsPerSecond();
+  
+  
+  
+  /*! \brief get Spa of the event
+   *
+   *  @return Spa
+   ****************************************************************************/
+  std::string getSpa();
+  
+
+  
+  /*! \brief set Spa of the event
+   *
+   *  @param _spa 
+   ****************************************************************************/
+  void setSpa(std::string _spa);
+  
+  
+  
+  
+  
+  
+  /*! \brief get Rev of the event
+   *
+   *  @return Rev
+   ****************************************************************************/
+  std::string getRev();
+  
+  /*! \brief set Rev of the event
+   *
+   *  @param _rev 
+   ****************************************************************************/
+  void setRev(std::string _rev);
+  
+  
+  
+    /*! \brief get Fil of the event
+   *
+   *  @return Fil
+   ****************************************************************************/
+  std::string getFil();
+  
+  /*! \brief set Fil of the event
+   *
+   *  @param _fil 
+   ****************************************************************************/
+  void setFil(std::string _fil);
+  
+  
   
   //after open project and constructing all the event, has to link them properly
   void link(ProjectViewController* _projectView);  
@@ -432,8 +482,7 @@ public:
    *   written according to the path
    ****************************************************************************/
   void saveToDisk(std::string _pathOfProject);
-  void saveAsToDisk(std::string _pathOfProject); //save everything
-  void saveToDiskHelper(std::string _pathOfProject, bool _forced);
+  
   
   int getNumberOfLayers();
 
@@ -738,6 +787,10 @@ private:
   std::string childEventDefEntry3;
   std::string childEventDefAttackSieve;
   std::string childEventDefDurationSieve;
+  
+  std::string filter;
+  std::string reverb;
+  std::string spatialization;
 
    // 0 = fixed, 1 = density, 2 = By layer
   int flagNumChildren;

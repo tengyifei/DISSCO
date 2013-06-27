@@ -50,9 +50,6 @@ class Bottom : public Event {
    
     DOMElement* frequencyElement;
     DOMElement* loudnessElement;
-    DOMElement* spatializationElement;
-    DOMElement* reverberationElement;
-    DOMElement* filterElement;
     DOMElement* modifiersElement;
 
     //Current partial during the processing of the event
@@ -78,7 +75,11 @@ class Bottom : public Event {
     *
     */
     
-    Bottom(DOMElement* _element, TimeSpan _timeSpan, int _type, Tempo _tempo, Utilities* _utilities);
+    Bottom(DOMElement* _element, TimeSpan _timeSpan, int _type, Tempo _tempo, Utilities* _utilities, DOMElement* _ancestorSpa, DOMElement* _ancestorRev,
+          DOMElement* _ancestorFil);
+    
+    
+    
     /**
     *   Destructor.
     **/
