@@ -88,6 +88,10 @@ IEvent::IEvent(){
   childEventDefAttackSieve = "";
   childEventDefDurationSieve = "";
   
+  filter = "";
+  reverb = "";
+  spatialization = "";
+  
   
   extraInfo = NULL;
   
@@ -98,18 +102,6 @@ IEvent::IEvent(){
   layers.push_back(newLayer);
 }
 
-
-IEvent::IEvent(std::string _filePath, std::string _fileName, EventType _type){
-		eventName = _fileName;
-  eventType = _type;
-    //IEventParseFile(_filePath+"/"+_fileName);
-    
-    eventType = _type;
-  
-  
-  changedButNotSaved = false;           
-
-}
 
 
 
@@ -271,6 +263,49 @@ void IEvent::setUnitsPerSecond(std::string _unitsPerSecond){
 std::string IEvent::getUnitsPerSecond(){
   return unitsPerSecond;
 }
+
+
+
+
+void IEvent::setSpa(std::string _spa){
+  spatialization = _spa;
+  changedButNotSaved = true;
+}
+
+
+std::string IEvent::getSpa(){
+  return spatialization;
+}
+
+
+void IEvent::setRev(std::string _rev){
+  reverb = _rev;
+  changedButNotSaved = true;
+}
+
+
+std::string IEvent::getRev(){
+  return reverb;
+}
+
+
+void IEvent::setFil(std::string _fil){
+  filter = _fil;
+  changedButNotSaved = true;
+}
+
+
+std::string IEvent::getFil(){
+  return filter;
+}
+
+
+
+
+
+
+
+
 
 
 void IEvent::setTimeSignatureEntry1(std::string _timeSignatureEntry1){
@@ -510,57 +545,6 @@ void IEvent::saveToDisk(std::string _pathOfProject){
 	//saveToDiskHelper(_pathOfProject, false);
 }
 
-
-void IEvent::saveAsToDisk(std::string _pathOfProject){ //save everything
-	saveToDiskHelper(_pathOfProject, true);
-}
-
-
-void IEvent::saveToDiskHelper(std::string _pathOfProject, bool _forced){/*
-  if(changedButNotSaved == false && _forced==false) return;
-  changedButNotSaved = false;
-  
-  switch(eventType){
-    case 0:
-      saveAsTHMLB(_pathOfProject);
-      break;
-    case 1:
-      saveAsTHMLB(_pathOfProject);
-      break;
-    case 2:
-      saveAsTHMLB(_pathOfProject);
-      break;
-    case 3:
-      saveAsTHMLB(_pathOfProject);
-      break;
-    case 4:
-      saveAsTHMLB(_pathOfProject);
-      break;
-    case 5:
-      saveAsSound(_pathOfProject);
-      break;
-    case 6:
-      saveAsEnv(_pathOfProject);
-      break;
-    case 7:
-      saveAsSiv(_pathOfProject);
-      break;
-    case 8:
-      saveAsSpa(_pathOfProject);
-      break;
-    case 9:
-      saveAsPat(_pathOfProject);
-      break;
-    case 10:
-      saveAsRev(_pathOfProject);
-      break;
-    case 11: //no need to save folder
-      break;
-    case 12:
-      saveAsNote(_pathOfProject);  
-  }
-  */
-}
 
 int IEvent::getNumberOfLayers(){
   return layers.size();
@@ -2370,7 +2354,10 @@ string IEvent::getXMLTHMLB(){
     "        <StartTypeFlag>" + flagChildEventDefStartTypeChar + "</StartTypeFlag>\n"
     "        <DurationTypeFlag>" + flagChildEventDefDuratonTypeChar + "</DurationTypeFlag>\n" 
     "      </ChildEventDefinition>\n"
-    "      <Layers>\n" + layerbuffer + "      </Layers>\n";
+    "      <Layers>\n" + layerbuffer + "      </Layers>\n"
+    "      <Spatialization>" + spatialization + "</Spatialization>\n"
+    "      <Reverb>" + reverb + "</Reverb>\n"
+    "      <Filter>" + filter + "</Filter>\n" ;
     
     
     if (eventType == eventBottom){
@@ -2769,6 +2756,19 @@ IEvent::IEvent(DOMElement* _domElement){
     secondLevelElement = secondLevelElement->getNextElementSibling();
   }
   
+  //environment
+  
+  if (thisElement->getNextElementSibling() != NULL &&thisElement->getNextElementSibling()->getNextElementSibling() != NULL){
+    thisElement = thisElement->getNextElementSibling();
+    spatialization = getFunctionString(thisElement);
+    thisElement = thisElement->getNextElementSibling();
+    reverb = getFunctionString(thisElement);
+    thisElement = thisElement->getNextElementSibling();
+    filter = getFunctionString(thisElement);
+  }
+  
+  
+
 
   if (eventType == eventBottom){
   
@@ -2986,36 +2986,6 @@ std::string IEvent::getFunctionString(DOMElement* _thisFunctionElement){
     return "";
   }
 
-
-  /*
-
-  char* charBuffer;
-  DOMCharacterData* textData;
-  string returnString;
-  DOMElement* child = _thisFunctionElement->getFirstElementChild();  
-  if (child ==NULL){ //not containing any child, return string
-  
-    textData = ( DOMCharacterData*) _thisFunctionElement->getFirstChild();
-    if (textData){ 
-      charBuffer = XMLString::transcode(textData->getData());
-      returnString = string(charBuffer);
-      XMLString::release(&charBuffer);
-    } else returnString = "";
-
-    return returnString;
-  }
-  
-  //contain function!
-  XMLCh tempStr[3] = {chLatin_L, chLatin_S, chNull};
-  DOMImplementation *impl          = DOMImplementationRegistry::getDOMImplementation(tempStr);
-  DOMLSSerializer   *theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
-  XMLCh* bla = theSerializer->writeToString (child);
-  returnString = XMLString::transcode(bla);
-  XMLString::release(&bla);
-  delete theSerializer; 
-  return returnString;
-  */
-  
   XMLCh tempStr[3] = {chLatin_L, chLatin_S, chNull};
   DOMImplementation *impl          = DOMImplementationRegistry::getDOMImplementation(tempStr);
   DOMLSSerializer   *theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();

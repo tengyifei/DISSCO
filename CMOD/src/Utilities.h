@@ -99,15 +99,16 @@ public:
   // return the final product
   MultiTrack* doneCMOD();
   
+  /**
+   * Clean up the unnecessary space in a string
+   **/
+  static string removeSpaces(string _originalString);
   
   
    
 private:  
   
-  /**
-   * Clean up the unnecessary space in a string
-   **/
-  string removeSpaces(string _originalString);
+  
   
   // Helper for getting Envelopes
   Envelope* getEnvelope(string _input, void* _object);

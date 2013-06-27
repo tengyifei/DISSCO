@@ -243,6 +243,12 @@ public:
   void childEventAttackSieveButtonClicked(); 
   void childEventDurationSieveButtonClicked(); 
   
+  void attributesStandardRevButtonClicked();
+  void attributesStandardFilButtonClicked();
+  void attributesStandardSpaButtonClicked();
+  
+  
+  
   void BSLoudnessButtonClicked();
   void BSSpatializationButtonClicked();
   void BSReverbButtonClicked();

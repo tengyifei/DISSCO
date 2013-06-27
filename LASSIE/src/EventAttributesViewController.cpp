@@ -307,6 +307,7 @@ EventAttributesViewController::EventAttributesViewController(
       *this,&EventAttributesViewController::discreteButtonClicked) );
   
   
+  
   //for bottom event
   attributesRefBuilder->get_widget(
     "BottomSubAttributesWellTemperedButton",radioButton);
@@ -406,6 +407,18 @@ EventAttributesViewController::EventAttributesViewController(
     "ChildEventDurationSieveButton", button);
   button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::childEventDurationSieveButtonClicked));   
   
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardFilButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::attributesStandardFilButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardSpaButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::attributesStandardSpaButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardRevButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(*this, & EventAttributesViewController::attributesStandardRevButtonClicked));
   
 
 //----------bottom sub
@@ -569,6 +582,35 @@ EventAttributesViewController::EventAttributesViewController(
   attributesRefBuilder->get_widget(
     "attributesDurationTypePercentageButton", radioButton);
   radioButton->signal_pressed().connect(sigc::mem_fun(*this,&EventAttributesViewController::modified) ); 
+  
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardSpaEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardRevEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
+  
+  attributesRefBuilder->get_widget(
+    "attributesStandardFilEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(*this, & EventAttributesViewController::modified));
+  
+  
+  Gtk::VBox* environmentAttributes;
+  Gtk::VBox* mainAttributes;      
+        
+  attributesRefBuilder->get_widget("attributesMainVBox", mainAttributes);
+
+        attributesRefBuilder->get_widget(
+          "attributesStandardEnvironment", environmentAttributes);
+        mainAttributes->pack_start(
+          (Gtk::Widget&) *environmentAttributes, Gtk::PACK_SHRINK);
+  
+  
+  
+  
+  
 
   attributesRefBuilder->get_widget(
     "attributesDurationTypeUnitsButton", radioButton);
@@ -1065,6 +1107,26 @@ void EventAttributesViewController::saveCurrentShownEventData(){
     
     } // descrete
     
+    
+    if ( currentlyShownEvent->getEventType()==eventTop ||
+         currentlyShownEvent->getEventType()==eventHigh ||
+         currentlyShownEvent->getEventType()==eventMid ||
+         currentlyShownEvent->getEventType()==eventLow ){
+    // save environment
+      attributesRefBuilder->get_widget(
+        "attributesStandardSpaEntry", entry);
+      currentlyShownEvent->setSpa(entry->get_text());
+
+
+      attributesRefBuilder->get_widget(
+        "attributesStandardRevEntry", entry);
+      currentlyShownEvent->setRev(entry->get_text());
+    
+      attributesRefBuilder->get_widget(
+        "attributesStandardFilEntry", entry);
+      currentlyShownEvent->setFil(entry->get_text());
+    }
+
 
     //save BottomExtraInfo   
     if (currentlyShownEvent->getEventType()==eventBottom){ 
@@ -1356,11 +1418,19 @@ void EventAttributesViewController::showCurrentEventData(){
         // remove sub bottom
         Gtk::VBox* bottomSubAttributes;
         Gtk::VBox* mainAttributes;
+        Gtk::VBox* environmentAttributes;
+        
         attributesRefBuilder->get_widget(
           "BottomSubAttributesVBox", bottomSubAttributes);
         attributesRefBuilder->get_widget("attributesMainVBox", mainAttributes);
         
         mainAttributes->remove( *bottomSubAttributes);
+        
+        attributesRefBuilder->get_widget(
+          "attributesStandardEnvironment", environmentAttributes);
+        mainAttributes->pack_start(
+          (Gtk::Widget&) *environmentAttributes, Gtk::PACK_SHRINK);
+        
         bottomSubAttributesShown= false;
         
       }
@@ -1370,10 +1440,16 @@ void EventAttributesViewController::showCurrentEventData(){
         // add sub bottom
         Gtk::VBox* bottomSubAttributes;
         Gtk::VBox* mainAttributes;
+        Gtk::VBox* environmentAttributes;
+        
+        
+        attributesRefBuilder->get_widget(
+          "attributesStandardEnvironment", environmentAttributes);
+        attributesRefBuilder->get_widget("attributesMainVBox", mainAttributes);
+        mainAttributes->remove( *environmentAttributes);
+        
         attributesRefBuilder->get_widget(
           "BottomSubAttributesVBox", bottomSubAttributes);
-        attributesRefBuilder->get_widget("attributesMainVBox", mainAttributes);
-        
         mainAttributes->pack_start(
           (Gtk::Widget&) *bottomSubAttributes, Gtk::PACK_SHRINK);
         bottomSubAttributesShown= true;
@@ -1995,7 +2071,33 @@ void EventAttributesViewController::showCurrentEventData(){
       
       }
       
-      refreshChildTypeInLayer();      
+      refreshChildTypeInLayer(); 
+      
+      //show environment
+      
+      if ( currentlyShownEvent->getEventType() == eventTop ||
+           currentlyShownEvent->getEventType() == eventHigh ||
+           currentlyShownEvent->getEventType() == eventMid ||
+           currentlyShownEvent->getEventType() == eventLow ){
+      
+      
+        attributesRefBuilder->get_widget(
+            "attributesStandardFilEntry", entry);
+        entry->set_text(currentlyShownEvent->getFil());
+      
+        attributesRefBuilder->get_widget(
+            "attributesStandardSpaEntry", entry);
+        entry->set_text(currentlyShownEvent->getSpa());
+        
+        attributesRefBuilder->get_widget(
+            "attributesStandardRevEntry", entry);
+        entry->set_text(currentlyShownEvent->getRev());   
+           
+      }
+      
+      
+      
+        
       
       // show bottom extra info
       if (currentlyShownEvent->getEventType() == eventBottom){ 
@@ -4249,6 +4351,60 @@ void EventAttributesViewController::LayerBox::deleteLayerButtonClicked(){
   } 
   attributesView->refreshChildTypeInLayer();
 }
+
+
+
+
+void EventAttributesViewController::attributesStandardRevButtonClicked(){
+
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget(
+    "attributesStandardRevEntry", entry);
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnREV,entry->get_text());
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+  delete generator;
+}
+
+
+
+
+void EventAttributesViewController::attributesStandardFilButtonClicked(){
+
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget(
+    "attributesStandardFilEntry", entry);
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnFIL,entry->get_text());
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+  delete generator;
+}
+
+
+void EventAttributesViewController::attributesStandardSpaButtonClicked(){
+
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget(
+    "attributesStandardSpaEntry", entry);
+  FunctionGenerator* generator = 
+    new FunctionGenerator(functionReturnSPA,entry->get_text());
+  int result = generator->run();
+  if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+  delete generator;
+}
+
+
+
+
+
 
 
 
