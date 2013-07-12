@@ -40,7 +40,8 @@ Event::Event(DOMElement* _element,
              Utilities* _utilities,
              DOMElement* _ancestorSpa,
              DOMElement* _ancestorRev,
-             DOMElement* _ancestorFil):
+             DOMElement* _ancestorFil,
+             DOMElement* _ancestorModifiers):
   maxChildDur(0), checkPoint(0),
   numChildren(0),
   restartsRemaining(0),
@@ -49,7 +50,8 @@ Event::Event(DOMElement* _element,
   type(_type),
   previousChildDuration(0),
   discreteFailedResponse(""),
-  utilities( _utilities){
+  utilities( _utilities),
+  modifiersIncludingAncestorsElement(NULL){
   
   //Initialize parameters
   DOMElement* thisEventElement = _element->GFEC();
@@ -199,9 +201,24 @@ Event::Event(DOMElement* _element,
       filterElement = thisEventElement;
     }
     
+    
+    thisEventElement = thisEventElement->GNES();
+    modifiersElement = thisEventElement;
+    modifiersIncludingAncestorsElement = (DOMElement*) modifiersElement->cloneNode(true);
+    
+    if (_ancestorModifiers != NULL){
+    
+      DOMElement* ancestorModifierIter = _ancestorModifiers->GFEC();
+      while(ancestorModifierIter !=NULL){
+        DOMElement* cloneModifier = (DOMElement*) ancestorModifierIter->cloneNode(true);
+        modifiersIncludingAncestorsElement->appendChild((DOMNode*)cloneModifier);
+        ancestorModifierIter = ancestorModifierIter->GNES();
+      }
+      
+    }// end handling _ancestorModifiers
    
-   
-  }
+   //cout<<"Event:"<<name<<":\nModifiers after merge:"<<XMLTC(modifiersIncludingAncestorsElement)<<endl<<endl<<"============="<<endl;
+  } // end event type = 0, 1, 2, 3
   
   
 }
@@ -688,6 +705,7 @@ void Event::addPattern(std::string _string, Patter* _pat){
 
 Event::~Event() {
   
+  //if ( modifiersIncludingAncestorsElement!=NULL) delete modifiersIncludingAncestorsElement; //turns out that clone dom node is not created in heap
   for (int i = 0; i < temporaryXMLParsers.size(); i++){
     delete temporaryXMLParsers[i];
   }
@@ -911,7 +929,7 @@ void Event::checkEvent(bool buildResult) {
   Event* e;
   if (childEventType==eventBottom){
     e = (Event*)   new Bottom(childElement, tsChild, childType, tempo, utilities,
-                spatializationElement, reverberationElement, filterElement);
+                spatializationElement, reverberationElement, filterElement, modifiersIncludingAncestorsElement);
     
     
     if(tsChild.startEDU.isDeterminate()){
@@ -926,7 +944,7 @@ void Event::checkEvent(bool buildResult) {
   
   else {
     e = new Event( childElement, tsChild, childType, tempo, utilities,
-                  spatializationElement, reverberationElement, filterElement);
+                  spatializationElement, reverberationElement, filterElement, modifiersIncludingAncestorsElement);
     if(tsChild.startEDU.isDeterminate()){
       //cout<<"Child start EDU is determinate."<<endl;
       e->tempo = tempo;

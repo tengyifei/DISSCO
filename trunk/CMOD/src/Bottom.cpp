@@ -37,8 +37,11 @@ Bottom::Bottom(DOMElement* _element,
                Utilities* _utilities,
                DOMElement* _ancestorSpa, 
                DOMElement* _ancestorRev,
-               DOMElement* _ancestorFil):
-  Event(_element, _timeSpan,_type, _tempo, _utilities, NULL,NULL,NULL ){
+               DOMElement* _ancestorFil,
+               DOMElement* _ancestorModifiers):
+  Event(_element, _timeSpan,_type, _tempo, _utilities, NULL,NULL,NULL,NULL),
+  ancestorModifiersElement(_ancestorModifiers){
+  
   
   XMLCh* extraInfoString = XMLString::transcode("ExtraInfo");
   DOMNodeList* extraInfoList = _element->getElementsByTagName(extraInfoString);
@@ -793,11 +796,30 @@ void Bottom::applyReverberation(Sound* s) {
 //----------------------------------------------------------------------------//
 
 void Bottom::applyModifiers(Sound *s, int numPartials) {
-
   vector<Modifier> modNoDep;  //mods without dependencies
   map<string, vector<Modifier> > modMutEx; // map mutex group names to the mods
-  DOMElement* modifierElement = modifiersElement->GFEC();
   
+  
+  DOMElement* modifiersIncludingAncestorsElement = (DOMElement*) modifiersElement->cloneNode(true);
+  
+  
+  if (ancestorModifiersElement != NULL){
+    
+      DOMElement* ancestorModifierIter = ancestorModifiersElement->GFEC();
+      while(ancestorModifierIter !=NULL){
+        DOMElement* cloneModifier = (DOMElement*) ancestorModifierIter->cloneNode(true);
+        modifiersIncludingAncestorsElement->appendChild((DOMNode*)cloneModifier);
+        ancestorModifierIter = ancestorModifierIter->GNES();
+      }
+      
+  }// end handling ancestorModifiers
+  
+  //cout<<"Bottom-"<<name<<": Modifiers after merge:"<<XMLTC(modifiersIncludingAncestorsElement)<<endl<<endl<<"============="<<endl;
+  
+  
+  
+  DOMElement* modifierElement = modifiersIncludingAncestorsElement->GFEC();
+  //cout<<"modifierElement: "<<XMLTC(modifierElement)<<endl;
   while (modifierElement!=NULL) {
        
 //    <Modifier>
@@ -822,11 +844,12 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
       case 6: modType = "FREQTRANS"; break;
       case 7: modType = "WAVE_TYPE"; break;
     }
-    
+    cout<<"Mod Type: "<<modType<<endl;
     arg = arg->GNES();
     string applyHow = ((int)utilities->evaluate(XMLTC(arg), this)==0)?"SOUND":"PARTIAL";
     
-    arg = arg->GNES();        
+    arg = arg->GNES();   
+        
     Envelope* probEnv = (Envelope*)utilities->evaluateObject(XMLTC(arg), this, eventEnv);
     DOMElement* ampElement = arg->GNES();
     DOMElement* rateElement = ampElement->GNES();
@@ -839,13 +862,13 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
     Modifier newMod(modType, probEnv, applyHow);
     
     if (applyHow == "SOUND") {
-
+    
       if (ampStr!=""){
         Envelope* env =  (Envelope*)utilities->evaluateObject(ampStr, this, eventEnv );
         newMod.addValueEnv(env);
         delete env;
       }    
-
+   
       if (rateStr!=""){
         Envelope* env =  (Envelope*)utilities->evaluateObject(rateStr, this, eventEnv );
         newMod.addValueEnv(env);
@@ -859,7 +882,7 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
       }   
     } 
     else if (applyHow == "PARTIAL") {
-
+      
       for (int i = 0; i <numPartials; i ++){ // make envelopes for all the partials
   
         if (ampStr!=""){
@@ -883,7 +906,8 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
         }        
       }
     }
-
+    
+    
     arg = widthElement->GNES();//group name (MUT_EX)
     string mutExGroup = XMLTC(arg);
     if (mutExGroup == "") {
@@ -898,14 +922,18 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
     modifierElement = modifierElement->GNES(); // go to the next MOD in the list
   } // end of the main while loop
 
-
+  
   // go through the non-exclusive mods
   for (int i = 0; i < modNoDep.size(); i++) {
+    
     if (modNoDep[i].willOccur(checkPoint)) {
+      
       modNoDep[i].applyModifier(s, numPartials);
+      
     }
   }
 
+  
 
   // go through the exclusive mods
   map<string, vector<Modifier> >::iterator iter = modMutEx.begin();
@@ -922,7 +950,7 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
     }
     iter ++; 
   }
-
+  //delete modifiersIncludingAncestorsElement;
 }
 
 //----------------------------------------------------------------------------//

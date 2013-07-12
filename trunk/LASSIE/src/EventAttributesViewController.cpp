@@ -880,28 +880,7 @@ void EventAttributesViewController::saveCurrentShownEventData(){
       	"attributesStandardTempoValueEntry", entry);      	
     	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());   
 
-      /*
-      Gtk::ComboBox* combobox;
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoNotePrefixCombobox", combobox);    
-      Gtk::TreeModel::iterator iter = combobox->get_active();
-      if(iter){
-        Gtk::TreeModel::Row row = *iter;
-        if(row){
-          currentlyShownEvent->setTempoPrefix(
-            row[tempoPrefixColumns.m_col_type]);
-        }    
-      }
-      attributesRefBuilder->get_widget(
-        "attributesStandardTempoNoteCombobox", combobox);    
-      iter = combobox->get_active();
-      if(iter){
-        Gtk::TreeModel::Row row = *iter;
-        if(row){
-          currentlyShownEvent->setTempoNoteValue(
-            row[tempoNoteValueColumns.m_col_type]);
-        }    
-      }*/     
+          
     
 
 
@@ -1194,15 +1173,14 @@ void EventAttributesViewController::saveCurrentShownEventData(){
         "BottomSubAttributesFilterEntry", entry);
       currentlyShownEvent->getEventExtraInfo()->setFilter(entry->get_text()); 
     
+    }// end handle BottomExtraInfo
     
-    if (modifiers!=NULL){
+   
+     if (modifiers!=NULL){
       modifiers->saveToEvent();
+      
     }
     
-    
-    
-    
-    }// end handle BottomExtraInfo
     
     
   }//end if normal events
@@ -2229,7 +2207,7 @@ void EventAttributesViewController::showCurrentEventData(){
         }
         
         
-        //show/ hide modifiers
+        //show/hide modifiers
         
         int childType = extraInfo->getChildTypeFlag();
 
@@ -2239,13 +2217,13 @@ void EventAttributesViewController::showCurrentEventData(){
         if (childType == 0){ //sound
         	attributesRefBuilder->get_widget(
           	"BottomSubAttributesNewModifierButton", button);
-          	
-          	
         	attributesRefBuilder->get_widget("BottomSubAttributesVBox", 
         	                                 vbox2);
         	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", 
         	                                 vbox);
-        	
+        	attributesRefBuilder->get_widget(
+          		"ModifierLabel", label);
+        	/* old code
         	if (button->get_parent() ==NULL){        	
         	  attributesRefBuilder->get_widget(
           		"ModifierLabel", label);
@@ -2253,9 +2231,30 @@ void EventAttributesViewController::showCurrentEventData(){
         		vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
         		vbox2->pack_start(*button, Gtk::PACK_SHRINK);
         	}
+        	*/
+        	//////////////////////////////////////////new code
+        	
+        	
+        	if (button->get_parent() !=NULL){        	 
+          	button->get_parent()->remove(*button);	
+          }	
+          if (label->get_parent() !=NULL){        	 
+          	label->get_parent()->remove(*label);	
+          }	
+          if (vbox->get_parent() !=NULL){ 	
+          	vbox->get_parent()->remove(*vbox);	
+          }	
+          
+          
+          vbox2->pack_start(*label, Gtk::PACK_SHRINK);
+        	vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+        	vbox2->pack_start(*button, Gtk::PACK_SHRINK);
         	
         	
         	
+        	
+        	
+        	/////////////////////////////////////////////////// end new code
         	EventBottomModifier* EBmodifiers = 
         	  currentlyShownEvent->getEventExtraInfo()->getModifiers();
         
@@ -2298,6 +2297,8 @@ void EventAttributesViewController::showCurrentEventData(){
         	                                 vbox2);
         	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", 
         	                                 vbox);
+        	                                 
+        	                                 
         	if (button->get_parent() !=NULL){
         		attributesRefBuilder->get_widget(
           		"ModifierLabel", label);
@@ -2315,7 +2316,77 @@ void EventAttributesViewController::showCurrentEventData(){
 
       } // end showing bottom extra info
       
+      else { //modifirs for events
+        
       
+
+        Gtk::Label* label;
+        Gtk::VBox* vbox;
+        Gtk::VBox* vbox2;
+        
+        attributesRefBuilder->get_widget(
+          "BottomSubAttributesNewModifierButton", button);
+        attributesRefBuilder->get_widget("attributesMainVBox", 
+        	                                 vbox2);
+        attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", 
+        	                                 vbox);
+        
+        attributesRefBuilder->get_widget(
+          		"ModifierLabel", label);	
+        if (button->get_parent() !=NULL){        	 
+          	button->get_parent()->remove(*button);	
+          }	
+          if (label->get_parent() !=NULL){        	 
+          	label->get_parent()->remove(*label);	
+          }	
+          if (vbox->get_parent() !=NULL){ 	
+          	vbox->get_parent()->remove(*vbox);	
+          }	
+          //cout<<"add them to the right vbox"<<endl;
+          vbox2->pack_start(*label, Gtk::PACK_SHRINK);
+        	vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+        	vbox2->pack_start(*button, Gtk::PACK_SHRINK);
+        	
+        
+       	EventBottomModifier* EBmodifiers = 
+       	  currentlyShownEvent->getModifiers();
+        
+        if (EBmodifiers!= NULL){
+          
+        }
+	      BottomEventModifierAlignment* nextModifierAlignment;       
+        while (EBmodifiers != NULL){
+
+  	      if (modifiers ==NULL){ //if the first modifier
+
+  	        modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
+  	        modifiers->prev = NULL;
+	
+            nextModifierAlignment = modifiers;
+ 	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK); 
+           
+
+          } 
+  	      else { //rest of the modifiers
+
+  	      	nextModifierAlignment->next = 
+  	       	  new BottomEventModifierAlignment(EBmodifiers, this);
+  	       	nextModifierAlignment->next->prev = nextModifierAlignment;
+  	       	nextModifierAlignment = nextModifierAlignment->next;
+            vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
+
+  	      }
+  	      EBmodifiers = EBmodifiers->next;
+	
+  	          
+        
+				}//end while
+				
+        
+      }//end event modifiers
+      
+      
+
       break;
       
     case 5:
@@ -4011,9 +4082,13 @@ void EventAttributesViewController::addModifierButtonClicked(){
   if (entryChangedByShowCurrentEvent ==false){
     modified();
   }
-  EventBottomModifier* newModifier = 
-    currentlyShownEvent->getEventExtraInfo()->addModifier();
-  
+  EventBottomModifier* newModifier;
+  if (currentlyShownEvent->getEventType()==eventBottom){
+    newModifier = currentlyShownEvent->getEventExtraInfo()->addModifier();
+  }
+  else {
+    newModifier = currentlyShownEvent->addModifier();
+  }
   
   
   BottomEventModifierAlignment* newModifierAlignment = 
@@ -4101,8 +4176,16 @@ void EventAttributesViewController::removeModifierAlignment(
   Gtk::VBox* vbox;
   attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox", vbox);
   vbox->remove(*_alignment);
-  currentlyShownEvent->getEventExtraInfo()->
-    removeModifier(_alignment->modifier);
+  
+  if (currentlyShownEvent->getEventType()==eventBottom){
+    currentlyShownEvent->getEventExtraInfo()->
+      removeModifier(_alignment->modifier);
+  }
+  else {
+    currentlyShownEvent->removeModifier(_alignment->modifier);
+  }
+  
+  
   BottomEventModifierAlignment* search = modifiers;
   if (modifiers == _alignment){
     modifiers = modifiers->next;
@@ -4119,7 +4202,7 @@ void EventAttributesViewController::removeModifierAlignment(
   
   
   delete _alignment;
-  
+
   show_all_children();
     
 
