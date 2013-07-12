@@ -304,7 +304,7 @@ Piece::Piece(string _workingPath, string _projectTitle){
   //Create the Top event and recursively build its children.
   DOMElement* topElement =utilities->getEventElement(eventTop, fileList);
   Event* topEvent = new Event(topElement, 
-        pieceSpan,0, mainTempo, utilities, NULL,NULL,NULL);
+        pieceSpan,0, mainTempo, utilities, NULL,NULL,NULL,NULL);
   topEvent->buildChildren();
   
   //get the final MultiTrack object and write it to disk

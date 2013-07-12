@@ -105,6 +105,10 @@ public:
     DOMElement* spatializationElement;
     DOMElement* reverberationElement;
     DOMElement* filterElement;
+    DOMElement* modifiersElement;
+    
+    //This Element is created by the Event, not the parser. It is passed to the children and needs to be deleted once the event is done. 
+    DOMElement* modifiersIncludingAncestorsElement; 
     
     // Storage for temporary parsers. For evaluating objects, XML parsers are
     // sometimes created by the utilities object. The event has the ownership
@@ -224,7 +228,8 @@ protected:
           Utilities* _utilities,
           DOMElement* _ancestorSpa,
           DOMElement* _ancestorRev,
-          DOMElement* _ancestorFil);
+          DOMElement* _ancestorFil,
+          DOMElement* _ancestorModifiers);
     
     /**
     *   buildChildren. Builds sub-events from parsed information and 

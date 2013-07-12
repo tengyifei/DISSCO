@@ -370,7 +370,7 @@ public:
   string getXMLRev();
   string getXMLFil();
   string getXMLNote();
-  string static getFunctionString(DOMElement* _thisFunctionElement);
+  static string getFunctionString(DOMElement* _thisFunctionElement);
   
   
   
@@ -452,6 +452,11 @@ public:
   void        setChildEventDefDurationSieve(std::string _string);
   std::string getChildEventDefDurationSieve();
   
+  //manipulate modifiers
+  EventBottomModifier* getModifiers();
+  EventBottomModifier* addModifier();
+  void removeModifier( EventBottomModifier* _modifier);
+  
   void setEventOrderInPalette(int _number);
   int getEventOrderInPalette();
   
@@ -488,6 +493,7 @@ public:
 
 
   void showAllChildren();
+  
   
   
   
@@ -599,6 +605,7 @@ public:
    
     EventBottomModifier* modifiers; 
     bool haveString(string _string);
+    static EventBottomModifier* buildModifiersFromDOMElement(DOMElement* _thisModifierElement);
   
   private:
     int frequencyFlag; // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
@@ -611,7 +618,7 @@ public:
     std::string reverb;
     std::string filter;
 
-    EventBottomModifier* buildModifiersFromDOMElement(DOMElement* _thisModifierElement);
+    
   
   };
 
@@ -791,6 +798,7 @@ private:
   std::string filter;
   std::string reverb;
   std::string spatialization;
+  EventBottomModifier* modifiers;
 
    // 0 = fixed, 1 = density, 2 = By layer
   int flagNumChildren;

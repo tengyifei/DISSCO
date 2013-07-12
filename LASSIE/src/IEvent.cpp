@@ -92,7 +92,7 @@ IEvent::IEvent(){
   reverb = "";
   spatialization = "";
   
-  
+  modifiers = NULL;
   extraInfo = NULL;
   
   
@@ -1751,6 +1751,9 @@ IEvent::IEvent(IEvent* _original, string _newName){
   childEventDefAttackSieve = _original->childEventDefAttackSieve;
   childEventDefDurationSieve = _original->childEventDefDurationSieve;
   
+  filter = _original->filter;
+  reverb = _original->reverb;
+  spatialization = _original->spatialization;
   
 
   if (eventType ==eventBottom){
@@ -1803,6 +1806,32 @@ IEvent::IEvent(IEvent* _original, string _newName){
   	layers.push_back(newLayer);
   	iter++;
   }
+  
+  
+  //modifiers
+  
+  if (_original->modifiers == NULL){    
+  	modifiers = NULL;
+
+  }
+  else{
+  
+  	modifiers = new EventBottomModifier(_original->modifiers);
+  
+  	EventBottomModifier* currentOriginalModifier = _original->modifiers;
+  	EventBottomModifier* prevModifier = NULL;
+  	EventBottomModifier* currentModifier = modifiers;
+  
+  	while (currentOriginalModifier->next!= NULL){
+  		currentOriginalModifier = currentOriginalModifier->next;
+  		prevModifier= currentModifier;
+  		currentModifier = new EventBottomModifier(currentOriginalModifier);
+  		prevModifier->next = currentModifier;
+  
+  	}
+  }  	  
+  
+  
   
   
 }
@@ -2378,11 +2407,6 @@ string IEvent::getXMLTHMLB(){
       }
       modifiersbuffer = modifiersbuffer +"        </Modifiers>\n";
       
-  
-
-      
-    
-    
       string bottomBuffer = "";
       bottomBuffer = bottomBuffer + 
         "      <ExtraInfo>\n"
@@ -2402,6 +2426,19 @@ string IEvent::getXMLTHMLB(){
                               
     }
 
+    else {// modifiers 
+    
+      string modifiersbuffer = "      <Modifiers>\n";
+      EventBottomModifier* mod = modifiers;
+      while (mod != NULL){
+        modifiersbuffer = modifiersbuffer + mod->getXMLString();
+        mod = mod->next;
+      }
+      modifiersbuffer = modifiersbuffer +"      </Modifiers>\n";
+      stringbuffer = stringbuffer + modifiersbuffer;
+    }
+
+  
     
    
   stringbuffer = stringbuffer + "    </Event>\n";
@@ -2768,7 +2805,7 @@ IEvent::IEvent(DOMElement* _domElement){
   }
   
   
-
+  thisElement=thisElement->getNextElementSibling(); //now it's either bottom or modifiers or empty (missing modifiers tag)
 
   if (eventType == eventBottom){
   
@@ -2784,14 +2821,21 @@ IEvent::IEvent(DOMElement* _domElement){
     else {
     	childTypeFlag = 2;
    	}
-    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag, thisElement->getNextElementSibling()); //line 2789
-  
-    
+    extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag, thisElement); //line 2789
+
+  }
+  else { //if not bottom, the following element is modifiers
+    if (thisElement!= NULL){
+      
+      modifiers = BottomEventExtraInfo::buildModifiersFromDOMElement(thisElement->getFirstElementChild());  
+    }
+    else {
+      modifiers = NULL;
+    }
   }
   
   
-
-
+  
 }
 
 
@@ -2848,7 +2892,6 @@ EventBottomModifier* IEvent::BottomEventExtraInfo::buildModifiersFromDOMElement(
   if (_thisModifierElement == NULL){
     return NULL;
   }
-  
 
   EventBottomModifier* currentModifier = new EventBottomModifier();
 
@@ -2888,6 +2931,10 @@ EventBottomModifier* IEvent::BottomEventExtraInfo::buildModifiersFromDOMElement(
   return currentModifier;
 
 }
+
+
+
+
 
 
 
@@ -3061,5 +3108,70 @@ std::string IEvent::SoundExtraInfo::getSoundSpectrumEnvelopesString(){
   
   return returnString;
 }
+
+
+
+
+
+
+
+//modifiers for event (same functions as the bottom version)
+EventBottomModifier* IEvent::getModifiers(){
+  return modifiers;
+}
+
+
+
+EventBottomModifier* IEvent::addModifier(){
+  EventBottomModifier* newModifier = new EventBottomModifier();
+  if (modifiers == NULL){
+    modifiers = newModifier;
+    return modifiers;
+  } //special case
+  
+  
+  EventBottomModifier* tail = modifiers;
+  while (tail->next!= NULL){
+    tail = tail->next;
+  }
+  tail->next = newModifier;
+  return newModifier;
+  
+}  
+
+
+
+
+
+void IEvent::removeModifier(
+  EventBottomModifier* _modifier){
+  if (modifiers == _modifier){ //if modifier to be removed is the head of list
+    if (modifiers->next == NULL){ //the only modifier
+      delete modifiers;
+      modifiers = NULL;
+      return;
+    }
+    else { //somethingelse in the back
+      EventBottomModifier* temp = modifiers->next;
+      delete modifiers;
+      modifiers = temp;
+      return;
+    }
+  }//end handling head of list
+  
+  else {
+    EventBottomModifier* temp = modifiers->next;
+    EventBottomModifier* temp2 = modifiers;
+    while (temp != _modifier){
+      temp2 = temp;
+      temp = temp->next;
+    }  
+    
+    temp2->next = temp->next;
+    delete temp;
+    return;
+  }
+}
+
 
 

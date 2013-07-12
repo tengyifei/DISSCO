@@ -51,6 +51,7 @@ class Bottom : public Event {
     DOMElement* frequencyElement;
     DOMElement* loudnessElement;
     DOMElement* modifiersElement;
+    DOMElement* ancestorModifiersElement;
 
     //Current partial during the processing of the event
     int currPartialNum;
@@ -76,7 +77,7 @@ class Bottom : public Event {
     */
     
     Bottom(DOMElement* _element, TimeSpan _timeSpan, int _type, Tempo _tempo, Utilities* _utilities, DOMElement* _ancestorSpa, DOMElement* _ancestorRev,
-          DOMElement* _ancestorFil);
+          DOMElement* _ancestorFil,DOMElement* _ancestorModifiers);
     
     
     
