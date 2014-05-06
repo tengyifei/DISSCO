@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <cstdarg>
 #include <cstring>
 #include <ctime>
+#include <unistd.h>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
@@ -41,6 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sstream>
 #include <string>
 #include <vector>
+
 
 /*The C++ standards committee only recently agreed on the new name
 for "unordered_map". It used to be referred to as a hash_map, which
