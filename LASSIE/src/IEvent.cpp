@@ -2847,6 +2847,7 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag, DOMElemen
   char* charBuffer;
   charBuffer =  (char*)getFunctionString(thisElement).c_str();
   frequencyFlag = atoi(charBuffer); 
+
   
   
   thisElement = thisElement->getNextElementSibling();
