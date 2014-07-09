@@ -51,6 +51,14 @@ public:
   
   /**
    * Constructor
+   * \param _root
+   * \param _workingPath
+   * \param _soundSynthesis
+   * \param _outputParticel
+   * \param _numThreads The number of threads to use in multi-threaded rendering
+   * \param _numChannels The number of channels to use
+   * \param _samplingRate The sampling rate
+   * \param _piece
    **/
   Utilities(DOMElement* _root, 
             string _workingPath, 
@@ -67,40 +75,96 @@ public:
   ~Utilities();
   
   
-  //------------------------------Evaluation ---------------------------------//
+  //------------------------------ Evaluation --------------------------------//
   
-  // Evaluate an XML string to a number.
-  // An object (mostly an Event) must be provided to evaluate static functions 
-  // such as current_child_num.
+  /**
+   * Evaluate an XML string to a number.
+   * An object (mostly an Event) must be provided to evaluate static functions 
+   * such as current_child_num (see evaluateFunction).
+   * \param _input The XML string to evaluate
+   * \param _object 
+   * \return The XML string evaluated as a number
+   *
+   * \\ TODO: Figure out what significance _object has
+   */
   double evaluate(string _input, void* _object);
   
   
-  // Evaluate a function string to a CMOD object
-  // The caller has to cast the returned pointer properly by itself.
+  /**
+   * Evaluate a function string to a CMOD object
+   * The caller has to cast the returned pointer properly by itself.
+   * \param _input The function string to evaluate
+   * \param _object 
+   * \param _returnType The type of CMOD object that this function must return
+   * \return The CMOD object this function returns
+   *
+   * \\ TODO: Figure out what significance _object has
+   */
   void* evaluateObject(string _input, void* _object, EventType _returnType); 
   
-  // Evaluate a string to a DOMElement which represents a CMOD Event
+  /**
+   * Evaluate a string to a DOMElement (which represents a CMOD Event)
+   * \param _type The type of event this string represents
+   * \param _eventName This event's name
+   * \return The DOMElement the string represents
+   */
   DOMElement* getEventElement(EventType _type, string _eventName);
   
-  // Convert a DOMElement to a string
+  /**
+   * Convert a DOMElement to a string
+   * \param _thisFunctionElement The DOMElement to convert
+   * \return A string representing the DOMElement
+   */
   static string XMLTranscode(DOMElement* _thisFunctionElement);
   
-  // Getters
+  // --- Getters --- //
+  
+  /**
+   * Gets the output particel
+   * \return The output particel
+   */
   bool getOutputParticel(){return outputParticel;}
+  
+  /**
+   * Gets the number of channels
+   * \return The number of channels
+   */
   int getNumberOfChannels(){return numChannels;}
+  
+  /**
+   * Gets the sampling rate
+   * \return The sampling rate
+   */
   int getSamplingRate(){return samplingRate;}
   
   
-  //----------------------------- Other tasks---------------------------------//
+  //----------------------------- Other tasks --------------------------------//
   
-  // Interface between CMOD Event and LASS Score
+  /**
+   * Interface between CMOD Event and LASS Score
+   * \param _sound 
+   * 
+   * This adds the _sound to the score iff _soundSynthesis == TRUE
+   * Otherwise deletes _sound
+   * 
+   * \\ TODO: Find difference between a Score with and without _soundSynthesis
+   */
   void addSound(Sound* _sound);
   
-  // return the final product
+  /**
+   * Return the final product
+   * \return The final rendered score. Returns NULL if there is no score.
+   * 
+   * No score means _soundSynthesis == FALSE
+   * 
+   * \\ TODO: Find difference between a Score with and without _soundSynthesis
+   */
   MultiTrack* doneCMOD();
   
   /**
-   * Clean up the unnecessary space in a string
+   * Removes the unnecessary space in a string
+   * \param _originalString The string to clean upper
+   * \return The _originalString without any spaces
    **/
   static string removeSpaces(string _originalString);
   
@@ -116,12 +180,51 @@ private:
   Envelope* readEnvFile (DOMElement* _functionElement, void* _object);
   Envelope* makeEnvelope (DOMElement* _functionElement, void* _object);
 
-  // Helper for getting Pattern
+  
+  // --- Helper for getting Pattern --- //
+  
+  /**
+   * Evaluates a function string to a Patter.
+   * \param _functionString The function string to evaluate
+   * \param _object
+   * \return The Patter this _functionString represents
+   * 
+   * \TODO: Figure out what _object is
+   */
   Patter* getPattern(string _functionString, void* _object);
+  
+  /**
+   * Converts a DOMElement to a Patter.
+   * \param _object
+   * \param _PATFunction The DOMElement representing a pattern function
+   * \return The DOMElement as a Patter
+   * 
+   * \TODO: Figure out what _object is
+   * \TODO: Figure out if I'm right about how Patter's Expand() works
+   */
   Patter* getPatternHelper(void* _object, DOMElement* _PATFunction);
 
-  // Helper for getting Sieve
+  
+  // --- Helper for getting Sieve --- //
+  
+  /**
+   * Evaluates a function string to a Sieve.
+   * \param _functionString The function string to evaluate
+   * \param _object 
+   * \return The Sieve this _functionString represents
+   *
+   * \TODO: Figure out what _object is
+   */
   Sieve* getSieve(string _functionString, void* _object);
+  
+  /**
+   * Converts a DOMElement to a Sieve.
+   * \param _object 
+   * \param _SIVFunction The DOMElement representing a sieve function
+   * \return The DOMElement as a Sieve
+   *
+   * \TODO: Figure out what _object is
+   */
   Sieve* getSieveHelper(void* _object, DOMElement* _SIVFunction);
   
   //Helper for getting SPA
@@ -145,17 +248,31 @@ private:
   /**
    * Helper function for finding, in a string, the substring which represents
    * a CMOD function.
+   * This function assume that at least 1 "<Fun>" exists in the string.
+   * \param _input The string to search
+   * \return The index of _input where the substring begins
    **/ 
   size_t findTheEndOfFirstFunction(string _input);
   
   /**
    * Helper function for convert a string of in the format of "a, b, c, d"
    * to a vector containing 4 elements. 
+   * \param _listElement The list to convert
+   * \return A vector containing the 4 separate elements
    */
   std::vector<std::string> listElementToStringVector(DOMElement* _listElement);
   
   
-  // CMOD Functions
+  //--------------------------- CMOD Functions -------------------------------//
+  
+  /**
+   * 
+   * \param _functionElement
+   * \param _object
+   * \return 
+   *
+   * \TODO: Figure out what _functionElement is
+   */
   string function_RandomInt(DOMElement* _functionElement, void* _object);
   string function_Random(DOMElement* _functionElement, void* _object);
   string function_Select(DOMElement* _functionElement, void* _object);
@@ -164,6 +281,10 @@ private:
   string function_Randomizer(DOMElement* _functionElement, void* _object);
   string function_Inverse(DOMElement* _functionElement, void* _object);
   string function_LN(DOMElement* _functionElement, void* _object);
+  
+  /**
+   * Not yet implemented.
+   */
   string function_Fibonacci(DOMElement* _functionElement, void* _object);
   string function_Decay(DOMElement* _functionElement, void* _object);
   string function_Stochos(DOMElement* _functionElement, void* _object);
@@ -172,20 +293,64 @@ private:
   string function_MakeList(DOMElement* _functionElement, void* _object);
   
  
-  // CMOD static functions
+  //------------------------ CMOD Static Functions ---------------------------//
+  
+  /**
+   * Returns an event's current child type.
+   * \param _object The event to analyse
+   * \return That event's current child type
+   */
   string static_function_CURRENT_TYPE(void* _object);
+  
+  /**
+   * Returns the number of children an event has.
+   * \param _object The event to analyse
+   * \return The number of children the event has
+   */
   string static_function_CURRENT_CHILD_NUM(void* _object);
+  
+  /**
+   * Returns the number of the current partial.
+   * \param _object The event to analyse
+   * \return The number of the event's current partial
+   */
   string static_function_CURRENT_PARTIAL_NUM(void* _object);
+  
+  /**
+   * Not yet implemented.
+   */
   string static_function_CURRENT_DENSITY(void* _object);
+  
+  /**
+   * Not yet implemented.
+   */
   string static_function_CURRENT_SEGMENT(void* _object);
+  
+  /**
+   * Returns an event's duration in EDU.
+   * \param _object The event to analyse
+   * \return The event's duration in EDU
+   */
   string static_function_AVAILABLE_EDU(void* _object);
+  
+  /**
+   * Returns the layer of an event's current child.
+   * \param _object The event to analyse
+   * \return The layer of an event's current child
+   */
   string static_function_CURRENT_LAYER(void* _object);
+  
+  /**
+   * Returns the previous child's duration
+   * \param _object The event to analyse
+   * \return The event's previous child's duration
+   */
   string static_function_PREVIOUS_CHILD_DURATION(void* _object);
   
   
   
   
-  //-------------------------------Fields-------------------------------------//
+  //------------------------------- Fields -----------------------------------//
     
   //Storage of DOMElement representations of CMOD Events
   std::map<string,DOMElement*> topEventElements;

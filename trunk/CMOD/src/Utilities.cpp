@@ -64,7 +64,7 @@ Utilities::Utilities(DOMElement* root,
   
   // Construct Envelope library
   DOMElement* envelopeLibraryElement = root->GFEC()->GNES()->GNES();
-  string envLibContent =XMLTranscode(envelopeLibraryElement);
+  string envLibContent = XMLTranscode(envelopeLibraryElement);
   string fileString = "lib.temp";
   FILE* file  = fopen(fileString.c_str(), "w");
   fputs (envLibContent.c_str(), file);
@@ -87,37 +87,65 @@ Utilities::Utilities(DOMElement* root,
     string eventName=  XMLTranscode(thisEventElement->GFEC()->GNES());
     
     switch (type){
-      case 0:topEventElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 1:highEventElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 2:midEventElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 3:lowEventElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 4:bottomEventElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 5:spectrumElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 6:envelopeElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 7:sieveElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 8:spatializationElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 9:patternElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 10:reverbElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 12:notesElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
-      case 13:filterElements.insert(
-              pair<string, DOMElement*>(eventName, thisEventElement));break;
+      case 0:
+        topEventElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 1:
+        highEventElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 2:
+        midEventElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 3:
+        lowEventElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 4:
+        bottomEventElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 5:
+        spectrumElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 6:
+        envelopeElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 7:
+        sieveElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 8:
+        spatializationElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 9:
+        patternElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 10:
+        reverbElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 12:
+        notesElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
+      case 13:
+        filterElements.insert(
+              pair<string, DOMElement*>(eventName, thisEventElement));
+        break;
     }
     thisEventElement = thisEventElement->GNES();
   }   
 }
+
 //----------------------------------------------------------------------------//
+
 Utilities::~Utilities(){
   if (score != NULL){
     delete score;
@@ -126,27 +154,56 @@ Utilities::~Utilities(){
 }
 
 //----------------------------------------------------------------------------//
+
 DOMElement* Utilities::getEventElement(EventType _type, string _eventName){
   map<string, DOMElement*>::iterator it;
+  
   switch((int)_type){
-    case 0:it=topEventElements.find(_eventName);break;
-    case 1:it=highEventElements.find(_eventName);break;    
-    case 2:it=midEventElements.find(_eventName);break;
-    case 3:it=lowEventElements.find(_eventName);break;
-    case 4:it=bottomEventElements.find(_eventName);break;
-    case 5:it=spectrumElements.find(_eventName);break;
-    case 6:it=envelopeElements.find(_eventName);break;
-    case 7:it=sieveElements.find(_eventName);break;
-    case 8:it=spatializationElements.find(_eventName);break;
-    case 9:it=patternElements.find(_eventName);break;
-    case 10:it=reverbElements.find(_eventName);break;
-    case 12:it=notesElements.find(_eventName);break;
-    case 13:it=filterElements.find(_eventName);break;
+    case 0:
+      it = topEventElements.find(_eventName);
+      break;
+    case 1:
+      it = highEventElements.find(_eventName);
+      break;    
+    case 2:
+      it = midEventElements.find(_eventName);
+      break;
+    case 3:
+      it = lowEventElements.find(_eventName);
+      break;
+    case 4:
+      it = bottomEventElements.find(_eventName);
+      break;
+    case 5:
+      it = spectrumElements.find(_eventName);
+      break;
+    case 6:
+      it = envelopeElements.find(_eventName);
+      break;
+    case 7:
+      it = sieveElements.find(_eventName);
+      break;
+    case 8:
+      it = spatializationElements.find(_eventName);
+      break;
+    case 9:
+      it = patternElements.find(_eventName);
+      break;
+    case 10:
+      it = reverbElements.find(_eventName);
+      break;
+    case 12:
+      it = notesElements.find(_eventName);
+      break;
+    case 13:
+      it = filterElements.find(_eventName);
+      break;
   }
   return it->second;
 }
 
 //----------------------------------------------------------------------------//
+
 string Utilities::XMLTranscode(DOMElement* _thisFunctionElement){
   // handle empty string
   if (_thisFunctionElement->getFirstChild() ==NULL){
@@ -172,13 +229,14 @@ string Utilities::XMLTranscode(DOMElement* _thisFunctionElement){
 }
 
 //----------------------------------------------------------------------------//
+
 double Utilities::evaluate(std::string _input, void* _object){
   if (_input =="") return 0;
   
   string workingString = _input;
   
   // Test if there is any function in this string (look for <Fun>), if so, 
-  // replace the function with the evaluated number. Repeat untill all the 
+  // replace the function with the evaluated number. Repeat until all the 
   // functions are replaced by numbers.
   size_t locOfFun = workingString.find("<Fun>");
   int functionStringLength;
@@ -217,6 +275,7 @@ double Utilities::evaluate(std::string _input, void* _object){
  }
 
 //----------------------------------------------------------------------------//
+
 void* Utilities::evaluateObject(string _input, 
                                 void* _object, 
                                 EventType _returnType){
@@ -247,6 +306,7 @@ void* Utilities::evaluateObject(string _input,
 }
 
 //----------------------------------------------------------------------------//
+
 std::vector<std::string> Utilities::listElementToStringVector(
             DOMElement* _listElement){
   std::vector<std::string> list;
@@ -295,11 +355,14 @@ std::vector<std::string> Utilities::listElementToStringVector(
 
 
 //----------------------------------------------------------------------------//
+
 //this function assume that at least 1 "<Fun>" exists;
 size_t Utilities::findTheEndOfFirstFunction(string _input){
 
-  int depth = 1; // When seeing a <Fun>, depth ++, seeing a </Fun>, depth --
+  int depth = 1; // The depth of nested functions
   
+  // When seeing a <Fun>, depth ++, seeing a </Fun>, depth --
+  // When depth = 0, the outermost function has ended.
   size_t location = _input.find("<Fun>");
   while (depth!=0){
     size_t nextFun = _input.find("<Fun>", location + 1);
@@ -318,6 +381,7 @@ size_t Utilities::findTheEndOfFirstFunction(string _input){
 }
 
 //----------------------------------------------------------------------------//
+
 void Utilities::addSound(Sound* _sound){
   if (!soundSynthesis){ 
     delete _sound;
@@ -329,6 +393,7 @@ void Utilities::addSound(Sound* _sound){
 }
 
 //----------------------------------------------------------------------------//
+
 MultiTrack* Utilities::doneCMOD(){
   if (score != NULL){
    return score->doneAddingSounds();
@@ -338,10 +403,12 @@ MultiTrack* Utilities::doneCMOD(){
 
 
 //----------------------------------------------------------------------------//
+
 string Utilities::removeSpaces(string _originalString){
   string input = _originalString;
   size_t index = 0;
   
+  // Iterate through each instance of " " and remove
   while (true) {
     index = input.find(" ", index);
     if (index == string::npos) break;
@@ -352,9 +419,10 @@ string Utilities::removeSpaces(string _originalString){
 }
 
 //----------------------------------------------------------------------------//
+
 string Utilities::evaluateFunction(string _functionString,void* _object){
 
-  // convert the funcion string to a DOMElement
+  // convert the function string to a DOMElement
   XercesDOMParser* parser = new XercesDOMParser();
   xercesc::MemBufInputSource myxml_buf  (
             (const XMLByte*)_functionString.c_str(), 
@@ -460,6 +528,7 @@ string Utilities::evaluateFunction(string _functionString,void* _object){
 
 
 //----------------------------------------------------------------------------//
+
 string Utilities::static_function_CURRENT_TYPE(void* _object){
   if (_object !=NULL){
     double resultNum = ((Event*)_object)->getCurrentChildType();
@@ -472,6 +541,8 @@ string Utilities::static_function_CURRENT_TYPE(void* _object){
     return "0";
   }
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::static_function_CURRENT_CHILD_NUM(void* _object){
   if (_object !=NULL){
@@ -486,6 +557,8 @@ string Utilities::static_function_CURRENT_CHILD_NUM(void* _object){
   }
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::static_function_CURRENT_PARTIAL_NUM(void* _object){
   if (_object !=NULL){
     double resultNum = ((Bottom*)_object)->getCurrPartialNum();
@@ -499,14 +572,20 @@ string Utilities::static_function_CURRENT_PARTIAL_NUM(void* _object){
   }
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::static_function_CURRENT_DENSITY(void* _object){
   cout<<"Utilities:Warning! static_function_CURRENT_DENSITY is not implemented in CMOD 2.0 yet."<<endl;
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::static_function_CURRENT_SEGMENT(void* _object){
     //should recieve an envelope as the _object? --Ming-ching May 07 2013
     cout<<"Utilities:Warning! static_function_CURRENT_SEGMENT is not implemented in CMOD 2.0 yet."<<endl;
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::static_function_AVAILABLE_EDU(void* _object){
   if (_object !=NULL){
@@ -521,6 +600,8 @@ string Utilities::static_function_AVAILABLE_EDU(void* _object){
   }
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::static_function_CURRENT_LAYER(void* _object){
   if (_object !=NULL){
     double resultNum = ((Event*)_object)->getCurrentLayer();
@@ -533,6 +614,8 @@ string Utilities::static_function_CURRENT_LAYER(void* _object){
     return "0";
   }
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::static_function_PREVIOUS_CHILD_DURATION(void* _object){
 if (_object !=NULL){
@@ -547,6 +630,8 @@ if (_object !=NULL){
   }
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_Inverse(DOMElement* _functionElement, void* _object){
 
   DOMElement* elementIter = _functionElement->GFEC()->GNES();
@@ -558,6 +643,8 @@ string Utilities::function_Inverse(DOMElement* _functionElement, void* _object){
   return string(result);  
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_LN(DOMElement* _functionElement, void* _object){
 
   DOMElement* elementIter = _functionElement->GFEC()->GNES();
@@ -568,6 +655,8 @@ string Utilities::function_LN(DOMElement* _functionElement, void* _object){
   sprintf(result, "%f",  resultNum);
   return string(result);
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::function_Fibonacci(DOMElement* _functionElement, void* _object){ /* not implemented in LASSIE
     return_type = FVAL_NUMBER;
@@ -587,6 +676,7 @@ string Utilities::function_Fibonacci(DOMElement* _functionElement, void* _object
   return "0";
 }
 
+//----------------------------------------------------------------------------//
 
 string Utilities::function_Decay(DOMElement* _functionElement, void* _object){
 //  <Fun>
@@ -623,6 +713,7 @@ string Utilities::function_Decay(DOMElement* _functionElement, void* _object){
   return string(result);
 }
 
+//----------------------------------------------------------------------------//
 
 string Utilities::function_Stochos(DOMElement* _functionElement, void* _object){
 //  <Fun>
@@ -726,8 +817,7 @@ string Utilities::function_Stochos(DOMElement* _functionElement, void* _object){
  
 }
 
-
-
+//----------------------------------------------------------------------------//
 
 string Utilities::function_ValuePick(DOMElement* _functionElement, void* _object){
 
@@ -817,6 +907,8 @@ string Utilities::function_ValuePick(DOMElement* _functionElement, void* _object
   return string(result);
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_ChooseL(DOMElement* _functionElement, void* _object){
   //<Fun><Name>ChooseL</Name><Entry>SIV</Entry></Fun>
 
@@ -831,10 +923,14 @@ string Utilities::function_ChooseL(DOMElement* _functionElement, void* _object){
   
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_MakeList(DOMElement* _functionElement, void* _object){
   cout<<"Utilites: Make_List is not implemented yet."<<endl;
   return "";
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::function_Randomizer(DOMElement* _functionElement, void* _object){
 
@@ -853,6 +949,8 @@ string Utilities::function_Randomizer(DOMElement* _functionElement, void* _objec
   
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_Random(DOMElement* _functionElement, void* _object){
 
   DOMElement* lowBoundElement = _functionElement->getFirstElementChild()->getNextElementSibling();
@@ -866,6 +964,8 @@ string Utilities::function_Random(DOMElement* _functionElement, void* _object){
   return string(result);
 
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::function_Select(DOMElement* _functionElement, void* _object){
 
@@ -881,6 +981,8 @@ string Utilities::function_Select(DOMElement* _functionElement, void* _object){
   
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_SelectObject(DOMElement* _functionElement, void* _object){
   
   DOMElement* listElement = _functionElement->getFirstElementChild()->getNextElementSibling();  
@@ -889,6 +991,8 @@ string Utilities::function_SelectObject(DOMElement* _functionElement, void* _obj
   int index = (int)evaluate(XMLTranscode(indexElement), _object);
   return list[index];
 }
+
+//----------------------------------------------------------------------------//
 
 string Utilities::function_GetPattern(DOMElement* _functionElement, void* _object){
   
@@ -925,6 +1029,8 @@ string Utilities::function_GetPattern(DOMElement* _functionElement, void* _objec
 
 }
 
+//----------------------------------------------------------------------------//
+
 string Utilities::function_RandomInt(DOMElement* _functionElement, void* _object){
 
   DOMElement* lowBoundElement = _functionElement->getFirstElementChild()->getNextElementSibling();
@@ -939,14 +1045,18 @@ string Utilities::function_RandomInt(DOMElement* _functionElement, void* _object
 
 }
 
+
+
+//----------------------------------------------------------------------------//
+
 Sieve* Utilities::getSieve(string _functionString, void* _object){
   XercesDOMParser* parser = new XercesDOMParser();
     
   string toParse = "<root>" + _functionString + "</root>";
-    xercesc::MemBufInputSource myxml_buf  (
-      (const XMLByte*)toParse.c_str(),
-       toParse.size(), 
-       "function (in memory)");
+  xercesc::MemBufInputSource myxml_buf (
+     (const XMLByte*)toParse.c_str(),
+     toParse.size(), 
+     "function (in memory)");
   
   parser->parse(myxml_buf);
   DOMDocument* xmlDocument = parser->getDocument();
@@ -958,38 +1068,52 @@ Sieve* Utilities::getSieve(string _functionString, void* _object){
   
 }
 
+//----------------------------------------------------------------------------//
+
 Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
   
+  // Get the function name
   DOMElement* functionNameElement = _SIVFunction->GFEC()->GFEC();
-    
+  
+  // If the function is ReadSIVFile:
+  // Get the _SIVFunction from the filename, and recursively call itself
+  // on that function.
   if (XMLTranscode(functionNameElement).compare("ReadSIVFile")==0){
     string fileName = XMLTranscode(functionNameElement->GNES());
     DOMElement* k = getEventElement(eventSiv, fileName);
-    return getSieveHelper(_object, k->GFEC()->GNES()->GNES()); 
-  
+    return getSieveHelper(_object, k->GFEC()->GNES()->GNES());
   }
   
+  // If the function is MakeSieve:
+  // Read each of the values from _SIVFunction and create a new Sieve with
+  // those values.
   else if (XMLTranscode(functionNameElement).compare("MakeSieve")==0){
     
+    // Get minVal
     DOMElement* elementIter = _SIVFunction->GFEC()->GFEC()->GNES();
     int minVal = evaluate(XMLTC(elementIter), _object);
     
+    // Get maxVal
     elementIter = elementIter->GNES();
     int maxVal = evaluate(XMLTC(elementIter), _object);
     
+    // Get eMethod
     elementIter = elementIter->GNES();
     string eMethod = XMLTC(elementIter);
-  
+    
+    // Get eArgInts
     elementIter = elementIter->GNES();
     vector<std::string> eArgs = listElementToStringVector( elementIter);
     vector<int> eArgInts;
     for (int i = 0; i < eArgs.size(); i ++){
       eArgInts.push_back((int)evaluate(eArgs[i], _object));
     }
-     
+    
+    // Get wMethod
     elementIter = elementIter->GNES();
     string wMethod = XMLTC(elementIter); 
     
+    // Get wArgInts
     elementIter = elementIter->GNES();
     vector<std::string> wArgs = listElementToStringVector( elementIter);
     vector<int> wArgInts;
@@ -997,6 +1121,7 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
       wArgInts.push_back((int)evaluate(wArgs[i], _object));
     }
     
+    // Get offsetVect
     elementIter = elementIter->GNES();
     vector<std::string> offsetString = listElementToStringVector( elementIter);
     vector<int> offsetVect;
@@ -1011,7 +1136,8 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
         offsetVect.push_back((int)evaluate(offsetString[i], _object));
       }
     }
-       
+    
+    // Build the Sieve
     Sieve * siv = new Sieve();
     siv->Build( minVal, 
                 maxVal, 
@@ -1024,7 +1150,9 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
     return siv;
   }//end MakeSieve
   
-  
+  // If the function is Select:
+  // Parse the Select function from _SIVFunction and recursively call itself
+  // on the new function.
   else if (XMLTranscode(functionNameElement).compare("Select")==0){
     string selectedListElementString = "<root>" + function_SelectObject(_SIVFunction->GFEC(), _object) + "</root>";
     
@@ -1048,10 +1176,13 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
     
   }
   
+  // Otherwise, the function fails.
   cerr<<"Utilities::Warning! Sieve Construction Failed"<<endl;
   return NULL;
 }
 
+
+//----------------------------------------------------------------------------//
 
 Patter* Utilities::getPattern(string _functionString, void* _object){
 
@@ -1073,10 +1204,15 @@ Patter* Utilities::getPattern(string _functionString, void* _object){
   return pattern;
 }
 
+//----------------------------------------------------------------------------//
+
 Patter* Utilities::getPatternHelper(void* _object, DOMElement* _PATFunction){
+  // Get the function name
   DOMElement* functionNameElement = _PATFunction->getFirstElementChild()->getFirstElementChild();
   
-  
+  // If the function is ReadPATFile:
+  // Get the _PATFunction from the filename, and recursively call itself
+  // on that function.
   if (XMLTranscode(functionNameElement).compare("ReadPATFile")==0){
     string fileName = XMLTranscode(functionNameElement->GNES());
     DOMElement* k = getEventElement(eventPat, fileName);
@@ -1085,6 +1221,9 @@ Patter* Utilities::getPatternHelper(void* _object, DOMElement* _PATFunction){
   
   }
   
+  // If the function is MakePattern:
+  // Read each of the values from _PATFunction and create a new Patter with
+  // those values.
   else if (XMLTranscode(functionNameElement).compare("MakePattern")==0){
     
     DOMElement* listElement = _PATFunction->GFEC()->GFEC()->GNES();
@@ -1100,12 +1239,20 @@ Patter* Utilities::getPatternHelper(void* _object, DOMElement* _PATFunction){
     return newPattern; //Utilities will put this pattern in _object's patternStorage
     
   }
+  
+  // If the function is ExpandPattern:
+  // First find the parameters to expand by.
+  // Recursively call itself on the pattern to expand.
+  // Expand the pattern.
+  // 
+  // TODO: Figure out if this is true.
   else if (XMLTranscode(functionNameElement).compare("ExpandPattern")==0){
     cout<<"see Expand pattern:"<<endl;
     cout<<XMLTranscode(_PATFunction->GFEC())<<endl;
     DOMElement* elementIter = _PATFunction->GFEC()->GFEC()->GNES();
     string method = XMLTranscode(elementIter);
     
+    // Find Expand parameters
     elementIter = elementIter->GNES();
     int mod = evaluate ( XMLTranscode( elementIter), _object);
     
@@ -1115,12 +1262,17 @@ Patter* Utilities::getPatternHelper(void* _object, DOMElement* _PATFunction){
     elementIter = elementIter->GNES();
     int high = evaluate ( XMLTranscode( elementIter), _object);
     
+    // Recurse on the pattern to expand
     elementIter = elementIter->GNES();
     Patter* pattern = getPatternHelper(_object, elementIter);
     pattern->Expand( method, mod, low, high );
     return pattern;
     
   }
+  
+  // If the function is Select:
+  // Parse the Select function from _PATFunction and recursively call itself
+  // on the new function.
   else if (XMLTranscode(functionNameElement).compare("Select")==0){
     string selectedListElementString = "<root>" + function_SelectObject(_PATFunction->GFEC(), _object) + "</root>";
     
@@ -1149,9 +1301,13 @@ Patter* Utilities::getPatternHelper(void* _object, DOMElement* _PATFunction){
   return NULL;
 }
 
+//----------------------------------------------------------------------------//
+
 DOMElement* Utilities::getSPAFunctionElement(void* _object){
   getSPAFunctionElementHelper(_object,NULL,true);
 }
+
+//----------------------------------------------------------------------------//
 
 DOMElement* Utilities::getSPAFunctionElementHelper(void* _object, DOMElement* _SPAFunction, bool _initialCall){
   DOMElement* SPAElement; 
@@ -1176,8 +1332,8 @@ DOMElement* Utilities::getSPAFunctionElementHelper(void* _object, DOMElement* _S
     else{ //see select inside readSPA
       //cout<<functionString<<endl;
       string selectedListElementString = "<root><Fun><Name>ReadSPAFile</Name><File>" + function_SelectObject(SPAElement->GFEC()->GFEC()->GNES()->GFEC(), _object) + "</File></Fun></root>";
-    // Here we need to push a temporary parser in the _object to stored the  
-    // parsed selectedListElementString...
+      // Here we need to push a temporary parser in the _object to stored the  
+      // parsed selectedListElementString...
     
       selectedListElementString = removeSpaces (selectedListElementString);
       
@@ -1239,9 +1395,13 @@ DOMElement* Utilities::getSPAFunctionElementHelper(void* _object, DOMElement* _S
   }
 }
 
+//----------------------------------------------------------------------------//
+
 DOMElement* Utilities::getREVFunctionElement(void* _object){
   getREVFunctionElementHelper(_object,NULL,true);
 }
+
+//----------------------------------------------------------------------------//
 
 DOMElement* Utilities::getREVFunctionElementHelper(void* _object, DOMElement* _REVFunction, bool _initialCall){
   
@@ -1333,9 +1493,13 @@ DOMElement* Utilities::getREVFunctionElementHelper(void* _object, DOMElement* _R
 }
 
 
+//----------------------------------------------------------------------------//
+
 DOMElement* Utilities::getFILFunctionElement(void* _object){
   getFILFunctionElementHelper(_object,NULL,true);
 }
+
+//----------------------------------------------------------------------------//
 
 DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _FILFunction, bool _initialCall){
   
@@ -1443,6 +1607,8 @@ DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _F
 
 
 
+//----------------------------------------------------------------------------//
+
 Envelope* Utilities::getEnvelope(string _input, void* _object){
   
   XercesDOMParser* parser = new XercesDOMParser();
@@ -1469,12 +1635,11 @@ Envelope* Utilities::getEnvelope(string _input, void* _object){
   }
   Envelope* returnEnvelope;
   if(functionName.compare("EnvLib")==0){
-      returnEnvelope= envLib(functionNameElement->getNextElementSibling(), _object);
+      returnEnvelope = envLib(functionNameElement->getNextElementSibling(), _object);
   }
   else if (functionName.compare("MakeEnvelope")==0){
-    returnEnvelope= makeEnvelope(functionNameElement->getNextElementSibling(), _object);
-  }  
-  
+    returnEnvelope = makeEnvelope(functionNameElement->getNextElementSibling(), _object);
+  }
   else if (functionName.compare("ReadENVFile")==0){
     returnEnvelope = readEnvFile(functionNameElement->getNextElementSibling(), _object);
   }
@@ -1492,6 +1657,8 @@ Envelope* Utilities::getEnvelope(string _input, void* _object){
   return returnEnvelope;
 }
 
+//----------------------------------------------------------------------------//
+
 Envelope* Utilities::envLib(DOMElement* _functionElement, void* _object){
 //  <Env>3</Env>
 //  <Scale>1.0</Scale>
@@ -1503,6 +1670,8 @@ Envelope* Utilities::envLib(DOMElement* _functionElement, void* _object){
   return env;
 
 }
+
+//----------------------------------------------------------------------------//
 
 Envelope* Utilities::readEnvFile(DOMElement* _functionElement, void* _object){
   //<File>object name</File>
@@ -1523,6 +1692,8 @@ Envelope* Utilities::readEnvFile(DOMElement* _functionElement, void* _object){
   return (Envelope*) evaluateObject(XMLTranscode(builder), _object, eventEnv);
   
 }
+
+//----------------------------------------------------------------------------//
 
 Envelope* Utilities::makeEnvelope(DOMElement* _functionElement, void* _object){
 
