@@ -1605,7 +1605,8 @@ FunctionGenerator::FunctionGenerator(
         stochosNumOfNodes ++;
       }  
     }
-    stochosTextChanged();  
+    stochosTextChanged();
+    show_all_children(); 
     
     thisElement = thisElement->getNextElementSibling();    //offset
     attributesRefBuilder->get_widget("StochosOffsetEntry",entry);
@@ -1646,6 +1647,7 @@ FunctionGenerator::FunctionGenerator(
       }
     } //if
     selectEntryChanged();
+    show_all_children();
     
     thisElement = thisElement->getNextElementSibling();    //offset
     attributesRefBuilder->get_widget("SelectIndexEntry",entry);
