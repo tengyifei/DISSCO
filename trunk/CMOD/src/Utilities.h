@@ -168,6 +168,14 @@ public:
    **/
   static string removeSpaces(string _originalString);
   
+  /**
+   * Helper function to convert a string, in the format of a list separated by
+   * commas, to a vector containing each of those separate elements.
+   * \param _listElement The list to convert
+   * \return A vector containing the separate elements
+   */
+  static std::vector<std::string> listElementToStringVector(DOMElement* _listElement);
+  
   
    
 private:  
@@ -252,15 +260,7 @@ private:
    * \param _input The string to search
    * \return The index of _input where the substring begins
    **/ 
-  size_t findTheEndOfFirstFunction(string _input);
-  
-  /**
-   * Helper function for convert a string of in the format of "a, b, c, d"
-   * to a vector containing 4 elements. 
-   * \param _listElement The list to convert
-   * \return A vector containing the 4 separate elements
-   */
-  std::vector<std::string> listElementToStringVector(DOMElement* _listElement);
+  static size_t findTheEndOfFirstFunction(string _input);
   
   
   //--------------------------- CMOD Functions -------------------------------//

@@ -327,7 +327,7 @@ std::vector<std::string> Utilities::listElementToStringVector(
         listElementLocated = true;
       }  
       else { //find the end of this fun, and find comma and fun again
-        size_t endOfThisFun =findTheEndOfFirstFunction(listString.substr(locationOfFun)) + locationOfFun;
+        size_t endOfThisFun =Utilities::findTheEndOfFirstFunction(listString.substr(locationOfFun)) + locationOfFun;
         
         locationOfComma = listString.find(",", endOfThisFun);
         locationOfFun = listString.find("<Fun>",endOfThisFun);

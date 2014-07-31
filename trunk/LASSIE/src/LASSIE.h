@@ -58,6 +58,7 @@
 
 //CMOD library
 #include "../../CMOD/src/CMOD.h"
+#include "../../CMOD/src/Utilities.h"
 
 /* Also includes:
 #include <algorithm>
