@@ -277,9 +277,32 @@ private:
   void LNEntryChanged();
   
   //select
-  void selectListFunButtonClicked();
+  class SelectSubAlignment:public Gtk::Alignment {
+  public:
+    SelectSubAlignment(FunctionGenerator* _parent);
+    ~SelectSubAlignment();
+    void appendNewNode(SelectSubAlignment* _newNode);
+    void clear();
+    void setFunctionsEntry(std::string _string);
+    std::string toString();
+    SelectSubAlignment* prev;
+    SelectSubAlignment* next;
+    
+  private:  
+    Glib::RefPtr<Gtk::Builder> attributesRefBuilder;
+    FunctionGenerator* parent; 
+    void removeButtonClicked();
+    void textChanged();
+  };
+  SelectSubAlignment* selectSubAlignments;
+  int selectNumOfNodes;
+
+  //void selectListFunButtonClicked();
   void selectIndexFunButtonClicked();
   void selectEntryChanged();
+  void selectAddNodeButtonClicked();
+  void selectFunButtonClicked();
+  void selectRemoveNode(SelectSubAlignment* _remove); 
   
   
   

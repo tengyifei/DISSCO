@@ -156,6 +156,8 @@ FunctionGenerator::FunctionGenerator(
     set_border_width(3);
     result = "";
     returnType = _returnType;
+    selectSubAlignments = NULL;
+    selectNumOfNodes = 0;
     stochosSubAlignments = NULL;
     stochosNumOfNodes = 0;
     stochosMethodFlag = 0;
@@ -344,7 +346,7 @@ FunctionGenerator::FunctionGenerator(
     row[functionListColumns.m_col_name] = "CURRENT_LAYER";  
   
   }
- else if (_returnType ==functionReturnMakeListFun){
+  else if (_returnType ==functionReturnMakeListFun){
   Gtk::TreeModel::Row row = *(functionListTreeModel->append());
     row[functionListColumns.m_col_id] = functionRandom;
     row[functionListColumns.m_col_name] = "Random";
@@ -711,6 +713,7 @@ FunctionGenerator::FunctionGenerator(
  
 
 
+
   //LN
  
   attributesRefBuilder->get_widget(
@@ -725,7 +728,28 @@ FunctionGenerator::FunctionGenerator(
   
   
   //select 
+
+  attributesRefBuilder->get_widget(
+    "SelectIndexFunButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectIndexFunButtonClicked));
+
+  attributesRefBuilder->get_widget(
+    "SelectIndexEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectEntryChanged)); 
   
+  attributesRefBuilder->get_widget(
+    "SelectAddNodeButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectAddNodeButtonClicked)); 
+	
+  attributesRefBuilder->get_widget(
+    "SelectInsertFunctionButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::selectFunButtonClicked));
+  
+  /*
   attributesRefBuilder->get_widget(
     "SelectListFunButton", button);
   button->signal_clicked().connect(sigc::mem_fun(
@@ -745,11 +769,12 @@ FunctionGenerator::FunctionGenerator(
     "SelectIndexEntry", entry);
   entry->signal_changed().connect(sigc::mem_fun(
     *this, & FunctionGenerator::selectEntryChanged));   
-  
+  */
+
+
 
 
   //stochos
-  
   
   attributesRefBuilder->get_widget(
     "StochosRangeDistribRadioButton", radiobutton);
@@ -1511,15 +1536,12 @@ FunctionGenerator::FunctionGenerator(
   }   
   
   if(functionName.compare("Stochos")==0){
-
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
     while(row[functionListColumns.m_col_name]!= "Stochos"){
       iter++;
       row = *iter;
     }
-    
-    
     combobox->set_active(iter);
     
     thisElement = functionNameElement->getNextElementSibling();    //method
@@ -1540,70 +1562,57 @@ FunctionGenerator::FunctionGenerator(
     
     
     if (functionFlag ==1){ //functions
-
-
-
-        while (envelopeElement != NULL){
-          StochosSubAlignment* newSubAlignment = 
+      while (envelopeElement != NULL){
+        StochosSubAlignment* newSubAlignment = 
             new StochosSubAlignment(this, 1);
-          if ( stochosSubAlignments ==NULL){
-            stochosSubAlignments = newSubAlignment;
-          }
-          else {
-            stochosSubAlignments->appendNewNode(newSubAlignment);
-          }
-          Gtk::VBox* vbox;
-          attributesRefBuilder->get_widget(
-             "StochosInnerVBox", vbox);
-          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
-          newSubAlignment->setFunctionsEntry(getFunctionString(envelopeElement));
-          newSubAlignment->switchTo(1);
-          stochosNumOfNodes ++;
-          envelopeElement = envelopeElement->getNextElementSibling();
-          
-        }      
-        stochosTextChanged();      
-        
+        if ( stochosSubAlignments ==NULL){
+          stochosSubAlignments = newSubAlignment;
+        }
+        else {
+          stochosSubAlignments->appendNewNode(newSubAlignment);
+        }
+        Gtk::VBox* vbox;
+        attributesRefBuilder->get_widget(
+           "StochosInnerVBox", vbox);
+        vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+        newSubAlignment->setFunctionsEntry(getFunctionString(envelopeElement));
+        newSubAlignment->switchTo(1);
+        stochosNumOfNodes ++;
+        envelopeElement = envelopeElement->getNextElementSibling();
       }
-      else {
-
-        while (envelopeElement != NULL){
-          StochosSubAlignment* newSubAlignment = 
+    }
+    else {
+      while (envelopeElement != NULL){
+        StochosSubAlignment* newSubAlignment = 
             new StochosSubAlignment(this, 0);
-          if ( stochosSubAlignments ==NULL){
-            stochosSubAlignments = newSubAlignment;
-          }
-          else {
-            stochosSubAlignments->appendNewNode(newSubAlignment);
-          }
-          Gtk::VBox* vbox;
-          attributesRefBuilder->get_widget(
-             "StochosInnerVBox", vbox);
-          vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
-          newSubAlignment->setMinEntry(getFunctionString(envelopeElement));  
-          envelopeElement = envelopeElement->getNextElementSibling();
-          newSubAlignment->setMaxEntry(getFunctionString(envelopeElement));  
-          envelopeElement = envelopeElement->getNextElementSibling();
-          newSubAlignment->setDistEntry(getFunctionString(envelopeElement));  
-          envelopeElement = envelopeElement->getNextElementSibling();                  
-          newSubAlignment->switchTo(0);
-          stochosNumOfNodes ++;
-        }      
-        stochosTextChanged();        
-
-      }
+        if ( stochosSubAlignments ==NULL){
+          stochosSubAlignments = newSubAlignment;
+        }
+        else {
+          stochosSubAlignments->appendNewNode(newSubAlignment);
+        }
+        Gtk::VBox* vbox;
+        attributesRefBuilder->get_widget(
+            "StochosInnerVBox", vbox);
+        vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+        newSubAlignment->setMinEntry(getFunctionString(envelopeElement));  
+        envelopeElement = envelopeElement->getNextElementSibling();
+        newSubAlignment->setMaxEntry(getFunctionString(envelopeElement));  
+        envelopeElement = envelopeElement->getNextElementSibling();
+        newSubAlignment->setDistEntry(getFunctionString(envelopeElement));  
+        envelopeElement = envelopeElement->getNextElementSibling();                  
+        newSubAlignment->switchTo(0);
+        stochosNumOfNodes ++;
+      }  
+    }
+    stochosTextChanged();  
     
     thisElement = thisElement->getNextElementSibling();    //offset
     attributesRefBuilder->get_widget("StochosOffsetEntry",entry);
-    entry->set_text(getFunctionString(thisElement));  
-    
- 
+    entry->set_text(getFunctionString(thisElement));
   }  
     
   if(functionName.compare("Select")==0){
-    
-    
- 
     iter = combobox->get_model()->get_iter("0");
     row = *iter;
     while(row[functionListColumns.m_col_name]!= "Select"){
@@ -1611,7 +1620,39 @@ FunctionGenerator::FunctionGenerator(
       row = *iter;
     }
     combobox->set_active(iter);
-  
+
+    thisElement = functionNameElement->getNextElementSibling(); //list
+
+    // separate into a vector of strings
+    std::vector<std::string> listElements = Utilities::listElementToStringVector(thisElement);
+    // If the string isn't empty
+    if (listElements.size() > 1 || listElements[0].compare("") != 0) {
+      std::vector<std::string>::iterator functionString;
+      for (functionString = listElements.begin(); 
+            functionString != listElements.end(); ++functionString) {
+        SelectSubAlignment* newSubAlignment = new SelectSubAlignment(this);
+        if (selectSubAlignments == NULL){
+          selectSubAlignments = newSubAlignment;
+        }
+        else {
+          selectSubAlignments->appendNewNode(newSubAlignment);
+        }
+        Gtk::VBox* vbox;
+        attributesRefBuilder->get_widget(
+            "SelectInnerVBox", vbox);
+        vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+        newSubAlignment->setFunctionsEntry(*functionString);
+        selectNumOfNodes ++;
+      }
+    } //if
+    selectEntryChanged();
+    
+    thisElement = thisElement->getNextElementSibling();    //offset
+    attributesRefBuilder->get_widget("SelectIndexEntry",entry);
+    entry->set_text(getFunctionString(thisElement));  
+    
+    
+/*
     //Select has 2 arguments
     // first argument is a list (in XML it's just a string, format: a,b,c,d...
     thisElement = functionNameElement->getNextElementSibling();    
@@ -1624,6 +1665,7 @@ FunctionGenerator::FunctionGenerator(
     entry->set_text(getFunctionString(thisElement));      
     
     //end parsing
+*/
   } 
  
  
@@ -2775,6 +2817,9 @@ FunctionGenerator::FunctionGenerator(
 }
 
 FunctionGenerator::~FunctionGenerator(){
+  if (selectSubAlignments != NULL){
+    selectSubAlignments->clear();
+  }
   if (stochosSubAlignments != NULL){
     stochosSubAlignments->clear();
   }
@@ -2989,9 +3034,6 @@ void FunctionGenerator::function_list_combo_changed(){
 
           textview->get_buffer()->set_text(
             "<Fun><Name>Select</Name><List></List><Index></Index></Fun>");
-          attributesRefBuilder->get_widget(
-            "SelectListEntry", entry);
-          entry->set_text("");
           attributesRefBuilder->get_widget(
             "SelectIndexEntry", entry);
           entry->set_text("");   
@@ -3769,7 +3811,7 @@ void FunctionGenerator::LNEntryChanged(){
 
 
 
-
+/*
 void FunctionGenerator::selectListFunButtonClicked(){
   Gtk::Entry* entry; 
     FunctionGenerator* generator;
@@ -3787,10 +3829,9 @@ void FunctionGenerator::selectListFunButtonClicked(){
     entry->set_text(generator->getResultString());
   }
   delete generator;
-
-  
-
 }
+*/
+
 void FunctionGenerator::selectIndexFunButtonClicked(){
   Gtk::Entry* entry; 
   attributesRefBuilder->get_widget(
@@ -3811,18 +3852,179 @@ void FunctionGenerator::selectIndexFunButtonClicked(){
 void FunctionGenerator::selectEntryChanged(){
   Gtk::TextView* textview;
   attributesRefBuilder->get_widget("resultStringTextView", textview);
+
   Gtk::Entry* entry; 
-  attributesRefBuilder->get_widget(
-    "SelectListEntry", entry);
-  std::string stringbuffer = "<Fun><Name>Select</Name><List>" + entry->get_text() + "</List>";
+  std::string stringbuffer = "<Fun><Name>Select</Name><List>";
+
+  // Add first entry manually so list doesn't being with a comma
+  SelectSubAlignment* current = selectSubAlignments;
+  if (current != NULL) {
+    stringbuffer = stringbuffer + current->toString();
+    current = current ->next;
+    while (current != NULL) {
+      stringbuffer = stringbuffer + ", " + current->toString();
+      current = current->next;
+    }
+  }
   
   attributesRefBuilder->get_widget(
     "SelectIndexEntry", entry);
-  stringbuffer = stringbuffer + "<Index>" +entry->get_text() + "</Index></Fun>";
+  stringbuffer = stringbuffer + "</List><Index>" +entry->get_text() + "</Index></Fun>";
   
   textview->get_buffer()->set_text(stringbuffer);
-  
+}
 
+
+void FunctionGenerator::selectAddNodeButtonClicked(){
+  SelectSubAlignment* newSubAlignment = 
+    new SelectSubAlignment(this);
+  if ( selectSubAlignments == NULL){
+    selectSubAlignments = newSubAlignment;
+  }
+  else {
+    selectSubAlignments->appendNewNode(newSubAlignment);
+  }
+  Gtk::VBox* vbox;
+  attributesRefBuilder->get_widget(
+    "SelectInnerVBox", vbox);
+  vbox->pack_start(*newSubAlignment,Gtk::PACK_SHRINK);
+  selectEntryChanged();
+  selectNumOfNodes ++;
+  
+  show_all_children();
+}
+
+void FunctionGenerator::selectFunButtonClicked(){
+  Gtk::Entry* entry = dynamic_cast< Gtk::Entry * >(get_focus() );
+  if( entry ){  
+    FunctionGenerator* generator = 
+      new FunctionGenerator(functionReturnMakeListFun, entry->get_text());
+    int result = generator->run();
+    if (generator->getResultString() !=""&& result ==0){
+      entry->set_text(generator->getResultString());
+    }
+    delete generator;
+  }
+  else {
+    return;
+  }
+}
+
+void FunctionGenerator::selectRemoveNode(SelectSubAlignment* _remove){
+  Gtk::VBox* vbox;
+  attributesRefBuilder->get_widget(
+    "SelectInnerVBox", vbox);
+  vbox->remove ( *_remove);  
+  selectNumOfNodes --;
+  
+  if (_remove == selectSubAlignments){ //if removing head
+    selectSubAlignments = selectSubAlignments->next;
+    if (selectSubAlignments != NULL){
+      selectSubAlignments->prev = NULL;  
+    }
+  }
+  
+  else {  //normal case
+    _remove->prev->next = _remove->next;
+    if (_remove->next != NULL){
+      _remove->next->prev = _remove->prev;
+    }
+  }
+  
+  delete _remove;
+  selectEntryChanged();
+  show_all_children();
+  
+}
+
+
+FunctionGenerator::SelectSubAlignment::SelectSubAlignment(
+  FunctionGenerator* _parent){
+  parent = _parent;
+  next = NULL;
+  prev = NULL;
+  attributesRefBuilder = Gtk::Builder::create();
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+  try{
+    attributesRefBuilder->add_from_file(
+      "./LASSIE/src/UI/FunGenSelectSubAlignment.ui");
+  }
+  catch (const Glib::FileError& ex){
+    std::cerr << "FileError: " << ex.what() << std::endl;
+  }
+  catch (const Gtk::BuilderError& ex){
+    std::cerr << "BuilderError: " << ex.what() << std::endl;
+  }
+   #else
+  std::auto_ptr<Glib::Error> error;
+  if (!attributesRefBuilder->add_from_file(
+    "./LASSIE/src/UI/FunGenSelectSubAlignment.ui", error)){
+    std::cerr << error->what() << std::endl;
+  }
+   #endif
+
+  Gtk::HBox* hbox;
+  attributesRefBuilder->get_widget("FunctionsHBox", hbox);
+  add (*hbox);  
+  
+  Gtk::Button* button;
+  Gtk::Entry* entry;
+  
+  attributesRefBuilder->get_widget(
+    "removeNodeButton", button);
+  button->signal_clicked().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SelectSubAlignment::removeButtonClicked));
+  
+  attributesRefBuilder->get_widget(
+    "FunctionsEntry", entry);
+  entry->signal_changed().connect(sigc::mem_fun(
+    *this, & FunctionGenerator::SelectSubAlignment::textChanged)); 
+  entry->set_text("");
+}
+
+
+FunctionGenerator::SelectSubAlignment::~SelectSubAlignment(){
+}
+
+void FunctionGenerator::SelectSubAlignment::appendNewNode(
+  SelectSubAlignment* _newNode){
+  if (next == NULL){
+    next = _newNode;
+    _newNode->prev = this;
+  }
+
+  else {
+    next-> appendNewNode(_newNode);
+  }
+}
+
+std::string FunctionGenerator::SelectSubAlignment::toString(){
+  Gtk::Entry* entry;
+  
+  attributesRefBuilder->get_widget("FunctionsEntry", entry);
+  return entry->get_text();
+}
+
+void FunctionGenerator::SelectSubAlignment::setFunctionsEntry(
+  std::string _string){
+  Gtk::Entry* entry;
+  attributesRefBuilder->get_widget("FunctionsEntry", entry);
+  entry->set_text(_string);
+}
+
+void FunctionGenerator::SelectSubAlignment::removeButtonClicked(){
+  parent->selectRemoveNode(this);
+}
+
+void FunctionGenerator::SelectSubAlignment::textChanged(){
+  parent->selectEntryChanged();
+}
+
+void FunctionGenerator::SelectSubAlignment::clear(){
+  if (next != NULL){
+    next->clear();
+  }
+  delete this;  
 }
 
 
@@ -3940,7 +4142,6 @@ void FunctionGenerator::stochosRemoveNode(StochosSubAlignment* _remove){
   
 }  
 
-
 void FunctionGenerator::stochosFunButtonClicked(){
   
   
@@ -3963,10 +4164,6 @@ void FunctionGenerator::stochosFunButtonClicked(){
   else {
     return;
   }
-
- 
-
-
 }
 
 
