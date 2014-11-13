@@ -125,6 +125,7 @@ string Modifier::getModName() {
 bool Modifier::willOccur(double checkPoint) {
   bool result = false;
   double rand  = Random::Rand();
+
   if (rand <= getProbability(checkPoint)) {
     result = true;
   }

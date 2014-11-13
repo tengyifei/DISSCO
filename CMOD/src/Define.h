@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //static const char * INFILE = "daria";
 
 // general
-static const double GOLDENMEAN = 0.618;
+static const double GOLDENMEAN = 0.6182;
 static const float MIN_AUD_FREQ = 20.;
 static const float MAX_AUD_FREQ = 20000.;
 static const float FUNDAMENTAL = 13.75;

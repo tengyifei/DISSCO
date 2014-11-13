@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-//----------------------------------------------------------------------------//
+/*
 //
 //  Utilities.h
 //  Created by Ming-ching Chiu 2012-2013
@@ -27,11 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //  as Pattern, Sieve, etc.
 //
 //  The Utilities is also the interface between the CMOD Event and LASS Score.
-//  CMOD Events add the Sound/Note objects they produce to LASS Score through
+//  CMOD Events add the Sound objects they produce to LASS Score through
 //  The Utilities. 
 //   
 //
-//----------------------------------------------------------------------------//
+*/
 
 
 #ifndef UTILITIES_H

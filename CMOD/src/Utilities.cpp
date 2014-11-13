@@ -57,6 +57,7 @@ Utilities::Utilities(DOMElement* root,
   // New LASS Score
   if (soundSynthesis){
     score = new Score (numThreads,  numChannels, _samplingRate );
+    score->setClippingManagementMode(CHANNEL_ANTICLIP);
   }
   else {
     score = NULL;

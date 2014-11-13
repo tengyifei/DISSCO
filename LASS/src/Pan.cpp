@@ -53,7 +53,6 @@ Pan* Pan::clone()
 
 MultiTrack* Pan::spatialize(Track& t, int numTracks)
 {
-   
     m_sample_count_type sampleCount = t.getWave().getSampleCount();
     m_rate_type samplingRate = t.getWave().getSamplingRate();
    
@@ -96,7 +95,7 @@ MultiTrack* Pan::spatialize(Track& t, int numTracks)
         }
     }
      
-    // Retur the multitrack object
+    // Return the multitrack object
     return mt;
 }
 

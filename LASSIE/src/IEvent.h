@@ -487,8 +487,9 @@ public:
    *   written according to the path
    ****************************************************************************/
   void saveToDisk(std::string _pathOfProject);
-  
-  
+  void saveAsToDisk(std::string _pathOfProject); //save everything
+  void saveToDiskHelper(std::string _pathOfProject, bool _forced);
+
   int getNumberOfLayers();
 
 

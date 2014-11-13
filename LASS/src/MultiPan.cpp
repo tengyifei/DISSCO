@@ -270,7 +270,7 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
  
 	// create an array of speakers
 	SpeakerList = new Speaker *[n_channels];
-//	cout << "Speaker Locations:" << endl;;
+  	//cout << "Speaker Locations:" << endl;;
 	for(i=0;i<n_channels;i++)
 	{
 		curSpeaker = new Speaker();
@@ -278,8 +278,8 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
 		curTheta = 2.0 * M_PI * (double)i / (double)n_channels;
 		curSpeaker->x = cos(curTheta);
 		curSpeaker->y = sin(curTheta);
-//		cout << "\tx = " << curSpeaker->x;
-//		cout << ", y=" << curSpeaker->y << endl;
+  		//cout << "\tx = " << curSpeaker->x;
+  		//cout << ", y=" << curSpeaker->y << endl;
 		SpeakerList[i] = curSpeaker;
 	}
 
@@ -290,6 +290,7 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
 	// figure out how far all the speakers are from the sound
 	curX = radius * cos(theta);
 	curY = radius * sin(theta);
+        //cout << "radius=" << radius << " curX=" << curX << " curY=" << curY << endl;
 	total_dist = 0;
 	for(i=0;i<n_channels;i++)
 	{
@@ -306,12 +307,14 @@ void MultiPan::addEntryLocation(float t, float theta, float radius)
 	}
 
 	// now set the interpolator entries
-//	cout << "Speaker Relative Amplitudes:" << endl;
+  	//cout << "Speaker Relative Amplitudes:" << endl;
 	for(i=0;i<n_channels;i++)
 	{
 
 		addEntryHelperFn(i, t, SpeakerList[i]->dist/total_dist);
 		//cout << "\t" << SpeakerList[i]->dist/total_dist << endl;
+		//cout << "dist=" << SpeakerList[i]->dist <<
+		//" total_dist=" << total_dist << endl;
 	}
 
 	// kill the speakers

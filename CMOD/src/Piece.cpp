@@ -192,9 +192,6 @@ string Piece::getNextSoundFile() {
 }
 
 
-
-
-
 //----------------------------------------------------------------------------//
 
 void Piece::Print() {
@@ -218,7 +215,6 @@ void Piece::Print() {
     Output::endSubLevel();
   Output::endSubLevel();
 }
-
 
 
 Piece::Piece(string _workingPath, string _projectTitle){
