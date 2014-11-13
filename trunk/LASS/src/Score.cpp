@@ -309,12 +309,14 @@ void Score::checkScoreMultiTrackLength(){
 //----------------------------------------------------------------------------//
 void Score::setClippingManagementMode(ClippingManagementMode mode)
 {
+    cout << "Score::setClippingManagementMode - " << mode << endl;
     cmm_ = mode;
 }
 
 //----------------------------------------------------------------------------//
 Score::ClippingManagementMode Score::getClippingManagementMode()
 {
+    cout << "Score::ClippingManagementMode - cmm_ " << cmm_ << endl;
     return cmm_;
 }
 
@@ -322,6 +324,7 @@ Score::ClippingManagementMode Score::getClippingManagementMode()
 //----------------------------------------------------------------------------//
 void Score::manageClipping(MultiTrack* mt, ClippingManagementMode mode)
 {
+    cout << "Score::manageClipping - mode - " << mode << endl;
     switch (mode)
     {
         case NONE:		break;
@@ -516,6 +519,8 @@ m_sample_type compressSound(m_sample_type x, m_sample_type peak,
     ((cdB - pdB) * (cdB - pdB)));
 }
 
+
+//----------------------------------------------------------------
 void Score::channelAnticlip(MultiTrack* mt)
 {
     cout << "Performing CHANNEL_ANTICLIP" << endl;
@@ -547,6 +552,7 @@ void Score::channelAnticlip(MultiTrack* mt)
             } 
         }
     }
+    cout << "maxAmplitude= " << maxAmplitude << endl;
     if(maxAmplitude < 0.99)
     {
       cout << "Peak at " << maxAmplitude << endl;

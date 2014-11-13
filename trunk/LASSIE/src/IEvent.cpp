@@ -546,6 +546,8 @@ void IEvent::saveToDisk(std::string _pathOfProject){
 }
 
 
+
+
 int IEvent::getNumberOfLayers(){
   return layers.size();
 }

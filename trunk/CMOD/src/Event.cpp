@@ -149,13 +149,17 @@ Event::Event(DOMElement* _element,
     DOMElement* areaElement = densityElement->GNES();
     DOMElement* underOneElement = areaElement->GNES();
     double density = utilities->evaluate( XMLTC(densityElement),(void*)this);
+    cout << "	numChildrenElement=" << numChildrenElement << " densityElement="
+	<< densityElement << endl;
     double area = utilities->evaluate( XMLTC(areaElement),(void*)this);
+    cout << "areaElement=" << areaElement << endl;
     double underOne = utilities->evaluate( XMLTC(underOneElement),(void*)this);
     double soundsPsec = pow(2, density * area - underOne); //this can't be right..
-    //cout<<"density:"<< density<<", area:"<<area<<", underOne:"<<underOne<<endl;  
+    cout<<"density:"<< density<<", area:"<<area<<", underOne:"<<underOne<<endl;  
       
     //not sure which version is the correct one. ask sever  
-    numChildren = (int)(soundsPsec * ts.duration + 0.5);
+    numChildren = (int)(soundsPsec * ts.duration + underOne/area);
+    cout << "     numChildren=" << numChildren << endl;
     //numChildren = (int)(soundsPsec * layerElements * ts.duration + 0.5);
     
   }

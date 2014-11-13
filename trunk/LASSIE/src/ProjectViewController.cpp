@@ -1537,18 +1537,15 @@ void ProjectViewController::save(){
       stringBuffer = (*iter)->getXMLString();
       fputs(stringBuffer.c_str(), file);
     }
+
+    (*iter)->saveToDisk(pathAndName);
+
   }
   fputs("  </Events>\n",file);
   
   
   fputs("</ProjectRoot>",file);
   fclose(file);
-  
-  
-  
-  
-  
-  
   
 }
 
