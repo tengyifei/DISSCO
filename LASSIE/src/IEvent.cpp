@@ -1811,12 +1811,17 @@ IEvent::IEvent(IEvent* _original, string _newName){
   
   
   //modifiers
+  // modifiers of bottom is already handled by its extrainfo
+  if (eventType ==eventTop||
+      eventType ==eventHigh||
+      eventType == eventMid||
+      eventType == eventLow){
   
-  if (_original->modifiers == NULL){    
-  	modifiers = NULL;
+    if (_original->modifiers == NULL){    
+    	modifiers = NULL;
 
-  }
-  else{
+    }
+    else{
   
   	modifiers = new EventBottomModifier(_original->modifiers);
   
@@ -1831,8 +1836,8 @@ IEvent::IEvent(IEvent* _original, string _newName){
   		prevModifier->next = currentModifier;
   
   	}
-  }  	  
-  
+    }    	  
+  }
   
   
   
