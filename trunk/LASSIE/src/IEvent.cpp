@@ -1761,6 +1761,7 @@ IEvent::IEvent(IEvent* _original, string _newName){
   if (eventType ==eventBottom){
   	extraInfo = (EventExtraInfo*) 
   	  new BottomEventExtraInfo((BottomEventExtraInfo*) _original->extraInfo);
+  	  modifiers = NULL;
 
   }
   else if (eventType== eventRev){
@@ -1822,7 +1823,6 @@ IEvent::IEvent(IEvent* _original, string _newName){
 
     }
     else{
-  
   	modifiers = new EventBottomModifier(_original->modifiers);
   
   	EventBottomModifier* currentOriginalModifier = _original->modifiers;
@@ -2829,6 +2829,7 @@ IEvent::IEvent(DOMElement* _domElement){
     	childTypeFlag = 2;
    	}
     extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag, thisElement); //line 2789
+    modifiers = NULL;
 
   }
   else { //if not bottom, the following element is modifiers
