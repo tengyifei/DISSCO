@@ -62,7 +62,9 @@ class Bottom : public Event {
     map<string, double> mod_used;
     
     //Pitch number for a well-tempered frequency (used to create notes)
-    int wellTempPitch;
+
+//  int wellTempPitch;		(sever changed to float)
+    float wellTempPitch;
 
     vector<Sound*> childSounds;
     vector<Note*> childNotes;
@@ -115,7 +117,8 @@ class Bottom : public Event {
     /**
      *  Creates a note (traditional notation) with all its attributes.
      **/
-    void buildNote(TimeSpan tsChild, int type, string name);
+    void buildNote(SoundAndNoteWrapper* _soundNoteWrapper);
+//  void buildNote(TimeSpan tsChild, int type, string name);
 
     /**
      *  Overloaded to prevent Event from printing.
@@ -144,7 +147,7 @@ class Bottom : public Event {
     void printNoteParticel(Note& n, int type, string name);
 
     /**
-     * Adds pointers to any notes in this Bottom event to a vector
+     * Adds pointers to any notes in this Bottom event to a vector (LIST ?)
      * \param noteVect a reference to a vector of notes
     **/
     list<Note> getNotes();
@@ -296,6 +299,8 @@ class Bottom : public Event {
      *  Apply modifiers for a note.
      **/
     vector<string> applyNoteModifiers();
+    vector<string> applyNoteModifiers(DOMElement* _playingMethods);
+    vector<string> applyNoteModifiersOld();
 
 };
 #endif

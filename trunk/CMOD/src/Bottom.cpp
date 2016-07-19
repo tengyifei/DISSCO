@@ -30,6 +30,7 @@
 
 
 //----------------------------------------------------------------------------//
+
 Bottom::Bottom(DOMElement* _element, 
                TimeSpan _timeSpan, 
                int _type, 
@@ -102,11 +103,9 @@ Bottom::~Bottom() {
 
 //----------------------------------------------------------------------------//
 
-
 void Bottom::buildChildren(){
 
   if (utilities->getOutputParticel()){
-    cout<<"outputsubllevel"<<endl;
     //Begin this sub-level in the output and write out its properties.
     Output::beginSubLevel(name);
     outputProperties();
@@ -140,8 +139,10 @@ void Bottom::buildChildren(){
       checkEvent(buildSweep());
 
     }
-    else if (method == "2") //discrete
+    else if (method == "2") {  //discrete
+
       checkEvent(buildDiscrete());
+    }
     else {
       cerr << "Unknown build method: " << method << endl << "Aborting." << endl;
       exit(1);
@@ -150,16 +151,17 @@ void Bottom::buildChildren(){
   //Using the temporary events that were created, construct the actual children.
   //The code below is different from buildchildren in Event class.
   for (int i = 0; i < childSoundsAndNotes.size(); i++) {
-    
-    //right no it only supports sound, not note yet.
-    SoundAndNoteWrapper* thisSound = childSoundsAndNotes[i];
+    SoundAndNoteWrapper* thisChild = childSoundsAndNotes[i];
     //Increment the static current child number.
     currChildNum = i;
-    constructChild(thisSound);
-    delete thisSound;
+    constructChild(thisChild);
+    delete thisChild;
   }
+
+/*
   //Clear the temporary event list.
   childSoundsAndNotes.clear();
+*/
 
   if (utilities->getOutputParticel()){
   //End this output sublevel.
@@ -169,11 +171,16 @@ void Bottom::buildChildren(){
 
 }
 
+//----------------------------------------------------------------------------//
+
 void Bottom::constructChild(SoundAndNoteWrapper* _soundNoteWrapper) {
   //Just to get the checkpoint. Not used any other time.
   checkPoint = (_soundNoteWrapper->ts.start - ts.start) / ts.duration;
-  if (name.substr(0,1)=="s"){
+  if (name.substr(0,1) == "s"){
     return buildSound(_soundNoteWrapper);
+  }
+  else if (name.substr(0,1) == "n"){
+    return buildNote(_soundNoteWrapper);
   }
 }
 
@@ -186,11 +193,12 @@ void Bottom::buildSound(SoundAndNoteWrapper* _soundNoteWrapper) {
   if (utilities->getOutputParticel()){
     //Output sound related properties.
     Output::beginSubLevel("Sound");
-    Output::addProperty("Name", name);
-    Output::addProperty("Type", type);
-    Output::addProperty("Start Time", tsChild.start, "sec.");
-    Output::addProperty("End Time", tsChild.start + tsChild.duration, "sec.");
-    Output::addProperty("Duration", tsChild.duration, "sec.");
+    Output::addProperty("Name", _soundNoteWrapper->name);
+    Output::addProperty("Type", _soundNoteWrapper->type);
+    Output::addProperty("Start Time", _soundNoteWrapper->ts.start, "sec.");
+      Output::addProperty("End Time", _soundNoteWrapper-> ts.start +
+        _soundNoteWrapper->ts.duration, "sec.");
+      Output::addProperty("Duration",_soundNoteWrapper-> ts.duration, "sec.");
   }
   
   //Set the start time and duration from the timespan.
@@ -209,7 +217,9 @@ void Bottom::buildSound(SoundAndNoteWrapper* _soundNoteWrapper) {
   //Set the number of partials.
   int numPartials = computeNumPartials( baseFrequency ,_soundNoteWrapper->element );
   if (utilities->getOutputParticel())Output::beginSubLevel("Partials");
-  if (utilities->getOutputParticel())Output::addProperty("Deviation", computeDeviation(_soundNoteWrapper->element), "normalized");
+  if (utilities->getOutputParticel())
+	Output::addProperty("Deviation", 
+		computeDeviation(_soundNoteWrapper->element), "normalized");
   
   //For each partial, create and add to sound.
   for (int i = 0; i < numPartials; i++) {
@@ -232,7 +242,8 @@ void Bottom::buildSound(SoundAndNoteWrapper* _soundNoteWrapper) {
     
     //Report the actual frequency.
     stringstream ss; if(i != 0) ss << "Partial " << i; else ss << "Fundamental";
-    if (utilities->getOutputParticel())Output::addProperty(ss.str(), actualFrequency, "Hz");
+    if (utilities->getOutputParticel())
+	Output::addProperty(ss.str(), actualFrequency, "Hz");
 
     //Set the spectrum for this partial.
     setPartialSpectrum(partial, i, _soundNoteWrapper->element);
@@ -265,29 +276,36 @@ void Bottom::buildSound(SoundAndNoteWrapper* _soundNoteWrapper) {
 }
 
 //----------------------------------------------------------------------------//
-/* needs to be rewrite to remove filevalue --Ming-ching May 06 2013
-void Bottom::buildNote(TimeSpan tsChild, int type, string name) {
+
+void Bottom::buildNote(SoundAndNoteWrapper* _soundNoteWrapper) {
   //Create the note.
+//Note* newNote = new Note();		//sever, make similar to newSound
   Note* newNote = new Note(tsChild, tempo);
   
+  if (utilities->getOutputParticel()){
   //Output note-related properties.
-  Output::beginSubLevel("Note");
-  Output::addProperty("Name", name);
-  Output::addProperty("Type", type);
-  Output::addProperty("Start Time", tsChild.start, "sec.");
-  Output::addProperty("End Time", tsChild.start + tsChild.duration, "sec.");
-  Output::addProperty("Duration", tsChild.duration, "sec.");
-  Output::addProperty("Tempo Start Time", tempo.getStartTime(), "sec.");
-  Output::addProperty("EDU Start Time", tsChild.startEDU, "EDU");
-  Output::addProperty("EDU Duration", tsChild.durationEDU, "EDU");
+    Output::beginSubLevel("Note");
+    Output::addProperty("Name", _soundNoteWrapper->name);
+    Output::addProperty("Type", _soundNoteWrapper->type);
+    Output::addProperty("Start Time", _soundNoteWrapper->ts.start, "sec.");
+    Output::addProperty("End Time", _soundNoteWrapper-> ts.start + 
+	_soundNoteWrapper->ts.duration, "sec.");
+    Output::addProperty("Duration",_soundNoteWrapper-> ts.duration, "sec.");
+    Output::addProperty("Tempo Start Time", 
+	_soundNoteWrapper->tempo.getStartTime(), "sec.");
+    Output::addProperty("EDU Start Time", 
+	_soundNoteWrapper->ts.startEDU, "EDU");
+    Output::addProperty("EDU Duration", 
+	_soundNoteWrapper->ts.durationEDU, "EDU");
+  }
 
   //Set the pitch.
-  float baseFrequency = computeBaseFreq(); //false because currently pattern doesn't suppart note 
+  float baseFrequency = computeBaseFreq(); 
   
-  if(wellTempPitch <= 0) {
-    //We did not compute the well tempered pitch, so frequency is only in Hertz.
-    newNote->setPitchHertz(baseFrequency);
-  } else {
+  if(wellTempPitch <= 0) { 		//if frequency is in Hertz
+    wellTempPitch = newNote->HertzToPitch(baseFrequency);
+  } else { 	
+/*
     //Get the pitch names, and turn them into a vector.
     vector<string> pitchNames;
     list<FileValue>* pitchList = notePitchClassFV->getListPtr(this);
@@ -295,35 +313,61 @@ void Bottom::buildNote(TimeSpan tsChild, int type, string name) {
     
     while(iter != pitchList->end())
       pitchNames.push_back(iter++->getString(this));
-      
+
     newNote->setPitchWellTempered(wellTempPitch, pitchNames);
+*/
   }
+  newNote->setPitchWellTempered(wellTempPitch);
 
   //Set the loudness.
-  float loudfloat = computeLoudness(); //false because current pattern doesn't support
+  float loudfloat = computeLoudness(); 
+/* needs to be rewrite to remove filevalue --Ming-ching May 06 2013
   int loudIndex = (int)loudfloat;
   list<FileValue>* loudList = noteDynamicMarkFV->getListPtr(this);
+
   if(loudIndex < loudList->size()) {
     vector<string> loudNames;
     list<FileValue>::iterator iter = loudList->begin();
     
     while(iter != loudList->end())
       loudNames.push_back(iter++->getString(this));
-      
-    newNote->setLoudnessMark(loudIndex, loudNames);
-    
-  } else {
-    newNote->setLoudnessSones(loudfloat);
-  }
 
+    newNote->setLoudnessMark(loudIndex, loudNames);
+
+  } else {
+*/  
+    newNote->setLoudnessSones(loudfloat);
+//}
+
+/* needs to be rewrite to remove filevalue --Ming-ching May 06 2013
   if(modifiersFV) {
-    vector<string> noteMods = applyNoteModifiers();
+*/
+    vector<string> noteMods = applyNoteModifiers(_soundNoteWrapper->element);
     newNote->setModifiers(noteMods);
-  }
+//  vector<string> modNames = applyNoteModifiersOld();
+//  newNote->setModifiers(modNames);
+//}
+
+  cout << "Line 358 - _soundNoteWrapper->name: " 
+	<< (string)_soundNoteWrapper->name << endl;
+
+  newNote->spellNoteAttributes( (string) _soundNoteWrapper->name);
+//	  _soundNoteWrapper->ts.startEDU,  
+//		  _soundNoteWrapper->ts.durationEDU);
+//		_soundNoteWrapper->tempo.getEDUPerBar, 
+//		_soundNoteWrapper->tempo.getEDUPerTempoBeat,
+
+/*
+  cout << " _soundNoteWrapper->ts.startEDU=" << _soundNoteWrapper->ts.startEDU
+       << endl;
+  cout << " _soundNoteWrapper->ts.durationEDU=" 
+       << _soundNoteWrapper->ts.durationEDU << endl;
+*/  
   Output::endSubLevel();
   childNotes.push_back(newNote);
 }
-*/
+
+
 //----------------------------------------------------------------------------//
 
 list<Note> Bottom::getNotes() {
@@ -361,6 +405,12 @@ float Bottom::computeBaseFreq() {
     wellTempPitch = utilities->evaluate(XMLTC(valueElement), (void*)this);
 //  cout << "Bottom: computeBaseFreq - wellTempPitch=" << wellTempPitch << endl;
     baseFreqResult = C0 * pow(WELL_TEMP_INCR, wellTempPitch);
+/*
+    cout << "   WELL_TEMP_INCR=" << WELL_TEMP_INCR << " C0=" << C0 
+	 << " baseFreqResult=" << baseFreqResult << endl;
+	int sever;
+   cin >> sever;
+*/
 
   } else  {// fundamental
     /* 2nd arg is (float)fundamental_freq, 3rd arg is (int)overtone_num */
@@ -694,17 +744,25 @@ void Bottom::applyFilter(Sound* s){
   
   s->use_filter(filterObj);
 }
-//----------------------------------------------------------------------------//
 
+
+//----------------------------------------------------------------------------//
 
 void Bottom::applyReverberation(Sound* s) {
 
-  DOMElement* reverbElement = (DOMElement*) utilities->evaluateObject("", (void*) this, eventRev); //this call will return a rev function, just in case users use "select" here. The string here is just a dummy since the callee will find the right rev element  within "this".
+  DOMElement* reverbElement = 
+          (DOMElement*) utilities->evaluateObject("", (void*) this, eventRev); 
+
+//this call will return a rev function, just in case users use "select" here. 
+//The string here is just a dummy since the callee will find the right rev 
+//element  within "this".
+
   string rev_method =  XMLTC(reverbElement->GFEC());
   
   if (rev_method.compare("REV_Simple") == 0) {
 
-    float roomSize = utilities->evaluate(XMLTC(reverbElement->GFEC()->GNES()),(void*)this);
+    float roomSize = 
+         utilities->evaluate(XMLTC(reverbElement->GFEC()->GNES()),(void*)this);
     Reverb* reverbObj = new Reverb(roomSize, SAMPLING_RATE);
     s->use_reverb(reverbObj);
 
@@ -723,7 +781,8 @@ void Bottom::applyReverberation(Sound* s) {
     DOMElement* argument = reverbElement->GFEC()->GNES();
 
     //second input is percent reverb envelope
-    Envelope* percent_rev = (Envelope*) utilities->evaluateObject(XMLTC(argument), this, eventEnv);
+    Envelope* percent_rev = 
+	 (Envelope*) utilities->evaluateObject(XMLTC(argument), this, eventEnv);
     argument = argument->GNES();
 
     //3 floats:  hi/low spread, gain all pass, delay
@@ -734,66 +793,81 @@ void Bottom::applyReverberation(Sound* s) {
     float delay = utilities->evaluate(XMLTC(argument),this);
 
 
-    Reverb* reverbObj = new Reverb(percent_rev, hi_low_spread, gain_all_pass, delay, SAMPLING_RATE);
+    Reverb* reverbObj = new Reverb(percent_rev, hi_low_spread, gain_all_pass, 
+      delay, SAMPLING_RATE);
     s->use_reverb(reverbObj);
     delete percent_rev;
 
   }
   else if (rev_method.compare("REV_Advanced") == 0) {
-    cout<<"Bottom.cpp: Sorry REV_Advanced is not implemented yet. Someone need to translates the old code to the new version."<<endl;
-//    //second input is percent reverb envelope
-//    Envelope* percent_rev = iter->getEnvelope(this);
-//    iter++;
+//	<Fun>
+//	  <Name>REV_Advanced</Name>
+//	  <Percent>
+//	    <Fun><Name>EnvLib</Name><Env>1</Env><Scale>1.0</Scale></Fun>
+//	  </Percent>
+//	  <CombGainList>0.46, 0.48, 0.50, 0.52, 0.53, 0.55</CombGainList>
+//	  <LPGainList>0.05, 0.06, 0.07, 0.05, 0.04, 0.02</LPGainList>
+//	  <AllPass></AllPass>
+//	  <Delay></Delay>
+//	</Fun>
+    DOMElement* argument = reverbElement->GFEC()->GNES();
+
+    //second input is percent reverb envelope
+    Envelope* percent_rev =
+         (Envelope*) utilities->evaluateObject(XMLTC(argument), this, eventEnv);
+    argument = argument->GNES();
 
 //    //list of EXACTLY 6 comb gain filters
-//    float comb_gain_list[6];
-//    list<FileValue>* combList = iter->getListPtr(this);
-//    iter++;
-//    if (combList->size() != 6) {
-//      cerr << "Error: reverb comb gain list must contain 6 items!" << endl;
-//      exit(1);
-//    }
-//    list<FileValue>::iterator combIter = combList->begin();
-//    int combIndex = 0;
-//    while (combIter != combList->end()) {
-//      comb_gain_list[combIndex] = combIter->getFloat(this); 
-//      combIndex++;
-//      combIter++;
-//    }
+    vector<std::string> stringListC = 
+			utilities->listElementToStringVector(argument);
+    if (stringListC.size() != 6) {
+      cerr << "Error: reverb comb gain list must contain 6 items!" << endl;
+      exit(1);
+    }
+    vector<float> comb_gain_list;
 
-//    //list of EXACTLY 6 lp gain filters
-//    float lp_gain_list[6];
-//    list<FileValue>* lpList = iter->getListPtr(this);
-//    iter++;
-//    if (lpList->size() != 6) {
-//      cerr << "Error: reverb lp gain list must contain 6 items!" << endl;
-//      exit(1);
-//    }
-//    list<FileValue>::iterator lpIter = lpList->begin();
-//    int lpIndex = 0;
-//    while (lpIter != lpList->end()) {
-//      lp_gain_list[lpIndex] = lpIter->getFloat(this); 
-//      lpIndex++;
-//      lpIter++;
-//    }
+    for (int i = 0; i < stringListC.size(); i ++){
+      float num = (float) utilities->evaluate(stringListC[i], this);
+      comb_gain_list.push_back(num);
+    }
 
-//    //2 floats:  gain all pass, delay
-//    float gain_all_pass = iter->getFloat(this);
-//    iter++;
-//    float delay = iter->getFloat(this);
-//    iter++;
+    argument = argument->GNES();
 
-//    Reverb* reverbObj = new Reverb(percent_rev, &comb_gain_list[0], &lp_gain_list[0], gain_all_pass, delay, SAMPLING_RATE);
-//    s->use_reverb(reverbObj);
-//  } else {
-//    cerr << "Invalid method/syntax in reverb!" << endl;
-//    cerr << "   filename=" << name << endl;
-//    exit(1);
+    //list of EXACTLY 6 lp gain filters
+    vector<std::string> stringListG = 
+              		utilities->listElementToStringVector(argument);
+    if (stringListG.size() != 6) {
+      cerr << "Error: reverb lp gain list must contain 6 items!" << endl;
+      exit(1);
+    }
+    vector<float> lp_gain_list;
+
+    for (int i = 0; i < stringListG.size(); i ++){
+      float num = (float) utilities ->evaluate(stringListG[i], this);
+      lp_gain_list.push_back(num);
+    }
+    argument = argument->GNES();
+
+    //2 floats:  gain all pass, delay
+    float gain_all_pass = utilities->evaluate(XMLTC(argument),this);
+
+    argument = argument->GNES();
+    float delay = utilities->evaluate(XMLTC(argument),this); 
+
+    Reverb* reverbObj = new Reverb(percent_rev, 
+			           &comb_gain_list[0], 
+				   &lp_gain_list[0], 
+				   gain_all_pass, delay, SAMPLING_RATE);
+    s->use_reverb(reverbObj);
+  } else {
+    cerr << "Invalid method/syntax in reverb!" << endl;
+    cerr << "   filename=" << name << endl;
+    exit(1);
  }
   
 }
 
-//----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------/
 
 void Bottom::applyModifiers(Sound *s, int numPartials) {
   vector<Modifier> modNoDep;  //mods without dependencies
@@ -932,7 +1006,6 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
       
     }
   }
-
   
 
   // go through the exclusive mods
@@ -954,16 +1027,77 @@ void Bottom::applyModifiers(Sound *s, int numPartials) {
 }
 
 //----------------------------------------------------------------------------//
-/* needs to be rewrite to remove filevalue
-vector<string> Bottom::applyNoteModifiers() {
-  vector<string> result;
+
+vector<string> Bottom::applyNoteModifiersOld() {
+  vector<string> modNames;
 
   vector<Modifier> modNoDep;  //mods without dependencies
   map<string, vector<Modifier> > modMutEx; // map mutex group names to the mods
+  cout << "Bottom::applyNoteModifiers begin" << endl;
 
+
+  DOMElement* modifiersIncludingAncestorsElement = 
+			(DOMElement*) modifiersElement->cloneNode(true);
+
+  // ancestorModifiers
+  if (ancestorModifiersElement != NULL){
+      DOMElement* ancestorModifierIter = ancestorModifiersElement->GFEC();
+
+      while(ancestorModifierIter !=NULL){
+        DOMElement* cloneModifier = 
+			(DOMElement*) ancestorModifierIter->cloneNode(true);
+        modifiersIncludingAncestorsElement->appendChild((DOMNode*)cloneModifier);
+        ancestorModifierIter = ancestorModifierIter->GNES();
+      }
+
+  }	// end handling ancestorModifiers
+
+  cout << "Bottom-"<<name<<": Modifiers after merge:" 
+       << XMLTC(modifiersIncludingAncestorsElement) << endl << endl
+       << "=============" << endl;
+
+
+/* needs to be rewrite to remove filevalue
   list<FileValue>* modList = modifiersFV->getListPtr(this);
   list<FileValue>::iterator modIter = modList->begin();
+*/
 
+  DOMElement* modifierElement = modifiersIncludingAncestorsElement->GFEC();
+//DOMElement* modifierElement = modifiersElement->GFEC();
+    cout<<"modifierElement: "<<XMLTC(modifierElement)<<endl;
+   int sever;  cin >> sever;
+
+  while (modifierElement != NULL) {
+
+    DOMElement* arg = modifierElement->GFEC();
+    string modType;
+    switch ((int)utilities->evaluate(XMLTC(arg), this)){
+      case 0: modType = "TREMOLO"; break;
+      case 1: modType = "VIBRATO"; break;
+      case 2: modType = "GLISSANDO"; break;
+      case 3: modType = "BEND"; break;
+      case 4: modType = "DETUNE"; break;
+    }
+    cout<<"Mod Type: "<<modType<<endl;
+
+    arg = arg->GNES();
+    string applyHow = 
+           ((int)utilities->evaluate(XMLTC(arg), this) == 0)? "SOUND":"PARTIAL";
+
+    arg = arg->GNES();
+    Envelope* probEnv = 
+	   (Envelope*)utilities->evaluateObject(XMLTC(arg), this, eventEnv);
+
+    DOMElement* ampElement = arg->GNES();
+    DOMElement* rateElement = ampElement->GNES();
+
+    string ampStr = XMLTC(ampElement);
+    string rateStr = XMLTC(rateElement);
+    cout << "Bottom::applyNoteModifiers - rateStr: " << rateStr << endl;
+
+    Modifier newMod(modType, probEnv, applyHow);
+
+/* needs to be rewrite to remove filevalue
   while (modIter != modList->end()) {
     // create the modifier and add it to the proper group
     list<FileValue>::iterator currMod = modIter->getListPtr(this)->begin();
@@ -974,6 +1108,9 @@ vector<string> Bottom::applyNoteModifiers() {
     currMod++;
 
     Modifier newMod(modType, probEnv, "SOUND");
+*/
+
+/* needs to be rewrite to remove filevalue
     string mutExGroup = "";
 
     while (mutExGroup == "" && currMod != modIter->getListPtr(this)->end()) {
@@ -984,6 +1121,29 @@ vector<string> Bottom::applyNoteModifiers() {
         cerr << "Bottom::applyModifiers error: invalid syntax for MUT_EX group!" << endl;
         exit(1);
       }
+*/
+
+    arg = rateElement->GNES();//group name (MUT_EX)
+    string mutExGroup = XMLTC(arg);
+
+    if (applyHow == "SOUND") {
+
+      if (ampStr!=""){
+        Envelope* env =  
+		 (Envelope*)utilities->evaluateObject(ampStr, this, eventEnv );
+        newMod.addValueEnv(env);
+        delete env;
+      }
+
+      if (rateStr!=""){
+        Envelope* env =  
+		 (Envelope*)utilities->evaluateObject(rateStr, this, eventEnv );
+        newMod.addValueEnv(env);
+        delete env;
+      }
+    }
+    else if (applyHow == "PARTIAL") {
+      cout << "ERROR: Note does not use PARTIAL" << endl;
     }
 
     if (mutExGroup == "") {
@@ -993,14 +1153,21 @@ vector<string> Bottom::applyNoteModifiers() {
       // mutually exclusive
       modMutEx[mutExGroup].push_back(newMod);
     }
+/*    arg = widthElement->GNES();//group name (MUT_EX)
+    string mutExGroup = XMLTC(arg);
 
     modIter++; // go to the next MOD in the list
   }
+*/
+    delete probEnv;
+    modifierElement = modifierElement->GNES(); // go to the next MOD in the list
+  } // end of the main while loop
+
 
   // go through the non-exclusive mods
   for (int i = 0; i < modNoDep.size(); i++) {
     if (modNoDep[i].willOccur(checkPoint)) {
-      result.push_back( modNoDep[i].getModName() );
+      modNames.push_back( modNoDep[i].getModName() );
     }
   }
 
@@ -1013,14 +1180,46 @@ vector<string> Bottom::applyNoteModifiers() {
     bool appliedMod = false;
     for (int i = 0; i < modGroup.size() && !appliedMod; i++) {
       if (modGroup[i].willOccur(checkPoint)) {
-        result.push_back( modGroup[i].getModName() );
+        modNames.push_back( modGroup[i].getModName() );
         appliedMod = true;
       }
     }
     iter++;
   }
 
-  return result;
+  //delete modifiersIncludingAncestorsElement;
+
+  return modNames;
 }
-*/
+
+
+//----------------------------------------------------------------------------//
+
+vector<string> Bottom::applyNoteModifiers( DOMElement* _playingMethods) {
+
+  vector<string> modNames;
+
+  DOMElement* techniqueElement = _playingMethods->GFEC()->GNES()->GNES();
+
+//  string name0 = XMLTC(techniqueElement);
+//  cout << "name0: " << name0 << endl;
+
+  DOMElement* currentTechnique = techniqueElement->GFEC();
+
+  do {
+    
+    string name = XMLTC(currentTechnique);
+    cout << name << " ";
+
+    modNames.push_back(name);
+
+    currentTechnique = currentTechnique->GNES();
+    
+  } while ( currentTechnique != NULL);
+
+  cout << endl;
+//  int sever; cin >> sever;
+
+  return modNames;
+}
 
