@@ -138,25 +138,9 @@ struct ltstr
 };
 
 
-
 extern YY_BUFFER_STATE yy_scan_string( const char*);
 extern int yyparse();
 extern map<const char*, FileValue*, ltstr> file_data;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -279,8 +263,6 @@ ProjectViewController::ProjectViewController(
   defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
   
   
-  
-  
   //add the Paned widget "leftTwoPlusAttributes" as a child
   add(leftTwoPlusAttributes);
 
@@ -307,12 +289,8 @@ ProjectViewController::ProjectViewController(
   showContents();
   
   
-  
-  
   //make a new shared pointers object so all object can find each other easily
   //without calling layers of layers of parents/ children
-
-  
 
 
   sharedPointers->eventAttributesView = eventAttributesView;
@@ -325,8 +303,6 @@ ProjectViewController::ProjectViewController(
   newEvent->setEventType(eventTop);
   paletteView->insertEvent(newEvent,"Top");
   events.push_back(newEvent);
-
-
 
   envelopeLibraryEntries = NULL;
   
@@ -346,12 +322,7 @@ ProjectViewController::ProjectViewController(
   noteWindow = new ObjectWindow(eventNote,this);
   
   
-  
-  
-  
   show_all_children();
-
-
 
 }
 
@@ -366,6 +337,8 @@ ProjectViewController::~ProjectViewController(){
   //std::cout << "ProjectViewController destructor is called." << std::endl;
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::cleanUpContents(){
 
@@ -383,11 +356,9 @@ void ProjectViewController::cleanUpContents(){
   paletteView = new PaletteViewController(sharedPointers);
   
   
-
   //sharedPointers->projectTreeView = projectTreeView;
   sharedPointers->eventAttributesView = eventAttributesView;
   sharedPointers->paletteView = paletteView;
-  
   
 
   leftTwoPlusAttributes.pack1(*paletteView,true,false);
@@ -398,6 +369,8 @@ void ProjectViewController::cleanUpContents(){
   show_all_children();
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::showContents(){
   IEvent* event;
@@ -482,10 +455,14 @@ void ProjectViewController::showContents(){
 }
 
 
+//----------------------------------------------------------------------------//
+
 void ProjectViewController::hideContents(){
   cleanUpContents();
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::insertObject(){
 
@@ -949,20 +926,28 @@ void ProjectViewController::insertObject(){
 }
 
 
+//----------------------------------------------------------------------------//
+
 std::string ProjectViewController::getPathAndName(){
   return pathAndName;
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::newObjectButtonClicked(){
   newObjectDialog->hide();
 }
 
 
+//----------------------------------------------------------------------------//
+
 void ProjectViewController::projectPropertiesDialogButtonClicked(){
   projectPropertiesDialog->hide();
 }
 
+
+//----------------------------------------------------------------------------//
 
 //called by palette View to show the attributes of selected event
 void ProjectViewController::showAttributes(IEvent* _event){
@@ -1015,11 +1000,15 @@ void ProjectViewController::showAttributes(IEvent* _event){
 }
 
 
+//----------------------------------------------------------------------------//
+
 void ProjectViewController::refreshObjectNameInPalette(IEvent* _event){
   paletteView->refreshObjectName(_event);
   //projectTreeView->refreshObjectName(_event);
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::setProperties (){
   //Load the GtkBuilder file and instantiate its widgets:
@@ -1146,12 +1135,6 @@ void ProjectViewController::setProperties (){
 
     outputParticel =button->get_active();
   
- 
-    
-    
-    
- 
-    
   }
 
   delete projectPropertiesDialog;
@@ -1161,6 +1144,8 @@ void ProjectViewController::setProperties (){
 
 }
 
+
+//----------------------------------------------------------------------------//
 
 void ProjectViewController::refreshProjectDotDat(){
 
@@ -1176,8 +1161,6 @@ void ProjectViewController::refreshProjectDotDat(){
   else {
     cout<<"illegal title value!"<<endl;
   }
-  
-
   
   stringbuffer = "fileFlags = \"" + fileFlag + "\";\n";
   yy_scan_string( stringbuffer.c_str());//set parser buffer
@@ -1255,10 +1238,7 @@ void ProjectViewController::refreshProjectDotDat(){
   }
   
   
-  
   /* metadata */
-  
-
   
   std::string buffer2;
   buffer2 = (projectTitle == "")? "": projectTitle;
@@ -1304,20 +1284,16 @@ void ProjectViewController::refreshProjectDotDat(){
   buffer2 = (numOfThreads == "")? "": numOfThreads;
   stringbuffer = "LASSIENUMTHREADS = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
-  
-
 
   fclose(dat);
 }
 
 
-
-
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::save(){
   modifiedButNotSaved = false;
   sharedPointers->mainWindow->setSavedTitle();
-  
   
   eventAttributesView->saveCurrentShownEventData();
   /*
@@ -1341,12 +1317,9 @@ void ProjectViewController::save(){
   fputs("<?xml version='1.0'?>\n",file); 
   fputs("<ProjectRoot>\n", file);
   
-  
   string stringBuffer;
   
-  
   fputs("  <ProjectConfiguration>\n", file);
-  
   
   stringBuffer = "    <Title>"+ projectTitle + "</Title>\n";
   fputs(stringBuffer.c_str(),file);
@@ -1421,16 +1394,13 @@ void ProjectViewController::save(){
   fputs("  </NoteModifiers>\n", file);
   
   
-  
   //save Envelopes
   
   fputs("  <EnvelopeLibrary>\n",file);
-  
 
   char charbuffer[60];
  
   if (envelopeLibraryEntries !=NULL){ //safety check
-    
   
   
     EnvelopeLibraryEntry* envLib = envelopeLibraryEntries;
@@ -1441,10 +1411,7 @@ void ProjectViewController::save(){
     sprintf(charbuffer,"%d\n",count);
     fputs(charbuffer,file);
   
-  
-  
     count = 1;//use count as a index counter
-
 
     while (envLib!=NULL){
       sprintf (charbuffer, "Envelope %d\n", count);
@@ -1452,7 +1419,6 @@ void ProjectViewController::save(){
       //envLib->print();
  
  
-  
       int lineNumber = envLib->head->countNumOfNodes();
       sprintf(charbuffer,"%d\n",lineNumber);
       fputs(charbuffer,file); 
@@ -1461,8 +1427,6 @@ void ProjectViewController::save(){
       EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
       while (libSeg!=NULL){
         currentNode = libSeg->leftNode;
-      
-    
     
     
         sprintf(charbuffer,"%.3f", currentNode->x);   
@@ -1501,12 +1465,9 @@ void ProjectViewController::save(){
         fputs(stringBuffer.c_str(),file);        
         libSeg = libSeg->rightNode->rightSeg;
       
-      
-  
       } 
     
       currentNode = currentNode->rightSeg->rightNode;
-    
         
       sprintf(charbuffer,"%.3f", currentNode->x);   
       stringBuffer = charbuffer;
@@ -1516,9 +1477,7 @@ void ProjectViewController::save(){
       stringBuffer = stringBuffer + charbuffer+ "\n";
       fputs(stringBuffer.c_str(),file);
     
-    
       //end print one envelope
- 
       count++;
       envLib = envLib->next;
     }
@@ -1543,17 +1502,20 @@ void ProjectViewController::save(){
   }
   fputs("  </Events>\n",file);
   
-  
   fputs("</ProjectRoot>",file);
   fclose(file);
   
 }
 
 
+//---------------------------------------------------------------------------//
+
 PaletteViewController* ProjectViewController::getPalette(){
   return paletteView;
 }
 
+
+//---------------------------------------------------------------------------//
 
 IEvent* ProjectViewController::getEventByTypeAndName(
   EventType type,std::string _name){
@@ -1576,6 +1538,8 @@ IEvent* ProjectViewController::getEventByTypeAndName(
 }
 
 
+//---------------------------------------------------------------------------//
+
 EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
   if (envelopeLibraryEntries == NULL) {
     envelopeLibraryEntries = new EnvelopeLibraryEntry(1); 
@@ -1586,15 +1550,16 @@ EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
   }
 }
 
+//---------------------------------------------------------------------------//
+
 EnvelopeLibraryEntry* ProjectViewController:: duplicateEnvelope(
-    EnvelopeLibraryEntry* _originalEnvelope){
+ EnvelopeLibraryEntry* _originalEnvelope){
   
-  
-    return envelopeLibraryEntries->duplicateEnvelope(_originalEnvelope);
-  
+ return envelopeLibraryEntries->duplicateEnvelope(_originalEnvelope);
 }
 
 
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::saveEnvelopeLibrary(){ 
   std::string stringbuffer;
@@ -1607,6 +1572,9 @@ void ProjectViewController::saveEnvelopeLibrary(){
     return;
   }
   
+
+//---------------------------------------------------------------------------//
+
   EnvelopeLibraryEntry* envLib = envelopeLibraryEntries;
   int count = envLib->count();
   
@@ -1615,17 +1583,12 @@ void ProjectViewController::saveEnvelopeLibrary(){
   sprintf(charbuffer,"%d\n",count);
   fputs(charbuffer,file);
   
-  
-  
   count = 1;//use count as a index counter
-
 
   while (envLib!=NULL){
     sprintf (charbuffer, "Envelope %d\n", count);
         fputs(charbuffer,file);  
     //envLib->print();
- 
- 
   
     int lineNumber = envLib->head->countNumOfNodes();
     sprintf(charbuffer,"%d\n",lineNumber);
@@ -1635,8 +1598,6 @@ void ProjectViewController::saveEnvelopeLibrary(){
     EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
     while (libSeg!=NULL){
       currentNode = libSeg->leftNode;
-      
-    
     
     
       sprintf(charbuffer,"%.3f", currentNode->x);   
@@ -1659,7 +1620,6 @@ void ProjectViewController::saveEnvelopeLibrary(){
         stringbuffer = stringbuffer + "CUBIC_SPLINE        ";
       }         
       
-        
       if (libSeg->segmentProperty == envSegmentPropertyFlexible){
         stringbuffer = stringbuffer + "FLEXIBLE    ";
       }
@@ -1667,20 +1627,15 @@ void ProjectViewController::saveEnvelopeLibrary(){
         stringbuffer = stringbuffer + "FIXED       ";
       } 
       
-      
       sprintf (charbuffer,"%.3f\n", libSeg->rightNode->x - currentNode->x);
       stringbuffer = stringbuffer+charbuffer;
        
       
       fputs(stringbuffer.c_str(),file);        
       libSeg = libSeg->rightNode->rightSeg;
-    
-    
- 
     } 
     
     currentNode = currentNode->rightSeg->rightNode;
-    
         
     sprintf(charbuffer,"%.3f", currentNode->x);   
     stringbuffer = charbuffer;
@@ -1690,21 +1645,18 @@ void ProjectViewController::saveEnvelopeLibrary(){
     stringbuffer = stringbuffer + charbuffer+ "\n";
     fputs(stringbuffer.c_str(),file);
     
-    
     //end print one envelope
  
     count++;
     envLib = envLib->next;
   }
   
-    fclose(file);  
+  fclose(file);  
 }
 
 
-
 /*! \brief Constructor for opening XML file
-
-
+*
 */
 
 ProjectViewController::ProjectViewController(
@@ -1713,7 +1665,7 @@ ProjectViewController::ProjectViewController(
       std::string _projectTitle
 ){
 
- 	seed = "";
+  seed = "";
   modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
@@ -1727,7 +1679,6 @@ ProjectViewController::ProjectViewController(
   sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
 
-  
   //Start Parsing File
   XMLPlatformUtils::Initialize();
   XercesDOMParser* parser = new XercesDOMParser();
@@ -1858,16 +1809,6 @@ ProjectViewController::ProjectViewController(
   sharedPointers->paletteView = paletteView;  
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   //Envelope Library
   
   envelopeLibraryEntries =NULL;
@@ -1908,16 +1849,12 @@ ProjectViewController::ProjectViewController(
   }
   
   delete envelopeLibrary;
-
-  
-  
   
   
   //  constructs all events
 
   DOMElement* domEvents =  envelopeLibraryElement->getNextElementSibling();
   DOMElement* eventElement = domEvents->getFirstElementChild();
-  
   
   while (eventElement != NULL){
     IEvent* newEvent = new IEvent( eventElement);
@@ -1926,16 +1863,12 @@ ProjectViewController::ProjectViewController(
     eventElement =eventElement->getNextElementSibling();  
   } 
 
-  
   std::vector<IEvent*>::iterator eventsIter = events.begin();
   
   for (eventsIter; eventsIter != events.end(); eventsIter++){
     (*eventsIter)->link(this);
   }     
 
-  
-  
-  
 
   topWindow = new ObjectWindow(eventTop,this);
   highWindow = new ObjectWindow(eventHigh,this);
@@ -1952,31 +1885,31 @@ ProjectViewController::ProjectViewController(
   noteWindow = new ObjectWindow(eventNote,this);
   
   
-  
-  
   show_all_children(); 	
-
- 
 }
 
 
-
+//---------------------------------------------------------------------------//
 
 EnvelopeLibraryEntry* ProjectViewController::getEnvelopeLibraryEntries(){
 	return envelopeLibraryEntries;
 }
 
 
+//---------------------------------------------------------------------------//
   
 EnvelopeLibraryEntry* ProjectViewController::
   convertToLASSIEEnvLibEntry( Envelope* _envelope, int index){
   return new EnvelopeLibraryEntry (_envelope, index);  
 }
 
+
+//---------------------------------------------------------------------------//
+
 IEvent* ProjectViewController::findIEvent(
   EventType _type, std::string _eventName){
+
   IEvent* toReturn = NULL;
-  
 
   std::vector<IEvent*>::iterator eventsIter = events.begin();
   
@@ -1997,6 +1930,7 @@ IEvent* ProjectViewController::findIEvent(
 }
 
 
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
  	if (_focus ==NULL){
@@ -2011,22 +1945,28 @@ void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
   }
 }
 
+
+//---------------------------------------------------------------------------//
+
 void ProjectViewController::nKeyPressed(Gtk::Widget* _focus){
- 	if (_focus ==NULL){
- 		return;
- 	}
+  if (_focus ==NULL){
+    return;
+  }
+
   if (_focus->is_ancestor((Gtk::Widget&)*paletteView)){
     insertObject();
   }
-
 }
 
 
+//---------------------------------------------------------------------------//
 
 bool ProjectViewController::getEmptyProject(){
   return emptyProject;
 }
 
+
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
   FunctionGenerator* generator = 
@@ -2046,20 +1986,25 @@ void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
 }
 
 
+//---------------------------------------------------------------------------//
+
 void ProjectViewController::modified(){
   if (modifiedButNotSaved == false){
     modifiedButNotSaved = true;
     sharedPointers->mainWindow->setUnsavedTitle();
   
   }
-  
-  
 }
+
+
+//---------------------------------------------------------------------------//
 
 bool ProjectViewController::getSaved(){
   return !modifiedButNotSaved;
 }
 
+
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::showAttributesView(bool _show){
   if (_show && leftTwoPlusAttributes.get_child2() ==NULL ){
@@ -2072,11 +2017,10 @@ void ProjectViewController::showAttributesView(bool _show){
     show_all_children();  
     
   }
- 
 }
 
 
-
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::configureNoteModifiers(){
   //Load the GtkBuilder file and instantiate its widgets:
@@ -2107,264 +2051,269 @@ void ProjectViewController::configureNoteModifiers(){
   //Get the GtkBuilder-instantiated Dialog:
   noteModifiersConfigurationDialogRefBuilder->get_widget(
     "NoteConfigurationDialog", noteModifiersConfigurationDialog);
-	noteModifiersConfigurationDialog->set_title("Note Modifiers Configuration");
+    noteModifiersConfigurationDialog->set_title("Note Modifiers Configuration");
 	
   noteModifiersConfigurationDialogRefBuilder->get_widget(
     "CustomModifiersVBox",noteModifiersConfigurationCustomVBox );
 	
-	
-	CustomNoteModifierHBox* box;
-	vector<string>::iterator iter = customNoteModifiers.begin();
-	for (iter; iter!= customNoteModifiers.end(); iter++){
-	  box = new CustomNoteModifierHBox(this, *iter);
+  CustomNoteModifierHBox* box;
+  vector<string>::iterator iter = customNoteModifiers.begin();
+
+  for (iter; iter!= customNoteModifiers.end(); iter++){
+    box = new CustomNoteModifierHBox(this, *iter);
 	  
     customNotModifierHBoxes.push_back(box);
     noteModifiersConfigurationCustomVBox->pack_start(*box,Gtk::PACK_SHRINK);
-	}
+  }
 	
-	Gtk::CheckButton* checkButton;
-	if (defaultNoteModifiers["-8va"]){
+  Gtk::CheckButton* checkButton;
+
+  if (defaultNoteModifiers["-8va"]){
     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "Minus8vaButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+    checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["+8va"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["+8va"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "Plus8vaButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
-	
-	if (defaultNoteModifiers["bend"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+     checkButton->set_active(true);
+   }
+
+   if (defaultNoteModifiers["bend"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "BendButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["dry"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["dry"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "DryButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["glissKeys"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["glissKeys"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "GlissKeysButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["glissStringRes"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["glissStringRes"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "GlissStringResButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["graceTie"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["graceTie"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "GraceTieButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["letVibrate"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["letVibrate"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "LetVibrateButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["moltoVibrato"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["moltoVibrato"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "MoltoVibratoButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["mute"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["mute"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "MuteButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["pedal"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["pedal"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "PedalButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["pluck"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["pluck"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "PluckButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["pressSilently"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["pressSilently"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "PressSilentlyButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["resonance"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["resonance"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "ResonanceButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["resPedal"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["resPedal"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "ResPedalButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["sfz"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["sfz"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "SfzButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["sffz"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["sffz"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "SffzButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["tenuto"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["tenuto"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "TenutoButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["tremolo"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["tremolo"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "TremoloButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	if (defaultNoteModifiers["vibrato"]){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
+   if (defaultNoteModifiers["vibrato"]){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
       "VibratoButton", checkButton);	  
-	  checkButton->set_active(true);
-	}
+     checkButton->set_active(true);
+   }
 	
-	Gtk::Button* button;
-  noteModifiersConfigurationDialogRefBuilder->get_widget(
+   Gtk::Button* button;
+   noteModifiersConfigurationDialogRefBuilder->get_widget(
      "AddModifierButton", button);		
 	
-	button->signal_clicked().connect(sigc::mem_fun
-    (*this, &ProjectViewController::ConfigureNoteModifiersAddButtonClicked));  
+   button->signal_clicked().connect(sigc::mem_fun
+     (*this, &ProjectViewController::ConfigureNoteModifiersAddButtonClicked));  
 	
 
-	noteModifiersConfigurationDialog->show_all_children();
+   noteModifiersConfigurationDialog->show_all_children();
 	
-  int result = noteModifiersConfigurationDialog->run();
+   int result = noteModifiersConfigurationDialog->run();
   
-  noteModifiersConfigurationDialog->hide();
+   noteModifiersConfigurationDialog->hide();
   
-  if (result == 1){
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "Minus8vaButton", checkButton);	  
-	  defaultNoteModifiers["-8va"] = checkButton->get_active();  
+//  ----Sever stopped here
+   if (result == 1){
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "Minus8vaButton", checkButton);	  
+     defaultNoteModifiers["-8va"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "Plus8vaButton", checkButton);	  
-	  defaultNoteModifiers["+8va"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "Plus8vaButton", checkButton);	  
+     defaultNoteModifiers["+8va"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "BendButton", checkButton);	  
-	  defaultNoteModifiers["bend"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "BendButton", checkButton);	  
+     defaultNoteModifiers["bend"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "DryButton", checkButton);	  
-	  defaultNoteModifiers["dry"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "DryButton", checkButton);	  
+     defaultNoteModifiers["dry"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GlissKeysButton", checkButton);	  
-	  defaultNoteModifiers["glissKeys"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "GlissKeysButton", checkButton);	  
+     defaultNoteModifiers["glissKeys"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GlissStringResButton", checkButton);	  
-	  defaultNoteModifiers["glissStringRes"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "GlissStringResButton", checkButton);	  
+     defaultNoteModifiers["glissStringRes"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GraceTieButton", checkButton);	  
-	  defaultNoteModifiers["graceTie"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "GraceTieButton", checkButton);	  
+     defaultNoteModifiers["graceTie"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "LetVibrateButton", checkButton);	  
-	  defaultNoteModifiers["letVibrate"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "LetVibrateButton", checkButton);	  
+     defaultNoteModifiers["letVibrate"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "MoltoVibratoButton", checkButton);	  
-	  defaultNoteModifiers["moltoVibrato"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "MoltoVibratoButton", checkButton);	  
+     defaultNoteModifiers["moltoVibrato"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "MuteButton", checkButton);	  
-	  defaultNoteModifiers["mute"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "MuteButton", checkButton);	  
+     defaultNoteModifiers["mute"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PedalButton", checkButton);	  
-	  defaultNoteModifiers["pedal"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "PedalButton", checkButton);	  
+     defaultNoteModifiers["pedal"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PluckButton", checkButton);	  
-	  defaultNoteModifiers["pluck"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "PluckButton", checkButton);	  
+     defaultNoteModifiers["pluck"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PressSilentlyButton", checkButton);	  
-	  defaultNoteModifiers["pressSilently"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "PressSilentlyButton", checkButton);	  
+     defaultNoteModifiers["pressSilently"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "ResonanceButton", checkButton);	  
-	  defaultNoteModifiers["resonance"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "ResonanceButton", checkButton);	  
+     defaultNoteModifiers["resonance"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "ResPedalButton", checkButton);	  
-	  defaultNoteModifiers["resPedal"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "ResPedalButton", checkButton);	  
+     defaultNoteModifiers["resPedal"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "SfzButton", checkButton);	  
-	  defaultNoteModifiers["sfz"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "SfzButton", checkButton);	  
+     defaultNoteModifiers["sfz"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "SffzButton", checkButton);	  
-	  defaultNoteModifiers["sffz"] = checkButton->get_active();   
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "SffzButton", checkButton);	  
+     defaultNoteModifiers["sffz"] = checkButton->get_active();   
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "TenutoButton", checkButton);	  
-	  defaultNoteModifiers["tenuto"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "TenutoButton", checkButton);	  
+     defaultNoteModifiers["tenuto"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "TremoloButton", checkButton);	  
-	  defaultNoteModifiers["tremolo"] = checkButton->get_active();  
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "TremoloButton", checkButton);	  
+     defaultNoteModifiers["tremolo"] = checkButton->get_active();  
   
-    noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "VibratoButton", checkButton);	  
-	  defaultNoteModifiers["vibrato"] = checkButton->get_active();      
+     noteModifiersConfigurationDialogRefBuilder->get_widget(
+       "VibratoButton", checkButton);	  
+     defaultNoteModifiers["vibrato"] = checkButton->get_active();      
 
 
-    std::vector<CustomNoteModifierHBox*>::iterator iter =
-      customNotModifierHBoxes.begin();
-    customNoteModifiers.clear();
-    string modifierText;
-    for (iter; iter!= customNotModifierHBoxes.end(); iter++){
-      modifierText = (*iter)->getText();
-      if (modifierText != ""){
-        customNoteModifiers.push_back( (*iter)->getText());
-      }
-    }
+     std::vector<CustomNoteModifierHBox*>::iterator iter =
+       customNotModifierHBoxes.begin();
+     customNoteModifiers.clear();
+     string modifierText;
+     for (iter; iter!= customNotModifierHBoxes.end(); iter++){
+       modifierText = (*iter)->getText();
+       if (modifierText != ""){
+         customNoteModifiers.push_back( (*iter)->getText());
+       }
+     }
     
-    modified();
-    eventAttributesView->buildNoteModifiersList();
+     modified();
+     eventAttributesView->buildNoteModifiersList();
     
-  }
+   }
    
-  noteModifiersConfigurationDialog = NULL;
-  noteModifiersConfigurationCustomVBox = NULL;
+   noteModifiersConfigurationDialog = NULL;
+   noteModifiersConfigurationCustomVBox = NULL;
 
-  std::vector<CustomNoteModifierHBox*>::iterator iter2 =
-    customNotModifierHBoxes.begin();
-  for (iter2; iter2!= customNotModifierHBoxes.end(); iter2++){
-    delete (*iter2);
-  }  
-  customNotModifierHBoxes.clear();
+   std::vector<CustomNoteModifierHBox*>::iterator iter2 =
+     customNotModifierHBoxes.begin();
+   for (iter2; iter2!= customNotModifierHBoxes.end(); iter2++){
+     delete (*iter2);
+   }  
+   customNotModifierHBoxes.clear();
 }
+
+
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::ConfigureNoteModifiersAddButtonClicked(){
   CustomNoteModifierHBox* newHBox = new CustomNoteModifierHBox(this);
@@ -2375,8 +2324,10 @@ void ProjectViewController::ConfigureNoteModifiersAddButtonClicked(){
 }
 
 
+//---------------------------------------------------------------------------//
+
 CustomNoteModifierHBox::CustomNoteModifierHBox(
-  ProjectViewController* _projectView){
+                        ProjectViewController* _projectView){
   projectView = _projectView;
   label.set_text("Modifier Name: ");
   removeButton.set_label("Remove Modifier");
@@ -2388,8 +2339,10 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(
     (*this, &CustomNoteModifierHBox::removeButtonClicked));  
 }
 
+//---------------------------------------------------------------------------//
+
 CustomNoteModifierHBox::CustomNoteModifierHBox(
-  ProjectViewController* _projectView, string _string){
+  	ProjectViewController* _projectView, string _string){
   entry.set_text(_string);
   
   projectView = _projectView;
@@ -2402,20 +2355,30 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(
   removeButton.signal_clicked().connect(sigc::mem_fun
     (*this, &CustomNoteModifierHBox::removeButtonClicked));  
 
-  
 }
 
+
+//---------------------------------------------------------------------------//
 
 CustomNoteModifierHBox::~CustomNoteModifierHBox(){
 }
+
+
+//---------------------------------------------------------------------------//
 
 std::string CustomNoteModifierHBox::getText(){
   return entry.get_text();
 }
 
+
+//---------------------------------------------------------------------------//
+
 void CustomNoteModifierHBox::removeButtonClicked(){
   projectView->removeCustomNoteModifier(this);
 }
+
+
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::removeCustomNoteModifier(
   CustomNoteModifierHBox* _hbox){
@@ -2425,7 +2388,6 @@ void ProjectViewController::removeCustomNoteModifier(
     iter++;
   } 
    
-  
   customNotModifierHBoxes.erase(iter);
   noteModifiersConfigurationCustomVBox->remove(*_hbox);
   delete _hbox;
@@ -2434,6 +2396,7 @@ void ProjectViewController::removeCustomNoteModifier(
 }
 
 
+//---------------------------------------------------------------------------//
 
 void ProjectViewController::saveNoteModifierConfiguration(){
   std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
@@ -2458,7 +2421,6 @@ void ProjectViewController::saveNoteModifierConfiguration(){
   stringbuffer = stringbuffer + ">;\n"  ; 
   fputs(stringbuffer.c_str(),file);
   
-  
   if (customNoteModifiers.size() !=0){
   
     stringbuffer = "LASSIENOTECUSTOMMODIFIER = <";
@@ -2478,19 +2440,24 @@ void ProjectViewController::saveNoteModifierConfiguration(){
  
   fclose(file);
 
-  
 }
 
+
+//---------------------------------------------------------------------------//
 
 std::map<std::string, bool> ProjectViewController::getDefaultNoteModifiers(){
   return defaultNoteModifiers;
-
 }
+
+
+//---------------------------------------------------------------------------//
+
 std::vector<std::string> ProjectViewController::getCustomNoteModifiers(){
   return customNoteModifiers;
 }
 
 
+//--------------------------------------------------------------------------//
 
 void ProjectViewController::saveAs(std::string _newPathAndName){
   cout<<"'save as' is deprecated."<<endl;
@@ -2515,23 +2482,26 @@ void ProjectViewController::saveAs(std::string _newPathAndName){
 }
 
 
+//--------------------------------------------------------------------------//
+
 bool ProjectViewController::checkNameExists(string _name, EventType _type){
-	vector<IEvent*>::iterator iter = events.begin();
-	bool returnValue = false;
-	while (!returnValue && iter != events.end()){
+  vector<IEvent*>::iterator iter = events.begin();
+  bool returnValue = false;
+  while (!returnValue && iter != events.end()){
 
-		if ((*iter)->getEventName() == _name && (*iter)->getEventType() == _type){
-			returnValue = true;
-		}
+    if ((*iter)->getEventName() == _name && (*iter)->getEventType() == _type){
+      returnValue = true;
+    }
 
-		iter++;
-	} 
+    iter++;
+  } 
 
-	return returnValue;
+  return returnValue;
 
 }
 
 
+//--------------------------------------------------------------------------//
 
 void ProjectViewController::deleteObject(IEvent* _toDelete){
   modified();
@@ -2541,12 +2511,9 @@ void ProjectViewController::deleteObject(IEvent* _toDelete){
     iter++;
   }
   
-  
- 
   events.erase(iter);
   
   deletedEvents.push_back( _toDelete);
-  
   
   //check if the object is currently shown in the attributes view.
   if (_toDelete == eventAttributesView->getCurrentEvent()){
@@ -2554,6 +2521,9 @@ void ProjectViewController::deleteObject(IEvent* _toDelete){
   }
   
 }
+
+
+//--------------------------------------------------------------------------//
 
 void ProjectViewController::clearDeletedEvents(){
   std::vector <IEvent*>::iterator iter= deletedEvents.begin();
@@ -2623,18 +2593,16 @@ void ProjectViewController::clearDeletedEvents(){
   */
   deletedEvents.clear();
 
-
 }
 
 
-
-
-
+//----------------------------------------------------------------------------//
 
 std::string ProjectViewController::searchPossibleParents(string _fileName){
   //cout<<"_fileName is :"<<_fileName<<endl;
   string result = "";
   std::vector<IEvent*>::iterator iter= events.begin();
+
   for( iter; iter!= events.end(); iter++){
     
     if ((*iter)->haveString(_fileName)){
@@ -2645,8 +2613,6 @@ std::string ProjectViewController::searchPossibleParents(string _fileName){
   }
   
   return result;
-  
-  
 }
 
 
