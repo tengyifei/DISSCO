@@ -149,17 +149,15 @@ Event::Event(DOMElement* _element,
     DOMElement* areaElement = densityElement->GNES();
     DOMElement* underOneElement = areaElement->GNES();
     double density = utilities->evaluate( XMLTC(densityElement),(void*)this);
-    cout << "	numChildrenElement=" << numChildrenElement << " densityElement="
-	<< densityElement << endl;
     double area = utilities->evaluate( XMLTC(areaElement),(void*)this);
-    cout << "areaElement=" << areaElement << endl;
+//  cout << "areaElement=" << areaElement << endl;
     double underOne = utilities->evaluate( XMLTC(underOneElement),(void*)this);
     double soundsPsec = pow(2, density * area - underOne); //this can't be right..
-    cout<<"density:"<< density<<", area:"<<area<<", underOne:"<<underOne<<endl;  
+//  cout<<"density:"<< density<<", area:"<<area<<", underOne:"<<underOne<<endl;  
       
     //not sure which version is the correct one. ask sever  
     numChildren = (int)(soundsPsec * ts.duration + underOne/area);
-    cout << "     numChildren=" << numChildren << endl;
+//  cout << "     numChildren=" << numChildren << endl;
     //numChildren = (int)(soundsPsec * layerElements * ts.duration + 0.5);
     
   }
@@ -226,6 +224,9 @@ Event::Event(DOMElement* _element,
   
   
 }
+
+
+//----------------------------------------------------------------------------//
 
 string Event::getTempoStringFromDOMElement(DOMElement* _element){
   
@@ -338,6 +339,7 @@ string Event::getTempoStringFromDOMElement(DOMElement* _element){
 }
 
 
+//----------------------------------------------------------------------------//
 
 string Event::getTimeSignatureStringFromDOMElement(DOMElement* _element){
 /*
@@ -361,6 +363,9 @@ string Event::getTimeSignatureStringFromDOMElement(DOMElement* _element){
   
   return returnString;
 }
+
+
+//----------------------------------------------------------------------------//
 
 void Event::buildChildren(){
   if (utilities->getOutputParticel()){
@@ -443,8 +448,27 @@ void Event::buildChildren(){
   //For each child that was created, build its children.
   for(int i = 0; i < childEvents.size(); i++){
     //overload in bottom
+	/*
+		RISKY METHOD 1
+
+		If we are to stop the generation here
+		call new method childEvents[i]->buildEmptyChildren()
+			in place of buildChildren,
+		then 
+		
+		!!! REFACTOR THIS INTO A SINGLE CALLABLE METHOD !!!
+		if (soundSynthesis){
+    		MultiTrack* renderedScore = utilities->doneCMOD();
+			!!! REPLACE GET NEXT SOUND FILE WITH A NEW NAMING METHOD !!!    		
+			string soundFilename = getNextSoundFile();
+    		//Write to file.
+    		AuWriter::write(*renderedScore, soundFilename);
+    		delete renderedScore;
+  		}
+	*/
     childEvents[i]->buildChildren();
-    delete childEvents[i];
+    //TODO: DELETE ELSEWHERE. Cleanup should probably be done after execution.
+		delete childEvents[i];
   }
   
   if (utilities->getOutputParticel()){
@@ -454,6 +478,26 @@ void Event::buildChildren(){
   }
 }
 
+//----------------------------------------------------------------------------//
+void Event::findLeafChildren(vector<Event*> & leafChildren){
+	if(childEvents.size() == 0){
+		cout << "FOUND A LEAF: " << name << endl;
+		leafChildren.push_back(this);
+	}
+	else{
+		cout << "numchildren: " << childEvents.size() 
+                     << "----Non-Leaf----: " << name << endl;
+	}
+	for(int i = 0; i < childEvents.size(); i++){
+		cout << "Before a dereference in findLeafChildren in " << name << endl;
+		if(childEvents[i]!=NULL)
+			childEvents[i]->findLeafChildren(leafChildren);
+		cout << "Finished a dereference line. " << endl;
+	}
+}
+
+
+//-----------------------------------------------------------------------------
 
 bool Event::buildContinuum() {
 
@@ -556,6 +600,9 @@ bool Event::buildContinuum() {
   }
   return true; //success!
 }
+
+
+//----------------------------------------------------------------------------//
 
 bool Event::buildSweep() {
   // find start time and dur of last child
@@ -694,6 +741,8 @@ bool Event::buildSweep() {
 }
 
 
+//----------------------------------------------------------------------------//
+
 void Event::addTemporaryXMLParser(XercesDOMParser* _parser){
   temporaryXMLParsers.push_back( _parser);
 }
@@ -707,9 +756,14 @@ void Event::addPattern(std::string _string, Patter* _pat){
   patternStorage.push_back(n);  
 }
 
+
+//---------------------------------------------------------------------------//
+
 Event::~Event() {
   
-  //if ( modifiersIncludingAncestorsElement!=NULL) delete modifiersIncludingAncestorsElement; //turns out that clone dom node is not created in heap
+  //if ( modifiersIncludingAncestorsElement!=NULL) 
+  //  			delete modifiersIncludingAncestorsElement; 
+//turns out that clone dom node is not created in heap
   for (int i = 0; i < temporaryXMLParsers.size(); i++){
     delete temporaryXMLParsers[i];
   }
@@ -723,6 +777,7 @@ Event::~Event() {
   if ( discreteMat != NULL) delete discreteMat;  
 }
 
+
 //----------------------------------------------------------------------------//
 //Checked
 
@@ -730,19 +785,29 @@ void* waitForDiscreteResponse(void* _event){
   Event* event = (Event*) _event;
   string response = "";
   cin >>response;
+	string * retval = new string(response);
+	
   event->setDiscreteFailedResponse(response);
-  return NULL;
+  return (void *) retval;
 }
 
+
+//----------------------------------------------------------------------------//
+//Checked
+
 void Event::tryToRestart(void) {
+  cout << "Event::tryToRestart - restartsRemaining=" << restartsRemaining << endl;
   //Decrement restarts, or if there are none left, ask for fewer children.
   if(restartsRemaining > 0) {
     restartsRemaining--;
     cout << "Failed to build child " << currChildNum << " of " << numChildren
       << " in file " << name << ". There are " << restartsRemaining 
       << " tries remaining." << endl;
+    int sever; cin >> sever;
   } else {
     //Ask for permission to build with less children.
+    cout << "Event::tryToRestart - currChildNum=" << currChildNum 
+         << " numChildren=" << numChildren << endl;
     cerr << "No tries remain. Try building with one less child? (Y/n)" << endl;
     
     bool inputAccepted = false;
@@ -750,9 +815,10 @@ void Event::tryToRestart(void) {
     while (!inputAccepted){
       discreteFailedResponse = "";
       pthread_create(&discreteWaitForInputIfFailedThread, NULL, waitForDiscreteResponse, (void*) this);
-    
-      int counter = 30;
-    
+			void * myfail;
+      pthread_join(discreteWaitForInputIfFailedThread, &myfail);
+			string thisfail = *((string *)myfail);
+      /*int counter = 30;
       while (counter != 0){
         if (discreteFailedResponse !=""){
           break;
@@ -760,21 +826,24 @@ void Event::tryToRestart(void) {
         cout<<" Seconds before default action: "<< counter<<"\r"<< flush;
         sleep(1);
         counter --;
-      }
+      }*/
       
       //warning! memory leak here! There is a problem killing thread waiting for cin. need to figure this out. 
       // --Ming-ching May 06, 2013)
-      pthread_cancel(discreteWaitForInputIfFailedThread);
+      //pthread_cancel(discreteWaitForInputIfFailedThread);
       
-      answer = (counter ==0)? "y" : discreteFailedResponse;
+      //answer = (counter ==0)? "y" : discreteFailedResponse;
+			answer = thisfail;
+			delete ((string*)myfail);
       if (answer == "y" || answer == "Y" || answer =="n" || answer == "N") inputAccepted = true; 
       else {
         cout<<"Please enter 'y' or 'n'."<<endl;
       }
      
     }
-    if (answer == "n"|| answer == "N") exit(1);
-    
+    if (answer == "n"|| answer == "N") {		
+			exit(1);
+    }
     //Build with one less child.
     numChildren--; cerr << "Changed numChildren to " << numChildren << endl;
     
@@ -783,13 +852,18 @@ void Event::tryToRestart(void) {
   }
   
   //Start over by clearing the event arrays and resetting the for-loop index.
-  currChildNum = 0;    
+	// NOTE: SHOULD BE -1
+  currChildNum = -1;    
   for (int i = 0; i < childEvents.size(); i++)
     delete temporaryChildEvents[i];
   temporaryChildEvents.clear();
+
+  //Clear the temporary event list.
+  childSoundsAndNotes.clear();			//sever 5/29/2016
   
   patternStorage.clear();
 }
+
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -931,7 +1005,7 @@ void Event::checkEvent(bool buildResult) {
   DOMElement* childElement = utilities->getEventElement(childEventType, childEventName);
 
   Event* e;
-  if (childEventType==eventBottom){
+  if (childEventType == eventBottom){
     e = (Event*)   new Bottom(childElement, tsChild, childType, tempo, utilities,
                 spatializationElement, reverberationElement, filterElement, modifiersIncludingAncestorsElement);
     
@@ -942,13 +1016,22 @@ void Event::checkEvent(bool buildResult) {
     }
   }
   
-  else if (childEventType==eventSound){
-    childSoundsAndNotes.push_back(new SoundAndNoteWrapper(childElement,tsChild, childType, tempo));
+  else if (childEventType == eventSound || childEventType == eventNote){
+    cout << "checkEvent - childType=" << childType << " tsChild.start="
+         << tsChild.start << " childEventName " << childEventName << endl;
+    childSoundsAndNotes.push_back(new SoundAndNoteWrapper
+		  (childElement,tsChild, childEventName, childType, tempo));
   }
-  
+/*
+  else if (childEventType == eventNote) {
+    childSoundsAndNotes.push_back(new SoundAndNoteWrapper
+				    (childElement,tsChild, childType, tempo));
+  }
+*/
   else {
     e = new Event( childElement, tsChild, childType, tempo, utilities,
-                  spatializationElement, reverberationElement, filterElement, modifiersIncludingAncestorsElement);
+                  spatializationElement, reverberationElement, filterElement,
+		    modifiersIncludingAncestorsElement);
     if(tsChild.startEDU.isDeterminate()){
       //cout<<"Child start EDU is determinate."<<endl;
       e->tempo = tempo;
@@ -980,6 +1063,7 @@ void Event::outputProperties() {
   Output::addProperty("EDU Duration", tempo.getEDUDurationInSeconds(), "sec.");
 }
 
+
 //----------------------------------------------------------------------------//
 //Checked
 
@@ -996,6 +1080,7 @@ list<Note> Event::getNotes() {
   return result;
 }
 
+
 //----------------------------------------------------------------------------//
 //Checked
 
@@ -1008,6 +1093,7 @@ int Event::getCurrentLayer() {
   }
   cerr << "Unable to get layer number in file " << name << endl; exit(1);
 }
+
 
 //----------------------------------------------------------------------------//
 //Checked
@@ -1052,6 +1138,7 @@ int Event::getAvailableEDU()
   return quantizedEDUs;
 };
 
+
 //----------------------------------------------------------------------------//
 //Checked
 
@@ -1067,6 +1154,7 @@ string Event::getEDUDurationExactness(void) {
     return "No";
 }
 
+
 //----------------------------------------------------------------------------//
 //Checked
 
@@ -1080,6 +1168,7 @@ string Event::unitTypeToUnits(string type) {
   else
     return "";  
 }
+
 
 //----------------------------------------------------------------------------//
 
@@ -1164,10 +1253,15 @@ bool Event::buildDiscrete() {
     }
    
     //FINALLY, create the matrix
-    discreteMat = new Matrix(childTypeElements.size(), attackSiv->GetNumItems(), 
-                           durSiv->GetNumItems(), 0.0, numTypesInLayers);
+
+   int parentEDUs = atoi(tempo.getEDUPerSecond() * ts.duration);
+//  cout << "	parentEDUs=" << parentEDUs << endl;
+//  int sever; cin >> sever;
+
+    discreteMat = new Matrix(childTypeElements.size(), attackSiv->GetNumItems(),
+         durSiv->GetNumItems(), 0.0, numTypesInLayers, parentEDUs);
     discreteMat->setAttacks(attackSiv, attackEnvs);
-    discreteMat->setDurations(durSiv, durEnvs);
+    discreteMat->setDurations(durSiv, durEnvs, parentEDUs);
     discreteMat->setTypeProbs(typeProbs);
 
     delete attackSiv;
@@ -1182,7 +1276,6 @@ bool Event::buildDiscrete() {
     }
     durEnvs.clear();
   }
-  
  
   // get something out of the matrix
   childPt  = discreteMat->chooseM(numChildren - currChildNum - 1);
@@ -1232,6 +1325,7 @@ bool Event::buildDiscrete() {
   }
 
   //Return success.
+
   return true;
 }
 

@@ -55,10 +55,10 @@ string Sieve::getFileName() {
 void Sieve::Build(int minVal, int maxVal, 
 
                   const char *eMethod, const char *wMethod, 
-                  vector<int> eArgVect, vector<int> wArgVect, vector<int> offsetVector) {
+                  vector<int> eArgVect, vector<int> wArgVect, vector<int> offsetVect) {
                   
-  Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVector);
-  Sieve::Weights(wMethod, wArgVect);
+  Sieve::Elements(minVal, maxVal, eMethod, eArgVect, offsetVect);
+  Sieve::Weights(eArgVect, wMethod, wArgVect, offsetVect);
 
 }      
 
@@ -115,17 +115,12 @@ int Sieve::ChooseL() {
 
   list<int>::iterator eIter = eList.begin();
   list<double>::iterator wIter = wList.begin();
-/*
-    cout << "SIEVE::CHOOSEL  --- Random num = " << randomNumber << endl;
-    cout << "                --- eList = " << *eIter << ", wList = " << *wIter << endl;
-*/
+
   while (eIter != eList.end() && (randomNumber > *wIter)) {
     eIter++;
     wIter++;
-//    cout << "                --- eList = " << *eIter << ", wList = " << *wIter << endl;
   }
 
-//  cout << "SIEVE::CHOOSEL  --- picked " << *eIter << endl;
   return *eIter;
 }
 
@@ -134,12 +129,12 @@ int Sieve::ChooseL() {
 
 void Sieve::Elements(int minVal, int maxVal, 
                      const char *method, 
-                     vector<int> eArgVect, std::vector<int> offsetVector) {
+                     vector<int> eArgVect, std::vector<int> offsetVect) {
 
   if(strcmp(method, "MEANINGFUL") == 0) {		//only meaningful elem.
-    Sieve::Meaningful(minVal, maxVal, eArgVect, offsetVector);
+    Sieve::Meaningful(minVal, maxVal, eArgVect, offsetVect);
   } else if(strcmp(method, "MODS") == 0) {		//uses moduli
-    Sieve::Multiples(minVal, maxVal, eArgVect, offsetVector);
+    Sieve::Multiples(minVal, maxVal, eArgVect, offsetVect);
   } else if(strcmp(method, "FAKE") == 0) {		//all elem, same weight
     Sieve::Fake(minVal, maxVal);
   } else if(strcmp(method, "FIBONACCI") == 0) {       	//Fibonacci sieve
@@ -161,13 +156,15 @@ void Sieve::Elements(int minVal, int maxVal,
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Weights(const char *method, 
-                    vector<int> wArgVect) {
+void Sieve::Weights(std::vector<int> eArgVect,
+		    const char *method, 
+                    std::vector<int> wArgVect, 
+		    std::vector<int> offsetVect) {
   if(strcmp(method, "PERIODIC") == 0) {
   
     Sieve::PeriodicWeights(wArgVect);
   } else if(strcmp(method, "HIERARCHIC") == 0) {
-    Sieve::HierarchicWeights(wArgVect);
+    Sieve::HierarchicWeights(eArgVect, wArgVect, offsetVect);
   } else if(strcmp(method, "INCLUDE") == 0) {
     Sieve::IncludeWeights(wArgVect);
   } else {
@@ -179,15 +176,15 @@ void Sieve::Weights(const char *method,
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, std::vector<int> offsetVector) {
+void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, std::vector<int> offsetVect) {
   skip = 0;
 
   for (int i = 0; i < eArgVect.size(); i++) {
-    if( (eArgVect[i]+ offsetVector[i]) >= minVal && (eArgVect[i] + offsetVector[i]) <= maxVal) {      
-      eList.push_back( eArgVect[i] + offsetVector[i] );
+    if( (eArgVect[i]+ offsetVect[i]) >= minVal && (eArgVect[i] + offsetVect[i]) <= maxVal) {      
+      eList.push_back( eArgVect[i] + offsetVect[i] );
     }
 
-    if(eArgVect[i] + offsetVector[i]< minVal) {
+    if(eArgVect[i] + offsetVect[i]< minVal) {
       skip++;
     }
   }
@@ -198,27 +195,25 @@ void Sieve::Meaningful(int minVal, int maxVal, vector<int> eArgVect, std::vector
 
 //---------------------------------------------------------------------------//
 
-void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, std::vector<int> offsetVector) {
+void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, std::vector<int> offsetVect) {
   int element, modulo;
 
   eList.clear();
 
   skip = 0;
-
-
-/*cout << "Sieve::Multiples - numMods=";
+/*
   for (int q = 0; q < numMods.size(); q++){
   cout << numMods[q] << ", ";
   }
-  cout << endl;*/
-
+  cout << endl;
+*/
   for (int i = 0; i < numMods.size(); i++) {
   
-    if (minVal == 0 && offsetVector[i] >=0) { //put 0 in the list if minVal ==0 and at least one of the offset is 0
-      eList.push_back(offsetVector[i]);
+    if (minVal == 0 && offsetVect[i] >=0) { //put 0 in the list if minVal ==0 and at least one of the offset is 0
+      eList.push_back(offsetVect[i]);
     }
-  
-    int newElement = numMods[i] + offsetVector[i];
+
+    int newElement = numMods[i] + offsetVect[i];
 
     while (newElement <= maxVal) {
       if ( newElement >= minVal ) {
@@ -234,8 +229,6 @@ void Sieve::Multiples(int minVal, int maxVal, vector<int> numMods, std::vector<i
 
   eList.sort(); // sort into ascending order
   eList.unique();  //remove consecutive duplicate values
-  //cout << "             Sieve::Multiples - the eList sieve:" << endl;
-  //eList.Print();
 }
 
 //---------------------------------------------------------------------------//
@@ -268,27 +261,33 @@ void Sieve::PeriodicWeights(vector<int> wArgVect) {
 
 //---------------------------------------------------------------------------//
 
-void Sieve::HierarchicWeights(vector<int> wArgVect) {
-  int level;
+void Sieve::HierarchicWeights(std::vector<int> eArgVect, 
+				std::vector<int> wArgVect,
+				std::vector<int> offsetVect) {
+  int whichMod;
   double probability;
 
-//for(int count = 0; count < wArgVect.size(); count++) { see note above)
-  for(int count = 0; count < eList.size(); count++) {
-    level = 0;
+  list<int>::iterator eIter = eList.begin();
+  list<double>::iterator wIter = wList.begin();
+
+  while (eIter != eList.end()) {
+    whichMod = 0;
     probability = 0;
 
-    while (level < wArgVect.size()) {
+    while (whichMod < wArgVect.size()) {
 
-      if(count % wArgVect [level] == 0) {
-         probability += wArgVect [level]; 
+      if((*eIter - offsetVect[whichMod]) % eArgVect[whichMod] == 0) {
+         probability += wArgVect[whichMod];
       }
-      level++; 
+      whichMod++;
     }
 
-    if(count >= skip && count < eList.size() + skip) {
-      wList.push_back(probability);
-    }
+    wList.push_back(probability);
+
+    eIter++;
+    wIter++;
   }
+  Sieve::CumulWeights();
 }
 
 //---------------------------------------------------------------------------//

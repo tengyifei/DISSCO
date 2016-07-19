@@ -36,18 +36,30 @@ OutputNode::~OutputNode()
   subNodes.clear();
 }
 
+
+//----------------------------------------------------------------------------//
+
 bool OutputNode::isBottom(void) {
   return (nodeName[0] == 'B' && nodeName[1] == '/');
 }
+
+
+//----------------------------------------------------------------------------//
 
 bool OutputNode::isNote(void) {
   return (nodeName == "Note");
 }
 
+
+//----------------------------------------------------------------------------//
+
 bool OutputNode::isBuildPhase(void) {
   string n = nodeName;
   return (n == "Sweep" || n == "Continuum" || n == "Discrete");
 }
+
+
+//----------------------------------------------------------------------------//
 
 void OutputNode::addProperty(string name, string value, string units)
 {
@@ -56,12 +68,18 @@ void OutputNode::addProperty(string name, string value, string units)
   propertyUnits.push_back(units);
 }
 
+
+//----------------------------------------------------------------------------//
+
 string OutputNode::getProperty(string name) {
   for(unsigned int i = 0; i < propertyNames.size(); i++)
     if(sanitize(propertyNames[i]) == sanitize(name))
       return propertyValues[i];
   return "";
 }
+
+
+//----------------------------------------------------------------------------//
 
 string OutputNode::getXML(void) {
   string s;
@@ -92,6 +110,9 @@ string OutputNode::getXML(void) {
   s += ">\n";
   return s;
 }
+
+
+//----------------------------------------------------------------------------//
 
 void OutputNode::getFOMUS(vector<Tempo>& tempos, vector<string>& fomusdata) {  
   if(!isBottom()) {
@@ -135,11 +156,17 @@ void OutputNode::getFOMUS(vector<Tempo>& tempos, vector<string>& fomusdata) {
   }
 }
 
+
+//----------------------------------------------------------------------------//
+
 string OutputNode::findAndReplace(string in, string needle, string replace) {
   while(in.find(needle) != string::npos)
     in.replace(in.find(needle), needle.length(), replace);
   return in;
 }
+
+
+//----------------------------------------------------------------------------//
 
 string OutputNode::sanitize(string name) {
   name = findAndReplace(name, " ", "");
@@ -147,10 +174,16 @@ string OutputNode::sanitize(string name) {
   return name;
 }
 
+
+//----------------------------------------------------------------------------//
+
 void Output::writeLineToParticel(string line) {
   if(!particelFile) return;
   *particelFile << line << endl;
 }
+
+
+//----------------------------------------------------------------------------//
 
 string Output::getLevelIndentation(bool isProperty, bool isEndLevel) {
   string indentation;
@@ -162,9 +195,15 @@ string Output::getLevelIndentation(bool isProperty, bool isEndLevel) {
   return indentation;
 }
   
+
+//----------------------------------------------------------------------------//
+
 string Output::getPropertyIndentation(void) {
   return getLevelIndentation(true, false) + ". ";
 } 
+
+
+//----------------------------------------------------------------------------//
 
 void Output::initialize(string particelFilename) {
   top = 0;
@@ -177,11 +216,17 @@ void Output::initialize(string particelFilename) {
   }
 }
 
+
+//----------------------------------------------------------------------------//
+
 void Output::free(void)
 {
   delete top;
   delete particelFile;
 }
+
+
+//----------------------------------------------------------------------------//
 
 OutputNode* Output::getCurrentLevelNode(void) {
   if(!top)
@@ -192,6 +237,9 @@ OutputNode* Output::getCurrentLevelNode(void) {
     currentNode = currentNode->subNodes.back();
   return currentNode;
 }
+
+
+//----------------------------------------------------------------------------//
 
 void Output::beginSubLevel(string name) {
   if(!top)
@@ -204,6 +252,9 @@ void Output::beginSubLevel(string name) {
   writeLineToParticel(getLevelIndentation(false, false) + 
     getCurrentLevelNode()->nodeName);
 }
+
+
+//----------------------------------------------------------------------------//
 
 void Output::addProperty(string name, string value, string units) {
   OutputNode* current = getCurrentLevelNode();
@@ -220,12 +271,18 @@ void Output::addProperty(string name, string value, string units) {
   writeLineToParticel(stringToWrite);
 }
 
+
+//----------------------------------------------------------------------------//
+
 void Output::endSubLevel(void) {
   //Before closing level immediately write to particel.
   writeLineToParticel(getLevelIndentation(false, true) + "End " + 
     getCurrentLevelNode()->nodeName);
   level--;
 }
+
+
+//----------------------------------------------------------------------------//
 
 void Output::exportToXML(string filename) {
   ofstream* xmlFile;
@@ -235,6 +292,9 @@ void Output::exportToXML(string filename) {
   xmlFile->open(filename.c_str());
   *xmlFile << top->getXML();
 }
+
+
+//----------------------------------------------------------------------------//
 
 void Output::exportToFOMUS(string filenamePrefix) {
   if(filenamePrefix == "")

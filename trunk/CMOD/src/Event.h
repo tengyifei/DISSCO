@@ -58,27 +58,36 @@ public:
 };
 
 
-//this class is used for bottom to construct its children
+/**
+* this class is used for bottom to construct its children
+**/
 class SoundAndNoteWrapper{
 public:
   Tempo tempo;
   TimeSpan ts;
+  string name;
   int type;
   // this is the element of the spectrum if the bottom event is a sound 
+  // or of the note
   DOMElement* element; 
   
   SoundAndNoteWrapper(DOMElement* _element,
                       TimeSpan _ts, 
+		      string _name,
                       int _type, 
                       Tempo _tempo ):
     ts(_ts),
     type(_type),
+    name(_name),
     element(_element),
     tempo (_tempo){}
 
 };
 
 
+/**
+*
+**/
 class Event {
 public:
     //---------------------------- Information -------------------------------//
@@ -107,7 +116,8 @@ public:
     DOMElement* filterElement;
     DOMElement* modifiersElement;
     
-    //This Element is created by the Event, not the parser. It is passed to the children and needs to be deleted once the event is done. 
+    //This Element is created by the Event, not the parser. It is passed to the 
+    // children and needs to be deleted once the event is done. 
     DOMElement* modifiersIncludingAncestorsElement; 
     
     // Storage for temporary parsers. For evaluating objects, XML parsers are
@@ -219,7 +229,7 @@ protected:
     /**
     * This is the constructor for new CMOD model
     *
-    */
+    **/
     
     Event(DOMElement* _element,
           TimeSpan _timeSpan, 
@@ -231,6 +241,14 @@ protected:
           DOMElement* _ancestorFil,
           DOMElement* _ancestorModifiers);
     
+
+	/**
+     * NEW FUNCTION 2_23_16 NEEDS TESTING
+	 * Finds and prints (right now) all leaf events
+	 * TO BE USED ONLY AFTER THE BUILD HAS COMPLETED.
+	 */
+    void findLeafChildren(vector<Event*> &leafChildren);
+
     /**
     *   buildChildren. Builds sub-events from parsed information and 
     *   information already set for this event.
@@ -280,13 +298,13 @@ protected:
     double getPreviousChildDuration(){ return previousChildDuration;}
 
     /**
-     *  Returns the number of current partial -- will call to bottom in most cases
-     **/
+    *  Returns the number of current partial -- will call to bottom in most cases
+    **/
     virtual int getCurrPartialNum() {return 0;};
 
     /**
-     *  Return this events duration in EDU
-     **/
+    *  Return this events duration in EDU
+    **/
     int getAvailableEDU();
     
     /**
@@ -295,9 +313,10 @@ protected:
     **/
     double getCheckPoint() {return checkPoint;};
 
- 
 
-    ///Checks the event to see if it was built successfully.
+    /**
+    * Checks the event to see if it was built successfully.
+    **/
     void checkEvent(bool buildResult);
 
     /**
@@ -306,29 +325,31 @@ protected:
     virtual void outputProperties();
 
     /**
-     * Adds pointers to any notes in this Event (or any children) to a vector
-     * \param noteVect a reference to a vector of notes
-     **/
+    * Adds pointers to any notes in this Event (or any children) to a vector
+    *
+    * \param noteVect a reference to a vector of notes
+    **/
     virtual list<Note> getNotes();
     
     /**
-     * gives the ownership of the temporary XML parser to the event.
-     **/
+    * gives the ownership of the temporary XML parser to the event.
+    **/
     void addTemporaryXMLParser(XercesDOMParser* _parser);
     
     /**
-     * gives the ownership of the pattern to the event.
-     **/
+    * gives the ownership of the pattern to the event.
+    **/
     void addPattern(std::string _string, Patter* _pat);
     
     /**
-     * todo: incomplete function
-     **/
+    * todo: incomplete function
+    **/
     void setDiscreteFailedResponse(string _input)
       { discreteFailedResponse = _input;}
 
   //------------- Private helper functions  ------------//
   protected:
+
     /**
     *  Method for determining the EDU-wise exactness of the duration. Returns
     *  "Yes", "No", or "Almost". "Almost" occurs when the EDU duration is
@@ -338,6 +359,7 @@ protected:
     *  for all other case (i.e., when there are 3.2 EDU for the total duration).
     **/
     string getEDUDurationExactness(void);
+
     /**
     *  Method for assigning float values for stimeSec and duration using
     *  continuos (stochastic) distributions and int value for type - 
@@ -365,10 +387,14 @@ protected:
     **/
     bool buildDiscrete();
     
-    ///Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
+    /**
+    *  Converts "SECONDS" to "sec.", "PERCENTAGE" to "%", etc.
+    **/
     string unitTypeToUnits(string type);
     
-    //helper functions
+    /**
+    *  helper functions
+    **/
     string getTempoStringFromDOMElement(DOMElement* _element);
     string getTimeSignatureStringFromDOMElement(DOMElement* _element);
     

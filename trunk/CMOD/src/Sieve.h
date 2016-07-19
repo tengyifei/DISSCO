@@ -88,7 +88,7 @@ class Sieve {
     **/
     void Build(int minVal, int maxVal, 
                const char *eMethod, const char *wMethod, 
-               std::vector<int> eArgVect, std::vector<int> wArgVect, std::vector<int> offsetVector);
+               std::vector<int> eArgVect, std::vector<int> wArgVect, std::vector<int> offsetVect);
 
     /**
     *  FillInVectors calls CumulWeights to normalize and and add the result in 
@@ -136,7 +136,7 @@ class Sieve {
     **/
     void Elements(int minVal, int maxVal, 
                   const char *method, 
-                  std::vector<int> eArgVect,std::vector<int> offsetVector);
+                  std::vector<int> eArgVect,std::vector<int> offsetVect);
 
     /**
     *  Weights assigns weights to be stored in a linkList of doubles.
@@ -144,8 +144,10 @@ class Sieve {
     *  \param method method of assigning weights
     *  \param wArgVect vector of ints contains info about weights
     **/
-    void Weights(const char *method, 
-                 std::vector<int> wArgVect);
+    void Weights(std::vector<int> eArgVect, 
+		 const char *method, 
+                 std::vector<int> wArgVect,
+		 std::vector<int> offsetVect);
 
     /**
     *  Meaningful makes a list of elements which are meaningful (pre-
@@ -155,7 +157,7 @@ class Sieve {
     *  \param eArgVect list of available values
     *  \param offsetVector offset of elements
     **/
-    void Meaningful(int minVal, int maxVal, std::vector<int> eArgVect, std::vector<int> offsetVector); 
+    void Meaningful(int minVal, int maxVal, std::vector<int> eArgVect, std::vector<int> offsetVect); 
 
     /**
     *  Multiples makes a linkList of multiples of given moduli numbers
@@ -166,7 +168,7 @@ class Sieve {
     *  \param offsetVector offset of elements
     **/
     void Multiples(int minVal, int maxVal, 
-                   std::vector<int> numMods, std::vector<int> offsetVector);
+                   std::vector<int> numMods, std::vector<int> offsetVect);
 
     /**
     *  Fake.  Lists all elemets within a given range. 
@@ -190,7 +192,9 @@ class Sieve {
     *  equivalence class and stores them in the wList linkList.
     *  \param wArgVector vector of ints contains info about weights
     **/
-    void HierarchicWeights(std::vector<int> wArgVect);
+    void HierarchicWeights(std::vector<int> eArgVect, 
+			   std::vector<int> wArgVect,
+			   std::vector<int> offestVect);
 
     /**
     *  IncludeWeights reads weights corresponding to a list of elements.

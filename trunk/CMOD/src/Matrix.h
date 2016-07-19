@@ -22,6 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 //   matrix.h
 // 
+//   Builds a three-dimmensional matrix (types * stimes * durations) containing
+//   probabilities of occurrence of candidate events.  It normalizes the matrix,
+//   chooses an event, and modifies the Matrix after each choice.
+//					(initial version: Ryan Cavis)
+//
 //   Used to build a two-dimenssional matrix (representing probabilities
 //   of occurrence) from input data and to modify it after each choice
 //   (decision).
@@ -56,10 +61,15 @@ class Matrix {
 
     /**
     *  Constructor.
-    *  \param 
+    *  \param numTypes
+    *  \param numAttacks
+    *  \param numDurations
+    *  \param init - initiates the building of matrix
+    *  \param numTypesInLayers
+    *  \param maxVal - limit for the last duration (endDur) allowed by the parent
     **/
     Matrix(int numTypes, int numAttacks, int numDurations, 
-           double init, vector<int> numTypesInLayers);
+           double init, vector<int> numTypesInLayers, int maxVal);
 
     /**
     *  Matrix Copy Constructor
@@ -77,22 +87,38 @@ class Matrix {
     ~Matrix();
 
     /**
-     *  
+     *  Uses the sieve defining the stimes and the envelopes corresponding to
+     *  each type of each layer to set probabilities of occurrence for each
+     *  stime at each layer.
+     *  \param Sieve* attackSieve
+    *  \param vector<Envelope*> attackEnvs
     **/
     void setAttacks(Sieve* attackSieve, vector<Envelope*> attackEnvs);
 
     /**
-     *  
+     *  Uses the sieve defining possible durationsand the envelopes 
+     *  corresponding to each type of each layer to set probabilities of 
+     *  occurrence for each duration at each layer.
+     *  \param Sieve* durSieve
+     *  \param vector<Envelope*> durEnvs
+     *  \param maxVal - limit for the last duration (endDur) allowed by the parent
      **/
-    void setDurations(Sieve* durSieve, vector<Envelope*> durEnvs);
+    void setDurations(Sieve* durSieve, vector<Envelope*> durEnvs, int maxVal);
 
     /**
-     *  
+     *  Sets the probabilities of occurrence for each type
+     *  \param vector<double> typeProbVect
      **/
     void setTypeProbs(vector<double> typeProbVect);
 
     /**
-     *  
+     *  Chooses a matrix location corresponding to an event of type, stime, and
+     *  duration by matching its probability to a random number with the help 
+     *  of the MatPoint structure. It calls:
+     *				normalizeMatrix
+     *				removeConflicts
+     *				recomputeTypeProbs
+     *  \param remain	- remaining number of children to build
      **/
     MatPoint chooseM(int remain);
 
@@ -102,9 +128,32 @@ class Matrix {
     void printMatrix(bool normalized);
 
   private:
+
+  /**
+   *  Normalizes the matrix by adding all individual probabilities and
+   *  dividing each of them by their sum.
+  **/
     bool normalizeMatrix();
-    void recomputeTypeProbs(int chosenType, int remaining);
+ 
+  /**
+   *  Eliminates possible future conflicts in the matrix by setting 
+   *  probabilities to 0 for locations already in selected.
+   *  \param choosenPt 	- choosen location in the array
+  **/
     void removeConflicts(MatPoint chosenPt);
+
+  /**
+   *  Adjusts the probabilitie of all types to reflect the last choice and
+   *  the number of children stiil to build.
+   *  \param chosenType  - type of the last chosen matrix element
+   *  \param remaining   - remaining number of children to build
+  **/
+    void recomputeTypeProbs(int chosenType, int remaining);
+
+
+//-----------------------------------------------------------------------------
+
+// 	$$$ The following are deprecated methods used for the old 2D matrix $$$
 
     /**
     *  Gets the value of the first subscript of the matrix
