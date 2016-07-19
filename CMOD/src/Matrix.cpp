@@ -33,7 +33,7 @@ extern EnvelopeLibrary envlib;
 //----------------------------------------------------------------------------//
 
 Matrix::Matrix(int numTypes, int numAttacks, int numDurations, 
-               double init, vector<int> numTypesInLayers) {
+               double init, vector<int> numTypesInLayers, int maxVal) {
   matr.clear();
 
   matr.resize(numTypes);
@@ -109,6 +109,10 @@ void Matrix::setAttacks(Sieve* attackSieve, vector<Envelope*> attackEnvs) {
     for (int attNum = 0; attNum < matr[type].size(); attNum++) {
       // do for each attack
       double attackSieveValue = attProbs[attNum];
+
+//    cout << "Matrix::setAttacks - attNum=" << attNum << " attackSieveValue=" 
+//         << attackSieveValue << endl;
+
       if (attNum < 0 || attNum >= matr[type].size()) {
         cerr << "Matrix::setAttacks -- error - getValue out of bounds;" << endl;
         cerr << "  attNum=" << attNum << ", matr[type].size()=" 
@@ -122,6 +126,11 @@ void Matrix::setAttacks(Sieve* attackSieve, vector<Envelope*> attackEnvs) {
         matr[type][attNum][durNum].attdurprob += attackSieveValue;
         matr[type][attNum][durNum].attdurprob *= attackEnvValue;
         matr[type][attNum][durNum].stime = attackStime;
+/*
+        cout << "Matrix::setAttacks - matr[" << type << "][" << attNum << "][" 
+             << durNum << "].attdurprob=" << matr[type][attNum][durNum].attdurprob 
+             << endl;
+*/
       }
     }
   }
@@ -129,7 +138,7 @@ void Matrix::setAttacks(Sieve* attackSieve, vector<Envelope*> attackEnvs) {
 
 //----------------------------------------------------------------------------//
 
-void Matrix::setDurations(Sieve* durSieve, vector<Envelope*> durEnvs) {
+void Matrix::setDurations(Sieve* durSieve, vector<Envelope*> durEnvs, int maxVal) {
   vector<int> durTimes;
   vector<double> durProbs;
   durSieve->FillInVectors(durTimes, durProbs);
@@ -176,14 +185,14 @@ void Matrix::setDurations(Sieve* durSieve, vector<Envelope*> durEnvs) {
         durEnd = matr[type][attNum][durNum].stime + matr[type][attNum][durNum].dur;
         allowed = 0;
 
-        if (durEnd <= maxStartTime) {
-
+        if (durEnd <= maxVal)  {
+          
           // set prob to 0 if it goes out of the window of the parent event
           start = attNum;
           while (matr[type][start][durNum].stime <= durEnd) {
 
             if ( durEnd == matr[type][start][durNum].stime ) allowed = 1;
-  /*
+/*
             cout << "Matrix::setDurations - matr[" << type << "][" 
 	     << attNum << "][" << durNum << "].stime=" << 
 	     matr[type][attNum][durNum].stime << "  matr[" << type << "][" << 
@@ -202,7 +211,8 @@ void Matrix::setDurations(Sieve* durSieve, vector<Envelope*> durEnvs) {
           }
         }
 
-        if( allowed == 0 || durEnd > maxStartTime ) {
+//      if( allowed == 0 || durEnd > maxStartTime ) {	sever testing
+        if( allowed == 1 || durEnd > maxVal) {
           matr[type][attNum][durNum].attdurprob = 0;
         } else {
           matr[type][attNum][durNum].attdurprob *= (durSieveVal * durEnvVal);
@@ -220,11 +230,14 @@ void Matrix::setDurations(Sieve* durSieve, vector<Envelope*> durEnvs) {
   }
 }
 
+
+//---------------------------------------------------------------------------//
 void Matrix::setTypeProbs(vector<double> typeProbVect) {
   typeProb = typeProbVect;
 }
 
 
+//----------------------------------------------------------------------------//
 MatPoint Matrix::chooseM(int remain) {
   bool found = false;
   MatPoint chosenPt;
@@ -239,7 +252,6 @@ MatPoint Matrix::chooseM(int remain) {
     failed.type = -1;
     return failed;
   }
-
 
   // find the nearest prob to that random in the matrix
   for (int type = 0; !found && type < matr.size(); type++) {
@@ -261,8 +273,13 @@ MatPoint Matrix::chooseM(int remain) {
           cout << endl << "MATRIX ---- PICKED: matr[" << type << "][" 
               << attNum << "][" << durNum << "]  =  start:" 
               << chosenPt.stime << ", dur:" << chosenPt.dur << ", type:" 
-              << chosenPt.type << ", %prob:" << (chosenPt.normprob-prevPt.normprob) << endl;
+              << chosenPt.type << ", randNum=" << randNum << endl;
+	  cout << "  chosenPt.normprob=" << chosenPt.normprob << ", prevPt.normprob="
+	       << prevPt.normprob << ", %prob:" 
+	       << (chosenPt.normprob-prevPt.normprob) << endl;
+	  cout << "  " << endl;
           printMatrix(true);
+	  int sever; cin >> sever;
 */
         }
         prevPt = matr[type][attNum][durNum];
@@ -283,33 +300,41 @@ MatPoint Matrix::chooseM(int remain) {
 }
 
 
+//---------------------------------------------------------------------------//
+
 bool Matrix::normalizeMatrix() {
   double matrSum = 0;
   double lastSum = 0;
   // get the sum of the matrix
   for (int type = 0; type < matr.size(); type++) {
+/*
+    cout << "		Matrix::normalizeMatrix - type=" << type 
+         << " matr.size=" << matr.size() 
+         << " matr[" << type << "].size=" << matr[type].size() << endl;
+*/
+
     // do for each type
-
     for (int attNum = 0; attNum < matr[type].size(); attNum++) {
+
       // do for each attack
-
       for (int durNum = 0; durNum < matr[type][attNum].size(); durNum++) {
-        // do for each dur
 
+        // do for each dur
         matr[type][attNum][durNum].normprob = 
                 matr[type][attNum][durNum].attdurprob * typeProb[type];
         matrSum += matr[type][attNum][durNum].normprob;
+
 /*
-	if(type == 0) {
+ /	if(type == 0) {
 	  cout << "Matrix::normalizeMatrix - typeProb[" << type << "]=" 
 		<< typeProb[type] << endl;
-	  cout << " matr[" << type << "][" << attNum << "]{" << durNum 
+	  cout << " matr[" << type << "][" << attNum << "][" << durNum 
 		<< "].normprob= " << matr[type][attNum][durNum].normprob << endl;
 	  cout << "      matrSum=" << matrSum << endl;
-	}
+  	}
 */
+
       }
-//cout << "     " << endl;
     }
   }
 
@@ -332,19 +357,19 @@ bool Matrix::normalizeMatrix() {
         lastSum += (matr[type][attNum][durNum].normprob) / matrSum;
         matr[type][attNum][durNum].normprob = lastSum;
 /*
-	if(type == 0) {
+ /	if(type == 0) {
 	  cout << "		lastSum=" << lastSum << endl;
-	}
+ /	}
 */
       }
-//out << "    " << endl;
     }
-//cin >> sever;
   }
 
   return true; // success!
 }
 
+
+//---------------------------------------------------------------------------//
 
 void Matrix::recomputeTypeProbs(int chosenType, int remaining) {
   if (remaining != 0) {
@@ -358,6 +383,8 @@ void Matrix::recomputeTypeProbs(int chosenType, int remaining) {
   }
 }
 
+
+//----------------------------------------------------------------------------//
 
 void Matrix::removeConflicts(MatPoint chosenPt) {
   int chosenStart = chosenPt.stime;

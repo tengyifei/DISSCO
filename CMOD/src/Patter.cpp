@@ -168,8 +168,8 @@ void Patter::Equivalence(int modulo, int low, int high) {
   } else {
     numTerms = (high - origin) / modulo + 1 + (origin - low) / modulo;
   }
-  cout << "Patter::Equivalence - modulo=" << modulo << " low=" << low <<
-	" high=" << high << " numTerms=" << numTerms << endl;
+//cout << "Patter::Equivalence - modulo=" << modulo << " low=" << low <<
+//     " high=" << high << " numTerms=" << numTerms << endl;
 
   //create two more arrays now that we know their cardinal
   vector<int> points;
@@ -193,13 +193,15 @@ void Patter::Equivalence(int modulo, int low, int high) {
 
       for (int k = 0; k < 2; k++) {              //generate + - new elements
         newElement = lastNum + modulo * j * sign;
+//      cout << "newElement= " << newElement << " j=" << j <<" k=" << k << endl;
 
         if (j != 0 || k != 1) {                  //only one origin !
           if (newElement >= low && newElement <= high) {
-            cout << "   	newElement=" << newElement << endl;
+//          cout << "   	 	     newElement=" << newElement << endl;
             points.push_back(newElement);
             //assign probabilities according to distance from origin
             probs.push_back( (double)(numTerms - j) / (double)numTerms );
+//	    cout << "prob = " << (double)(numTerms - j) / (double)numTerms << endl;
           }
         }
         sign *= -1;
@@ -217,9 +219,11 @@ void Patter::Equivalence(int modulo, int low, int high) {
     for (int i = 0; i < probs.size(); i++) {
       sum += probs[i];
     }
+ 
     for (int i = 0; i < probs.size(); i++) {
       probs[i] /= sum; 
     }
+
     for(int i = 0; i < probs.size(); i++) {
       partSum += probs[i];
       probs[i] = partSum;
@@ -229,7 +233,7 @@ void Patter::Equivalence(int modulo, int low, int high) {
     // choose a point at random
     int randPosition = Random::ChooseFromProb(probs);
     patty.push_back( points[randPosition] );
-    cout << "	patty[" << location << "]=" << patty[location] << endl;
+//  cout << "	patty[" << location << "]=" << patty[location] << endl;
   }
 }
 

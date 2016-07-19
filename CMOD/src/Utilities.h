@@ -286,11 +286,12 @@ private:
    * Not yet implemented.
    */
   string function_Fibonacci(DOMElement* _functionElement, void* _object);
+  string function_MakeList(DOMElement* _functionElement, void* _object);
+// I believe the following ARE implemented (sever)
   string function_Decay(DOMElement* _functionElement, void* _object);
   string function_Stochos(DOMElement* _functionElement, void* _object);
   string function_ValuePick(DOMElement* _functionElement, void* _object);
   string function_ChooseL(DOMElement* _functionElement, void* _object);
-  string function_MakeList(DOMElement* _functionElement, void* _object);
   
  
   //------------------------ CMOD Static Functions ---------------------------//

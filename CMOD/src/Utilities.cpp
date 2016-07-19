@@ -145,6 +145,7 @@ Utilities::Utilities(DOMElement* root,
   }   
 }
 
+
 //----------------------------------------------------------------------------//
 
 Utilities::~Utilities(){
@@ -153,6 +154,7 @@ Utilities::~Utilities(){
   }
   delete envelopeLibrary;
 }
+
 
 //----------------------------------------------------------------------------//
 
@@ -203,17 +205,18 @@ DOMElement* Utilities::getEventElement(EventType _type, string _eventName){
   return it->second;
 }
 
+
 //----------------------------------------------------------------------------//
 
 string Utilities::XMLTranscode(DOMElement* _thisFunctionElement){
   // handle empty string
-  if (_thisFunctionElement->getFirstChild() ==NULL){
+  if (_thisFunctionElement->getFirstChild() == NULL){
     return "";
   }
   
   //flatten the element to a string
   XMLCh tempStr[3] = {chLatin_L, chLatin_S, chNull};
-  DOMImplementation *impl          = DOMImplementationRegistry::getDOMImplementation(tempStr);
+  DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(tempStr);
   DOMLSSerializer   *theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
   XMLCh* bla = theSerializer->writeToString (_thisFunctionElement);
   char* toTranscode = XMLString::transcode(bla);
@@ -228,6 +231,7 @@ string Utilities::XMLTranscode(DOMElement* _thisFunctionElement){
      
   return returnString;
 }
+
 
 //----------------------------------------------------------------------------//
 
@@ -275,6 +279,7 @@ double Utilities::evaluate(std::string _input, void* _object){
   return result;
  }
 
+
 //----------------------------------------------------------------------------//
 
 void* Utilities::evaluateObject(string _input, 
@@ -284,7 +289,7 @@ void* Utilities::evaluateObject(string _input,
   string input =  removeSpaces( _input);
   
   // call the proper method
-  if (_returnType ==eventEnv){
+  if (_returnType == eventEnv){
     return getEnvelope(input, _object);
   }
   else if (_returnType == eventSpa){
@@ -297,14 +302,13 @@ void* Utilities::evaluateObject(string _input,
     return (void*) getPattern( input, _object);
   }
   else if (_returnType ==eventSiv){
-    
     return (void*) getSieve( input, _object);
   }
   else if (_returnType ==eventFil){
-    
     return (void*) getFILFunctionElement( _object);
   }  
 }
+
 
 //----------------------------------------------------------------------------//
 
@@ -759,7 +763,6 @@ string Utilities::function_Stochos(DOMElement* _functionElement, void* _object){
   float returnVal;
   
   if(method == "FUNCTIONS") {
-    
     float randomNumber;
 
     // stacked up envelopes: their values at the same moment add up to 1
@@ -841,7 +844,6 @@ string Utilities::function_ValuePick(DOMElement* _functionElement, void* _object
   
   if (_object != NULL) {
     checkpoint = ((Event*)_object)->getCheckPoint();
-    
   }
   
   DOMElement* elementIter = _functionElement->GFEC()->GNES();
@@ -892,6 +894,7 @@ string Utilities::function_ValuePick(DOMElement* _functionElement, void* _object
 
   int minVal = (int)floor( envLow->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
   int maxVal = (int)floor( envHigh->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
+
   Sieve si;
   
   si.Build(minVal, maxVal, eMethod.c_str(), wMethod.c_str(), eArgVect, wArgVect, offsetVect);
@@ -928,7 +931,32 @@ string Utilities::function_ChooseL(DOMElement* _functionElement, void* _object){
 
 string Utilities::function_MakeList(DOMElement* _functionElement, void* _object){
   cout<<"Utilites: Make_List is not implemented yet."<<endl;
-  return "";
+//<Fun><Name>MakeList</Name><Func></Func><Size></Size></Fun>
+
+  DOMElement* listElement = _functionElement->getFirstElementChild()->getNextElementSibling();
+
+  std::vector<std::string> stringList = listElementToStringVector(listElement);
+  DOMElement* boundElement = listElement->getNextElementSibling();
+
+  int bound = (int)evaluate(XMLTranscode(boundElement), _object);
+/*
+  char result [50];
+  sprintf(result, "%f",  evaluate( list[index], _object));
+
+  return string(result);
+*/
+    vector<int> intList;
+
+    for (int i = 0; i < intList.size(); i ++){
+      int num = (int) evaluate(stringList[i], _object);
+      if (num <= bound) {
+        intList.push_back(num);
+      } else {
+	return "intList";
+      }
+    }
+
+  return "intList";
 }
 
 //----------------------------------------------------------------------------//
@@ -1062,8 +1090,8 @@ Sieve* Utilities::getSieve(string _functionString, void* _object){
   parser->parse(myxml_buf);
   DOMDocument* xmlDocument = parser->getDocument();
   DOMElement* root = xmlDocument->getDocumentElement();
-    
-  Sieve* sieve = getSieveHelper (_object, root);
+  
+Sieve* sieve = getSieveHelper (_object, root);
   delete parser;
   return sieve;
   
@@ -1156,12 +1184,12 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
   // on the new function.
   else if (XMLTranscode(functionNameElement).compare("Select")==0){
     string selectedListElementString = "<root>" + function_SelectObject(_SIVFunction->GFEC(), _object) + "</root>";
-    
+  
     XercesDOMParser* parser = new XercesDOMParser();
     
     xercesc::MemBufInputSource myxml_buf  (
       (const XMLByte*)selectedListElementString.c_str(),
-       selectedListElementString.size(), 
+       selectedListElementString.size(),
        "function (in memory)");
   
     parser->parse(myxml_buf);
@@ -1169,7 +1197,7 @@ Sieve* Utilities::getSieveHelper(void* _object, DOMElement* _SIVFunction){
     DOMDocument* xmlDocument = parser->getDocument();
     DOMElement* root = xmlDocument->getDocumentElement();
     
-    
+cout <<"	before Sieve* sieve =  getSieveHelper(_object, root);" << endl;
     
     Sieve* sieve =  getSieveHelper(_object, root); 
     delete parser;
@@ -1599,13 +1627,6 @@ DOMElement* Utilities::getFILFunctionElementHelper(void* _object, DOMElement* _F
     return FILElement->getFirstElementChild();
   }
 }
-
-
-
-
-
-
-
 
 
 //----------------------------------------------------------------------------//
