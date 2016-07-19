@@ -40,13 +40,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Tempo.h"
 #include "TimeSpan.h"
 
-//----------------------------------------------------------------------------//
+/**
+*  Constructor
+*
+**/
 
 class Note {
 
-    //------//
-    //Rhythm//
-    //------//
+    		//Rhythm//
     
     //The timespan of the note.
     TimeSpan ts;
@@ -54,9 +55,7 @@ class Note {
     //The parent tempo.
     Tempo tempo;
     
-    //-----//
-    //Pitch//
-    //-----//
+    		//Pitch//
     
     //Absolute numeric value of the pitch
     int pitchNum;
@@ -81,6 +80,10 @@ class Note {
 
   public:
 
+
+    //Simple constructor
+    Note();
+
     //Constructor with timespan and tempo
     Note(TimeSpan ts, Tempo tempo);
     
@@ -89,7 +92,7 @@ class Note {
 
     /**
      *  Comparison operator (to sort in a list)
-     *  \param rhs the object to compare to
+     *  \param rhs the object to compare to (right hand side)
      **/
     bool operator < (const Note& rhs);
 
@@ -99,21 +102,27 @@ class Note {
      *  Assigns the pitch of a note
      *  \param absPitchNum Pitch on the well-tempered scale, starting with 0=C0
      *  \param pitchNames The names of the pitches (C, C#, D, Eb, ...)
+     *  \note: vector<string> pitchnames not available yet
      **/
-    void setPitchWellTempered(int absPitchNum,
-      std::vector<std::string> pitchNames);
+    void setPitchWellTempered(int absPitchNum);
+//  void setPitchWellTempered(int absPitchNum,
+//		 std::vector<std::string> pitchNames);
 
     /**
      *  Assigns the pitch of a note
      *  \param freqHz The frequency of the note in Hz
-     *  \note this assumes a western, equal tempered scale
+     *  \returns int pitchNum, while float wellTemperedPitch could aaccommodate 
+     *    1/4 tones.
+     *
+     *  \note: this assumes an equal tempered scale of 12 semitones
      **/
-    void setPitchHertz(float freqHz);
+    int HertzToPitch(float freqHz);
 
     /**
      *  Assigns the loudness of a note
      *  \param dynamicNum The index into the noteDynamicMark array
      *  \param dynamicNames The names of the dynamics ( mf, f, ppp ...)
+     *  \note: not in use; vector<string> dynamicNames not available yet
      **/
     void setLoudnessMark(int dynamicNum, std::vector<std::string> dynamicNames);
 
@@ -130,6 +139,17 @@ class Note {
      *  \param modNames
      **/
     void setModifiers(std::vector<std::string> modNames);
+
+    /**
+    *   Spells note attributes: start time, duration in fractions equivalent
+    *   to Traditional notation note values and marking bar lines.
+    *   Adds pitch, dynamics and playing techniques.
+    *   \param
+    **/
+    void spellNoteAttributes( string pitchName) ;
+//, Ratio& stime, Ratio& dur);
+//		 Tempo EDUbar, Tempo EDUbeat, 
+
 };
 #endif /* NOTE_H */
 
