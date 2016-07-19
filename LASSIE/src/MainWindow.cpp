@@ -35,12 +35,6 @@
 #include "EnvelopeLibraryWindow.h"
 
 
-
-
-
-
-
-
 // these definitions are for calling yyparse(). They are copied from lex.yy.c
 #ifndef YY_TYPEDEF_YY_SIZE_T
 #define YY_TYPEDEF_YY_SIZE_T
@@ -151,17 +145,6 @@ extern FILE* yyin;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*! \brief The constructor of MainWindow
 *
 *******************************************************************************/
@@ -171,7 +154,6 @@ MainWindow::MainWindow(){
   set_default_size(1000, 600);
   set_decorated(true);
   set_position(Gtk::WIN_POS_CENTER_ALWAYS);
-      
   
 
   add(mainBox); // put the main box into the window
@@ -441,7 +423,7 @@ MainWindow::MainWindow(){
   
 
   
-    // create an instance of EnvelopeLibraryWindow
+  // create an instance of EnvelopeLibraryWindow
   //envelopeLibraryWindow = (EnvelopeLibraryWindow*) new Gtk::Window();
   envelopeLibraryWindow = new EnvelopeLibraryWindow();
   envelopeLibraryWindow->hide();
@@ -473,6 +455,7 @@ MainWindow::~MainWindow(){
 
 // here is the "File menu" action functions block
 ////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::menuFileNewProject(){
   ProjectViewController* newProject = FileOperations::newProject(this);
 
@@ -500,11 +483,16 @@ void MainWindow::menuFileNewProject(){
   }
 }
 
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuFileNewObject(){
   if (projectView!= NULL &&projectView->getEmptyProject() == false){
     projectView->insertObject();
   }
 }
+
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuFileOpen(){
   ProjectViewController* openProject = FileOperations::openProject(this);
@@ -533,10 +521,11 @@ void MainWindow::menuFileOpen(){
   }
 }
 
+
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuFileOpenXML(){
   ProjectViewController* openProject = FileOperations::openXMLProject(this);
-  
-  
   
   if(openProject!= NULL){
     menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
@@ -557,18 +546,21 @@ void MainWindow::menuFileOpenXML(){
     title = openProject->getPathAndName() + title;
     set_title(title);
     openProject->setProperties();    
-  
-  
   }
 }
 
 
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuFileSave(){
   if (projectView->getEmptyProject()== false){
     projectView->save();   
   }
 }
+
+
+//-----------------------------------------------------------------------------
+
 void MainWindow::setSavedTitle(){
     std::string title = " - LASSIE";
     title = projectView->getPathAndName() + title;
@@ -576,31 +568,36 @@ void MainWindow::setSavedTitle(){
 }  
   
 
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuFileSaveAs(){
 	
-	
 	string newPathAndName = FileOperations::saveAs(this);
-	
 	
 	if (newPathAndName =="") {
 		return ;
 	}
-	  std::string title = " - LASSIE";
-    title = newPathAndName + title;
-    set_title(title);
+	std::string title = " - LASSIE";
+        title = newPathAndName + title;
+        set_title(title);
 	
 	projectView->saveAs(newPathAndName);
-	
-	
-	
 }
+
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuFileClose(){
   FileOperations::close(this);
 }
 
+
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuFilePrint(){}//TODO
+
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuFileQuit(){	
   hide(); //Closes the main window to stop the Gtk::Main::run().
@@ -624,10 +621,15 @@ void MainWindow::menuHelpContents(){
   HelpOperations::showContents();
 }
 
+
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuHelpAbout(){
   HelpOperations::showAbout();
 }
-////////////////////////////////////////////////////////////////////////////////
+
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::changeCurrentProjectViewTo(
                   ProjectViewController* _newProject)
@@ -641,8 +643,12 @@ void MainWindow::changeCurrentProjectViewTo(
 }
 
 
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuPathAndName(){}//TODO
 
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::includeUi_info(Glib::ustring pathAndName,
                                 Glib::ustring ctrl)
@@ -684,6 +690,7 @@ void MainWindow::includeUi_info(Glib::ustring pathAndName,
 }
 
 
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectProperties(){
 	projectView->setProperties();
@@ -694,11 +701,14 @@ void MainWindow::menuProjectProperties(){
 */
 
 
+//-----------------------------------------------------------------------------
+
 void MainWindow::showEnvelopeLibraryWindow(){
   envelopeLibraryWindow->show();
-
 }
 
+
+//-----------------------------------------------------------------------------
 
 int MainWindow::captureKeyStroke(
   Gtk::Widget* _widget,GdkEventKey* _gdkEventKey){
@@ -709,15 +719,15 @@ int MainWindow::captureKeyStroke(
       projectView->deleteKeyPressed(get_focus());
     }
   }
-   
-  /*  //this chunk is handled by accelkey of FileNewObject
-	if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
-		if (projectView!= NULL&& projectView->getPathAndName() != ""){
-			projectView->nKeyPressed(get_focus());// for palette to add object
-		}
-	} 
-	*/
-  /*
+/*
+  //this chunk is handled by accelkey of FileNewObject
+  if (_gdkEventKey->type == 8 &&_gdkEventKey->keyval == 110){ //n stroke!
+    if (projectView!= NULL&& projectView->getPathAndName() != ""){
+      rojectView->nKeyPressed(get_focus());// for palette to add object
+    }
+  } 
+*/
+/*
  GdkEventType type;   8 press 9 release
  GdkWindow *window; this window
  gint8 send_event; don't know what's this
@@ -728,26 +738,21 @@ int MainWindow::captureKeyStroke(
  gchar *string;  return ascii code
  guint16 hardware_keycode; keyboard key code
  guint8 group;
-  
-  
-  */
-  
-  
+*/
 
   return 0;
 }
 
 
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectSynthesize(){
-	Gtk::Dialog* synthesizeDialog;
-  
-  
-
+  Gtk::Dialog* synthesizeDialog;
   
   //Load the GtkBuilder file and instantiate its widgets:
   Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = 
     Gtk::Builder::create();
+
 
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
     try{
@@ -772,9 +777,6 @@ void MainWindow::menuProjectSynthesize(){
 	
   //Get the GtkBuilder-instantiated Dialog:
   synthesizeDialogRefBuilder->get_widget("SynthesizeDialog", synthesizeDialog);
-	
-
-
 
   Gtk::Entry* randomSeedEntry;
   synthesizeDialogRefBuilder->get_widget(
@@ -798,10 +800,8 @@ void MainWindow::menuProjectSynthesize(){
     //FILE* newBufferFile = fopen (dat.c_str(), "r");
     //yyin = fopen (dat.c_str(), "r");
     
-    
     // create a new buffer for parser
     //YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
-
     
     //yy_switch_to_buffer (newParserBuffer);
     
@@ -809,10 +809,8 @@ void MainWindow::menuProjectSynthesize(){
     PieceHelper::createSoundFilesDirectory(projectPath);
     
     /*
-    string soundFilename =
-      PieceHelper::getNextSoundFile(projectPath, projectName);
-      
-      
+    string soundFilename = 
+           PieceHelper::getNextSoundFile(projectPath, projectName);
       
     if(soundFilename == "")
       cout << "A new soundfile name could not be reserved." << endl;
@@ -825,19 +823,18 @@ void MainWindow::menuProjectSynthesize(){
       //if (fork() == 0){
       //cout<<"this is the child. execute cmod"<<endl;
       
-      string command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath + projectName + ".dissco";     
+      string command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath 
+                         + projectName + ".dissco";     
       command = command + " ; exec bash\\\"\""; 
       system(command.c_str()) ;
-  	  //yy_delete_buffer(newParserBuffer);      
+      //yy_delete_buffer(newParserBuffer);      
 
-	  
-	  projectView->setSeed(""); //reset seed
-	}
-		
+      projectView->setSeed(""); //reset seed
+    }
 }
 
 
-
+//-----------------------------------------------------------------------------
 
 void MainWindow::setUnsavedTitle(){
   std::string title = " - LASSIE";
@@ -847,6 +844,7 @@ void MainWindow::setUnsavedTitle(){
 }
 
 
+//-----------------------------------------------------------------------------
 
 void MainWindow::disableNewAndOpenProject(){
   menuRefActionGroup->get_action("FileNewProject")->set_sensitive(false); 
@@ -856,11 +854,16 @@ void MainWindow::disableNewAndOpenProject(){
 }
 
 
+//-----------------------------------------------------------------------------
+
 void MainWindow::menuProjectConfigureNoteModifiers(){
   if (projectView!= NULL &&projectView->getEmptyProject() == false){
     projectView->configureNoteModifiers();
   }  
 }
+
+
+//-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectGenerateSCFile(){
   projectView->getTop()->makeSuperColliderCode();

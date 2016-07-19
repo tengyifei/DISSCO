@@ -52,8 +52,8 @@ class CustomNoteModifierHBox:public Gtk::HBox{
 public:
   CustomNoteModifierHBox(ProjectViewController* _projectView);
   CustomNoteModifierHBox(
-    ProjectViewController* _projectView, 
-    std::string _string);
+                    ProjectViewController* _projectView, 
+                    std::string _string);
   ~CustomNoteModifierHBox();
   std::string getText();
   
@@ -64,11 +64,7 @@ private:
   ProjectViewController* projectView;
   void removeButtonClicked();
 
-
 };
-
-
-
 
 
 class ProjectViewController: public Gtk::VBox  {
@@ -84,7 +80,7 @@ public:
   ProjectViewController(MainWindow* _mainWindow);
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow);
   ProjectViewController( MainWindow* _mainWindow, std::string _pathAndName, 
-  std::string _projectTitle);  	
+                          	std::string _projectTitle);  	
   //this one is for the old format
   //ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
   //std::string _datPathAndName, std::string _libPathAndName);
@@ -97,7 +93,7 @@ public:
   
   EnvelopeLibraryEntry* createNewEnvelope();
   EnvelopeLibraryEntry* duplicateEnvelope(
-    EnvelopeLibraryEntry* _originalEnvelope);
+    				EnvelopeLibraryEntry* _originalEnvelope);
   void showContents();
   void hideContents();
   void insertObject();
@@ -114,6 +110,7 @@ public:
   bool getEmptyProject();
   void nKeyPressed(Gtk::Widget* _focus);
   void showAttributesView(bool _show);
+
   void configureNoteModifiers();
   void removeCustomNoteModifier(CustomNoteModifierHBox* _hbox);
   bool checkNameExists(string _name, EventType _type);
@@ -159,7 +156,6 @@ public:
 
 private:
   
-  
   //==========================================================================
   //=============================Fields=======================================
   //==========================================================================
@@ -188,7 +184,6 @@ private:
    *
    ***************************************************************************/
   Gtk::HPaned leftTwoPlusAttributes;
-  
 
   
   IEvent* top;
@@ -233,9 +228,6 @@ private:
   void clearDeletedEvents();
   
   DOMDocument *xmlDocument;
-  
-  
-
   
 };
 

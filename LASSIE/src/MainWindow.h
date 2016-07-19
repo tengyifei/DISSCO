@@ -70,18 +70,16 @@ class MainWindow : public Gtk::Window {
     std::vector<ProjectViewController*> projects;
 
 
-		
-		/* \brief The pointer to the projectView widget
-		*
-		***************************************************************************/
-		ProjectViewController* projectView;
+    /* \brief The pointer to the projectView widget
+     *
+     **************************************************************************/
+    ProjectViewController* projectView;
 
     /*! \brief The Container at the top of the main window containing 
     *menu bar,tool bar, and a ProjectView
     *
     ***************************************************************************/
     Gtk::VBox mainBox;
-
 
 
     EnvelopeLibraryWindow* envelopeLibraryWindow;
@@ -143,7 +141,7 @@ class MainWindow : public Gtk::Window {
     * project
     *
     ***************************************************************************/	
-		void createNewProject();
+    void createNewProject();
 
 
     void changeCurrentProjectViewTo(ProjectViewController* _newProject);
@@ -156,7 +154,6 @@ class MainWindow : public Gtk::Window {
     void menuPathAndName();
 
     int captureKeyStroke(Gtk::Widget *,GdkEventKey *);
-
 
 };
 
