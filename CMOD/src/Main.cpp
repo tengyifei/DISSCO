@@ -35,11 +35,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Piece.h"
 #include <time.h>
+#include "Note.h"
+/*
+			//added by Sever must be a more elegant way
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+  ofstream * outputFile;
+			// for Note class
+*/
 
 int main(int parameterCount, char **parameterList) {
   time_t startTime;
   time(&startTime);
-  
+/*
+			// added by Sever
+  outputFile = new ofstream;
+  outputFile->open("../SQ/NotationFile.txt", ios::out);
+  *outputFile << "Greetingd from Maine" << endl;
+  			// for Note class
+*/
   //Determine settings.
   cout << endl;
   cout << "=========================SETTINGS==========================" << endl;
@@ -80,6 +96,7 @@ int main(int parameterCount, char **parameterList) {
   //Create the piece!
   Piece* piece = new Piece(workingPath, projectName);
   delete piece;
+//delete outputFile;		//Sever
   
   time_t endTime;
   time(&endTime);
