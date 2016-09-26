@@ -26,16 +26,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Note.h"
 #include "Event.h"
 #include "Output.h"
+#include <string>
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+ofstream * outputFile;
+//extern ofstream * outputFile;
 
 //----------------------------------------------------------------------------//
 
 Note::Note(TimeSpan ts, Tempo tempo) : ts(ts), tempo(tempo),
   pitchNum(0), octaveNum(0), octavePitch(0), loudnessNum(0) {
+
+//if ( &outputFile == " ") {
+  outputFile = new std::ofstream;
+  outputFile->open( "../SQ/NotationFile.txt", ios::app);
+//}
 }
 
 //----------------------------------------------------------------------------//
 
 Note::Note() {
+}
+
+//----------------------------------------------------------------------------//
+
+Note:: ~Note() {
+  delete outputFile;
 }
 
 //----------------------------------------------------------------------------//
@@ -61,14 +80,13 @@ bool Note::operator < (const Note& rhs) {
 
 //----------------------------------------------------------------------------//
 
-void Note::setPitchWellTempered(int absPitchNum) {
-// void setPitchWellTempered(wellTempPitch, vector<string>pitchNames);
+void Note::setPitchWellTempered(int pitchNum) {
 
-  pitchNum = absPitchNum;
 //octaveNum = pitchNum / pitchNames.size();
 //octavePitch = pitchNum % pitchNames.size();
 //pitchName = pitchNames[octavePitch];
   octaveNum = pitchNum / 12;
+//*notaFile << "Octave Number " << octaveNum << endl;
   octavePitch = pitchNum % 12;
 
   if (octavePitch == 0) {
@@ -103,6 +121,10 @@ void Note::setPitchWellTempered(int absPitchNum) {
   Output::addProperty("Pitch Name", pitchName);
   Output::addProperty("Octave Number", octaveNum);
   Output::addProperty("Pitch In Octave", octavePitch);
+
+  *outputFile<< setw(5) <<"Pitch " << pitchNum << setw(5) << octaveNum << setw(3) 
+       << pitchName;
+
 }
 
 //----------------------------------------------------------------------------//
@@ -155,39 +177,94 @@ void Note::setLoudnessSones(float sones) {
   }
 
   Output::addProperty("Loudness", loudnessMark);
+
+  *outputFile << setw(6) << loudnessMark;
 }
 
 
 //----------------------------------------------------------------------------//
 
-void Note::setModifiers(vector<string> modNames) {
+void Note::setModifiers(vector<string> modNames) 
+{
   for(int i = 0; i < modNames.size(); i++) {
     modifiers.push_back(modNames[i]);
     Output::addProperty("Playing Techniques:", modNames[i]);
+
+    *outputFile << setw(8) << modNames[i];
   }
+  
+  *outputFile << endl; *outputFile << endl;
 }
 
 
 //----------------------------------------------------------------------------//
 
-void spellNoteAttributes( string pitchName) {
-//, Ratio& stime, Ratio& dur) {
-//	  Tempo EDUbar, Tempo EDUbeat, 
+void Note::notateDurations( string aName, string startEDU, string durationEDU) 
+{
+  int stime, dur, endTime, bar, beat;
+  std::vector<int> spellingBee;
 
-/*
-  int EDUbar = tempo.getEDUPerBar;
-  int EDUbeat = tempo.getEDUPerTempoBeat;
-  int stime = ts.startEDU;
-  int dur = ts.durationEDU;
-*/
-//Ratio endTime = stime + dur;
+  // Get needed parameters
+  string attributeName = aName;
+  std::stringstream ss(startEDU);
+  ss >> stime; 
+  std::stringstream ss1(durationEDU);
+  ss1 >> dur; 
+  endTime = stime + dur;
 
-  int stime = ts.startEDU;
-  int dur = ts.durationEDU;
+  int barEDUs = atoi(tempo.getEDUPerBar());
+  int beatEDUs = atoi(tempo.getEDUPerTimeSignatureBeat());
 
-  cout << "Note::spellNoteAttributes - pitchName: " << pitchName << endl;
-//<< " EDUbar=" << EDUbar << " EDUbeat=" << EDUbeat << endl;
-  cout << "		      stime=" << stime << " dur=" << dur << endl;
-//<< "endTime=" << endTime << endl;
 
-}
+  // Barlines, beats, subdivisions
+  int numSbar = stime / barEDUs;		//start barline num
+  int sBar = numSbar * barEDUs ;		//start barline EDUs
+  int numSbeat = (stime - sBar) / beatEDUs;	//start beat num
+  int sBeat = stime / beatEDUs * beatEDUs;	//start beat EDUs	
+  int sDiv = stime - sBeat;			//start subdivisions EDUs
+
+                                               //beginning subdiv of dur
+  int eBegDiv = ((numSbeat + 1) * beatEDUs + sBar - stime) % beatEDUs; 
+  int numEbar = endTime / barEDUs;		//end barline num
+  int eBar = numEbar * barEDUs;			//end barline EDUs
+  if ( eBar == endTime) eBar += 1;
+  int numEbeat = (endTime - eBar) / beatEDUs;	//end beat num
+  int eBeat = endTime / beatEDUs * beatEDUs;	//end beat RDUs
+  int eDiv = endTime - eBeat;			//end subdivisions EDUs
+
+  int durBeats = ((endTime - eDiv) - (stime + sDiv)) / beatEDUs;
+
+
+  // Duration
+  spellingBee.push_back(numSbar);
+  spellingBee.push_back(numSbeat);
+  spellingBee.push_back(sDiv);
+
+  spellingBee.push_back(eBegDiv);		//3
+  spellingBee.push_back(durBeats);
+  spellingBee.push_back(eDiv);
+  spellingBee.push_back(numEbar);
+
+// Print
+  *outputFile << "=========================== " << attributeName;
+  *outputFile << " ==========================" << endl;
+  *outputFile << "  stime=" << stime << " dur=" << dur << " endTime=" << endTime 
+       << endl;
+  *outputFile << "   barEDUs=" << barEDUs << " beatEDUs=" << beatEDUs <<  endl;
+
+  *outputFile << "sBar=" << sBar << " numSbar=" << numSbar << endl;
+  *outputFile << " sBeat=" << sBeat << " numSbeat=" << numSbeat << " sDiv="
+       << sDiv << endl;
+  *outputFile << "eBar=" << eBar << " numEbar=" << numEbar << endl;
+  *outputFile << " eBeat=" << eBeat << " numEbeat=" << numEbeat << " eDiv="
+       << eDiv << endl;
+
+  *outputFile << " " << endl;
+  *outputFile << "Bar " << spellingBee.at(0) << " [+" 
+              << spellingBee.at(1) << "+" << spellingBee.at(2) << "/" 
+              << beatEDUs << "]" << setw(5) << spellingBee.at(3) << "/" 
+              << beatEDUs << setw(5) << spellingBee.at(4) << " Beats" 
+              << setw(5)<< spellingBee.at(5) << "/" << beatEDUs << setw(13) 
+              << "Bar " << spellingBee.at(6) << endl;
+
+}  
