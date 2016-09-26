@@ -40,12 +40,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Tempo.h"
 #include "TimeSpan.h"
 
+
 /**
 *  Constructor
 *
 **/
 
 class Note {
+
+// static ofstream notaFile;
 
     		//Rhythm//
     
@@ -96,6 +99,11 @@ class Note {
      **/
     bool operator < (const Note& rhs);
 
+    /**
+     * Destructor
+     **/
+    ~Note();
+
 //----------------------------------------------------------------------------//
 
     /**
@@ -104,9 +112,7 @@ class Note {
      *  \param pitchNames The names of the pitches (C, C#, D, Eb, ...)
      *  \note: vector<string> pitchnames not available yet
      **/
-    void setPitchWellTempered(int absPitchNum);
-//  void setPitchWellTempered(int absPitchNum,
-//		 std::vector<std::string> pitchNames);
+    void setPitchWellTempered(int pitchNum);
 
     /**
      *  Assigns the pitch of a note
@@ -146,9 +152,7 @@ class Note {
     *   Adds pitch, dynamics and playing techniques.
     *   \param
     **/
-    void spellNoteAttributes( string pitchName) ;
-//, Ratio& stime, Ratio& dur);
-//		 Tempo EDUbar, Tempo EDUbeat, 
+    void notateDurations( string aName, string startEDU, string durationEDU); 
 
 };
 #endif /* NOTE_H */
