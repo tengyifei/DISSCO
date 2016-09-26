@@ -65,6 +65,7 @@ class Bottom : public Event {
 
 //  int wellTempPitch;		(sever changed to float)
     float wellTempPitch;
+    int absPitchNum;
 
     vector<Sound*> childSounds;
     vector<Note*> childNotes;
@@ -298,7 +299,7 @@ class Bottom : public Event {
     /**
      *  Apply modifiers for a note.
      **/
-    vector<string> applyNoteModifiers();
+//  vector<string> applyNoteModifiers();
     vector<string> applyNoteModifiers(DOMElement* _playingMethods);
     vector<string> applyNoteModifiersOld();
 
