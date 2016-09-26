@@ -299,12 +299,20 @@ void Bottom::buildNote(SoundAndNoteWrapper* _soundNoteWrapper) {
 	_soundNoteWrapper->ts.durationEDU, "EDU");
   }
 
+  //Bars and durations
+  newNote->notateDurations( (string)_soundNoteWrapper->name,
+ 			    (string) _soundNoteWrapper->ts.startEDU, 
+			    (string) _soundNoteWrapper->ts.durationEDU);
+
   //Set the pitch.
   float baseFrequency = computeBaseFreq(); 
+
+  int absPitchNum;
   
   if(wellTempPitch <= 0) { 		//if frequency is in Hertz
-    wellTempPitch = newNote->HertzToPitch(baseFrequency);
+    absPitchNum = newNote->HertzToPitch(baseFrequency);
   } else { 	
+    absPitchNum = wellTempPitch;
 /*
     //Get the pitch names, and turn them into a vector.
     vector<string> pitchNames;
@@ -317,7 +325,7 @@ void Bottom::buildNote(SoundAndNoteWrapper* _soundNoteWrapper) {
     newNote->setPitchWellTempered(wellTempPitch, pitchNames);
 */
   }
-  newNote->setPitchWellTempered(wellTempPitch);
+  newNote->setPitchWellTempered(absPitchNum);
 
   //Set the loudness.
   float loudfloat = computeLoudness(); 
@@ -338,31 +346,13 @@ void Bottom::buildNote(SoundAndNoteWrapper* _soundNoteWrapper) {
 */  
     newNote->setLoudnessSones(loudfloat);
 //}
-
-/* needs to be rewrite to remove filevalue --Ming-ching May 06 2013
-  if(modifiersFV) {
-*/
+  
     vector<string> noteMods = applyNoteModifiers(_soundNoteWrapper->element);
     newNote->setModifiers(noteMods);
 //  vector<string> modNames = applyNoteModifiersOld();
 //  newNote->setModifiers(modNames);
 //}
 
-  cout << "Line 358 - _soundNoteWrapper->name: " 
-	<< (string)_soundNoteWrapper->name << endl;
-
-  newNote->spellNoteAttributes( (string) _soundNoteWrapper->name);
-//	  _soundNoteWrapper->ts.startEDU,  
-//		  _soundNoteWrapper->ts.durationEDU);
-//		_soundNoteWrapper->tempo.getEDUPerBar, 
-//		_soundNoteWrapper->tempo.getEDUPerTempoBeat,
-
-/*
-  cout << " _soundNoteWrapper->ts.startEDU=" << _soundNoteWrapper->ts.startEDU
-       << endl;
-  cout << " _soundNoteWrapper->ts.durationEDU=" 
-       << _soundNoteWrapper->ts.durationEDU << endl;
-*/  
   Output::endSubLevel();
   childNotes.push_back(newNote);
 }
@@ -1207,18 +1197,10 @@ vector<string> Bottom::applyNoteModifiers( DOMElement* _playingMethods) {
   DOMElement* currentTechnique = techniqueElement->GFEC();
 
   do {
-    
     string name = XMLTC(currentTechnique);
-    cout << name << " ";
-
     modNames.push_back(name);
-
     currentTechnique = currentTechnique->GNES();
-    
   } while ( currentTechnique != NULL);
-
-  cout << endl;
-//  int sever; cin >> sever;
 
   return modNames;
 }
