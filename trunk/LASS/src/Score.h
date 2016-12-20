@@ -1,6 +1,4 @@
-/*
-LASS (additive sound synthesis library)
-Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
+/* LASS (additive sound synthesis library) Copyright (C) 2005  Sever Tipei (s-tipei@uiuc.edu)
 Modified by Ming-ching Chiu 2013
 
 This program is free software; you can redistribute it and/or
