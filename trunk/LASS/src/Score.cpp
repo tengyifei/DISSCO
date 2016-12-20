@@ -282,6 +282,7 @@ MultiTrack* Score::joinThreadsAndMix(){
 }
 
 
+//----------------------------------------------------------------------------//
 
 void Score::checkScoreMultiTrackLength(){
 
@@ -300,13 +301,11 @@ void Score::checkScoreMultiTrackLength(){
       cout<<"Get a longer score with length = " << scoreEndTime << " seconds."<<endl;
     
   }
-  
-
 }
 
 
-
 //----------------------------------------------------------------------------//
+
 void Score::setClippingManagementMode(ClippingManagementMode mode)
 {
     cout << "Score::setClippingManagementMode - " << mode << endl;
@@ -314,6 +313,7 @@ void Score::setClippingManagementMode(ClippingManagementMode mode)
 }
 
 //----------------------------------------------------------------------------//
+
 Score::ClippingManagementMode Score::getClippingManagementMode()
 {
     cout << "Score::ClippingManagementMode - cmm_ " << cmm_ << endl;
@@ -322,6 +322,7 @@ Score::ClippingManagementMode Score::getClippingManagementMode()
 
 
 //----------------------------------------------------------------------------//
+
 void Score::manageClipping(MultiTrack* mt, ClippingManagementMode mode)
 {
     cout << "Score::manageClipping - mode - " << mode << endl;
@@ -372,7 +373,9 @@ void Score::clip(MultiTrack* mt)
     }
 }
 
+
 //----------------------------------------------------------------------------//
+
 void Score::scale(MultiTrack* mt)
 {
     cout << "Performing SCALE" << endl;
@@ -416,7 +419,9 @@ void Score::scale(MultiTrack* mt)
     }
 }
 
+
 //----------------------------------------------------------------------------//
+
 void Score::channelScale(MultiTrack* mt)
 {
     cout << "Performing CHANNEL_SCALE" << endl;
@@ -454,7 +459,9 @@ void Score::channelScale(MultiTrack* mt)
     }
 }
 
+
 //----------------------------------------------------------------------------//
+
 void Score::anticlip(MultiTrack* mt)
 { 
     cout << "Performing ANTICLIP" << endl;
@@ -494,33 +501,49 @@ void Score::anticlip(MultiTrack* mt)
     }
 }
 
+
 //----------------------------------------------------------------------------//
+
 m_sample_type todB(m_sample_type x)
 {
   return (m_sample_type)(log10((double)x) * 20.0);
 }
+
+
+//----------------------------------------------------------------------------//
 
 m_sample_type fromdB(m_sample_type x)
 {
   return (m_sample_type)pow(10.0, ((double)x * 0.05));
 }
 
+
+//----------------------------------------------------------------------------//
+
 m_sample_type compressSound(m_sample_type x, m_sample_type peak,
   m_sample_type dBCompressionPoint)
 {
-  m_sample_type xdB = todB(x);
+/*				sever commented out 6/11/16
+  m_sample_type xdB = todB(x);		
   m_sample_type cdB = dBCompressionPoint;
   m_sample_type pdB = todB(peak);
+*/
   
   if(x < fromdB(dBCompressionPoint))
     return x;
 
-  return fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
-    ((cdB - pdB) * (cdB - pdB)));
+      m_sample_type c = fromdB(dBCompressionPoint);
+      x = 1 - (peak - x) * (1 - c) / (peak - c);	//sever 6/11/16
+//    x = fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) / ((cdB - pdB) * (cdB - pdB)));		//Andrew Burnson
+      return x;
+
+//return fromdB((pdB - xdB) * (pdB * xdB - cdB * cdB) /
+//  ((cdB - pdB) * (cdB - pdB)));
 }
 
 
-//----------------------------------------------------------------
+//----------------------------------------------------------------------------//
+
 void Score::channelAnticlip(MultiTrack* mt)
 {
     cout << "Performing CHANNEL_ANTICLIP" << endl;
@@ -530,6 +553,7 @@ void Score::channelAnticlip(MultiTrack* mt)
     int peakPlace = 0;
     for (int t=0; t<mt->size(); t++)
     {
+	cout << "Score::channelAnticlip - first time track=" << t << endl;
         SoundSample& wave = mt->get(t)->getWave();
         SoundSample& amp = mt->get(t)->getAmp();
         
@@ -537,12 +561,15 @@ void Score::channelAnticlip(MultiTrack* mt)
         m_sample_count_type numSamples = wave.getSampleCount();
         for (m_sample_count_type s=0; s<numSamples; s++)
         {
-            if (amp[s] > 1.0)
-            {
-                // scale this sample:
-                //wave[s] *= 1.0 / amp[s];
-                //amp[s] = 1.0;
+
+            if (amp[s] > 1.0) {	
+/* 				deprecated
+                scale this sample:
+                wave[s] *= 1.0 / amp[s];
+                amp[s] = 1.0;
+*/
             }
+
             m_sample_type cur = wave[s];
             if(cur < 0) cur = -cur;
             if(cur > maxAmplitude)
@@ -552,18 +579,20 @@ void Score::channelAnticlip(MultiTrack* mt)
             } 
         }
     }
-    cout << "maxAmplitude= " << maxAmplitude << endl;
-    if(maxAmplitude < 0.99)
+
+    if(maxAmplitude <= 0.99)
     {
       cout << "Peak at " << maxAmplitude << endl;
       //cout << "Normalizing to achieve better signal-to-noise ratio.";
     }
-    else
+    else if(maxAmplitude >= 0.99)
     {
       cout << "Warning: peak is " << todB(maxAmplitude) << " dB at " <<
-        ((double)peakPlace / (double)mt->get(0)->getWave().getSamplingRate()) <<
-        " seconds. Compressing [-6, " << todB(maxAmplitude) << ") to [-6, 0) dB";
-      maxAmplitude /= 0.99; //Never actually allow it to hit 0dB.
+        ((double)peakPlace / (double)mt->get(0)->getWave().getSamplingRate()) 
+           << " seconds. Compressing [-6, " << todB(maxAmplitude) 
+           << ") to [-6, 0) dB" << endl;
+     maxAmplitude /= 0.99; //Never actually allow it to hit 0dB.
+
       //m_sample_type normalizeValue = maxAmplitude;
       for (int t=0; t<mt->size(); t++)
       {
@@ -575,15 +604,31 @@ void Score::channelAnticlip(MultiTrack* mt)
           for (m_sample_count_type s=0; s<numSamples; s++)
           {
               amp[s] = 1.0;
+             
+ 	    if (wave[s] < 0) { 
+	      wave[s] *= -1;
               wave[s] = compressSound(wave[s], maxAmplitude, -6.0);
-              //Test showing compression curve used:
-              //wave[s] = compressSound((float)s / (float)numSamples * 2.f, 2.f, -6.0);
+	      wave[s] *= -1;
+            } else {
+              wave[s] = compressSound(wave[s], maxAmplitude, -6.0);
+	    }
+
+/*            
+             cout << "Score::channelAnticlip - wave[" << s << "]= " 
+	      << wave[s] << endl;
+`
+              if(s == 0)
+          cout << "Score::channelAnticlip Test - showing compression curve used:"
+               << endl;
+              wave[s] = compressSound((float)s / (float)numSamples * 2.f, 2.f, -6.0);
+*/
           }
       }
     }
 }
 
 
+//----------------------------------------------------------------------------//
 
 MultiTrack* Score::doneAddingSounds(){
 
