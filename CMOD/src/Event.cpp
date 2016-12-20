@@ -1017,8 +1017,6 @@ void Event::checkEvent(bool buildResult) {
   }
   
   else if (childEventType == eventSound || childEventType == eventNote){
-    cout << "checkEvent - childType=" << childType << " tsChild.start="
-         << tsChild.start << " childEventName " << childEventName << endl;
     childSoundsAndNotes.push_back(new SoundAndNoteWrapper
 		  (childElement,tsChild, childEventName, childType, tempo));
   }
