@@ -42,7 +42,7 @@ Note::Note(TimeSpan ts, Tempo tempo) : ts(ts), tempo(tempo),
 
 //if ( &outputFile == " ") {
   outputFile = new std::ofstream;
-  outputFile->open( "../SQ/NotationFile.txt", ios::app);
+  outputFile->open( "../ghioc/NotationFile.txt", ios::app);
 //}
 }
 
