@@ -57,6 +57,11 @@ There are a few LASS examples which do not build and so are not included in the
 build. These have been renamed to a .cxx extension to indicate that they need to
 be fixed.
 
+BUILDING ON OS X
+================================================================================
+First install the prerequisites:
+brew install xerces-c libsndfile premake4 gtkmm gtkmm3
+
 VIEWING THE SOURCE CODE DOCUMENTATION
 ================================================================================
 Change directory to 'docs' and view the README there. If you have doxygen

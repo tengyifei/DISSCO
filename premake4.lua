@@ -9,6 +9,15 @@ newoption({trigger="examples",
 DebugFlags = {"Symbols", "NoPCH", "NoManifest"}
 ReleaseFlags = {"Optimize"}
 
+if os.get() == "macosx" then
+  ExtraFlags = "-std=gnu++11"
+else if os.get() == "linux" then
+  ExtraFlags = "-gstabs"
+else
+  error("Unsupported Operating System: " + os.get())
+end
+end
+
 solution "dissco"
   configurations {"Debug", "Release"}
 
@@ -19,8 +28,8 @@ project "lass"
   includedirs {"/usr/local/include"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-Wno-deprecated -Wall -Wextra", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) 
+  buildoptions {"-Wno-deprecated -Wall -Wextra", ExtraFlags}
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
   
 project "parser"
@@ -29,8 +38,8 @@ project "parser"
   files {"CMOD/src/parser/lex.yy.c"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-gstabs"}
-  configuration "Debug" flags(DebugFlags) 
+  buildoptions {ExtraFlags}
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
   
 project "muparser"
@@ -49,8 +58,8 @@ project "lcmod"
   excludes {"CMOD/src/Main.*"}
   kind "StaticLib"
   targetdir "lib"
-  buildoptions {"-Wno-deprecated", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) 
+  buildoptions {"-Wno-deprecated", ExtraFlags}
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
 
 project "cmod"
@@ -61,8 +70,8 @@ project "cmod"
   libdirs {"lib", "/usr/local/lib"}
   links {"lcmod", "lass", "parser","muparser", "pthread", "sndfile"}
   linkoptions{"-lxerces-c"}
-  buildoptions {"-Wno-deprecated", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) 
+  buildoptions {"-Wno-deprecated", ExtraFlags}
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
   configuration "macosx"
     targetdir "bin"
@@ -75,8 +84,8 @@ project "UpgradeProjectFormat"
   libdirs {"lib", "/usr/local/lib"}
   links {"lcmod", "lass", "parser","muparser", "pthread", "sndfile"}
   linkoptions{"-lxerces-c"}
-  buildoptions {"-Wno-deprecated", "-gstabs"}
-  configuration "Debug" flags(DebugFlags) 
+  buildoptions {"-Wno-deprecated", ExtraFlags}
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
   configuration "macosx"
     targetdir "bin"    
@@ -87,7 +96,7 @@ project "lassie"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
   excludes {"LASSIE/src/UpgradeProjectFormat.*"}
   buildoptions {"`pkg-config --cflags gtkmm-2.4`",
-    "-Wno-deprecated", "-gstabs"}
+    "-Wno-deprecated", ExtraFlags}
   linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated", "-lxerces-c"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
