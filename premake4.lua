@@ -95,12 +95,12 @@ project "lassie"
   kind "ConsoleApp"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
   excludes {"LASSIE/src/UpgradeProjectFormat.*"}
-  buildoptions {"`pkg-config --cflags gtkmm-2.4`",
+  buildoptions {"`pkg-config --cflags gtkmm-3.0`",
     "-Wno-deprecated", ExtraFlags}
-  linkoptions {"`pkg-config --libs --cflags gtkmm-2.4`", "-Wno-deprecated", "-lxerces-c"}
+  linkoptions {"`pkg-config --libs --cflags gtkmm-3.0`", "-Wno-deprecated", "-lxerces-c"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
-  configuration "Debug" flags(DebugFlags) 
+  configuration "Debug" flags(DebugFlags)
   configuration "Release" flags(ReleaseFlags)
   configuration "macosx"
     targetdir "bin"

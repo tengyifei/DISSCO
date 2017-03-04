@@ -32,12 +32,12 @@
 #include "MainWindow.h"
 
 ProjectViewController* FileOperations::newProject(MainWindow* _mainWindow){
-  
 
-  // setup the new project dialog window 
+
+  // setup the new project dialog window
   Gtk::FileChooserDialog dialog("New Project", Gtk::FILE_CHOOSER_ACTION_SAVE);
   dialog.set_transient_for(*_mainWindow);
-  
+
   // Add response buttons the the dialog:
     dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -79,15 +79,15 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
 
 
 
-  // setup the new project dialog window 
+  // setup the new project dialog window
   Gtk::FileChooserDialog dialog("Save As...", Gtk::FILE_CHOOSER_ACTION_SAVE);
   dialog.set_transient_for(*_mainWindow);
-  
+
   // Add response buttons the the dialog:
   dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
- 
+
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
@@ -108,7 +108,7 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
            return saveAs(_mainWindow);
          }else{
            std::string pathAndName = dialog.get_filename();
-           //createDirectories(pathAndName);           
+           //createDirectories(pathAndName);
            return pathAndName;
          }
       }
@@ -120,27 +120,27 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
 void FileOperations::createDirectories(std::string _pathAndName){
   std::string command;
   command = "mkdir "+ _pathAndName + "/T";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/H";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/M";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/L";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/B";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/S";
   system(command.c_str());
   command = "mkdir "+ _pathAndName + "/N";
-  system(command.c_str());  	
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/PAT";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/REV";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/ENV";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/SIV";
-  system(command.c_str());		 
+  system(command.c_str());
   command = "mkdir "+ _pathAndName + "/SPA";
   system(command.c_str());
 }
@@ -148,7 +148,7 @@ void FileOperations::createDirectories(std::string _pathAndName){
 
 void FileOperations::close(MainWindow* _mainWindow){
 
-  
+
 }
 
 
@@ -253,8 +253,8 @@ void fileNameExist::duplicateProjectName(){
   Gtk::MessageDialog dialog(*this, "Folder with the same name exists");
   dialog.set_secondary_text(
           "When creating a new project, LASSIE creats a directory with the"
-          " new project name in the specified path. However, the directory with" 
-          " the same name as the new project being created has already existed." 
+          " new project name in the specified path. However, the directory with"
+          " the same name as the new project being created has already existed."
           " Please give your new project a different name or rename the"
           " existing directory." );
 
@@ -265,15 +265,15 @@ void fileNameExist::duplicateProjectName(){
 
 ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   //_mainWindow->set_title("LASSIE");
-  
-  // setup the open project dialog window 
+
+  // setup the open project dialog window
   /*
   Gtk::FileChooserDialog dialog("Open existing project",
                                 Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
-  
-  
+
+
   dialog.set_transient_for(*_mainWindow);
-  
+
   // Add response buttons the the dialog:
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
@@ -281,14 +281,14 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
-  
+
   // Handle the response:
   if(result == Gtk::RESPONSE_OK){
     std::string datFile =  dialog.get_filename() + "/"+
                         FileOperations::stringToFileName(dialog.get_filename())
-                        + ".dat"; 
+                        + ".dat";
 
-    int flagLoopToFindDat = 0; //0 = keep countinue, 1 = cancel 
+    int flagLoopToFindDat = 0; //0 = keep countinue, 1 = cancel
     FILE* testExist = fopen ( datFile.c_str(), "r");
     while (testExist == NULL && flagLoopToFindDat ==0){
 
@@ -314,10 +314,10 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
       }
       testExist = fopen ( datFile.c_str(), "r");
     }
-    
+
     if (testExist!= NULL){
       fclose (testExist);
-    }  
+    }
     if (flagLoopToFindDat!= 1){
       std::string libFile  = pickLibFile (_mainWindow,dialog.get_filename());
       if (libFile != "Cancel"){
@@ -325,7 +325,7 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
       }
     }
   }
-  
+
   return NULL;*/
 }
 
@@ -335,15 +335,15 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
 
 ProjectViewController* FileOperations::openXMLProject(MainWindow* _mainWindow){
   //_mainWindow->set_title("LASSIE");
-  
-  // setup the open project dialog window 
-  
+
+  // setup the open project dialog window
+
   Gtk::FileChooserDialog dialog("Open existing .dissco project",
                                 Gtk::FILE_CHOOSER_ACTION_OPEN);
-  
-  
+
+
   dialog.set_transient_for(*_mainWindow);
-  
+
   // Add response buttons the the dialog:
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
@@ -351,41 +351,41 @@ ProjectViewController* FileOperations::openXMLProject(MainWindow* _mainWindow){
 
   // Show the dialog and wait for a user response:
   int result = dialog.run();
-  
+
   // Handle the response:
-  
+
   if(result == Gtk::RESPONSE_OK){
     /*
     std::string datFile =  dialog.get_filename() + "/"+
                         FileOperations::stringToFileName(dialog.get_filename())
-                        + ".dat"; 
+                        + ".dat";
     */
     //cout <<dialog.get_filename()<<endl;
-    
-    
-    
-    
-    // here we create strings for .lib and .dat, but eventually when we get rid
-    // of the old parser, we can remove this chunk of code 
-    
-    
-    
-    
-    
-    
 
-    
+
+
+
+    // here we create strings for .lib and .dat, but eventually when we get rid
+    // of the old parser, we can remove this chunk of code
+
+
+
+
+
+
+
+
     std::string filePath = dialog.get_filename();
-    
+
     size_t lastSlash = filePath.find_last_of('/');
-  
-    
+
+
     filePath = filePath.substr(0, lastSlash);
     string name = FileOperations::stringToFileName(filePath);
-    
+
     //std::string datFile =filePath + "/" + name +".dat";
     //std::string libFile =filePath  + "/" + name +".lib";
-    
+
     return new ProjectViewController(_mainWindow, filePath, name);
   }
   return NULL;
@@ -401,26 +401,26 @@ std::string FileOperations::pickDatFile(MainWindow* _mainWindow){
   dialog.set_transient_for(*_mainWindow);
 
   //Add response buttons the the dialog:
-  
+
   dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
   dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   //Add filters, so that only certain file types can be selected:
 
-  Gtk::FileFilter filter_dat;
-  filter_dat.set_name(".dat files");
-  filter_dat.add_pattern("*.dat");
+  auto filter_dat = Gtk::FileFilter::create();
+  filter_dat->set_name(".dat files");
+  filter_dat->add_pattern("*.dat");
   dialog.add_filter(filter_dat);
 
 
-  Gtk::FileFilter filter_any;
-  filter_any.set_name("Any files");
-  filter_any.add_pattern("*");
+  auto filter_any = Gtk::FileFilter::create();
+  filter_any->set_name("Any files");
+  filter_any->add_pattern("*");
   dialog.add_filter(filter_any);
 
   //Show the dialog and wait for a user response:
   int result = dialog.run();
   if (result  == Gtk::RESPONSE_OK){
-    return dialog.get_filename();  
+    return dialog.get_filename();
   }
   else {
     return "Cancel";
@@ -439,9 +439,9 @@ std::string FileOperations::pickLibFile(
   std::string _defaultPath){
  std::string libFile =  _defaultPath + "/"+
                         FileOperations::stringToFileName(_defaultPath)
-                        + ".lib"; 
+                        + ".lib";
 
-    int flagLoopToFindLib = 0; //0 = keep countinue, 1 = cancel 
+    int flagLoopToFindLib = 0; //0 = keep countinue, 1 = cancel
     FILE* testExist = fopen ( libFile.c_str(), "r");
     while (testExist == NULL && flagLoopToFindLib ==0){
       Gtk::MessageDialog dialog(*_mainWindow, "lib File Not Found");
@@ -458,38 +458,38 @@ std::string FileOperations::pickLibFile(
         break;
       }
       else {  //try choosing the file
-      
+
         Gtk::FileChooserDialog dialog("Select lib File",
           Gtk::FILE_CHOOSER_ACTION_OPEN);
         dialog.set_transient_for(*_mainWindow);
 
   //Add response buttons the the dialog:
-  
+
         dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
         dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   //Add filters, so that only certain file types can be selected:
 
-        Gtk::FileFilter filter_lib;
-        filter_lib.set_name(".lib files");
-        filter_lib.add_pattern("*.lib");
+        auto filter_lib = Gtk::FileFilter::create();
+        filter_lib->set_name(".lib files");
+        filter_lib->add_pattern("*.lib");
         dialog.add_filter(filter_lib);
 
 
-        Gtk::FileFilter filter_any;
-        filter_any.set_name("Any files");
-        filter_any.add_pattern("*");
+        auto filter_any = Gtk::FileFilter::create();
+        filter_any->set_name("Any files");
+        filter_any->add_pattern("*");
         dialog.add_filter(filter_any);
 
   //Show the dialog and wait for a user response:
         int result = dialog.run();
         if (result  == Gtk::RESPONSE_OK){
-          libFile = dialog.get_filename();  
+          libFile = dialog.get_filename();
         }
         else {
           libFile = "Cancel";
-        }      
-      
-        
+        }
+
+
         if (libFile == "Cancel"){
           flagLoopToFindLib = 1;
           break;
@@ -497,10 +497,10 @@ std::string FileOperations::pickLibFile(
       } //end trying choosing teh file
       testExist = fopen ( libFile.c_str(), "r");
     }
-    
+
     if (testExist!= NULL){
       fclose (testExist);
-    }  
+    }
   return libFile;
 }
 

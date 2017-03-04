@@ -3,3 +3,5 @@ Makefile
 bin
 obj
 lib
+.DS_Store
+docs/html

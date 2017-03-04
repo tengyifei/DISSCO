@@ -4,8 +4,8 @@
  *  Date created  : Jan. 27 2010
  *  Authors       : Ming-ching Chiu, Sever Tipei
  *  Organization  : Music School, University of Illinois at Urbana Champaign
- *  Description   : This file contains the class "Project" of LASSIE. Each 
- *                  Project object holds the information of the project such as 
+ *  Description   : This file contains the class "Project" of LASSIE. Each
+ *                  Project object holds the information of the project such as
  *                  name, structure, etc.
  *
  *==============================================================================
@@ -52,15 +52,15 @@ class CustomNoteModifierHBox:public Gtk::HBox{
 public:
   CustomNoteModifierHBox(ProjectViewController* _projectView);
   CustomNoteModifierHBox(
-                    ProjectViewController* _projectView, 
+                    ProjectViewController* _projectView,
                     std::string _string);
   ~CustomNoteModifierHBox();
   std::string getText();
-  
+
 private:
   Gtk::Label label;
   Gtk::Entry entry;
-  Gtk::Button removeButton;  
+  Gtk::Button removeButton;
   ProjectViewController* projectView;
   void removeButtonClicked();
 
@@ -69,28 +69,28 @@ private:
 
 class ProjectViewController: public Gtk::VBox  {
 public:
-  
+
   //==========================================================================
   //============================Functions=====================================
   //==========================================================================
-  
+
   /*! \brief The constructor of ProjectViewController
    *
    ***************************************************************************/
   ProjectViewController(MainWindow* _mainWindow);
   ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow);
-  ProjectViewController( MainWindow* _mainWindow, std::string _pathAndName, 
-                          	std::string _projectTitle);  	
+  ProjectViewController( MainWindow* _mainWindow, std::string _pathAndName,
+                          	std::string _projectTitle);
   //this one is for the old format
   //ProjectViewController(std::string _pathAndName, MainWindow* _mainWindow,
   //std::string _datPathAndName, std::string _libPathAndName);
-  
+
   /*! \brief The destructor of ProjectViewController
    *
    ***************************************************************************/
   ~ProjectViewController();
-  
-  
+
+
   EnvelopeLibraryEntry* createNewEnvelope();
   EnvelopeLibraryEntry* duplicateEnvelope(
     				EnvelopeLibraryEntry* _originalEnvelope);
@@ -116,28 +116,28 @@ public:
   bool checkNameExists(string _name, EventType _type);
   void deleteObject(IEvent* _toDelete);
   void setSeed(string _seed){seed = _seed;}
-  
+
   std::map<std::string, bool> getDefaultNoteModifiers();
   std::vector<std::string> getCustomNoteModifiers();
-  
+
   IEvent* findIEvent(EventType _type, std::string _eventName);
   IEvent* getTop(){return top;}
 
   PaletteViewController* getPalette();
   EnvelopeLibraryEntry* getEnvelopeLibraryEntries();
-  
+
   IEvent* getEventByTypeAndName( EventType type, std::string _name);
   std::string searchPossibleParents(string _fileName);
-  
+
   ///////////////////////////////////drag and drop targets
-  std::list<Gtk::TargetEntry> listTargets;
-  
+  std::vector<Gtk::TargetEntry> listTargets;
+
   //////////////////////////////////////////////////////////////////
   //so that palette can push new event back to ievent
   std::vector <IEvent*> events;
-  
+
   //to be delete (and also the files) when "Save" is clicked
-  std::vector <IEvent*> deletedEvents; 
+  std::vector <IEvent*> deletedEvents;
 
   ObjectWindow* topWindow;
   ObjectWindow* highWindow;
@@ -152,30 +152,30 @@ public:
   ObjectWindow* revWindow;
   ObjectWindow* filWindow;
   ObjectWindow* noteWindow;
-  
+
 
 private:
-  
+
   //==========================================================================
   //=============================Fields=======================================
   //==========================================================================
-  
+
   /*! \brief title of the project
    *
    ***************************************************************************/
   std::string pathAndName;
-  
-  
+
+
   /*! \brief pointer to eventAttributesView
    *
    ***************************************************************************/
   EventAttributesViewController* eventAttributesView;
-  
+
   /*! \brief pointer to paletteView
    *
    ***************************************************************************/
   PaletteViewController* paletteView;
-  
+
   /*! \brief pointer to leftTwoPlusAttributes
    *
    *          leftTwoPlusAttributes is a Paned widget containing another
@@ -185,26 +185,26 @@ private:
    ***************************************************************************/
   Gtk::HPaned leftTwoPlusAttributes;
 
-  
+
   IEvent* top;
   bool modifiedButNotSaved;
   //this thing is a double-linked list
-  EnvelopeLibraryEntry* envelopeLibraryEntries; 
+  EnvelopeLibraryEntry* envelopeLibraryEntries;
   Gtk::Dialog* newObjectDialog;
   Gtk::Dialog* noteModifiersConfigurationDialog;
   Gtk::VBox* noteModifiersConfigurationCustomVBox;
   void newObjectButtonClicked();
-  
+
   Gtk::Dialog* projectPropertiesDialog;
-  
+
   void projectPropertiesDialogButtonClicked();
   void projectPropertiesDialogFunctionButtonClicked();
   void ConfigureNoteModifiersAddButtonClicked();
   void saveEnvelopeLibrary();
   void saveNoteModifierConfiguration();
   void refreshProjectDotDat();
-  EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry( 
-    Envelope* _envelope, 
+  EnvelopeLibraryEntry* convertToLASSIEEnvLibEntry(
+    Envelope* _envelope,
     int index);
 
   std::string topEvent;
@@ -223,12 +223,12 @@ private:
   bool emptyProject;
   std::vector<std::string> customNoteModifiers;
   std::map<std::string, bool> defaultNoteModifiers;
-  std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes; 
+  std::vector<CustomNoteModifierHBox*> customNotModifierHBoxes;
   SharedPointers* sharedPointers;
   void clearDeletedEvents();
-  
+
   DOMDocument *xmlDocument;
-  
+
 };
 
 #endif //PROJECT_VIEW_CONTROLLER_H
