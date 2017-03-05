@@ -1,16 +1,16 @@
 /*
 CMOD (composition module)
    Copyright (C) 2007  Sever Tipei (s-tipei@uiuc.edu)
-      
-   
+
+
    Update:
    This class is no longer in used by XML version of CMOD. It's here only
    for people who need to upgrade their DISSCO projects from the old format
    to the new format (See LASSIE/src/UpgradeProjectFormat.h ).
-   
+
                                             --Ming-ching Chiu May 06 2013
-                                            
-                                            
+
+
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
@@ -130,7 +130,7 @@ string FileValue::toString() {
         result += "Returned a string: " + s;
         break;
       case FVAL_LIST:
-        result += "Returned a list, length = " + l.size();
+        result += string("Returned a list, length = ") + std::to_string(l.size());
         break;
       case FVAL_ENVELOPE:
         result += "Returned an envelope.";
@@ -217,7 +217,7 @@ vector<FileValue*> FileValue::EvaluateArgs(int n, ...) {
     int arg_type = va_arg(ap, int);
 
     if (arg_type != iter->getReturnType()) {
-      cerr << "FileValue::EvaluateArgs - Argument " << argNum << " of " 
+      cerr << "FileValue::EvaluateArgs - Argument " << argNum << " of "
            << ftnString << " has incorrect return_type (return_type= " << iter->getReturnType()
            << ")" << endl;
       if (evptr != NULL) cerr << "      (in file " << evptr->getEventName() << ")" << endl;
@@ -248,7 +248,7 @@ void FileValue::Evaluate() {
 
   // this method only computes functions
   if (orig_type != FVAL_FUNC) {
-    return_type = orig_type; 
+    return_type = orig_type;
     return;
   }
 
@@ -284,7 +284,7 @@ void FileValue::Evaluate() {
     ftn_ExpandPattern();
   } else if (ftnString == "AdjustPattern") {
     ftn_AdjustPattern();
-  } else if (ftnString == "MakeEnvelope") { 
+  } else if (ftnString == "MakeEnvelope") {
     ftn_MakeEnvelope();
   } else if (ftnString == "MakeSieve") {
     ftn_MakeSieve();
@@ -345,19 +345,19 @@ void FileValue::Evaluate() {
         }
         iter++;
       }
-    
+
       // but DON'T CLEAR STATIC FUNCTIONS!!!
       if ( ftnString.substr(0, 8) == "CURRENT_" ) {
         recompute = true;
       }
-      
+
       // and DON'T CLEAR RANDOM FUNCTIONS
       if ( ftnString.substr(0,6) == "Random"
           || ftnString == "ChooseL"
           || ftnString == "GetPattern" ) {
         recompute = true;
       }
-    
+
       if (!recompute) {
         orig_type = return_type;
         ftnString.clear();
@@ -514,7 +514,7 @@ void FileValue::ftn_Stochos() {
       returnVal = envVect[i]->getValue(checkPoint, 1.);
       if(envVect.size() > 1) {                      // probability areas
         if(i == 0) randomNumber = Random::Rand();
-        if (returnVal >= randomNumber) { 
+        if (returnVal >= randomNumber) {
           returnVal = i;
           i = envVect.size(); // done: break out of the for loop
         }
@@ -531,7 +531,7 @@ void FileValue::ftn_Stochos() {
         cerr << "       in file " << evptr->getEventName() << endl;
       }
       exit(1);
-    } 
+    }
     for(int i = 0; i < 2; i++) {
       if(envVect[3 * offset + i] != NULL) {
         limit[i] = envVect[3 * offset + i]->getValue(checkPoint, 1);
@@ -590,8 +590,8 @@ void FileValue::ftn_Select() {
 
   if (chooseNum >= choiceList->size() || chooseNum < 0) {
     cerr << "FileValue -- Error in Select(): index out of bounds of select list" << endl;
-    cerr << "                    index = " << chooseNum << ", list has " 
-         << choiceList->size() << " items." << endl; 
+    cerr << "                    index = " << chooseNum << ", list has "
+         << choiceList->size() << " items." << endl;
     if (evptr != NULL) {
       cerr << "                in file " << evptr->getEventName() << endl;
     }
@@ -634,15 +634,15 @@ void FileValue::ftn_ValuePick() {
 
   return_type = FVAL_NUMBER;
   vector<FileValue*> args;
-  
+
   if (ftnArgs.size() ==10){ // new format with offset
-    args = EvaluateArgs(10, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE, 
-                                         FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING, 
+    args = EvaluateArgs(10, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE,
+                                         FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING,
                                          FVAL_LIST, FVAL_STRING, FVAL_LIST);
   }
-  else { // old format without offset    
-   args = EvaluateArgs(9, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE, 
-                                         FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING, 
+  else { // old format without offset
+   args = EvaluateArgs(9, FVAL_NUMBER, FVAL_ENVELOPE, FVAL_ENVELOPE,
+                                         FVAL_ENVELOPE, FVAL_STRING, FVAL_LIST, FVAL_STRING,
                                          FVAL_LIST, FVAL_STRING);
   }
 
@@ -663,13 +663,13 @@ void FileValue::ftn_ValuePick() {
   list<FileValue>* wArgList = args[7]->getListPtr(NULL);
   string modifyMethod = args[8]->getString();
   //int offset =(ftnArgs.size()==10)? args[9]->getInt(): 0;  //default offset = 0 if the function is in the old format
-  
+
   list<FileValue>::iterator iter;
     vector<int> offsetVect;
-  
+
   if (ftnArgs.size()==10){
-    list<FileValue>* offset = args[9]->getListPtr(NULL); 
- 
+    list<FileValue>* offset = args[9]->getListPtr(NULL);
+
     iter = offset->begin();
     while (iter != offset->end()) {
 
@@ -682,8 +682,8 @@ void FileValue::ftn_ValuePick() {
       offsetVect.push_back(0);
     }
   }
-  
-   
+
+
 
   // convert the lists to vectors
   vector<int> eArgVect;
@@ -702,10 +702,10 @@ void FileValue::ftn_ValuePick() {
     wArgVect.push_back( iter->getInt() );
     iter++;
   }
-  
 
-  
-  
+
+
+
 
   int minVal = (int)floor( envLow->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
   int maxVal = (int)floor( envHigh->getScaledValueNew(checkpoint, 1) * absRange + 0.5);
@@ -742,8 +742,8 @@ void FileValue::ftn_GetPattern() {
   Patter* patPtr = args[2]->getPattern(evptr);
   obj = patPtr;
   //n = patPtr->GetNextValue( patterMethod, patterOrigin );
-   
-  
+
+
 }
 
 //----------------------------------------------------------------------------//
@@ -779,11 +779,11 @@ void FileValue::ftn_MakeEnvelope() {
   return_type = FVAL_ENVELOPE;
 
   /*  Arg1: <points for x>  ( note: 1 more points than segments)
-      Arg2: <points for y> 
+      Arg2: <points for y>
       Arg3: <interpolation types>
       Arg4: <flex or fixed length>
       Arg5: scale value for envelope  */
-  vector<FileValue*> args = EvaluateArgs(5, FVAL_LIST, FVAL_LIST, FVAL_LIST, 
+  vector<FileValue*> args = EvaluateArgs(5, FVAL_LIST, FVAL_LIST, FVAL_LIST,
                                          FVAL_LIST, FVAL_NUMBER);
 
   list<FileValue>* xPoints = args[0]->getListPtr(NULL);
@@ -793,8 +793,8 @@ void FileValue::ftn_MakeEnvelope() {
   float scaleFactor = args[4]->getFloat();
 
   // Check for correct list sizes
-  if (xPoints->size() != yPoints->size() || 
-      interpTypes->size() != flexOrFix->size()) {	
+  if (xPoints->size() != yPoints->size() ||
+      interpTypes->size() != flexOrFix->size()) {
     cerr << "Error evaluating MakeEnvelope: Parameter list lengths"
          << " are not correct." << endl;
     exit(1);
@@ -885,21 +885,21 @@ void FileValue::ftn_MakeSieve() {
       Arg3: string elementMethod
       Arg4: <elementArgVector>
       Arg5: string weightMethod
-      Arg6: <weightArgVector> 
+      Arg6: <weightArgVector>
       Arg7: <offsetVector> offset (only exist in the new format)
       */
 
   vector<FileValue*> args;
-        
+
   if (ftnArgs.size() ==7){ // new format with offset
-    args = EvaluateArgs(7, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING, 
+    args = EvaluateArgs(7, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING,
                            FVAL_LIST, FVAL_STRING, FVAL_LIST,FVAL_LIST);
   }
   else { // old format
-    args = EvaluateArgs(6, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING, 
+    args = EvaluateArgs(6, FVAL_NUMBER, FVAL_NUMBER, FVAL_STRING,
                            FVAL_LIST, FVAL_STRING, FVAL_LIST);
-  
-  }                         
+
+  }
 
   int minVal = args[0]->getInt();
   int maxVal = args[1]->getInt();
@@ -911,10 +911,10 @@ void FileValue::ftn_MakeSieve() {
 
   list<FileValue>::iterator iter;
   vector<int> offsetVect;
-  
+
   if (ftnArgs.size()==7){
-    list<FileValue>* offset = args[6]->getListPtr(NULL); 
- 
+    list<FileValue>* offset = args[6]->getListPtr(NULL);
+
     iter = offset->begin();
     while (iter != offset->end()) {
 
@@ -1020,7 +1020,7 @@ void FileValue::ftn_ReadSIVFile() {
 /*  FileValue* tmpfv = tmpFact->getSieveBuild ??(); 		*/
 
   //setSieve( tmpfv->getSieve(evptr) );
-  
+
 }
 
 //----------------------------------------------------------------------------//
@@ -1166,7 +1166,7 @@ void FileValue::static_ftn_DURATION_EDU() { //Deprecated--use AVAILABLE_EDU
 
 void FileValue::static_ftn_AVAILABLE_EDU() {
   if (evptr == NULL) {
-    cerr << "FileValue Error: AVAILABLE_EDU used outside of Event context" 
+    cerr << "FileValue Error: AVAILABLE_EDU used outside of Event context"
          << endl;
     exit(1);
   }
@@ -1178,7 +1178,7 @@ void FileValue::static_ftn_AVAILABLE_EDU() {
 
 void FileValue::static_ftn_CURRENT_LAYER() {
   if (evptr == NULL) {
-    cerr << "FileValue Error: CURRENT_LAYER used outside of Event context" 
+    cerr << "FileValue Error: CURRENT_LAYER used outside of Event context"
         << endl;
     exit(1);
   }
@@ -1188,7 +1188,7 @@ void FileValue::static_ftn_CURRENT_LAYER() {
 
 void FileValue::static_ftn_PREVIOUS_CHILD_DURATION() {
   if (evptr == NULL) {
-    cerr << "FileValue Error: PREVIOUS_CHILD_DURATION used outside of Event context" 
+    cerr << "FileValue Error: PREVIOUS_CHILD_DURATION used outside of Event context"
         << endl;
     exit(1);
   }

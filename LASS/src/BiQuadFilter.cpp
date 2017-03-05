@@ -53,11 +53,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* set up the BiQuad Filter */
 BiQuadFilter::BiQuadFilter(int type, m_sample_type dbGain, m_sample_type freq,m_sample_type srate, m_sample_type bandwidth)
 {
-	 
-    	m_sample_type A, omega, sn, cs, alpha, beta;
-    	m_sample_type a0, a1, a2, b0, b1, b2;
 
-	
+    	m_sample_type A, omega, sn, cs, alpha, beta;
+    	m_sample_type a0 = 0, a1 = 0, a2 = 0, b0 = 0, b1 = 0, b2 = 0;
+
+
    	/* setup variables */
     	A = pow(10, dbGain /40);
     	omega = 2 * M_PI * freq /srate;
@@ -154,7 +154,7 @@ BiQuadFilter::BiQuadFilter(int type, m_sample_type dbGain, m_sample_type freq,m_
 	x_hist->enqueue(0.0);
 	x_hist->enqueue(0.0);
 
-	
+
 }
 
 
@@ -168,7 +168,7 @@ BiQuadFilter::~BiQuadFilter()
 //----------------------------------------------------------------------------//
 m_sample_type BiQuadFilter::do_filter(m_sample_type sample)
 {
-    
+
     m_sample_type result;
 
     bx1 = x_hist->dequeue();
@@ -182,12 +182,12 @@ m_sample_type BiQuadFilter::do_filter(m_sample_type sample)
 //    bx2 = bx1;
 //    bx1 = sample;
       x_hist->enqueue(sample);
-      x_hist->enqueue(bx1);     	
+      x_hist->enqueue(bx1);
     /* shift y1 to y2, result to y1 */
     by2 = by1;
     by1 = result;
     y_hist->enqueue(result);
-    y_hist->enqueue(by1);     	
+    y_hist->enqueue(by1);
 
 
     return result;

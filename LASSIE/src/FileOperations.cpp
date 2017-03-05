@@ -114,7 +114,8 @@ std::string FileOperations::saveAs(MainWindow* _mainWindow){//return new path
       }
     }
   }
-  else return "";
+
+  return "";
 }
 
 void FileOperations::createDirectories(std::string _pathAndName){
@@ -327,6 +328,7 @@ ProjectViewController* FileOperations::openProject(MainWindow* _mainWindow){
   }
 
   return NULL;*/
+  return NULL;
 }
 
 

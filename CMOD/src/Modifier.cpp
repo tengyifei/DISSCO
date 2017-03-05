@@ -86,6 +86,7 @@ Modifier& Modifier::operator=(const Modifier& rhs) {
       env_values.push_back(NULL);
     }
   }
+  return *this;
 }
 
 //----------------------------------------------------------------------------//
@@ -117,7 +118,7 @@ float Modifier::getProbability(double checkPoint) {
 //----------------------------------------------------------------------------//
 
 string Modifier::getModName() {
-  return type; 
+  return type;
 }
 
 //----------------------------------------------------------------------------//
@@ -147,7 +148,7 @@ void Modifier::applyModifier(Sound* snd, int numParts) {
 //----------------------------------------------------------------------------//
 
 void Modifier::applyModSound(Sound* snd) {
-  if (type == "FREQUENCY" || type == "GLISSANDO" 
+  if (type == "FREQUENCY" || type == "GLISSANDO"
       || type == "DETUNE" || type == "BEND") {
     snd->setPartialParam(FREQ_ENV, *(env_values[0]));
   } else if (type == "TREMOLO") {
@@ -177,7 +178,7 @@ void Modifier::applyModSound(Sound* snd) {
 //----------------------------------------------------------------------------//
 
 void Modifier::applyModPartial(Sound* snd, int partNum) {
-  if (type == "FREQUENCY" || type == "GLISSANDO" 
+  if (type == "FREQUENCY" || type == "GLISSANDO"
       || type == "DETUNE" || type == "BEND") {
     snd->get(partNum).setParam(FREQ_ENV, *(env_values.front()));
     delete env_values.front();
