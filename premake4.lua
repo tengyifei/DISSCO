@@ -10,7 +10,7 @@ DebugFlags = {"Symbols", "NoPCH", "NoManifest"}
 ReleaseFlags = {"Optimize"}
 
 if os.get() == "macosx" then
-  ExtraFlags = "-std=gnu++11"
+  ExtraFlags = "-std=gnu++11 -DMACOSX"
 else if os.get() == "linux" then
   ExtraFlags = "-gstabs"
 else

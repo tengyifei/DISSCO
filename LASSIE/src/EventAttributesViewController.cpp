@@ -762,7 +762,7 @@ void EventAttributesViewController::showAttributesOfEvent(IEvent* _event){
 
     }
   //scrolledWindow.remove(); //remove the child from the main scrolled window
-    Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
+    Gtk::Viewport* temp = dynamic_cast<Gtk::Viewport*>(scrolledWindow.get_child());
     if (temp){
       temp->remove();
     }
@@ -1338,10 +1338,11 @@ void EventAttributesViewController::showCurrentEventData(){
 
   }
 
-  Gtk::Viewport* temp =(Gtk::Viewport*) scrolledWindow.get_child();
+  Gtk::Viewport* temp = dynamic_cast<Gtk::Viewport*>(scrolledWindow.get_child());
   if (temp){
     temp->remove();
   }
+  scrolledWindow.remove();
 
   Gtk::Entry*        entry; // use to point to a text entry
   Gtk::Label*        label;

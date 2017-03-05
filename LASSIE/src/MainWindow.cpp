@@ -33,6 +33,13 @@
 #include "FileOperations.h"
 #include "HelpOperations.h"
 #include "EnvelopeLibraryWindow.h"
+#include <exception>
+#include <unistd.h>
+#ifdef MACOSX
+#include <mach-o/dyld.h>
+#else
+#include <linux/limits.h>
+#endif
 
 
 // these definitions are for calling yyparse(). They are copied from lex.yy.c
@@ -88,7 +95,7 @@ struct yy_buffer_state
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
-    
+
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
@@ -154,7 +161,7 @@ MainWindow::MainWindow(){
   set_default_size(1000, 600);
   set_decorated(true);
   set_position(Gtk::WIN_POS_CENTER_ALWAYS);
-  
+
 
   add(mainBox); // put the main box into the window
 
@@ -174,7 +181,7 @@ MainWindow::MainWindow(){
     Gtk::Action::create(
       "FileNewObject",
       Gtk::Stock::ADD,
-      "_Create a new Object", 
+      "_Create a new Object",
       "Create a new object"),
 		  Gtk::AccelKey("<alt>N"),
     sigc::mem_fun(*this, &MainWindow::menuFileNewObject));
@@ -188,7 +195,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->add(
     Gtk::Action::create(
       "FileOpen",
-      Gtk::Stock::OPEN, 
+      Gtk::Stock::OPEN,
       "_Open an existing project",
       "Open an existing project"),
     //sigc::mem_fun(*this, &MainWindow::menuFileOpen));
@@ -220,7 +227,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->add(
     Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
     sigc::mem_fun(*this, &MainWindow::menuFileQuit));
-    
+
 
 
   // Edit and its sub-menu
@@ -265,11 +272,11 @@ MainWindow::MainWindow(){
   menuRefActionGroup->add(
     Gtk::Action::create("Synthesize", "Synthesize"),
     sigc::mem_fun(*this, &MainWindow::menuProjectSynthesize));
-    
+
   menuRefActionGroup->add(
     Gtk::Action::create("GenerateSCFile", "Generate SuperCollider File"),
-    sigc::mem_fun(*this, &MainWindow::menuProjectGenerateSCFile));  
-    
+    sigc::mem_fun(*this, &MainWindow::menuProjectGenerateSCFile));
+
 
   menuRefActionGroup->add(
     Gtk::Action::create("ConfigureNoteModifiers", "Configure Note Modifiers"),
@@ -279,7 +286,7 @@ MainWindow::MainWindow(){
   // Help and its sub-menu
   menuRefActionGroup->add( Gtk::Action::create("HelpMenu", "Help"));
 
-  menuRefActionGroup->add( 
+  menuRefActionGroup->add(
     Gtk::Action::create("HelpContents",Gtk::Stock::HELP, "Contents"),
     sigc::mem_fun(*this, &MainWindow::menuHelpContents));
 
@@ -289,15 +296,15 @@ MainWindow::MainWindow(){
 
 
 
-  menuRefActionGroup->get_action("FileNewObject")->set_sensitive(false); 
-  //menuRefActionGroup->get_action("FileNewObject")->add_accel_label("N");    
+  menuRefActionGroup->get_action("FileNewObject")->set_sensitive(false);
+  //menuRefActionGroup->get_action("FileNewObject")->add_accel_label("N");
   menuRefActionGroup->get_action("FileSave")->set_sensitive(false);
   menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(false);
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
   menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(false);
   menuRefActionGroup->get_action(
-    "ConfigureNoteModifiers")->set_sensitive(false);  
+    "ConfigureNoteModifiers")->set_sensitive(false);
 
 
 
@@ -310,7 +317,7 @@ MainWindow::MainWindow(){
 
 
   // Layout the actions in a menubar and toolbar:
-  ui_info_befor = 
+  ui_info_befor =
         "<ui>"
         "  <menubar name='menuBar'>"
         "    <menu action='FileMenu'>"
@@ -329,7 +336,7 @@ MainWindow::MainWindow(){
 //        "      <menuitem action='FilePrint'/>"
         "      <separator/>";
 
-  ui_info_after = 
+  ui_info_after =
         "      <separator/>"
         "      <menuitem action='FileQuit'/>"
         "    </menu>"
@@ -349,7 +356,7 @@ MainWindow::MainWindow(){
         "      <menuitem action='ProjectProperties'/>"
         "      <menuitem action = 'Synthesize'/>"
         "      <menuitem action = 'GenerateSCFile' />"
-        "      <menuitem action = 'ConfigureNoteModifiers'/>"        
+        "      <menuitem action = 'ConfigureNoteModifiers'/>"
         "    </menu>"
         "    <menu action='HelpMenu'>"
         "      <menuitem action='HelpContents'/>"
@@ -395,12 +402,12 @@ MainWindow::MainWindow(){
 
   // Get the menubar and toolbar widgets, and add them to mainBox container.
 
-  pointerToMenubarWidget = 
+  pointerToMenubarWidget =
     menuRefUIManager->get_widget("/menuBar");
-  if(pointerToMenubarWidget){ // add menu 
+  if(pointerToMenubarWidget){ // add menu
     mainBox.pack_start(*pointerToMenubarWidget, Gtk::PACK_SHRINK);
-  }	
-  pointerToToolbarWidget = 
+  }
+  pointerToToolbarWidget =
     menuRefUIManager->get_widget("/ToolBar");
   if(pointerToToolbarWidget){ // add tool
     mainBox.pack_start(*pointerToToolbarWidget, Gtk::PACK_SHRINK);
@@ -411,31 +418,31 @@ MainWindow::MainWindow(){
 
 
 
-  // make an empty project view to the mainbox. 
+  // make an empty project view to the mainbox.
   // notice that when adding projectView, Pack_EXPAND_WIDGET is used,
   // not PACK_SHRINK,
-  // because we want the projectView to fill in the space when 
-  // the main window expand.  
-  projectView = new ProjectViewController(this);  
-  mainBox.pack_start(*projectView, Gtk::PACK_EXPAND_WIDGET); 
+  // because we want the projectView to fill in the space when
+  // the main window expand.
+  projectView = new ProjectViewController(this);
+  mainBox.pack_start(*projectView, Gtk::PACK_EXPAND_WIDGET);
   // put the pointer of the current projectView into <vector> projects
   projects.push_back(projectView);
-  
 
-  
+
+
   // create an instance of EnvelopeLibraryWindow
   //envelopeLibraryWindow = (EnvelopeLibraryWindow*) new Gtk::Window();
   envelopeLibraryWindow = new EnvelopeLibraryWindow();
   envelopeLibraryWindow->hide();
   envelopeLibraryWindow->setActiveProject(projectView);
-  
 
-  
+
+
 
   Gtk::Main::signal_key_snooper().connect(
     sigc::mem_fun(*this,&MainWindow::captureKeyStroke));
-  
- 
+
+
   show_all_children();
 }
 
@@ -445,7 +452,7 @@ MainWindow::MainWindow(){
 *******************************************************************************/
 MainWindow::~MainWindow(){
   for(std::vector<ProjectViewController*>::
-        iterator it = projects.begin(); 
+        iterator it = projects.begin();
       it!=projects.end();
       it++){
 
@@ -466,10 +473,10 @@ void MainWindow::menuFileNewProject(){
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
-    
-    
+
+
     menuRefActionGroup->get_action(
-      "ConfigureNoteModifiers")->set_sensitive(true);     
+      "ConfigureNoteModifiers")->set_sensitive(true);
     disableNewAndOpenProject();
 
     projects.push_back(newProject);
@@ -504,9 +511,9 @@ void MainWindow::menuFileOpen(){
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action(
-      "ConfigureNoteModifiers")->set_sensitive(true);      
+      "ConfigureNoteModifiers")->set_sensitive(true);
     disableNewAndOpenProject();
-      
+
     projects.push_back(openProject);
     MainWindow::includeUi_info(openProject->getPathAndName(),"add");
     changeCurrentProjectViewTo(openProject);
@@ -514,10 +521,10 @@ void MainWindow::menuFileOpen(){
     title = openProject->getPathAndName() + title;
     set_title(title);
     openProject->setProperties();
-    
+
     envelopeLibraryWindow->setActiveProject(openProject);
-    
-    
+
+
   }
 }
 
@@ -526,7 +533,7 @@ void MainWindow::menuFileOpen(){
 
 void MainWindow::menuFileOpenXML(){
   ProjectViewController* openProject = FileOperations::openXMLProject(this);
-  
+
   if(openProject!= NULL){
     menuRefActionGroup->get_action("FileNewObject")->set_sensitive(true);
     menuRefActionGroup->get_action("FileSave")->set_sensitive(true);
@@ -535,17 +542,17 @@ void MainWindow::menuFileOpenXML(){
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
     menuRefActionGroup->get_action(
-      "ConfigureNoteModifiers")->set_sensitive(true);      
+      "ConfigureNoteModifiers")->set_sensitive(true);
     disableNewAndOpenProject();
-    
+
     projects.push_back(openProject);
-    
+
     MainWindow::includeUi_info(openProject->getPathAndName(),"add");
     changeCurrentProjectViewTo(openProject);
     std::string title = " - LASSIE";
     title = openProject->getPathAndName() + title;
     set_title(title);
-    openProject->setProperties();    
+    openProject->setProperties();
   }
 }
 
@@ -554,7 +561,7 @@ void MainWindow::menuFileOpenXML(){
 
 void MainWindow::menuFileSave(){
   if (projectView->getEmptyProject()== false){
-    projectView->save();   
+    projectView->save();
   }
 }
 
@@ -565,22 +572,22 @@ void MainWindow::setSavedTitle(){
     std::string title = " - LASSIE";
     title = projectView->getPathAndName() + title;
     set_title(title);
-}  
-  
+}
+
 
 //-----------------------------------------------------------------------------
 
 void MainWindow::menuFileSaveAs(){
-	
+
 	string newPathAndName = FileOperations::saveAs(this);
-	
+
 	if (newPathAndName =="") {
 		return ;
 	}
 	std::string title = " - LASSIE";
         title = newPathAndName + title;
         set_title(title);
-	
+
 	projectView->saveAs(newPathAndName);
 }
 
@@ -599,7 +606,7 @@ void MainWindow::menuFilePrint(){}//TODO
 
 //-----------------------------------------------------------------------------
 
-void MainWindow::menuFileQuit(){	
+void MainWindow::menuFileQuit(){
   hide(); //Closes the main window to stop the Gtk::Main::run().
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -635,10 +642,10 @@ void MainWindow::changeCurrentProjectViewTo(
                   ProjectViewController* _newProject)
 {
   mainBox.remove(*projectView);
-  mainBox.pack_start(*_newProject, Gtk::PACK_EXPAND_WIDGET); 
+  mainBox.pack_start(*_newProject, Gtk::PACK_EXPAND_WIDGET);
   projectView = _newProject;
   envelopeLibraryWindow->setActiveProject(_newProject);
-  
+
   show_all_children();
 }
 
@@ -676,7 +683,7 @@ void MainWindow::includeUi_info(Glib::ustring pathAndName,
     menuRefUIManager->add_ui_from_string(ui_info);
 
     pointerToMenubarWidget = menuRefUIManager->get_widget("/menuBar");
-    if(pointerToMenubarWidget){ // add menu 
+    if(pointerToMenubarWidget){ // add menu
       mainBox.pack_start(*pointerToMenubarWidget, Gtk::PACK_SHRINK);
     }
 
@@ -725,13 +732,13 @@ int MainWindow::captureKeyStroke(
     if (projectView!= NULL&& projectView->getPathAndName() != ""){
       rojectView->nKeyPressed(get_focus());// for palette to add object
     }
-  } 
+  }
 */
 /*
  GdkEventType type;   8 press 9 release
  GdkWindow *window; this window
  gint8 send_event; don't know what's this
- guint32 time; event time 
+ guint32 time; event time
  guint state; usually 16 ctrl keys otherwise
  guint keyval; ascii
  gint length;
@@ -743,14 +750,50 @@ int MainWindow::captureKeyStroke(
   return 0;
 }
 
+std::string resolveBinaryLocation()
+{
+  const size_t bufSize = PATH_MAX + 1;
+  char dirNameBuffer[bufSize];
+  std::string binaryDirname;
+
+#ifdef MACOSX
+  uint32_t size = bufSize;
+
+  if (_NSGetExecutablePath(dirNameBuffer, &size) != 0) {
+    // Buffer size is too small.
+    throw std::runtime_error("Path buffer size too small");
+  }
+#else // not MACOSX
+  // Read the symbolic link '/proc/self/exe'.
+  const char *linkName = "/proc/self/exe";
+  const int ret = int(readlink(linkName, dirNameBuffer, bufSize - 1));
+
+  if (ret == -1) {
+    // Permission denied (We must be inetd with this app run as other than root).
+    throw std::runtime_error("Permission denied");
+  }
+
+  dirNameBuffer[ret] = 0; // Terminate the string with a NULL character.
+#endif // else not MACOSX
+
+  binaryDirname = dirNameBuffer;
+
+  // Erase the name of the executable:
+  string::size_type last = binaryDirname.size() - 1;
+  string::size_type idx  = binaryDirname.rfind('/', last);
+
+  // Add one to keep the trailing directory separator.
+  binaryDirname.erase(idx + 1);
+  return binaryDirname;
+}
 
 //-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectSynthesize(){
   Gtk::Dialog* synthesizeDialog;
-  
+
   //Load the GtkBuilder file and instantiate its widgets:
-  Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder = 
+  Glib::RefPtr<Gtk::Builder> synthesizeDialogRefBuilder =
     Gtk::Builder::create();
 
 
@@ -772,9 +815,9 @@ void MainWindow::menuProjectSynthesize(){
       "./LASSIE/src/UI/SynthesizeDialog.ui", error)){
       std::cerr << error->what() << std::endl;
     }
-  #endif // !GLIBMM_EXCEPTIONS_ENABLED 
+  #endif // !GLIBMM_EXCEPTIONS_ENABLED
 
-	
+
   //Get the GtkBuilder-instantiated Dialog:
   synthesizeDialogRefBuilder->get_widget("SynthesizeDialog", synthesizeDialog);
 
@@ -785,49 +828,55 @@ void MainWindow::menuProjectSynthesize(){
 
   int result = synthesizeDialog->run();
 
-	synthesizeDialog->hide(); 
+	synthesizeDialog->hide();
 
   if(result == 1 && projectView) {
-  
+
     string pathAndName = projectView->getPathAndName();
     string projectPath = pathAndName + "/";
     string projectName = FileOperations::stringToFileName(pathAndName);
     //string dat = projectPath + projectName + ".dat";
     projectView->setSeed(randomSeedEntry->get_text());
     projectView->save();
-    
+
     cout<<"projectPath"<<projectPath<<endl;
     //FILE* newBufferFile = fopen (dat.c_str(), "r");
     //yyin = fopen (dat.c_str(), "r");
-    
+
     // create a new buffer for parser
     //YY_BUFFER_STATE newParserBuffer = yy_create_buffer ( yyin,YY_BUF_SIZE);
-    
+
     //yy_switch_to_buffer (newParserBuffer);
-    
+
     //Determine project sound file output.
     PieceHelper::createSoundFilesDirectory(projectPath);
-    
+
     /*
-    string soundFilename = 
+    string soundFilename =
            PieceHelper::getNextSoundFile(projectPath, projectName);
-      
+
     if(soundFilename == "")
       cout << "A new soundfile name could not be reserved." << endl;
-      //TODO: Make message box to warn user. 
+      //TODO: Make message box to warn user.
       //(But this error should  not happen!)
     else {
-      
+
       */
-      
+
       //if (fork() == 0){
       //cout<<"this is the child. execute cmod"<<endl;
-      
-      string command = "gnome-terminal -e \"bash -c \\\"./cmod " + projectPath 
-                         + projectName + ".dissco";     
-      command = command + " ; exec bash\\\"\""; 
-      system(command.c_str()) ;
-      //yy_delete_buffer(newParserBuffer);      
+
+      string commandRunner;
+#ifdef MACOSX
+      commandRunner = "xterm -e ";
+#else
+      commandRunner = "gnome-terminal -e ";
+#endif
+      string command = commandRunner + "\"bash -c \\\"" + resolveBinaryLocation() + "/cmod " + projectPath
+                         + projectName + ".dissco";
+      command = command + " ; exec bash\\\"\"";
+      system(command.c_str());
+      //yy_delete_buffer(newParserBuffer);
 
       projectView->setSeed(""); //reset seed
     }
@@ -840,15 +889,15 @@ void MainWindow::setUnsavedTitle(){
   std::string title = " - LASSIE";
   title = "*" + projectView->getPathAndName() + title;
   set_title(title);
-   
+
 }
 
 
 //-----------------------------------------------------------------------------
 
 void MainWindow::disableNewAndOpenProject(){
-  menuRefActionGroup->get_action("FileNewProject")->set_sensitive(false); 
-    
+  menuRefActionGroup->get_action("FileNewProject")->set_sensitive(false);
+
   menuRefActionGroup->get_action("FileOpen")->set_sensitive(false);
 
 }
@@ -859,7 +908,7 @@ void MainWindow::disableNewAndOpenProject(){
 void MainWindow::menuProjectConfigureNoteModifiers(){
   if (projectView!= NULL &&projectView->getEmptyProject() == false){
     projectView->configureNoteModifiers();
-  }  
+  }
 }
 
 

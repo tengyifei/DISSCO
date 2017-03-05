@@ -4,7 +4,7 @@
  *  Date created  : May. 15 2010
  *  Authors       : Ming-ching Chiu, Sever Tipei
  *  Organization  : Music School, University of Illinois at Urbana Champaign
- *  Description   : This file implement the Envelope Library Window of LASSIE. 
+ *  Description   : This file implement the Envelope Library Window of LASSIE.
  *                  The envelope library lists all the pre-made envelopes.
  *==============================================================================
  *
@@ -26,7 +26,7 @@
  *  along with LASSIE.  If not, see <http://www.gnu.org/licenses/>.
  *
  ******************************************************************************/
- 
+
 #include "EnvelopeLibraryWindow.h"
 
 #include "EnvLibDrawingArea.h"
@@ -39,8 +39,8 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
     set_border_width(3);
     activeEnvelope = NULL;
 
-  
-  
+
+
   attributesRefBuilder = Gtk::Builder::create();
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
   try{
@@ -53,29 +53,29 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   catch (const Gtk::BuilderError& ex){
     std::cerr << "BuilderError: " << ex.what() << std::endl;
   }
-   
+
    #else
   std::auto_ptr<Glib::Error> error;
   if (!attributesRefBuilder->add_from_file(
     "./LASSIE/src/UI/EnvelopeLibraryWindow.ui", error)){
     std::cerr << error->what() << std::endl;
   }
-   
+
    #endif
-  
+
   /* try to enable save while envelope library window is active, but fail :(
-    will do this later 
-   menuRefActionGroup = Gtk::ActionGroup::create();  
+    will do this later
+   menuRefActionGroup = Gtk::ActionGroup::create();
 
   menuRefActionGroup->add(
     Gtk::Action::create("FileSave",Gtk::Stock::SAVE),
     sigc::mem_fun(*this, &EnvelopeLibraryWindow::fileSave));
   */
-   
+
   Gtk::VBox* box;
-   
+
   attributesRefBuilder->get_widget("vbox1", box);
-   
+
 	Gtk::Alignment* a;
   attributesRefBuilder->get_widget("DrawingAreaAlignment", a);
   drawingArea = new EnvLibDrawingArea(this);
@@ -85,14 +85,14 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   add(*box);
   drawingArea->show();
   box->show_all();
-  
+
 
     attributesRefBuilder->get_widget("EnvelopeListAlignment", a);
-  
- 
+
+
   a->add(scrolledWindow);
-   
-  
+
+
   // Add the TreeView, inside a ScrolledWindow
   scrolledWindow.add(envelopeLibrary);
 
@@ -122,16 +122,16 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
     sigc::mem_fun(*this, &EnvelopeLibraryWindow::objectActivated) );
   envelopeLibrary.signal_cursor_changed().connect(
     sigc::mem_fun(*this,&EnvelopeLibraryWindow::on_cursor_changed) );
-    
-    
+
+
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget("XValueEntry", entry);
   entry->signal_changed().connect (
     sigc::mem_fun(*this, &EnvelopeLibraryWindow::valueEntriesChanged));
   attributesRefBuilder->get_widget("YValueEntry", entry);
   entry->signal_changed().connect (
-    sigc::mem_fun(*this, &EnvelopeLibraryWindow::valueEntriesChanged));    
-    
+    sigc::mem_fun(*this, &EnvelopeLibraryWindow::valueEntriesChanged));
+
 
   //////////////////////////test for drag and drop///////////////////////////
 
@@ -198,8 +198,8 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
   //projectView->add_accel_group(m_refUIManager->get_accel_group());
 
   //Layout the actions in a menubar and toolbar:
-  
-  
+
+
   Glib::ustring ui_info =
     "<ui>"
     "  <popup name='PopupMenu'>"
@@ -228,14 +228,14 @@ EnvelopeLibraryWindow::EnvelopeLibraryWindow(){
     m_refUIManager->get_widget("/PopupMenu"));
 
   if(!m_pMenuPopup) g_warning("menu not found");
-  
-  
+
+
 
   Gtk::Main::signal_key_snooper().connect(sigc::mem_fun(*this,&EnvelopeLibraryWindow::captureKeyStroke));
-  
-   
+
+
    show_all();
-  
+
 }
 
 EnvelopeLibraryWindow::~EnvelopeLibraryWindow(){
@@ -243,7 +243,7 @@ EnvelopeLibraryWindow::~EnvelopeLibraryWindow(){
 }
 
 
-  
+
 
 
 bool EnvelopeLibraryWindow::onRightClick(GdkEventButton* event){
@@ -260,7 +260,7 @@ bool EnvelopeLibraryWindow::onRightClick(GdkEventButton* event){
 
 void EnvelopeLibraryWindow::createNewEnvelope(){
   EnvelopeLibraryEntry* newEnvelope = activeProject->createNewEnvelope();
-  
+
   activeProject->modified();
   Gtk::TreeModel::Row childrow= *(refTreeModel->append());
 
@@ -269,7 +269,7 @@ void EnvelopeLibraryWindow::createNewEnvelope(){
   childrow[columns.columnEntry] =newEnvelope;
 
 
-  
+
 
 
 }
@@ -279,7 +279,7 @@ void EnvelopeLibraryWindow::createNewEnvelope(){
 void EnvelopeLibraryWindow::refreshEnvelopeList(){
 	//this method is very inefficient, but for the first version we'll do this for
 	//now.
-	
+
 	//remove the current refTreeModel and make a new one
 	refTreeModel = Gtk::TreeStore::create(columns);
   envelopeLibrary.set_model(refTreeModel);
@@ -306,15 +306,16 @@ void EnvelopeLibraryWindow::objectActivated(
 
 void EnvelopeLibraryWindow::on_cursor_changed(){
 //TODO
-  
-  Gtk::TreeModel::Children::iterator iter = envelopeLibrary.get_selection()->get_selected();
-  Gtk::TreeModel::Row row = *iter;
-  
-  activeEnvelope = row[columns.columnEntry];
-  drawingArea->resetFields();
-  drawingArea->showGraph(row[columns.columnEntry]);
 
-  
+  Gtk::TreeModel::Children::iterator iter = envelopeLibrary.get_selection()->get_selected();
+  if (iter) {
+    Gtk::TreeModel::Row row = *iter;
+
+    activeEnvelope = row[columns.columnEntry];
+    drawingArea->resetFields();
+    drawingArea->showGraph(row[columns.columnEntry]);
+  }
+
 }
 
 
@@ -327,24 +328,24 @@ void EnvelopeLibraryWindow::on_cursor_changed(){
 void EnvelopeLibraryWindow::setActiveProject(ProjectViewController* _project){
 	//clean up the drawing area
 	drawingArea->clearGraph();
-  
-  
+
+
   activeProject = _project;
   refreshEnvelopeList();
-  
+
   EnvelopeLibraryEntry* thisEntry = activeProject->getEnvelopeLibraryEntries();
   while (thisEntry != NULL){
     Gtk::TreeModel::Row childrow= *(refTreeModel->append());
     childrow[columns.columnObjectNumber] = thisEntry->getNumberString();
     childrow[columns.columnEntry] =thisEntry;
-    thisEntry = thisEntry->next;  
+    thisEntry = thisEntry->next;
   }
   activeEnvelope = NULL;
 
 }
 
 EnvelopeLibraryEntry* EnvelopeLibraryWindow::getActiveEnvelope(){
-  
+
   return activeEnvelope;
 }
 
@@ -357,15 +358,15 @@ EnvelopeLibraryEntry* EnvelopeLibraryWindow::getActiveEnvelope(){
 
 int EnvelopeLibraryWindow::captureKeyStroke(Gtk::Widget* _widget,
                                             GdkEventKey* _gdkEventKey){
-  
-  if (_gdkEventKey->type ==8 && 
-      _gdkEventKey->keyval == 115 && 
+
+  if (_gdkEventKey->type ==8 &&
+      _gdkEventKey->keyval == 115 &&
       _gdkEventKey->state ==20){ //ctrl-s pressed
     activeProject->save();
   }
-  
-  
-  
+
+
+
 
   return 0;
 }
@@ -377,7 +378,7 @@ void EnvelopeLibraryWindow::valueEntriesChanged(){
   attributesRefBuilder->get_widget("XValueEntry", x);
   attributesRefBuilder->get_widget("YValueEntry", y);
 
-  drawingArea->setActiveNodeCoordinate(x->get_text(), y->get_text()); 
+  drawingArea->setActiveNodeCoordinate(x->get_text(), y->get_text());
 }
 
 
@@ -386,7 +387,7 @@ void EnvelopeLibraryWindow::setEntries(string _x, string _y){
   Gtk::Entry* y;
   attributesRefBuilder->get_widget("XValueEntry", x);
   attributesRefBuilder->get_widget("YValueEntry", y);
-  
+
   x->set_text(_x);
   y->set_text(_y);
 
@@ -396,19 +397,19 @@ void EnvelopeLibraryWindow::setEntries(string _x, string _y){
 
 void EnvelopeLibraryWindow::duplicateEnvelope(){
 
-  Gtk::TreeModel::Children::iterator iter = 
+  Gtk::TreeModel::Children::iterator iter =
     envelopeLibrary.get_selection()->get_selected();
   if (iter == NULL){
     cout<<" no envelope selected"<<endl;
     return;
   }
-  
+
   Gtk::TreeModel::Row row = *iter;
-  
-  
+
+
 	EnvelopeLibraryEntry* originalEnvelope = row[columns.columnEntry];
-	
-	EnvelopeLibraryEntry* newEnvelope = 
+
+	EnvelopeLibraryEntry* newEnvelope =
 	  activeProject->duplicateEnvelope(originalEnvelope);
   activeProject->modified();
   Gtk::TreeModel::Row childrow= *(refTreeModel->append());
@@ -417,5 +418,5 @@ void EnvelopeLibraryWindow::duplicateEnvelope(){
 
   childrow[columns.columnEntry] =newEnvelope;
 }
-  
+
 

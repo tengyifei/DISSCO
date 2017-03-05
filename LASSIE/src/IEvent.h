@@ -44,45 +44,45 @@ class ProjectViewController;
   *
   *****************************************************************************/
 
-  
+
 class EventBottomModifier{ //implemented as a linked list for the convenience
 public:
 
   EventBottomModifier();
   EventBottomModifier(EventBottomModifier* _original);
   ~EventBottomModifier();
-  
+
   ModifierType getModifierType();
   int getModifierTypeInt();
   void setModifierType(ModifierType _type);
-  
+
   int getApplyHowFlag();
   void setApplyHowFlag(int _flag);
-  
+
   std::string  getProbability();
   void  setProbability(std::string _string);
-  
+
   std::string  getAmpValue();
   void  setAmpValue(std::string _string);
-  
+
   std::string  getRateValue();
   void  setRateValue(std::string _string);
-  
+
   std::string  getWidth();
   void  setWidth(std::string _string);
-  
+
   std::string  getGroupName();
   void  setGroupName(std::string _string);
-  
+
 
 
   EventBottomModifier* next;
-  
+
   std::string getSaveToDiskString();
   std::string getSaveLASSIEMetaDataString();
   std::string getXMLString();
-  
-  
+
+
 private:
   ModifierType type;
   int applyHowFlag;
@@ -91,21 +91,21 @@ private:
   std::string rateValue;
   std::string width;
   std::string groupName;
-  
-  
-  
-  
+
+
+
+
 
 };
 
-class IEvent; //forward declaration 
+class IEvent; //forward declaration
 class EventDiscretePackage{
 
   public:
     IEvent* event;
-    
+
     // this one and eventName is used to store info to in order to link
-    EventType eventType; 
+    EventType eventType;
     std::string eventName;
     std::string weight;
     std::string attackEnv;
@@ -114,9 +114,9 @@ class EventDiscretePackage{
     std::string durationEnvScale;
     EventDiscretePackage(IEvent* _event){
      event = _event;
-     
+
      //this is used to store file name of the event for linking after open
-     eventName = ""; 
+     eventName = "";
      weight = "";
      attackEnv = "";
      attackEnvScale = "";
@@ -128,7 +128,7 @@ class EventDiscretePackage{
     EventDiscretePackage(DOMElement* _thisPackageElement);
     std::string getLASSIEMetadataString();
     std::string getXMLString();
-    bool link(ProjectViewController* _projectView, IEvent* _thisEvent); 
+    bool link(ProjectViewController* _projectView, IEvent* _thisEvent);
 
     ~EventDiscretePackage(){}
 };
@@ -147,25 +147,25 @@ class EventLayer {
     bool removeChild(EventDiscretePackage* _child);
     void showContents();
     void deleteLayer();
-    
+
     double getChildrenWeightSum();
     int size();
     std::string outputChildrenNameString();
     std::string getLASSIEMetaDataString();
     std::string getXMLString();
     std::list<EventDiscretePackage*> children;
-    void link (ProjectViewController* _projectView, IEvent* _thisEvent);  
-    
+    void link (ProjectViewController* _projectView, IEvent* _thisEvent);
+
     //Warning!
     //again it's bad putting this as public.
     //make eventattribute easier to build layer box.
     //should revise it later
 
 //private:
-  
+
     std::string byLayer;
     IEvent* thisIEvent;
-  
+
     std::string getByLayer();
 
 };
@@ -185,7 +185,7 @@ public:
 
   }
   ~SpectrumPartial(){};
-  
+
 };
 
 
@@ -193,21 +193,21 @@ public:
  *
  ******************************************************************************/
 class IEvent {
-  
+
 public:
-  
+
   std::list<EventLayer*> layers;
   //although is a really bad practice putting field here, but for easy
   // accessing all layers in the event, i keep it this way for now
-  
-  
+
+
   /*! \brief Constructor of IEvent Object
    *
    ****************************************************************************/
   IEvent();
-  
+
   //when open project
-  
+
   IEvent(IEvent* _original, string _newName);
   IEvent(DOMElement* _domElement);
 
@@ -268,97 +268,97 @@ public:
    *  @return unitsPerSecond
    ****************************************************************************/
   std::string getUnitsPerSecond();
-  
-  
-  
+
+
+
   /*! \brief get Spa of the event
    *
    *  @return Spa
    ****************************************************************************/
   std::string getSpa();
-  
 
-  
+
+
   /*! \brief set Spa of the event
    *
-   *  @param _spa 
+   *  @param _spa
    ****************************************************************************/
   void setSpa(std::string _spa);
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /*! \brief get Rev of the event
    *
    *  @return Rev
    ****************************************************************************/
   std::string getRev();
-  
+
   /*! \brief set Rev of the event
    *
-   *  @param _rev 
+   *  @param _rev
    ****************************************************************************/
   void setRev(std::string _rev);
-  
-  
-  
+
+
+
     /*! \brief get Fil of the event
    *
    *  @return Fil
    ****************************************************************************/
   std::string getFil();
-  
+
   /*! \brief set Fil of the event
    *
-   *  @param _fil 
+   *  @param _fil
    ****************************************************************************/
   void setFil(std::string _fil);
-  
-  
-  
+
+
+
   //after open project and constructing all the event, has to link them properly
-  void link(ProjectViewController* _projectView);  
-  
-  
-  
+  void link(ProjectViewController* _projectView);
+
+
+
   //time signature
   std::string getTimeSignatureEntry1();
   void setTimeSignatureEntry1(std::string _timeSignatureEntry1);
   std::string getTimeSignatureEntry2();
   void setTimeSignatureEntry2(std::string _timeSignatureEntry2);
-  
-  
 
-  //tempo  
+
+
+  //tempo
   int getTempoMethodFlag(); //0 = as note value, 1 = as fraction
   void setTempoMethodFlag(int _flag);
   TempoPrefix getTempoPrefix();
   void setTempoPrefix(TempoPrefix _prefix);
   TempoNoteValue getTempoNoteValue();
   void setTempoNoteValue(TempoNoteValue _noteValue);
-  
+
   std::string getTempoFractionEntry1();
   void setTempoFractionEntry1(std::string _entry1);
   std::string getTempoFractionEntry2();
   void setTempoFractionEntry2(std::string _entry2);
   std::string getTempoValueEntry();
   void setTempoValueEntry(std::string _entry);
-  
-  
-  
-  
+
+
+
+
   void setChangedButNotSaved(bool value);
   void addParent(IEvent* _parent);
   bool removeParent(IEvent* _event);
   void deleteLayer (EventLayer* _deleteLayer);
-  
-  
-  
+
+
+
   bool haveString(string _string);
-  
-  
+
+
   void makeSuperColliderCode();
   string getXMLString();
   string getXMLTHMLB();
@@ -371,9 +371,9 @@ public:
   string getXMLFil();
   string getXMLNote();
   static string getFunctionString(DOMElement* _thisFunctionElement);
-  
-  
-  
+
+
+
 
   /*! \brief set flagNumChildren of the event
    *
@@ -438,36 +438,36 @@ public:
 
   void        setChildEventDefEntry1(std::string _string);
   std::string getChildEventDefEntry1();
-  
+
   void        setChildEventDefEntry2(std::string _string);
   std::string getChildEventDefEntry2();
-  
+
   void        setChildEventDefEntry3(std::string _string);
   std::string getChildEventDefEntry3();
 
 
   void        setChildEventDefAttackSieve(std::string _string);
   std::string getChildEventDefAttackSieve();
-  
+
   void        setChildEventDefDurationSieve(std::string _string);
   std::string getChildEventDefDurationSieve();
-  
+
   //manipulate modifiers
   EventBottomModifier* getModifiers();
   EventBottomModifier* addModifier();
   void removeModifier( EventBottomModifier* _modifier);
-  
+
   void setEventOrderInPalette(int _number);
   int getEventOrderInPalette();
-  
-  
+
+
   /*! \brief add an object to the event as a child
    *
    *  @param _newChild the object to be added to the event
    ****************************************************************************/
   void addChildOrObject(IEvent* _newChild);
-  
-  
+
+
   /*! \brief remove an object from the event
    *
    *  @param _childToBeRemoved the object to be removed from the event
@@ -479,8 +479,8 @@ public:
    *
    ****************************************************************************/
   void setModifiedButNotSaved();
-  
-  
+
+
   /*! \brief save the object onto the disk
    *
    *  @param _pathOfProject the string of the path so the file can be
@@ -494,10 +494,10 @@ public:
 
 
   void showAllChildren();
-  
-  
-  
-  
+
+
+
+
   /*! \brief the class holds extra infomation for special objects
    *(objects other than Top to Low
    ****************************************************************************/
@@ -507,7 +507,7 @@ public:
     //implemented in SoundExtraInfo
     virtual void setNumPartials(std::string _numPartials){}
     virtual std::string getNumPartials(){return "";}
-    virtual bool haveString(string _string){return false;} 
+    virtual bool haveString(string _string){return false;}
 
     virtual void setDeviation(std::string _deviation){}
     virtual std::string getDeviation(){return "";}
@@ -516,10 +516,10 @@ public:
     virtual std::string getSoundSpectrumEnvelopesString(){return "";}
 
     virtual SpectrumPartial* getSpectrumPartials(){return NULL;}
-    virtual SpectrumPartial* addPartial(){}
-    virtual bool deletePartial(SpectrumPartial* _partial){}    
-    
-    
+    virtual SpectrumPartial* addPartial(){return NULL;}
+    virtual bool deletePartial(SpectrumPartial* _partial){return false;}
+
+
     // Bottom extra info
     virtual int  getFrequencyFlag(){return -1;}
     virtual void  setFrequencyFlag( int _flag){}
@@ -538,39 +538,39 @@ public:
     virtual std::string  getFilter(){return "";}
     virtual void  setFilter(std::string _string){}
     virtual EventBottomModifier*  getModifiers(){return NULL;}
-    virtual EventBottomModifier* addModifier(){return NULL;}   
+    virtual EventBottomModifier* addModifier(){return NULL;}
     virtual void  removeModifier(EventBottomModifier* _modifier){}
     virtual std::string getEnvelopeBuilder(){return "";}
     virtual void setEnvelopeBuilder(std::string _string){}
     virtual std::string getPatternBuilder(){return "";}
-    virtual void setPatternBuilder(std::string _string){}    
+    virtual void setPatternBuilder(std::string _string){}
     virtual std::string getSieveBuilder(){return "";}
-    virtual void setSieveBuilder(std::string _string){}    
+    virtual void setSieveBuilder(std::string _string){}
     virtual std::string getReverbBuilder(){return "";}
-    virtual void setReverbBuilder(std::string _string){}  
+    virtual void setReverbBuilder(std::string _string){}
     virtual std::string getFilterBuilder(){return "";}
-    virtual void setFilterBuilder(std::string _string){}    
+    virtual void setFilterBuilder(std::string _string){}
     virtual std::string getSpatializationBuilder(){return "";}
     virtual void setSpatializationBuilder(std::string _string){}
     virtual void setChildTypeFlag(int _type){};
-    virtual int getChildTypeFlag(){ return -1;} 
-    
-    //note extra info 
+    virtual int getChildTypeFlag(){ return -1;}
+
+    //note extra info
     virtual std::list<std::string> getNoteModifiers()
       {std::list<std::string> dummy;return dummy;}
     virtual void clearNoteModifiers(){}
     virtual void addNoteModifiers(std::string _modifier){}
-    
-    
-    
-    
+
+
+
+
     // EnvelopeExtraInfo
   };
-  
-  
+
+
   EventExtraInfo* getEventExtraInfo();
 
-  /*! \brief the class holds extra information carried 
+  /*! \brief the class holds extra information carried
    *
    ****************************************************************************/
      // BottomEvent
@@ -585,7 +585,7 @@ public:
     void setFrequencyFlag(int _flag);
     int getFrequencyContinuumFlag();// 0 = hertz, 1 = power of two
     void setFrequencyContinuumFlag(int _flag);
-    
+
     std::string  getFrequencyEntry1();
     void  setFrequencyEntry1(std::string _string);
     std::string  getFrequencyEntry2();
@@ -598,16 +598,16 @@ public:
     void  setReverb(std::string _string);
     std::string  getFilter();
     void  setFilter(std::string _string);
-    EventBottomModifier* getModifiers();    
-    EventBottomModifier* addModifier();  
-    void removeModifier(EventBottomModifier* _modifier); 
+    EventBottomModifier* getModifiers();
+    EventBottomModifier* addModifier();
+    void removeModifier(EventBottomModifier* _modifier);
     void setChildTypeFlag(int _type);
-    int getChildTypeFlag();      
-   
-    EventBottomModifier* modifiers; 
+    int getChildTypeFlag();
+
+    EventBottomModifier* modifiers;
     bool haveString(string _string);
     static EventBottomModifier* buildModifiersFromDOMElement(DOMElement* _thisModifierElement);
-  
+
   private:
     int frequencyFlag; // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
     int frequencyContinuumFlag; //0 = hertz, 1 =] power of two
@@ -619,8 +619,8 @@ public:
     std::string reverb;
     std::string filter;
 
-    
-  
+
+
   };
 
      // Envelope
@@ -635,7 +635,7 @@ public:
     bool haveString(string _string);
   private:
     std::string envelopeBuilder;
-  
+
   };
 
      // Pattern
@@ -650,7 +650,7 @@ public:
     bool haveString(string _string);
   private:
     std::string patternBuilder;
-  
+
   };
 
      // Spatialization
@@ -682,7 +682,7 @@ public:
   };
 
     // Reverb
-  class ReverbExtraInfo : public EventExtraInfo {  
+  class ReverbExtraInfo : public EventExtraInfo {
   public:
   	ReverbExtraInfo(ReverbExtraInfo* _original);
     ReverbExtraInfo(){reverbBuilder = "";}
@@ -696,7 +696,7 @@ public:
 
 
     // Filter
-  class FilterExtraInfo : public EventExtraInfo {  
+  class FilterExtraInfo : public EventExtraInfo {
   public:
   	FilterExtraInfo(FilterExtraInfo* _original);
     FilterExtraInfo(){filterBuilder = "";}
@@ -716,14 +716,14 @@ public:
     SoundExtraInfo();
     SoundExtraInfo(SoundExtraInfo* _original);
     ~SoundExtraInfo();
-    
+
     //void        setNumPartials(std::string _numPartials);
     std::string getNumPartials();
-    
+
     void        setDeviation(std::string _deviation);
     std::string getDeviation();
     std::string getSoundSpectrumEnvelopesString();
-    
+
     //void        setSpectrum(std::string _spectrum);
     std::string getSpectrumMetaData();
     std::string getSpectrumXMLString();
@@ -732,12 +732,12 @@ public:
     bool deletePartial(SpectrumPartial* _partial);
     bool haveString(string _string);
   private:
-    
+
     int numPartials;
     std::string deviation;
     SpectrumPartial* spectrumPartials;
   };
-  
+
   class NoteExtraInfo: public EventExtraInfo {
 
   public:
@@ -745,24 +745,24 @@ public:
     NoteExtraInfo(NoteExtraInfo* _original);
     ~NoteExtraInfo();
     std::list<std::string> getNoteModifiers();
-    void addNoteModifiers(std::string _modifier);   
+    void addNoteModifiers(std::string _modifier);
     void clearNoteModifiers();
     bool haveString(string _string);
-    
-  private:
-    std::list<std::string> modifiers;    
-  };  
-  
-  
-  
-  
-  
 
-  
-  
-  
-  
-  
+  private:
+    std::list<std::string> modifiers;
+  };
+
+
+
+
+
+
+
+
+
+
+
 
   EventLayer* addLayer();
 private:
@@ -773,18 +773,18 @@ private:
 
   std::string maxChildDur;
 
-  std::string unitsPerSecond; //is the old EDUPerBeat. 
+  std::string unitsPerSecond; //is the old EDUPerBeat.
   std::string timeSignatureEntry1;
   std::string timeSignatureEntry2;
-  
+
   int tempoMethodFlag; //0 = as note value, 1 = as fraction
   TempoPrefix tempoPrefix;
   TempoNoteValue tempoNoteValue;
   std::string tempoFractionEntry1;
   std::string tempoFractionEntry2;
   std::string tempoValueEntry;
-  
-  
+
+
 
   std::string numChildrenEntry1;
   std::string numChildrenEntry2;
@@ -795,7 +795,7 @@ private:
   std::string childEventDefEntry3;
   std::string childEventDefAttackSieve;
   std::string childEventDefDurationSieve;
-  
+
   std::string filter;
   std::string reverb;
   std::string spatialization;
@@ -812,21 +812,21 @@ private:
 
    // 0 = percentage, 1 = units, 2 = seconds
   int flagChildEventDefDurationType;
-  
-  
-  
-  
+
+
+
+
 
   //void IEventParseFile(std::string _fileName);
   void parseNonEvent();
   void buildNonEventFromDOM(DOMElement* _element);
 
-  
+
   //EventExtraInfo* openExtraInfo(EventFactory* _event ,EventType _eventType);
-  
+
 
   bool changedButNotSaved;
-  
+
   std::list<IEvent*> sounds;
   std::list<IEvent*> envelopes;
   std::list<IEvent*> reverbs;

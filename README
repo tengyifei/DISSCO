@@ -60,7 +60,7 @@ be fixed.
 BUILDING ON OS X
 ================================================================================
 First install the prerequisites:
-brew install xerces-c libsndfile premake4 gtkmm gtkmm3
+brew install xerces-c libsndfile premake4 gtkmm3 gnome-icon-theme
 
 VIEWING THE SOURCE CODE DOCUMENTATION
 ================================================================================

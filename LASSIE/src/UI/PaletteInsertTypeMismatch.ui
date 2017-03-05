@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="3.0"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="MismatchDialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Type Mismatched</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -20,7 +19,7 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">The type of the object you are creating is
- not the same as the folder you selected. 
+ not the same as the folder you selected.
 Although this is allowed, we highly recommend
 you to store the object in the folder with the
 same type name.</property>

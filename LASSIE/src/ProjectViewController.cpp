@@ -104,7 +104,7 @@ struct yy_buffer_state
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
-    
+
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
@@ -190,7 +190,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
 
 
   envelopeLibraryEntries = NULL;
-  
+
   topWindow = NULL;
   highWindow = NULL;
   midWindow = NULL;
@@ -219,8 +219,8 @@ ProjectViewController::ProjectViewController(
   modifiedButNotSaved = true;
   seed="";
 
-  
-  
+
+
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
   //listTargets.push_back( Gtk::TargetEntry("text/plain") );
@@ -237,9 +237,9 @@ ProjectViewController::ProjectViewController(
   topEvent      = "0";
   synthesis     = true;
   outputParticel= false;
-  
-  
-  
+
+
+
   // initialize default note modifiers
   defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
   defaultNoteModifiers.insert(pair<string,bool>("+8va",true));
@@ -261,8 +261,8 @@ ProjectViewController::ProjectViewController(
   defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
   defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
   defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
-  
-  
+
+
   //add the Paned widget "leftTwoPlusAttributes" as a child
   add(leftTwoPlusAttributes);
 
@@ -287,16 +287,16 @@ ProjectViewController::ProjectViewController(
 
 
   showContents();
-  
-  
+
+
   //make a new shared pointers object so all object can find each other easily
   //without calling layers of layers of parents/ children
 
 
   sharedPointers->eventAttributesView = eventAttributesView;
   sharedPointers->paletteView = paletteView;
-  
-  
+
+
 
   IEvent* newEvent = new IEvent();
   newEvent->setEventName("0");
@@ -305,8 +305,8 @@ ProjectViewController::ProjectViewController(
   events.push_back(newEvent);
 
   envelopeLibraryEntries = NULL;
-  
-  
+
+
   topWindow = new ObjectWindow(eventTop,this);
   highWindow = new ObjectWindow(eventHigh,this);
   midWindow = new ObjectWindow(eventMid,this);
@@ -320,8 +320,8 @@ ProjectViewController::ProjectViewController(
   revWindow = new ObjectWindow(eventRev,this);
   filWindow = new ObjectWindow(eventFil, this);
   noteWindow = new ObjectWindow(eventNote,this);
-  
-  
+
+
   show_all_children();
 
 }
@@ -350,16 +350,16 @@ void ProjectViewController::cleanUpContents(){
   sharedPointers = new SharedPointers;
     sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
-  
+
 
   eventAttributesView = new EventAttributesViewController(sharedPointers);
   paletteView = new PaletteViewController(sharedPointers);
-  
-  
+
+
   //sharedPointers->projectTreeView = projectTreeView;
   sharedPointers->eventAttributesView = eventAttributesView;
   sharedPointers->paletteView = paletteView;
-  
+
 
   leftTwoPlusAttributes.pack1(*paletteView,true,false);
   leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
@@ -586,7 +586,7 @@ void ProjectViewController::insertObject(){
   while (result ==1){
     std::string name = nameEntry->get_text();
     std::string first = name.substr(0,1);
-  
+
     if (name == ""){
     //prompt error (lack of name) and then loop
     //std::cout<<"User didn't name the object!"<<std::endl;
@@ -601,7 +601,7 @@ void ProjectViewController::insertObject(){
       result = newObjectDialog->run();
     }
     else if (selectedPaletteFolder == "Bottom"&& first!="s"&&first!= "n"){
-    
+
       Gtk::MessageDialog dialog(
         "The name of a Bottom event should start with 's'"
         " (sound) or 'n' (note).",
@@ -611,7 +611,7 @@ void ProjectViewController::insertObject(){
 
       dialog.run();
       dialog.hide();
-      result = newObjectDialog->run();    
+      result = newObjectDialog->run();
 
     }
     else {
@@ -686,14 +686,14 @@ void ProjectViewController::insertObject(){
       type = eventRev;
       flagForFolderMatching = "Reverb";
     }
-    
+
     refBuilder->get_widget("buttonFil", typeButton);
     if (typeButton->get_active()) {
       type = eventFil;
       flagForFolderMatching = "Filter";
     }
-    
-    
+
+
     refBuilder->get_widget("buttonNote", typeButton);
     if (typeButton->get_active()) {
       type = eventNote;
@@ -706,7 +706,7 @@ void ProjectViewController::insertObject(){
       flagForFolderMatching = "Folder";
     }
 
-    //if mismatch, what does the user want. 
+    //if mismatch, what does the user want.
     //0 = change folder. 1 = change type 2 = keep it this way
     int decision =2;
 
@@ -854,7 +854,7 @@ void ProjectViewController::insertObject(){
       else if (selectedPaletteFolder =="Reverb"){
         newEvent->setEventType(eventRev);
       }
-      
+
       else if (selectedPaletteFolder =="Filter"){
         newEvent->setEventType(eventFil);
       }
@@ -868,7 +868,7 @@ void ProjectViewController::insertObject(){
       std::string name = nameEntry->get_text();
 
       std::vector<IEvent*>::iterator it;
-      int renameDialogFlag;
+      int renameDialogFlag = 1;
       //check object name exist.
       for(it = events.begin(); it != events.end(); it ++){
         if(   (*it)->getEventName() == nameEntry->get_text()
@@ -904,19 +904,19 @@ void ProjectViewController::insertObject(){
         modified();
         IEvent* newEvent = new IEvent();
         newEvent->setEventName(nameEntry->get_text());
-        
+
         newEvent->setEventType(type);
-        
-        
-        int order = paletteView->getCurrentMaxObjectNumber( 
+
+
+        int order = paletteView->getCurrentMaxObjectNumber(
           newEvent->getEventFolderName());
         order += 10;
-      
+
         newEvent->setEventOrderInPalette(order);
-        
+
         paletteView->insertEvent(newEvent);
         events.push_back(newEvent);
-        
+
       }
     }
   }
@@ -992,11 +992,11 @@ void ProjectViewController::showAttributes(IEvent* _event){
     else if (_event->getEventName() == "Filter" ){
       filWindow->show();
     }
-   
+
   }
-   
+
   eventAttributesView->showAttributesOfEvent(_event);
- 
+
 }
 
 
@@ -1044,9 +1044,9 @@ void ProjectViewController::setProperties (){
 
   Gtk::Button* cancelButton;
   refBuilder->get_widget("Cancel", cancelButton);
-  
+
   Gtk::Button* button3;
-  refBuilder->get_widget("button3", button3);  
+  refBuilder->get_widget("button3", button3);
   button3->signal_clicked().connect(
       sigc::mem_fun(
         *this,
@@ -1094,11 +1094,11 @@ void ProjectViewController::setProperties (){
   refBuilder->get_widget("synthesisCheckBox", button);
 
   button->set_active(synthesis);
-  
+
   refBuilder->get_widget("generateParticelCheckBox", button);
 
   button->set_active(outputParticel);
-  
+
 
   int result = projectPropertiesDialog->run();
 
@@ -1130,11 +1130,11 @@ void ProjectViewController::setProperties (){
     refBuilder->get_widget("synthesisCheckBox", button);
 
     synthesis = button->get_active();
-    
+
     refBuilder->get_widget("generateParticelCheckBox", button);
 
     outputParticel =button->get_active();
-  
+
   }
 
   delete projectPropertiesDialog;
@@ -1153,7 +1153,7 @@ void ProjectViewController::refreshProjectDotDat(){
   FILE* dat  = fopen(datPathAndName.c_str(), "w");
 
   stringbuffer = "title = \"" + projectTitle + "\";\n";
-  
+
   yy_scan_string( stringbuffer.c_str());//set parser buffer
   if (yyparse() == 0){
     fputs(stringbuffer.c_str(),dat);
@@ -1161,7 +1161,7 @@ void ProjectViewController::refreshProjectDotDat(){
   else {
     cout<<"illegal title value!"<<endl;
   }
-  
+
   stringbuffer = "fileFlags = \"" + fileFlag + "\";\n";
   yy_scan_string( stringbuffer.c_str());//set parser buffer
   if (yyparse()==0){
@@ -1236,10 +1236,10 @@ void ProjectViewController::refreshProjectDotDat(){
   else {
     cout<<"illegal numThreads value!"<<endl;
   }
-  
-  
+
+
   /* metadata */
-  
+
   std::string buffer2;
   buffer2 = (projectTitle == "")? "": projectTitle;
   stringbuffer = "LASSIETITLE = `" + buffer2 + "`;\n";
@@ -1280,7 +1280,7 @@ void ProjectViewController::refreshProjectDotDat(){
   buffer2 = (sampleSize == "")? "": sampleSize;
   stringbuffer = "LASSIESAMPLESIZE = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
-  
+
   buffer2 = (numOfThreads == "")? "": numOfThreads;
   stringbuffer = "LASSIENUMTHREADS = `" + buffer2 + "`;\n";
   fputs(stringbuffer.c_str(),dat);
@@ -1294,7 +1294,7 @@ void ProjectViewController::refreshProjectDotDat(){
 void ProjectViewController::save(){
   modifiedButNotSaved = false;
   sharedPointers->mainWindow->setSavedTitle();
-  
+
   eventAttributesView->saveCurrentShownEventData();
   /*
   for (std::vector<IEvent*>::iterator iter = events.begin();
@@ -1307,65 +1307,65 @@ void ProjectViewController::save(){
   //saveEnvelopeLibrary();
   //saveNoteModifierConfiguration();
   //refreshProjectDotDat();
-  
+
   // The code below is used to save XML file
-  
+
   string fileName = pathAndName + "/" +projectTitle+".dissco";
-  
+
   FILE* file  = fopen(fileName.c_str(), "w");
-  
-  fputs("<?xml version='1.0'?>\n",file); 
+
+  fputs("<?xml version='1.0'?>\n",file);
   fputs("<ProjectRoot>\n", file);
-  
+
   string stringBuffer;
-  
+
   fputs("  <ProjectConfiguration>\n", file);
-  
+
   stringBuffer = "    <Title>"+ projectTitle + "</Title>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <FileFlag>"+ fileFlag + "</FileFlag>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <TopEvent>"+ topEvent + "</TopEvent>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <PieceStartTime>0</PieceStartTime>\n";
   fputs(stringBuffer.c_str(),file);
 
 
   stringBuffer = "    <Duration>"+ duration + "</Duration>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = synthesis? "    <Synthesis>True</Synthesis>\n":"    <Synthesis>False</Synthesis>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <NumberOfChannels>"+ numOfChannels + "</NumberOfChannels>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <SampleRate>"+ sampleRate + "</SampleRate>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <SampleSize>"+ sampleSize + "</SampleSize>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <NumberOfThreads>"+ numOfThreads + "</NumberOfThreads>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = outputParticel? "    <OutputParticel>True</OutputParticel>\n":"    <OutputParticel>False</OutputParticel>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   stringBuffer = "    <Seed>" + seed + "</Seed>\n";
   fputs(stringBuffer.c_str(),file);
-  
+
   fputs("  </ProjectConfiguration>\n", file);
-  
+
   fputs("  <NoteModifiers>\n", file);
   fputs("    <DefaultModifiers>",file);
-  
+
   stringBuffer = "";
   std::map<string, bool>::iterator iter = defaultNoteModifiers.begin();
-  
+
   while (iter != defaultNoteModifiers.end()){
     //cout <<(*iter).second;
     string buffer2 = ((*iter).second)? "1":"0";
@@ -1374,71 +1374,71 @@ void ProjectViewController::save(){
     if (iter!= defaultNoteModifiers.end()){
       stringBuffer = stringBuffer + ", ";
     }
-  } 
+  }
   fputs(stringBuffer.c_str(),file);
   fputs("</DefaultModifiers>\n",file);
-  
+
   fputs("    <CustomModifiers>\n",file);
   if (customNoteModifiers.size() !=0){
-    
+
     std::vector<string>::iterator iter2 = customNoteModifiers.begin();
-    
+
     while (iter2 != customNoteModifiers.end()){
       stringBuffer ="      <Modifier>"+  *iter2 + "</Modifier>\n" ;
       iter2 ++;
       fputs(stringBuffer.c_str(),file);
     }
   }
-  
+
   fputs("    </CustomModifiers>\n",file);
   fputs("  </NoteModifiers>\n", file);
-  
-  
+
+
   //save Envelopes
-  
+
   fputs("  <EnvelopeLibrary>\n",file);
 
   char charbuffer[60];
- 
+
   if (envelopeLibraryEntries !=NULL){ //safety check
-  
-  
+
+
     EnvelopeLibraryEntry* envLib = envelopeLibraryEntries;
     int count = envLib->count();
-  
+
     //put the first number in to the file
     //std::cout<<count<<std::endl;
     sprintf(charbuffer,"%d\n",count);
     fputs(charbuffer,file);
-  
+
     count = 1;//use count as a index counter
 
     while (envLib!=NULL){
       sprintf (charbuffer, "Envelope %d\n", count);
-          fputs(charbuffer,file);  
+          fputs(charbuffer,file);
       //envLib->print();
- 
- 
+
+
       int lineNumber = envLib->head->countNumOfNodes();
       sprintf(charbuffer,"%d\n",lineNumber);
-      fputs(charbuffer,file); 
-    
+      fputs(charbuffer,file);
+
       EnvLibEntryNode* currentNode;
       EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
       while (libSeg!=NULL){
         currentNode = libSeg->leftNode;
-    
-    
-        sprintf(charbuffer,"%.3f", currentNode->x);   
+
+
+        sprintf(charbuffer,"%.3f", currentNode->x);
         stringBuffer = charbuffer;
         stringBuffer = stringBuffer + "     ";
         //stringBuffer =  charbuffer+ "\t";
-           
-      
+
+
         sprintf(charbuffer,"%.3f", currentNode->y);
-        
+
         stringBuffer = stringBuffer + charbuffer +"     ";
-      
+
         if (libSeg->segmentType == envSegmentTypeLinear){
           stringBuffer = stringBuffer + "LINEAR              ";
         }
@@ -1447,52 +1447,52 @@ void ProjectViewController::save(){
         }
         else {
           stringBuffer = stringBuffer + "CUBIC_SPLINE        ";
-        }         
-      
-        
+        }
+
+
         if (libSeg->segmentProperty == envSegmentPropertyFlexible){
           stringBuffer = stringBuffer + "FLEXIBLE    ";
         }
         else {
           stringBuffer = stringBuffer + "FIXED       ";
-        } 
-        
-        
+        }
+
+
         sprintf (charbuffer,"%.3f\n", libSeg->rightNode->x - currentNode->x);
         stringBuffer = stringBuffer+charbuffer;
-         
-        
-        fputs(stringBuffer.c_str(),file);        
+
+
+        fputs(stringBuffer.c_str(),file);
         libSeg = libSeg->rightNode->rightSeg;
-      
-      } 
-    
+
+      }
+
       currentNode = currentNode->rightSeg->rightNode;
-        
-      sprintf(charbuffer,"%.3f", currentNode->x);   
+
+      sprintf(charbuffer,"%.3f", currentNode->x);
       stringBuffer = charbuffer;
       stringBuffer = stringBuffer + "     ";
-        
+
       sprintf(charbuffer,"%.3f", currentNode->y);
       stringBuffer = stringBuffer + charbuffer+ "\n";
       fputs(stringBuffer.c_str(),file);
-    
+
       //end print one envelope
       count++;
       envLib = envLib->next;
     }
-  
+
   } // end if envelope library is not null
-  
-  
-  fputs("  </EnvelopeLibrary>\n",file); 
-  
+
+
+  fputs("  </EnvelopeLibrary>\n",file);
+
   fputs("  <Events>\n", file);
   for (std::vector<IEvent*>::iterator iter = events.begin();
        iter != events.end();
        iter++){
     if ((*iter)->getEventType()!=eventFolder){
-      
+
       stringBuffer = (*iter)->getXMLString();
       fputs(stringBuffer.c_str(), file);
     }
@@ -1501,10 +1501,10 @@ void ProjectViewController::save(){
 
   }
   fputs("  </Events>\n",file);
-  
+
   fputs("</ProjectRoot>",file);
   fclose(file);
-  
+
 }
 
 
@@ -1542,7 +1542,7 @@ IEvent* ProjectViewController::getEventByTypeAndName(
 
 EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
   if (envelopeLibraryEntries == NULL) {
-    envelopeLibraryEntries = new EnvelopeLibraryEntry(1); 
+    envelopeLibraryEntries = new EnvelopeLibraryEntry(1);
     return envelopeLibraryEntries;
   }
   else {
@@ -1554,62 +1554,62 @@ EnvelopeLibraryEntry* ProjectViewController::createNewEnvelope(){
 
 EnvelopeLibraryEntry* ProjectViewController:: duplicateEnvelope(
  EnvelopeLibraryEntry* _originalEnvelope){
-  
+
  return envelopeLibraryEntries->duplicateEnvelope(_originalEnvelope);
 }
 
 
 //---------------------------------------------------------------------------//
 
-void ProjectViewController::saveEnvelopeLibrary(){ 
+void ProjectViewController::saveEnvelopeLibrary(){
   std::string stringbuffer;
   char charbuffer[60];
   FILE* file  = fopen(libPathAndName.c_str(), "w");
-  
+
   if (envelopeLibraryEntries ==NULL){ //safety check
     //std::cout<<"There is no premade envelopes in the library"<<std::endl;
     fclose(file);
     return;
   }
-  
+
 
 //---------------------------------------------------------------------------//
 
   EnvelopeLibraryEntry* envLib = envelopeLibraryEntries;
   int count = envLib->count();
-  
+
   //put the first number in to the file
   //std::cout<<count<<std::endl;
   sprintf(charbuffer,"%d\n",count);
   fputs(charbuffer,file);
-  
+
   count = 1;//use count as a index counter
 
   while (envLib!=NULL){
     sprintf (charbuffer, "Envelope %d\n", count);
-        fputs(charbuffer,file);  
+        fputs(charbuffer,file);
     //envLib->print();
-  
+
     int lineNumber = envLib->head->countNumOfNodes();
     sprintf(charbuffer,"%d\n",lineNumber);
-    fputs(charbuffer,file); 
-    
+    fputs(charbuffer,file);
+
     EnvLibEntryNode* currentNode;
     EnvLibEntrySeg* libSeg = envLib-> head->rightSeg;
     while (libSeg!=NULL){
       currentNode = libSeg->leftNode;
-    
-    
-      sprintf(charbuffer,"%.3f", currentNode->x);   
+
+
+      sprintf(charbuffer,"%.3f", currentNode->x);
       stringbuffer = charbuffer;
       stringbuffer = stringbuffer + "     ";
       //stringbuffer =  charbuffer+ "\t";
-           
-      
+
+
       sprintf(charbuffer,"%.3f", currentNode->y);
-        
+
       stringbuffer = stringbuffer + charbuffer +"     ";
-      
+
       if (libSeg->segmentType == envSegmentTypeLinear){
         stringbuffer = stringbuffer + "LINEAR              ";
       }
@@ -1618,40 +1618,40 @@ void ProjectViewController::saveEnvelopeLibrary(){
       }
       else {
         stringbuffer = stringbuffer + "CUBIC_SPLINE        ";
-      }         
-      
+      }
+
       if (libSeg->segmentProperty == envSegmentPropertyFlexible){
         stringbuffer = stringbuffer + "FLEXIBLE    ";
       }
       else {
         stringbuffer = stringbuffer + "FIXED       ";
-      } 
-      
+      }
+
       sprintf (charbuffer,"%.3f\n", libSeg->rightNode->x - currentNode->x);
       stringbuffer = stringbuffer+charbuffer;
-       
-      
-      fputs(stringbuffer.c_str(),file);        
+
+
+      fputs(stringbuffer.c_str(),file);
       libSeg = libSeg->rightNode->rightSeg;
-    } 
-    
+    }
+
     currentNode = currentNode->rightSeg->rightNode;
-        
-    sprintf(charbuffer,"%.3f", currentNode->x);   
+
+    sprintf(charbuffer,"%.3f", currentNode->x);
     stringbuffer = charbuffer;
     stringbuffer = stringbuffer + "     ";
-        
+
     sprintf(charbuffer,"%.3f", currentNode->y);
     stringbuffer = stringbuffer + charbuffer+ "\n";
     fputs(stringbuffer.c_str(),file);
-    
+
     //end print one envelope
- 
+
     count++;
     envLib = envLib->next;
   }
-  
-  fclose(file);  
+
+  fclose(file);
 }
 
 
@@ -1674,7 +1674,7 @@ ProjectViewController::ProjectViewController(
   //datPathAndName = _datPathAndName;
   //libPathAndName = _libPathAndName;
   pathAndName = _pathAndName;
-    
+
   sharedPointers = new SharedPointers();
   sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
@@ -1682,32 +1682,32 @@ ProjectViewController::ProjectViewController(
   //Start Parsing File
   XMLPlatformUtils::Initialize();
   XercesDOMParser* parser = new XercesDOMParser();
-  
+
   string disscoFile = pathAndName +"/"+_projectTitle+ ".dissco";
-  
+
   parser->parse(disscoFile.c_str());
   xmlDocument = parser->getDocument();
-  
+
   DOMElement* root = xmlDocument->getDocumentElement();
 
   char* charBuffer;
   DOMCharacterData* textData;
 
   //Configurations
-  DOMElement* configuration = root->getFirstElementChild();  
+  DOMElement* configuration = root->getFirstElementChild();
   //title
   DOMElement* element = configuration ->getFirstElementChild();
   projectTitle = IEvent::getFunctionString( element);
-  
+
   //fileFlag
   element = element->getNextElementSibling();
   fileFlag = IEvent::getFunctionString(element);
-  
-  //topEvent 
+
+  //topEvent
   element = element->getNextElementSibling();
   topEvent = IEvent::getFunctionString(element);
-  
-  //piece start time is skipped (it's zero, hardcoded) 
+
+  //piece start time is skipped (it's zero, hardcoded)
   element = element->getNextElementSibling();
   //duration
   element = element->getNextElementSibling();
@@ -1715,24 +1715,24 @@ ProjectViewController::ProjectViewController(
   //synthesis
   element = element->getNextElementSibling();
   synthesis = (IEvent::getFunctionString(element)=="True")?true:false;
-  
+
     //numOfChannels
   element = element->getNextElementSibling();
   numOfChannels = IEvent::getFunctionString(element);
-  
+
   //sampleRate
   element = element->getNextElementSibling();
   sampleRate = IEvent::getFunctionString(element);
- 
+
   //sampleSize
   element = element->getNextElementSibling();
   sampleSize = IEvent::getFunctionString(element);
-  
+
   //numOfThreads
   element = element->getNextElementSibling();
   numOfThreads = IEvent::getFunctionString(element);
-  
-  
+
+
   // Output Particel
   element = element->getNextElementSibling();
   if (element){
@@ -1740,7 +1740,7 @@ ProjectViewController::ProjectViewController(
   }
   else outputParticel=false;
   //restore notemodifiers
-  
+
   defaultNoteModifiers.insert(pair<string,bool>("-8va",true));
   defaultNoteModifiers.insert(pair<string,bool>("+8va",true));
   defaultNoteModifiers.insert(pair<string,bool>("bend",true));
@@ -1761,25 +1761,25 @@ ProjectViewController::ProjectViewController(
   defaultNoteModifiers.insert(pair<string,bool>("tenuto",true));
   defaultNoteModifiers.insert(pair<string,bool>("tremolo",true));
   defaultNoteModifiers.insert(pair<string,bool>("vibrato",true));
- 
+
   DOMElement* noteModifiers = configuration->getNextElementSibling();
   element = noteModifiers->getFirstElementChild(); //default modifiers
   textData = ( DOMCharacterData*) element->getFirstChild();
   charBuffer = XMLString::transcode(textData->getData());
-  
-  std::map<string, bool>::iterator 
+
+  std::map<string, bool>::iterator
       modifierMapIter = defaultNoteModifiers.begin();
-  int index = 0;  
+  int index = 0;
   while( modifierMapIter != defaultNoteModifiers.end()){
-    (*modifierMapIter).second = (charBuffer[index]=='1')?true:false; 
+    (*modifierMapIter).second = (charBuffer[index]=='1')?true:false;
     modifierMapIter ++;
     index = index + 3;
   }
   XMLString::release(&charBuffer);
-  
+
   element = element->getNextElementSibling(); //custom modifiers
   DOMElement* modifier = element->getFirstElementChild();
-  
+
   while (modifier != NULL){
     textData = ( DOMCharacterData*) modifier->getFirstChild();
     charBuffer = XMLString::transcode(textData->getData());
@@ -1787,8 +1787,8 @@ ProjectViewController::ProjectViewController(
     XMLString::release(&charBuffer);
     modifier = modifier->getNextElementSibling();
   }
-  
-  
+
+
   //construct new eventAttributesView after constructing the note modifiers
   //create three new children widgets
   //projectTreeView = new ProjectTreeViewController(sharedPointers);
@@ -1803,38 +1803,38 @@ ProjectViewController::ProjectViewController(
 
   add(leftTwoPlusAttributes);
   showContents();
- 
+
 
   sharedPointers->eventAttributesView = eventAttributesView;
-  sharedPointers->paletteView = paletteView;  
-  
-  
+  sharedPointers->paletteView = paletteView;
+
+
   //Envelope Library
-  
+
   envelopeLibraryEntries =NULL;
   DOMElement* envelopeLibraryElement = noteModifiers->getNextElementSibling();
   textData = ( DOMCharacterData*) envelopeLibraryElement->getFirstChild();
-  
+
   charBuffer = XMLString::transcode(textData->getData());
   string fileString = pathAndName + ".lib.temp";
   FILE* file  = fopen(fileString.c_str(), "w");
   fputs (charBuffer, file);
   XMLString::release(&charBuffer);
   fclose(file);
-  
-  EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();  
+
+  EnvelopeLibrary* envelopeLibrary = new EnvelopeLibrary();
   envelopeLibrary->loadLibraryNewFormat((char*)fileString.c_str());
   string deleteCommand = "rm " + fileString;
   system(deleteCommand.c_str());
-  
+
   EnvelopeLibraryEntry* previousEntry = NULL;
   Envelope* thisEnvelope;
-  
+
   for (int i = 1; i <= envelopeLibrary->size(); i ++){
     thisEnvelope = envelopeLibrary->getEnvelope(i);
     EnvelopeLibraryEntry* thisEntry =
       convertToLASSIEEnvLibEntry(thisEnvelope, i);
-    delete thisEnvelope; 
+    delete thisEnvelope;
 
     if (previousEntry ==NULL){
       envelopeLibraryEntries = thisEntry;
@@ -1844,30 +1844,30 @@ ProjectViewController::ProjectViewController(
     else{
       previousEntry->next = thisEntry;
       thisEntry->prev = previousEntry;
-    } 
+    }
     previousEntry = thisEntry;
   }
-  
+
   delete envelopeLibrary;
-  
-  
+
+
   //  constructs all events
 
   DOMElement* domEvents =  envelopeLibraryElement->getNextElementSibling();
   DOMElement* eventElement = domEvents->getFirstElementChild();
-  
+
   while (eventElement != NULL){
     IEvent* newEvent = new IEvent( eventElement);
     paletteView->insertEvent(newEvent, newEvent->getEventTypeString());
     events.push_back(newEvent);
-    eventElement =eventElement->getNextElementSibling();  
-  } 
+    eventElement =eventElement->getNextElementSibling();
+  }
 
   std::vector<IEvent*>::iterator eventsIter = events.begin();
-  
+
   for (eventsIter; eventsIter != events.end(); eventsIter++){
     (*eventsIter)->link(this);
-  }     
+  }
 
 
   topWindow = new ObjectWindow(eventTop,this);
@@ -1883,9 +1883,9 @@ ProjectViewController::ProjectViewController(
   revWindow = new ObjectWindow(eventRev,this);
   filWindow = new ObjectWindow(eventFil, this);
   noteWindow = new ObjectWindow(eventNote,this);
-  
-  
-  show_all_children(); 	
+
+
+  show_all_children();
 }
 
 
@@ -1897,10 +1897,10 @@ EnvelopeLibraryEntry* ProjectViewController::getEnvelopeLibraryEntries(){
 
 
 //---------------------------------------------------------------------------//
-  
+
 EnvelopeLibraryEntry* ProjectViewController::
   convertToLASSIEEnvLibEntry( Envelope* _envelope, int index){
-  return new EnvelopeLibraryEntry (_envelope, index);  
+  return new EnvelopeLibraryEntry (_envelope, index);
 }
 
 
@@ -1912,15 +1912,15 @@ IEvent* ProjectViewController::findIEvent(
   IEvent* toReturn = NULL;
 
   std::vector<IEvent*>::iterator eventsIter = events.begin();
-  
+
   while (eventsIter != events.end()){
-    if (  (_eventName.compare( (*eventsIter)->getEventName() ) == 0 ) && 
+    if (  (_eventName.compare( (*eventsIter)->getEventName() ) == 0 ) &&
           ( _type == (*eventsIter)->getEventType() ) ){
       toReturn = (*eventsIter);
       break;
-    } 
+    }
     eventsIter++;
-  }    
+  }
 
   if (toReturn ==NULL){
     std::cout<<"Find event fail :-(    EventName:"
@@ -1936,12 +1936,12 @@ void ProjectViewController::deleteKeyPressed(Gtk::Widget* _focus){
  	if (_focus ==NULL){
  		return;
  	}
- 
+
   if (_focus->is_ancestor((Gtk::Widget&)*paletteView)){
     paletteView->deleteKeyPressed();
   }
   else {
-    eventAttributesView->deleteKeyPressed(_focus);  
+    eventAttributesView->deleteKeyPressed(_focus);
   }
 }
 
@@ -1969,7 +1969,7 @@ bool ProjectViewController::getEmptyProject(){
 //---------------------------------------------------------------------------//
 
 void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
-  FunctionGenerator* generator = 
+  FunctionGenerator* generator =
     new FunctionGenerator(functionReturnFloat, duration);
     generator->run();
 
@@ -1978,7 +1978,7 @@ void ProjectViewController::projectPropertiesDialogFunctionButtonClicked (){
   }
 
   delete generator;
-  
+
   projectPropertiesDialog->hide();
   delete projectPropertiesDialog;
   setProperties();
@@ -1992,7 +1992,7 @@ void ProjectViewController::modified(){
   if (modifiedButNotSaved == false){
     modifiedButNotSaved = true;
     sharedPointers->mainWindow->setUnsavedTitle();
-  
+
   }
 }
 
@@ -2008,14 +2008,14 @@ bool ProjectViewController::getSaved(){
 
 void ProjectViewController::showAttributesView(bool _show){
   if (_show && leftTwoPlusAttributes.get_child2() ==NULL ){
-    
+
     leftTwoPlusAttributes.pack2(*eventAttributesView,true,false);
-    show_all_children();  
-  }  
-  else if (!_show &&leftTwoPlusAttributes.get_child2() != NULL){  
+    show_all_children();
+  }
+  else if (!_show &&leftTwoPlusAttributes.get_child2() != NULL){
     leftTwoPlusAttributes.remove(*(leftTwoPlusAttributes.get_child2()));
-    show_all_children();  
-    
+    show_all_children();
+
   }
 }
 
@@ -2024,7 +2024,7 @@ void ProjectViewController::showAttributesView(bool _show){
 
 void ProjectViewController::configureNoteModifiers(){
   //Load the GtkBuilder file and instantiate its widgets:
-  Glib::RefPtr<Gtk::Builder> noteModifiersConfigurationDialogRefBuilder = 
+  Glib::RefPtr<Gtk::Builder> noteModifiersConfigurationDialogRefBuilder =
     Gtk::Builder::create();
 
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
@@ -2047,242 +2047,242 @@ void ProjectViewController::configureNoteModifiers(){
     }
   #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
 
-	
+
   //Get the GtkBuilder-instantiated Dialog:
   noteModifiersConfigurationDialogRefBuilder->get_widget(
     "NoteConfigurationDialog", noteModifiersConfigurationDialog);
     noteModifiersConfigurationDialog->set_title("Note Modifiers Configuration");
-	
+
   noteModifiersConfigurationDialogRefBuilder->get_widget(
     "CustomModifiersVBox",noteModifiersConfigurationCustomVBox );
-	
+
   CustomNoteModifierHBox* box;
   vector<string>::iterator iter = customNoteModifiers.begin();
 
   for (iter; iter!= customNoteModifiers.end(); iter++){
     box = new CustomNoteModifierHBox(this, *iter);
-	  
+
     customNotModifierHBoxes.push_back(box);
     noteModifiersConfigurationCustomVBox->pack_start(*box,Gtk::PACK_SHRINK);
   }
-	
+
   Gtk::CheckButton* checkButton;
 
   if (defaultNoteModifiers["-8va"]){
     noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "Minus8vaButton", checkButton);	  
+      "Minus8vaButton", checkButton);
     checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["+8va"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "Plus8vaButton", checkButton);	  
+      "Plus8vaButton", checkButton);
      checkButton->set_active(true);
    }
 
    if (defaultNoteModifiers["bend"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "BendButton", checkButton);	  
+      "BendButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["dry"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "DryButton", checkButton);	  
+      "DryButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["glissKeys"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GlissKeysButton", checkButton);	  
+      "GlissKeysButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["glissStringRes"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GlissStringResButton", checkButton);	  
+      "GlissStringResButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["graceTie"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "GraceTieButton", checkButton);	  
+      "GraceTieButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["letVibrate"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "LetVibrateButton", checkButton);	  
+      "LetVibrateButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["moltoVibrato"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "MoltoVibratoButton", checkButton);	  
+      "MoltoVibratoButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["mute"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "MuteButton", checkButton);	  
+      "MuteButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["pedal"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PedalButton", checkButton);	  
+      "PedalButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["pluck"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PluckButton", checkButton);	  
+      "PluckButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["pressSilently"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "PressSilentlyButton", checkButton);	  
+      "PressSilentlyButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["resonance"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "ResonanceButton", checkButton);	  
+      "ResonanceButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["resPedal"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "ResPedalButton", checkButton);	  
+      "ResPedalButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["sfz"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "SfzButton", checkButton);	  
+      "SfzButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["sffz"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "SffzButton", checkButton);	  
+      "SffzButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["tenuto"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "TenutoButton", checkButton);	  
+      "TenutoButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["tremolo"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "TremoloButton", checkButton);	  
+      "TremoloButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    if (defaultNoteModifiers["vibrato"]){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-      "VibratoButton", checkButton);	  
+      "VibratoButton", checkButton);
      checkButton->set_active(true);
    }
-	
+
    Gtk::Button* button;
    noteModifiersConfigurationDialogRefBuilder->get_widget(
-     "AddModifierButton", button);		
-	
+     "AddModifierButton", button);
+
    button->signal_clicked().connect(sigc::mem_fun
-     (*this, &ProjectViewController::ConfigureNoteModifiersAddButtonClicked));  
-	
+     (*this, &ProjectViewController::ConfigureNoteModifiersAddButtonClicked));
+
 
    noteModifiersConfigurationDialog->show_all_children();
-	
+
    int result = noteModifiersConfigurationDialog->run();
-  
+
    noteModifiersConfigurationDialog->hide();
-  
+
 //  ----Sever stopped here
    if (result == 1){
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "Minus8vaButton", checkButton);	  
-     defaultNoteModifiers["-8va"] = checkButton->get_active();  
-  
+       "Minus8vaButton", checkButton);
+     defaultNoteModifiers["-8va"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "Plus8vaButton", checkButton);	  
-     defaultNoteModifiers["+8va"] = checkButton->get_active();  
-  
+       "Plus8vaButton", checkButton);
+     defaultNoteModifiers["+8va"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "BendButton", checkButton);	  
-     defaultNoteModifiers["bend"] = checkButton->get_active();  
-  
+       "BendButton", checkButton);
+     defaultNoteModifiers["bend"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "DryButton", checkButton);	  
-     defaultNoteModifiers["dry"] = checkButton->get_active();  
-  
+       "DryButton", checkButton);
+     defaultNoteModifiers["dry"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "GlissKeysButton", checkButton);	  
-     defaultNoteModifiers["glissKeys"] = checkButton->get_active();  
-  
+       "GlissKeysButton", checkButton);
+     defaultNoteModifiers["glissKeys"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "GlissStringResButton", checkButton);	  
-     defaultNoteModifiers["glissStringRes"] = checkButton->get_active();  
-  
+       "GlissStringResButton", checkButton);
+     defaultNoteModifiers["glissStringRes"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "GraceTieButton", checkButton);	  
-     defaultNoteModifiers["graceTie"] = checkButton->get_active();  
-  
+       "GraceTieButton", checkButton);
+     defaultNoteModifiers["graceTie"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "LetVibrateButton", checkButton);	  
-     defaultNoteModifiers["letVibrate"] = checkButton->get_active();  
-  
+       "LetVibrateButton", checkButton);
+     defaultNoteModifiers["letVibrate"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "MoltoVibratoButton", checkButton);	  
-     defaultNoteModifiers["moltoVibrato"] = checkButton->get_active();  
-  
+       "MoltoVibratoButton", checkButton);
+     defaultNoteModifiers["moltoVibrato"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "MuteButton", checkButton);	  
-     defaultNoteModifiers["mute"] = checkButton->get_active();  
-  
+       "MuteButton", checkButton);
+     defaultNoteModifiers["mute"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "PedalButton", checkButton);	  
-     defaultNoteModifiers["pedal"] = checkButton->get_active();  
-  
+       "PedalButton", checkButton);
+     defaultNoteModifiers["pedal"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "PluckButton", checkButton);	  
-     defaultNoteModifiers["pluck"] = checkButton->get_active();  
-  
+       "PluckButton", checkButton);
+     defaultNoteModifiers["pluck"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "PressSilentlyButton", checkButton);	  
-     defaultNoteModifiers["pressSilently"] = checkButton->get_active();  
-  
+       "PressSilentlyButton", checkButton);
+     defaultNoteModifiers["pressSilently"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "ResonanceButton", checkButton);	  
-     defaultNoteModifiers["resonance"] = checkButton->get_active();  
-  
+       "ResonanceButton", checkButton);
+     defaultNoteModifiers["resonance"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "ResPedalButton", checkButton);	  
-     defaultNoteModifiers["resPedal"] = checkButton->get_active();  
-  
+       "ResPedalButton", checkButton);
+     defaultNoteModifiers["resPedal"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "SfzButton", checkButton);	  
-     defaultNoteModifiers["sfz"] = checkButton->get_active();  
-  
+       "SfzButton", checkButton);
+     defaultNoteModifiers["sfz"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "SffzButton", checkButton);	  
-     defaultNoteModifiers["sffz"] = checkButton->get_active();   
-  
+       "SffzButton", checkButton);
+     defaultNoteModifiers["sffz"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "TenutoButton", checkButton);	  
-     defaultNoteModifiers["tenuto"] = checkButton->get_active();  
-  
+       "TenutoButton", checkButton);
+     defaultNoteModifiers["tenuto"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "TremoloButton", checkButton);	  
-     defaultNoteModifiers["tremolo"] = checkButton->get_active();  
-  
+       "TremoloButton", checkButton);
+     defaultNoteModifiers["tremolo"] = checkButton->get_active();
+
      noteModifiersConfigurationDialogRefBuilder->get_widget(
-       "VibratoButton", checkButton);	  
-     defaultNoteModifiers["vibrato"] = checkButton->get_active();      
+       "VibratoButton", checkButton);
+     defaultNoteModifiers["vibrato"] = checkButton->get_active();
 
 
      std::vector<CustomNoteModifierHBox*>::iterator iter =
@@ -2295,12 +2295,12 @@ void ProjectViewController::configureNoteModifiers(){
          customNoteModifiers.push_back( (*iter)->getText());
        }
      }
-    
+
      modified();
      eventAttributesView->buildNoteModifiersList();
-    
+
    }
-   
+
    noteModifiersConfigurationDialog = NULL;
    noteModifiersConfigurationCustomVBox = NULL;
 
@@ -2308,7 +2308,7 @@ void ProjectViewController::configureNoteModifiers(){
      customNotModifierHBoxes.begin();
    for (iter2; iter2!= customNotModifierHBoxes.end(); iter2++){
      delete (*iter2);
-   }  
+   }
    customNotModifierHBoxes.clear();
 }
 
@@ -2336,7 +2336,7 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(
   pack_start(removeButton,Gtk::PACK_SHRINK);
 
   removeButton.signal_clicked().connect(sigc::mem_fun
-    (*this, &CustomNoteModifierHBox::removeButtonClicked));  
+    (*this, &CustomNoteModifierHBox::removeButtonClicked));
 }
 
 //---------------------------------------------------------------------------//
@@ -2344,7 +2344,7 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(
 CustomNoteModifierHBox::CustomNoteModifierHBox(
   	ProjectViewController* _projectView, string _string){
   entry.set_text(_string);
-  
+
   projectView = _projectView;
   label.set_text("Modifier Name: ");
   removeButton.set_label("Remove Modifier");
@@ -2353,7 +2353,7 @@ CustomNoteModifierHBox::CustomNoteModifierHBox(
   pack_start(removeButton,Gtk::PACK_SHRINK);
 
   removeButton.signal_clicked().connect(sigc::mem_fun
-    (*this, &CustomNoteModifierHBox::removeButtonClicked));  
+    (*this, &CustomNoteModifierHBox::removeButtonClicked));
 
 }
 
@@ -2382,12 +2382,12 @@ void CustomNoteModifierHBox::removeButtonClicked(){
 
 void ProjectViewController::removeCustomNoteModifier(
   CustomNoteModifierHBox* _hbox){
-  std::vector<CustomNoteModifierHBox*>::iterator iter = 
+  std::vector<CustomNoteModifierHBox*>::iterator iter =
     customNotModifierHBoxes.begin();
   while(*iter != _hbox && iter != customNotModifierHBoxes.end()){
     iter++;
-  } 
-   
+  }
+
   customNotModifierHBoxes.erase(iter);
   noteModifiersConfigurationCustomVBox->remove(*_hbox);
   delete _hbox;
@@ -2401,13 +2401,13 @@ void ProjectViewController::removeCustomNoteModifier(
 void ProjectViewController::saveNoteModifierConfiguration(){
   std::string stringbuffer = pathAndName + "/.noteModifiersConfiguration";
   //char charbuffer[60];
-    
+
   FILE* file  = fopen(stringbuffer.c_str(), "w");
-  
+
   stringbuffer = "LASSIENOTEDEFAULTMODIFIER = <";
-  
+
   std::map<string, bool>::iterator iter = defaultNoteModifiers.begin();
-  
+
   while (iter != defaultNoteModifiers.end()){
     //cout <<(*iter).second;
     string buffer2 = ((*iter).second)? "1":"0";
@@ -2417,16 +2417,16 @@ void ProjectViewController::saveNoteModifierConfiguration(){
       stringbuffer = stringbuffer + ", ";
     }
   }
-  
-  stringbuffer = stringbuffer + ">;\n"  ; 
+
+  stringbuffer = stringbuffer + ">;\n"  ;
   fputs(stringbuffer.c_str(),file);
-  
+
   if (customNoteModifiers.size() !=0){
-  
+
     stringbuffer = "LASSIENOTECUSTOMMODIFIER = <";
-    
+
     std::vector<string>::iterator iter2 = customNoteModifiers.begin();
-    
+
     while (iter2 != customNoteModifiers.end()){
       stringbuffer = stringbuffer + "`" + *iter2 + "`";
       iter2 ++;
@@ -2437,7 +2437,7 @@ void ProjectViewController::saveNoteModifierConfiguration(){
     stringbuffer = stringbuffer + ">;\n";
     fputs(stringbuffer.c_str(),file);
   }
- 
+
   fclose(file);
 
 }
@@ -2466,11 +2466,11 @@ void ProjectViewController::saveAs(std::string _newPathAndName){
 	projectTitle  = FileOperations::stringToFileName(pathAndName);
 	datPathAndName = pathAndName+ "/"+projectTitle+".dat";
   libPathAndName = pathAndName+ "/"+projectTitle+".lib";
-	
+
 	saveEnvelopeLibrary();
   saveNoteModifierConfiguration();
   refreshProjectDotDat();
-  
+
   eventAttributesView->saveCurrentShownEventData();
   for (std::vector<IEvent*>::iterator iter = events.begin();
        iter != events.end();
@@ -2494,7 +2494,7 @@ bool ProjectViewController::checkNameExists(string _name, EventType _type){
     }
 
     iter++;
-  } 
+  }
 
   return returnValue;
 
@@ -2506,20 +2506,20 @@ bool ProjectViewController::checkNameExists(string _name, EventType _type){
 void ProjectViewController::deleteObject(IEvent* _toDelete){
   modified();
   std::vector<IEvent*>::iterator iter =  events.begin();
-  
+
   while ( (*iter)!= _toDelete && iter!= events.end()){
     iter++;
   }
-  
+
   events.erase(iter);
-  
+
   deletedEvents.push_back( _toDelete);
-  
+
   //check if the object is currently shown in the attributes view.
   if (_toDelete == eventAttributesView->getCurrentEvent()){
     eventAttributesView->showAttributesOfEvent(NULL);
   }
-  
+
 }
 
 
@@ -2528,11 +2528,11 @@ void ProjectViewController::deleteObject(IEvent* _toDelete){
 void ProjectViewController::clearDeletedEvents(){
   std::vector <IEvent*>::iterator iter= deletedEvents.begin();
   /*
-  
+
   for (iter; iter!= deletedEvents.end(); iter++){
-    string pathAndNameOfDeletingObject; // = pathAndName; 
+    string pathAndNameOfDeletingObject; // = pathAndName;
     string eventName = (*iter)->getEventName();
-     
+
     switch ((*iter)->getEventType()){
       case 0:
         pathAndNameOfDeletingObject = pathAndName + "/T/" + eventName;
@@ -2552,26 +2552,26 @@ void ProjectViewController::clearDeletedEvents(){
         break;
       case 4:
         pathAndNameOfDeletingObject = pathAndName + "/B/" + eventName;
-     
-        break;     
+
+        break;
       case 5:
         pathAndNameOfDeletingObject = pathAndName + "/S/" + eventName;
-        
+
         break;
-        
+
       case 6:
         pathAndNameOfDeletingObject = pathAndName + "/ENV/" + eventName;
         break;
       case 7 :
         pathAndNameOfDeletingObject = pathAndName + "/SIV/" + eventName;
         break;
-        
+
       case 8:
-        pathAndNameOfDeletingObject = pathAndName + "/SPA/" + eventName; 
+        pathAndNameOfDeletingObject = pathAndName + "/SPA/" + eventName;
         break;
-        
+
       case 9:
-        pathAndNameOfDeletingObject = pathAndName + "/PAT/" + eventName; 
+        pathAndNameOfDeletingObject = pathAndName + "/PAT/" + eventName;
         break;
       case 10:
         pathAndNameOfDeletingObject = pathAndName + "/REV/" + eventName;
@@ -2582,13 +2582,13 @@ void ProjectViewController::clearDeletedEvents(){
         pathAndNameOfDeletingObject = pathAndName + "/N/" + eventName;
         break;
     }
-  
+
     //cout<<"deleting object: "<<  pathAndNameOfDeletingObject<<"..."<<endl;
     string command = "rm "+ pathAndNameOfDeletingObject;
     system(command.c_str());
     delete *iter;
-    
-    
+
+
   }
   */
   deletedEvents.clear();
@@ -2604,14 +2604,14 @@ std::string ProjectViewController::searchPossibleParents(string _fileName){
   std::vector<IEvent*>::iterator iter= events.begin();
 
   for( iter; iter!= events.end(); iter++){
-    
+
     if ((*iter)->haveString(_fileName)){
       result = result + (*iter)->getEventFolderName() + "/" +
         (*iter)->getEventName() + ", ";
-    
+
     }
   }
-  
+
   return result;
 }
 
