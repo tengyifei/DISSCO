@@ -95,9 +95,9 @@ project "lassie"
   kind "ConsoleApp"
   files {"LASSIE/src/**.h", "LASSIE/src/**.cpp"}
   excludes {"LASSIE/src/UpgradeProjectFormat.*"}
-  buildoptions {"`pkg-config --cflags gtkmm-3.0`",
+  buildoptions {"`pkg-config --cflags gtkmm-3.0`", "`pkg-config --cflags webkit2gtk-4.0`",
     "-Wno-deprecated", ExtraFlags}
-  linkoptions {"`pkg-config --libs --cflags gtkmm-3.0`", "-Wno-deprecated", "-lxerces-c"}
+  linkoptions {"`pkg-config --libs --cflags gtkmm-3.0`", "`pkg-config --libs --cflags webkit2gtk-4.0`", "-Wno-deprecated", "-lxerces-c"}
   libdirs {"/usr/local/lib"}
   links {"lcmod", "lass", "parser", "pthread", "sndfile"}
   configuration "Debug" flags(DebugFlags)

@@ -95,7 +95,7 @@ class MainWindow : public Gtk::Window {
     /*! \brief The ActionGroup storing the action to be taken when
     * items in menu or tool bar are clicked.
     *
-    ***************************************************************************/ 		
+    ***************************************************************************/         
     Glib::RefPtr<Gtk::ActionGroup> menuRefActionGroup;
 
 
@@ -108,7 +108,7 @@ class MainWindow : public Gtk::Window {
 
     Gtk::Widget* pointerToMenubarWidget;
     Gtk::Widget* pointerToToolbarWidget;
-	
+    
     //==========================================================================
     //============================Functions===========================
     //==========================================================================
@@ -140,7 +140,7 @@ class MainWindow : public Gtk::Window {
     /*! \brief Called by menuNewProject() to actual create a new
     * project
     *
-    ***************************************************************************/	
+    ***************************************************************************/    
     void createNewProject();
 
 
@@ -149,6 +149,7 @@ class MainWindow : public Gtk::Window {
     void menuProjectSynthesize();
     void menuProjectGenerateSCFile();
     void menuProjectConfigureNoteModifiers();
+    void menuProjectVisualizeGraph();
 
     void includeUi_info(Glib::ustring pathAndName,Glib::ustring ctrl);
     void menuPathAndName();
