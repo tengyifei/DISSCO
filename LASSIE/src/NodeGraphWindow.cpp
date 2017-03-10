@@ -28,18 +28,13 @@
  ******************************************************************************/
 
 #include "NodeGraphWindow.h"
-#include <thread>
 
 NodeGraphWindow::NodeGraphWindow() {
-  new std::thread([this](){
-    webkit_web_context_set_process_model (
-        webkit_web_context_get_default (),
-        WEBKIT_PROCESS_MODEL_MULTIPLE_SECONDARY_PROCESSES);
-    webViewContainerGtk = webkit_web_view_new();
-    webViewContainerGtkmm = Glib::wrap(webViewContainerGtk);
-    add(*webViewContainerGtkmm);
-    webkit_web_view_load_uri(webView, "http://www.webkitgtk.org/");
-  });
+  webViewContainerGtk = webkit_web_view_new();
+  webViewContainerGtkmm = Glib::wrap(webViewContainerGtk);
+  webkit_web_view_load_uri((WebKitWebView *) webViewContainerGtk, "http://www.example.com");
+  add(*webViewContainerGtkmm);
+  show_all_children();
 }
 
 NodeGraphWindow::~NodeGraphWindow() {
