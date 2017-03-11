@@ -43,9 +43,9 @@
 using Gtk::Adjustment;
 
 EventAttributesViewController::EventAttributesViewController(
-  SharedPointers* _sharedPointers){
+  SharedPointers* _sharedPointers) {
 
-  soundPartialHboxes =NULL;
+  soundPartialHboxes = NULL;
   tempoEntryAsNoteValueModifiedFlag = false;
   tempo = new Tempo();
     sharedPointers = _sharedPointers;
@@ -878,9 +878,9 @@ void EventAttributesViewController::saveCurrentShownEventData(){
 
 
       //save the value here in order to restore data when showing attributes
-    	attributesRefBuilder->get_widget(
-      	"attributesStandardTempoValueEntry", entry);
-    	currentlyShownEvent->setTempoFractionEntry2(entry->get_text());
+      attributesRefBuilder->get_widget(
+        "attributesStandardTempoValueEntry", entry);
+      currentlyShownEvent->setTempoFractionEntry2(entry->get_text());
 
 
 
@@ -1499,51 +1499,51 @@ void EventAttributesViewController::showCurrentEventData(){
         combobox->set_active(currentlyShownEvent->getTempoNoteValue());
 
         //when switching, it'll generate the proper string
-				tempoEntryAsNoteValueModifiedFlag = true;
+        tempoEntryAsNoteValueModifiedFlag = true;
 
 
 
-				//check if original value is an integer or a fraction
+        //check if original value is an integer or a fraction
 
-				string originalValue = currentlyShownEvent->getTempoValueEntry();
-				size_t foundSlash = originalValue.find("/");
-				if (foundSlash != string::npos){ //it is fraction
-					string entry1 = originalValue.substr(0,foundSlash);
-
-
-				 	attributesRefBuilder->get_widget(
-          	"attributesStandardTempoAsFractionEntry1", entry);
-        	entry->set_text(entry1);
+        string originalValue = currentlyShownEvent->getTempoValueEntry();
+        size_t foundSlash = originalValue.find("/");
+        if (foundSlash != string::npos){ //it is fraction
+          string entry1 = originalValue.substr(0,foundSlash);
 
 
-        	char charBuffer[20];
-
-        	int value = atoi (
-        	  (originalValue.substr(
-        	  foundSlash + 1, originalValue.length())).c_str());
+           attributesRefBuilder->get_widget(
+            "attributesStandardTempoAsFractionEntry1", entry);
+          entry->set_text(entry1);
 
 
-        	value = value * 60;
-        	sprintf (charBuffer, "%d", value);
+          char charBuffer[20];
 
-        	string ratioString = entry1 + "/" + charBuffer;
+          int value = atoi (
+            (originalValue.substr(
+            foundSlash + 1, originalValue.length())).c_str());
 
-        	Ratio ratio = Ratio(ratioString);
 
-        	attributesRefBuilder->get_widget(
-          	"attributesStandardTempoAsFractionEntry1", entry);
+          value = value * 60;
+          sprintf (charBuffer, "%d", value);
+
+          string ratioString = entry1 + "/" + charBuffer;
+
+          Ratio ratio = Ratio(ratioString);
+
+          attributesRefBuilder->get_widget(
+            "attributesStandardTempoAsFractionEntry1", entry);
 
           sprintf (charBuffer, "%d", ratio.Num());
           entry->set_text(string(charBuffer));
-        	sprintf (charBuffer, "%d", ratio.Den());
-  	      originalTempoValueForFraction = string (charBuffer);
-					tempoEntryAsNoteValueModifiedFlag = false;
+          sprintf (charBuffer, "%d", ratio.Den());
+          originalTempoValueForFraction = string (charBuffer);
+          tempoEntryAsNoteValueModifiedFlag = false;
 
-				}
+        }
 
 
-				//entry 1 set # of note
-				// original for value
+        //entry 1 set # of note
+        // original for value
 
       attributesRefBuilder->get_widget(
         "attributesStandardTempoValueEntry", entry);
@@ -1569,11 +1569,11 @@ void EventAttributesViewController::showCurrentEventData(){
           "attributesStandardTempoAsFractionEntry1", entry);
         entry->set_text(currentlyShownEvent->getTempoFractionEntry1());
 
-				attributesRefBuilder->get_widget(
+        attributesRefBuilder->get_widget(
           "attributesStandardTempoValueEntry", entry);
         entry->set_text(currentlyShownEvent->getTempoValueEntry());
-			  // so that when switch, it'll generate the proper string
-				tempoEntryAsNoteValueModifiedFlag = true;
+        // so that when switch, it'll generate the proper string
+        tempoEntryAsNoteValueModifiedFlag = true;
 
       }
 
@@ -1695,15 +1695,15 @@ void EventAttributesViewController::showCurrentEventData(){
 
       if (currentlyShownEvent->getFlagChildEventDef() ==0){ //continuum
 
-      	attributesRefBuilder->get_widget(
+        attributesRefBuilder->get_widget(
           "ChildEventsDefinitionContinuumSweepAlignment", alignment);
-      	if (alignment->get_child() == NULL){ //alignment is empty
-      		attributesRefBuilder->get_widget(
-  	        "ChildEventsDefinitionContinuumSweepVBox", vbox);
-    			alignment->add(*vbox);
+        if (alignment->get_child() == NULL){ //alignment is empty
+          attributesRefBuilder->get_widget(
+            "ChildEventsDefinitionContinuumSweepVBox", vbox);
+          alignment->add(*vbox);
 
-    			attributesRefBuilder->get_widget(
-          	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+          attributesRefBuilder->get_widget(
+            "ChildrenEventsDefinitionDiscreteAlignment", alignment);
           alignment->remove();
 
         }
@@ -1809,13 +1809,13 @@ void EventAttributesViewController::showCurrentEventData(){
 
         attributesRefBuilder->get_widget(
           "ChildEventsDefinitionContinuumSweepAlignment", alignment);
-      	if (alignment->get_child() == NULL){ //alignment is empty
-      		attributesRefBuilder->get_widget(
-  	        "ChildEventsDefinitionContinuumSweepVBox", vbox);
-    			alignment->add(*vbox);
+        if (alignment->get_child() == NULL){ //alignment is empty
+          attributesRefBuilder->get_widget(
+            "ChildEventsDefinitionContinuumSweepVBox", vbox);
+          alignment->add(*vbox);
 
-    			attributesRefBuilder->get_widget(
-          	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+          attributesRefBuilder->get_widget(
+            "ChildrenEventsDefinitionDiscreteAlignment", alignment);
           alignment->remove();
 
         }
@@ -1920,15 +1920,15 @@ void EventAttributesViewController::showCurrentEventData(){
       else { //discrete
 
 
-            	attributesRefBuilder->get_widget(
+              attributesRefBuilder->get_widget(
           "ChildrenEventsDefinitionDiscreteAlignment", alignment);
-      	if (alignment->get_child() == NULL){ //alignment is empty
-      		attributesRefBuilder->get_widget(
-  	        "ChildrenEventsDefinitionDiscreteVBox", vbox);
-    			alignment->add(*vbox);
+        if (alignment->get_child() == NULL){ //alignment is empty
+          attributesRefBuilder->get_widget(
+            "ChildrenEventsDefinitionDiscreteVBox", vbox);
+          alignment->add(*vbox);
 
-    			attributesRefBuilder->get_widget(
-          	"ChildEventsDefinitionContinuumSweepAlignment", alignment);
+          attributesRefBuilder->get_widget(
+            "ChildEventsDefinitionContinuumSweepAlignment", alignment);
           alignment->remove();
 
         }
@@ -2028,11 +2028,11 @@ void EventAttributesViewController::showCurrentEventData(){
         std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
         for (i ; i != layerBoxesStorage.end(); i ++){
         if ((*i)->weightColumn.get_tree_view() != NULL){
-          	(*i)->m_TreeView.remove_column((*i)->weightColumn);
-          	(*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
-          	(*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
-          	(*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
-          	(*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
+            (*i)->m_TreeView.remove_column((*i)->weightColumn);
+            (*i)->m_TreeView.remove_column((*i)->attackEnvColumn);
+            (*i)->m_TreeView.remove_column((*i)->attackEnvScaleColumn);
+            (*i)->m_TreeView.remove_column((*i)->durationEnvColumn);
+            (*i)->m_TreeView.remove_column((*i)->durationEnvScaleColumn);
           //(*i)->weightEntry.set_text("");
           }
         }
@@ -2040,15 +2040,15 @@ void EventAttributesViewController::showCurrentEventData(){
       else {
         std::vector<LayerBox*>::iterator i = layerBoxesStorage.begin();
         for (i ; i != layerBoxesStorage.end(); i ++){
-        	if ((*i)->weightColumn.get_tree_view() ==NULL){
-          	(*i)->m_TreeView.append_column((*i)->weightColumn);
-          	(*i)->m_TreeView.append_column((*i)->attackEnvColumn);
-          	(*i)->m_TreeView.append_column((*i)->attackEnvScaleColumn);
-          	(*i)->m_TreeView.append_column((*i)->durationEnvColumn);
-          	(*i)->m_TreeView.append_column((*i)->durationEnvScaleColumn);
+          if ((*i)->weightColumn.get_tree_view() ==NULL){
+            (*i)->m_TreeView.append_column((*i)->weightColumn);
+            (*i)->m_TreeView.append_column((*i)->attackEnvColumn);
+            (*i)->m_TreeView.append_column((*i)->attackEnvScaleColumn);
+            (*i)->m_TreeView.append_column((*i)->durationEnvColumn);
+            (*i)->m_TreeView.append_column((*i)->durationEnvScaleColumn);
           //(*i)->weightEntry.set_text("");
-        	}
-      	}
+          }
+        }
 
       }
 
@@ -2169,41 +2169,41 @@ void EventAttributesViewController::showCurrentEventData(){
           "BottomSubAttributesLoudnessEntry", entry);
         entry->set_text(extraInfo->getLoudness());
 
-				if (extraInfo->getChildTypeFlag() ==0){//enable spa and reverb entries
+        if (extraInfo->getChildTypeFlag() ==0){//enable spa and reverb entries
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesSpatializationEntry", entry);
-        	entry->set_text(extraInfo->getSpatialization());
-        	entry->set_sensitive(true);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesSpatializationEntry", entry);
+          entry->set_text(extraInfo->getSpatialization());
+          entry->set_sensitive(true);
 
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesReverbEntry", entry);
-        	entry->set_text(extraInfo->getReverb());
-        	entry->set_sensitive(true);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesReverbEntry", entry);
+          entry->set_text(extraInfo->getReverb());
+          entry->set_sensitive(true);
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesFilterEntry", entry);
-        	entry->set_text(extraInfo->getFilter());
-        	entry->set_sensitive(true);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesFilterEntry", entry);
+          entry->set_text(extraInfo->getFilter());
+          entry->set_sensitive(true);
 
         }
         else {
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesSpatializationEntry", entry);
-        	entry->set_text("");
-        	entry->set_sensitive(false);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesSpatializationEntry", entry);
+          entry->set_text("");
+          entry->set_sensitive(false);
 
-                	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesReverbEntry", entry);
-        	entry->set_text("");
-        	entry->set_sensitive(false);
+                  attributesRefBuilder->get_widget(
+            "BottomSubAttributesReverbEntry", entry);
+          entry->set_text("");
+          entry->set_sensitive(false);
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesFilterEntry", entry);
-        	entry->set_text("");
-        	entry->set_sensitive(false);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesFilterEntry", entry);
+          entry->set_text("");
+          entry->set_sensitive(false);
 
 
 
@@ -2218,104 +2218,104 @@ void EventAttributesViewController::showCurrentEventData(){
         Gtk::VBox* vbox;
         Gtk::VBox* vbox2;
         if (childType == 0){ //sound
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesNewModifierButton", button);
-        	attributesRefBuilder->get_widget("BottomSubAttributesVBox",
-        	                                 vbox2);
-        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox",
-        	                                 vbox);
-        	attributesRefBuilder->get_widget(
-          		"ModifierLabel", label);
-        	/* old code
-        	if (button->get_parent() ==NULL){
-        	  attributesRefBuilder->get_widget(
-          		"ModifierLabel", label);
-        		vbox2->pack_start(*label, Gtk::PACK_SHRINK);
-        		vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
-        		vbox2->pack_start(*button, Gtk::PACK_SHRINK);
-        	}
-        	*/
-        	//////////////////////////////////////////new code
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesNewModifierButton", button);
+          attributesRefBuilder->get_widget("BottomSubAttributesVBox",
+                                           vbox2);
+          attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox",
+                                           vbox);
+          attributesRefBuilder->get_widget(
+              "ModifierLabel", label);
+          /* old code
+          if (button->get_parent() ==NULL){
+            attributesRefBuilder->get_widget(
+              "ModifierLabel", label);
+            vbox2->pack_start(*label, Gtk::PACK_SHRINK);
+            vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+            vbox2->pack_start(*button, Gtk::PACK_SHRINK);
+          }
+          */
+          //////////////////////////////////////////new code
 
 
-        	if (button->get_parent() !=NULL){
-          	button->get_parent()->remove(*button);
+          if (button->get_parent() !=NULL){
+            button->get_parent()->remove(*button);
           }
           if (label->get_parent() !=NULL){
-          	label->get_parent()->remove(*label);
+            label->get_parent()->remove(*label);
           }
           if (vbox->get_parent() !=NULL){
-          	vbox->get_parent()->remove(*vbox);
+            vbox->get_parent()->remove(*vbox);
           }
 
 
           vbox2->pack_start(*label, Gtk::PACK_SHRINK);
-        	vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
-        	vbox2->pack_start(*button, Gtk::PACK_SHRINK);
+          vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+          vbox2->pack_start(*button, Gtk::PACK_SHRINK);
 
 
 
 
 
-        	/////////////////////////////////////////////////// end new code
-        	EventBottomModifier* EBmodifiers =
-        	  currentlyShownEvent->getEventExtraInfo()->getModifiers();
+          /////////////////////////////////////////////////// end new code
+          EventBottomModifier* EBmodifiers =
+            currentlyShownEvent->getEventExtraInfo()->getModifiers();
 
 
-	        BottomEventModifierAlignment* nextModifierAlignment;
-  	      while (EBmodifiers != NULL){
+          BottomEventModifierAlignment* nextModifierAlignment;
+          while (EBmodifiers != NULL){
 
-  	        if (modifiers ==NULL){ //if the first modifier
+            if (modifiers ==NULL){ //if the first modifier
 
-  	          modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
-  	          modifiers->prev = NULL;
+              modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
+              modifiers->prev = NULL;
 
-  	          nextModifierAlignment = modifiers;
-  	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
-
-
-  	        }
-  	        else { //rest of the modifiers
-
-  	        	nextModifierAlignment->next =
-  	        	  new BottomEventModifierAlignment(EBmodifiers, this);
-  	        	nextModifierAlignment->next->prev = nextModifierAlignment;
-  	        	nextModifierAlignment = nextModifierAlignment->next;
-  	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
-
-  	        }
-  	        EBmodifiers = EBmodifiers->next;
-
-  	      }
-
-				}
-				else if (childType ==1) { //note
+              nextModifierAlignment = modifiers;
+              vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
 
 
-        	attributesRefBuilder->get_widget(
-          	"BottomSubAttributesNewModifierButton", button);
+            }
+            else { //rest of the modifiers
+
+              nextModifierAlignment->next =
+                new BottomEventModifierAlignment(EBmodifiers, this);
+              nextModifierAlignment->next->prev = nextModifierAlignment;
+              nextModifierAlignment = nextModifierAlignment->next;
+              vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
+
+            }
+            EBmodifiers = EBmodifiers->next;
+
+          }
+
+        }
+        else if (childType ==1) { //note
 
 
-        	attributesRefBuilder->get_widget("BottomSubAttributesVBox",
-        	                                 vbox2);
-        	attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox",
-        	                                 vbox);
+          attributesRefBuilder->get_widget(
+            "BottomSubAttributesNewModifierButton", button);
 
 
-        	if (button->get_parent() !=NULL){
-        		attributesRefBuilder->get_widget(
-          		"ModifierLabel", label);
+          attributesRefBuilder->get_widget("BottomSubAttributesVBox",
+                                           vbox2);
+          attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox",
+                                           vbox);
 
-        		vbox2->remove(*label);
-        		vbox2->remove(*button);
-        		vbox2->remove(*vbox);
-        	}
 
-				}
+          if (button->get_parent() !=NULL){
+            attributesRefBuilder->get_widget(
+              "ModifierLabel", label);
 
-				else {//childType == 2, visual
+            vbox2->remove(*label);
+            vbox2->remove(*button);
+            vbox2->remove(*vbox);
+          }
 
-				}
+        }
+
+        else {//childType == 2, visual
+
+        }
 
       } // end showing bottom extra info
 
@@ -2330,60 +2330,60 @@ void EventAttributesViewController::showCurrentEventData(){
         attributesRefBuilder->get_widget(
           "BottomSubAttributesNewModifierButton", button);
         attributesRefBuilder->get_widget("attributesMainVBox",
-        	                                 vbox2);
+                                           vbox2);
         attributesRefBuilder->get_widget("BottomSubAttributesModifiersVBox",
-        	                                 vbox);
+                                           vbox);
 
         attributesRefBuilder->get_widget(
-          		"ModifierLabel", label);
+              "ModifierLabel", label);
         if (button->get_parent() !=NULL){
-          	button->get_parent()->remove(*button);
+            button->get_parent()->remove(*button);
           }
           if (label->get_parent() !=NULL){
-          	label->get_parent()->remove(*label);
+            label->get_parent()->remove(*label);
           }
           if (vbox->get_parent() !=NULL){
-          	vbox->get_parent()->remove(*vbox);
+            vbox->get_parent()->remove(*vbox);
           }
           //cout<<"add them to the right vbox"<<endl;
           vbox2->pack_start(*label, Gtk::PACK_SHRINK);
-        	vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
-        	vbox2->pack_start(*button, Gtk::PACK_SHRINK);
+          vbox2->pack_start(*vbox, Gtk::PACK_SHRINK);
+          vbox2->pack_start(*button, Gtk::PACK_SHRINK);
 
 
-       	EventBottomModifier* EBmodifiers =
-       	  currentlyShownEvent->getModifiers();
+         EventBottomModifier* EBmodifiers =
+           currentlyShownEvent->getModifiers();
 
         if (EBmodifiers!= NULL){
 
         }
-	      BottomEventModifierAlignment* nextModifierAlignment;
+        BottomEventModifierAlignment* nextModifierAlignment;
         while (EBmodifiers != NULL){
 
-  	      if (modifiers ==NULL){ //if the first modifier
+          if (modifiers ==NULL){ //if the first modifier
 
-  	        modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
-  	        modifiers->prev = NULL;
+            modifiers = new BottomEventModifierAlignment(EBmodifiers,this);
+            modifiers->prev = NULL;
 
             nextModifierAlignment = modifiers;
- 	          vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
+             vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
 
 
           }
-  	      else { //rest of the modifiers
+          else { //rest of the modifiers
 
-  	      	nextModifierAlignment->next =
-  	       	  new BottomEventModifierAlignment(EBmodifiers, this);
-  	       	nextModifierAlignment->next->prev = nextModifierAlignment;
-  	       	nextModifierAlignment = nextModifierAlignment->next;
+            nextModifierAlignment->next =
+               new BottomEventModifierAlignment(EBmodifiers, this);
+             nextModifierAlignment->next->prev = nextModifierAlignment;
+             nextModifierAlignment = nextModifierAlignment->next;
             vbox->pack_start(*nextModifierAlignment, Gtk::PACK_SHRINK);
 
-  	      }
-  	      EBmodifiers = EBmodifiers->next;
+          }
+          EBmodifiers = EBmodifiers->next;
 
 
 
-				}//end while
+        }//end while
 
 
       }//end event modifiers
@@ -2698,7 +2698,7 @@ void EventAttributesViewController::LayerBox::on_label_drop_drag_data_received(
 
   IEvent* insertEvent = projectView->getPalette()->getCurrentSelectedEvent();
 
-  if (insertEvent->getEventType() ==eventFolder){
+  if (insertEvent->getEventType() == eventFolder){
     Gtk::MessageDialog dialog(
       "A Folder cannot be placed into this event.",
       false /* use_markup */,
@@ -2709,6 +2709,7 @@ void EventAttributesViewController::LayerBox::on_label_drop_drag_data_received(
       "Folders in the palette are only used to organized different types "
       "of event. They cannot be placed into the events. ");
 
+    dialog.set_transient_for(*attributesView->sharedPointers->mainWindow);
     int result = dialog.run();
 
     //show warning
@@ -2770,10 +2771,10 @@ void EventAttributesViewController::continuumButtonClicked(){
   if (alignment->get_child() == NULL){ //alignment is empty
     attributesRefBuilder->get_widget(
       "ChildEventsDefinitionContinuumSweepVBox", vbox);
-   	alignment->add(*vbox);
+     alignment->add(*vbox);
 
     attributesRefBuilder->get_widget(
-     	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+       "ChildrenEventsDefinitionDiscreteAlignment", alignment);
     alignment->remove();
 
    }
@@ -2863,10 +2864,10 @@ void EventAttributesViewController::sweepButtonClicked(){
   if (alignment->get_child() == NULL){ //alignment is empty
     attributesRefBuilder->get_widget(
       "ChildEventsDefinitionContinuumSweepVBox", vbox);
-   	alignment->add(*vbox);
+     alignment->add(*vbox);
 
     attributesRefBuilder->get_widget(
-     	"ChildrenEventsDefinitionDiscreteAlignment", alignment);
+       "ChildrenEventsDefinitionDiscreteAlignment", alignment);
     alignment->remove();
 
    }
@@ -2968,10 +2969,10 @@ void EventAttributesViewController::discreteButtonClicked(){
   if (alignment->get_child() == NULL){ //alignment is empty
     attributesRefBuilder->get_widget(
       "ChildrenEventsDefinitionDiscreteVBox", vbox);
-   	alignment->add(*vbox);
+     alignment->add(*vbox);
 
     attributesRefBuilder->get_widget(
-     	"ChildEventsDefinitionContinuumSweepAlignment", alignment);
+       "ChildEventsDefinitionContinuumSweepAlignment", alignment);
     alignment->remove();
 
    }
@@ -3033,8 +3034,8 @@ void EventAttributesViewController::discreteButtonClicked(){
   attributesRefBuilder->get_widget(
           "attributesChildEventDefDiscreteButton", radioButton);
   if (radioButton->get_active() ==false){
-  	radioButton->set_active();
- 	}
+    radioButton->set_active();
+   }
 
 
 
@@ -4513,9 +4514,9 @@ void EventAttributesViewController::BSLoudnessButtonClicked(){
 }
 
 void EventAttributesViewController::BSSpatializationButtonClicked(){
-	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
-		return;
-	}
+  if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+    return;
+  }
 
 
   Gtk::Entry* entry;
@@ -4530,9 +4531,9 @@ void EventAttributesViewController::BSSpatializationButtonClicked(){
   delete generator;
 }
 void EventAttributesViewController::BSReverbButtonClicked(){
-	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
-		return;
-	}
+  if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+    return;
+  }
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesReverbEntry", entry);
@@ -4549,9 +4550,9 @@ void EventAttributesViewController::BSReverbButtonClicked(){
 void EventAttributesViewController::BSFilterButtonClicked(){
 
 
-	if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
-		return;
-	}
+  if (currentlyShownEvent->getEventExtraInfo()->getChildTypeFlag()!= 0){
+    return;
+  }
   Gtk::Entry* entry;
   attributesRefBuilder->get_widget(
     "BottomSubAttributesFilterEntry", entry);
@@ -4793,7 +4794,7 @@ void EventAttributesViewController::tempoAsNoteValueButtonClicked(){
     label->set_text("");
 
 
-	Gtk::Alignment* alignment;
+  Gtk::Alignment* alignment;
     attributesRefBuilder->get_widget(
       "attributesStandardTempoSecondaryAlignment", alignment);
     alignment->remove();
@@ -4883,24 +4884,24 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
       "attributesStandardTempoValueEntry", entry);
     string originalValue = entry->get_text();
 
-		size_t foundSlash = originalValue.find("/");
-		string entry1;
-		int value;
-		char charBuffer[20];
-		string ratioString;
-		Ratio ratio;
-		if (foundSlash != string::npos){ //it is fraction
-			entry1 = originalValue.substr(0,foundSlash);
+    size_t foundSlash = originalValue.find("/");
+    string entry1;
+    int value;
+    char charBuffer[20];
+    string ratioString;
+    Ratio ratio;
+    if (foundSlash != string::npos){ //it is fraction
+      entry1 = originalValue.substr(0,foundSlash);
 
       value = atoi (
         (originalValue.substr
         (foundSlash + 1, originalValue.length())).c_str()) * 60;
-     	sprintf (charBuffer, "%d", value);
-     	ratioString = entry1 + "/" + charBuffer;
+       sprintf (charBuffer, "%d", value);
+       ratioString = entry1 + "/" + charBuffer;
     }
     else {
 
-     	ratioString = originalValue + "/60";
+       ratioString = originalValue + "/60";
 
     }
 
@@ -4908,17 +4909,17 @@ void EventAttributesViewController::tempoAsFractionButtonClicked(){
     ratio = Ratio(ratioString);
 
     attributesRefBuilder->get_widget(
-     	"attributesStandardTempoAsFractionEntry1", entry);
+       "attributesStandardTempoAsFractionEntry1", entry);
 
           sprintf (charBuffer, "%d", ratio.Num());
 
-        	entry->set_text(string(charBuffer));
+          entry->set_text(string(charBuffer));
 
-					attributesRefBuilder->get_widget(
-      			"attributesStandardTempoValueEntry", entry);
+          attributesRefBuilder->get_widget(
+            "attributesStandardTempoValueEntry", entry);
 
-      	sprintf (charBuffer, "%d", ratio.Den());
-      		entry->set_text(string(charBuffer));
+        sprintf (charBuffer, "%d", ratio.Den());
+          entry->set_text(string(charBuffer));
 
   }
 

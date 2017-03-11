@@ -29,6 +29,7 @@
 #ifndef NODE_GRAPH_WINDOW_H
 #define NODE_GRAPH_WINDOW_H
 
+#include <string>
 #include <gtkmm.h>
 #include <webkit2/webkit2.h>
 
@@ -50,7 +51,6 @@ class NodeGraphWindow : public Gtk::Window {
     WebKitWebView *webView;
     GtkWidget *webViewContainerGtk;
     Gtk::Widget *webViewContainerGtkmm;
-
 };
 
 #endif

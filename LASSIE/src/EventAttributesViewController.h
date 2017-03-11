@@ -66,7 +66,7 @@ class SharedPointers;
 class EventAttributesViewController;
 
 //implement as doubly linked list for convenience
-class BottomEventModifierAlignment: public Gtk::Alignment{ 
+class BottomEventModifierAlignment: public Gtk::Alignment{
 public:
   BottomEventModifierAlignment* prev;
   BottomEventModifierAlignment* next;
@@ -159,7 +159,7 @@ public:
 /*! \brief The class representing the view showing event attributes in LASSIE
  *
  ******************************************************************************/
-class EventAttributesViewController:public Gtk::Frame {
+class EventAttributesViewController: public Gtk::Frame {
 public:
   
   /*! \brief Constructor of EventAttributesViewController
@@ -167,7 +167,7 @@ public:
    *  @param _projectView the pointer to its parent ProjectViewController object
    ****************************************************************************/
   EventAttributesViewController(SharedPointers* _sharedPointers);
-  
+
   
   
   /*! \brief destructor of EventAttributesViewController
@@ -223,7 +223,7 @@ public:
   void discreteButtonClicked();
   void deleteKeyPressed(Gtk::Widget* _focus);
   
-	IEvent* getCurrentEvent();
+  IEvent* getCurrentEvent();
   
   bool checkAttackSieve();
   bool checkDurationSieve();
@@ -266,14 +266,12 @@ public:
   
   void insertFunctionString (FunctionButton _button);
   void buildNoteModifiersList();
-  
-  
+
+
 private:
-  
-  
+
     SharedPointers* sharedPointers;
-  
-  
+
   /*! \brief Called by ShowAttributesOfEvent. It shows the data of the current
    *         event on screen.
    *
@@ -331,7 +329,7 @@ private:
     
     
     //private:
-  	Gtk::Label boxLabel;
+    Gtk::Label boxLabel;
     //Signal handlers:
     class Columns : public Gtk::TreeModel::ColumnRecord{
     public:
