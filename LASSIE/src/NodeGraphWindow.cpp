@@ -145,7 +145,7 @@ NodeGraphWindow::NodeGraphWindow() {
 digraph hierarchy {
     rankdir=TD;
     size="8,5"
-    LR_0 [URL="#LR_0"];
+    LR_0 [URL="http://google.com"];
     LR_1 [URL="#LR_1"];
     LR_2 [URL="#LR_2"];
     LR_3 [URL="#LR_3"];
@@ -174,10 +174,9 @@ digraph hierarchy {
   for (int i = 0; i < 5; i++) free(argsWritable[i]);
 
   // read map file
-  string mapFile;
   std::ifstream is;
   is.open("./NodeGraphVisualizationMap.map");
-  is >> mapFile;
+  string mapFile(std::istreambuf_iterator<char>(is), {});
   is.close();
 
   // convert image to inline html
