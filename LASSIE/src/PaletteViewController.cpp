@@ -38,11 +38,11 @@
 
 
 PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
- // ProjectViewController* _projectView): 
-  
-  
-  
-    viewName("Objects List"), 
+ // ProjectViewController* _projectView):
+
+
+
+    viewName("Objects List"),
     envelopeLibButton("Envelope Library"){
   sharedPointers = _sharedPointers;
   projectView = sharedPointers->projectView;
@@ -93,7 +93,7 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   if (pColumn){
     pColumn->set_sort_column(columns.columnObjectOrder);
     cout<<"bla?"<<endl;
-    
+
   }
   */
 
@@ -145,10 +145,10 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
   m_refActionGroup->add(
     Gtk::Action::create("ContextDelete", "Delete"),
     sigc::mem_fun(*this, &PaletteViewController::deleteObject));
-    
+
   m_refActionGroup->add(
     Gtk::Action::create("ContextDuplicate", "Duplicate Object"),
-    sigc::mem_fun(*this, &PaletteViewController::duplicateObject));    
+    sigc::mem_fun(*this, &PaletteViewController::duplicateObject));
 
 
   //TODO:
@@ -168,7 +168,7 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
     "<ui>"
     "  <popup name='PopupMenu'>"
     "    <menuitem action='ContextDelete'/>"
-    "		 <menuitem action='ContextDuplicate'/>"
+    "     <menuitem action='ContextDuplicate'/>"
     "  </popup>"
     "</ui>";
 
@@ -192,16 +192,16 @@ PaletteViewController::PaletteViewController(SharedPointers* _sharedPointers):
     m_refUIManager->get_widget("/PopupMenu"));
 
   if(!m_pMenuPopup) g_warning("menu not found");
-  
-  
+
+
   //test right click change cursor
   Glib::RefPtr<Gtk::TreeSelection> refTreeSelection =
     palette.get_selection();
-    
+
   refTreeSelection->signal_changed().connect(
     sigc::mem_fun(*this, &PaletteViewController::on_selection_changed));
-  
-  
+
+
 
 
   show_all_children();
@@ -222,21 +222,20 @@ void PaletteViewController::objectActivated(
     if (row[columns.columnEntry] != NULL){
       projectView->showAttributes(row[columns.columnEntry]);
     }
-    
+
   }
-  
+
 }
 
 void PaletteViewController::insertEvent(IEvent* _event){
- 
-	ObjectWindow* windowToRefresh = NULL;	
+
+  ObjectWindow* windowToRefresh = NULL;
   Gtk::TreeModel::Row childrow;
 
   if(palette.get_selection()->get_selected() ==0){ //see if some row is selected
     childrow = *(refTreeModel->append());
-  
   }else{
-    Gtk::TreeModel::Children::iterator iter = 
+    Gtk::TreeModel::Children::iterator iter =
       palette.get_selection()->get_selected();
     Gtk::TreeModel::Row parent = *iter;
     childrow = *(refTreeModel->append(parent.children()));
@@ -339,9 +338,9 @@ void PaletteViewController::on_button_drag_data_get(
   Gtk::SelectionData& selection_data,
   guint info,
   guint time){
-   
 
-  Gtk::TreeModel::Children::iterator iter = 
+
+  Gtk::TreeModel::Children::iterator iter =
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
 
@@ -358,12 +357,12 @@ void PaletteViewController::on_button_drag_data_get(
 }
 
 
-//originally want to show the attributes whenever the cursor move, 
+//originally want to show the attributes whenever the cursor move,
 //but it's dangerous so skipped. leave the function body for future usage.
 void PaletteViewController::on_cursor_changed(){
 //TODO
   //std::cout<<"cursor changed!!"<<std::endl;
-  //Gtk::TreeModel::Children::iterator iter = 
+  //Gtk::TreeModel::Children::iterator iter =
     //palette.get_selection()->get_selected();
   //Gtk::TreeModel::Row row = *iter;
   //std::cout<<row[columns.columnObjectName]<<std::endl;
@@ -373,7 +372,7 @@ void PaletteViewController::on_cursor_changed(){
 
 
 void PaletteViewController::AddToProjectTree(){
-  Gtk::TreeModel::Children::iterator iter = 
+  Gtk::TreeModel::Children::iterator iter =
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   //projectView->addObjectFromPaletteToProjectTree(row[columns.columnEntry]);
@@ -415,16 +414,16 @@ bool PaletteViewController::onRightClick(GdkEventButton* event){
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   if (!*iter){
-	  m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false);
-	  m_refActionGroup->get_action("ContextDelete")->set_sensitive(false);    
-	}  
+    m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false);
+    m_refActionGroup->get_action("ContextDelete")->set_sensitive(false);    
+  }  
   else if (folderSelected()!= "None"){
-  	m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false); 
-  	m_refActionGroup->get_action("ContextDelete")->set_sensitive(false);
+    m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(false); 
+    m_refActionGroup->get_action("ContextDelete")->set_sensitive(false);
   }
   else {
-  	m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(true); 
-  	m_refActionGroup->get_action("ContextDelete")->set_sensitive(true);
+    m_refActionGroup->get_action("ContextDuplicate")->set_sensitive(true); 
+    m_refActionGroup->get_action("ContextDelete")->set_sensitive(true);
   }
  
     if(m_pMenuPopup) m_pMenuPopup->popup(event->button, event->time);
@@ -453,7 +452,7 @@ Glib::ustring PaletteViewController::folderSelected(){
 
 IEvent* PaletteViewController::getCurrentSelectedEvent(){
   //std::cout<<"cursor changed!!"<<std::endl;
-  Gtk::TreeModel::Children::iterator iter = 
+  Gtk::TreeModel::Children::iterator iter =
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
   return row[columns.columnEntry];
@@ -472,9 +471,9 @@ void PaletteViewController::showEnvelopeLibrary(){
 
 void PaletteViewController::deleteKeyPressed(){
   //std::cout<<"cursor changed!!"<<std::endl;
-  Gtk::TreeModel::Children::iterator iter = 
+  Gtk::TreeModel::Children::iterator iter =
     palette.get_selection()->get_selected();
-  
+
   if (iter){
   Gtk::TreeModel::Row row = *iter;
     if (row){
@@ -571,10 +570,10 @@ void PaletteViewController::duplicateObject(){
   Gtk::TreeModel::Children::iterator iter = 
     palette.get_selection()->get_selected();
   Gtk::TreeModel::Row row = *iter;
-	IEvent* originalEvent = row[columns.columnEntry];
+  IEvent* originalEvent = row[columns.columnEntry];
   
   
-	//Load the GtkBuilder file and instantiate its widgets:
+  //Load the GtkBuilder file and instantiate its widgets:
   Glib::RefPtr<Gtk::Builder> refBuilder = Gtk::Builder::create();
 
   #ifdef GLIBMM_EXCEPTIONS_ENABLED
@@ -596,7 +595,7 @@ void PaletteViewController::duplicateObject(){
     }
   #endif /* !GLIBMM_EXCEPTIONS_ENABLED */
 
-	
+  
 
   //Get the GtkBuilder-instantiated Dialog:
   Gtk::Dialog* duplicateObjectDialog;
@@ -632,29 +631,29 @@ void PaletteViewController::duplicateObject(){
 
     dialog.run();
     return;
-	}
+  }
   else if (response !=1){
-  	return;
+    return;
   } 
   else {
-  	if (sharedPointers->projectView->checkNameExists(
-  	  nameEntry->get_text(), originalEvent->getEventType())){
-    	Gtk::MessageDialog dialog(
-      	"Object with the same name exists.",
-      	false /* use_markup */,
-      	Gtk::MESSAGE_QUESTION,
-      	Gtk::BUTTONS_OK);
+    if (sharedPointers->projectView->checkNameExists(
+      nameEntry->get_text(), originalEvent->getEventType())){
+      Gtk::MessageDialog dialog(
+        "Object with the same name exists.",
+        false /* use_markup */,
+        Gtk::MESSAGE_QUESTION,
+        Gtk::BUTTONS_OK);
 
     dialog.run();
     return;
-		
-	  }
-	
-	  string firstLetter = nameEntry->get_text().substr(0,1);
+    
+    }
+  
+    string firstLetter = nameEntry->get_text().substr(0,1);
 
-	  if ( originalEvent->getEventType() == eventBottom && 
-	    !(firstLetter== "n"||
-	    firstLetter=="s")){
+    if ( originalEvent->getEventType() == eventBottom && 
+      !(firstLetter== "n"||
+      firstLetter=="s")){
       Gtk::MessageDialog dialog(
         "A Bottom event should start with lowercase letter 's' or 'n'",
         false /* use_markup */,
@@ -662,30 +661,30 @@ void PaletteViewController::duplicateObject(){
         Gtk::BUTTONS_OK);
 
       dialog.run();
-      return;	  
-	
-	  }
-	
+      return;    
   
-	  sharedPointers->eventAttributesView->saveCurrentShownEventData();
+    }
+  
+  
+    sharedPointers->eventAttributesView->saveCurrentShownEventData();
     IEvent* newIEvent = new IEvent( originalEvent, nameEntry->get_text());
   
     string typeString;
     /*
     if (newIEvent->getEventTypeString() =="Env."){
-  	  typeString = "Envelope";
+      typeString = "Envelope";
     }
     else if (newIEvent->getEventTypeString() =="Spat."){
-    	typeString = "Spatialization";
+      typeString = "Spatialization";
     }
     else  if (newIEvent->getEventTypeString() =="Rev."){
-    	typeString = "Reverb";
+      typeString = "Reverb";
     }
     else   if (newIEvent->getEventTypeString() =="Pat."){
-    	typeString = "Pattern";
+      typeString = "Pattern";
     }
     else {*/
-    	typeString = newIEvent->getEventTypeString();
+      typeString = newIEvent->getEventTypeString();
     //}
     
   
