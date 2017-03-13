@@ -149,7 +149,9 @@ extern map<const char*, FileValue*, ltstr> file_data;
 *******************************************************************************/
 ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   emptyProject = true;
-  xmlDocument=NULL;
+  xmlDocument = NULL;
+  eventAttributesView = nullptr;
+  paletteView = nullptr;
 
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
@@ -176,7 +178,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   synthesis     = true;
 
   sharedPointers = new SharedPointers();
-      sharedPointers->mainWindow = _mainWindow;
+  sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
   //create three new children widgets
   //eventAttributesView = new EventAttributesViewController(  sharedPointers );
@@ -217,6 +219,8 @@ ProjectViewController::ProjectViewController(
   xmlDocument = NULL;
   emptyProject = false;
   modifiedButNotSaved = true;
+  eventAttributesView = nullptr;
+  paletteView = nullptr;
   seed="";
 
 
@@ -332,8 +336,10 @@ ProjectViewController::ProjectViewController(
 *******************************************************************************/
 ProjectViewController::~ProjectViewController(){
   //delete projectTreeView;
-  delete eventAttributesView;
-  delete paletteView;
+  if (eventAttributesView != nullptr)
+    delete eventAttributesView;
+  if (paletteView != nullptr)
+    delete paletteView;
   //std::cout << "ProjectViewController destructor is called." << std::endl;
 }
 
@@ -348,7 +354,7 @@ void ProjectViewController::cleanUpContents(){
   delete paletteView;
   delete sharedPointers;
   sharedPointers = new SharedPointers;
-    sharedPointers->mainWindow = _mainWindow;
+  sharedPointers->mainWindow = _mainWindow;
   sharedPointers->projectView = this;
 
 
@@ -1668,7 +1674,8 @@ ProjectViewController::ProjectViewController(
       std::string _pathAndName,
       std::string _projectTitle
 ){
-
+  eventAttributesView = nullptr;
+  paletteView = nullptr;
   seed = "";
   modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
