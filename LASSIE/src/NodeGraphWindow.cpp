@@ -28,6 +28,7 @@
  ******************************************************************************/
 
 #include "NodeGraphWindow.h"
+#include <JavaScriptCore/JavaScript.h>
 #include "ProjectViewController.h"
 #include "IEvent.h"
 #include <string>
@@ -186,6 +187,44 @@ digraph hierarchy {
   + "}";
 }
 
+string getJsResultAsString(WebKitJavascriptResult *js_result) {
+  JSValueRef              value;
+  JSGlobalContextRef      context;
+
+  if (!js_result) {
+    throw std::runtime_error("Invalid JavaScript Result");
+  }
+
+  context = webkit_javascript_result_get_global_context(js_result);
+  value = webkit_javascript_result_get_value(js_result);
+  if (JSValueIsString(context, value)) {
+    JSStringRef js_str_value;
+    gchar      *str_value;
+    gsize       str_length;
+
+    js_str_value = JSValueToStringCopy(context, value, NULL);
+    str_length = JSStringGetMaximumUTF8CStringSize(js_str_value);
+    str_value = (gchar *) g_malloc(str_length);
+    JSStringGetUTF8CString(js_str_value, str_value, str_length);
+    JSStringRelease(js_str_value);
+    string str = string(str_value);
+    g_free(str_value);
+    return str;
+  } else {
+    throw std::runtime_error("Unexpected JavaScript Result Type");
+  }
+}
+
+static void
+onUserClickNodeCallback(WebKitUserContentManager *manager,
+                        WebKitJavascriptResult *message,
+                        gpointer user_data)
+{
+  string messageString = getJsResultAsString(message);
+  cout << messageString << endl;
+  webkit_javascript_result_unref(message);
+}
+
 NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
   projectView_ = projectView;
 
@@ -196,7 +235,8 @@ NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
     webkit_web_context_get_default(),
     WEBKIT_PROCESS_MODEL_MULTIPLE_SECONDARY_PROCESSES);
 
-  webViewContainerGtk_ = webkit_web_view_new();
+  WebKitUserContentManager *userContent = webkit_user_content_manager_new();
+  webViewContainerGtk_ = webkit_web_view_new_with_user_content_manager(userContent);
   WebKitWebView *view = (WebKitWebView *) webViewContainerGtk_;
   WebKitSettings *settings = webkit_web_view_get_settings(view);
 
@@ -246,9 +286,21 @@ digraph hierarchy {
   string imageB64(imageB64c);
   g_free(imageB64c);
 
+  // script to handle clicks
+  string scriptStr = R"delim(
+<script>
+window.webkit.messageHandlers.nodeClick.postMessage("bar");
+</script>
+)delim";
+
   // load the resulting html
   string imageTag = "<img src=\"data:image/gif;base64," + imageB64 + "\" usemap=\"#hierarchy\">\n";
-  string html = imageTag + mapFile;
+  string html = imageTag + mapFile + scriptStr;
+
+  // register communication callbacks
+  webkit_user_content_manager_register_script_message_handler(userContent, "nodeClick");
+  g_signal_connect(userContent, "script-message-received::nodeClick",
+                  G_CALLBACK(onUserClickNodeCallback), NULL);
 
   GBytes *gbytes = g_bytes_new_take((void *) html.c_str(), html.length());
   webkit_web_view_load_bytes(view, gbytes, "text/html", "ascii", NULL);
