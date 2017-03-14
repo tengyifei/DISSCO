@@ -152,10 +152,11 @@ void findNodes(IEvent *top, set<IEvent*> &rawNodes, vector<string>& transitionLi
   for (auto& layer : top->layers) {
     for (auto& child : layer->children) {
       IEvent *event = child->event;
+      // add transition regardless
+      transitionList.push_back("    " + top->getEventName() + " -> " + event->getEventName());
       if (rawNodes.find(event) == rawNodes.end()) {
         // new node
         rawNodes.insert(event);
-        transitionList.push_back("    " + top->getEventName() + " -> " + event->getEventName());
         findNodes(event, rawNodes, transitionList);
       }
     }
