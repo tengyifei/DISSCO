@@ -307,6 +307,7 @@ MainWindow::MainWindow(){
   menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(false);
   menuRefActionGroup->get_action("Synthesize")->set_sensitive(false);
   menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(false);
+  menuRefActionGroup->get_action("VisualizeGraph")->set_sensitive(false);
   menuRefActionGroup->get_action(
     "ConfigureNoteModifiers")->set_sensitive(false);
 
@@ -511,6 +512,8 @@ void MainWindow::menuFileOpen(){
     menuRefActionGroup->get_action("FileSaveAs")->set_sensitive(true);
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
+    menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
+    menuRefActionGroup->get_action("VisualizeGraph")->set_sensitive(true);
     menuRefActionGroup->get_action(
       "ConfigureNoteModifiers")->set_sensitive(true);
     disableNewAndOpenProject();
@@ -542,6 +545,7 @@ void MainWindow::menuFileOpenXML(){
     menuRefActionGroup->get_action("ProjectProperties")->set_sensitive(true);
     menuRefActionGroup->get_action("Synthesize")->set_sensitive(true);
     menuRefActionGroup->get_action("GenerateSCFile")->set_sensitive(true);
+    menuRefActionGroup->get_action("VisualizeGraph")->set_sensitive(true);
     menuRefActionGroup->get_action(
       "ConfigureNoteModifiers")->set_sensitive(true);
     disableNewAndOpenProject();
