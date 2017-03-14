@@ -289,7 +289,14 @@ digraph hierarchy {
   // script to handle clicks
   string scriptStr = R"delim(
 <script>
-window.webkit.messageHandlers.nodeClick.postMessage("bar");
+window.onhashchange = function() {
+  if (location.hash) {
+    // kill the pound sign
+    window.webkit.messageHandlers.nodeClick.postMessage(location.hash.substr(1));
+    // reset the hash so it can be retriggered
+    location.hash = "";
+  }
+}
 </script>
 )delim";
 
