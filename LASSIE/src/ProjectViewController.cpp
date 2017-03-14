@@ -152,6 +152,7 @@ ProjectViewController::ProjectViewController(MainWindow* _mainWindow){
   xmlDocument = NULL;
   eventAttributesView = nullptr;
   paletteView = nullptr;
+  top = nullptr;
 
   ///////////////////////////////////////////////drag and drop//////////////
   listTargets.push_back( Gtk::TargetEntry("STRING") );
@@ -221,6 +222,7 @@ ProjectViewController::ProjectViewController(
   modifiedButNotSaved = true;
   eventAttributesView = nullptr;
   paletteView = nullptr;
+  top = nullptr;
   seed="";
 
 
@@ -306,6 +308,7 @@ ProjectViewController::ProjectViewController(
   newEvent->setEventName("0");
   newEvent->setEventType(eventTop);
   paletteView->insertEvent(newEvent,"Top");
+  top = newEvent;
   events.push_back(newEvent);
 
   envelopeLibraryEntries = NULL;
@@ -385,6 +388,7 @@ void ProjectViewController::showContents(){
   event->setEventName("Top");
   paletteView->insertEvent(event);
   events.push_back(event);
+  top = event;
 
   event = new IEvent();
   event->setEventType(eventFolder);
@@ -1676,6 +1680,7 @@ ProjectViewController::ProjectViewController(
 ){
   eventAttributesView = nullptr;
   paletteView = nullptr;
+  top = nullptr;
   seed = "";
   modifiedButNotSaved = false;
   ///////////////////////////////////////////////drag and drop//////////////
@@ -1869,7 +1874,11 @@ ProjectViewController::ProjectViewController(
 
   while (eventElement != NULL){
     IEvent* newEvent = new IEvent( eventElement);
-    paletteView->insertEvent(newEvent, newEvent->getEventTypeString());
+    string typeString = newEvent->getEventTypeString();
+    paletteView->insertEvent(newEvent, typeString);
+    if (typeString == "top") {
+      top = newEvent;
+    }
     events.push_back(newEvent);
     eventElement =eventElement->getNextElementSibling();
   }

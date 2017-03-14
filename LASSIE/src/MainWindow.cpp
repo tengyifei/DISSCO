@@ -456,12 +456,8 @@ MainWindow::MainWindow(){
 *
 *******************************************************************************/
 MainWindow::~MainWindow(){
-  for(std::vector<ProjectViewController*>::
-        iterator it = projects.begin();
-      it!=projects.end();
-      it++){
-
-    delete *it;
+  for (auto &it : projects) {
+    delete it;
   }
 }
 
@@ -919,14 +915,17 @@ void MainWindow::menuProjectConfigureNoteModifiers(){
 //-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectVisualizeGraph() {
-  (new NodeGraphWindow())->show();
+  if (projectView != nullptr) {
+    (new NodeGraphWindow(projectView))->show();
+  }
 }
 
 
 //-----------------------------------------------------------------------------
 
 void MainWindow::menuProjectGenerateSCFile(){
-  projectView->getTop()->makeSuperColliderCode();
-
+  if (projectView != nullptr) {
+    projectView->getTop()->makeSuperColliderCode();
+  }
 }
 

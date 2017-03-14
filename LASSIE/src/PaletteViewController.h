@@ -57,7 +57,7 @@ public:
   ObjectWindowObjectPackage* getObjectsLinkedList(string _typeString);
   
   
-  
+
 
 protected:
   // Signal handlers:
@@ -103,7 +103,7 @@ protected:
   Glib::RefPtr<Gtk::TreeStore> refTreeModel;
 
   Gtk::Label viewName;
-  Gtk::Button envelopeLibButton;	
+  Gtk::Button envelopeLibButton;  
 
   Gtk::TreeModel::Row selectedRow;
   void on_selection_changed();

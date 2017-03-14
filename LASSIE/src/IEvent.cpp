@@ -150,14 +150,14 @@ void IEvent::setEventType(EventType _type){
     extraInfo = (IEvent::EventExtraInfo*) new IEvent::BottomEventExtraInfo();
     string firstChar = eventName.substr(0,1);
     if (firstChar =="s"){
-    	extraInfo->setChildTypeFlag(0);
+      extraInfo->setChildTypeFlag(0);
     }
     else if (firstChar =="n"){
-    	extraInfo->setChildTypeFlag(1);
+      extraInfo->setChildTypeFlag(1);
     }
     else {
-    	extraInfo->setChildTypeFlag(2);
-   	}
+      extraInfo->setChildTypeFlag(2);
+     }
    
     
     
@@ -542,7 +542,7 @@ void IEvent::setModifiedButNotSaved(){
 }
 
 void IEvent::saveToDisk(std::string _pathOfProject){
-	//saveToDiskHelper(_pathOfProject, false);
+  //saveToDiskHelper(_pathOfProject, false);
 }
 
 
@@ -660,8 +660,8 @@ std::string EventLayer::outputChildrenNameString(){
     }else if( thisEvent->getEventType() == eventSound){
       temp = temp + "\"S/" + thisEvent->getEventName() + "\"";
     }else if (thisEvent->getEventType() == eventNote){
-    	temp = temp + "\"N/" + thisEvent->getEventName() + "\"";
-   	}
+      temp = temp + "\"N/" + thisEvent->getEventName() + "\"";
+     }
     
 
     i++;
@@ -853,11 +853,11 @@ void  IEvent::BottomEventExtraInfo::setFilter(std::string _string){
 } 
     
 void IEvent::BottomEventExtraInfo::setChildTypeFlag(int _type){
-	childTypeFlag = _type;
+  childTypeFlag = _type;
 };
 
 int IEvent::BottomEventExtraInfo::getChildTypeFlag(){
-	return childTypeFlag;
+  return childTypeFlag;
 } 
 
 
@@ -1219,8 +1219,8 @@ std::string IEvent::PatternExtraInfo::getPatternBuilder(){
 
 IEvent::BottomEventExtraInfo::BottomEventExtraInfo(int _childTypeFlag){
 
-	childTypeFlag = _childTypeFlag;
-	
+  childTypeFlag = _childTypeFlag;
+  
   extern map<const char*, FileValue*, ltstr> file_data;
   FileValue* value;
    
@@ -1437,23 +1437,23 @@ std::string EventDiscretePackage::getLASSIEMetadataString(){
 
 std::string EventDiscretePackage::getXMLString(){
   //string a = "";
-  
+
   char charBuffer[5];
   sprintf (charBuffer, "%d", (int) event->getEventType());
-  
-  std::string a = 
-    "            <Package>\n" 
-    "              <EventName>" + event->getEventName() + "</EventName>\n" 
+
+  std::string a =
+    "            <Package>\n"
+    "              <EventName>" + event->getEventName() + "</EventName>\n"
     "              <EventType>" + string(charBuffer) +"</EventType>\n" //this is eventType
-    "              <Weight>" + weight + "</Weight>\n" 
+    "              <Weight>" + weight + "</Weight>\n"
     "              <AttackEnvelope>"+ attackEnv + "</AttackEnvelope>\n"
     "              <AttackEnvelopeScale>"+ attackEnvScale + "</AttackEnvelopeScale>\n"
     "              <DurationEnvelope>"+ durationEnv + "</DurationEnvelope>\n"
     "              <DurationEnvelopeScale>"+ durationEnvScale + "</DurationEnvelopeScale>\n"
     "            </Package>\n";
-              
+
   return a;
-                
+
 }
 
 
@@ -1552,7 +1552,7 @@ void IEvent::parseNonEvent(){
     std::list<FileValue>::iterator fileValueListIter = fileValueList.begin();
     SpectrumPartial* thisPartial = NULL;
     if (fileValueList.size()!= 0){
-    	thisPartial = extraInfo->getSpectrumPartials();
+      thisPartial = extraInfo->getSpectrumPartials();
       thisPartial->envString = fileValueListIter->getString();    
       fileValueListIter++;
     }
@@ -1716,10 +1716,10 @@ void IEvent::NoteExtraInfo::clearNoteModifiers(){
 
 
 IEvent::IEvent(IEvent* _original, string _newName){
-	eventName = _newName;
+  eventName = _newName;
   oldEventName = "";
   eventOrderInPalette = 0;
-	eventType = _original->eventType;
+  eventType = _original->eventType;
   maxChildDur = _original->maxChildDur;
 
   unitsPerSecond = _original->unitsPerSecond;
@@ -1759,43 +1759,43 @@ IEvent::IEvent(IEvent* _original, string _newName){
   
 
   if (eventType ==eventBottom){
-  	extraInfo = (EventExtraInfo*) 
-  	  new BottomEventExtraInfo((BottomEventExtraInfo*) _original->extraInfo);
-  	  modifiers = NULL;
+    extraInfo = (EventExtraInfo*) 
+      new BottomEventExtraInfo((BottomEventExtraInfo*) _original->extraInfo);
+      modifiers = NULL;
 
   }
   else if (eventType== eventRev){
-  	extraInfo = (EventExtraInfo*) 
-  	  new ReverbExtraInfo((ReverbExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new ReverbExtraInfo((ReverbExtraInfo*) _original->extraInfo);
   }
     else if (eventType== eventFil){
-  	extraInfo = (EventExtraInfo*) 
-  	  new FilterExtraInfo((FilterExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new FilterExtraInfo((FilterExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventSiv){
-  	extraInfo = (EventExtraInfo*) 
-  	  new SieveExtraInfo((SieveExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new SieveExtraInfo((SieveExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventEnv){
-  	extraInfo = (EventExtraInfo*) 
-  	  new EnvelopeExtraInfo((EnvelopeExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new EnvelopeExtraInfo((EnvelopeExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventSpa){
-  	extraInfo = (EventExtraInfo*) 
-  	  new SpatializationExtraInfo(
-  	    (SpatializationExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new SpatializationExtraInfo(
+        (SpatializationExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventPat){
-  	extraInfo = (EventExtraInfo*) 
-  	  new PatternExtraInfo((PatternExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new PatternExtraInfo((PatternExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventSound){
-  	extraInfo = (EventExtraInfo*) 
-  	  new SoundExtraInfo((SoundExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new SoundExtraInfo((SoundExtraInfo*) _original->extraInfo);
   }
   else if (eventType == eventNote){
-  	extraInfo = (EventExtraInfo*) 
-  	  new NoteExtraInfo((NoteExtraInfo*) _original->extraInfo);
+    extraInfo = (EventExtraInfo*) 
+      new NoteExtraInfo((NoteExtraInfo*) _original->extraInfo);
   }
   
   //layers go here
@@ -1804,10 +1804,10 @@ IEvent::IEvent(IEvent* _original, string _newName){
   
   while (iter!= _original->layers.end()){
   
-  	EventLayer* newLayer = new EventLayer(this, *iter);
+    EventLayer* newLayer = new EventLayer(this, *iter);
   
-  	layers.push_back(newLayer);
-  	iter++;
+    layers.push_back(newLayer);
+    iter++;
   }
   
   
@@ -1819,24 +1819,24 @@ IEvent::IEvent(IEvent* _original, string _newName){
       eventType == eventLow){
   
     if (_original->modifiers == NULL){    
-    	modifiers = NULL;
+      modifiers = NULL;
 
     }
     else{
-  	modifiers = new EventBottomModifier(_original->modifiers);
+    modifiers = new EventBottomModifier(_original->modifiers);
   
-  	EventBottomModifier* currentOriginalModifier = _original->modifiers;
-  	EventBottomModifier* prevModifier = NULL;
-  	EventBottomModifier* currentModifier = modifiers;
+    EventBottomModifier* currentOriginalModifier = _original->modifiers;
+    EventBottomModifier* prevModifier = NULL;
+    EventBottomModifier* currentModifier = modifiers;
   
-  	while (currentOriginalModifier->next!= NULL){
-  		currentOriginalModifier = currentOriginalModifier->next;
-  		prevModifier= currentModifier;
-  		currentModifier = new EventBottomModifier(currentOriginalModifier);
-  		prevModifier->next = currentModifier;
+    while (currentOriginalModifier->next!= NULL){
+      currentOriginalModifier = currentOriginalModifier->next;
+      prevModifier= currentModifier;
+      currentModifier = new EventBottomModifier(currentOriginalModifier);
+      prevModifier->next = currentModifier;
   
-  	}
-    }    	  
+    }
+    }        
   }
   
   
@@ -1847,23 +1847,23 @@ IEvent::IEvent(IEvent* _original, string _newName){
 
 
 IEvent::ReverbExtraInfo::ReverbExtraInfo(ReverbExtraInfo* _original){
-	reverbBuilder = _original->reverbBuilder;
+  reverbBuilder = _original->reverbBuilder;
 }
 IEvent::FilterExtraInfo::FilterExtraInfo(FilterExtraInfo* _original){
-	filterBuilder = _original->filterBuilder;
+  filterBuilder = _original->filterBuilder;
 }
 
 
 
 IEvent::NoteExtraInfo::NoteExtraInfo(NoteExtraInfo* _original){
-	 modifiers = _original->modifiers;
+   modifiers = _original->modifiers;
 }
 
 
 
 
 IEvent::SoundExtraInfo::SoundExtraInfo(SoundExtraInfo* _original){
-	    
+      
     numPartials = _original->numPartials;
     deviation = _original->deviation;
     
@@ -1875,13 +1875,13 @@ IEvent::SoundExtraInfo::SoundExtraInfo(SoundExtraInfo* _original){
     spectrumPartials->envString = currentOriginalPartial->envString;
     
     while (currentOriginalPartial->next != NULL){
-    	currentOriginalPartial = currentOriginalPartial->next;
+      currentOriginalPartial = currentOriginalPartial->next;
     
-    	previousPartial = currentPartial;
-    	currentPartial = new SpectrumPartial();
-    	currentPartial->envString = currentOriginalPartial->envString;
-    	currentPartial->prev = previousPartial;
-    	previousPartial->next = currentPartial;
+      previousPartial = currentPartial;
+      currentPartial = new SpectrumPartial();
+      currentPartial->envString = currentOriginalPartial->envString;
+      currentPartial->prev = previousPartial;
+      previousPartial->next = currentPartial;
     
    
     }
@@ -1894,8 +1894,8 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(
   BottomEventExtraInfo* _original){
 
   // 0 = Well_tempered, 1 = Fundamental, 2 = Continuum
-	frequencyFlag = _original->frequencyFlag; 
-	//0 = hertz, 1 =] power of two
+  frequencyFlag = _original->frequencyFlag; 
+  //0 = hertz, 1 =] power of two
   frequencyContinuumFlag = _original->frequencyContinuumFlag; 
   // 0 = sound, 1 = note, 2 = visual
   childTypeFlag = _original->childTypeFlag; 
@@ -1907,30 +1907,30 @@ IEvent::BottomEventExtraInfo::BottomEventExtraInfo(
     
   
   if (_original->modifiers == NULL){    
-  	modifiers = NULL;
+    modifiers = NULL;
 
   }
   else{
   
-  	modifiers = new EventBottomModifier(_original->modifiers);
+    modifiers = new EventBottomModifier(_original->modifiers);
   
-  	EventBottomModifier* currentOriginalModifier = _original->modifiers;
-  	EventBottomModifier* prevModifier = NULL;
-  	EventBottomModifier* currentModifier = modifiers;
+    EventBottomModifier* currentOriginalModifier = _original->modifiers;
+    EventBottomModifier* prevModifier = NULL;
+    EventBottomModifier* currentModifier = modifiers;
   
-  	while (currentOriginalModifier->next!= NULL){
-  		currentOriginalModifier = currentOriginalModifier->next;
-  		prevModifier= currentModifier;
-  		currentModifier = new EventBottomModifier(currentOriginalModifier);
-  		prevModifier->next = currentModifier;
+    while (currentOriginalModifier->next!= NULL){
+      currentOriginalModifier = currentOriginalModifier->next;
+      prevModifier= currentModifier;
+      currentModifier = new EventBottomModifier(currentOriginalModifier);
+      prevModifier->next = currentModifier;
   
-  	}
-  }  	    
+    }
+  }        
 }
 
 
 EventBottomModifier::EventBottomModifier(EventBottomModifier* _original){
-	next=NULL;
+  next=NULL;
   type = _original->type;
   applyHowFlag = _original->applyHowFlag;
   probability = _original->probability;
@@ -1946,8 +1946,8 @@ EventBottomModifier::EventBottomModifier(EventBottomModifier* _original){
 
 EventLayer::EventLayer(IEvent* _thisEvent, EventLayer* _originalLayer){
 
-	byLayer = _originalLayer->byLayer;
- 	thisIEvent = _thisEvent;
+  byLayer = _originalLayer->byLayer;
+   thisIEvent = _thisEvent;
     
   list<EventDiscretePackage*>::iterator iter = _originalLayer->children.begin(); 
   while (iter != _originalLayer->children.end()){
@@ -2257,7 +2257,7 @@ void IEvent::makeSuperColliderCode(){
        (maybe take a look of IEvent::saveAsTHMLB()  )
     
     
-   
+
   */
   cout<<"under construction, see line 3696 of IEvent.cpp"<<endl;
 }
@@ -2621,7 +2621,7 @@ void IEvent::buildNonEventFromDOM(DOMElement* _element){
   
     SpectrumPartial* thisPartial = NULL;
     if (thisPartialElement){
-    	thisPartial = extraInfo->getSpectrumPartials();
+      thisPartial = extraInfo->getSpectrumPartials();
       thisPartial->envString = getFunctionString(thisPartialElement); 
       thisPartialElement = thisPartialElement->getNextElementSibling();
     }
@@ -2820,14 +2820,14 @@ IEvent::IEvent(DOMElement* _domElement){
     string firstChar = eventName.substr(0,1);
     int childTypeFlag = -1;
     if (firstChar =="s"){
-    	childTypeFlag = 0;
+      childTypeFlag = 0;
     }
     else if (firstChar =="n"){
-    	childTypeFlag = 1;
+      childTypeFlag = 1;
     }
     else {
-    	childTypeFlag = 2;
-   	}
+      childTypeFlag = 2;
+     }
     extraInfo = (EventExtraInfo*) new BottomEventExtraInfo(childTypeFlag, thisElement); //line 2789
     modifiers = NULL;
 

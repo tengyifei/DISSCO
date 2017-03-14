@@ -33,6 +33,8 @@
 #include <gtkmm.h>
 #include <webkit2/webkit2.h>
 
+class ProjectViewController;
+
 class NodeGraphWindow : public Gtk::Window {
 
   public:
@@ -44,13 +46,14 @@ class NodeGraphWindow : public Gtk::Window {
     /*! \brief The constructor of NodeGraphWindow
     *
     ***************************************************************************/
-    NodeGraphWindow();
+    NodeGraphWindow(ProjectViewController *projectView);
     ~NodeGraphWindow();
 
   private:
-    WebKitWebView *webView;
-    GtkWidget *webViewContainerGtk;
-    Gtk::Widget *webViewContainerGtkmm;
+    ProjectViewController *projectView_;
+    WebKitWebView *webView_;
+    GtkWidget *webViewContainerGtk_;
+    Gtk::Widget *webViewContainerGtkmm_;
 };
 
 #endif

@@ -28,6 +28,8 @@
  ******************************************************************************/
 
 #include "NodeGraphWindow.h"
+#include "ProjectViewController.h"
+#include "IEvent.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -35,10 +37,14 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <set>
+#include <vector>
 
 using std::string;
 using std::cout;
 using std::endl;
+using std::vector;
+using std::set;
 
 namespace {
 
@@ -125,12 +131,69 @@ string createChild(const char* szCommand,
 
 }
 
-NodeGraphWindow::NodeGraphWindow() {
+template <class Str, class It>
+Str join(It begin, const It end, const Str &sep)
+{
+  typedef typename Str::value_type     char_type;
+  typedef typename Str::traits_type    traits_type;
+  typedef typename Str::allocator_type allocator_type;
+  typedef std::basic_ostringstream<char_type,traits_type,allocator_type>
+                                       ostringstream_type;
+  ostringstream_type result;
+
+  while (begin != end) {
+    result << *begin++;
+    result << sep;
+  }
+  return result.str();
+}
+
+void findNodes(IEvent *top, set<IEvent*> &rawNodes, vector<string>& transitionList) {
+  for (auto& layer : top->layers) {
+    for (auto& child : layer->children) {
+      IEvent *event = child->event;
+      if (rawNodes.find(event) == rawNodes.end()) {
+        // new node
+        rawNodes.insert(event);
+        transitionList.push_back("    " + top->getEventName() + " -> " + event->getEventName());
+        findNodes(event, rawNodes, transitionList);
+      }
+    }
+  }
+}
+
+string generateTree(IEvent *top) {
+  vector<string> nodeList;
+  vector<string> transitionList;
+
+  set<IEvent*> rawNodes;
+  findNodes(top, rawNodes, transitionList);
+
+  nodeList.push_back("Top");
+  for (auto& ev : rawNodes) {
+    nodeList.push_back(ev->getEventName());
+  }
+
+  return R"delim(
+digraph hierarchy {
+    rankdir=TD;
+    size="8,5";
+)delim"
+  + join(nodeList.begin(), nodeList.end(), string(" ;\n"))
+  + "node [shape = circle];\n"
+  + join(transitionList.begin(), transitionList.end(), string(" ;\n"))
+  + "}";
+}
+
+NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
+  projectView_ = projectView;
+
   webkit_web_context_set_process_model (
     webkit_web_context_get_default(),
     WEBKIT_PROCESS_MODEL_MULTIPLE_SECONDARY_PROCESSES);
-  webViewContainerGtk = webkit_web_view_new();
-  WebKitWebView *view = (WebKitWebView *) webViewContainerGtk;
+
+  webViewContainerGtk_ = webkit_web_view_new();
+  WebKitWebView *view = (WebKitWebView *) webViewContainerGtk_;
   WebKitSettings *settings = webkit_web_view_get_settings(view);
 
   // settings
@@ -138,13 +201,37 @@ NodeGraphWindow::NodeGraphWindow() {
   webkit_settings_set_enable_javascript(settings, true);
   webkit_web_view_set_settings(view, settings);
 
-  webViewContainerGtkmm = Glib::wrap(webViewContainerGtk);
+  webViewContainerGtkmm_ = Glib::wrap(webViewContainerGtk_);
+
+  // find Top event
+  IEvent *top;
+  bool foundTop = false;
+  for (auto& event : projectView_->events) {
+    if (event->getEventType() == eventFolder) {
+      if (event->getEventName() == "Top") {
+        foundTop = true;
+        top = event;
+      }
+    }
+  }
+  string graphDef;
+  if (foundTop) {
+    graphDef = generateTree(top);
+    cout << graphDef << endl;
+  } else {
+    graphDef = R"delim(
+digraph hierarchy {
+  rankdir=TD;
+  size="8,5";
+  node [shape = circle];
+})delim";
+  }
 
   // load graph
-  string graphDef = R"delim(
+  /*string graphDef = R"delim(
 digraph hierarchy {
     rankdir=TD;
-    size="8,5"
+    size="8,5";
     LR_0 [URL="http://google.com"];
     LR_1 [URL="#LR_1"];
     LR_2 [URL="#LR_2"];
@@ -166,6 +253,7 @@ digraph hierarchy {
     LR_8 -> LR_6 [ label = "S(b)" ];
     LR_8 -> LR_5 [ label = "S(a)" ];
 })delim";
+*/
 
   // run dot to produce image and map file
   const char* args[] = {"dot", "-Gdpi=300", "-Tcmapx", "-oNodeGraphVisualizationMap.map", "-Tgif"};
@@ -191,8 +279,8 @@ digraph hierarchy {
   GBytes *gbytes = g_bytes_new_take((void *) html.c_str(), html.length());
   webkit_web_view_load_bytes(view, gbytes, "text/html", "ascii", NULL);
 
-  add(*webViewContainerGtkmm);
-  webViewContainerGtkmm->grab_focus();
+  add(*webViewContainerGtkmm_);
+  webViewContainerGtkmm_->grab_focus();
   show_all_children();
 }
 
