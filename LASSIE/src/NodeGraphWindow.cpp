@@ -189,6 +189,9 @@ digraph hierarchy {
 NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
   projectView_ = projectView;
 
+  // initial size
+  resize(600, 600);
+
   webkit_web_context_set_process_model (
     webkit_web_context_get_default(),
     WEBKIT_PROCESS_MODEL_MULTIPLE_SECONDARY_PROCESSES);
