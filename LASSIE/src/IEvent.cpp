@@ -2381,7 +2381,7 @@ string IEvent::getXMLTHMLB(){
     "        <Entry3>" + numChildrenEntry3 + "</Entry3>\n"
     "      </NumberOfChildren>\n"
     "      <ChildEventDefinition>\n"
-    "        <Entry1>"+ childEventDefEntry1 + "</Entry1>\n"   
+    "        <Entry1>"+ childEventDefEntry1 + "</Entry1>\n"
     "        <Entry2>"+ childEventDefEntry2 + "</Entry2>\n"  
     "        <Entry3>"+ childEventDefEntry3 + "</Entry3>\n"  
     "        <AttackSieve>"+ childEventDefAttackSieve + "</AttackSieve>\n"

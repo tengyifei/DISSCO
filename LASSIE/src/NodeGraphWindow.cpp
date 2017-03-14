@@ -169,9 +169,9 @@ string generateTree(IEvent *top) {
   set<IEvent*> rawNodes;
   findNodes(top, rawNodes, transitionList);
 
-  nodeList.push_back("Top");
+  rawNodes.insert(top);
   for (auto& ev : rawNodes) {
-    nodeList.push_back(ev->getEventName());
+    nodeList.push_back("    " + ev->getEventName() + " [URL=\"#" + ev->getEventName() + "\"]");
   }
 
   return R"delim(
@@ -179,9 +179,9 @@ digraph hierarchy {
     rankdir=TD;
     size="8,5";
 )delim"
-  + join(nodeList.begin(), nodeList.end(), string(" ;\n"))
-  + "node [shape = circle];\n"
-  + join(transitionList.begin(), transitionList.end(), string(" ;\n"))
+  + join(nodeList.begin(), nodeList.end(), string(";\n"))
+  + "    node [shape = circle];\n"
+  + join(transitionList.begin(), transitionList.end(), string(";\n"))
   + "}";
 }
 
@@ -203,19 +203,17 @@ NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
 
   webViewContainerGtkmm_ = Glib::wrap(webViewContainerGtk_);
 
-  // find Top event
-  IEvent *top;
-  bool foundTop = false;
+  // create Top event
+  IEvent *top = new IEvent();
+  top->setEventName("Top");
+  EventLayer *topLayer = top->addLayer();
   for (auto& event : projectView_->events) {
-    if (event->getEventType() == eventFolder) {
-      if (event->getEventName() == "Top") {
-        foundTop = true;
-        top = event;
-      }
+    if (event->getEventType() == EventType::eventTop) {
+      topLayer->children.push_back(new EventDiscretePackage(event));
     }
   }
   string graphDef;
-  if (foundTop) {
+  if (topLayer->children.size() != 0) {
     graphDef = generateTree(top);
     cout << graphDef << endl;
   } else {
@@ -226,34 +224,6 @@ digraph hierarchy {
   node [shape = circle];
 })delim";
   }
-
-  // load graph
-  /*string graphDef = R"delim(
-digraph hierarchy {
-    rankdir=TD;
-    size="8,5";
-    LR_0 [URL="http://google.com"];
-    LR_1 [URL="#LR_1"];
-    LR_2 [URL="#LR_2"];
-    LR_3 [URL="#LR_3"];
-    LR_4 [URL="#LR_4"];
-    node [shape = circle];
-    LR_0 -> LR_2 [ label = "SS(B)" ];
-    LR_0 -> LR_1 [ label = "SS(S)" ];
-    LR_1 -> LR_3 [ label = "S($end)" ];
-    LR_2 -> LR_6 [ label = "SS(b)" ];
-    LR_2 -> LR_5 [ label = "SS(a)" ];
-    LR_2 -> LR_4 [ label = "S(A)" ];
-    LR_5 -> LR_7 [ label = "S(b)" ];
-    LR_5 -> LR_5 [ label = "S(a)" ];
-    LR_6 -> LR_6 [ label = "S(b)" ];
-    LR_6 -> LR_5 [ label = "S(a)" ];
-    LR_7 -> LR_8 [ label = "S(b)" ];
-    LR_7 -> LR_5 [ label = "S(a)" ];
-    LR_8 -> LR_6 [ label = "S(b)" ];
-    LR_8 -> LR_5 [ label = "S(a)" ];
-})delim";
-*/
 
   // run dot to produce image and map file
   const char* args[] = {"dot", "-Gdpi=300", "-Tcmapx", "-oNodeGraphVisualizationMap.map", "-Tgif"};
@@ -278,6 +248,8 @@ digraph hierarchy {
 
   GBytes *gbytes = g_bytes_new_take((void *) html.c_str(), html.length());
   webkit_web_view_load_bytes(view, gbytes, "text/html", "ascii", NULL);
+
+  webkit_web_view_set_zoom_level(view, 0.5);
 
   add(*webViewContainerGtkmm_);
   webViewContainerGtkmm_->grab_focus();
