@@ -689,7 +689,7 @@ void PaletteViewController::duplicateObject(){
     
   
       //put this event right below the original one
-    newIEvent->setEventOrderInPalette( 
+    newIEvent->setEventOrderInPalette(
     originalEvent->getEventOrderInPalette() + 5);
     insertEvent(newIEvent, typeString);
     projectView->modified();

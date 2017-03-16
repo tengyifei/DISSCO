@@ -154,7 +154,7 @@ void findNodes(IEvent *top, set<IEvent*> &rawNodes, vector<string>& transitionLi
     for (auto& child : layer->children) {
       IEvent *event = child->event;
       // add transition regardless
-      transitionList.push_back("    " + top->getEventName() + " -> " + event->getEventName());
+      transitionList.push_back("    " + string("\"") + top->getEventName() + string("\"") + " -> " + string("\"") + event->getEventName() + string("\""));
       if (rawNodes.find(event) == rawNodes.end()) {
         // new node
         rawNodes.insert(event);
@@ -173,7 +173,7 @@ string generateTree(IEvent *top) {
 
   rawNodes.insert(top);
   for (auto& ev : rawNodes) {
-    nodeList.push_back("    " + ev->getEventName() + " [URL=\"#" + ev->getEventName() + "\"]");
+    nodeList.push_back("    " + string("\"") + ev->getEventName() + string("\"") + " [URL=\"#" + ev->getEventName() + "\"]");
   }
 
   return R"delim(
@@ -264,13 +264,13 @@ NodeGraphWindow::NodeGraphWindow(ProjectViewController *projectView) {
     graphDef = R"delim(
 digraph hierarchy {
   rankdir=TD;
-  size="8,5";
+  size="80,50";
   node [shape = circle];
 })delim";
   }
 
   // run dot to produce image and map file
-  const char* args[] = {"dot", "-Gdpi=300", "-Tcmapx", "-oNodeGraphVisualizationMap.map", "-Tgif"};
+  const char* args[] = {"dot", "-Gdpi=3000", "-Tcmapx", "-oNodeGraphVisualizationMap.map", "-Tgif"};
   char* argsWritable[] = {strdup(args[0]), strdup(args[1]), strdup(args[2]), strdup(args[3]), strdup(args[4]), NULL};
   string image = createChild("dot", argsWritable, graphDef.c_str());
   for (int i = 0; i < 5; i++) free(argsWritable[i]);
